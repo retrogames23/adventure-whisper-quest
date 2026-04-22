@@ -205,6 +205,83 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setRadioActive,
     bumpResonance: (d) => setResonance((r) => Math.max(0, Math.min(100, r + d))),
     resetResonance: () => setResonance(0),
+    saveGame: (slot: number): SaveSummary => {
+      const payload: PersistedState = {
+        scene: sceneRef.current,
+        flags: Array.from(flagsRef.current),
+        knowledge: Array.from(knowledgeRef.current),
+        inventory: inventoryRef.current,
+        resonance: resonanceRef.current,
+        ending: endingRef.current,
+        savedAt: new Date().toISOString(),
+      };
+      try {
+        window.localStorage.setItem(SAVE_PREFIX + slot, JSON.stringify(payload));
+      } catch {
+        /* ignore */
+      }
+      return {
+        slot,
+        scene: payload.scene,
+        savedAt: payload.savedAt,
+        flagCount: payload.flags.length,
+        inventoryCount: payload.inventory.length,
+      };
+    },
+    loadGame: (slot: number): boolean => {
+      try {
+        const raw = window.localStorage.getItem(SAVE_PREFIX + slot);
+        if (!raw) return false;
+        const data = JSON.parse(raw) as PersistedState;
+        setScene(data.scene);
+        setFlags(new Set(data.flags));
+        setKnowledge(new Set(data.knowledge));
+        setInventory(data.inventory);
+        setResonance(data.resonance);
+        setEnding(data.ending);
+        // Reset transient UI
+        setCaption(null);
+        setTextOverlay(null);
+        setDialogId(null);
+        setDialogLineId(null);
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setRadioActive(false);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    listSaves: () => {
+      const out: Array<SaveSummary | null> = [];
+      for (let i = 0; i < NUM_SLOTS; i++) {
+        try {
+          const raw = window.localStorage.getItem(SAVE_PREFIX + i);
+          if (!raw) {
+            out.push(null);
+            continue;
+          }
+          const data = JSON.parse(raw) as PersistedState;
+          out.push({
+            slot: i,
+            scene: data.scene,
+            savedAt: data.savedAt,
+            flagCount: data.flags.length,
+            inventoryCount: data.inventory.length,
+          });
+        } catch {
+          out.push(null);
+        }
+      }
+      return out;
+    },
+    deleteSave: (slot: number) => {
+      try {
+        window.localStorage.removeItem(SAVE_PREFIX + slot);
+      } catch {
+        /* ignore */
+      }
+    },
   };
 
   // expose scenes for components
