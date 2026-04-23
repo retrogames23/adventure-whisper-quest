@@ -1171,7 +1171,29 @@ export const scenes: Record<string, Scene> = {
     title: "Lobby — Etage 1, E67",
     intro:
       "Ein leerer Empfangstresen. Eine Anzeigetafel. Hinten links: der Aufzug. Rechts: die schwere Sektor-Tür.",
+    npcs: [
+      {
+        id: "philippeLobby",
+        src: philippeSprite,
+        x: 32,
+        y: 36,
+        w: 14,
+        h: 56,
+        alt: "Philippe wartet vor dem Tresen",
+        hiddenWhen: ["doorbellRang"],
+      },
+    ],
     hotspots: [
+      {
+        id: "philippeLobbySpot",
+        x: 32,
+        y: 38,
+        w: 14,
+        h: 54,
+        label: "Philippe (Nachbar)",
+        hiddenWhen: ["doorbellRang"],
+        onUse: (api) => api.startDialog("philippeInLobby"),
+      },
       {
         id: "lobbyDesk",
         x: 8,
@@ -1289,8 +1311,28 @@ export const scenes: Record<string, Scene> = {
         hiddenWhen: ["tookFlyer"],
         visible: (api) => api.getMiraFloor() === 3,
       },
+      {
+        id: "philippeSprite36",
+        src: philippeSprite,
+        x: 70,
+        y: 36,
+        w: 14,
+        h: 54,
+        alt: "Philippe, etwas verloren im Korridor",
+        hiddenWhen: ["doorbellRang"],
+      },
     ],
     hotspots: [
+      {
+        id: "philippeSpot36",
+        x: 70,
+        y: 38,
+        w: 14,
+        h: 54,
+        label: "Philippe (Nachbar)",
+        hiddenWhen: ["doorbellRang"],
+        onUse: (api) => api.startDialog("philippeInCorridor36"),
+      },
       {
         id: "officeDoor",
         x: 17,
@@ -1367,8 +1409,28 @@ export const scenes: Record<string, Scene> = {
         hiddenWhen: ["tookFlyer"],
         visible: (api) => api.getMiraFloor() === 4,
       },
+      {
+        id: "philippeSprite46",
+        src: philippeSprite,
+        x: 62,
+        y: 36,
+        w: 14,
+        h: 54,
+        alt: "Philippe vor dem Plakat",
+        hiddenWhen: ["doorbellRang"],
+      },
     ],
     hotspots: [
+      {
+        id: "philippeSpot46",
+        x: 62,
+        y: 38,
+        w: 14,
+        h: 54,
+        label: "Philippe (Nachbar)",
+        hiddenWhen: ["doorbellRang"],
+        onUse: (api) => api.startDialog("philippeInCorridor46"),
+      },
       {
         id: "miraSpot46",
         x: 22,
