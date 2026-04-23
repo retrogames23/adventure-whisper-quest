@@ -1467,7 +1467,34 @@ export function Terminal() {
         );
       }
     } else if (head === "sysupdate") {
-      if (!flags.has("calledStegmann")) {
+      if (bodoMode) {
+        if (flags.has("centralOsUpdated")) {
+          newLines.push({ text: "sysupdate: System ist bereits aktuell.", kind: "out" });
+        } else {
+          const fast = args.includes("--fast");
+          const t = (ms: number) => (fast ? Math.max(40, Math.round(ms / 8)) : ms);
+          setLines((prev) => [...prev, ...newLines]);
+          runScriptedSequence(
+            [
+              { text: ">> sysupdate: Verbinde mit update.e67 …", delayMs: t(0), kind: "system", beep: true },
+              { text: ">> Suche Pakete für CentralOS v2.0 …", delayMs: t(380) },
+              { text: ">> 6 Jahre an Patches gefunden. Konsolidiere …", delayMs: t(420) },
+              { text: "   [██████████] 100%", delayMs: t(520), beep: true },
+              { text: ">> Patch /usr/bin/centralos … OK", delayMs: t(360) },
+              { text: ">> Migriere /etc/motd ……… OK", delayMs: t(280) },
+              { text: ">> CentralOS v2.0 → v2.0.1   [OK]", delayMs: t(420), kind: "system", beep: true },
+              { text: ">> Hinweis: Diese Aktualisierung wurde an die Leitstelle gemeldet.", delayMs: t(320), kind: "system" },
+            ],
+            () => api.setFlag("centralOsUpdated"),
+          );
+          const h = termHistoryRef.current;
+          if (h[h.length - 1] !== raw) h.push(raw);
+          historyCursorRef.current = -1;
+          draftRef.current = "";
+          setInput("");
+          return;
+        }
+      } else if (!flags.has("calledStegmann")) {
         newLines.push({
           text: "sysupdate: Befehl nicht freigeschaltet. Voraussetzung: Anweisung der Zentral-IT.",
           kind: "out",
