@@ -15,22 +15,7 @@ import corridor46Bg from "@/assets/scene-corridor-46.jpg";
 import corridor56Bg from "@/assets/scene-corridor-56.jpg";
 import miraSprite from "@/assets/npc-mira.png";
 import philippeSprite from "@/assets/npc-philippe.png";
-import type { GameApi, Scene } from "./types";
-
-/**
- * CRT-Anzeige für die physischen Bildschirme im Raum. Bleibt synchron zur
- * Logik im Terminal: vor `centralOsUpdated` zeigt Layards Maschine v2.3 und
- * Bodos noch das alte v2.0 — danach beide v2.3.1.
- */
-function layardScreenLines(api: GameApi): string[] {
-  const v = api.hasFlag("centralOsUpdated") ? "2.3.1" : "2.3";
-  return ["CentralOS", `v${v}`];
-}
-
-function bodoScreenLines(api: GameApi): string[] {
-  const v = api.hasFlag("centralOsUpdated") ? "2.3.1" : "2.0";
-  return ["HASSENVU", "2612", `v${v}`];
-}
+import type { Scene } from "./types";
 
 export const scenes: Record<string, Scene> = {
   apartment: {
@@ -150,13 +135,6 @@ export const scenes: Record<string, Scene> = {
         },
       },
     ],
-    screen: {
-      x: 6,
-      y: 42,
-      w: 22.5,
-      h: 13.7,
-      getLines: layardScreenLines,
-    },
   },
 
   // Philippe's own apartment (2613). Akt 1: das Klopfen aus der
@@ -597,13 +575,6 @@ export const scenes: Record<string, Scene> = {
         },
       },
     ],
-    screen: {
-      x: 58.7,
-      y: 50.5,
-      w: 12.5,
-      h: 11,
-      getLines: bodoScreenLines,
-    },
   },
 
   hallway: {

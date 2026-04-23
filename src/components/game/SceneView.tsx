@@ -89,31 +89,6 @@ export function SceneView() {
           <Hotspot key={h.id} hotspot={h} />
         ))}
 
-        {/* CRT-Bildschirm-Overlay — überdeckt die in den Hintergrund
-            gemalte statische Anzeige mit dem dynamischen Live-Text. */}
-        {current.screen && (
-          <div
-            className="pointer-events-none absolute z-[5] flex flex-col items-center justify-center overflow-hidden font-mono-crt text-phosphor phosphor-glow"
-            style={{
-              left: `${current.screen.x}%`,
-              top: `${current.screen.y}%`,
-              width: `${current.screen.w}%`,
-              height: `${current.screen.h}%`,
-              backgroundColor: "rgb(20 40 22)",
-              fontSize: "clamp(7px, 1.6cqw, 16px)",
-              lineHeight: 1.1,
-              containerType: "inline-size",
-              textAlign: "center",
-            }}
-          >
-            {current.screen.getLines(api).map((line, i) => (
-              <div key={i} className="whitespace-nowrap">
-                {line}
-              </div>
-            ))}
-          </div>
-        )}
-
         {/* Amber vignette when radio is active */}
         {radioActive && <div className="amber-vignette" />}
 
