@@ -24,6 +24,7 @@ export function TitleScreen({ onStart }: Props) {
     tryPlay();
 
     const onFirstInteract = () => {
+      if (startedRef.current) return;
       if (a.paused) {
         a.play().then(() => setMusicOn(true)).catch(() => {});
       }
