@@ -8,7 +8,6 @@ import {
 } from "@/audio/sfx";
 
 const BANDS = [
-const BANDS = [
   {
     from: 100.0,
     to: 101.9,
