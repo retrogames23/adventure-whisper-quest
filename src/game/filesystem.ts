@@ -535,25 +535,6 @@ export const FILESYSTEM: FsDir = {
       desc: "Benutzerverzeichnisse.",
       children: [
         HOME_WORAG,
-        {
-          type: "dir",
-          name: "philippe",
-          desc: "Nachbarverzeichnis — Zugriff verweigert.",
-          children: [
-            {
-              type: "file",
-              name: ".readme",
-              kind: "text",
-              size: 120,
-              date: "—",
-              content: [
-                "Zugriff auf dieses Verzeichnis ist auf den",
-                "Eigentümer beschränkt (Philippe, Zimmer 2610).",
-                "CentralOS-Policy §7.3.",
-              ],
-            },
-          ],
-        },
       ],
     },
     {
