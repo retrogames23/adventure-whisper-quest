@@ -29,12 +29,18 @@ export function Hotspot({ hotspot }: Props) {
   return (
     <button
       type="button"
-      onMouseEnter={() => setCaption(hotspot.label)}
+      onMouseEnter={() => {
+        hoveredRef.current = true;
+        setCaption(hotspot.label);
+      }}
       onMouseLeave={() => {
         hoveredRef.current = false;
         setCaption(null);
       }}
-      onFocus={() => setCaption(hotspot.label)}
+      onFocus={() => {
+        hoveredRef.current = true;
+        setCaption(hotspot.label);
+      }}
       onBlur={() => {
         hoveredRef.current = false;
         setCaption(null);
