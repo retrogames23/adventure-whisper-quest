@@ -681,6 +681,10 @@ export const scenes: Record<string, Scene> = {
             ]);
             return;
           }
+          // Pro Besuch werden die Warte-Beats und der Philippe-Hotspot
+          // zurückgesetzt, damit Layard wieder mit ihm reden kann.
+          api.clearFlag("wait2613Step1");
+          api.clearFlag("wait2613Step2");
           api.goTo("apt2613");
         },
       },
