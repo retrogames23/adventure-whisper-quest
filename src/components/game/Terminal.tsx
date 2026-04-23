@@ -164,6 +164,144 @@ function complete(
   return { newInput, matches: display };
 }
 
+// ── Netzwerk-Hosts im Sektor E67 ─────────────────────────
+interface NetHost {
+  ip: string;
+  host: string;
+  desc: string;
+  /** Telnet-Passwort. null = kein Telnet-Daemon / Verbindung verweigert. */
+  password: string | null;
+  motd?: string[];
+  files?: Record<string, string[]>;
+}
+
+const NET_HOSTS: NetHost[] = [
+  {
+    ip: "10.67.0.1",
+    host: "gateway.e67",
+    desc: "Sektor-Gateway (Routing)",
+    password: null,
+  },
+  {
+    ip: "10.67.0.2",
+    host: "leitstelle.e67",
+    desc: "Leitstelle 001 — I. Bauerfeind",
+    password: null,
+  },
+  {
+    ip: "10.67.26.11",
+    host: "worag.e67",
+    desc: "Sie selbst (Zimmer 2611)",
+    password: null,
+  },
+  {
+    ip: "10.67.26.13",
+    host: "philippe.e67",
+    desc: "Bewohner, Zimmer 2613",
+    password: "Passwort123",
+    motd: [
+      "── philippe.e67 — CentralOS v2.1 ─────────────",
+      "Letzte Anmeldung: 06.11.1997 04:11 (lokal)",
+      "Du bist eingeloggt als: philippe",
+      "",
+      "Tippe 'ls', 'cat <datei>' oder 'exit'.",
+    ],
+    files: {
+      "notiz.txt": [
+        "die wand antwortet wenn ich klopfe",
+        "die wand antwortet wenn ich klopfe",
+        "die wand antwortet wenn ich klopfe",
+        "ich glaube layard ist auch da drin",
+        "ich klopfe weiter",
+      ],
+      "passwort.txt": [
+        "ich vergesse alles. das hier nicht.",
+        "Passwort123",
+        "(insa hat gelacht. soll sie.)",
+      ],
+      "tagebuch.txt": [
+        "tag 4012",
+        "104,6 war heute drei minuten still",
+        "ich habe in den drei minuten meinen namen vergessen",
+        "als es wieder anging hieß ich wieder philippe",
+        "ich glaube das ist gut",
+      ],
+    },
+  },
+  {
+    ip: "10.67.26.07",
+    host: "kamenev.e67",
+    desc: "Bewohnerin, Zimmer 2607",
+    password: null,
+  },
+  {
+    ip: "10.67.36.01",
+    host: "abschnitt.e67",
+    desc: "Abschnittsverantwortlicher (Etage 3, 3601)",
+    password: null,
+  },
+  {
+    ip: "10.67.46.18",
+    host: "drucker46.e67",
+    desc: "Etagendrucker, Etage 4",
+    password: "drucker",
+    motd: [
+      "── drucker46.e67 — PrintOS 1.1 ───────────────",
+      "Tonerstand: 4%. Papierschacht 2: leer.",
+      "Letzter Auftrag: »flugblatt_v3.ps« (412 Seiten)",
+      "Tippe 'ls' oder 'exit'.",
+    ],
+    files: {
+      "queue.log": [
+        "06.11.1997 02:14  flugblatt_v3.ps  412 S.  USER: ?",
+        "06.11.1997 02:51  flugblatt_v3.ps  abgebrochen (Toner)",
+        "06.11.1997 03:02  flugblatt_v3.ps  WIEDER GESTARTET",
+      ],
+    },
+  },
+  {
+    ip: "10.67.56.04",
+    host: "kantine.e67",
+    desc: "Kantinen-Terminal (Etage 5)",
+    password: "B2B2B2",
+    motd: [
+      "── kantine.e67 — MealNet 0.9 ────────────────",
+      "Heute: Eintopf §3, B2-Tabletten, Wasser.",
+      "Tippe 'ls' oder 'exit'.",
+    ],
+    files: {
+      "speiseplan.txt": [
+        "Mo  Eintopf §3 + B2",
+        "Di  Eintopf §3 + B2",
+        "Mi  Eintopf §3 + B2",
+        "Do  Eintopf §3 + B2",
+        "Fr  Eintopf §3 + B2 (Doppelration)",
+        "Sa  Eintopf §3",
+        "So  geschlossen — bitte Vorräte planen",
+      ],
+    },
+  },
+  {
+    ip: "10.71.0.1",
+    host: "gateway.e71",
+    desc: "Gateway Nachbarsektor E71",
+    password: null,
+  },
+  {
+    ip: "10.71.15.34",
+    host: "sprechzimmer.e71",
+    desc: "Sprechzimmer Sanitäter (E71)",
+    password: null,
+  },
+];
+
+function findHost(query: string): NetHost | null {
+  const q = query.toLowerCase().trim();
+  return (
+    NET_HOSTS.find((h) => h.host.toLowerCase() === q || h.ip === q) ?? null
+  );
+}
+
 const HELP_LINES: Line[] = [
   { text: "VERFÜGBARE BEFEHLE:", kind: "system" },
   { text: "  help          — Diese Liste anzeigen", kind: "out" },
