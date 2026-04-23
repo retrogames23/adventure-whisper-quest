@@ -117,6 +117,37 @@ export function GameProvider({ children }: { children: ReactNode }) {
     miraFloorRef.current = pool[idx];
   }
 
+  // Debug-Sprung über URL-Parameter:
+  //   ?scene=apt2612
+  //   ?scene=apt2615&flags=doorBrokenOpen,paramedicsArrived,protocolReceived
+  //   ?scene=corridor36&flags=enteredE71            (Akt 2)
+  // Wird genau einmal beim ersten Render ausgewertet.
+  const debugAppliedRef = useRef(false);
+  if (!debugAppliedRef.current && typeof window !== "undefined") {
+    debugAppliedRef.current = true;
+    const params = new URLSearchParams(window.location.search);
+    const sceneParam = params.get("scene");
+    const flagsParam = params.get("flags");
+    if (sceneParam && sceneParam in scenes) {
+      // useState lazy initial values laufen schon — wir überschreiben hier
+      // synchron via setter (React kümmert sich um den Re-Render).
+      setScene(sceneParam as SceneId);
+    }
+    if (flagsParam) {
+      const list = flagsParam
+        .split(",")
+        .map((f) => f.trim())
+        .filter(Boolean) as StoryFlag[];
+      if (list.length > 0) {
+        setFlags((prev) => {
+          const n = new Set(prev);
+          list.forEach((f) => n.add(f));
+          return n;
+        });
+      }
+    }
+  }
+
   // Keep latest values in refs so api callbacks remain stable
   const flagsRef = useRef(flags);
   flagsRef.current = flags;
