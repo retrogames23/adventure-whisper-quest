@@ -249,6 +249,17 @@ export const scenes: Record<string, Scene> = {
         },
       },
       {
+        id: "goToNeighbor",
+        x: 30,
+        y: 25,
+        w: 30,
+        h: 45,
+        label: "Zur aufgebrochenen Tür (2615)",
+        requires: ["doorBrokenOpen"],
+        hiddenWhen: ["protocolReceived"],
+        onUse: (api) => api.goTo("apt2615"),
+      },
+      {
         id: "exit2613",
         x: 88,
         y: 70,
