@@ -15,7 +15,7 @@ export function TextOverlay() {
     const t = setTimeout(() => {
       if (isLast) closeText();
       else setIdx((i) => i + 1);
-    }, 10000);
+    }, 20000);
     return () => clearTimeout(t);
   }, [textOverlay, idx, closeText]);
 
