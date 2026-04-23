@@ -212,7 +212,7 @@ export interface GameApi {
   hasKnowledge: (k: KnowledgeFlag) => boolean;
   addItem: (item: InventoryItem) => void;
   hasItem: (id: InventoryItemId) => boolean;
-  showText: (lines: string[]) => void;
+  showText: (lines: string[], onClose?: () => void) => void;
   startDialog: (id: string) => void;
   openTerminal: (asBodo?: boolean) => void;
   openRadio: () => void;
