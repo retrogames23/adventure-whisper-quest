@@ -69,7 +69,8 @@ export function DialogOverlay() {
               stopSpeech();
               closeDialog();
             }}
-            className="text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground"
+            aria-label="Dialog schließen"
+            className="flex h-8 w-8 items-center justify-center rounded-sm border border-amber-glow/50 bg-background/60 text-amber-glow transition hover:bg-amber-glow/20 hover:text-foreground"
           >
             ✕
           </button>
