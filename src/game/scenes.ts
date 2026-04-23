@@ -959,8 +959,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 50,
         label: "Junge Frau an der Wand",
-        requires: [],
-        // Only show if Mira is randomly assigned to floor 3
+        visible: (api) => api.getMiraFloor() === 3,
         onUse: (api) => {
           if (api.hasFlag("tookFlyer")) {
             api.startDialog("miraAfter");
@@ -998,6 +997,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 50,
         label: "Junge Frau an der Wand",
+        visible: (api) => api.getMiraFloor() === 4,
         onUse: (api) => {
           if (api.hasFlag("tookFlyer")) {
             api.startDialog("miraAfter");
@@ -1049,6 +1049,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 50,
         label: "Junge Frau an der Wand",
+        visible: (api) => api.getMiraFloor() === 5,
         onUse: (api) => {
           if (api.hasFlag("tookFlyer")) {
             api.startDialog("miraAfter");
