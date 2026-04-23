@@ -973,6 +973,7 @@ export function Terminal() {
     flags,
     api,
     knowledge,
+    terminalBodoMode,
   } = useGame();
   const { sfxVolume } = useSettings();
   const [lines, setLines] = useState<Line[]>([]);
