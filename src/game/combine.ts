@@ -204,7 +204,9 @@ const NPC_REACTIONS: Record<string, ItemReactionMap> = {
   bodoNpc: BODO_REACTIONS,
   door2614Ennis: ENNIS_REACTIONS,
   mikaelNpc: MIKAEL_REACTIONS,
-  miraNpc: MIRA_REACTIONS,
+  miraSpot36: MIRA_REACTIONS,
+  miraSpot46: MIRA_REACTIONS,
+  miraSpot56: MIRA_REACTIONS,
 };
 
 // ─── Spezielle Hotspot-Reaktionen (Geräte) ────────────────────
