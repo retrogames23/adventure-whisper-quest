@@ -32,6 +32,7 @@ interface GameState {
   dialogLineId: string | null;
   radioOpen: boolean;
   terminalOpen: boolean;
+  terminalBodoMode: boolean;
   keypadOpen: boolean;
   radioActive: boolean; // tuned to 104.6, providing subtext
   resonance: number; // 0–100
@@ -98,6 +99,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [dialogLineId, setDialogLineId] = useState<string | null>(null);
   const [radioOpen, setRadioOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
+  const [terminalBodoMode, setTerminalBodoMode] = useState(false);
   const [keypadOpen, setKeypadOpen] = useState(false);
   const [radioActive, setRadioActive] = useState(false);
   const [resonance, setResonance] = useState(0);
@@ -202,8 +204,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setDialogId(id);
         setDialogLineId(tree.start);
       },
-      openTerminal: () => {
+      openTerminal: (asBodo?: boolean) => {
         setRadioOpen(false);
+        setTerminalBodoMode(!!asBodo);
         setTerminalOpen(true);
       },
       openRadio: () => {
@@ -288,6 +291,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     dialogLineId,
     radioOpen,
     terminalOpen,
+    terminalBodoMode,
     keypadOpen,
     radioActive,
     resonance,

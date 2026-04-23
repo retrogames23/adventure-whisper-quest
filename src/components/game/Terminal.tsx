@@ -973,6 +973,7 @@ export function Terminal() {
     flags,
     api,
     knowledge,
+    terminalBodoMode,
   } = useGame();
   const { sfxVolume } = useSettings();
   const [lines, setLines] = useState<Line[]>([]);
@@ -987,8 +988,10 @@ export function Terminal() {
   const [scriptedRunning, setScriptedRunning] = useState(false);
   // Wenn Bodo gerade B3 für Lotti holt, sitzen wir an seinem Terminal —
   // ohne Login, mit seinem Hostnamen, mit altem CentralOS v2.0.
-  const bodoMode =
-    flags.has("bodoLeftForB3") && !flags.has("bodoBackAfterB3");
+  // Wird explizit über openTerminal(true) am Hotspot in Bodos Wohnung gesetzt.
+  // Layards eigenes Terminal (TopBar, Wohnung 2611, Sektor-Türen-Terminal)
+  // läuft immer im normalen Phosphor-Grün-Modus.
+  const bodoMode = terminalBodoMode;
   const userName = bodoMode ? "bodo" : "worag";
   const hostName = bodoMode ? "bodo" : "e67";
   const homePath = bodoMode ? HOME_PATH_BODO : HOME_PATH;
@@ -1591,12 +1594,18 @@ export function Terminal() {
         newLines.push({ text: "ls: aktuelles Verzeichnis ungültig.", kind: "out" });
       } else {
         newLines.push({ text: `Inhalt von ${pathString(cwd)}:`, kind: "system" });
-        newLines.push(...formatLs(visibleChildren(node, showAll, (f) => flags.has(f))));
+        let kids = visibleChildren(node, showAll, (f) => flags.has(f));
+        // In Bodos Terminal: das Verzeichnis /home zeigt worag nicht — Bodo
+        // sieht (und kennt) sein eigenes Home, nicht das des Nachbarn.
+        if (bodoMode && pathString(cwd) === "/home") {
+          kids = kids.filter((c) => c.name !== "worag");
+        }
+        newLines.push(...formatLs(kids));
       }
     } else if (head === "cd") {
       const target = args[0] ?? "";
       if (!target || target === "~") {
-        setCwd([...HOME_PATH]);
+        setCwd([...homePath]);
       } else if (target === "/") {
         setCwd([]);
       } else if (target === "..") {
@@ -1816,15 +1825,27 @@ export function Terminal() {
 
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/85 px-4">
-      <div className="fade-in relative w-full max-w-4xl overflow-hidden rounded-sm border border-phosphor/50 bg-black shadow-[0_0_60px_rgba(0,0,0,0.85)] scanlines">
-        <div className="flex items-center justify-between border-b border-phosphor/30 bg-black px-4 py-2">
-          <span className="font-mono-crt text-base uppercase tracking-[0.3em] text-phosphor phosphor-glow">
+      <div
+        className={`fade-in relative w-full max-w-4xl overflow-hidden rounded-sm border bg-black shadow-[0_0_60px_rgba(0,0,0,0.85)] scanlines ${
+          bodoMode ? "border-sepia/50" : "border-phosphor/50"
+        }`}
+      >
+        <div
+          className={`flex items-center justify-between border-b bg-black px-4 py-2 ${
+            bodoMode ? "border-sepia/30" : "border-phosphor/30"
+          }`}
+        >
+          <span
+            className={`font-mono-crt text-base uppercase tracking-[0.3em] ${
+              bodoMode ? "text-sepia sepia-glow" : "text-phosphor phosphor-glow"
+            }`}
+          >
             CentralOS v{osVersion(flags.has("centralOsUpdated"), bodoMode)}
             {bodoMode ? " — 2612" : ""}
           </span>
           <CloseButton
             onClick={closeTerminal}
-            tone="phosphor"
+            tone={bodoMode ? "amber" : "phosphor"}
             label="Terminal schließen"
           />
         </div>
@@ -1838,10 +1859,16 @@ export function Terminal() {
               key={i}
               className={
                 l.kind === "system"
-                  ? "phosphor-glow"
+                  ? bodoMode
+                    ? "sepia-glow"
+                    : "phosphor-glow"
                   : l.kind === "in"
-                    ? "text-phosphor"
-                    : "text-phosphor-dim"
+                    ? bodoMode
+                      ? "text-sepia"
+                      : "text-phosphor"
+                    : bodoMode
+                      ? "text-sepia-dim"
+                      : "text-phosphor-dim"
               }
             >
               {l.text || "\u00A0"}
@@ -1851,9 +1878,15 @@ export function Terminal() {
 
         <form
           onSubmit={handleSubmit}
-          className="flex items-center gap-2 border-t border-phosphor/30 bg-black px-4 py-2"
+          className={`flex items-center gap-2 border-t bg-black px-4 py-2 ${
+            bodoMode ? "border-sepia/30" : "border-phosphor/30"
+          }`}
         >
-          <span className="font-mono-crt text-sm text-phosphor phosphor-glow">
+          <span
+            className={`font-mono-crt text-sm ${
+              bodoMode ? "text-sepia sepia-glow" : "text-phosphor phosphor-glow"
+            }`}
+          >
             {advState
               ? "adventure>"
               : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
@@ -1957,7 +1990,11 @@ export function Terminal() {
                 playBeep(0.2 * sfxVolume);
               }
             }}
-            className="flex-1 bg-transparent font-mono-crt text-base text-phosphor caret-phosphor outline-none placeholder:text-phosphor-dim/60 disabled:opacity-40"
+            className={`flex-1 bg-transparent font-mono-crt text-base outline-none disabled:opacity-40 ${
+              bodoMode
+                ? "text-sepia caret-sepia placeholder:text-sepia-dim/60"
+                : "text-phosphor caret-phosphor placeholder:text-phosphor-dim/60"
+            }`}
             placeholder={scriptedRunning ? "… Ausgabe läuft …" : "Befehl eingeben …"}
             spellCheck={false}
             autoComplete="off"
