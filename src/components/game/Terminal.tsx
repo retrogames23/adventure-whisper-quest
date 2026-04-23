@@ -1364,9 +1364,15 @@ export function Terminal() {
               // No expansion possible. On second consecutive Tab, list candidates.
               const prev = lastTabRef.current;
               if (prev && prev.input === input && result.matches.length > 1) {
-                const echoPrompt = advState
-                  ? "adventure>"
-                  : `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`;
+                let echoPrompt: string;
+                if (advState) {
+                  echoPrompt = "adventure>";
+                } else if (telnetHost) {
+                  const host = findHost(telnetHost);
+                  echoPrompt = `${host?.host ?? telnetHost}:~$`;
+                } else {
+                  echoPrompt = `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`;
+                }
                 setLines((p) => [
                   ...p,
                   { text: `${echoPrompt} ${input}`, kind: "in" },
