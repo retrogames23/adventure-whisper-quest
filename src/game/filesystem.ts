@@ -450,75 +450,407 @@ const HOME_WORAG: FsDir = {
         },
       ],
     },
+  ],
+};
+
+/** Where the terminal starts ("cd ~" returns here). */
+export const HOME_PATH: string[] = ["home", "worag"];
+
+const SYSTEM_DIR: FsDir = {
+  type: "dir",
+  name: "system",
+  desc: "Konfigurationsdateien. Ändern auf eigene Gefahr.",
+  children: [
     {
-      type: "dir",
-      name: "system",
-      desc: "Konfigurationsdateien. Ändern auf eigene Gefahr.",
-      children: [
-        {
-          type: "file",
-          name: "carrier.cfg",
-          kind: "config",
-          size: 290,
-          date: "—",
-          content: [
-            "# carrier.cfg — Trägerkonfiguration Quadrant E67",
-            "frequency      = 104.600 MHz",
-            "modulation     = AM-RES (proprietär)",
-            "duty_cycle     = 100%",
-            "user_shutdown  = DENY",
-            "leitstelle     = 001",
-            "feedback_loop  = ENABLED   # siehe HANDBUCH §14",
-          ],
-        },
-        {
-          type: "file",
-          name: "handbuch_p14.txt",
-          kind: "config",
-          size: 540,
-          date: "—",
-          content: [
-            "── HANDBUCH §14 — Feedback-Schleife ───────────",
-            "",
-            "Die Trägerfrequenz 104.6 ist als bidirektionale",
-            "Resonanzschleife ausgelegt. Empfänger im Sektor",
-            "fungieren als passive Sender. Eine vollständige",
-            "Abschaltung ist auf Bewohnerseite nicht vorgesehen.",
-            "",
-            "Bei Versuch der Abschaltung wird automatisch",
-            "ein Eskalationsprotokoll an Leitstelle 001",
-            "ausgelöst.",
-            "",
-            "[Abschnitt überarbeitet: 11/1997]",
-            "── Ende ──────────────────────────────────────",
-          ],
-        },
-        {
-          type: "file",
-          name: ".hidden_log",
-          kind: "log",
-          size: 1100,
-          date: "—",
-          requires: "calledLeitstelle",
-          content: [
-            "── audit.log [Auszug, automatisch generiert] ──",
-            "",
-            "1997-11-06 09:14:02  USER worag  KEYPRESS volume--",
-            "1997-11-06 09:14:03  ALERT carrier-attenuation",
-            "1997-11-06 09:14:03  AUTODIAL leitstelle/001",
-            "1997-11-06 09:14:11  CALL ANSWERED [BAUERFEIND, I.]",
-            "1997-11-06 09:14:42  USER worag  RESTORE volume",
-            "1997-11-06 09:14:42  ALERT cleared",
-            "",
-            "── Hinweis: Eintrag wird in 30 Tagen rotiert. ──",
-          ],
-        },
+      type: "file",
+      name: "carrier.cfg",
+      kind: "config",
+      size: 290,
+      date: "—",
+      content: [
+        "# carrier.cfg — Trägerkonfiguration Quadrant E67",
+        "frequency      = 104.600 MHz",
+        "modulation     = AM-RES (proprietär)",
+        "duty_cycle     = 100%",
+        "user_shutdown  = DENY",
+        "leitstelle     = 001",
+        "feedback_loop  = ENABLED   # siehe HANDBUCH §14",
+      ],
+    },
+    {
+      type: "file",
+      name: "handbuch_p14.txt",
+      kind: "config",
+      size: 540,
+      date: "—",
+      content: [
+        "── HANDBUCH §14 — Feedback-Schleife ───────────",
+        "",
+        "Die Trägerfrequenz 104.6 ist als bidirektionale",
+        "Resonanzschleife ausgelegt. Empfänger im Sektor",
+        "fungieren als passive Sender. Eine vollständige",
+        "Abschaltung ist auf Bewohnerseite nicht vorgesehen.",
+        "",
+        "Bei Versuch der Abschaltung wird automatisch",
+        "ein Eskalationsprotokoll an Leitstelle 001",
+        "ausgelöst.",
+        "",
+        "[Abschnitt überarbeitet: 11/1997]",
+        "── Ende ──────────────────────────────────────",
+      ],
+    },
+    {
+      type: "file",
+      name: ".hidden_log",
+      kind: "log",
+      size: 1100,
+      date: "—",
+      requires: "calledLeitstelle",
+      content: [
+        "── audit.log [Auszug, automatisch generiert] ──",
+        "",
+        "1997-11-06 09:14:02  USER worag  KEYPRESS volume--",
+        "1997-11-06 09:14:03  ALERT carrier-attenuation",
+        "1997-11-06 09:14:03  AUTODIAL leitstelle/001",
+        "1997-11-06 09:14:11  CALL ANSWERED [BAUERFEIND, I.]",
+        "1997-11-06 09:14:42  USER worag  RESTORE volume",
+        "1997-11-06 09:14:42  ALERT cleared",
+        "",
+        "── Hinweis: Eintrag wird in 30 Tagen rotiert. ──",
       ],
     },
   ],
 };
 
-/** Resolve a path array (e.g. ['tagebuch']) starting from root. */
+/** Unix-like root. The player starts in /home/worag. */
+export const FILESYSTEM: FsDir = {
+  type: "dir",
+  name: "",
+  desc: "CentralOS Wurzelverzeichnis",
+  children: [
+    SYSTEM_DIR,
+    {
+      type: "dir",
+      name: "home",
+      desc: "Benutzerverzeichnisse.",
+      children: [
+        HOME_WORAG,
+        {
+          type: "dir",
+          name: "philippe",
+          desc: "Nachbarverzeichnis — Zugriff verweigert.",
+          children: [
+            {
+              type: "file",
+              name: ".readme",
+              kind: "text",
+              size: 120,
+              date: "—",
+              content: [
+                "Zugriff auf dieses Verzeichnis ist auf den",
+                "Eigentümer beschränkt (Philippe, Zimmer 2610).",
+                "CentralOS-Policy §7.3.",
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "etc",
+      desc: "Systemkonfiguration.",
+      children: [
+        {
+          type: "file",
+          name: "hosts",
+          kind: "config",
+          size: 180,
+          date: "—",
+          content: [
+            "# /etc/hosts — CentralOS",
+            "127.0.0.1    localhost",
+            "10.67.0.1    gateway.e67",
+            "10.67.0.2    leitstelle.e67   # 001",
+            "10.71.0.1    gateway.e71",
+            "10.71.15.34  sprechzimmer.e71",
+          ],
+        },
+        {
+          type: "file",
+          name: "passwd",
+          kind: "config",
+          size: 210,
+          date: "—",
+          content: [
+            "# /etc/passwd — Auszug",
+            "root:x:0:0:CentralOS:/root:/bin/sh",
+            "worag:x:2611:100:Worag, L.:/home/worag:/bin/sh",
+            "philippe:x:2610:100:Philippe:/home/philippe:/bin/sh",
+            "leitstelle:x:1:1:Leitstelle 001:/var/leitstelle:/bin/false",
+          ],
+        },
+        {
+          type: "file",
+          name: "motd",
+          kind: "text",
+          size: 240,
+          date: "—",
+          content: [
+            "── CentralOS v2.3 ─────────────────────────────",
+            "Willkommen, Bewohner.",
+            "Respektieren Sie die Sektorordnung.",
+            "Frequenz 104,6 ist verpflichtend.",
+            "Störungen: 001.",
+          ],
+        },
+        {
+          type: "file",
+          name: "sektor.conf",
+          kind: "config",
+          size: 300,
+          date: "—",
+          content: [
+            "# /etc/sektor.conf",
+            "sektor        = E67",
+            "korridor      = 26",
+            "gateway       = E67/E71",
+            "frequency     = 104.600 MHz",
+            "quiet_hours   = none",
+          ],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "var",
+      desc: "Variable Daten, Logs.",
+      children: [
+        {
+          type: "dir",
+          name: "log",
+          desc: "Systemlogs.",
+          children: [
+            {
+              type: "file",
+              name: "carrier.log",
+              kind: "log",
+              size: 820,
+              date: "06.11.1997",
+              content: [
+                "── carrier.log ────────────────────────────────",
+                "1997-11-06 06:00:00  carrier UP    104.600 MHz",
+                "1997-11-06 06:00:01  duty_cycle    100%",
+                "1997-11-06 09:14:02  user worag    volume--",
+                "1997-11-06 09:14:03  carrier       attenuation",
+                "1997-11-06 09:14:11  leitstelle    ACK",
+                "── Ende ───────────────────────────────────────",
+              ],
+            },
+            {
+              type: "file",
+              name: "gateway.log",
+              kind: "log",
+              size: 420,
+              date: "06.11.1997",
+              content: [
+                "── gateway.log ────────────────────────────────",
+                "1997-11-06 08:12:00  gateway E67/E71  ERROR 4567",
+                "1997-11-06 08:12:00  reason           maintenance",
+                "1997-11-06 08:12:00  manual_code      REQUIRED",
+                "── Ende ───────────────────────────────────────",
+              ],
+            },
+          ],
+        },
+        {
+          type: "dir",
+          name: "mail",
+          desc: "Postfächer.",
+          children: [
+            {
+              type: "file",
+              name: "worag",
+              kind: "mail",
+              size: 80,
+              date: "—",
+              content: [
+                "Mailbox-Verweis — siehe 'inbox' im Terminal.",
+              ],
+            },
+          ],
+        },
+        {
+          type: "dir",
+          name: "leitstelle",
+          desc: "Leitstelle 001 — Zugriff verweigert.",
+          children: [
+            {
+              type: "file",
+              name: ".locked",
+              kind: "text",
+              size: 60,
+              date: "—",
+              content: ["Zugriff verweigert. Kontakt: 001."],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "usr",
+      desc: "Installierte Programme.",
+      children: [
+        {
+          type: "dir",
+          name: "bin",
+          desc: "Ausführbare Dateien.",
+          children: [
+            {
+              type: "file",
+              name: "centralos",
+              kind: "config",
+              size: 65536,
+              date: "—",
+              content: ["[binary — 65536 Bytes]"],
+            },
+            {
+              type: "file",
+              name: "carrier-daemon",
+              kind: "config",
+              size: 18240,
+              date: "—",
+              content: ["[binary — 18240 Bytes]"],
+            },
+          ],
+        },
+        {
+          type: "dir",
+          name: "share",
+          desc: "Gemeinsam genutzte Daten.",
+          children: [
+            {
+              type: "file",
+              name: "README",
+              kind: "text",
+              size: 200,
+              date: "—",
+              content: [
+                "CentralOS v2.3 — Sektor-Betriebssystem.",
+                "Dokumentation: /etc/motd, /system/handbuch_p14.txt.",
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "bin",
+      desc: "Grundlegende Befehle.",
+      children: [
+        {
+          type: "file",
+          name: "sh",
+          kind: "config",
+          size: 8192,
+          date: "—",
+          content: ["[binary — 8192 Bytes]"],
+        },
+        {
+          type: "file",
+          name: "ls",
+          kind: "config",
+          size: 2048,
+          date: "—",
+          content: ["[binary — 2048 Bytes]"],
+        },
+        {
+          type: "file",
+          name: "cat",
+          kind: "config",
+          size: 1920,
+          date: "—",
+          content: ["[binary — 1920 Bytes]"],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "tmp",
+      desc: "Flüchtige Daten.",
+      children: [
+        {
+          type: "file",
+          name: ".placeholder",
+          kind: "text",
+          size: 0,
+          date: "—",
+          content: ["(leer)"],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "dev",
+      desc: "Geräte.",
+      children: [
+        {
+          type: "file",
+          name: "null",
+          kind: "config",
+          size: 0,
+          date: "—",
+          content: [""],
+        },
+        {
+          type: "file",
+          name: "carrier0",
+          kind: "config",
+          size: 0,
+          date: "—",
+          content: [
+            "[device — Trägersignal 104.600 MHz]",
+            "Lesen = Signal aufzeichnen.",
+            "Schreiben = nicht erlaubt.",
+          ],
+        },
+        {
+          type: "file",
+          name: "radio0",
+          kind: "config",
+          size: 0,
+          date: "—",
+          content: ["[device — Schmerz-Radio Empfänger]"],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "root",
+      desc: "Root-Home — Zugriff verweigert.",
+      children: [
+        {
+          type: "file",
+          name: ".locked",
+          kind: "text",
+          size: 40,
+          date: "—",
+          content: ["Zugriff verweigert."],
+        },
+      ],
+    },
+    {
+      type: "dir",
+      name: "opt",
+      desc: "Optionale Pakete.",
+      children: [],
+    },
+  ],
+};
+
+/** Resolve a path array (e.g. ['home','worag','tagebuch']) starting from root. */
 export function resolvePath(parts: string[]): FsNode | null {
   let node: FsNode = FILESYSTEM;
   for (const p of parts) {
@@ -531,5 +863,5 @@ export function resolvePath(parts: string[]): FsNode | null {
 }
 
 export function pathString(parts: string[]): string {
-  return "/home/worag" + (parts.length ? "/" + parts.join("/") : "");
+  return "/" + parts.join("/");
 }
