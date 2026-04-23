@@ -2,6 +2,9 @@ import apartmentBg from "@/assets/scene-apartment.jpg";
 import hallwayBg from "@/assets/scene-hallway.jpg";
 import philippeBg from "@/assets/scene-philippe.jpg";
 import sectorBg from "@/assets/scene-sector-door.jpg";
+import e71LobbyBg from "@/assets/scene-e71-lobby.jpg";
+import corridor15Bg from "@/assets/scene-corridor-15.jpg";
+import room1534Bg from "@/assets/scene-room-1534.jpg";
 import type { Scene } from "./types";
 
 export const scenes: Record<string, Scene> = {
@@ -259,9 +262,8 @@ export const scenes: Record<string, Scene> = {
         label: "Aufzug → E71",
         requires: ["sectorDoorOpen"],
         onUse: (api) => {
-          api.setFlag("ending");
-          api.setEnding();
-          api.goTo("elevatorEnd");
+          api.setFlag("elevatorTaken");
+          api.goTo("e71Lobby");
         },
       },
       {
