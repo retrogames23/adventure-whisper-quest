@@ -506,6 +506,82 @@ export const scenes: Record<string, Scene> = {
             "Niemand wird hier in absehbarer Zeit einziehen.",
           ]),
       },
+      // Tür 2610 — Helka Vint. Nur Türgespräch, keine Szene.
+      {
+        id: "door2610Helka",
+        x: 2,
+        y: 38,
+        w: 12,
+        h: 50,
+        label: "Tür 2610 (Helka Vint)",
+        requires: ["doorBrokenOpen"],
+        onUse: (api) => {
+          if (!api.hasFlag("metHelka")) {
+            api.setFlag("metHelka");
+            api.startDialog("helkaAtDoor");
+          } else if (
+            api.hasFlag("tookFlyer") &&
+            !api.hasFlag("helkaSawFlyer")
+          ) {
+            api.setFlag("helkaSawFlyer");
+            api.startDialog("helkaFlyer");
+          } else if (!api.hasFlag("talkedHelka2")) {
+            api.setFlag("talkedHelka2");
+            api.startDialog("helkaSmalltalk");
+          } else if (!api.hasFlag("talkedHelka3")) {
+            api.setFlag("talkedHelka3");
+            api.startDialog("helkaSmalltalk2");
+          } else {
+            api.showText([
+              "Layard klopft. Aus der Wohnung 2610: kein Geräusch.",
+              "Helka hat heute genug geredet. Mehr als in den letzten zwei Jahren.",
+            ]);
+          }
+        },
+      },
+      // Tür 2612 — Bodo Marschke. Begehbare Wohnung.
+      {
+        id: "door2612Bodo",
+        x: 18,
+        y: 36,
+        w: 14,
+        h: 52,
+        label: "Tür 2612 (Bodo Marschke)",
+        requires: ["doorBrokenOpen"],
+        onUse: (api) => api.goTo("apt2612"),
+      },
+      // Tür 2614 — Ennis Korr. Nur Türgespräch.
+      {
+        id: "door2614Ennis",
+        x: 38,
+        y: 38,
+        w: 12,
+        h: 50,
+        label: "Tür 2614 (Ennis Korr)",
+        requires: ["doorBrokenOpen"],
+        onUse: (api) => {
+          if (!api.hasFlag("metEnnis")) {
+            api.setFlag("metEnnis");
+            api.startDialog("ennisAtDoor");
+          } else if (
+            api.hasFlag("tookFlyer") &&
+            !api.hasFlag("ennisSawFlyer")
+          ) {
+            api.setFlag("ennisSawFlyer");
+            api.startDialog("ennisFlyer");
+          } else if (api.hasFlag("ennisCracked")) {
+            api.startDialog("ennisAfterFlyer");
+          } else if (!api.hasFlag("talkedEnnis2")) {
+            api.setFlag("talkedEnnis2");
+            api.startDialog("ennisSmalltalk");
+          } else {
+            api.showText([
+              "Layard klopft an 2614. Drinnen: ein Stuhl, der zurückgeschoben wird.",
+              "Dann nichts. Ennis hat heute Nachtschicht. Oder er tut so.",
+            ]);
+          }
+        },
+      },
       {
         id: "toSector",
         x: 42,
