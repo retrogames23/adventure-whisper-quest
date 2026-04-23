@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
+import { Radio, TerminalSquare, Menu } from "lucide-react";
 
 interface Props {
   onOpenPause: () => void;
@@ -43,34 +44,48 @@ export function TopBar({ onOpenPause }: Props) {
           <button
             type="button"
             onClick={() => game.api.openRadio()}
-            className={`rounded-sm border px-3 py-1 text-xs uppercase tracking-widest transition ${
-              radioActive
-                ? "border-amber-glow text-amber-glow amber-glow"
-                : "border-border text-foreground hover:border-amber-glow/60 hover:text-amber-glow"
-            }`}
             title="Schmerz-Radio öffnen (R)"
+            className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-sm border px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-all duration-200 ${
+              radioActive
+                ? "border-amber-glow bg-amber-glow/15 text-amber-glow shadow-[0_0_14px_rgba(255,170,60,0.35)]"
+                : "border-amber-glow/30 bg-gradient-to-b from-amber-glow/10 to-transparent text-amber-glow/85 hover:-translate-y-px hover:border-amber-glow/70 hover:text-amber-glow hover:shadow-[0_0_12px_rgba(255,170,60,0.25)]"
+            }`}
           >
-            ◉ Radio
+            <Radio
+              className={`h-3.5 w-3.5 ${radioActive ? "animate-pulse" : ""}`}
+              strokeWidth={2.25}
+            />
+            <span className="font-display">Radio</span>
+            {radioActive && (
+              <span
+                aria-hidden
+                className="ml-0.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-amber-glow shadow-[0_0_6px_rgba(255,170,60,0.9)]"
+              />
+            )}
           </button>
           <button
             type="button"
             onClick={() => game.api.openTerminal()}
-            className="rounded-sm border border-border px-3 py-1 text-xs uppercase tracking-widest text-phosphor transition hover:border-phosphor/60"
             title="CentralOS Terminal"
+            className="group inline-flex items-center gap-2 rounded-sm border border-phosphor/30 bg-gradient-to-b from-phosphor/10 to-transparent px-3 py-1.5 text-xs uppercase tracking-[0.2em] text-phosphor/85 transition-all duration-200 hover:-translate-y-px hover:border-phosphor/70 hover:text-phosphor hover:shadow-[0_0_12px_rgba(80,255,140,0.22)]"
           >
-            ▣ Terminal
+            <TerminalSquare className="h-3.5 w-3.5" strokeWidth={2.25} />
+            <span className="font-display">Terminal</span>
           </button>
           <button
             type="button"
             onClick={onOpenPause}
-            className="rounded-sm border border-border px-3 py-1 text-xs uppercase tracking-widest text-foreground transition hover:border-amber-glow/60 hover:text-amber-glow"
             title="Menü (ESC)"
+            className="group inline-flex items-center gap-2 rounded-sm border border-border bg-secondary/40 px-3 py-1.5 text-xs uppercase tracking-[0.2em] text-foreground/85 transition-all duration-200 hover:-translate-y-px hover:border-amber-glow/60 hover:text-amber-glow"
           >
-            ☰ Menü
+            <Menu className="h-3.5 w-3.5" strokeWidth={2.25} />
+            <span className="font-display">Menü</span>
           </button>
-          <div className="ml-2 flex items-center gap-1 rounded-sm border border-border px-2 py-1 text-xs">
-            <span className="text-muted-foreground">Inv:</span>
-            <span className="font-mono-crt text-foreground">
+          <div className="ml-1 flex items-center gap-1.5 rounded-sm border border-border bg-secondary/30 px-2 py-1.5 text-xs">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Inv
+            </span>
+            <span className="font-mono-crt text-amber-glow">
               {inventory.length}
             </span>
           </div>
