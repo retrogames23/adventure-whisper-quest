@@ -79,6 +79,8 @@ const COMMANDS = [
   "tree",
   "adventure",
   "./adventure.bin",
+  "net",
+  "telnet",
 ];
 
 /** Longest common string prefix across all candidates. */
@@ -162,6 +164,144 @@ function complete(
   return { newInput, matches: display };
 }
 
+// ── Netzwerk-Hosts im Sektor E67 ─────────────────────────
+interface NetHost {
+  ip: string;
+  host: string;
+  desc: string;
+  /** Telnet-Passwort. null = kein Telnet-Daemon / Verbindung verweigert. */
+  password: string | null;
+  motd?: string[];
+  files?: Record<string, string[]>;
+}
+
+const NET_HOSTS: NetHost[] = [
+  {
+    ip: "10.67.0.1",
+    host: "gateway.e67",
+    desc: "Sektor-Gateway (Routing)",
+    password: null,
+  },
+  {
+    ip: "10.67.0.2",
+    host: "leitstelle.e67",
+    desc: "Leitstelle 001 — I. Bauerfeind",
+    password: null,
+  },
+  {
+    ip: "10.67.26.11",
+    host: "worag.e67",
+    desc: "Sie selbst (Zimmer 2611)",
+    password: null,
+  },
+  {
+    ip: "10.67.26.13",
+    host: "philippe.e67",
+    desc: "Bewohner, Zimmer 2613",
+    password: "Passwort123",
+    motd: [
+      "── philippe.e67 — CentralOS v2.1 ─────────────",
+      "Letzte Anmeldung: 06.11.1997 04:11 (lokal)",
+      "Du bist eingeloggt als: philippe",
+      "",
+      "Tippe 'ls', 'cat <datei>' oder 'exit'.",
+    ],
+    files: {
+      "notiz.txt": [
+        "die wand antwortet wenn ich klopfe",
+        "die wand antwortet wenn ich klopfe",
+        "die wand antwortet wenn ich klopfe",
+        "ich glaube layard ist auch da drin",
+        "ich klopfe weiter",
+      ],
+      "passwort.txt": [
+        "ich vergesse alles. das hier nicht.",
+        "Passwort123",
+        "(insa hat gelacht. soll sie.)",
+      ],
+      "tagebuch.txt": [
+        "tag 4012",
+        "104,6 war heute drei minuten still",
+        "ich habe in den drei minuten meinen namen vergessen",
+        "als es wieder anging hieß ich wieder philippe",
+        "ich glaube das ist gut",
+      ],
+    },
+  },
+  {
+    ip: "10.67.26.07",
+    host: "kamenev.e67",
+    desc: "Bewohnerin, Zimmer 2607",
+    password: null,
+  },
+  {
+    ip: "10.67.36.01",
+    host: "abschnitt.e67",
+    desc: "Abschnittsverantwortlicher (Etage 3, 3601)",
+    password: null,
+  },
+  {
+    ip: "10.67.46.18",
+    host: "drucker46.e67",
+    desc: "Etagendrucker, Etage 4",
+    password: "drucker",
+    motd: [
+      "── drucker46.e67 — PrintOS 1.1 ───────────────",
+      "Tonerstand: 4%. Papierschacht 2: leer.",
+      "Letzter Auftrag: »flugblatt_v3.ps« (412 Seiten)",
+      "Tippe 'ls' oder 'exit'.",
+    ],
+    files: {
+      "queue.log": [
+        "06.11.1997 02:14  flugblatt_v3.ps  412 S.  USER: ?",
+        "06.11.1997 02:51  flugblatt_v3.ps  abgebrochen (Toner)",
+        "06.11.1997 03:02  flugblatt_v3.ps  WIEDER GESTARTET",
+      ],
+    },
+  },
+  {
+    ip: "10.67.56.04",
+    host: "kantine.e67",
+    desc: "Kantinen-Terminal (Etage 5)",
+    password: "B2B2B2",
+    motd: [
+      "── kantine.e67 — MealNet 0.9 ────────────────",
+      "Heute: Eintopf §3, B2-Tabletten, Wasser.",
+      "Tippe 'ls' oder 'exit'.",
+    ],
+    files: {
+      "speiseplan.txt": [
+        "Mo  Eintopf §3 + B2",
+        "Di  Eintopf §3 + B2",
+        "Mi  Eintopf §3 + B2",
+        "Do  Eintopf §3 + B2",
+        "Fr  Eintopf §3 + B2 (Doppelration)",
+        "Sa  Eintopf §3",
+        "So  geschlossen — bitte Vorräte planen",
+      ],
+    },
+  },
+  {
+    ip: "10.71.0.1",
+    host: "gateway.e71",
+    desc: "Gateway Nachbarsektor E71",
+    password: null,
+  },
+  {
+    ip: "10.71.15.34",
+    host: "sprechzimmer.e71",
+    desc: "Sprechzimmer Sanitäter (E71)",
+    password: null,
+  },
+];
+
+function findHost(query: string): NetHost | null {
+  const q = query.toLowerCase().trim();
+  return (
+    NET_HOSTS.find((h) => h.host.toLowerCase() === q || h.ip === q) ?? null
+  );
+}
+
 const HELP_LINES: Line[] = [
   { text: "VERFÜGBARE BEFEHLE:", kind: "system" },
   { text: "  help          — Diese Liste anzeigen", kind: "out" },
@@ -176,6 +316,10 @@ const HELP_LINES: Line[] = [
   { text: "  cd <pfad>     — Verzeichnis wechseln (.. = aufwärts, / = root)", kind: "out" },
   { text: "  cat <datei>   — Datei lesen", kind: "out" },
   { text: "  tree          — Baumansicht ab aktuellem Pfad", kind: "out" },
+  { text: "", kind: "out" },
+  { text: "NETZWERK:", kind: "system" },
+  { text: "  net           — Bekannte Hosts im Sektornetz auflisten", kind: "out" },
+  { text: "  telnet <host> — Verbindungsversuch zu einem Host", kind: "out" },
   { text: "", kind: "out" },
   { text: "PROGRAMME:", kind: "system" },
   { text: "  adventure     — »Ein Tag draußen« (Worags Textadventure)", kind: "out" },
@@ -200,6 +344,10 @@ export function Terminal() {
   const [input, setInput] = useState("");
   const [cwd, setCwd] = useState<string[]>([...HOME_PATH]);
   const [advState, setAdvState] = useState<AdvState | null>(null);
+  // Aktive Telnet-Sitzung (null = keine).
+  const [telnetHost, setTelnetHost] = useState<string | null>(null);
+  // Telnet wartet auf Passworteingabe für diesen Host.
+  const [telnetAwaitPass, setTelnetAwaitPass] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastTabRef = useRef<{ input: string; matches: string[] } | null>(null);
@@ -256,6 +404,80 @@ export function Terminal() {
         // force re-render after mutation
         setAdvState({ ...advState });
       }
+      setInput("");
+      return;
+    }
+
+    // ── Sub-Modus: Telnet wartet auf Passwort ─────────────
+    if (telnetAwaitPass) {
+      const host = findHost(telnetAwaitPass);
+      const echo: Line = { text: `Password: ${"*".repeat(input.length)}`, kind: "in" };
+      const out: Line[] = [];
+      if (host && host.password && raw === host.password) {
+        playUnlock(0.5 * sfxVolume);
+        out.push({ text: ">> Authentifizierung erfolgreich.", kind: "system" });
+        if (host.motd) {
+          out.push(...host.motd.map((t) => ({ text: t, kind: "out" } as Line)));
+        }
+        setTelnetHost(telnetAwaitPass);
+        setTelnetAwaitPass(null);
+        // Easter-Egg: Philippe-Login als Flag merken (für späteren Story-Hook).
+        if (host.host === "philippe.e67") {
+          api.setFlag("hackedPhilippe");
+        }
+      } else {
+        playBeep(0.3 * sfxVolume);
+        out.push({ text: ">> FEHLER: Passwort abgelehnt. Verbindung getrennt.", kind: "out" });
+        setTelnetAwaitPass(null);
+      }
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      setInput("");
+      return;
+    }
+
+    // ── Sub-Modus: aktive Telnet-Sitzung ──────────────────
+    if (telnetHost) {
+      const host = findHost(telnetHost);
+      const tTokens = raw.split(/\s+/);
+      const echo: Line = {
+        text: `${host?.host ?? telnetHost}:~$ ${input}`,
+        kind: "in",
+      };
+      const out: Line[] = [];
+      const tHead = tTokens[0]?.toLowerCase() ?? "";
+      const tArgs = tTokens.slice(1);
+      if (tHead === "exit" || tHead === "logout" || tHead === "quit") {
+        out.push({ text: ">> Verbindung geschlossen.", kind: "system" });
+        setTelnetHost(null);
+      } else if (tHead === "ls" || tHead === "dir") {
+        const files = host?.files ?? {};
+        const names = Object.keys(files);
+        if (!names.length) out.push({ text: "  (leer)", kind: "out" });
+        else out.push(...names.map((n) => ({ text: `  ${n}`, kind: "out" } as Line)));
+      } else if (tHead === "cat" || tHead === "more" || tHead === "type") {
+        const fname = tArgs[0];
+        const files = host?.files ?? {};
+        if (!fname) out.push({ text: "cat: Dateiname fehlt.", kind: "out" });
+        else if (!files[fname]) out.push({ text: `cat: ${fname}: nicht gefunden.`, kind: "out" });
+        else {
+          out.push({ text: `── ${fname} ───────────────`, kind: "system" });
+          out.push(...files[fname].map((t) => ({ text: t, kind: "out" } as Line)));
+          out.push({ text: "── EOF ───────────────────", kind: "system" });
+        }
+      } else if (tHead === "whoami") {
+        out.push({ text: host?.host.split(".")[0] ?? "guest", kind: "out" });
+      } else if (tHead === "help" || tHead === "?") {
+        out.push(
+          { text: "Verfügbar: ls, cat <datei>, whoami, exit", kind: "out" },
+        );
+      } else {
+        out.push({ text: `${tHead}: Befehl in Sitzung nicht verfügbar.`, kind: "out" });
+      }
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      const h = termHistoryRef.current;
+      if (h[h.length - 1] !== raw) h.push(raw);
+      historyCursorRef.current = -1;
+      draftRef.current = "";
       setInput("");
       return;
     }
@@ -436,6 +658,125 @@ export function Terminal() {
           (t) => ({ text: t, kind: "out" } as Line),
         ),
       );
+    } else if (head === "net") {
+      newLines.push({ text: "BEKANNTE HOSTS — Sektornetz E67/E71:", kind: "system" });
+      newLines.push(
+        { text: "  IP                HOST                  BESCHREIBUNG", kind: "out" },
+        { text: "  ──                ────                  ────────────", kind: "out" },
+      );
+      for (const h of NET_HOSTS) {
+        newLines.push({
+          text: `  ${h.ip.padEnd(17)} ${h.host.padEnd(21)} ${h.desc}`,
+          kind: "out",
+        });
+      }
+      newLines.push({
+        text: "TIPP: 'telnet <host>' — Verbindungsversuch.",
+        kind: "system",
+      });
+    } else if (head === "telnet") {
+      const target = args[0];
+      if (!target) {
+        newLines.push({ text: "telnet: Host fehlt. Beispiel: telnet philippe.e67", kind: "out" });
+      } else {
+        const host = findHost(target);
+        if (!host) {
+          newLines.push({ text: `telnet: ${target}: Host nicht gefunden.`, kind: "out" });
+        } else if (!host.password) {
+          newLines.push(
+            { text: `Versuche ${host.host} (${host.ip})…`, kind: "out" },
+            { text: `>> Verbindung verweigert: kein telnet-daemon auf Port 23.`, kind: "out" },
+          );
+        } else {
+          newLines.push(
+            { text: `Versuche ${host.host} (${host.ip})…`, kind: "out" },
+            { text: ">> Verbunden. Authentifizierung erforderlich.", kind: "system" },
+          );
+          setTelnetAwaitPass(host.host);
+        }
+      }
+    } else if (head === "ps") {
+      newLines.push(
+        { text: "  PID USER       %CPU %MEM  COMMAND", kind: "system" },
+        { text: "    1 root        0.0  0.4  /usr/bin/centralos --boot", kind: "out" },
+        { text: "   23 root        2.1  1.8  /usr/bin/carrier-daemon --keepalive", kind: "out" },
+        { text: "   41 leitstelle  0.3  0.5  /opt/leitstelle-tools/trace --ping", kind: "out" },
+        { text: "   88 root        0.1  0.2  /usr/bin/centralos --rotate-logs", kind: "out" },
+        { text: "  142 worag       0.0  0.1  -sh", kind: "out" },
+        { text: "  143 worag       0.5  0.3  /home/worag/adventure.bin (idle)", kind: "out" },
+        { text: "  201 root        0.0  0.1  [resonance-feedback]", kind: "out" },
+        { text: "  ???   ?           ?    ?  [???]", kind: "out" },
+      );
+    } else if (head === "uname") {
+      const showAll = args.includes("-a");
+      const parts: Record<string, string> = {
+        s: "CentralOS",
+        n: "e67-2611",
+        r: "2.3-resonance",
+        v: "#14 Tue Nov 4 11:04:22 1997",
+        m: "syn33",
+        o: "CentralOS",
+      };
+      if (!args.length || args.includes("-s")) {
+        if (showAll) {
+          newLines.push({
+            text: `${parts.s} ${parts.n} ${parts.r} ${parts.v} ${parts.m} ${parts.o}`,
+            kind: "out",
+          });
+        } else {
+          newLines.push({ text: parts.s, kind: "out" });
+        }
+      } else if (showAll) {
+        newLines.push({
+          text: `${parts.s} ${parts.n} ${parts.r} ${parts.v} ${parts.m} ${parts.o}`,
+          kind: "out",
+        });
+      } else {
+        const out: string[] = [];
+        if (args.includes("-n")) out.push(parts.n);
+        if (args.includes("-r")) out.push(parts.r);
+        if (args.includes("-v")) out.push(parts.v);
+        if (args.includes("-m")) out.push(parts.m);
+        if (args.includes("-o")) out.push(parts.o);
+        newLines.push({ text: out.join(" "), kind: "out" });
+      }
+    } else if (head === "whoami") {
+      newLines.push({ text: "worag", kind: "out" });
+    } else if (head === "id") {
+      newLines.push({
+        text: "uid=2611(worag) gid=100(bewohner) groups=100(bewohner),104(radio-rx)",
+        kind: "out",
+      });
+    } else if (head === "date") {
+      newLines.push({ text: "Don 06 Nov 1997 09:14:42 MEZ", kind: "out" });
+    } else if (head === "uptime") {
+      newLines.push({
+        text: " 09:14:42 up 4012 days, 17:14,  1 user,  load average: 1.04, 1.04, 1.04",
+        kind: "out",
+      });
+    } else if (head === "history") {
+      const h = termHistoryRef.current;
+      if (!h.length) newLines.push({ text: "(leerer Verlauf)", kind: "out" });
+      else {
+        h.forEach((cmd, i) => {
+          newLines.push({
+            text: `  ${(i + 1).toString().padStart(3)}  ${cmd}`,
+            kind: "out",
+          });
+        });
+      }
+    } else if (head === "echo") {
+      newLines.push({ text: args.join(" "), kind: "out" });
+    } else if (head === "sudo") {
+      newLines.push({
+        text: "sudo: worag ist nicht in der sudoers-Datei. Dieser Vorfall wird gemeldet.",
+        kind: "out",
+      });
+    } else if (head === "man") {
+      newLines.push({
+        text: `man: kein Handbuch für "${args[0] ?? ""}" — Tippe 'help'.`,
+        kind: "out",
+      });
     } else {
       newLines.push({
         text: `Unbekannter Befehl: ${cmd}. Tippe 'help'.`,
