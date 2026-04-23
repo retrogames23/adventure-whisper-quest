@@ -252,15 +252,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase
         .from("game_saves")
         .upsert(
-          {
-            user_id: u.id,
-            slot: slot + 1,
-            payload: payload as unknown as Record<string, unknown>,
-            scene: payload.scene,
-            inventory_count: payload.inventory.length,
-            flag_count: payload.flags.length,
-            saved_at: payload.savedAt,
-          },
+          [
+            {
+              user_id: u.id,
+              slot: slot + 1,
+              payload: payload as unknown as Record<string, unknown>,
+              scene: payload.scene,
+              inventory_count: payload.inventory.length,
+              flag_count: payload.flags.length,
+              saved_at: payload.savedAt,
+            },
+          ],
           { onConflict: "user_id,slot" },
         );
       if (error) throw new Error(error.message);
