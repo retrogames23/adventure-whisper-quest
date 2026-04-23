@@ -1683,7 +1683,10 @@ export const dialogs: Record<string, DialogTree> = {
         id: "b7",
         speaker: "SYSTEM",
         text: "Bodo: »Funkanlagen. Trägersignale. Verstärker. Wenn die Stadt knirschte, war meistens eine Spule kalt. — Ich rede nicht gern darüber. Es war ein anderer Beruf, in einer anderen Stadt.«",
-        end: true,
+        choices: [
+          { text: "Da bewegt sich etwas auf dem Sessel.", next: "bodoLottiReveal" },
+          { text: "[ Beenden ]" },
+        ],
       },
       bodoLottiReveal: {
         id: "bodoLottiReveal",
