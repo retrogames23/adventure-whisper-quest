@@ -38,6 +38,14 @@ export function RadioPanel() {
   const lastTickRef = useRef<number | null>(null);
   const droneStopRef = useRef<(() => void) | null>(null);
   const lastFreqRef = useRef(freq);
+  const [tick, setTick] = useState(0);
+
+  // Animate waveform for all bands
+  useEffect(() => {
+    if (!radioOpen) return;
+    const id = setInterval(() => setTick((t) => (t + 1) % 10000), 90);
+    return () => clearInterval(id);
+  }, [radioOpen]);
 
   // Tuning clicks when frequency changes
   useEffect(() => {
