@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 
 const FRAMES = [
-  "Layard öffnet die Wohnungstür.",
-  "Der Korridor. Länger als gestern.",
-  "Der Aufzug. Knöpfe, die er nie gedrückt hat.",
-  "Die Tür schließt sich.",
+  "Layard betritt den Aufzug. Er drückt E67.",
+  "Im Innenfutter seines Mantels: ein Kristall, ein Brief.",
+  "Er denkt an Insas Stimme. „Bitte.“",
+  "Er denkt an Mikaels Stimme. „Schalten Sie das Radio aus, wenn Sie den Aufzug betreten.“",
   "",
-  "Das Schmerz-Radio ist aus.",
-  "Layard hat für einen Moment aufgehört, die Gefühle anderer zu empfangen.",
-  "Er fühlt — irgendetwas.",
+  "Layard greift in die Tasche. Sein Daumen findet den Drehregler.",
+  "Zum ersten Mal seit elf Jahren —",
+  "— dreht er ihn auf Null.",
+  "",
+  "Stille. Nicht die Stille des Quadranten. Eine andere.",
+  "Er hört seinen eigenen Atem. Er erkennt ihn nicht.",
+  "Die Aufzugstür öffnet sich.",
 ];
 
 export function Ending() {
