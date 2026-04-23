@@ -1,6 +1,7 @@
 import apartmentBg from "@/assets/scene-apartment.jpg";
 import hallwayBg from "@/assets/scene-hallway.jpg";
 import philippeBg from "@/assets/scene-philippe.jpg";
+import apt2613Bg from "@/assets/scene-apt-2613.jpg";
 import sectorBg from "@/assets/scene-sector-door.jpg";
 import e71LobbyBg from "@/assets/scene-e71-lobby.jpg";
 import corridor15Bg from "@/assets/scene-corridor-15.jpg";
@@ -13,7 +14,7 @@ export const scenes: Record<string, Scene> = {
     background: apartmentBg,
     title: "Wohnung 2611 — Quadrant E67",
     intro:
-      "Layard Worag. Ein-Zimmer-Wohnung, Quadrant E67. Auf dem Tisch: das Schmerz-Radio. Die Frequenz steht auf 102,3 — Einsamkeit. Routine.",
+      "Layard Worag. Ein-Zimmer-Wohnung, Quadrant E67. Auf dem Tisch: das Schmerz-Radio. Heute hat er Urlaub. Heute will er weiter — tiefer. Stell die Frequenz auf 104,6.",
     hotspots: [
       {
         id: "radio",
@@ -34,11 +35,34 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) => api.openTerminal(),
       },
       {
+        id: "phoneApt",
+        x: 47,
+        y: 52,
+        w: 14,
+        h: 18,
+        label: "Telefon",
+        // Only available after returning from 2613 with the protocol
+        requires: ["protocolReceived"],
+        hiddenWhen: ["calledForCode"],
+        onUse: (api) => {
+          if (!api.hasFlag("calledInsa2")) {
+            api.setFlag("calledInsa2");
+            api.startDialog("insa2a");
+          } else if (!api.hasFlag("calledStegmann")) {
+            api.setFlag("calledStegmann");
+            api.startDialog("stegmann");
+          } else if (!api.hasFlag("calledForCode")) {
+            api.setFlag("calledForCode");
+            api.startDialog("insa2");
+          }
+        },
+      },
+      {
         id: "bed",
         x: 50,
-        y: 60,
-        w: 35,
-        h: 30,
+        y: 72,
+        w: 30,
+        h: 22,
         label: "Bett",
         onUse: (api) =>
           api.showText([
@@ -58,6 +82,8 @@ export const scenes: Record<string, Scene> = {
             "Synthetische Nährpaste B2.",
             "„Vollständige Versorgung. Keine Reizüberflutung.“",
             "Sie schmeckt nach nichts. Das ist Absicht.",
+            "Philippe, hat Layard gehört, schwöre auf B3. Wegen des Geschmacks.",
+            "Geschmack. Layard kann sich nicht erinnern, wann er das letzte Mal etwas geschmeckt hat.",
           ]),
       },
       {
@@ -70,7 +96,8 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) =>
           api.showText([
             "Hinter dem Fenster: derselbe Innenhof wie gestern.",
-            "Dasselbe fahle Grün. Dieselbe Stille.",
+            "Auf dem Sims: die Solaranlage. Sie reicht für 48 Stunden Notstrom.",
+            "Lange genug. So lange, hat noch nie etwas gedauert.",
           ]),
       },
       {
@@ -80,12 +107,18 @@ export const scenes: Record<string, Scene> = {
         w: 12,
         h: 60,
         label: "Wohnungstür",
+        // Only relevant after the doorbell rings
         requires: ["doorbellRang"],
         onUse: (api) => {
           if (!api.hasFlag("metPhilippe")) {
+            // First open: meet Philippe at the door, then go with him to 2613
             api.setFlag("metPhilippe");
-            api.goTo("philippe");
+            api.startDialog("philippeAtDoor");
+          } else if (!api.hasFlag("protocolReceived")) {
+            // Still needs to handle the emergency
+            api.goTo("apt2613");
           } else {
+            // After protocol, going out leads to the hallway
             api.goTo("hallway");
           }
         },
@@ -93,31 +126,59 @@ export const scenes: Record<string, Scene> = {
     ],
   },
 
-  philippe: {
-    id: "philippe",
-    background: philippeBg,
-    title: "Wohnung 2610 — Philippe",
+  // The stranger's apartment, where the knocking comes from.
+  // Philippe is in here together with Layard until the sanitarians arrive.
+  apt2613: {
+    id: "apt2613",
+    background: apt2613Bg,
+    title: "Wohnung 2613 — Unbekannter Bewohner",
     intro:
-      "Philippes Wohnung riecht nach echtem Kaffee. Verboten. Im Hintergrund tragen die Sanitäter jemanden weg. Reglos. Augen offen.",
+      "Die Tür ist nur angelehnt. Drinnen: derselbe Grundriss wie bei Layard. Charakterlos. Und das Klopfen — regelmäßig, durch die Wand.",
     hotspots: [
       {
         id: "philippeNpc",
-        x: 0,
-        y: 30,
-        w: 30,
-        h: 60,
+        x: 70,
+        y: 35,
+        w: 22,
+        h: 55,
         label: "Philippe",
-        hiddenWhen: ["calledLeitstelle"],
-        onUse: (api) => api.startDialog("philippeIntro"),
+        hiddenWhen: ["paramedicsArrived"],
+        onUse: (api) => {
+          if (!api.hasFlag("calledLeitstelle")) {
+            api.startDialog("philippeIn2613");
+          } else {
+            api.startDialog("philippeSmalltalk");
+          }
+        },
       },
       {
-        id: "phone",
-        x: 32,
-        y: 55,
-        w: 16,
-        h: 16,
-        label: "Telefon",
-        requires: ["metPhilippe"],
+        id: "wall",
+        x: 30,
+        y: 25,
+        w: 30,
+        h: 45,
+        label: "Wand mit Klopfen",
+        hiddenWhen: ["doorBrokenOpen"],
+        onUse: (api) => {
+          api.setFlag("knockingHeard");
+          api.showText([
+            "Klopf. Klopf. Klopf.",
+            "Regelmäßig. Aber nicht mechanisch.",
+            "Layard legt die Hand an den Beton. Er fühlt es im Handballen,",
+            "bevor er es im Ohr hört.",
+            "",
+            "„Hallo?! Jemand da?“ — Das Klopfen geht im selben Rhythmus weiter.",
+          ]);
+        },
+      },
+      {
+        id: "phone2613",
+        x: 5,
+        y: 50,
+        w: 14,
+        h: 18,
+        label: "Telefon (Wandapparat)",
+        requires: ["knockingHeard"],
         hiddenWhen: ["calledLeitstelle"],
         onUse: (api) => {
           api.setFlag("calledLeitstelle");
@@ -125,13 +186,58 @@ export const scenes: Record<string, Scene> = {
         },
       },
       {
-        id: "paramedics",
-        x: 56,
-        y: 18,
-        w: 38,
-        h: 70,
-        label: "Sanitäter",
+        id: "waitParamedics",
+        x: 40,
+        y: 75,
+        w: 24,
+        h: 18,
+        label: "Warten",
         requires: ["calledLeitstelle"],
+        hiddenWhen: ["paramedicsArrived"],
+        onUse: (api) => {
+          if (!api.hasFlag("smalltalkPhilippe")) {
+            api.setFlag("smalltalkPhilippe");
+            api.startDialog("philippeSmalltalk");
+          } else {
+            // Sanitarians arrive
+            api.setFlag("paramedicsArrived");
+            api.startDialog("paramedicsArrive");
+          }
+        },
+      },
+      {
+        id: "patient",
+        x: 40,
+        y: 35,
+        w: 22,
+        h: 50,
+        label: "Der Mann an der Wand",
+        requires: ["doorBrokenOpen"],
+        hiddenWhen: ["sawCatatonic"],
+        onUse: (api) => {
+          api.setFlag("sawCatatonic");
+          api.showText([
+            "Ein Mann, ausgemergelt. Fahle Haut. Hochgezogene Brauen.",
+            "Er schlägt mit leblosem Gesicht rhythmisch gegen die Wand.",
+            "",
+            "Layard nimmt seinen Mut zusammen und schaut ihm in die Augen.",
+            "Er erwartet tote, glasige Augen.",
+            "",
+            "Stattdessen: grüne Augen. Eine seltsame Tiefe. Klarheit.",
+            "Wie ein Portal in ein mystisches Universum.",
+            "",
+            "Layard wird das Bild nicht mehr loswerden.",
+          ]);
+        },
+      },
+      {
+        id: "paramedicsHotspot",
+        x: 40,
+        y: 35,
+        w: 22,
+        h: 50,
+        label: "Sanitäter",
+        requires: ["sawCatatonic"],
         hiddenWhen: ["protocolReceived"],
         onUse: (api) => {
           api.setFlag("protocolReceived");
@@ -139,12 +245,42 @@ export const scenes: Record<string, Scene> = {
             id: "protocol",
             name: "Einsatzprotokoll (verschlüsselt)",
             description:
-              "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534.",
+              "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
           });
-          api.setKnowledge("resonanceTerm");
           api.setKnowledge("responsibilityE67");
           api.startDialog("paramedic");
         },
+      },
+      {
+        id: "exit2613",
+        x: 88,
+        y: 70,
+        w: 11,
+        h: 28,
+        label: "Zurück in den Korridor",
+        requires: ["protocolReceived"],
+        onUse: (api) => api.goTo("hallway"),
+      },
+    ],
+  },
+
+  // Philippe's own apartment is now used only as a small detour after Akt 1
+  // is over - it can stay reachable from the hallway as a memory beat.
+  philippe: {
+    id: "philippe",
+    background: philippeBg,
+    title: "Wohnung 2610 — Philippe",
+    intro:
+      "Philippes Wohnung riecht nach echtem Kaffee. Verboten. Er sitzt am Fenster und schaut auf die Wand gegenüber.",
+    hotspots: [
+      {
+        id: "philippeQuiet",
+        x: 8,
+        y: 30,
+        w: 30,
+        h: 60,
+        label: "Philippe",
+        onUse: (api) => api.startDialog("philippeAfter"),
       },
       {
         id: "lamp",
@@ -155,7 +291,7 @@ export const scenes: Record<string, Scene> = {
         label: "Lampe",
         onUse: (api) =>
           api.showText([
-            "Die einzige warme Lichtquelle in E67.",
+            "Die einzige warme Lichtquelle im Korridor.",
             "Philippe muss sie heimlich repariert haben.",
           ]),
       },
@@ -166,7 +302,6 @@ export const scenes: Record<string, Scene> = {
         w: 11,
         h: 28,
         label: "Zurück in den Flur",
-        requires: ["protocolReceived"],
         onUse: (api) => api.goTo("hallway"),
       },
     ],
@@ -185,7 +320,7 @@ export const scenes: Record<string, Scene> = {
         y: 35,
         w: 22,
         h: 50,
-        label: "Tür 2611 (zurück)",
+        label: "Tür 2611 (zurück in die Wohnung)",
         onUse: (api) => api.goTo("apartment"),
       },
       {
@@ -195,8 +330,25 @@ export const scenes: Record<string, Scene> = {
         w: 22,
         h: 50,
         label: "Tür 2610 (Philippe)",
-        hiddenWhen: ["protocolReceived"],
+        // Only meaningful after E67 is mostly done
+        requires: ["calledForCode"],
         onUse: (api) => api.goTo("philippe"),
+      },
+      {
+        id: "door2613Sealed",
+        x: 28,
+        y: 35,
+        w: 16,
+        h: 45,
+        label: "Tür 2613 (versiegelt)",
+        requires: ["protocolReceived"],
+        onUse: (api) =>
+          api.showText([
+            "Ein gelbes Siegelband klebt schräg über dem Türrahmen.",
+            "Darauf, in Maschinenschrift:",
+            "„Quarantäne — Resonanz-Überlastung — bis auf Widerruf“.",
+            "Niemand wird hier in absehbarer Zeit einziehen.",
+          ]),
       },
       {
         id: "toSector",
@@ -229,7 +381,7 @@ export const scenes: Record<string, Scene> = {
           api.showText([
             ">> CENTRALOS v2.3 — SEKTOR-GATEWAY",
             ">> ERROR 4567: Gateway-Authentifizierung fehlgeschlagen",
-            ">> Wartungsarbeiten am Gateway gemeldet.",
+            ">> Wartungsfenster gemeldet — Status: bearbeitet",
             ">> Lösungspfad: Manueller Code via Leitstelle 001.",
           ]),
       },
@@ -245,8 +397,8 @@ export const scenes: Record<string, Scene> = {
             api.showText([
               "Das Keypad blinkt rot.",
               "Layard hat keinen Code. Noch nicht.",
-              "Es gibt nur einen Weg: 001 anrufen — aber dafür braucht es ein Telefon.",
-              "[ Geh zurück in den Flur und nutze Philippes Telefon erneut. ]",
+              "Es gibt nur einen Weg: 001 anrufen.",
+              "[ Geh zurück in deine Wohnung und benutze dein Telefon. ]",
             ]);
           } else {
             api.openTerminal();
@@ -262,8 +414,24 @@ export const scenes: Record<string, Scene> = {
         label: "Aufzug → E71",
         requires: ["sectorDoorOpen"],
         onUse: (api) => {
-          api.setFlag("elevatorTaken");
-          api.goTo("e71Lobby");
+          if (!api.hasFlag("feetWontMove")) {
+            api.setFlag("feetWontMove");
+            api.showText([
+              "Layard denkt intensiv daran, einen Schritt zu machen.",
+              "Aus dem Korridor. In den Aufzug. Aus E67 hinaus.",
+              "",
+              "Seine Füße bewegen sich nicht.",
+              "",
+              "Im Hinterkopf: das amber-grüne Glühen der Frequenz 104,6.",
+              "Sie ist nicht mehr im Radio. Sie ist in ihm.",
+              "",
+              "Er zwingt das rechte Bein. Es geht. Schwer. Mechanisch.",
+              "Wie eine Tür, deren Scharniere seit Jahren niemand geölt hat.",
+            ]);
+          } else {
+            api.setFlag("elevatorTaken");
+            api.goTo("e71Lobby");
+          }
         },
       },
       {

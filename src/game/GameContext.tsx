@@ -162,6 +162,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         if (current.end || !current.next) {
           setDialogId(null);
           setDialogLineId(null);
+          tree.onEnd?.(api);
           return;
         }
         setDialogLineId(current.next);
@@ -171,11 +172,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       if (!nextLine) {
         setDialogId(null);
         setDialogLineId(null);
+        tree.onEnd?.(api);
         return;
       }
       setDialogLineId(nextId);
     },
-    [dialogId, dialogLineId],
+    [dialogId, dialogLineId, api],
   );
 
   const value: GameContextValue = {
@@ -197,6 +199,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
     closeText: () => setTextOverlay(null),
     advanceDialog,
     closeDialog: () => {
+      if (dialogId) {
+        const tree = dialogs[dialogId];
+        tree?.onEnd?.(api);
+      }
       setDialogId(null);
       setDialogLineId(null);
     },
