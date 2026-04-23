@@ -1232,7 +1232,11 @@ export const dialogs: Record<string, DialogTree> = {
         next: "mi4b",
         choices: [
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
-          { text: "Pass auf, was du sagst. Hier hört jemand zu.", next: "miraClosed1" },
+          {
+            text: "Pass auf, was du sagst. Hier hört jemand zu.",
+            next: "miraClosed1",
+            action: (api) => api.setFlag("miraSystemic"),
+          },
           { text: "Keine Zeit für sowas." },
         ],
       },
@@ -1244,7 +1248,11 @@ export const dialogs: Record<string, DialogTree> = {
         requires: ["sawEmptyOffice"],
         choices: [
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
-          { text: "Pass auf, was du sagst. Hier hört jemand zu.", next: "miraClosed1" },
+          {
+            text: "Pass auf, was du sagst. Hier hört jemand zu.",
+            next: "miraClosed1",
+            action: (api) => api.setFlag("miraSystemic"),
+          },
           { text: "Keine Zeit für sowas." },
         ],
       },
