@@ -1313,6 +1313,45 @@ export const dialogs: Record<string, DialogTree> = {
     },
   },
 
+  // Variante: Layard hat das leere Büro auf Etage 3 schon gesehen
+  // und sucht aktiv den Abschnittsverantwortlichen.
+  miraIntroSeeking: {
+    id: "miraIntroSeeking",
+    start: "mis1",
+    lines: {
+      mis1: {
+        id: "mis1",
+        speaker: "SYSTEM",
+        text: "[ An der Wand lehnt eine junge Frau. Sechzehn, vielleicht siebzehn. Kein Empfänger im Ohr. Sie sieht Layard direkt an. ]",
+        next: "mis2",
+      },
+      mis2: {
+        id: "mis2",
+        speaker: "MIRA",
+        text: "Hey. Du bist nicht von dieser Etage. Und du läufst, als hättest du ein Ziel. Wen suchst du?",
+        subtext: "Sie sagt das ohne Vorwurf. Eher wie eine Diagnose.",
+        next: "mis3",
+      },
+      mis3: {
+        id: "mis3",
+        speaker: "LAYARD",
+        text: "Den Abschnittsverantwortlichen. Sein Büro ist leer.",
+        next: "mis4",
+      },
+      mis4: {
+        id: "mis4",
+        speaker: "MIRA",
+        text: "Den gibt es heute nicht. Den gibt es eigentlich nie. Das System tut nur so, als ob.",
+        subtext: "Sie hat das schon oft gesagt. Sie wartet darauf, wie er reagiert.",
+        choices: [
+          { text: "Was meinst du damit genau?", next: "miraOpen1" },
+          { text: "Pass auf, was du sagst. Hier hört jemand zu.", next: "miraClosed1" },
+          { text: "Keine Zeit für sowas." },
+        ],
+      },
+    },
+  },
+
   // Wiederbegegnung: Layard hat noch kein Flugblatt, kann zurückkommen.
   miraReturn: {
     id: "miraReturn",
