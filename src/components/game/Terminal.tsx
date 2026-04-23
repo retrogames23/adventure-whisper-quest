@@ -1215,8 +1215,10 @@ export function Terminal() {
     const head = argsRaw[0]?.toLowerCase() ?? "";
     const args = argsRaw.slice(1);
     playBeep(0.4 * sfxVolume);
-    const promptPath = pathString(cwd).replace("/home/worag", "~") || "/";
-    const newLines: Line[] = [{ text: `worag@e67:${promptPath}$ ${input}`, kind: "in" }];
+    const promptPath = pathString(cwd).replace(homeLabel, "~") || "/";
+    const newLines: Line[] = [
+      { text: `${userName}@${hostName}:${promptPath}$ ${input}`, kind: "in" },
+    ];
 
     if (cmd === "help") {
       newLines.push(...HELP_LINES);
