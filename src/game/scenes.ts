@@ -1429,7 +1429,7 @@ export const scenes: Record<string, Scene> = {
       {
         id: "philippeSpot46",
         x: 62,
-        y: 38,
+        y: 26,
         w: 14,
         h: 54,
         label: "Philippe (Nachbar)",
