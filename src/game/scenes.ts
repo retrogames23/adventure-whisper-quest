@@ -417,13 +417,26 @@ export const scenes: Record<string, Scene> = {
     title: "Wohnung 2612 — Bodo Marschke",
     intro:
       "Warmes Lampenlicht. Es riecht nach altem Kraut, das jemand „Tee“ nennt. Auf einem Sessel mit grauer Strickdecke: eine getigerte Katze. Sie zuckt einmal, als die Tür sich öffnet, dann schaut sie weg.",
+    npcs: [
+      {
+        id: "bodoSprite",
+        src: bodoSprite,
+        // Bodo steht zwischen Sessel und Terminal, leicht im Vordergrund.
+        x: 30,
+        y: 20,
+        w: 22,
+        h: 78,
+        alt: "Bodo Marschke",
+      },
+    ],
     hotspots: [
       {
         id: "bodoNpc",
-        x: 38,
-        y: 38,
+        // Deckungsgleich mit dem Bodo-Sprite.
+        x: 30,
+        y: 22,
         w: 22,
-        h: 50,
+        h: 74,
         label: "Bodo Marschke",
         onUse: (api) => {
           if (!api.hasFlag("metBodo")) {
@@ -445,10 +458,11 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "lottiSpot",
-        x: 16,
+        // Sessel + Decke + Katze (eingerollt rechts vorn auf dem Sessel).
+        x: 6,
         y: 55,
-        w: 22,
-        h: 30,
+        w: 28,
+        h: 40,
         label: "Sessel mit Decke",
         onUse: (api) => {
           if (api.hasFlag("knowsLotti")) {
@@ -469,8 +483,9 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "bodoPhone",
-        x: 60,
-        y: 22,
+        // Schwarzer Bakelit-Wandapparat oberhalb des Terminal-Tisches.
+        x: 51,
+        y: 38,
         w: 12,
         h: 22,
         label: "Wandtelefon",
@@ -483,10 +498,11 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "bodoTerminal",
-        x: 70,
-        y: 50,
-        w: 18,
-        h: 22,
+        // CRT „HASSENVU 2612“ rechts auf dem Tisch.
+        x: 60,
+        y: 60,
+        w: 20,
+        h: 26,
         label: "Bodos Terminal",
         onUse: (api) => {
           if (api.hasFlag("knowsLotti")) {
@@ -507,10 +523,11 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "exit2612",
-        x: 88,
-        y: 30,
-        w: 11,
-        h: 60,
+        // Wohnungstür ganz rechts.
+        x: 84,
+        y: 20,
+        w: 16,
+        h: 75,
         label: "Zurück in den Korridor",
         onUse: (api) => api.goTo("hallway"),
       },
