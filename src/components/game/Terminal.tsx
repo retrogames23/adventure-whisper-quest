@@ -987,8 +987,10 @@ export function Terminal() {
   const [scriptedRunning, setScriptedRunning] = useState(false);
   // Wenn Bodo gerade B3 für Lotti holt, sitzen wir an seinem Terminal —
   // ohne Login, mit seinem Hostnamen, mit altem CentralOS v2.0.
-  const bodoMode =
-    flags.has("bodoLeftForB3") && !flags.has("bodoBackAfterB3");
+  // Wird explizit über openTerminal(true) am Hotspot in Bodos Wohnung gesetzt.
+  // Layards eigenes Terminal (TopBar, Wohnung 2611, Sektor-Türen-Terminal)
+  // läuft immer im normalen Phosphor-Grün-Modus.
+  const bodoMode = terminalBodoMode;
   const userName = bodoMode ? "bodo" : "worag";
   const hostName = bodoMode ? "bodo" : "e67";
   const homePath = bodoMode ? HOME_PATH_BODO : HOME_PATH;
