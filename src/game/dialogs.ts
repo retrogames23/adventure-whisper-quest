@@ -890,7 +890,6 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Lies es allein. Nicht im Terminal. Niemals im Terminal. Z.K.S.",
         next: "miraOpen8",
-        action: undefined,
       },
       miraOpen8: {
         id: "miraOpen8",
