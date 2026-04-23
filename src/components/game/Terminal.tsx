@@ -1485,7 +1485,7 @@ export function Terminal() {
               { text: "   [██████████] 100%", delayMs: t(520), beep: true },
               { text: ">> Patch /usr/bin/centralos … OK", delayMs: t(360) },
               { text: ">> Migriere /etc/motd ……… OK", delayMs: t(280) },
-              { text: ">> CentralOS v2.0 → v2.0.1   [OK]", delayMs: t(420), kind: "system", beep: true },
+              { text: ">> CentralOS v2.0 → v2.3.1   [OK]", delayMs: t(420), kind: "system", beep: true },
               { text: ">> Hinweis: Diese Aktualisierung wurde an die Leitstelle gemeldet.", delayMs: t(320), kind: "system" },
             ],
             () => api.setFlag("centralOsUpdated"),
