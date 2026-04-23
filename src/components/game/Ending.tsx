@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 
-const FRAMES = [
+const FRAMES_BASE = [
   "Layard betritt den Aufzug. Er drückt E67.",
   "Im Innenfutter seines Mantels: ein Kristall, ein Brief.",
   "Er denkt an Insas Stimme. „Bitte.“",
@@ -16,26 +16,40 @@ const FRAMES = [
   "Die Aufzugstür öffnet sich.",
 ];
 
+const FRAMES_FLYER_EXTRA = [
+  "",
+  "Im selben Mantelinnenfutter: ein gefaltetes Blatt.",
+  "Ein Mädchen auf einer Etage, deren Nummer er sich nicht gemerkt hat.",
+  "„Wer hält das andere Ende?“ — Z.K.S.",
+  "",
+  "Er zerreißt das Blatt nicht. Er faltet es kleiner.",
+  "Es passt jetzt zwischen Kristall und Brief.",
+];
+
 export function Ending() {
-  const { ending } = useGame();
+  const { ending, api } = useGame();
   const [idx, setIdx] = useState(0);
+
+  const frames = api.hasItem("flyer")
+    ? [...FRAMES_BASE, ...FRAMES_FLYER_EXTRA]
+    : FRAMES_BASE;
 
   useEffect(() => {
     if (!ending) return;
     const t = setInterval(() => {
-      setIdx((i) => Math.min(i + 1, FRAMES.length));
+      setIdx((i) => Math.min(i + 1, frames.length));
     }, 2200);
     return () => clearInterval(t);
-  }, [ending]);
+  }, [ending, frames.length]);
 
   if (!ending) return null;
 
-  const done = idx >= FRAMES.length;
+  const done = idx >= frames.length;
 
   return (
     <div className="absolute inset-0 z-[60] flex flex-col items-center justify-center bg-black px-6 text-center">
       <div className="mx-auto max-w-2xl space-y-4">
-        {FRAMES.slice(0, idx).map((line, i) => (
+        {frames.slice(0, idx).map((line, i) => (
           <p
             key={i}
             className="slow-fade-in font-display text-lg text-foreground sm:text-xl"

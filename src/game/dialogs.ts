@@ -911,7 +911,7 @@ export const dialogs: Record<string, DialogTree> = {
                 id: "flyer",
                 name: "Flugblatt",
                 description:
-                  "Ein gefaltetes Blatt, mit Maschinenschrift bedruckt. Unten unterzeichnet: „Z.K.S.“",
+                  "LAUSCHT IHR? Die Frequenz, die euch trägt, wurde nicht gefunden. Sie wurde gebaut. Wer hat sie eingestellt? Wer dreht sie lauter, wenn ihr leiser werdet? Fragt nicht eure Leitstelle. Fragt euch selbst. — Z.K.S.",
               });
               api.setKnowledge("frequencyControl");
             },
@@ -974,7 +974,7 @@ export const dialogs: Record<string, DialogTree> = {
                 id: "flyer",
                 name: "Flugblatt",
                 description:
-                  "Ein gefaltetes Blatt, mit Maschinenschrift bedruckt. Unten unterzeichnet: „Z.K.S.“",
+                  "LAUSCHT IHR? Die Frequenz, die euch trägt, wurde nicht gefunden. Sie wurde gebaut. Wer hat sie eingestellt? Wer dreht sie lauter, wenn ihr leiser werdet? Fragt nicht eure Leitstelle. Fragt euch selbst. — Z.K.S.",
               });
               api.setKnowledge("frequencyControl");
             },
