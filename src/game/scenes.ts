@@ -597,6 +597,13 @@ export const scenes: Record<string, Scene> = {
         },
       },
     ],
+    screen: {
+      x: 62,
+      y: 46,
+      w: 15,
+      h: 14,
+      getLines: bodoScreenLines,
+    },
   },
 
   hallway: {
