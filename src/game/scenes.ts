@@ -2,6 +2,7 @@ import apartmentBg from "@/assets/scene-apartment.jpg";
 import hallwayBg from "@/assets/scene-hallway.jpg";
 import philippeBg from "@/assets/scene-philippe.jpg";
 import apt2613Bg from "@/assets/scene-apt-2613.jpg";
+import apt2615Bg from "@/assets/scene-apt-2615.jpg";
 import sectorBg from "@/assets/scene-sector-door.jpg";
 import e71LobbyBg from "@/assets/scene-e71-lobby.jpg";
 import corridor15Bg from "@/assets/scene-corridor-15.jpg";
@@ -248,6 +249,17 @@ export const scenes: Record<string, Scene> = {
         },
       },
       {
+        id: "goToNeighbor",
+        x: 30,
+        y: 25,
+        w: 30,
+        h: 45,
+        label: "Zur aufgebrochenen Tür (2615)",
+        requires: ["doorBrokenOpen"],
+        hiddenWhen: ["protocolReceived"],
+        onUse: (api) => api.goTo("apt2615"),
+      },
+      {
         id: "exit2613",
         x: 88,
         y: 70,
@@ -256,6 +268,84 @@ export const scenes: Record<string, Scene> = {
         label: "Zurück in den Korridor",
         requires: ["protocolReceived"],
         onUse: (api) => api.goTo("hallway"),
+      },
+    ],
+  },
+
+  // The neighbor's apartment, broken open by the paramedics.
+  // The catatonic man stands inside, knocking against the wall.
+  apt2615: {
+    id: "apt2615",
+    background: apt2615Bg,
+    title: "Wohnung 2615 — Aufgebrochen",
+    intro:
+      "Die Tür hängt schief in den Angeln. Splitter auf dem Beton. Drinnen: gleicher Grundriss, kahler. Eine Lampe flackert. Und in der Mitte: er.",
+    hotspots: [
+      {
+        id: "patient2615",
+        x: 42,
+        y: 30,
+        w: 18,
+        h: 55,
+        label: "Der Mann an der Wand",
+        hiddenWhen: ["sawCatatonic"],
+        onUse: (api) => {
+          api.setFlag("sawCatatonic");
+          api.showText([
+            "Ein Mann, ausgemergelt. Fahle Haut. Hochgezogene Brauen.",
+            "Er schlägt mit leblosem Gesicht rhythmisch gegen die Wand.",
+            "Layard nimmt seinen Mut zusammen und schaut ihm in die Augen.",
+            "Er erwartet tote, glasige Augen.",
+            "Stattdessen: grüne Augen. Eine seltsame Tiefe. Klarheit.",
+            "Wie ein Portal in ein mystisches Universum.",
+            "Layard wird das Bild nicht mehr loswerden.",
+          ]);
+        },
+      },
+      {
+        id: "paramedicsHotspot2615",
+        x: 65,
+        y: 40,
+        w: 22,
+        h: 50,
+        label: "Sanitäter ansprechen",
+        requires: ["sawCatatonic"],
+        hiddenWhen: ["protocolReceived"],
+        onUse: (api) => {
+          api.setFlag("protocolReceived");
+          api.addItem({
+            id: "protocol",
+            name: "Einsatzprotokoll (verschlüsselt)",
+            description:
+              "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
+          });
+          api.setKnowledge("responsibilityE67");
+          api.startDialog("paramedic");
+        },
+      },
+      {
+        id: "wallDetail2615",
+        x: 22,
+        y: 30,
+        w: 18,
+        h: 40,
+        label: "Die Wand",
+        requires: ["sawCatatonic"],
+        onUse: (api) =>
+          api.showText([
+            "Beton. Nichts dahinter, das man hören könnte.",
+            "Trotzdem schlägt er weiter. Der Rhythmus ist exakt.",
+            "Genau der Rhythmus von 104,6.",
+          ]),
+      },
+      {
+        id: "exitTo2613",
+        x: 5,
+        y: 35,
+        w: 12,
+        h: 50,
+        label: "Zurück nach 2613",
+        onUse: (api) => api.goTo("apt2613"),
       },
     ],
   },

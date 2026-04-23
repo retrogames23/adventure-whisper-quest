@@ -7,7 +7,8 @@ export type SceneId =
   | "e71Lobby"
   | "corridor15"
   | "room1534"
-  | "apt2613";
+  | "apt2613"
+  | "apt2615";
 
 export type InventoryItemId =
   | "protocol"
