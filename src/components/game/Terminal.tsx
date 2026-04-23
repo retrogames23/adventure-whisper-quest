@@ -1602,17 +1602,21 @@ export function Terminal() {
       if (!node || node.type !== "dir") {
         newLines.push({ text: "ls: aktuelles Verzeichnis ungültig.", kind: "out" });
       } else {
+        const hideHomeName = bodoMode ? "worag" : "bodo";
         newLines.push({ text: `Inhalt von ${pathString(cwd)}:`, kind: "system" });
         let kids = visibleChildren(node, showAll, (f) => flags.has(f));
-        // In Bodos Terminal: das Verzeichnis /home zeigt worag nicht — Bodo
-        // sieht (und kennt) sein eigenes Home, nicht das des Nachbarn.
-        if (bodoMode && pathString(cwd) === "/home") {
-          kids = kids.filter((c) => c.name !== "worag");
+        // /home zeigt jeweils nur das eigene Heimatverzeichnis — Sektor-
+        // Privatsphäre. Layard sieht bodo dort nicht, Bodo nicht worag.
+        if (pathString(cwd) === "/home") {
+          kids = kids.filter((c) => c.name !== hideHomeName);
         }
         newLines.push(...formatLs(kids));
       }
     } else if (head === "cd") {
       const target = args[0] ?? "";
+      const hideHomeName = bodoMode ? "worag" : "bodo";
+      const isHiddenHome = (parts: string[]) =>
+        parts.length >= 2 && parts[0] === "home" && parts[1] === hideHomeName;
       if (!target || target === "~") {
         setCwd([...homePath]);
       } else if (target === "/") {
@@ -1631,7 +1635,7 @@ export function Terminal() {
             continue;
           }
           const probe = resolvePath([...trial, seg]);
-          if (!probe || probe.type !== "dir") {
+          if (!probe || probe.type !== "dir" || isHiddenHome([...trial, seg])) {
             ok = false;
             break;
           }
@@ -1650,7 +1654,13 @@ export function Terminal() {
       } else {
         const segments = target.split("/").filter(Boolean);
         const base = target.startsWith("/") ? [] : [...cwd];
-        const node = resolvePath([...base, ...segments]);
+        const fullParts = [...base, ...segments];
+        const hideHomeName = bodoMode ? "worag" : "bodo";
+        const isHiddenHome =
+          fullParts.length >= 2 &&
+          fullParts[0] === "home" &&
+          fullParts[1] === hideHomeName;
+        const node = isHiddenHome ? null : resolvePath(fullParts);
         if (!node) {
           newLines.push({ text: `cat: ${target}: Datei nicht gefunden.`, kind: "out" });
         } else if (node.type === "dir") {
