@@ -1481,6 +1481,22 @@ export const dialogs: Record<string, DialogTree> = {
     },
   },
 
+  // Layard hat sich beim Erstgespräch (oder beim ersten Wiedersehen)
+  // klar systemtreu positioniert. Mira spricht ihn nur noch knapp an.
+  miraSystemicGreeting: {
+    id: "miraSystemicGreeting",
+    start: "msg1",
+    lines: {
+      msg1: {
+        id: "msg1",
+        speaker: "MIRA",
+        text: "Guten Tag, Bürger.",
+        subtext: "Sie sieht ihn nicht einmal an.",
+        end: true,
+      },
+    },
+  },
+
   // ---------------------------------------------------------------
   // Philippe — Sondierungs-Dialoge nach versiegelter Tür (2615).
   // Philippe versucht über mehrere Besuche herauszufinden, wer
