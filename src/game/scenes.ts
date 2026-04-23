@@ -1083,6 +1083,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 50,
         label: "Junge Frau an der Wand",
+        hiddenWhen: ["tookFlyer"],
         visible: (api) => api.getMiraFloor() === 3,
         onUse: (api) => {
           if (api.hasFlag("tookFlyer")) {
@@ -1134,6 +1135,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 50,
         label: "Junge Frau an der Wand",
+        hiddenWhen: ["tookFlyer"],
         visible: (api) => api.getMiraFloor() === 4,
         onUse: (api) => {
           if (api.hasFlag("tookFlyer")) {
@@ -1199,6 +1201,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 50,
         label: "Junge Frau an der Wand",
+        hiddenWhen: ["tookFlyer"],
         visible: (api) => api.getMiraFloor() === 5,
         onUse: (api) => {
           if (api.hasFlag("tookFlyer")) {
