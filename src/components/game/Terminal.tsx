@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
 import { playBeep, playKeypress, playUnlock } from "@/audio/sfx";
+import { FILESYSTEM, resolvePath, pathString, type FsNode } from "@/game/filesystem";
+import type { StoryFlag } from "@/game/types";
 
 interface Line {
   text: string;
@@ -15,6 +17,14 @@ const HELP_LINES: Line[] = [
   { text: "  read <id>     — Nachricht öffnen", kind: "out" },
   { text: "  status        — Systemstatus", kind: "out" },
   { text: "  unlock <code> — Sektor-Tür öffnen (8 Ziffern)", kind: "out" },
+  { text: "", kind: "out" },
+  { text: "DATEISYSTEM:", kind: "system" },
+  { text: "  pwd           — Aktuelles Verzeichnis", kind: "out" },
+  { text: "  ls [-a]       — Inhalt auflisten (-a: versteckte Dateien)", kind: "out" },
+  { text: "  cd <pfad>     — Verzeichnis wechseln (.. = aufwärts, / = root)", kind: "out" },
+  { text: "  cat <datei>   — Datei lesen", kind: "out" },
+  { text: "  tree          — Baumansicht ab aktuellem Pfad", kind: "out" },
+  { text: "", kind: "out" },
   { text: "  clear         — Bildschirm leeren", kind: "out" },
   { text: "  exit          — Terminal schließen", kind: "out" },
 ];
