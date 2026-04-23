@@ -438,14 +438,14 @@ export const dialogs: Record<string, DialogTree> = {
       },
       st6: {
         id: "st6",
-        speaker: "SYSTEM",
+        speaker: "STEGMANN",
         text: "Hier ist die technische Unterstützung des Zentralen Netzes, Stegmann am Apparat. Ihre Ausgangsmeldung ist hier eingegangen — naja, der Versuch. Error 4567, ich weiß. Was brauchen Sie?",
         requires: ["reportedExit"],
         next: "st6b",
       },
       st6b: {
         id: "st6b",
-        speaker: "SYSTEM",
+        speaker: "STEGMANN",
         text: "Hier ist die technische Unterstützung des Zentralen Netzes, Stegmann am Apparat. — Sie haben den Ausgang nicht gemeldet. Standardprotokoll, Herr Worag. Beim nächsten Mal bitte zuerst melden. Was brauchen Sie?",
         hiddenWhen: ["reportedExit"],
         next: "st7",
@@ -458,13 +458,13 @@ export const dialogs: Record<string, DialogTree> = {
       },
       st8: {
         id: "st8",
-        speaker: "SYSTEM",
+        speaker: "STEGMANN",
         text: "Verstanden. Bitte tippen Sie im Terminal: »sysupdate«. Damit wird CentralOS über das lokale E67-Netz aktualisiert.",
         next: "st9",
       },
       st9: {
         id: "st9",
-        speaker: "SYSTEM",
+        speaker: "STEGMANN",
         text: "Danach tippen Sie: »trouble net«. Die automatische Problemermittlung leitet Ihren Fehler an die Gateway-Verantwortlichen weiter. Details schicke ich Ihnen ins Terminal-Postfach.",
         next: "st10",
       },
