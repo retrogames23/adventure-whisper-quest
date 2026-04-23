@@ -1,9 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * ElevenLabs Text-to-Speech proxy.
  * Receives { voiceId, text } and returns the MP3 bytes.
  * Keeps ELEVENLABS_API_KEY server-side.
+ *
+ * Requires a valid Supabase Bearer token in the Authorization header
+ * to prevent unauthenticated callers from draining the ElevenLabs quota.
  */
 export const Route = createFileRoute("/api/tts")({
   server: {
@@ -14,6 +18,41 @@ export const Route = createFileRoute("/api/tts")({
           return new Response(
             JSON.stringify({ error: "ELEVENLABS_API_KEY not configured" }),
             { status: 500, headers: { "Content-Type": "application/json" } },
+          );
+        }
+
+        // ── Authentication ───────────────────────────────────────────
+        const SUPABASE_URL = process.env.SUPABASE_URL;
+        const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+        if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+          return new Response(
+            JSON.stringify({ error: "Server auth misconfigured" }),
+            { status: 500, headers: { "Content-Type": "application/json" } },
+          );
+        }
+        const authHeader = request.headers.get("authorization") ?? "";
+        if (!authHeader.startsWith("Bearer ")) {
+          return new Response(
+            JSON.stringify({ error: "Authentication required" }),
+            { status: 401, headers: { "Content-Type": "application/json" } },
+          );
+        }
+        const token = authHeader.slice("Bearer ".length).trim();
+        if (!token) {
+          return new Response(
+            JSON.stringify({ error: "Authentication required" }),
+            { status: 401, headers: { "Content-Type": "application/json" } },
+          );
+        }
+        const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+          auth: { persistSession: false, autoRefreshToken: false },
+        });
+        const { data: claimsData, error: claimsError } =
+          await supabase.auth.getClaims(token);
+        if (claimsError || !claimsData?.claims?.sub) {
+          return new Response(
+            JSON.stringify({ error: "Invalid or expired session" }),
+            { status: 401, headers: { "Content-Type": "application/json" } },
           );
         }
 
@@ -70,9 +109,16 @@ export const Route = createFileRoute("/api/tts")({
 
         if (!elResp.ok) {
           const errText = await elResp.text();
+          // Log details server-side only; never forward upstream provider
+          // internals (rate-limit info, plan tier, model errors) to clients.
           console.error("ElevenLabs TTS failed", elResp.status, errText);
+          let userMessage = "TTS service temporarily unavailable";
+          if (elResp.status === 429) userMessage = "Rate limit exceeded, please try again later";
+          else if (elResp.status === 400) userMessage = "Invalid TTS request";
+          else if (elResp.status === 401 || elResp.status === 403)
+            userMessage = "TTS service authentication failed";
           return new Response(
-            JSON.stringify({ error: `ElevenLabs ${elResp.status}`, detail: errText.slice(0, 500) }),
+            JSON.stringify({ error: userMessage }),
             { status: 502, headers: { "Content-Type": "application/json" } },
           );
         }
