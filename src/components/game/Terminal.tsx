@@ -1641,7 +1641,7 @@ export function Terminal() {
           newLines.push({ text: `cat: ${target}: Zugriff verweigert.`, kind: "out" });
         } else {
           newLines.push({ text: `── ${node.name} ───────────────────────`, kind: "system" });
-          const updated = flags.has("centralOsUpdated");
+          const updated = flags.has("centralOsUpdated") && !bodoMode;
           newLines.push(
             ...node.content.map(
               (t) => ({ text: applyOsVersion(t, updated), kind: "out" } as Line),
@@ -1805,7 +1805,8 @@ export function Terminal() {
       <div className="fade-in relative w-full max-w-4xl overflow-hidden rounded-sm border border-phosphor/50 bg-black shadow-[0_0_60px_rgba(0,0,0,0.85)] scanlines">
         <div className="flex items-center justify-between border-b border-phosphor/30 bg-black px-4 py-2">
           <span className="font-mono-crt text-base uppercase tracking-[0.3em] text-phosphor phosphor-glow">
-            CentralOS v{osVersion(flags.has("centralOsUpdated"))}
+            CentralOS v{osVersion(flags.has("centralOsUpdated"), bodoMode)}
+            {bodoMode ? " — 2612" : ""}
           </span>
           <CloseButton
             onClick={closeTerminal}
@@ -1841,7 +1842,7 @@ export function Terminal() {
           <span className="font-mono-crt text-sm text-phosphor phosphor-glow">
             {advState
               ? "adventure>"
-              : `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`}
+              : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
           </span>
           <input
             ref={inputRef}
@@ -1928,7 +1929,7 @@ export function Terminal() {
                   const host = findHost(telnetHost);
                   echoPrompt = `${host?.host ?? telnetHost}:~$`;
                 } else {
-                  echoPrompt = `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`;
+                  echoPrompt = `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`;
                 }
                 setLines((p) => [
                   ...p,
