@@ -18,6 +18,24 @@ interface Line {
   kind?: "in" | "out" | "system";
 }
 
+/** Aktuelle CentralOS-Versionsbezeichnung, abhängig vom Update-Flag. */
+function osVersion(updated: boolean): string {
+  return updated ? "2.3.1" : "2.3";
+}
+
+/**
+ * Ersetzt statische Versions-Strings in Datei-/Banner-Texten durch die
+ * aktuell installierte CentralOS-Version. Greift nur, wenn das Update
+ * eingespielt wurde — vorher bleiben die Originaltexte unverändert.
+ */
+function applyOsVersion(text: string, updated: boolean): string {
+  if (!updated) return text;
+  // Reihenfolge wichtig: erst die längere Form ersetzen.
+  return text
+    .replace(/CentralOS v2\.3(?!\.\d)/g, "CentralOS v2.3.1")
+    .replace(/CENTRALOS v2\.3(?!\.\d)/g, "CENTRALOS v2.3.1");
+}
+
 /** Filter children by visibility (hidden files only with -a, locked files only when flag is set). */
 function visibleChildren(
   node: FsNode,
