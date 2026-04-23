@@ -408,6 +408,79 @@ export function Terminal() {
       return;
     }
 
+    // ── Sub-Modus: Telnet wartet auf Passwort ─────────────
+    if (telnetAwaitPass) {
+      const host = findHost(telnetAwaitPass);
+      const echo: Line = { text: `Password: ${"*".repeat(input.length)}`, kind: "in" };
+      const out: Line[] = [];
+      if (host && host.password && raw === host.password) {
+        playUnlock(0.5 * sfxVolume);
+        out.push({ text: ">> Authentifizierung erfolgreich.", kind: "system" });
+        if (host.motd) {
+          out.push(...host.motd.map((t) => ({ text: t, kind: "out" } as Line)));
+        }
+        setTelnetHost(telnetAwaitPass);
+        setTelnetAwaitPass(null);
+        // Easter-Egg: Philippe-Login als Flag merken (für späteren Story-Hook).
+        if (host.host === "philippe.e67") {
+          api.setFlag("hackedPhilippe");
+        }
+      } else {
+        playBeep(0.3 * sfxVolume);
+        out.push({ text: ">> FEHLER: Passwort abgelehnt. Verbindung getrennt.", kind: "out" });
+        setTelnetAwaitPass(null);
+      }
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      setInput("");
+      return;
+    }
+
+    // ── Sub-Modus: aktive Telnet-Sitzung ──────────────────
+    if (telnetHost) {
+      const host = findHost(telnetHost);
+      const echo: Line = {
+        text: `${host?.host ?? telnetHost}:~$ ${input}`,
+        kind: "in",
+      };
+      const out: Line[] = [];
+      const tHead = argsRaw[0]?.toLowerCase() ?? "";
+      const tArgs = argsRaw.slice(1);
+      if (tHead === "exit" || tHead === "logout" || tHead === "quit") {
+        out.push({ text: ">> Verbindung geschlossen.", kind: "system" });
+        setTelnetHost(null);
+      } else if (tHead === "ls" || tHead === "dir") {
+        const files = host?.files ?? {};
+        const names = Object.keys(files);
+        if (!names.length) out.push({ text: "  (leer)", kind: "out" });
+        else out.push(...names.map((n) => ({ text: `  ${n}`, kind: "out" } as Line)));
+      } else if (tHead === "cat" || tHead === "more" || tHead === "type") {
+        const fname = tArgs[0];
+        const files = host?.files ?? {};
+        if (!fname) out.push({ text: "cat: Dateiname fehlt.", kind: "out" });
+        else if (!files[fname]) out.push({ text: `cat: ${fname}: nicht gefunden.`, kind: "out" });
+        else {
+          out.push({ text: `── ${fname} ───────────────`, kind: "system" });
+          out.push(...files[fname].map((t) => ({ text: t, kind: "out" } as Line)));
+          out.push({ text: "── EOF ───────────────────", kind: "system" });
+        }
+      } else if (tHead === "whoami") {
+        out.push({ text: host?.host.split(".")[0] ?? "guest", kind: "out" });
+      } else if (tHead === "help" || tHead === "?") {
+        out.push(
+          { text: "Verfügbar: ls, cat <datei>, whoami, exit", kind: "out" },
+        );
+      } else {
+        out.push({ text: `${tHead}: Befehl in Sitzung nicht verfügbar.`, kind: "out" });
+      }
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      const h = termHistoryRef.current;
+      if (h[h.length - 1] !== raw) h.push(raw);
+      historyCursorRef.current = -1;
+      draftRef.current = "";
+      setInput("");
+      return;
+    }
+
     const cmd = raw.toLowerCase();
     const argsRaw = raw.split(/\s+/);
     const head = argsRaw[0]?.toLowerCase() ?? "";
