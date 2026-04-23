@@ -1,14 +1,47 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createClient } from "@supabase/supabase-js";
 
 /**
  * ElevenLabs Text-to-Speech proxy.
  * Receives { voiceId, text } and returns the MP3 bytes.
  * Keeps ELEVENLABS_API_KEY server-side.
  *
- * Requires a valid Supabase Bearer token in the Authorization header
- * to prevent unauthenticated callers from draining the ElevenLabs quota.
+ * The game is playable without login, so this endpoint is public.
+ * Abuse is mitigated by:
+ *   - Same-origin check (rejects requests from foreign sites)
+ *   - Strict input validation (voiceId allowlist, text length cap)
+ *   - In-memory per-IP rate limit
+ *   - Long-lived response cache (lines are reused across players)
  */
+
+// Allowlist of voice IDs we actually use (from src/audio/speech.ts).
+const ALLOWED_VOICE_IDS = new Set([
+  "onwK4e9ZLuTAKqWW03F9",
+  "EXAVITQu4vr4xnSDxMaL",
+  "nPczCjzI2devNBz1zQrb",
+  "IKne3meq5aSn9XLyUdCD",
+  "bIHbv24MWmeRgasZH58o",
+  "XrExE9yKIg1WjnnlVkGX",
+  "CwhRBWXzGAHq8TQ4Fs17",
+  "Xb7hH8MSUJpSbSDYk0k2",
+  "XB0fDUnXU5powFXDhCwa",
+]);
+
+// Naive in-memory rate limiter (per worker instance).
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 60; // 60 lines/minute/IP — well above normal play
+const ipHits = new Map<string, number[]>();
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const arr = (ipHits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (arr.length >= RATE_MAX) {
+    ipHits.set(ip, arr);
+    return true;
+  }
+  arr.push(now);
+  ipHits.set(ip, arr);
+  return false;
+}
+
 export const Route = createFileRoute("/api/tts")({
   server: {
     handlers: {
@@ -21,38 +54,35 @@ export const Route = createFileRoute("/api/tts")({
           );
         }
 
-        // ── Authentication ───────────────────────────────────────────
-        const SUPABASE_URL = process.env.SUPABASE_URL;
-        const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
-        if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-          return new Response(
-            JSON.stringify({ error: "Server auth misconfigured" }),
-            { status: 500, headers: { "Content-Type": "application/json" } },
-          );
+        // ── Same-origin guard: reject obvious cross-origin abuse ─────
+        const origin = request.headers.get("origin");
+        const host = request.headers.get("host");
+        if (origin && host) {
+          try {
+            const originHost = new URL(origin).host;
+            if (originHost !== host) {
+              return new Response(JSON.stringify({ error: "Forbidden" }), {
+                status: 403,
+                headers: { "Content-Type": "application/json" },
+              });
+            }
+          } catch {
+            return new Response(JSON.stringify({ error: "Forbidden" }), {
+              status: 403,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
         }
-        const authHeader = request.headers.get("authorization") ?? "";
-        if (!authHeader.startsWith("Bearer ")) {
+
+        // ── Per-IP rate limit ───────────────────────────────────────
+        const ip =
+          request.headers.get("cf-connecting-ip") ??
+          request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+          "unknown";
+        if (rateLimited(ip)) {
           return new Response(
-            JSON.stringify({ error: "Authentication required" }),
-            { status: 401, headers: { "Content-Type": "application/json" } },
-          );
-        }
-        const token = authHeader.slice("Bearer ".length).trim();
-        if (!token) {
-          return new Response(
-            JSON.stringify({ error: "Authentication required" }),
-            { status: 401, headers: { "Content-Type": "application/json" } },
-          );
-        }
-        const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-          auth: { persistSession: false, autoRefreshToken: false },
-        });
-        const { data: claimsData, error: claimsError } =
-          await supabase.auth.getClaims(token);
-        if (claimsError || !claimsData?.claims?.sub) {
-          return new Response(
-            JSON.stringify({ error: "Invalid or expired session" }),
-            { status: 401, headers: { "Content-Type": "application/json" } },
+            JSON.stringify({ error: "Rate limit exceeded" }),
+            { status: 429, headers: { "Content-Type": "application/json" } },
           );
         }
 
@@ -68,7 +98,7 @@ export const Route = createFileRoute("/api/tts")({
 
         const voiceId = body.voiceId;
         const text = body.text;
-        if (!voiceId || typeof voiceId !== "string" || voiceId.length > 64) {
+        if (!voiceId || typeof voiceId !== "string" || !ALLOWED_VOICE_IDS.has(voiceId)) {
           return new Response(JSON.stringify({ error: "Invalid voiceId" }), {
             status: 400,
             headers: { "Content-Type": "application/json" },
