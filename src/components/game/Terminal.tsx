@@ -525,7 +525,13 @@ export function Terminal() {
       const host = findHost(telnetAwaitPass);
       const echo: Line = { text: `Password: ${"*".repeat(input.length)}`, kind: "in" };
       const out: Line[] = [];
-      if (host && host.password && raw === host.password) {
+      const passOk =
+        host && host.password
+          ? host.passwordCaseInsensitive
+            ? raw.toLowerCase() === host.password.toLowerCase()
+            : raw === host.password
+          : false;
+      if (passOk && host) {
         playUnlock(0.5 * sfxVolume);
         out.push({ text: ">> Authentifizierung erfolgreich.", kind: "system" });
         if (host.motd) {
@@ -550,6 +556,10 @@ export function Terminal() {
     // ── Sub-Modus: aktive Telnet-Sitzung ──────────────────
     if (telnetHost) {
       const host = findHost(telnetHost);
+      const hostFiles: Record<string, string[]> = {
+        ...(host?.files ?? {}),
+        ...(host?.dynamicFiles?.((f) => flags.has(f)) ?? {}),
+      };
       const tTokens = raw.split(/\s+/);
       const echo: Line = {
         text: `${host?.host ?? telnetHost}:~$ ${input}`,
@@ -562,13 +572,12 @@ export function Terminal() {
         out.push({ text: ">> Verbindung geschlossen.", kind: "system" });
         setTelnetHost(null);
       } else if (tHead === "ls" || tHead === "dir") {
-        const files = host?.files ?? {};
-        const names = Object.keys(files);
+        const names = Object.keys(hostFiles).sort();
         if (!names.length) out.push({ text: "  (leer)", kind: "out" });
         else out.push(...names.map((n) => ({ text: `  ${n}`, kind: "out" } as Line)));
       } else if (tHead === "cat" || tHead === "more" || tHead === "type") {
         const fname = tArgs[0];
-        const files = host?.files ?? {};
+        const files = hostFiles;
         if (!fname) out.push({ text: "cat: Dateiname fehlt.", kind: "out" });
         else if (!files[fname]) out.push({ text: `cat: ${fname}: nicht gefunden.`, kind: "out" });
         else {
