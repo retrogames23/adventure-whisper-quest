@@ -214,7 +214,7 @@ export interface GameApi {
   hasItem: (id: InventoryItemId) => boolean;
   showText: (lines: string[]) => void;
   startDialog: (id: string) => void;
-  openTerminal: () => void;
+  openTerminal: (asBodo?: boolean) => void;
   openRadio: () => void;
   openKeypad: () => void;
   isRadioActive: () => boolean;

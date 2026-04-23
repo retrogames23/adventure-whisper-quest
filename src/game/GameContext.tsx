@@ -98,6 +98,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [dialogLineId, setDialogLineId] = useState<string | null>(null);
   const [radioOpen, setRadioOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
+  const [terminalBodoMode, setTerminalBodoMode] = useState(false);
   const [keypadOpen, setKeypadOpen] = useState(false);
   const [radioActive, setRadioActive] = useState(false);
   const [resonance, setResonance] = useState(0);
@@ -202,8 +203,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setDialogId(id);
         setDialogLineId(tree.start);
       },
-      openTerminal: () => {
+      openTerminal: (asBodo?: boolean) => {
         setRadioOpen(false);
+        setTerminalBodoMode(!!asBodo);
         setTerminalOpen(true);
       },
       openRadio: () => {

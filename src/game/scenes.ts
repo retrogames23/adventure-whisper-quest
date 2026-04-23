@@ -533,7 +533,7 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) => {
           if (api.hasFlag("bodoLeftForB3") && !api.hasFlag("bodoBackAfterB3")) {
             // Bodo ist weg → freier Zugang, eingeloggt als bodo.
-            api.openTerminal();
+            api.openTerminal(true);
           } else if (api.hasFlag("metBodo") && !api.hasFlag("knowsLotti")) {
             api.showText([
               "Bodo schüttelt langsam den Kopf.",
