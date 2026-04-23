@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useGame, type SaveSummary } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
 import { stopSpeech } from "@/audio/speech";
+import { useAuth } from "@/auth/AuthContext";
+import { AuthDialog } from "@/auth/AuthDialog";
 
 interface Props {
   open: boolean;
@@ -33,12 +35,22 @@ function formatDate(iso: string) {
 export function PauseMenu({ open, onClose }: Props) {
   const { saveGame, loadGame, listSaves, deleteSave } = useGame();
   const settings = useSettings();
+  const { user, signOut } = useAuth();
   const [slots, setSlots] = useState<Array<SaveSummary | null>>([]);
   const [notice, setNotice] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [busySlot, setBusySlot] = useState<number | null>(null);
 
   useEffect(() => {
-    if (open) setSlots(listSaves());
-  }, [open, listSaves]);
+    if (!open) return;
+    let cancelled = false;
+    listSaves().then((s) => {
+      if (!cancelled) setSlots(s);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, listSaves, user]);
 
   useEffect(() => {
     if (!open) return;
