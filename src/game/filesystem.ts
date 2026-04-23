@@ -219,6 +219,7 @@ const HOME_WORAG: FsDir = {
           kind: "text",
           size: 540,
           date: "—",
+          requires: "metPhilippe",
           content: [
             "# Philippe",
             "",
