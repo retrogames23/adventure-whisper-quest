@@ -79,6 +79,8 @@ const COMMANDS = [
   "tree",
   "adventure",
   "./adventure.bin",
+  "net",
+  "telnet",
 ];
 
 /** Longest common string prefix across all candidates. */
@@ -176,6 +178,10 @@ const HELP_LINES: Line[] = [
   { text: "  cd <pfad>     — Verzeichnis wechseln (.. = aufwärts, / = root)", kind: "out" },
   { text: "  cat <datei>   — Datei lesen", kind: "out" },
   { text: "  tree          — Baumansicht ab aktuellem Pfad", kind: "out" },
+  { text: "", kind: "out" },
+  { text: "NETZWERK:", kind: "system" },
+  { text: "  net           — Bekannte Hosts im Sektornetz auflisten", kind: "out" },
+  { text: "  telnet <host> — Verbindungsversuch zu einem Host", kind: "out" },
   { text: "", kind: "out" },
   { text: "PROGRAMME:", kind: "system" },
   { text: "  adventure     — »Ein Tag draußen« (Worags Textadventure)", kind: "out" },
