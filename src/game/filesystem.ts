@@ -495,9 +495,9 @@ export function resolvePath(parts: string[]): FsNode | null {
   let node: FsNode = FILESYSTEM;
   for (const p of parts) {
     if (node.type !== "dir") return null;
-    const next = node.children.find((c) => c.name === p);
-    if (!next) return null;
-    node = next;
+    const child: FsNode | undefined = node.children.find((c) => c.name === p);
+    if (!child) return null;
+    node = child;
   }
   return node;
 }
