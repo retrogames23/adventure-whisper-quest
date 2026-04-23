@@ -928,9 +928,11 @@ export function Terminal() {
           <button
             type="button"
             onClick={closeTerminal}
-            className="text-xs uppercase tracking-widest text-phosphor/70 hover:text-phosphor"
+            aria-label="Terminal schließen"
+            className="flex items-center gap-2 rounded-sm border border-phosphor/50 bg-black/60 px-2 py-1 text-xs uppercase tracking-widest text-phosphor transition hover:bg-phosphor/15 hover:text-phosphor"
           >
-            ✕ Sitzung schließen
+            <span className="flex h-5 w-5 items-center justify-center">✕</span>
+            <span>Sitzung schließen</span>
           </button>
         </div>
 

@@ -1,12 +1,61 @@
+import { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
+import titleTrack from "@/assets/almost-freedom.mp3";
+
 interface Props {
   onStart: () => void;
 }
 
 export function TitleScreen({ onStart }: Props) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [musicOn, setMusicOn] = useState(false);
+
+  useEffect(() => {
+    const a = new Audio(titleTrack);
+    a.loop = true;
+    a.volume = 0.45;
+    audioRef.current = a;
+    return () => {
+      a.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (musicOn) {
+      a.pause();
+      setMusicOn(false);
+    } else {
+      void a.play().then(() => setMusicOn(true)).catch(() => setMusicOn(false));
+    }
+  };
+
+  const handleStart = () => {
+    // Stop title music before entering the game (game has its own playlist).
+    const a = audioRef.current;
+    if (a) {
+      a.pause();
+      a.currentTime = 0;
+    }
+    onStart();
+  };
+
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-bureaucracy px-6 text-center">
       <div className="scanlines absolute inset-0 opacity-60" />
       <div className="amber-vignette opacity-30" />
+
+      <button
+        type="button"
+        onClick={toggleMusic}
+        aria-label={musicOn ? "Musik ausschalten" : "Musik einschalten"}
+        className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-sm border border-amber-glow/50 bg-background/70 px-3 py-2 font-mono-crt text-xs uppercase tracking-widest text-amber-glow transition hover:bg-amber-glow/15"
+      >
+        {musicOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+        <span>{musicOn ? "Musik AN" : "Musik AUS"}</span>
+      </button>
 
       <div className="relative z-10 max-w-3xl">
         <p className="font-mono-crt text-xs uppercase tracking-[0.5em] text-muted-foreground">
@@ -29,7 +78,7 @@ export function TitleScreen({ onStart }: Props) {
 
         <button
           type="button"
-          onClick={onStart}
+          onClick={handleStart}
           className="mt-10 rounded-sm border border-amber-glow/60 bg-background/40 px-8 py-3 font-display text-base uppercase tracking-[0.4em] text-amber-glow transition hover:bg-amber-glow/10 amber-glow"
         >
           ▸ Spiel beginnen
