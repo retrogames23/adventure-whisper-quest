@@ -46,30 +46,42 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
   };
 }
 
-function pickVoice(profile: VoiceProfile): SpeechSynthesisVoice | null {
-  const voices = getVoices();
-  if (!voices.length) return null;
-  const german = voices.filter((v) => v.lang.toLowerCase().startsWith("de"));
-  const pool = german.length ? german : voices;
+// Voice-name heuristics (covers macOS, Windows, Chrome, Edge German voices).
+const FEMALE_HINTS = [
+  "female", "frau", "anna", "petra", "katja", "marlene", "vicki", "hedda",
+  "helga", "steffi", "claudia", "eva", "google deutsch", // Google's "Deutsch" voice is typically female
+];
+const MALE_HINTS = [
+  "male", "mann", "herr", "stefan", "markus", "yannick", "conrad",
+  "michael", "thomas", "klaus", "hans",
+];
 
-  // Heuristic: name contains "male"/"female", or known German voice names
-  const femaleHints = ["female", "anna", "petra", "katja", "marlene", "vicki", "hedda"];
-  const maleHints = ["male", "stefan", "markus", "yannick", "conrad", "google deutsch"];
-
-  for (const want of profile.prefer) {
-    if (want === "any") return pool[0];
-    const hints = want === "female" ? femaleHints : maleHints;
-    const found = pool.find((v) => {
-      const n = v.name.toLowerCase();
-      return hints.some((h) => n.includes(h));
-    });
-    if (found) return found;
-  }
-  // Stable pseudo-assignment by speaker — different speakers get different voices
-  return pool[0];
+function classifyVoice(v: SpeechSynthesisVoice): "male" | "female" | "unknown" {
+  const n = v.name.toLowerCase();
+  if (FEMALE_HINTS.some((h) => n.includes(h))) return "female";
+  if (MALE_HINTS.some((h) => n.includes(h))) return "male";
+  return "unknown";
 }
 
-/** Stable voice assignment: cycle through pool so each speaker has a unique voice when possible. */
+function getPools(): {
+  male: SpeechSynthesisVoice[];
+  female: SpeechSynthesisVoice[];
+  any: SpeechSynthesisVoice[];
+} {
+  const voices = getVoices();
+  const german = voices.filter((v) => v.lang.toLowerCase().startsWith("de"));
+  const base = german.length ? german : voices;
+  const male: SpeechSynthesisVoice[] = [];
+  const female: SpeechSynthesisVoice[] = [];
+  for (const v of base) {
+    const g = classifyVoice(v);
+    if (g === "male") male.push(v);
+    else if (g === "female") female.push(v);
+  }
+  return { male, female, any: base };
+}
+
+/** Stable voice assignment per speaker. Guarantees gender match when possible. */
 const speakerVoiceCache = new Map<Speaker, SpeechSynthesisVoice>();
 
 function voiceFor(speaker: Speaker): SpeechSynthesisVoice | null {
@@ -78,20 +90,25 @@ function voiceFor(speaker: Speaker): SpeechSynthesisVoice | null {
   const voices = getVoices();
   if (!voices.length) return null;
 
-  const german = voices.filter((v) => v.lang.toLowerCase().startsWith("de"));
-  const pool = german.length ? german : voices;
-
-  // First pass: hint-based pick
   const profile = PROFILES[speaker];
-  const hinted = pickVoice(profile);
+  const pools = getPools();
 
-  // Avoid clashes: if another speaker already uses `hinted`, try a different one
-  const used = new Set(Array.from(speakerVoiceCache.values()).map((v) => v.name));
-  let chosen = hinted;
-  if (chosen && used.has(chosen.name)) {
-    const alternative = pool.find((v) => !used.has(v.name));
-    if (alternative) chosen = alternative;
+  // Determine which pool to draw from based on REQUIRED gender.
+  let primary: SpeechSynthesisVoice[];
+  if (profile.gender === "female") {
+    // Prefer classified-female; if none, fall back to any voice NOT already used as male.
+    primary = pools.female.length ? pools.female : pools.any;
+  } else if (profile.gender === "male") {
+    primary = pools.male.length ? pools.male : pools.any;
+  } else {
+    primary = pools.any;
   }
+
+  // Avoid clashes within the same gender pool: pick first unused.
+  const used = new Set(Array.from(speakerVoiceCache.values()).map((v) => v.name));
+  const unused = primary.find((v) => !used.has(v.name));
+  const chosen = unused ?? primary[0] ?? null;
+
   if (chosen) speakerVoiceCache.set(speaker, chosen);
   return chosen;
 }
