@@ -6,7 +6,8 @@ export type SceneId =
   | "elevatorEnd"
   | "e71Lobby"
   | "corridor15"
-  | "room1534";
+  | "room1534"
+  | "apt2613";
 
 export type InventoryItemId =
   | "protocol"
@@ -30,10 +31,22 @@ export type StoryFlag =
   | "radioTunedTo1046"
   | "doorbellRang"
   | "metPhilippe"
+  | "enteredApt2613"
+  | "knockingHeard"
   | "calledLeitstelle"
+  | "smalltalkPhilippe"
+  | "paramedicsArrived"
+  | "doorBrokenOpen"
+  | "sawCatatonic"
   | "protocolReceived"
+  | "readProtocol"
+  | "calledInsa2"
+  | "calledStegmann"
+  | "centralOsUpdated"
+  | "gatewayReported"
   | "calledForCode"
   | "sectorDoorOpen"
+  | "feetWontMove"
   | "elevatorTaken"
   | "enteredE71"
   | "metReceptionist"
