@@ -150,6 +150,13 @@ export const scenes: Record<string, Scene> = {
         },
       },
     ],
+    screen: {
+      x: 7,
+      y: 45,
+      w: 16,
+      h: 14,
+      getLines: layardScreenLines,
+    },
   },
 
   // Philippe's own apartment (2613). Akt 1: das Klopfen aus der
