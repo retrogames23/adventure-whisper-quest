@@ -531,7 +531,7 @@ export const dialogs: Record<string, DialogTree> = {
       pe2: {
         id: "pe2",
         speaker: "LAYARD",
-        text: "Es geht weiter. Ich habe noch ein Protokoll abzugeben. Hier im Block, irgendwo unten.",
+        text: "Es geht weiter. Ich muss noch runter. Hier im Block gibt es noch etwas zu erledigen.",
         next: "pe3",
       },
       pe3: {
