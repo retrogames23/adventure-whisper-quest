@@ -121,6 +121,8 @@ export interface DialogTree {
   id: string;
   start: string;
   lines: Record<string, DialogLine>;
+  /** Optional callback fired exactly once when the dialog tree closes. */
+  onEnd?: (api: GameApi) => void;
 }
 
 export interface GameApi {
