@@ -993,8 +993,32 @@ export function Terminal() {
 
   if (!terminalOpen) return null;
 
+  // Spielt eine scriptgesteuerte Sequenz ab: hängt Zeilen mit gestaffelten
+  // Verzögerungen an, deaktiviert die Eingabe und ruft am Ende `done` auf.
+  const runScriptedSequence = (
+    steps: { text: string; delayMs: number; kind?: Line["kind"]; beep?: boolean }[],
+    done?: () => void,
+  ) => {
+    setScriptedRunning(true);
+    let acc = 0;
+    for (const step of steps) {
+      acc += Math.max(0, step.delayMs);
+      setTimeout(() => {
+        if (step.beep) playBeep(0.25 * sfxVolume);
+        setLines((prev) => [...prev, { text: step.text, kind: step.kind ?? "out" }]);
+      }, acc);
+    }
+    setTimeout(() => {
+      setLines((prev) => [...prev, { text: "", kind: "out" }]);
+      setScriptedRunning(false);
+      done?.();
+      setTimeout(() => inputRef.current?.focus(), 30);
+    }, acc + 60);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (scriptedRunning) return;
     const raw = input.trim();
     if (!raw) return;
 
