@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
 import { playBeep, playKeypress, playUnlock } from "@/audio/sfx";
-import { FILESYSTEM, resolvePath, pathString, type FsNode } from "@/game/filesystem";
+import { FILESYSTEM, HOME_PATH, resolvePath, pathString, type FsNode } from "@/game/filesystem";
 import type { StoryFlag } from "@/game/types";
 import {
   adventureCommand,
@@ -198,7 +198,7 @@ export function Terminal() {
   const { sfxVolume } = useSettings();
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
-  const [cwd, setCwd] = useState<string[]>([]);
+  const [cwd, setCwd] = useState<string[]>([...HOME_PATH]);
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -213,6 +213,7 @@ export function Terminal() {
 
   useEffect(() => {
     if (terminalOpen) {
+      setCwd([...HOME_PATH]);
       setLines([
         { text: ">> CENTRALOS v2.3 — Terminal Quadrant E67", kind: "system" },
         { text: ">> Benutzer: WORAG, L. (Zimmer 2611)", kind: "system" },
@@ -264,7 +265,7 @@ export function Terminal() {
     const head = argsRaw[0]?.toLowerCase() ?? "";
     const args = argsRaw.slice(1);
     playBeep(0.4 * sfxVolume);
-    const promptPath = pathString(cwd).replace("/home/worag", "~");
+    const promptPath = pathString(cwd).replace("/home/worag", "~") || "/";
     const newLines: Line[] = [{ text: `worag@e67:${promptPath}$ ${input}`, kind: "in" }];
 
     if (cmd === "help") {
@@ -377,7 +378,9 @@ export function Terminal() {
       }
     } else if (head === "cd") {
       const target = args[0] ?? "";
-      if (!target || target === "~" || target === "/") {
+      if (!target || target === "~") {
+        setCwd([...HOME_PATH]);
+      } else if (target === "/") {
         setCwd([]);
       } else if (target === "..") {
         setCwd((p) => p.slice(0, -1));
