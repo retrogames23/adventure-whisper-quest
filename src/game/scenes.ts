@@ -133,14 +133,16 @@ export const scenes: Record<string, Scene> = {
     ],
   },
 
-  // The stranger's apartment, where the knocking comes from.
-  // Philippe is in here together with Layard until the sanitarians arrive.
+  // Philippe's own apartment (2613). Akt 1: das Klopfen aus der
+  // Nachbarwohnung 2615 ist hier hörbar; Philippe steht daneben.
+  // Nach den Sanitätern bleibt 2613 bewohnt — Layard kann jederzeit
+  // zurückkommen und mit Philippe verschiedene Dialoge führen.
   apt2613: {
     id: "apt2613",
     background: apt2613Bg,
-    title: "Wohnung 2613 — Unbekannter Bewohner",
+    title: "Wohnung 2613 — Philippe",
     intro:
-      "Die Tür ist nur angelehnt. Drinnen: derselbe Grundriss wie bei Layard. Charakterlos. Und das Klopfen — regelmäßig, durch die Wand.",
+      "Philippes Wohnung. Derselbe Grundriss wie bei Layard, etwas wärmer. Es riecht nach echtem Kaffee. An der Wand zur Nachbarwohnung 2615 ist das regelmäßige Klopfen zu hören.",
     hotspots: [
       {
         id: "philippeNpc",
@@ -160,13 +162,48 @@ export const scenes: Record<string, Scene> = {
           }
         },
       },
+      // Nach den Sanitätern: Philippe bleibt in seiner Wohnung 2613.
+      // Verschiedene Dialoge je nach Stand der Geschichte.
+      {
+        id: "philippeAfterNpc",
+        x: 55,
+        y: 25,
+        w: 35,
+        h: 65,
+        label: "Philippe",
+        requires: ["paramedicsArrived"],
+        onUse: (api) => {
+          if (api.hasFlag("ending")) {
+            api.startDialog("philippeSmalltalk");
+          } else if (!api.hasFlag("talkedPhilippeAfter")) {
+            api.setFlag("talkedPhilippeAfter");
+            api.startDialog("philippeAfter");
+          } else {
+            api.startDialog("philippeSmalltalk");
+          }
+        },
+      },
+      {
+        id: "lampPhilippe",
+        x: 35,
+        y: 40,
+        w: 14,
+        h: 22,
+        label: "Lampe",
+        requires: ["paramedicsArrived"],
+        onUse: (api) =>
+          api.showText([
+            "Die einzige warme Lichtquelle in diesem Korridor.",
+            "Philippe muss sie heimlich repariert haben.",
+          ]),
+      },
       {
         id: "wall",
         x: 30,
         y: 8,
         w: 36,
         h: 50,
-        label: "Wand mit Klopfen",
+        label: "Wand mit Klopfen (zur 2615)",
         hiddenWhen: ["doorBrokenOpen"],
         onUse: (api) => {
           api.setFlag("knockingHeard");
@@ -178,6 +215,22 @@ export const scenes: Record<string, Scene> = {
             "„Hallo?! Jemand da?“ — Das Klopfen geht im selben Rhythmus weiter.",
           ]);
         },
+      },
+      // Nach Akt 1: ruhige Wand zur (jetzt versiegelten) 2615.
+      {
+        id: "wallAfter",
+        x: 30,
+        y: 8,
+        w: 36,
+        h: 50,
+        label: "Wand zur 2615 (still)",
+        requires: ["doorBrokenOpen"],
+        onUse: (api) =>
+          api.showText([
+            "Die Wand ist still. Zum ersten Mal seit Wochen, sagt Philippe.",
+            "Trotzdem hält Layard kurz die Hand an den Beton.",
+            "Nichts. Nur sein eigener Puls.",
+          ]),
       },
       {
         id: "phone2613",
@@ -219,7 +272,7 @@ export const scenes: Record<string, Scene> = {
         y: 70,
         w: 11,
         h: 28,
-        label: "In den Korridor (Tür 2615 wurde aufgebrochen)",
+        label: "In den Korridor",
         requires: ["doorBrokenOpen"],
         onUse: (api) => api.goTo("hallway"),
       },
@@ -374,44 +427,19 @@ export const scenes: Record<string, Scene> = {
         label: "Tür 2611 (zurück in die Wohnung)",
         onUse: (api) => api.goTo("apartment"),
       },
+      // Tür 2613 — Philippes Wohnung. Bleibt jederzeit begehbar.
       {
-        id: "to2610",
-        x: 0,
-        y: 28,
-        w: 18,
-        h: 60,
-        label: "Tür 2610 (Philippe)",
-        // Only meaningful after E67 is mostly done
-        requires: ["calledForCode"],
-        onUse: (api) => api.goTo("philippe"),
-      },
-      {
-        id: "door2613Sealed",
+        id: "door2613Philippe",
         x: 67,
         y: 36,
         w: 14,
         h: 50,
-        label: "Tür 2613 (versiegelt)",
-        requires: ["protocolReceived"],
-        onUse: (api) =>
-          api.showText([
-            "Ein gelbes Siegelband klebt schräg über dem Türrahmen.",
-            "Darauf, in Maschinenschrift:",
-            "„Quarantäne — Resonanz-Überlastung — bis auf Widerruf“.",
-            "Niemand wird hier in absehbarer Zeit einziehen.",
-          ]),
-      },
-      {
-        id: "door2613Open",
-        x: 67,
-        y: 36,
-        w: 14,
-        h: 50,
-        label: "Tür 2613 (zurück)",
+        label: "Tür 2613 (Philippe)",
         requires: ["doorBrokenOpen"],
-        hiddenWhen: ["protocolReceived"],
         onUse: (api) => api.goTo("apt2613"),
       },
+      // Tür 2615 — der Mann an der Wand. Solange aufgebrochen begehbar,
+      // sobald die Sanitäter ihn abtransportiert haben: versiegelt.
       {
         id: "door2615Open",
         x: 56,
@@ -422,6 +450,22 @@ export const scenes: Record<string, Scene> = {
         requires: ["doorBrokenOpen"],
         hiddenWhen: ["protocolReceived"],
         onUse: (api) => api.goTo("apt2615"),
+      },
+      {
+        id: "door2615Sealed",
+        x: 56,
+        y: 42,
+        w: 12,
+        h: 42,
+        label: "Tür 2615 (versiegelt)",
+        requires: ["protocolReceived"],
+        onUse: (api) =>
+          api.showText([
+            "Ein gelbes Siegelband klebt schräg über dem Türrahmen.",
+            "Darauf, in Maschinenschrift:",
+            "„Quarantäne — Resonanz-Überlastung — bis auf Widerruf“.",
+            "Niemand wird hier in absehbarer Zeit einziehen.",
+          ]),
       },
       {
         id: "toSector",
