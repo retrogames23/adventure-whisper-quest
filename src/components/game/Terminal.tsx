@@ -18,6 +18,24 @@ interface Line {
   kind?: "in" | "out" | "system";
 }
 
+/** Aktuelle CentralOS-Versionsbezeichnung, abhängig vom Update-Flag. */
+function osVersion(updated: boolean): string {
+  return updated ? "2.3.1" : "2.3";
+}
+
+/**
+ * Ersetzt statische Versions-Strings in Datei-/Banner-Texten durch die
+ * aktuell installierte CentralOS-Version. Greift nur, wenn das Update
+ * eingespielt wurde — vorher bleiben die Originaltexte unverändert.
+ */
+function applyOsVersion(text: string, updated: boolean): string {
+  if (!updated) return text;
+  // Reihenfolge wichtig: erst die längere Form ersetzen.
+  return text
+    .replace(/CentralOS v2\.3(?!\.\d)/g, "CentralOS v2.3.1")
+    .replace(/CENTRALOS v2\.3(?!\.\d)/g, "CENTRALOS v2.3.1");
+}
+
 /** Filter children by visibility (hidden files only with -a, locked files only when flag is set). */
 function visibleChildren(
   node: FsNode,
@@ -976,7 +994,10 @@ export function Terminal() {
     if (terminalOpen) {
       setCwd([...HOME_PATH]);
       setLines([
-        { text: ">> CENTRALOS v2.3 — Terminal Quadrant E67", kind: "system" },
+        {
+          text: `>> CENTRALOS v${osVersion(flags.has("centralOsUpdated"))} — Terminal Quadrant E67`,
+          kind: "system",
+        },
         { text: ">> Benutzer: WORAG, L. (Zimmer 2611)", kind: "system" },
         { text: ">> Persönliches Verzeichnis bereit (siehe 'help' › DATEISYSTEM)", kind: "system" },
         { text: ">> Tippe 'help' für Befehle.", kind: "system" },
@@ -1182,7 +1203,7 @@ export function Terminal() {
       newLines.push(
         { text: "SYSTEMSTATUS:", kind: "system" },
         {
-          text: `  CENTRALOS         [ v${flags.has("centralOsUpdated") ? "2.3.1" : "2.3"} ]`,
+          text: `  CENTRALOS         [ v${osVersion(flags.has("centralOsUpdated"))} ]`,
           kind: "out",
         },
         { text: "  E67.NETZ          [ STABIL ]", kind: "out" },
@@ -1549,7 +1570,12 @@ export function Terminal() {
           newLines.push({ text: `cat: ${target}: Zugriff verweigert.`, kind: "out" });
         } else {
           newLines.push({ text: `── ${node.name} ───────────────────────`, kind: "system" });
-          newLines.push(...node.content.map((t) => ({ text: t, kind: "out" } as Line)));
+          const updated = flags.has("centralOsUpdated");
+          newLines.push(
+            ...node.content.map(
+              (t) => ({ text: applyOsVersion(t, updated), kind: "out" } as Line),
+            ),
+          );
           newLines.push({ text: "── EOF ──────────────────────────────", kind: "system" });
         }
       }
@@ -1612,11 +1638,14 @@ export function Terminal() {
       );
     } else if (head === "uname") {
       const showAll = args.includes("-a");
+      const updated = flags.has("centralOsUpdated");
       const parts: Record<string, string> = {
         s: "CentralOS",
         n: "e67-2611",
-        r: "2.3-resonance",
-        v: "#14 Tue Nov 4 11:04:22 1997",
+        r: `${osVersion(updated)}-resonance`,
+        v: updated
+          ? "#15 Thu Nov 6 16:04:22 1997"
+          : "#14 Tue Nov 4 11:04:22 1997",
         m: "syn33",
         o: "CentralOS",
       };
@@ -1705,7 +1734,7 @@ export function Terminal() {
       <div className="fade-in relative w-full max-w-4xl overflow-hidden rounded-sm border border-phosphor/50 bg-black shadow-[0_0_60px_rgba(0,0,0,0.85)] scanlines">
         <div className="flex items-center justify-between border-b border-phosphor/30 bg-black px-4 py-2">
           <span className="font-mono-crt text-base uppercase tracking-[0.3em] text-phosphor phosphor-glow">
-            CentralOS v2.3
+            CentralOS v{osVersion(flags.has("centralOsUpdated"))}
           </span>
           <CloseButton
             onClick={closeTerminal}
