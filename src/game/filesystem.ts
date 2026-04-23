@@ -808,24 +808,39 @@ export const FILESYSTEM: FsDir = {
     },
     {
       type: "dir",
-      name: "root",
-      desc: "Root-Home — Zugriff verweigert.",
-      children: [
-        {
-          type: "file",
-          name: ".locked",
-          kind: "text",
-          size: 40,
-          date: "—",
-          content: ["Zugriff verweigert."],
-        },
-      ],
-    },
-    {
-      type: "dir",
       name: "opt",
       desc: "Optionale Pakete.",
-      children: [],
+      children: [
+        {
+          type: "dir",
+          name: "leitstelle-tools",
+          desc: "Werkzeuge der Leitstelle.",
+          children: [
+            {
+              type: "file",
+              name: "README",
+              kind: "text",
+              size: 280,
+              date: "—",
+              content: [
+                "── leitstelle-tools v1.4 ──────────────────────",
+                "Internes Werkzeugset der Leitstelle 001.",
+                "Installation auf Bewohnergeräten ist Policy-",
+                "verstoß §11.2. Für Auditzwecke schreibgeschützt",
+                "vorhanden.",
+              ],
+            },
+            {
+              type: "file",
+              name: "trace",
+              kind: "config",
+              size: 9216,
+              date: "—",
+              content: ["[binary — 9216 Bytes]"],
+            },
+          ],
+        },
+      ],
     },
   ],
 };
