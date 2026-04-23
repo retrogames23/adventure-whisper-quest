@@ -327,7 +327,7 @@ export const dialogs: Record<string, DialogTree> = {
         id: "ia4",
         speaker: "INSA",
         text: "Der Dienst ist heute in E67 nicht besetzt. Es gibt Engpässe im Dienstplan wegen Krankheiten und …",
-        subtext: "Den Satz beendet sie nicht. Niemand beendet ihn.",
+        subtext: "Den Satz beendet sie nicht.",
         next: "ia5",
       },
       ia5: {
@@ -385,7 +385,7 @@ export const dialogs: Record<string, DialogTree> = {
       st4: {
         id: "st4",
         speaker: "INSA",
-        text: "Ich verstehe. Ich stelle Sie durch zum Zentralnetz-Verantwortlichen.",
+        text: "Ich verstehe. Ich stelle Sie durch zum Verantwortlichen für das Zentralnetz.",
         subtext: "Sie merkt nicht an, dass das ungewöhnlich ist. Es ist es nicht.",
         next: "st5",
       },
@@ -398,21 +398,21 @@ export const dialogs: Record<string, DialogTree> = {
       st6: {
         id: "st6",
         speaker: "SYSTEM",
-        text: "Hier ist die technische Unterstützung des Zentralnetzes, Stegmann am Apparat. Ihre Ausgangsmeldung ist hier eingegangen — naja, der Versuch. Error 4567, ich weiß. Was brauchen Sie?",
+        text: "Hier ist die technische Unterstützung des Zentralen Netzes, Stegmann am Apparat. Ihre Ausgangsmeldung ist hier eingegangen — naja, der Versuch. Error 4567, ich weiß. Was brauchen Sie?",
         requires: ["reportedExit"],
         next: "st6b",
       },
       st6b: {
         id: "st6b",
         speaker: "SYSTEM",
-        text: "Hier ist die technische Unterstützung des Zentralnetzes, Stegmann am Apparat. — Sie haben den Ausgang nicht gemeldet. Standardprotokoll, Herr Worag. Beim nächsten Mal bitte zuerst melden. Was brauchen Sie?",
+        text: "Hier ist die technische Unterstützung des Zentralen Netzes, Stegmann am Apparat. — Sie haben den Ausgang nicht gemeldet. Standardprotokoll, Herr Worag. Beim nächsten Mal bitte zuerst melden. Was brauchen Sie?",
         hiddenWhen: ["reportedExit"],
         next: "st7",
       },
       st7: {
         id: "st7",
         speaker: "LAYARD",
-        text: "Ich muss mich mit dem Zentralnetz verbinden, um einen Ausgang zu melden. Verbindung gestört. Error 4567.",
+        text: "Ich muss mich mit dem Zentralen Netz verbinden, um einen Ausgang zu melden. Verbindung gestört. Error 4567.",
         next: "st8",
       },
       st8: {
