@@ -171,8 +171,15 @@ interface NetHost {
   desc: string;
   /** Telnet-Passwort. null = kein Telnet-Daemon / Verbindung verweigert. */
   password: string | null;
+  /** Wenn true: Passwortvergleich ist case-insensitiv. */
+  passwordCaseInsensitive?: boolean;
   motd?: string[];
   files?: Record<string, string[]>;
+  /**
+   * Optional: zusätzliche Dateien, die abhängig vom Story-Stand entstehen.
+   * Werden mit `files` gemerged. Spätere Einträge überschreiben frühere.
+   */
+  dynamicFiles?: (hasFlag: (f: StoryFlag) => boolean) => Record<string, string[]>;
 }
 
 const NET_HOSTS: NetHost[] = [
