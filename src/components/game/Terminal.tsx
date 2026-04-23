@@ -165,6 +165,45 @@ function complete(
   return { newInput, matches: display };
 }
 
+const TELNET_COMMANDS = ["ls", "cat", "whoami", "help", "exit", "logout", "quit"];
+
+/**
+ * Tab-completion innerhalb einer aktiven Telnet-Sitzung.
+ * Erstes Token → Telnet-Befehle. `cat <fragment>` → Dateinamen des Hosts.
+ */
+function completeTelnet(
+  input: string,
+  hostFiles: Record<string, string[]>,
+): CompleteResult {
+  const tokens = input.split(/\s+/);
+  const lastToken = tokens[tokens.length - 1] ?? "";
+
+  if (tokens.length === 1) {
+    const matches = TELNET_COMMANDS.filter((c) =>
+      c.startsWith(lastToken.toLowerCase()),
+    );
+    if (!matches.length) return { newInput: input, matches: [] };
+    const completed = commonPrefix(matches);
+    const newLast = matches.length === 1 ? matches[0] + " " : completed;
+    return { newInput: newLast, matches };
+  }
+
+  const cmd = tokens[0].toLowerCase();
+  if (cmd !== "cat" && cmd !== "more" && cmd !== "type") {
+    return { newInput: input, matches: [] };
+  }
+
+  const names = Object.keys(hostFiles)
+    .filter((n) => n.startsWith(lastToken))
+    .sort();
+  if (!names.length) return { newInput: input, matches: [] };
+
+  const prefix = commonPrefix(names);
+  const completedName = names.length === 1 ? names[0] + " " : prefix;
+  const newInput = [...tokens.slice(0, -1), completedName].join(" ");
+  return { newInput, matches: names };
+}
+
 // ── Netzwerk-Hosts im Sektor E67 ─────────────────────────
 interface NetHost {
   ip: string;
@@ -1298,9 +1337,19 @@ export function Terminal() {
               }
               e.preventDefault();
               // Tab-Completion — im Adventure kontextuell, sonst klassisch.
-              const result = advState
-                ? adventureComplete(advState, input)
-                : complete(input, cwd, (f) => flags.has(f));
+              let result: CompleteResult;
+              if (advState) {
+                result = adventureComplete(advState, input);
+              } else if (telnetHost) {
+                const host = findHost(telnetHost);
+                const hostFiles: Record<string, string[]> = {
+                  ...(host?.files ?? {}),
+                  ...(host?.dynamicFiles?.((f) => flags.has(f)) ?? {}),
+                };
+                result = completeTelnet(input, hostFiles);
+              } else {
+                result = complete(input, cwd, (f) => flags.has(f));
+              }
               if (!result.matches.length) {
                 playBeep(0.2 * sfxVolume);
                 return;
@@ -1315,9 +1364,15 @@ export function Terminal() {
               // No expansion possible. On second consecutive Tab, list candidates.
               const prev = lastTabRef.current;
               if (prev && prev.input === input && result.matches.length > 1) {
-                const echoPrompt = advState
-                  ? "adventure>"
-                  : `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`;
+                let echoPrompt: string;
+                if (advState) {
+                  echoPrompt = "adventure>";
+                } else if (telnetHost) {
+                  const host = findHost(telnetHost);
+                  echoPrompt = `${host?.host ?? telnetHost}:~$`;
+                } else {
+                  echoPrompt = `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`;
+                }
                 setLines((p) => [
                   ...p,
                   { text: `${echoPrompt} ${input}`, kind: "in" },
