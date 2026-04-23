@@ -364,16 +364,6 @@ export const scenes: Record<string, Scene> = {
     title: "Korridor 26 — Quadrant E67",
     intro:
       "Der Korridor. Wie jeden Morgen. Nur dass Layard ihn jeden Morgen nicht betritt.",
-    doorPlates: [
-      // Even numbers — LEFT wall (front → back)
-      { id: "p2610", x: 11, y: 22, w: 8, label: "2610" },
-      { id: "p2612", x: 27, y: 30, w: 7, label: "2612" },
-      { id: "p2614", x: 38, y: 36, w: 6, label: "2614" },
-      // Odd numbers — RIGHT wall (front → back)
-      { id: "p2611", x: 89, y: 22, w: 8, label: "2611" },
-      { id: "p2613", x: 73, y: 30, w: 7, label: "2613" },
-      { id: "p2615", x: 62, y: 36, w: 6, label: "2615" },
-    ],
     hotspots: [
       {
         id: "back2611",
