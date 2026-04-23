@@ -1036,7 +1036,7 @@ export function Terminal() {
               kind: "system",
             },
             {
-              text: "║  Ihr System: CentralOS v2.0  →  v2.0.1         ║",
+              text: "║  Ihr System: CentralOS v2.0  →  v2.3.1         ║",
               kind: "system",
             },
             {
