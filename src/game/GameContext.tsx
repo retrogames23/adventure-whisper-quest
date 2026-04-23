@@ -90,6 +90,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [radioActive, setRadioActive] = useState(false);
   const [resonance, setResonance] = useState(0);
   const [ending, setEnding] = useState(false);
+  // Floor (3, 4 or 5) where Mira appears this run. Lazily picked on first read.
+  const miraFloorRef = useRef<3 | 4 | 5 | null>(null);
 
   // Keep latest values in refs so api callbacks remain stable
   const flagsRef = useRef(flags);
@@ -146,6 +148,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
       openRadio: () => setRadioOpen(true),
       isRadioActive: () => radioActiveRef.current,
       setEnding: () => setEnding(true),
+      getMiraFloor: () => {
+        if (miraFloorRef.current === null) {
+          const pool: Array<3 | 4 | 5> = [3, 4, 5];
+          miraFloorRef.current = pool[Math.floor(Math.random() * pool.length)];
+        }
+        return miraFloorRef.current;
+      },
     }),
     [],
   );
