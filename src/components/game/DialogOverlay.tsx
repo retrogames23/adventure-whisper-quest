@@ -49,6 +49,7 @@ export function DialogOverlay() {
     RADIO: "text-amber-glow",
     MIKAEL: "text-amber-glow",
     RECEPTION: "text-phosphor",
+    MIRA: "text-phosphor",
   };
 
   return (

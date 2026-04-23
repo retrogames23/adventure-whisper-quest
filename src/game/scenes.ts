@@ -7,6 +7,12 @@ import sectorBg from "@/assets/scene-sector-door.jpg";
 import e71LobbyBg from "@/assets/scene-e71-lobby.jpg";
 import corridor15Bg from "@/assets/scene-corridor-15.jpg";
 import room1534Bg from "@/assets/scene-room-1534.jpg";
+import elevatorBg from "@/assets/scene-elevator.jpg";
+import floor1LobbyBg from "@/assets/scene-floor1-lobby.jpg";
+import passageBg from "@/assets/scene-passage.jpg";
+import corridor36Bg from "@/assets/scene-corridor-36.jpg";
+import corridor46Bg from "@/assets/scene-corridor-46.jpg";
+import corridor56Bg from "@/assets/scene-corridor-56.jpg";
 import type { Scene } from "./types";
 
 export const scenes: Record<string, Scene> = {
@@ -42,8 +48,8 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 25,
         label: "Telefon",
-        // Only available after returning from 2613 with the protocol
-        requires: ["protocolReceived"],
+        // Only available after Layard saw the empty office on floor 3.
+        requires: ["sawEmptyOffice"],
         hiddenWhen: ["calledForCode"],
         onUse: (api) => {
           if (!api.hasFlag("calledInsa2")) {
@@ -423,9 +429,9 @@ export const scenes: Record<string, Scene> = {
         y: 30,
         w: 24,
         h: 60,
-        label: "Korridor → Sektor-Tür",
+        label: "Aufzug",
         requires: ["protocolReceived"],
-        onUse: (api) => api.goTo("sectorDoor"),
+        onUse: (api) => api.goTo("elevator"),
       },
     ],
   },
@@ -433,9 +439,9 @@ export const scenes: Record<string, Scene> = {
   sectorDoor: {
     id: "sectorDoor",
     background: sectorBg,
-    title: "Sektor-Tür E67 / E71",
+    title: "Sektor-Tür — Etage 1, E67",
     intro:
-      "Eine Tür, die Layard seit Jahren nicht passiert hat. Daneben: ein Keypad. Darüber: ein Monitor mit grüner Phosphor-Schrift, der „ERROR 4567“ blinkt.",
+      "Die schwere Schleusentür am Ende der Lobby. Hinter ihr: der Verbindungsgang nach draußen — und Gebäude E71. Daneben: ein Keypad. Darüber: ein Monitor mit grüner Phosphor-Schrift, der „ERROR 4567“ blinkt.",
     hotspots: [
       {
         id: "monitor",
@@ -473,19 +479,19 @@ export const scenes: Record<string, Scene> = {
         },
       },
       {
-        id: "elevator",
+        id: "toPassage",
         x: 82,
         y: 30,
         w: 16,
         h: 60,
-        label: "Aufzug → E71",
+        label: "Sektor-Tür öffnen → Verbindungsgang",
         requires: ["sectorDoorOpen"],
         onUse: (api) => {
           if (!api.hasFlag("feetWontMove")) {
             api.setFlag("feetWontMove");
             api.showText([
               "Layard denkt intensiv daran, einen Schritt zu machen.",
-              "Aus dem Korridor. In den Aufzug. Aus E67 hinaus.",
+              "Aus der Lobby. Durch die Schleuse. Aus E67 hinaus.",
               "Seine Füße bewegen sich nicht.",
               "Im Hinterkopf: das amber-grüne Glühen der Frequenz 104,6.",
               "Sie ist nicht mehr im Radio. Sie ist in ihm.",
@@ -493,8 +499,7 @@ export const scenes: Record<string, Scene> = {
               "Wie eine Tür, deren Scharniere seit Jahren niemand geölt hat.",
             ]);
           } else {
-            api.setFlag("elevatorTaken");
-            api.goTo("e71Lobby");
+            api.goTo("passage");
           }
         },
       },
@@ -504,8 +509,8 @@ export const scenes: Record<string, Scene> = {
         y: 35,
         w: 18,
         h: 60,
-        label: "Zurück in den Korridor",
-        onUse: (api) => api.goTo("hallway"),
+        label: "Zurück in die Lobby",
+        onUse: (api) => api.goTo("floor1Lobby"),
       },
     ],
   },
@@ -728,6 +733,368 @@ export const scenes: Record<string, Scene> = {
           }
           api.goTo("corridor15");
         },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // E67 — Aufzug. Erreicht den Heim-Korridor (Etage 2) und drei
+  // andere Etagen des Gebäudes. E71 ist NICHT per Aufzug zu
+  // erreichen — dafür muss man Etage 1 → Sektor-Tür → Passage.
+  // ───────────────────────────────────────────────────────────
+  elevator: {
+    id: "elevator",
+    background: elevatorBg,
+    title: "Aufzug — E67",
+    intro:
+      "Engel aus Edelstahl, halb so groß wie eine Wohnung. Fünf Knöpfe. Ein Schild: „E67 · 5 ETAGEN · max. 6 Personen“.",
+    hotspots: [
+      {
+        id: "btn1",
+        x: 70,
+        y: 28,
+        w: 12,
+        h: 11,
+        label: "Etage 1 — Lobby",
+        onUse: (api) => api.goTo("floor1Lobby"),
+      },
+      {
+        id: "btn2",
+        x: 70,
+        y: 40,
+        w: 12,
+        h: 11,
+        label: "Etage 2 — Korridor 26 (Heim)",
+        onUse: (api) => api.goTo("hallway"),
+      },
+      {
+        id: "btn3",
+        x: 70,
+        y: 52,
+        w: 12,
+        h: 11,
+        label: "Etage 3 — Verwaltung",
+        onUse: (api) => api.goTo("corridor36"),
+      },
+      {
+        id: "btn4",
+        x: 70,
+        y: 64,
+        w: 12,
+        h: 11,
+        label: "Etage 4 — Wohnen",
+        onUse: (api) => api.goTo("corridor46"),
+      },
+      {
+        id: "btn5",
+        x: 70,
+        y: 76,
+        w: 12,
+        h: 11,
+        label: "Etage 5 — Wohnen / Dach",
+        onUse: (api) => api.goTo("corridor56"),
+      },
+      {
+        id: "elevatorSign",
+        x: 70,
+        y: 8,
+        w: 28,
+        h: 16,
+        label: "Schild „E67 · 5 ETAGEN“",
+        onUse: (api) =>
+          api.showText([
+            "E67 — fünf Etagen, neun Sektionen, bis zu 25 Einheiten je Sektion.",
+            "Maximalbelegung Aufzug: 6 Personen.",
+            "Wartung: Sektor-Technik, Etage 1.",
+            "Anschlussgebäude E71 nur über Sektor-Tür Etage 1 erreichbar.",
+          ]),
+      },
+    ],
+  },
+
+  // Etage 1 — Lobby mit Sektor-Tür nach draußen.
+  floor1Lobby: {
+    id: "floor1Lobby",
+    background: floor1LobbyBg,
+    title: "Lobby — Etage 1, E67",
+    intro:
+      "Ein leerer Empfangstresen. Eine Anzeigetafel. Hinten links: der Aufzug. Rechts: die schwere Sektor-Tür.",
+    hotspots: [
+      {
+        id: "lobbyDesk",
+        x: 8,
+        y: 50,
+        w: 22,
+        h: 30,
+        label: "Empfangstresen (unbesetzt)",
+        onUse: (api) =>
+          api.showText([
+            "Niemand hinter dem Tresen. Eine Kaffeetasse, halb voll, kalt.",
+            "Auf einem Klemmbrett: Schichtplan. Heutige Schicht: durchgestrichen.",
+          ]),
+      },
+      {
+        id: "lobbyBoard",
+        x: 38,
+        y: 38,
+        w: 14,
+        h: 14,
+        label: "Schwarzes Brett",
+        onUse: (api) =>
+          api.showText([
+            "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Hörer.“",
+            "Aushang: „Quadrant E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
+            "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
+          ]),
+      },
+      {
+        id: "lobbyElevator",
+        x: 78,
+        y: 22,
+        w: 18,
+        h: 70,
+        label: "Aufzug",
+        onUse: (api) => api.goTo("elevator"),
+      },
+      {
+        id: "lobbySectorDoor",
+        x: 52,
+        y: 35,
+        w: 18,
+        h: 50,
+        label: "Sektor-Tür → E71",
+        onUse: (api) => api.goTo("sectorDoor"),
+      },
+    ],
+  },
+
+  // Verbindungsgang zwischen E67 und E71. Außenluft.
+  passage: {
+    id: "passage",
+    background: passageBg,
+    title: "Verbindungsgang E67 ↔ E71",
+    intro:
+      "Außenluft. Das erste Mal seit Jahren. Ein Geländer, kalter Beton, irgendwo ein Lautsprecher, der nichts sagt.",
+    hotspots: [
+      {
+        id: "lookE67",
+        x: 5,
+        y: 35,
+        w: 30,
+        h: 50,
+        label: "Wand E67 (zurück)",
+        onUse: (api) => api.goTo("sectorDoor"),
+      },
+      {
+        id: "lookSky",
+        x: 38,
+        y: 8,
+        w: 24,
+        h: 22,
+        label: "Himmel",
+        onUse: (api) =>
+          api.showText([
+            "Grau. Niedrig. Kein Vogel.",
+            "Trotzdem: Luft, die sich bewegt. Auf Layards Wange ein Frösteln.",
+            "Etwas, das er aus dem Schmerz-Radio nicht kennt.",
+          ]),
+      },
+      {
+        id: "toE71",
+        x: 65,
+        y: 32,
+        w: 30,
+        h: 60,
+        label: "Eingang E71 →",
+        onUse: (api) => {
+          api.setFlag("elevatorTaken");
+          api.setFlag("enteredE71");
+          api.goTo("e71Lobby");
+        },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Etage 3 — Verwaltungsetage. Hier ist das Büro des
+  // Abschnittsverantwortlichen E67 (Tür 3601). Heute leer.
+  // ───────────────────────────────────────────────────────────
+  corridor36: {
+    id: "corridor36",
+    background: corridor36Bg,
+    title: "Korridor 36 — Verwaltung E67",
+    intro:
+      "Andere Beleuchtung als zuhause. Sterilere Türen. Vor einer davon — 3601 — ein handgeschriebenes Schild.",
+    hotspots: [
+      {
+        id: "officeDoor",
+        x: 42,
+        y: 30,
+        w: 18,
+        h: 50,
+        label: "Tür 3601 — Abschnittsverantwortlicher E67",
+        onUse: (api) => {
+          api.setFlag("sawEmptyOffice");
+          api.startDialog("emptyOfficeSign");
+        },
+      },
+      {
+        id: "officeBell",
+        x: 60,
+        y: 45,
+        w: 6,
+        h: 8,
+        label: "Klingelknopf",
+        requires: ["sawEmptyOffice"],
+        hiddenWhen: ["rangEmptyOfficeBell"],
+        onUse: (api) => {
+          api.setFlag("rangEmptyOfficeBell");
+          api.startDialog("emptyOfficeBell");
+        },
+      },
+      {
+        id: "miraSpot36",
+        x: 22,
+        y: 38,
+        w: 14,
+        h: 50,
+        label: "Junge Frau an der Wand",
+        visible: (api) => api.getMiraFloor() === 3,
+        onUse: (api) => {
+          if (api.hasFlag("tookFlyer")) {
+            api.startDialog("miraAfter");
+          } else if (api.hasFlag("metMira")) {
+            api.startDialog("miraReturn");
+          } else {
+            api.setFlag("metMira");
+            api.startDialog("miraIntro");
+          }
+        },
+      },
+      {
+        id: "back36",
+        x: 80,
+        y: 30,
+        w: 18,
+        h: 60,
+        label: "Zurück zum Aufzug",
+        onUse: (api) => api.goTo("elevator"),
+      },
+    ],
+  },
+
+  corridor46: {
+    id: "corridor46",
+    background: corridor46Bg,
+    title: "Korridor 46 — Wohnetage",
+    intro:
+      "Wie zuhause, nur eine Etage höher. Ein Plakat „RESONANZ-HYGIENE“ blättert ab.",
+    hotspots: [
+      {
+        id: "miraSpot46",
+        x: 22,
+        y: 38,
+        w: 14,
+        h: 50,
+        label: "Junge Frau an der Wand",
+        visible: (api) => api.getMiraFloor() === 4,
+        onUse: (api) => {
+          if (api.hasFlag("tookFlyer")) {
+            api.startDialog("miraAfter");
+          } else if (api.hasFlag("metMira")) {
+            api.startDialog("miraReturn");
+          } else {
+            api.setFlag("metMira");
+            api.startDialog("miraIntro");
+          }
+        },
+      },
+      {
+        id: "poster46",
+        x: 42,
+        y: 30,
+        w: 18,
+        h: 22,
+        label: "Plakat „Resonanz-Hygiene“",
+        onUse: (api) =>
+          api.showText([
+            "„HÖREN HEISST GEHÖREN.“",
+            "Darunter, kleiner: „104,6 — Ihre Frequenz. Ihre Verantwortung.“",
+            "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
+          ]),
+      },
+      {
+        id: "back46",
+        x: 80,
+        y: 30,
+        w: 18,
+        h: 60,
+        label: "Zurück zum Aufzug",
+        onUse: (api) => api.goTo("elevator"),
+      },
+    ],
+  },
+
+  corridor56: {
+    id: "corridor56",
+    background: corridor56Bg,
+    title: "Korridor 56 — Dachetage",
+    intro:
+      "Oben. Am Ende des Korridors: ein vergittertes Fenster auf einen grauen Himmel.",
+    hotspots: [
+      {
+        id: "miraSpot56",
+        x: 22,
+        y: 38,
+        w: 14,
+        h: 50,
+        label: "Junge Frau an der Wand",
+        visible: (api) => api.getMiraFloor() === 5,
+        onUse: (api) => {
+          if (api.hasFlag("tookFlyer")) {
+            api.startDialog("miraAfter");
+          } else if (api.hasFlag("metMira")) {
+            api.startDialog("miraReturn");
+          } else {
+            api.setFlag("metMira");
+            api.startDialog("miraIntro");
+          }
+        },
+      },
+      {
+        id: "window56",
+        x: 42,
+        y: 30,
+        w: 18,
+        h: 30,
+        label: "Vergittertes Fenster",
+        onUse: (api) =>
+          api.showText([
+            "Hinter den Gitterstäben: Dächer. Antennenwald. Eine Möwe.",
+            "Darunter, in den Beton geritzt: „Z.K.S. war hier.“",
+          ]),
+      },
+      {
+        id: "hatch56",
+        x: 50,
+        y: 6,
+        w: 14,
+        h: 10,
+        label: "Wartungsluke (verriegelt)",
+        onUse: (api) =>
+          api.showText([
+            "Schwere Stahlluke, mit zwei Riegeln und einem Schloss gesichert.",
+            "Layard rüttelt nicht einmal. Er weiß, was er nicht öffnet.",
+          ]),
+      },
+      {
+        id: "back56",
+        x: 80,
+        y: 30,
+        w: 18,
+        h: 60,
+        label: "Zurück zum Aufzug",
+        onUse: (api) => api.goTo("elevator"),
       },
     ],
   },

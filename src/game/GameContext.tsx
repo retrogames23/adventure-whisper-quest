@@ -70,6 +70,7 @@ interface PersistedState {
   resonance: number;
   ending: boolean;
   savedAt: string;
+  miraFloor?: 3 | 4 | 5 | null;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -90,6 +91,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [radioActive, setRadioActive] = useState(false);
   const [resonance, setResonance] = useState(0);
   const [ending, setEnding] = useState(false);
+  // Floor (3, 4 or 5) where Mira appears this run. Lazily picked on first read.
+  const miraFloorRef = useRef<3 | 4 | 5 | null>(null);
 
   // Keep latest values in refs so api callbacks remain stable
   const flagsRef = useRef(flags);
@@ -146,6 +149,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
       openRadio: () => setRadioOpen(true),
       isRadioActive: () => radioActiveRef.current,
       setEnding: () => setEnding(true),
+      getMiraFloor: () => {
+        if (miraFloorRef.current === null) {
+          const pool: Array<3 | 4 | 5> = [3, 4, 5];
+          miraFloorRef.current = pool[Math.floor(Math.random() * pool.length)];
+        }
+        return miraFloorRef.current;
+      },
     }),
     [],
   );
@@ -220,6 +230,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         resonance: resonanceRef.current,
         ending: endingRef.current,
         savedAt: new Date().toISOString(),
+        miraFloor: miraFloorRef.current,
       };
       try {
         window.localStorage.setItem(SAVE_PREFIX + slot, JSON.stringify(payload));
@@ -245,6 +256,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setInventory(data.inventory);
         setResonance(data.resonance);
         setEnding(data.ending);
+        miraFloorRef.current = data.miraFloor ?? null;
         // Reset transient UI
         setCaption(null);
         setTextOverlay(null);

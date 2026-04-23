@@ -10,6 +10,7 @@ export function Hotspot({ hotspot }: Props) {
 
   if (hotspot.requires?.some((f) => !flags.has(f))) return null;
   if (hotspot.hiddenWhen?.some((f) => flags.has(f))) return null;
+  if (hotspot.visible && !hotspot.visible(api)) return null;
 
   return (
     <button
