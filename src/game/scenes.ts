@@ -158,7 +158,10 @@ export const scenes: Record<string, Scene> = {
         h: 78,
         label: "Philippe",
         requires: ["knockingHeard"],
-        hiddenWhen: ["paramedicsArrived"],
+        // Nach dem Anruf bei der Leitstelle steht Philippe nur noch
+        // schweigend daneben — kein erneuter Dialog, bis Layard die
+        // Wohnung verlässt und wieder betritt.
+        hiddenWhen: ["paramedicsArrived", "calledLeitstelle"],
         onUse: (api) => {
           if (!api.hasFlag("calledLeitstelle")) {
             api.setFlag("talkedPhilippe2613");
@@ -292,11 +295,23 @@ export const scenes: Record<string, Scene> = {
         requires: ["calledLeitstelle"],
         hiddenWhen: ["paramedicsArrived"],
         onUse: (api) => {
-          if (!api.hasFlag("smalltalkPhilippe")) {
-            api.setFlag("smalltalkPhilippe");
-            api.startDialog("philippeSmalltalk");
+          // Pro Besuch zwei Warte-Beats. Erst der zweite ruft die Sanitäter.
+          if (!api.hasFlag("wait2613Step1")) {
+            api.setFlag("wait2613Step1");
+            api.showText([
+              "Layard und Philippe warten. Das Klopfen aus 2615 hat sich",
+              "kein einziges Mal verändert. Kein Tempo-Wechsel, keine Pause.",
+              "Philippe schaut auf seine Uhr. Sagt nichts.",
+            ]);
+          } else if (!api.hasFlag("wait2613Step2")) {
+            api.setFlag("wait2613Step2");
+            api.showText([
+              "Noch ein paar Minuten. Philippe stellt zwei Tassen auf den Tisch,",
+              "trinkt aber nicht. Layard auch nicht.",
+              "Im Korridor: Schritte. Gleichmäßig. Schwer.",
+            ]);
           } else {
-            // Sanitarians arrive
+            // Sanitäter treffen ein.
             api.setFlag("paramedicsArrived");
             api.startDialog("paramedicsArrive");
           }
