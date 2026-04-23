@@ -229,7 +229,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setRadioActive,
     bumpResonance: (d) => setResonance((r) => Math.max(0, Math.min(100, r + d))),
     resetResonance: () => setResonance(0),
-    saveGame: (slot: number): SaveSummary => {
+    saveGame: async (slot: number): Promise<SaveSummary> => {
+      const u = userRef.current;
+      if (!u) throw new Error("Nicht angemeldet.");
       const payload: PersistedState = {
         scene: sceneRef.current,
         flags: Array.from(flagsRef.current),
@@ -240,73 +242,88 @@ export function GameProvider({ children }: { children: ReactNode }) {
         savedAt: new Date().toISOString(),
         miraFloor: miraFloorRef.current,
       };
-      try {
-        window.localStorage.setItem(SAVE_PREFIX + slot, JSON.stringify(payload));
-      } catch {
-        /* ignore */
-      }
-      return {
+      const summary: SaveSummary = {
         slot,
         scene: payload.scene,
         savedAt: payload.savedAt,
         flagCount: payload.flags.length,
         inventoryCount: payload.inventory.length,
       };
+      const { error } = await supabase
+        .from("game_saves")
+        .upsert(
+          {
+            user_id: u.id,
+            slot: slot + 1,
+            payload: payload as unknown as Record<string, unknown>,
+            scene: payload.scene,
+            inventory_count: payload.inventory.length,
+            flag_count: payload.flags.length,
+            saved_at: payload.savedAt,
+          },
+          { onConflict: "user_id,slot" },
+        );
+      if (error) throw new Error(error.message);
+      return summary;
     },
-    loadGame: (slot: number): boolean => {
-      try {
-        const raw = window.localStorage.getItem(SAVE_PREFIX + slot);
-        if (!raw) return false;
-        const data = JSON.parse(raw) as PersistedState;
-        setScene(data.scene);
-        setFlags(new Set(data.flags));
-        setKnowledge(new Set(data.knowledge));
-        setInventory(data.inventory);
-        setResonance(data.resonance);
-        setEnding(data.ending);
-        miraFloorRef.current = data.miraFloor ?? null;
-        // Reset transient UI
-        setCaption(null);
-        setTextOverlay(null);
-        setDialogId(null);
-        setDialogLineId(null);
-        setRadioOpen(false);
-        setTerminalOpen(false);
-        setRadioActive(false);
-        return true;
-      } catch {
-        return false;
-      }
+    loadGame: async (slot: number): Promise<boolean> => {
+      const u = userRef.current;
+      if (!u) return false;
+      const { data, error } = await supabase
+        .from("game_saves")
+        .select("payload")
+        .eq("user_id", u.id)
+        .eq("slot", slot + 1)
+        .maybeSingle();
+      if (error || !data) return false;
+      const persisted = data.payload as unknown as PersistedState;
+      setScene(persisted.scene);
+      setFlags(new Set(persisted.flags));
+      setKnowledge(new Set(persisted.knowledge));
+      setInventory(persisted.inventory);
+      setResonance(persisted.resonance);
+      setEnding(persisted.ending);
+      miraFloorRef.current = persisted.miraFloor ?? null;
+      // Reset transient UI
+      setCaption(null);
+      setTextOverlay(null);
+      setDialogId(null);
+      setDialogLineId(null);
+      setRadioOpen(false);
+      setTerminalOpen(false);
+      setRadioActive(false);
+      return true;
     },
-    listSaves: () => {
-      const out: Array<SaveSummary | null> = [];
-      for (let i = 0; i < NUM_SLOTS; i++) {
-        try {
-          const raw = window.localStorage.getItem(SAVE_PREFIX + i);
-          if (!raw) {
-            out.push(null);
-            continue;
-          }
-          const data = JSON.parse(raw) as PersistedState;
-          out.push({
-            slot: i,
-            scene: data.scene,
-            savedAt: data.savedAt,
-            flagCount: data.flags.length,
-            inventoryCount: data.inventory.length,
-          });
-        } catch {
-          out.push(null);
-        }
+    listSaves: async (): Promise<Array<SaveSummary | null>> => {
+      const u = userRef.current;
+      const out: Array<SaveSummary | null> = Array(NUM_SLOTS).fill(null);
+      if (!u) return out;
+      const { data, error } = await supabase
+        .from("game_saves")
+        .select("slot, scene, inventory_count, flag_count, saved_at")
+        .eq("user_id", u.id);
+      if (error || !data) return out;
+      for (const row of data) {
+        const idx = (row.slot as number) - 1;
+        if (idx < 0 || idx >= NUM_SLOTS) continue;
+        out[idx] = {
+          slot: idx,
+          scene: row.scene as SceneId,
+          savedAt: row.saved_at as string,
+          flagCount: row.flag_count as number,
+          inventoryCount: row.inventory_count as number,
+        };
       }
       return out;
     },
-    deleteSave: (slot: number) => {
-      try {
-        window.localStorage.removeItem(SAVE_PREFIX + slot);
-      } catch {
-        /* ignore */
-      }
+    deleteSave: async (slot: number): Promise<void> => {
+      const u = userRef.current;
+      if (!u) return;
+      await supabase
+        .from("game_saves")
+        .delete()
+        .eq("user_id", u.id)
+        .eq("slot", slot + 1);
     },
   };
 
