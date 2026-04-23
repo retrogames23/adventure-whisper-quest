@@ -70,6 +70,7 @@ const COMMANDS = [
   "read",
   "status",
   "unlock",
+  "report",
   "clear",
   "exit",
   "pwd",
@@ -851,11 +852,23 @@ export function Terminal() {
         { text: "  GATEWAY E67/E71   [ MANUELLER CODE ERFORDERLICH ]", kind: "out" },
       );
     } else if (cmd === "inbox") {
+      const showExitMail =
+        flags.has("calledInsa2") &&
+        !flags.has("reportedExit") &&
+        !flags.has("calledStegmann");
+      const count =
+        2 + (flags.has("calledForCode") ? 1 : 0) + (showExitMail ? 1 : 0);
       newLines.push(
-        { text: "POSTEINGANG (3):", kind: "system" },
+        { text: `POSTEINGANG (${count}):`, kind: "system" },
         { text: "  [001] Insa Bauerfeind — Wartungsfenster Gateway", kind: "out" },
         { text: "  [002] Stegmann (IT)  — Bitte: Störungsmeldung einreichen", kind: "out" },
       );
+      if (showExitMail) {
+        newLines.push({
+          text: "  [004] Leitstelle E67 — Ausgangsmeldung: Standardprotokoll  ✶NEU",
+          kind: "system",
+        });
+      }
       if (flags.has("calledForCode")) {
         newLines.push({
           text: "  [003] Insa Bauerfeind — Sektor-Tür: Manueller Code  ✶NEU",
