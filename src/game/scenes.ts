@@ -1103,6 +1103,19 @@ export const scenes: Record<string, Scene> = {
     title: "Korridor 46 — Wohnetage",
     intro:
       "Wie zuhause, nur eine Etage höher. Ein Plakat „RESONANZ-HYGIENE“ blättert ab.",
+    npcs: [
+      {
+        id: "miraSprite46",
+        src: miraSprite,
+        x: 22,
+        y: 36,
+        w: 14,
+        h: 54,
+        alt: "Junge Frau, an die Wand gelehnt",
+        hiddenWhen: ["tookFlyer"],
+        visible: (api) => api.getMiraFloor() === 4,
+      },
+    ],
     hotspots: [
       {
         id: "miraSpot46",
