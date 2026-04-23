@@ -8,6 +8,7 @@ import {
   adventureCommand,
   adventureStart,
   newAdventureState,
+  adventureComplete,
   type AdvState,
 } from "@/game/adventureGame";
 
