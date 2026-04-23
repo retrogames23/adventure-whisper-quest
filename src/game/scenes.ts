@@ -143,10 +143,10 @@ export const scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "philippeNpc",
-        x: 70,
-        y: 35,
+        x: 75,
+        y: 25,
         w: 22,
-        h: 55,
+        h: 65,
         label: "Philippe",
         hiddenWhen: ["paramedicsArrived"],
         onUse: (api) => {
@@ -160,9 +160,9 @@ export const scenes: Record<string, Scene> = {
       {
         id: "wall",
         x: 30,
-        y: 25,
-        w: 30,
-        h: 45,
+        y: 8,
+        w: 36,
+        h: 50,
         label: "Wand mit Klopfen",
         hiddenWhen: ["doorBrokenOpen"],
         onUse: (api) => {
@@ -178,10 +178,10 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "phone2613",
-        x: 5,
-        y: 50,
-        w: 14,
-        h: 18,
+        x: 2,
+        y: 12,
+        w: 18,
+        h: 38,
         label: "Telefon (Wandapparat)",
         requires: ["knockingHeard"],
         hiddenWhen: ["calledLeitstelle"],
@@ -288,10 +288,10 @@ export const scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "patient2615",
-        x: 38,
-        y: 45,
-        w: 22,
-        h: 45,
+        x: 36,
+        y: 30,
+        w: 24,
+        h: 60,
         label: "Der Mann an der Wand",
         hiddenWhen: ["sawCatatonic"],
         onUse: (api) => {
@@ -310,10 +310,10 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "paramedicsHotspot2615",
-        x: 15,
+        x: 70,
         y: 35,
-        w: 18,
-        h: 55,
+        w: 24,
+        h: 60,
         label: "Sanitäter ansprechen",
         requires: ["sawCatatonic"],
         hiddenWhen: ["protocolReceived"],
@@ -331,10 +331,10 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "philippe2615",
-        x: 70,
-        y: 35,
-        w: 18,
-        h: 55,
+        x: 14,
+        y: 28,
+        w: 16,
+        h: 60,
         label: "Philippe",
         hiddenWhen: ["sawCatatonic"],
         onUse: (api) => {
