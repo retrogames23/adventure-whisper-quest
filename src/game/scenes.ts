@@ -15,6 +15,7 @@ import corridor46Bg from "@/assets/scene-corridor-46.jpg";
 import corridor56Bg from "@/assets/scene-corridor-56.jpg";
 import miraSprite from "@/assets/npc-mira.png";
 import philippeSprite from "@/assets/npc-philippe.png";
+import bodoSprite from "@/assets/npc-bodo.png";
 import type { Scene } from "./types";
 
 export const scenes: Record<string, Scene> = {
