@@ -45,6 +45,8 @@ export type StoryFlag =
   | "sawCatatonic"
   | "protocolReceived"
   | "calledInsa2"
+  | "reportedExit"
+  | "skippedExitReport"
   | "calledStegmann"
   | "calledForCode"
   | "sectorDoorOpen"
