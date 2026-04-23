@@ -340,7 +340,9 @@ export function Terminal() {
           onSubmit={handleSubmit}
           className="flex items-center gap-2 border-t border-phosphor/30 bg-black px-4 py-2"
         >
-          <span className="font-mono-crt text-phosphor phosphor-glow">{">"}</span>
+          <span className="font-mono-crt text-xs text-phosphor phosphor-glow">
+            worag@e67:{pathString(cwd).replace("/home/worag", "~")}$
+          </span>
           <input
             ref={inputRef}
             value={input}
