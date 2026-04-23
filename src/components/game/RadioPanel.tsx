@@ -147,32 +147,38 @@ export function RadioPanel() {
         api.setFlag("doorbellRang");
         setRadioActive(true);
         resetResonance();
-        playDoorbell(0.7 * sfxVolume);
         closeRadio();
-        // Wenn Layard gerade in seiner Wohnung ist, klingelt Philippe
-        // direkt — wir starten den Türdialog.
-        if (scene === "apartment") {
-          api.showText([
+        // 1) Erst spielt der Schmerz-Radio-Moment in voller Länge ab.
+        //    2) Erst nach dem Schließen des Radio-Texts klingelt es an
+        //       der Tür und der Türdialog beginnt.
+        const isHome = scene === "apartment";
+        api.showText(
+          [
             ">> SCHMERZ-RADIO 104,6 — ENGEL-TRAUER",
             "Eine Stimme, die nichts sagt. Nur trauert.",
             "Fragmente: „... Zimmer ... Wand ... nicht aufhören ...“",
-            "*KLINGEL-KLINGEL*",
-            "Jemand ist an Layards Wohnungstür.",
-          ]);
-          api.setFlag("metPhilippe");
-          api.startDialog("philippeAtDoor");
-        } else {
-          // Layard ist nicht zu Hause — Philippe wird zu Hause warten,
-          // bis Layard zurück ist. Beim nächsten Öffnen der Wohnungstür
-          // löst der Door-Hotspot den Dialog aus.
-          api.showText([
-            ">> SCHMERZ-RADIO 104,6 — ENGEL-TRAUER",
-            "Eine Stimme, die nichts sagt. Nur trauert.",
-            "Fragmente: „... Zimmer ... Wand ... nicht aufhören ...“",
-            "Irgendwo, weit weg: ein einzelnes *KLINGEL*.",
-            "Vielleicht in 2611. Vielleicht sollte Layard nach Hause.",
-          ]);
-        }
+          ],
+          () => {
+            playDoorbell(0.7 * sfxVolume);
+            if (isHome) {
+              api.showText(
+                [
+                  "*KLINGEL-KLINGEL*",
+                  "Jemand ist an Layards Wohnungstür.",
+                ],
+                () => {
+                  api.setFlag("metPhilippe");
+                  api.startDialog("philippeAtDoor");
+                },
+              );
+            } else {
+              api.showText([
+                "Irgendwo, weit weg: ein einzelnes *KLINGEL*.",
+                "Vielleicht in 2611. Vielleicht sollte Layard nach Hause.",
+              ]);
+            }
+          },
+        );
       }, 900);
       return () => clearTimeout(t);
     }
