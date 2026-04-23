@@ -1196,20 +1196,20 @@ export const dialogs: Record<string, DialogTree> = {
       mi2: {
         id: "mi2",
         speaker: "MIRA",
-        text: "Hey. Du bist nicht von dieser Etage. Wer auf einer fremden Etage ankommt, sucht entweder etwas — oder läuft weg.",
+        text: "Hey. Du bist nicht von dieser Etage. Aber du suchst auch nichts Bestimmtes, oder? Du läufst nur. Das machen die meisten, bevor sie wissen, wovor.",
         subtext: "Sie sagt das ohne Vorwurf. Eher wie eine Diagnose.",
         next: "mi3",
       },
       mi3: {
         id: "mi3",
         speaker: "LAYARD",
-        text: "Ich suche jemanden. Den Abschnittsverantwortlichen.",
+        text: "Ich … wollte mir nur ein paar andere Etagen ansehen.",
         next: "mi4",
       },
       mi4: {
         id: "mi4",
         speaker: "MIRA",
-        text: "Den gibt es heute nicht. Den gibt es eigentlich nie. Das System tut nur so, als ob.",
+        text: "Andere Etagen ansehen. — Weißt du, wie selten das jemand macht? Die meisten bleiben in ihrem Quadranten, bis sie transferiert werden. Du nicht.",
         subtext: "Sie hat das schon oft gesagt. Sie wartet darauf, wie er reagiert.",
         choices: [
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
