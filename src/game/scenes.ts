@@ -436,38 +436,6 @@ export const scenes: Record<string, Scene> = {
         alt: "Bodo sitzt im Sessel",
         hiddenWhen: ["bodoLeftForB3"],
       },
-      {
-        id: "lottiSprite",
-        src: lottiSprite,
-        // Katze auf der Ottomane vor dem Sessel.
-        x: 33,
-        y: 70,
-        w: 16,
-        h: 14,
-        alt: "Lotti, Bodos schwarze Katze",
-      },
-      {
-        // CRT-Bildschirm: vor dem Update CentralOS v2.0.
-        id: "screenV20",
-        src: screenV20,
-        x: 57,
-        y: 45,
-        w: 15,
-        h: 12,
-        alt: "Bildschirm: CentralOS v2.0",
-        hiddenWhen: ["centralOsUpdated"],
-      },
-      {
-        // Nach dem Update: CentralOS v2.3.1.
-        id: "screenV231",
-        src: screenV231,
-        x: 57,
-        y: 45,
-        w: 15,
-        h: 12,
-        alt: "Bildschirm: CentralOS v2.3.1",
-        requires: ["centralOsUpdated"],
-      },
     ],
     hotspots: [
       {
