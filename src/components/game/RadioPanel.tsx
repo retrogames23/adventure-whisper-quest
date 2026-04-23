@@ -8,12 +8,55 @@ import {
 } from "@/audio/sfx";
 
 const BANDS = [
-  { from: 100.0, to: 101.9, label: "Angst / Panik", art: "Statisch, zitternd" },
-  { from: 102.0, to: 103.4, label: "Einsamkeit", art: "Dumpf, wogend" },
-  { from: 103.5, to: 104.5, label: "Trauer", art: "Fließend, warm" },
-  { from: 104.6, to: 104.6, label: "Engel-Trauer", art: "Kristallklar, tief" },
-  { from: 105.0, to: 106.5, label: "Sehnsucht", art: "Pulsierend" },
-  { from: 107.0, to: 108.0, label: "Gestörte Signale", art: "Rauschen" },
+const BANDS = [
+  {
+    from: 100.0,
+    to: 101.9,
+    label: "Angst / Panik",
+    art: "Statisch, zitternd",
+    style: "panic" as const,
+    color: "bg-destructive",
+  },
+  {
+    from: 102.0,
+    to: 103.4,
+    label: "Einsamkeit",
+    art: "Dumpf, wogend",
+    style: "lonely" as const,
+    color: "bg-phosphor-dim",
+  },
+  {
+    from: 103.5,
+    to: 104.5,
+    label: "Trauer",
+    art: "Fließend, warm",
+    style: "grief" as const,
+    color: "bg-amber-glow/70",
+  },
+  {
+    from: 104.6,
+    to: 104.6,
+    label: "Engel-Trauer",
+    art: "Kristallklar, tief",
+    style: "angel" as const,
+    color: "bg-amber-glow",
+  },
+  {
+    from: 105.0,
+    to: 106.5,
+    label: "Sehnsucht",
+    art: "Pulsierend",
+    style: "longing" as const,
+    color: "bg-primary",
+  },
+  {
+    from: 107.0,
+    to: 108.0,
+    label: "Gestörte Signale",
+    art: "Rauschen",
+    style: "noise" as const,
+    color: "bg-muted-foreground",
+  },
 ];
 
 function bandFor(freq: number) {
