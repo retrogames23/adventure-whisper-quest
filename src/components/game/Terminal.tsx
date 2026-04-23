@@ -1594,12 +1594,18 @@ export function Terminal() {
         newLines.push({ text: "ls: aktuelles Verzeichnis ungültig.", kind: "out" });
       } else {
         newLines.push({ text: `Inhalt von ${pathString(cwd)}:`, kind: "system" });
-        newLines.push(...formatLs(visibleChildren(node, showAll, (f) => flags.has(f))));
+        let kids = visibleChildren(node, showAll, (f) => flags.has(f));
+        // In Bodos Terminal: das Verzeichnis /home zeigt worag nicht — Bodo
+        // sieht (und kennt) sein eigenes Home, nicht das des Nachbarn.
+        if (bodoMode && pathString(cwd) === "/home") {
+          kids = kids.filter((c) => c.name !== "worag");
+        }
+        newLines.push(...formatLs(kids));
       }
     } else if (head === "cd") {
       const target = args[0] ?? "";
       if (!target || target === "~") {
-        setCwd([...HOME_PATH]);
+        setCwd([...homePath]);
       } else if (target === "/") {
         setCwd([]);
       } else if (target === "..") {
