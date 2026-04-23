@@ -476,7 +476,9 @@ export function Terminal() {
           className="flex items-center gap-2 border-t border-phosphor/30 bg-black px-4 py-2"
         >
           <span className="font-mono-crt text-xs text-phosphor phosphor-glow">
-            worag@e67:{pathString(cwd).replace("/home/worag", "~")}$
+            {advState
+              ? "adventure>"
+              : `worag@e67:${pathString(cwd).replace("/home/worag", "~")}$`}
           </span>
           <input
             ref={inputRef}
@@ -493,6 +495,8 @@ export function Terminal() {
                 return;
               }
               e.preventDefault();
+              // No tab-completion inside the adventure sub-mode.
+              if (advState) return;
               const result = complete(input, cwd, (f) => flags.has(f));
               if (!result.matches.length) {
                 playBeep(0.2 * sfxVolume);
