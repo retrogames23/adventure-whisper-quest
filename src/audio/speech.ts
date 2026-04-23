@@ -13,7 +13,8 @@ type Speaker =
   | "RADIO"
   | "MIKAEL"
   | "RECEPTION"
-  | "MIRA";
+  | "MIRA"
+  | "BODO";
 
 
 interface VoiceProfile {
@@ -37,6 +38,7 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
   SYSTEM: { voiceId: "CwhRBWXzGAHq8TQ4Fs17", speed: 0.95 }, // Roger — nüchtern
   RECEPTION: { voiceId: "Xb7hH8MSUJpSbSDYk0k2", speed: 1.1 }, // Alice — klar
   MIRA: { voiceId: "XB0fDUnXU5powFXDhCwa", speed: 1.08 }, // Charlotte — jung, neugierig
+  BODO: { voiceId: "JBFqnCBsd6RMkjVDRZzb", speed: 0.88 }, // George — älter, knurrig
 };
 
 /** Currently playing audio element — cancelled before each new line. */
