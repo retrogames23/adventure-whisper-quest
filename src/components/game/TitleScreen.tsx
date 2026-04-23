@@ -8,6 +8,7 @@ interface Props {
 
 export function TitleScreen({ onStart }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const startedRef = useRef(false);
   const [musicOn, setMusicOn] = useState(true);
 
   useEffect(() => {
@@ -53,11 +54,15 @@ export function TitleScreen({ onStart }: Props) {
 
   const handleStart = () => {
     // Stop title music before entering the game (game has its own playlist).
+    startedRef.current = true;
     const a = audioRef.current;
     if (a) {
       a.pause();
       a.currentTime = 0;
+      a.src = "";
+      audioRef.current = null;
     }
+    setMusicOn(false);
     onStart();
   };
 
