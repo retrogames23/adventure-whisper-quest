@@ -925,7 +925,6 @@ export const scenes: Record<string, Scene> = {
     title: "Korridor 36 — Verwaltung E67",
     intro:
       "Andere Beleuchtung als zuhause. Sterilere Türen. Vor einer davon — 3601 — ein handgeschriebenes Schild.",
-    doorPlates: [{ id: "p3601", x: 25, y: 28, w: 10, label: "3601" }],
     hotspots: [
       {
         id: "officeDoor",
