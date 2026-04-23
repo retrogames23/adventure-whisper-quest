@@ -102,10 +102,11 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "window",
-        x: 65,
-        y: 18,
+        // Fenster mit grünem Schein, Bildmitte etwas nach rechts.
+        x: 52,
+        y: 14,
         w: 18,
-        h: 35,
+        h: 38,
         label: "Fenster",
         onUse: (api) =>
           api.showText([
