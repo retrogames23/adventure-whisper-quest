@@ -90,6 +90,8 @@ export interface Hotspot {
   requires?: StoryFlag[];
   /** hide once these flags are present */
   hiddenWhen?: StoryFlag[];
+  /** custom visibility predicate, evaluated after requires/hiddenWhen */
+  visible?: (api: GameApi) => boolean;
   onUse: (api: GameApi) => void;
 }
 
