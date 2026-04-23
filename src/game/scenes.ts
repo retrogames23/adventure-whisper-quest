@@ -48,8 +48,8 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 25,
         label: "Telefon",
-        // Only available after returning from 2613 with the protocol
-        requires: ["protocolReceived"],
+        // Only available after Layard saw the empty office on floor 3.
+        requires: ["sawEmptyOffice"],
         hiddenWhen: ["calledForCode"],
         onUse: (api) => {
           if (!api.hasFlag("calledInsa2")) {
