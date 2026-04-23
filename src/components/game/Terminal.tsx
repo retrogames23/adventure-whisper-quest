@@ -2,10 +2,59 @@ import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
 import { playBeep, playKeypress, playUnlock } from "@/audio/sfx";
+import { FILESYSTEM, resolvePath, pathString, type FsNode } from "@/game/filesystem";
+import type { StoryFlag } from "@/game/types";
 
 interface Line {
   text: string;
   kind?: "in" | "out" | "system";
+}
+
+/** Filter children by visibility (hidden files only with -a, locked files only when flag is set). */
+function visibleChildren(
+  node: FsNode,
+  showAll: boolean,
+  hasFlag: (f: StoryFlag) => boolean,
+): FsNode[] {
+  if (node.type !== "dir") return [];
+  return node.children.filter((c) => {
+    if (c.type === "file" && c.requires && !hasFlag(c.requires as StoryFlag)) return false;
+    if (!showAll && c.name.startsWith(".")) return false;
+    return true;
+  });
+}
+
+function formatLs(children: FsNode[]): Line[] {
+  if (!children.length) return [{ text: "  (leer)", kind: "out" }];
+  return children.map((c) => {
+    if (c.type === "dir") {
+      return { text: `  ${c.name.padEnd(28)} <DIR>`, kind: "system" } as Line;
+    }
+    const size = (c.size ?? 0).toString().padStart(6, " ");
+    const date = (c.date ?? "—").padEnd(12, " ");
+    return { text: `  ${c.name.padEnd(28)} ${size}  ${date}`, kind: "out" } as Line;
+  });
+}
+
+function buildTree(
+  node: FsNode,
+  hasFlag: (f: StoryFlag) => boolean,
+  prefix = "",
+): string[] {
+  const out: string[] = [];
+  if (node.type !== "dir") return [`${prefix}${node.name}`];
+  const kids = visibleChildren(node, false, hasFlag);
+  kids.forEach((child, i) => {
+    const last = i === kids.length - 1;
+    const branch = last ? "└── " : "├── ";
+    const label = child.type === "dir" ? `${child.name}/` : child.name;
+    out.push(`${prefix}${branch}${label}`);
+    if (child.type === "dir") {
+      const nextPrefix = prefix + (last ? "    " : "│   ");
+      out.push(...buildTree(child, hasFlag, nextPrefix));
+    }
+  });
+  return out;
 }
 
 const HELP_LINES: Line[] = [
@@ -15,6 +64,14 @@ const HELP_LINES: Line[] = [
   { text: "  read <id>     — Nachricht öffnen", kind: "out" },
   { text: "  status        — Systemstatus", kind: "out" },
   { text: "  unlock <code> — Sektor-Tür öffnen (8 Ziffern)", kind: "out" },
+  { text: "", kind: "out" },
+  { text: "DATEISYSTEM:", kind: "system" },
+  { text: "  pwd           — Aktuelles Verzeichnis", kind: "out" },
+  { text: "  ls [-a]       — Inhalt auflisten (-a: versteckte Dateien)", kind: "out" },
+  { text: "  cd <pfad>     — Verzeichnis wechseln (.. = aufwärts, / = root)", kind: "out" },
+  { text: "  cat <datei>   — Datei lesen", kind: "out" },
+  { text: "  tree          — Baumansicht ab aktuellem Pfad", kind: "out" },
+  { text: "", kind: "out" },
   { text: "  clear         — Bildschirm leeren", kind: "out" },
   { text: "  exit          — Terminal schließen", kind: "out" },
 ];
@@ -31,6 +88,7 @@ export function Terminal() {
   const { sfxVolume } = useSettings();
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
+  const [cwd, setCwd] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +97,7 @@ export function Terminal() {
       setLines([
         { text: ">> CENTRALOS v2.3 — Terminal Quadrant E67", kind: "system" },
         { text: ">> Benutzer: WORAG, L. (Zimmer 2611)", kind: "system" },
+        { text: ">> Persönliches Verzeichnis bereit (siehe 'help' › DATEISYSTEM)", kind: "system" },
         { text: ">> Tippe 'help' für Befehle.", kind: "system" },
         { text: "", kind: "out" },
       ]);
@@ -56,10 +115,15 @@ export function Terminal() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const cmd = input.trim().toLowerCase();
-    if (!cmd) return;
+    const raw = input.trim();
+    if (!raw) return;
+    const cmd = raw.toLowerCase();
+    const argsRaw = raw.split(/\s+/);
+    const head = argsRaw[0]?.toLowerCase() ?? "";
+    const args = argsRaw.slice(1);
     playBeep(0.4 * sfxVolume);
-    const newLines: Line[] = [{ text: `>> ${input}`, kind: "in" }];
+    const promptPath = pathString(cwd).replace("/home/worag", "~");
+    const newLines: Line[] = [{ text: `worag@e67:${promptPath}$ ${input}`, kind: "in" }];
 
     if (cmd === "help") {
       newLines.push(...HELP_LINES);
@@ -152,6 +216,75 @@ export function Terminal() {
           kind: "out",
         });
       }
+    } else if (head === "pwd") {
+      newLines.push({ text: pathString(cwd), kind: "out" });
+    } else if (head === "ls") {
+      const showAll = args.includes("-a") || args.includes("-la") || args.includes("-al");
+      const node = resolvePath(cwd);
+      if (!node || node.type !== "dir") {
+        newLines.push({ text: "ls: aktuelles Verzeichnis ungültig.", kind: "out" });
+      } else {
+        newLines.push({ text: `Inhalt von ${pathString(cwd)}:`, kind: "system" });
+        newLines.push(...formatLs(visibleChildren(node, showAll, (f) => flags.has(f))));
+      }
+    } else if (head === "cd") {
+      const target = args[0] ?? "";
+      if (!target || target === "~" || target === "/") {
+        setCwd([]);
+      } else if (target === "..") {
+        setCwd((p) => p.slice(0, -1));
+      } else {
+        // support multi-segment paths like tagebuch/1986-09-12.txt's parent
+        const segments = target.split("/").filter(Boolean);
+        const base = target.startsWith("/") ? [] : [...cwd];
+        let trial = base;
+        let ok = true;
+        for (const seg of segments) {
+          if (seg === "..") {
+            trial = trial.slice(0, -1);
+            continue;
+          }
+          const probe = resolvePath([...trial, seg]);
+          if (!probe || probe.type !== "dir") {
+            ok = false;
+            break;
+          }
+          trial = [...trial, seg];
+        }
+        if (ok) {
+          setCwd(trial);
+        } else {
+          newLines.push({ text: `cd: ${target}: Verzeichnis nicht gefunden.`, kind: "out" });
+        }
+      }
+    } else if (head === "cat") {
+      const target = args[0];
+      if (!target) {
+        newLines.push({ text: "cat: Dateiname fehlt.", kind: "out" });
+      } else {
+        const segments = target.split("/").filter(Boolean);
+        const base = target.startsWith("/") ? [] : [...cwd];
+        const node = resolvePath([...base, ...segments]);
+        if (!node) {
+          newLines.push({ text: `cat: ${target}: Datei nicht gefunden.`, kind: "out" });
+        } else if (node.type === "dir") {
+          newLines.push({ text: `cat: ${target}: ist ein Verzeichnis.`, kind: "out" });
+        } else if (node.requires && !flags.has(node.requires as StoryFlag)) {
+          newLines.push({ text: `cat: ${target}: Zugriff verweigert.`, kind: "out" });
+        } else {
+          newLines.push({ text: `── ${node.name} ───────────────────────`, kind: "system" });
+          newLines.push(...node.content.map((t) => ({ text: t, kind: "out" } as Line)));
+          newLines.push({ text: "── EOF ──────────────────────────────", kind: "system" });
+        }
+      }
+    } else if (head === "tree") {
+      const node = resolvePath(cwd) ?? FILESYSTEM;
+      newLines.push({ text: pathString(cwd), kind: "system" });
+      newLines.push(
+        ...buildTree(node, (f) => flags.has(f)).map(
+          (t) => ({ text: t, kind: "out" } as Line),
+        ),
+      );
     } else {
       newLines.push({
         text: `Unbekannter Befehl: ${cmd}. Tippe 'help'.`,
@@ -207,7 +340,9 @@ export function Terminal() {
           onSubmit={handleSubmit}
           className="flex items-center gap-2 border-t border-phosphor/30 bg-black px-4 py-2"
         >
-          <span className="font-mono-crt text-phosphor phosphor-glow">{">"}</span>
+          <span className="font-mono-crt text-xs text-phosphor phosphor-glow">
+            worag@e67:{pathString(cwd).replace("/home/worag", "~")}$
+          </span>
           <input
             ref={inputRef}
             value={input}
