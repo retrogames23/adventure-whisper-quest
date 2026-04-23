@@ -52,6 +52,9 @@ export function DialogOverlay() {
     RECEPTION: "text-phosphor",
     MIRA: "text-phosphor",
     BODO: "text-foreground",
+    HELKA: "text-foreground",
+    ENNIS: "text-foreground",
+    STEGMANN: "text-amber-glow",
   };
 
   return (
