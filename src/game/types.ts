@@ -29,7 +29,8 @@ export type KnowledgeFlag =
   | "responsibilityE67"
   | "radioOrigin"
   | "leitstelleListens"
-  | "frequencyControl";
+  | "frequencyControl"
+  | "insaScreened";
 
 export type StoryFlag =
   | "radioTunedTo1046"
@@ -105,7 +106,19 @@ export type StoryFlag =
   | "metEnnis"
   | "talkedEnnis2"
   | "ennisCracked"
-  | "ennisSawFlyer";
+  | "ennisSawFlyer"
+  // Akt 1, Erweiterung: defekter Aufzug nach Protokoll-Übergabe.
+  // Anfangs setzt das System (post-protocolReceived) eine Wartungssperre
+  // 4711, die nur über Bodos Hausmeister-Account gelöscht werden kann.
+  | "elevatorMaintBlocked"
+  | "elevatorMaintSeen"
+  | "elevatorMaintCleared"
+  // Ennis: Layard zitiert Helka & Bodo → Ennis öffnet ohne Flyer.
+  | "ennisOpenedOnQuote"
+  // Insas Rückruf-Code: ein verpasster Anruf landet bei Stegmann.
+  | "insaCallbackPending"
+  | "insaCallbackTaken"
+  | "insaCallbackMissed";
 
 export interface InventoryItem {
   id: InventoryItemId;

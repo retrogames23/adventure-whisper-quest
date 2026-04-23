@@ -1,101 +1,93 @@
 
+# Vorschläge: Neue Rätsel & Hindernisse für Akt I
 
-## Ziel
+Akt I lebt von Telefon, Tür, Terminal, Korridor — und vom Spannungsfeld zwischen B2-Konformität und einem ersten Schritt zur Eigeninitiative. Die folgenden Vorschläge bauen auf bereits etablierten Elementen auf (Bodo, Lotti, Helka, Ennis, Mira, der Flyer, Insa, Stegmann, das leere Büro, die Sektor-Tür) und fügen sich in die bestehende Flag- und Inventar-Logik. Keine fremden Mechaniken — nur tiefere Nutzung der vorhandenen.
 
-Stegmanns bürokratische Anweisung („CentralOS aktualisieren → Technisches Problem melden") wird zu **zwei einzelnen Terminal-Befehlen** mit ordentlich Ton & Bildschirm-Spektakel — kein verschachteltes Fake-Menü. Danach ist `CentralOS v2.3.1` aktiv, einzige Funktionsänderung: `report exit` funktioniert tatsächlich.
+Geordnet nach Themenblöcken. Du kannst beliebig auswählen, was wir umsetzen.
 
-## Spielablauf (UX)
+---
 
-Nach dem Stegmann-Telefonat (`calledStegmann` gesetzt) leuchten im Terminal **zwei neue Zeilen** im `help`-Output auf, mit dezentem ✶NEU-Hinweis:
+## A — Rätsel rund um Bodos Terminal
 
-```text
-  sysupdate     — CentralOS-Aktualisierung (E67-Netz)        ✶ERFORDERLICH
-  trouble net   — Netzwerkproblem an Leitstelle E67 melden
-```
+Bodos Terminal ist bereits etabliert (Bodo geht für 15 Min B3 holen, sobald Layard Lotti kennt und ihn überredet hat). Aktuell wird das Terminal nur einmal genutzt (CentralOS sysupdate). Wir können es mehrfach gewinnbringender einsetzen.
 
-Zusätzlich erscheint **eine neue Inbox-Mail [005]** von Stegmann mit derselben Anleitung — falls der Spieler die Telefonnotiz vergisst.
+1. **Quersuche im Quadranten-Verzeichnis**
+   - Layard braucht Bodos Terminal, um in CentralOS auf eine Datei zuzugreifen, die in seinem eigenen Account gesperrt ist — z. B. `/sektor/E67/bewohner/2615.txt`. Bodos Account hat eine ältere Berechtigungsstufe ("Hausmeister-Restzugriff"), die dort noch greift.
+   - Belohnung: der Name des Mannes an der Wand (z. B. "Otmar Reiss"), ein Geburtsdatum, vielleicht ein Hinweis auf eine frühere Quarantäne. Macht den Patienten zum Menschen statt zur Anekdote.
+   - Hindernis davor: ohne sysupdate (CentralOS v2.3.1) wird die Datei nicht angezeigt — also kommt das eigentliche Rätsel (Update + Suche) zusammen in einem Schwung.
 
-### Schritt 1: `sysupdate`
+2. **Mira im System finden**
+   - Nach der Begegnung mit Mira (mira_open) kann Layard auf Bodos Terminal nach ihrem Namen suchen — und findet sie nicht. Stattdessen einen Eintrag mit "ZUGRIFF VERWEIGERT — Schicht 2". Bestätigt Miras Andeutung, dass sie offiziell gar nicht hier wohnt.
+   - Gibt einen neuen Knowledge-Flag `miraNotInRegistry`, der später den Endlos-Tür-Dialog mit Insa beeinflusst.
 
-Spieler tippt `sysupdate`. Ein scriptgesteuerter "Boot-Sturm" läuft ab — **keine echten Eingaben mehr nötig**, aber visuell intensiv (~6–8 Sekunden gesamt). Zeilen werden mit gestaffelten `setTimeout`s ausgegeben, dazu Beep-SFX:
+3. **Flyer-Quelle nachvollziehen**
+   - Layard prüft am Terminal, wann der Flyer im Treppenhaus auftauchte. Logfile `/var/log/cleaning.log` zeigt: er wurde zwischen zwei Reinigungsrunden eingeworfen — also von jemandem aus dem Quadranten. Bodo kommt zurück, bevor Layard den Eintrag löschen kann → neuer Bodo-Dialog ("Sie haben in den Reinigungslogs gewühlt, Worag.")
 
-```text
->> sysupdate: Verbinde mit update.e67 …
->> Authentifizierung … OK
->> Lade Manifest centralos-2.3.1.pkg …
-   [████░░░░░░] 12%
-   [██████░░░░] 47%
-   [██████████] 100%
->> Verifiziere SHA … OK
->> Stoppe Dienste:
-   carrier-daemon …………… OK
-   inbox-relay …………………… OK
-   gateway-watch ……………… OK
->> Patch /usr/bin/centralos … OK
->> Patch /usr/bin/report …… OK   ← (subtiler Hinweis)
->> Migriere /etc/motd ……… OK
->> Starte Dienste neu:
-   carrier-daemon …………… OK
-   inbox-relay …………………… OK
-   gateway-watch ……………… OK
->> CentralOS v2.3 → v2.3.1   [OK]
->> Bitte führen Sie nun `trouble net` aus.
-```
+---
 
-Während der Sequenz ist die Eingabe **deaktiviert** (Input ausgegraut, Cursor blinkt nicht), damit der Spieler nicht ungewollt unterbricht. Bricht sich der Spieler raus (Esc → schließt Terminal), läuft beim Wiederöffnen nichts weiter — er muss `sysupdate` erneut starten (idempotent). Setzt Flag `centralOsUpdated`.
+## B — Hindernisse, die Layard mit Bodos Terminal lösen muss
 
-### Schritt 2: `trouble net`
+Hier konkrete Blockaden, deren Auflösung zwingend Bodos Maschine braucht:
 
-Kürzer, ~3 Sekunden, keine Fortschrittsbalken, dafür sehr offiziell:
+1. **Defekter Aufzug**
+   - Beim ersten Versuch, in den Aufzug zu steigen (nach `protocolReceived`), zeigt das Display "AUFZUG GESPERRT — WARTUNGSANFRAGE 4711". Das eigene Terminal in 2611 darf Wartungsanfragen nur lesen, nicht löschen. Bodos Account darf.
+   - Layard muss also: Lotti kennenlernen → Bodo überreden → an Bodos Terminal die Wartungsanfrage stornieren (`maint cancel 4711`) → Aufzug fährt wieder.
+   - Schöne Kollision: das hängt direkt mit dem Auftrag zusammen, das Protokoll nach E71 zu bringen — und macht den Block-Hausmeister zum unfreiwilligen Komplizen.
 
-```text
->> trouble: Automatische Problemermittlung gestartet …
->> Scanne lokales Segment E67 …………………… OK
->> Scanne Gateway E67/E71 ……………………………… STÖRUNG
->> Klassifizierung: ROUTING (Code 4567)
->> Erzeuge Ticket #E67-19971106-0042 …… OK
->> Übermittle an LEITSTELLE25@ZENTRAL.NETZ
->> Ticket angenommen. Bearbeitungszeit: unbestimmt.
->> Vielen Dank für Ihre Mitarbeit.
-```
+2. **Phantom-Quarantäne auf 2611**
+   - Nach dem Telefonat mit Stegmann (oder als Folge des "skippedExitReport"-Pfades) wird Layards eigene Wohnung als "kontaminiert" markiert. Ergebnis: das Schloss von 2611 schließt sich beim Verlassen automatisch, Layard kann nicht mehr zurück, bis der Marker entfernt ist.
+   - Auflösung: Bodos Terminal hat Zugriff auf den Sektor-Türserver (`door unflag 2611`). Schöner Twist: Bodo darf das eigentlich auch nicht — aber sein Account weiß das nicht.
 
-Setzt Flag `troubleReported`. Gibt einen Inbox-Eintrag **[006] Ticket-Bestätigung** dazu (rein kosmetisch, lesbar).
+3. **Frequenzsperre auf der Etage**
+   - Nach dem Resonanz-Trigger (104,6 max.) erkennt das Sektor-System eine "lokale Übersteuerung" und drosselt 104,6 für Korridor 26. Effekt: Schmerz-Radio funktioniert in 2611 nicht mehr, Layard wird unruhig (neuer Subtext-Layer in allen Dialogen, leichtes UI-Flackern).
+   - Auflösung: Bodos Terminal kann den Drosselungseintrag im Block-Router zurücksetzen. Macht klar, dass die "Frequenz" administrativ verwaltet wird — Vorbereitung auf Mikaels Wahrheit in Akt II.
 
-### Was sich danach ändert
+---
 
-- `sysupdate` allein bewirkt **noch nichts** für die Tür — beide Schritte sind nötig.
-- Sobald **beide** Flags (`centralOsUpdated` + `troubleReported`) gesetzt sind, funktioniert `report exit` zum ersten Mal: bestehende Sequenz, aber **statt** "ERROR 4567 / Meldung NICHT zugestellt" → erfolgreiche Übertragung, `reportedExit` wird gesetzt, kurze Erfolgsmeldung mit Bestätigungs-Token.
-- `status` zeigt nach Update `CentralOS v2.3.1` und `ZENTRAL.NETZ [WARTUNG]` statt `STÖRUNG`.
-- `help` blendet die ✶NEU-Markierungen aus, sobald die jeweiligen Schritte erledigt sind. Bereits erledigte Befehle geben beim erneuten Aufruf eine kurze Stub-Antwort („Bereits aktuell." / „Ticket bereits offen.") und keine zweite Spektakelsequenz.
+## C — Rätsel ohne Bodos Terminal (andere Stellen)
 
-### Anti-Nerv-Entscheidungen
+1. **Insas Rückruf-Code**
+   - Insa ruft in 2611 zurück (Telefon klingelt nach einer bestimmten Aktion). Layard muss innerhalb weniger Klicks rangehen — sonst geht der Anruf an die Voicemail von CentralOS, und er hört eine *andere* Stimme antworten (vielleicht Stegmann), die "im Namen von I. Bauerfeind" eine Standardformel abspult.
+   - Mechanik: kleines Zeitfenster (z. B. 10s sichtbarer Pulsanimation am Hotspot). Verpasst → neuer Knowledge-Flag `insaScreened`, der spätere Insa-Dialoge anders färbt.
 
-1. **Nur zwei Befehle**, beide einsilbig zu tippen, beide tab-vervollständigbar.
-2. **Klare Hinweis-Kette**: Anruf → Mail [005] mit exaktem Wortlaut → `help` zeigt die Befehle.
-3. **Kein modales Menü**, kein „Y/N"-Bestätigungs-Pingpong.
-4. **Skip-Möglichkeit**: Wer es schon mal gesehen hat, kann mit `sysupdate --fast` (versteckt, in der Mail erwähnt) die Sequenz auf 1 Sekunde komprimieren — für Re-Tester.
-5. **Idempotent & Reihenfolge erzwungen**: `trouble net` vor dem Update meldet „Update erforderlich. Bitte zuerst `sysupdate`."
+2. **Die Wartung in 2615**
+   - Bevor die Sanitäter eintreffen, klopft der Mann nach Rhythmus 104,6. Layard kann mit Philippe an der Wand mitklopfen — wenn er den Rhythmus genau trifft (kleines Reaktions-Mini-Spiel: 4 Beats, Tempo passt zu echtem 104,6-Audio), antwortet der Mann *einmal* anders: drei kurze Schläge. Nur Layard hört es. Setzt `heardAnswer`-Flag, der in Mikaels Dialog später aufgegriffen wird.
 
-## Technische Umsetzung
+3. **Ennis' Tür**
+   - Aktuell: Ennis bricht erst auf, wenn er den Flyer sieht. Zwischenstufe: Layard muss erst etwas *teilen*, damit Ennis ihm überhaupt zuhört. Z. B.: nachdem Layard mit Helka und Bodo gesprochen hat, kann er Ennis *zitieren* ("Helka sagt, sie hört es seit zwei Jahren nicht mehr"). Erst dann öffnet Ennis (auch ohne Flyer) einen Spalt.
+   - Mechanik: Dialogchoice bei Ennis nur sichtbar, wenn `talkedHelka2` UND `metBodo` UND `knowsLotti` gesetzt sind. Belohnt das Erkunden des Korridors.
 
-**Geänderte Dateien:**
+4. **Helkas verschlossene Box**
+   - Helka erwähnt in einem späteren Smalltalk eine "Kiste meines Mannes" hinter der Tür. Sie würde sie öffnen, wenn jemand ihr eine alte Quittungsnummer von 1988 vorlesen würde — die nur auf einem alten Zeitungsausschnitt im CentralOS-Archiv (`/sektor/presse/1988_morgenblatt.txt`) zu finden ist. Layard liest, merkt sich (Knowledge-Flag), trägt vor.
+   - Belohnung: der Brief eines früheren E67-Bewohners, der nach E71 versetzt wurde — Vorbote des Mikael-Plots.
 
-- `src/game/types.ts` — neue StoryFlags `centralOsUpdated`, `troubleReported`.
-- `src/components/game/Terminal.tsx`
-  - Neuer Helper `runScriptedSequence(steps: { text, delayMs, kind, beep? }[])` der per `setTimeout` Zeilen anhängt und während der Laufzeit `setLines` updated. Eingabe wird per neuem State `scriptedRunning` deaktiviert.
-  - Neuer Branch `cmd === "sysupdate"` (mit optionalem `--fast`-Flag) → Sequenz oben, am Ende `api.setFlag("centralOsUpdated")`.
-  - Neuer Branch `cmd === "trouble net"` (Aliases `trouble`, `trouble net`) → Sequenz, prüft `centralOsUpdated`, setzt `troubleReported`.
-  - `report exit`-Branch: Erfolgs-Pfad ergänzen, wenn beide Flags gesetzt sind (vorhandene Fehler-Sequenz bleibt für den Fall ohne Update).
-  - `help`-Block: zeigt die zwei neuen Zeilen, sobald `calledStegmann` && nicht beide Flags.
-  - `inbox`/`read 005`/`read 006`: zwei neue Mails (sichtbar an passenden Punkten).
-  - `status`-Branch: Versionsanzeige & Netz-Status abhängig von `centralOsUpdated`.
-  - `COMMANDS`-Array um `sysupdate`, `trouble`, `trouble net` erweitern (Tab-Completion).
-- `src/game/dialogs.ts` — Stegmanns Zeilen `st8` / `st9` auf die neuen Befehlsnamen anpassen (kurz und konkret: „Tippen Sie im Terminal: **sysupdate**. Danach: **trouble net**.").
-- `src/game/filesystem.ts` — `centralos`-Changelog-Eintrag um `v2.3.1 11/1997 Outbound report endpoint repariert.` erweitern; `motd` nach Update aktualisiert (über bestehende `dynamicFiles`-Logik bzw. einfachen Flag-Check beim Anzeigen — minimal halten, sonst nur Changelog).
+5. **Das leere Büro auf Etage 3**
+   - Aktuell wird das leere Büro nur "gesehen". Vorschlag: dort liegt eine handschriftliche Notiz auf dem Schreibtisch, halb unter einem Aktenstapel. Aufheben funktioniert nur, wenn Layard zuvor Mira getroffen hat (sie warnt vor der Kamera über der Tür) — sonst wird er 30 Sekunden später aus dem Apartment-Telefon angerufen und Stegmann mahnt ihn ab (`troubleReported`-Flag wird gesetzt, beeinflusst späteren Insa-Tonfall).
 
-**Nicht geändert:** Hauptpfad-Logik, Türcode, Insa-Dialoge, Hotspots, andere Charaktere.
+6. **Philippes Stille**
+   - Wenn Layard zu schnell zurück nach 2611 geht (z. B. ohne mit Helka oder Bodo gesprochen zu haben), klingelt Philippe später nochmal — aber sagt nur ein einziges Wort. Erst wenn Layard mit mindestens einem anderen Bewohner gesprochen hat, hat er die "soziale Sprache" wieder freigeschaltet, um Philippe richtig zuzuhören.
+   - Mechanik: Dialogvariante in `philippeAfter` über `requires: ["talkedHelka2 OR metBodo OR talkedEnnis2"]`-Logik. Macht das Nachbarschafts-Erkunden zur weichen Pflicht.
 
-## Erwartete Spielzeit für die Sequenz
+---
 
-Erstdurchlauf: **~12 Sekunden** reines „Zuschauen" plus 2× tippen. Das ist kurz genug, um nicht zu nerven, lang genug, um die Bürokratie spürbar zu machen — und mit `--fast` für Wiederholungen praktisch null.
+## D — Optionale "Atmosphäre"-Rätsel (kurz, charmant)
 
+- **Lottis Trick**: Lotti will erst geknuddelt werden, wenn Layard im Inventar nichts metallisches mehr trägt (sie hört das Klimpern). Setzt `lottiTrust`-Flag → Bodo wird offener.
+- **Solaranlage am Fenster**: Layard kann das Fenster prüfen und feststellen, dass die Solaranlage nur 6 Stunden lädt, nicht 48. Wenn er das auf seinem Terminal an Insa meldet, kommt am nächsten Etappenpunkt ein Techniker — der heimlich einen Brief von Mikael dabei hat.
+- **Adventure.bin als Hinweisträger**: Das Mini-Adventure enthält einen Raum mit einer Notiz, die einen Code ergibt (z. B. "madebyhumans" → Passworthinweis für eine Datei in Bodos `/var/log`). Belohnt Spieler, die das Easter Egg ernst nehmen.
+
+---
+
+## Empfohlene Kombination (kompakt)
+
+Wenn du nur 2–3 Sachen einbauen willst, schlage ich vor:
+
+1. **Defekter Aufzug** (B1) — bindet Bodo zwingend an die Hauptachse und belohnt das Lotti/Bodo-Erkundungsspiel.
+2. **Ennis öffnet auf Zitat** (C3) — nutzt alle Korridor-NPCs, ohne neue Assets.
+3. **Insas Rückruf-Code** (C1) — eine zeitkritische Spielmechanik, die thematisch perfekt passt (Überwachung, Frequenz, Druck).
+
+Diese drei zusammen verlängern Akt I um geschätzt 15–25 Minuten echter Spielzeit, ohne die Erzählung zu zerdehnen.
+
+---
+
+Sag mir, welche der Vorschläge ich konkret umsetzen soll — dann mache ich daraus einen Implementierungsplan mit Flags, Dialogen, Hotspots und Terminal-Befehlen.
