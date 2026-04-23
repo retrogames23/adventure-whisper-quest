@@ -1120,6 +1120,23 @@ export function Terminal() {
           },
         );
       }
+      if (
+        flags.has("calledStegmann") &&
+        !(flags.has("centralOsUpdated") && flags.has("troubleReported"))
+      ) {
+        newLines.push(
+          { text: "", kind: "out" },
+          { text: "WARTUNG (Anweisung Stegmann):", kind: "system" },
+          {
+            text: `  sysupdate     — CentralOS-Aktualisierung (E67-Netz)        ${flags.has("centralOsUpdated") ? "" : "✶ERFORDERLICH"}`.trimEnd(),
+            kind: "out",
+          },
+          {
+            text: `  trouble net   — Netzwerkproblem an Leitstelle E67 melden  ${flags.has("troubleReported") ? "" : flags.has("centralOsUpdated") ? "✶ERFORDERLICH" : ""}`.trimEnd(),
+            kind: "out",
+          },
+        );
+      }
     } else if (cmd === "adventure" || cmd === "./adventure.bin" || cmd === "adventure.bin") {
       const fresh = newAdventureState();
       setAdvState(fresh);
