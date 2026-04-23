@@ -441,7 +441,14 @@ export const scenes: Record<string, Scene> = {
         h: 60,
         label: "Bodo Marschke",
         // Wenn Bodo gerade unterwegs zum B3 holen ist, ist er nicht da.
-        hiddenWhen: ["bodoLeftForB3"],
+        visible: (api) => {
+          const away1 =
+            api.hasFlag("bodoLeftForB3") && !api.hasFlag("bodoBackAfterB3");
+          const away2 =
+            api.hasFlag("bodoLeftForB3Twice") &&
+            !api.hasFlag("bodoBackAfterB3Twice");
+          return !away1 && !away2;
+        },
         onUse: (api) => {
           if (!api.hasFlag("metBodo")) {
             api.setFlag("metBodo");
