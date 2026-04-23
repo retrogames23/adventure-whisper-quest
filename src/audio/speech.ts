@@ -43,6 +43,8 @@ function getVoices(): SpeechSynthesisVoice[] {
 if (typeof window !== "undefined" && "speechSynthesis" in window) {
   window.speechSynthesis.onvoiceschanged = () => {
     cachedVoices = window.speechSynthesis.getVoices();
+    // Voice list arrived/changed — reset assignments so gender matching uses the full list.
+    speakerVoiceCache.clear();
   };
 }
 
