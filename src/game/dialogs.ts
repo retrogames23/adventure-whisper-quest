@@ -566,6 +566,14 @@ export const dialogs: Record<string, DialogTree> = {
         text: "Seit Wochen läuft im Knoten 5610 — Korridor 56, Wartungstür hinter der „Technik“-Plakette — etwas, das in keinem Wartungsplan steht. Mehr Datenverkehr, als E67 erzeugen kann. Falsche Quell-Routen. Ich vermute eine Installation, die nicht genehmigt ist.",
         subtext: "Sie hat das schon oft formuliert. Nur nie laut.",
         hiddenWhen: ["tappedNode5610"],
+        next: "idPflicht2b",
+      },
+      idPflicht2b: {
+        id: "idPflicht2b",
+        speaker: "INSA",
+        text: "Was Sie auf 104,6 hören, kommt von dort. Aus 5610. Die Antenne auf dem Dach E67 streut es bis nach E71 hinüber — deshalb hören es die Patienten dort auch, obwohl sie es offiziell gar nicht dürfen. Es gibt keine zweite Quelle. Wenn der Knoten still ist, ist 104,6 still.",
+        subtext: "Sie sagt das so präzise, als hätte sie es schon einmal in einen Bericht geschrieben, der nie gelesen wurde.",
+        hiddenWhen: ["tappedNode5610"],
         next: "idPflicht3",
       },
       idPflicht3: {
