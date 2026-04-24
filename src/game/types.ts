@@ -141,6 +141,10 @@ export type StoryFlag =
   // Tür 5610 (Serverraum, Korridor 56) — Entdeckung & Zustand
   | "saw5610Door"
   | "serverRoom5610Open"
+  // Insa hat aus der Leitstelle den Wartungs-Override scharfgeschaltet,
+  // d.h. die Magnetriegel der Tür 5610 öffnen sich beim nächsten Versuch
+  // ohne Karte/Code (Pflicht-Pfad).
+  | "serverRoom5610OverrideArmed"
   | "tappedNode5610"
   | "reroutedNode5610"
   | "burnedNode5610"
@@ -313,7 +317,7 @@ export interface GameApi {
 
 /**
  * Welches Schloss steckt hinter dem aktuellen Keypad-Aufruf.
- * - "sectorDoor" — bestehende E67/E71-Tür, 8-stellig.
- * - "door5610"   — Wartungstür im Korridor 56, 4-stellig + Frequenz-Slot.
+ * Aktuell nur die Sektor-Tür E67/E71 (8-stellig). Tür 5610 öffnet
+ * über Wartungs-Override bzw. Wartungskarte ohne Keypad.
  */
-export type KeypadTarget = "sectorDoor" | "door5610";
+export type KeypadTarget = "sectorDoor";
