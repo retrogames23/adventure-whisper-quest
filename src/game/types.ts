@@ -74,6 +74,7 @@ export type StoryFlag =
   | "miraOpenness"
   | "miraSystemic"
   | "miraOfferedFlyer"
+  | "miraDeferred"
   | "tookFlyer"
   | "hackedPhilippe"
   | "talkedPhilippeAfter"
