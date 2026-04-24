@@ -516,7 +516,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setKeypadOpen(false);
       setRadioActive(false);
       setNodeOpen(false);
-      setKeypadTarget("sectorDoor");
       return true;
     },
     listSaves: async (): Promise<Array<SaveSummary | null>> => {

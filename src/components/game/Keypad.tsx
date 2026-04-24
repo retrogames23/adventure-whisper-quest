@@ -207,28 +207,6 @@ export function Keypad() {
             <Check className="h-5 w-5" />
           </KeypadButton>
         </div>
-
-        {/* Frequenz-Schnelltaste — nur door5610 + Mira-Spur + Radio aktiv. */}
-        {showFreqSlot && (
-          <div className="mt-3 rounded-sm border border-amber-glow/30 bg-black/40 p-2">
-            <div className="mb-1 font-mono-crt text-[0.55rem] uppercase tracking-[0.3em] text-amber-glow/70">
-              ▸ Frequenz-Resonanz erkannt
-            </div>
-            <button
-              type="button"
-              disabled={alreadyOpen}
-              onClick={() => {
-                if (alreadyOpen) return;
-                playKeypress(0.5 * sfxVolume);
-                setStatus("idle");
-                setCode("1046");
-              }}
-              className="w-full rounded-sm border border-amber-glow/50 bg-amber-glow/5 px-2 py-1.5 font-mono-crt text-xs uppercase tracking-[0.2em] text-amber-glow hover:bg-amber-glow/15 disabled:opacity-40"
-            >
-              ▸ 104,6 senden
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
