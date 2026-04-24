@@ -1280,6 +1280,11 @@ export function Terminal() {
         "metMikael",
         "heardMikaelTruth",
         "mikaelRejectedProtocol",
+        // Korridor 56 / Serverraum 5610 vollständig zugänglich
+        "saw5610Door",
+        "insaSentTo5610",
+        "serverRoom5610OverrideArmed",
+        "serverRoom5610Open",
       ];
       for (const f of flagsToSet) api.setFlag(f);
 
