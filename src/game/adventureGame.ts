@@ -366,7 +366,7 @@ export function adventureCommand(state: AdvState, raw: string): AdvResult {
           out: [
             "Du trinkst. Es schmeckt nach kaltem Tee und Aufmerksamkeit.",
             "Dein Herz schlägt einmal zu schnell, dann normal weiter.",
-            "Worag hat hier eine Notiz: »Ich glaube, das ist Glück.«",
+            "[Ich glaube, das ist Glück.]",
           ],
         };
       }
@@ -380,7 +380,7 @@ export function adventureCommand(state: AdvState, raw: string): AdvResult {
           "  »Gerät gewesen war. Sie war in ihm. Sie war er.«",
           "",
           "Du klappst das Buch zu. Du legst es zurück, wo du es",
-          "gefunden hast. (Worag hat diese Stelle dreimal überarbeitet.)",
+          "gefunden hast. [Diese Stelle habe ich dreimal überarbeitet.]",
         ],
       };
     }
