@@ -252,6 +252,7 @@ export interface GameApi {
   openTerminal: (asBodo?: boolean) => void;
   openRadio: () => void;
   openKeypad: () => void;
+  openTelevision: () => void;
   isRadioActive: () => boolean;
   setEnding: () => void;
   /** Floor (3, 4 or 5) where Mira appears this run; assigned lazily. */
