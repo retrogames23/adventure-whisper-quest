@@ -213,7 +213,7 @@ function complete(
   return { newInput, matches: display };
 }
 
-const TELNET_COMMANDS = ["ls", "cat", "whoami", "help", "exit", "logout", "quit"];
+const TELNET_COMMANDS = ["ls", "cat", "pwd", "whoami", "help", "exit", "logout", "quit"];
 
 /**
  * Tab-completion innerhalb einer aktiven Telnet-Sitzung.
