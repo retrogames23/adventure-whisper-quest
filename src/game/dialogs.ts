@@ -1073,7 +1073,7 @@ export const dialogs: Record<string, DialogTree> = {
       ru7: {
         id: "ru7",
         speaker: "RECEPTION",
-        text: "Korridor 15. Den langen Gang entlang. Letzte Tür rechts, rotes Licht. Herr Stegmann hat heute viel auf dem Tisch — fassen Sie sich kurz.",
+        text: "Korridor 15. Den langen Gang ganz nach hinten. Die Tür am Ende, rotes Licht. Herr Stegmann hat heute viel auf dem Tisch — fassen Sie sich kurz.",
         next: "ru8",
       },
       ru8: {
