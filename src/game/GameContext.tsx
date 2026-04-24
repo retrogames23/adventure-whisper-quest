@@ -109,6 +109,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [terminalBodoMode, setTerminalBodoMode] = useState(false);
   const [keypadOpen, setKeypadOpen] = useState(false);
+  const [keypadTarget, setKeypadTarget] = useState<"sectorDoor" | "door5610">(
+    "sectorDoor",
+  );
+  const [nodeOpen, setNodeOpen] = useState(false);
   const [radioActive, setRadioActive] = useState(false);
   const [tvOpen, setTvOpen] = useState(false);
   const [resonance, setResonance] = useState(0);
@@ -267,12 +271,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setTerminalOpen(false);
         setRadioOpen(true);
       },
-      openKeypad: () => setKeypadOpen(true),
+      openKeypad: (target) => {
+        setKeypadTarget(target ?? "sectorDoor");
+        setKeypadOpen(true);
+      },
       isRadioActive: () => radioActiveRef.current,
       openTelevision: () => {
         setRadioOpen(false);
         setTerminalOpen(false);
         setTvOpen(true);
+      },
+      openNode5610: () => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setNodeOpen(true);
       },
       setEnding: () => setEnding(true),
       getMiraFloors: () => miraFloorsRef.current ?? [3, 4],
