@@ -542,9 +542,74 @@ export const dialogs: Record<string, DialogTree> = {
           },
           {
             text: "Lassen wir das. Geben Sie mir bitte direkt den Code.",
-            next: "idCode4",
+            next: "idPflichtCheck",
           },
         ],
+      },
+      // Verzweigung: Hat Layard die Quelle der Sendung (radioOrigin) bereits
+      // verstanden? Dann gibt Insa den Code wie gehabt heraus. Wenn nicht,
+      // schickt sie ihn vorher zwingend zum Knoten 5610.
+      idPflichtCheck: {
+        id: "idPflichtCheck",
+        speaker: "SYSTEM",
+        text: "[ Insa zögert einen Moment, klickt durch ihre Maske. ]",
+        next: "idPflicht1",
+      },
+      // Pflicht-Pfad — nur wenn Layard noch nicht 'tap' am Knoten 5610 gemacht hat.
+      idPflicht1: {
+        id: "idPflicht1",
+        speaker: "INSA",
+        text: "Herr Worag — ich kann Ihnen den Code heute geben. Aber nicht, bevor Sie etwas für mich tun.",
+        subtext: "Das ist kein Skript. Das ist sie selbst.",
+        hiddenWhen: ["radioOrigin"],
+        next: "idPflicht2",
+      },
+      idPflicht2: {
+        id: "idPflicht2",
+        speaker: "INSA",
+        text: "In Korridor 56, Etage E67, gibt es eine Wartungstür. Schild „5610 · Technik“. Dahinter steht ein Knoten, von dem ich nicht weiß, wer ihn betreibt. Ich brauche eine Probe.",
+        hiddenWhen: ["radioOrigin"],
+        next: "idPflicht3",
+      },
+      idPflicht3: {
+        id: "idPflicht3",
+        speaker: "INSA",
+        text: "Sie kommen rein — die Tür kennt Sie schon. Am Terminal tippen Sie »tap« und hören kurz mit. Dann rufen Sie mich an. Erst dann gebe ich den Code raus.",
+        hiddenWhen: ["radioOrigin"],
+        next: "idPflicht4",
+      },
+      idPflicht4: {
+        id: "idPflicht4",
+        speaker: "INSA",
+        text: "Falls die Tür nicht aufgeht: Wartungsmuster ist 7-0-Pause-3-2. Aber das wissen Sie nicht von mir.",
+        subtext: "Sie sagt es so leise, als würde sie selbst nicht zuhören.",
+        hiddenWhen: ["radioOrigin"],
+        choices: [
+          {
+            text: "Verstanden. Auf Wiederhören.",
+            action: (api) => {
+              api.setFlag("insaSentTo5610");
+              api.setFlag("skippedExitReport");
+              if (!api.hasItem("wartungsnotiz5610")) {
+                api.addItem({
+                  id: "wartungsnotiz5610",
+                  name: "Notiz: Wartungsmuster 5610",
+                  description:
+                    "Insa: 7-0-Pause-3-2. Wartungstür im Korridor 56, Dachetage E67.",
+                });
+              }
+            },
+          },
+        ],
+      },
+      // Wenn Layard die Quelle bereits verstanden hat, geht es nahtlos weiter
+      // zum bisherigen Code-Pfad.
+      idPflichtSkip: {
+        id: "idPflichtSkip",
+        speaker: "SYSTEM",
+        text: "[ Insa wirft einen Blick auf etwas, das Layard nicht sieht — und nickt knapp. ]",
+        requires: ["radioOrigin"],
+        next: "idCode4",
       },
       idCode4: {
         id: "idCode4",
