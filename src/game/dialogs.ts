@@ -1788,7 +1788,7 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Sag mal — hörst du eigentlich noch zu, wenn das Radio leise ist? Oder nur, wenn es laut ist?",
         choices: [
-          { text: "Was willst du damit sagen?", next: "miraOpen1" },
+          { text: "Was willst du damit sagen?", next: "mrOpen1" },
           { text: "Lass mich in Ruhe damit.", next: "mrSystemic" },
           { text: "Keine Zeit." },
         ],
@@ -1798,7 +1798,7 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Reden. Gut. — Worüber denn?",
         choices: [
-          { text: "Über das, was du vorhin meintest.", next: "miraOpen1" },
+          { text: "Über das, was du vorhin meintest.", next: "mrOpen1" },
           { text: "Eigentlich über nichts." },
         ],
       },
@@ -1812,6 +1812,94 @@ export const dialogs: Record<string, DialogTree> = {
           {
             text: "[ Beenden ]",
             action: (api) => api.setFlag("miraSystemic"),
+          },
+        ],
+      },
+      // Wiederbegegnungs-Variante der Offenheits-Kette (lokal, da
+      // DialogOverlay nur innerhalb desselben Trees nach IDs sucht).
+      mrOpen1: {
+        id: "mrOpen1",
+        speaker: "MIRA",
+        text: "Frag dich mal, warum 104,6 deinen Schmerz lindert und nicht den Grund dafür wegnimmt. Ein gutes Mittel würde das Problem lösen — nicht dich an das Problem gewöhnen.",
+        choices: [
+          { text: "Sprich weiter.", next: "mrOpen2" },
+          { text: "Das ist mir jetzt zu groß. Lass gut sein.", next: "mrOpenDefer" },
+        ],
+      },
+      mrOpen2: {
+        id: "mrOpen2",
+        speaker: "MIRA",
+        text: "Du drehst sie auf, weil du etwas spüren willst, was dir im eigenen Leben fehlt. Und während du hörst, sendest du selbst — leise, unbewusst. Genau das wollen sie.",
+        choices: [
+          { text: "Wer ist „sie“?", next: "mrOpen3" },
+          { text: "Reicht. Ich muss weiter.", next: "mrOpenDefer" },
+        ],
+      },
+      mrOpen3: {
+        id: "mrOpen3",
+        speaker: "MIRA",
+        text: "Niemand mit Namen. Eine Verwaltung, die gelernt hat, dass ruhige Bürger billiger sind als zufriedene. Und die Antwort steht hier drauf.",
+        next: "mrOpen4",
+      },
+      mrOpen4: {
+        id: "mrOpen4",
+        speaker: "SYSTEM",
+        text: "[ Sie zieht ein gefaltetes Blatt aus der Innentasche und drückt es Layard in die Hand. Schnell. Geübt. ]",
+        choices: [
+          {
+            text: "[ Annehmen ]",
+            next: "mrOpen5",
+            action: (api) => api.setFlag("miraOfferedFlyer"),
+          },
+          {
+            text: "[ Ablehnen ]",
+            next: "mrOpenRefuse",
+            action: (api) => api.setFlag("miraOfferedFlyer"),
+          },
+        ],
+      },
+      mrOpen5: {
+        id: "mrOpen5",
+        speaker: "MIRA",
+        text: "Lies es allein. Niemals im Terminal. Z.K.S. — Geh jetzt. Ich war nie hier.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => {
+              api.setFlag("miraOpenness");
+              api.setFlag("tookFlyer");
+              api.addItem({
+                id: "flyer",
+                name: "Flugblatt",
+                description:
+                  "LAUSCHT IHR? Die Frequenz, die euch trägt, wurde nicht gefunden. Sie wurde gebaut. Wer hat sie eingestellt? Wer dreht sie lauter, wenn ihr leiser werdet? Fragt nicht eure Leitstelle. Fragt euch selbst. — Z.K.S.",
+              });
+              api.setKnowledge("frequencyControl");
+            },
+          },
+        ],
+      },
+      mrOpenRefuse: {
+        id: "mrOpenRefuse",
+        speaker: "MIRA",
+        text: "Schade. — Aber ich verstehe. Wenn du es dir anders überlegst: Ich bin oft hier oben.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => api.setFlag("miraOpenness"),
+          },
+        ],
+      },
+      mrOpenDefer: {
+        id: "mrOpenDefer",
+        speaker: "MIRA",
+        text: "Auch gut. — Ich bin oft hier oben, falls du irgendwann doch mal Lust hast, weiterzudenken.",
+        subtext:
+          "Sie steckt etwas zurück in die Innentasche, ohne es ihm zu zeigen.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => api.setFlag("miraDeferred"),
           },
         ],
       },
