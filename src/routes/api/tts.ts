@@ -43,6 +43,9 @@ const ALLOWED_VOICE_IDS = new Set([
   "CwhRBWXzGAHq8TQ4Fs17",
   "Xb7hH8MSUJpSbSDYk0k2",
   "XB0fDUnXU5powFXDhCwa",
+  // TV-Sender-Sprecher (Teleempfänger)
+  "JBFqnCBsd6RMkjVDRZzb", // George — BV-Aktuell, älter & paternalistisch
+  "pFZP5JQG7iQjIQuC4Bku", // Lily — Reserve / Wetter-Alternative
 ]);
 
 // Naive in-memory rate limiter (per worker instance).
