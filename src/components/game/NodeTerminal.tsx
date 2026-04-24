@@ -160,6 +160,14 @@ export function NodeTerminal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (busy) return;
+    // Während gelauscht wird beendet jede Eingabe (auch leer) den Mitschnitt.
+    if (listening) {
+      const echo: Line = { text: `node-5610# ${input || ""}`, kind: "in" };
+      setInput("");
+      append([echo]);
+      stopListening();
+      return;
+    }
     const raw = input.trim().toLowerCase();
     if (!raw) return;
     playBeep(0.4 * sfxVolume);
