@@ -2536,6 +2536,12 @@ export const dialogs: Record<string, DialogTree> = {
         id: "bf5",
         speaker: "BODO",
         text: "Das Trägersignal von 104,6. Stadtwerke-Logbücher, neunzehnhunderteinundneunzig. Seitdem wird der Träger manuell nachgeregelt — von Hand. Ein Mensch, eine Schicht, ein Drehknopf.",
+        next: "bf5b",
+      },
+      bf5b: {
+        id: "bf5b",
+        speaker: "BODO",
+        text: "Wer da am Knopf sitzt, ist nicht die Stadt. Das war sie nie. Wer es ist — keine Ahnung. Aber jemand zahlt ihn.",
         next: "bf6",
       },
       bf6: {
