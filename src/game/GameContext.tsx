@@ -128,27 +128,29 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [burnSequence, setBurnSequence] = useState<"burn" | "reroute" | null>(
     null,
   );
-  // Mira besetzt 2 von 3 Wohnetagen (3, 4, 5). Philippe übernimmt die
-  // verbleibende Etage — so steht garantiert auf jeder Etage genau einer
-  // der beiden NPCs, aber nie beide. Wird einmal beim Mounten kryptografisch
-  // zufällig gewählt; die Verteilung ist unabhängig von der Render-Reihenfolge
-  // der visible()-Checks.
+  // Mira darf NICHT auf Etage 3 erscheinen — dort liegt das Büro des
+  // Abschnittsverantwortlichen (E67). Würde sie dort die Tür blockieren und
+  // Layard ginge nicht auf sie ein, gäbe es ein Dead End: er erfährt dann
+  // nicht, dass E67 nicht da ist.
+  // Verteilung: Mira besetzt EINE der Wohnetagen {4, 5}, Philippe besetzt
+  // die andere. Etage 3 bleibt für beide NPCs frei. Wird einmal beim Mounten
+  // kryptografisch zufällig gewählt.
   const miraFloorsRef = useRef<Array<3 | 4 | 5> | null>(null);
   const philippeFloorRef = useRef<3 | 4 | 5 | null>(null);
   if (miraFloorsRef.current === null) {
-    const pool: Array<3 | 4 | 5> = [3, 4, 5];
-    // Wähle die EINE Etage, die Mira NICHT besetzt — das wird Philippes Etage.
+    const livingFloors: Array<4 | 5> = [4, 5];
     let idx = 0;
     if (typeof crypto !== "undefined" && crypto.getRandomValues) {
       const buf = new Uint32Array(1);
       crypto.getRandomValues(buf);
-      idx = buf[0] % 3;
+      idx = buf[0] % 2;
     } else {
-      idx = Math.floor(Math.random() * 3);
+      idx = Math.floor(Math.random() * 2);
     }
-    const philippeFloor = pool[idx];
+    const miraFloor = livingFloors[idx];
+    const philippeFloor = livingFloors[1 - idx];
+    miraFloorsRef.current = [miraFloor];
     philippeFloorRef.current = philippeFloor;
-    miraFloorsRef.current = pool.filter((f) => f !== philippeFloor);
   }
 
   // Debug-Sprung über URL-Parameter:
@@ -302,7 +304,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setNodeOpen(false);
         setBurnSequence(kind);
       },
-      getMiraFloors: () => miraFloorsRef.current ?? [3, 4],
+      getMiraFloors: () => miraFloorsRef.current ?? [4],
       getPhilippeFloor: () => philippeFloorRef.current ?? 5,
     }),
     [],
@@ -485,23 +487,26 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setInventory(persisted.inventory);
       setResonance(persisted.resonance);
       setEnding(persisted.ending);
-      // Wiederherstellung mit Rückwärtskompatibilität: alte Saves (vor der
-      // 2-Etagen-Verteilung) hatten nur miraFloor — wir spreizen das auf
-      // {miraFloor + eine zufällige zweite} und Philippe bekommt die Reste.
-      const pool: Array<3 | 4 | 5> = [3, 4, 5];
+      // Wiederherstellung mit Rückwärtskompatibilität: Mira darf nie auf
+      // Etage 3 stehen. Alte Saves, die das noch erlaubten, werden auf das
+      // neue Schema (Mira ∈ {4,5}, Philippe = die andere, 3 frei) gemappt.
+      const livingFloors: Array<4 | 5> = [4, 5];
+      const sanitizeMira = (
+        floors: ReadonlyArray<3 | 4 | 5>,
+      ): Array<4 | 5> => {
+        const filtered = floors.filter((f): f is 4 | 5 => f === 4 || f === 5);
+        if (filtered.length > 0) return [filtered[0]];
+        // Save hatte Mira nur auf 3 — zufällig auf 4 oder 5 verschieben.
+        return [livingFloors[Math.floor(Math.random() * 2)]];
+      };
       if (persisted.miraFloors && persisted.miraFloors.length > 0) {
-        miraFloorsRef.current = persisted.miraFloors;
-        philippeFloorRef.current =
-          persisted.philippeFloor ??
-          (pool.find((f) => !persisted.miraFloors!.includes(f)) ?? 5);
+        const mira = sanitizeMira(persisted.miraFloors);
+        miraFloorsRef.current = mira;
+        philippeFloorRef.current = livingFloors.find((f) => f !== mira[0]) ?? 5;
       } else if (persisted.miraFloor) {
-        const others = pool.filter((f) => f !== persisted.miraFloor);
-        const second = others[Math.floor(Math.random() * others.length)];
-        miraFloorsRef.current = [persisted.miraFloor, second].sort() as Array<
-          3 | 4 | 5
-        >;
-        philippeFloorRef.current =
-          pool.find((f) => !miraFloorsRef.current!.includes(f)) ?? 5;
+        const mira = sanitizeMira([persisted.miraFloor]);
+        miraFloorsRef.current = mira;
+        philippeFloorRef.current = livingFloors.find((f) => f !== mira[0]) ?? 5;
       } else {
         miraFloorsRef.current = null;
         philippeFloorRef.current = null;
