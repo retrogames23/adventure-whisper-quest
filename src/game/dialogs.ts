@@ -683,11 +683,44 @@ export const dialogs: Record<string, DialogTree> = {
         text: "Ich brauche jetzt einen Code für die Sektor-Tür.",
         next: "x4",
       },
+      // Pflicht-Variante: solange Layard nicht 'tap' am Knoten 5610 ausgeführt
+      // hat, schickt Insa ihn dorthin. Sobald getappt, läuft x4 wie gehabt.
+      x4pflicht1: {
+        id: "x4pflicht1",
+        speaker: "INSA",
+        text: "Worag — bevor ich Ihnen den Code gebe: Ich brauche eine Probe vom Knoten in 5610. Korridor 56, E67. Tippen Sie dort »tap« und rufen Sie mich danach noch einmal an.",
+        subtext: "Sie spricht leiser als sonst. Das ist kein Standardprotokoll.",
+        hiddenWhen: ["tappedNode5610"],
+        next: "x4pflicht2",
+      },
+      x4pflicht2: {
+        id: "x4pflicht2",
+        speaker: "INSA",
+        text: "Die Tür kennt Sie schon — falls nicht: Wartungsmuster 7-0-Pause-3-2. Aber das wissen Sie nicht von mir.",
+        hiddenWhen: ["tappedNode5610"],
+        choices: [
+          {
+            text: "Verstanden. Auf Wiederhören.",
+            action: (api) => {
+              api.setFlag("insaSentTo5610");
+              if (!api.hasItem("wartungsnotiz5610")) {
+                api.addItem({
+                  id: "wartungsnotiz5610",
+                  name: "Notiz: Wartungsmuster 5610",
+                  description:
+                    "Insa: 7-0-Pause-3-2. Wartungstür im Korridor 56, Dachetage E67.",
+                });
+              }
+            },
+          },
+        ],
+      },
       x4: {
         id: "x4",
         speaker: "INSA",
         text: "Ich habe den Code extra für Sie geändert. Direkt herausgeben darf ich ihn trotzdem nicht — er steht in der Mail, die ich Ihnen gerade ins Terminal lege. Sie wissen schon: das Datum.",
         subtext: "Extra für ihn. Sie sagt es so beiläufig, als wäre es Teil des Standardprotokolls. Ist es nicht.",
+        requires: ["tappedNode5610"],
         next: "x5",
         choices: [
           {
