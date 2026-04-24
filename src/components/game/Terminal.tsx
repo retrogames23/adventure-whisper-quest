@@ -2088,7 +2088,9 @@ export function Terminal() {
           >
             {advState
               ? "adventure>"
-              : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
+              : lottiState
+                ? "lotti>"
+                : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
           </span>
           <input
             ref={inputRef}
