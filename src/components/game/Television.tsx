@@ -138,7 +138,7 @@ const CHANNELS: Channel[] = [
 export function Television() {
   const { tvOpen, closeTelevision } = useGame();
   const { setDuck } = useMusic();
-  const { sfxEnabled } = useSettings();
+  const { ttsEnabled } = useSettings();
   const [channelIdx, setChannelIdx] = useState(0);
   // Cursor pro Kanal — bleibt erhalten, wenn der Spieler umschaltet.
   const cursorsRef = useRef<number[]>(CHANNELS.map(() => 0));
@@ -207,7 +207,7 @@ export function Television() {
     stopBulletinAudio();
     setDuck(1);
 
-    if (!sfxEnabled) {
+    if (!ttsEnabled) {
       // Kein Audio: rein zeitgesteuert weiterschalten.
       fallbackTimerRef.current = window.setTimeout(() => {
         advanceBulletin();
@@ -273,7 +273,7 @@ export function Television() {
       setDuck(1);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tvOpen, channelIdx, bulletinIdx, sfxEnabled]);
+  }, [tvOpen, channelIdx, bulletinIdx, ttsEnabled]);
 
   const time = useMemo(() => {
     const d = new Date();
