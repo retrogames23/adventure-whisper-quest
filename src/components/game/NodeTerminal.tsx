@@ -189,6 +189,29 @@ export function NodeTerminal() {
       return;
     }
 
+    if (raw === "listen") {
+      if (flags.has("burnedNode5610")) {
+        append([
+          echo,
+          { text: "listen: Knoten ist offline (burn).", kind: "warn" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
+      append([
+        echo,
+        { text: ">> Öffne passiven Listen-Port am Sektor-Bus …", kind: "system" },
+        {
+          text: ">> [Enter drücken, um den Mitschnitt zu beenden]",
+          kind: "system",
+        },
+        { text: "", kind: "out" },
+      ]);
+      playBeep(0.3 * sfxVolume);
+      startListening();
+      return;
+    }
+
     if (raw === "tap") {
       if (flags.has("burnedNode5610")) {
         append([echo, { text: "tap: Knoten ist offline (burn).", kind: "warn" }, { text: "", kind: "out" }]);
