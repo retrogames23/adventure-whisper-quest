@@ -85,9 +85,9 @@ const ROOMS: Record<string, AdvRoom> = {
     description: [
       "Ein Treppenhaus mit echten Stufen, nicht mit einem Aufzug.",
       "An der Wand: ein Werbeplakat für eine »Lieferdienst-App«, die",
-      "Sushi in 12 Minuten verspricht. Worag hat das Wort »Sushi« in",
-      "drei Quellen unterschiedlich übersetzt — er ist sich nicht sicher,",
-      "ob es ein Gericht oder ein Gefühl ist.",
+      "Sushi in 12 Minuten verspricht. [Ich habe das Wort »Sushi« in",
+      "drei Quellen unterschiedlich nachgeschaut — ich bin mir nicht sicher,",
+      "ob es ein Gericht oder ein Gefühl ist.]",
       "",
       "Nach UNTEN geht es auf die Straße. Nach WEST zurück.",
     ],
@@ -98,8 +98,8 @@ const ROOMS: Record<string, AdvRoom> = {
     title: "Schönhauser Allee",
     description: [
       "Eine breite Straße. Eine GELBE BAHN über deinem Kopf — sie heißt",
-      "U2, sagt ein Schild, aber sie fährt oben. Worag findet das so",
-      "verwirrend, dass er es zweimal eingebaut hat.",
+      "U2, sagt ein Schild, aber sie fährt oben. [Ich finde das so",
+      "verwirrend, dass ich es zweimal eingebaut habe.]",
       "",
       "Menschen gehen in alle Richtungen, ohne dass jemand ihnen sagt,",
       "wohin. Niemand trägt einen Empfänger im Ohr. Du bist dir nicht",
@@ -141,9 +141,9 @@ const ROOMS: Record<string, AdvRoom> = {
     onEnter: (s) => {
       if (!s.inventory.has("bvgTicket")) {
         return [
-          "(Worag hat hier eine Notiz hinterlassen: »Ohne Ticket fühlt",
-          " es sich falsch an, einzusteigen. Aber niemand hält dich auf.",
-          " Niemand hält dich AUF. Das ist die ganze Pointe.«)",
+          "[Ohne Ticket fühlt es sich falsch an, einzusteigen. Aber",
+          " niemand hält dich auf. Niemand hält dich AUF. Das ist die",
+          " ganze Pointe.]",
         ];
       }
       return null;
@@ -153,10 +153,10 @@ const ROOMS: Record<string, AdvRoom> = {
     id: "park",
     title: "Mauerpark, Sonntagnachmittag",
     description: [
-      "Eine Wiese, die nach Gras riecht. Echte Sonne auf der Haut — Worag",
-      "musste das Wort »Sonne« aus drei Lexika rekonstruieren und ist",
-      "sich nicht ganz sicher mit der Wärme. Auf seiner Version brennt",
-      "die Haut nach 20 Minuten leicht. Er fand das poetisch.",
+      "Eine Wiese, die nach Gras riecht. Echte Sonne auf der Haut. [Ich",
+      "musste das Wort »Sonne« aus drei Lexika rekonstruieren und bin",
+      "mir nicht ganz sicher mit der Wärme. In meiner Version brennt",
+      "die Haut nach 20 Minuten leicht. Ich fand das poetisch.]",
       "",
       "Auf einer Bank liegt ein Buch. Niemand passt darauf auf.",
       "Im Hintergrund spielt jemand Karaoke, schlecht und glücklich.",
