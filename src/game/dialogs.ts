@@ -1781,6 +1781,7 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Wenn du den Knoten findest, hörst du, woher die Sendung wirklich kommt. — Mehr sage ich nicht. Geh.",
         hiddenWhen: ["saw5610Door"],
+        next: "maAck",
         end: true,
       },
       // Sobald die Tür schon entdeckt ist, bleibt die Begrüßung schlicht.
