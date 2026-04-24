@@ -2096,6 +2096,41 @@ export function Terminal() {
             { text: `Versuche ${host.host} (${host.ip})…`, kind: "out" },
             { text: `>> Verbindung verweigert: kein telnet-daemon auf Port 23.`, kind: "out" },
           );
+        } else if (superuser) {
+          // Cheat aktiv: Auth-Schritt komplett überspringen, direkt in
+          // die authentifizierte Sitzung wechseln.
+          playUnlock(0.5 * sfxVolume);
+          newLines.push(
+            { text: `Versuche ${host.host} (${host.ip})…`, kind: "out" },
+            { text: ">> Verbunden.", kind: "system" },
+            { text: ">> [superuser] Authentifizierung übersprungen.", kind: "system" },
+          );
+          if (host.motd) {
+            newLines.push(
+              ...host.motd.map((t) => ({ text: t, kind: "out" } as Line)),
+            );
+          }
+          const targetUser =
+            host.host === "bodo.e67"
+              ? "bodo"
+              : host.host === "worag.e67"
+                ? "worag"
+                : null;
+          const sameAsLocal =
+            (targetUser === "bodo" && localBodoMode) ||
+            (targetUser === "worag" && !localBodoMode);
+          if (targetUser && !sameAsLocal) {
+            savedCwdRef.current = cwd;
+            setRemoteMode(targetUser);
+            setCwd(
+              targetUser === "bodo" ? [...HOME_PATH_BODO] : [...HOME_PATH_WORAG],
+            );
+          } else {
+            setTelnetHost(host.host);
+          }
+          if (host.host === "philippe.e67") {
+            api.setFlag("hackedPhilippe");
+          }
         } else {
           newLines.push(
             { text: `Versuche ${host.host} (${host.ip})…`, kind: "out" },
