@@ -3335,6 +3335,12 @@ export const dialogs: Record<string, DialogTree> = {
     start: "ic1",
     onEnd: (api) => {
       api.setFlag("insaCallbackBurnDone");
+      // Nach dem burn-Anruf hat Insa den Code übergeben. Damit Layard
+      // sofort zur Sektor-Tür gehen und den Code eintippen kann, müssen
+      // die Tür-Gating-Flags (sonst über das Telefon-Insa2-Geflecht
+      // gesetzt) hier nachgezogen werden — sonst ist burn ein Dead End.
+      api.setFlag("calledInsa2");
+      api.setFlag("calledForCode");
     },
     lines: {
       ic1: {
