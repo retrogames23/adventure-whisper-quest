@@ -1189,6 +1189,17 @@ export function Terminal() {
     }
   }, [lines]);
 
+  // Sicherheitsnetz: Beim Unmount des Terminals einen evtl. noch
+  // laufenden News-Ticker-Loop sauber abräumen.
+  useEffect(() => {
+    return () => {
+      if (newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
+    };
+  }, []);
+
   if (!terminalOpen) return null;
 
   // Spielt eine scriptgesteuerte Sequenz ab: hängt Zeilen mit gestaffelten
