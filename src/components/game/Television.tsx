@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { CloseButton } from "./CloseButton";
+import { useMusic } from "@/audio/MusicPlayer";
+import { useSettings } from "@/audio/SettingsContext";
+import anchorZdsAsset from "@/assets/tv/anchor-zds.mp4.asset.json";
+import anchorBvAsset from "@/assets/tv/anchor-bv.mp4.asset.json";
+import anchorWetterAsset from "@/assets/tv/anchor-wetter.mp4.asset.json";
 
 /**
  * Teleempfänger — drei Kanäle in zermürbender Bürokraten-Sprache.
@@ -15,8 +20,18 @@ interface Channel {
   tag: string;
   ticker: string;
   bulletins: string[];
-  /** Sekunden pro Meldung */
+  /**
+   * Fallback-Wartezeit pro Meldung in Sekunden, falls TTS nicht verfügbar
+   * ist (Stummschaltung, Netzfehler). Wenn Audio läuft, bestimmt die
+   * tatsächliche Sprechdauer den Wechsel.
+   */
   hold: number;
+  /** Wand-Loop des/der Sprecher/in (10s, läuft endlos). */
+  videoUrl: string;
+  /** ElevenLabs voiceId für die Sprecher/in dieses Senders. */
+  voiceId: string;
+  /** Akzentfarbe für UI-Akzente und Bauchbinde. */
+  accentClass: string;
 }
 
 const CHANNELS: Channel[] = [
@@ -26,6 +41,9 @@ const CHANNELS: Channel[] = [
     "tag": "Zentrale Direktion für Sektorale Lage",
     "ticker": "+++ Lagebild stabil +++ keine meldepflichtigen Abweichungen +++ Fortführung des Regelbetriebs in allen Quadranten bestätigt +++ Vorgangsnummern werden im Rahmen der etablierten Verfahren weiterverarbeitet +++ Empfehlung: Beibehaltung der gewohnten Tagesabläufe +++",
     "hold": 13,
+    videoUrl: anchorZdsAsset.url,
+    voiceId: "Xb7hH8MSUJpSbSDYk0k2", // Alice — kühl, klar
+    accentClass: "text-emerald-300",
     "bulletins": [
       "Sektor E67. Im Berichtszeitraum keine Vorkommnisse oberhalb der zur Vorlage geeigneten Schwelle. Vereinzelte Erfassungen werden im Rahmen der dafür vorgesehenen Verfahren einer geordneten Bewertung zugeführt.",
       "Quadrant E67-Süd. Die Versorgungslage entspricht in der Gesamtbetrachtung den Erwartungen, die aus den Erwartungen vergangener Berichtszeiträume hervorgegangen sind. Eine gesonderte Mitteilung erübrigt sich daher.",
@@ -56,6 +74,9 @@ const CHANNELS: Channel[] = [
     "tag": "Bürger-Verlautbarung — Programm 2",
     "ticker": "+++ Bekanntmachung +++ Anpassung der Sprechzeiten in den nicht öffentlich zugänglichen Bereichen +++ Hinweise zur Frequenzhygiene 104,6 sind unverändert gültig +++ Antragsformular B-3a in der Fassung vom Vortag weiterhin anwendbar +++ Bei Rückfragen gilt die Auskunftslage des Vortages +++",
     "hold": 13,
+    videoUrl: anchorBvAsset.url,
+    voiceId: "JBFqnCBsd6RMkjVDRZzb", // George — älter, paternalistisch
+    accentClass: "text-amber-200",
     "bulletins": [
       "Bekanntmachung der zuständigen Verlautbarungsstelle. Die nachfolgenden Inhalte ersetzen frühere Bekanntmachungen nur insoweit, als frühere Bekanntmachungen erkennbar ersetzt werden sollen.",
       "Antragsformular B-3a. Die Verwendung der Fassung vom Vortag bleibt zulässig, solange keine aktuellere Fassung in einer dem Antragsteller zumutbaren Weise zur Kenntnis gelangt ist.",
@@ -85,6 +106,9 @@ const CHANNELS: Channel[] = [
     "tag": "Sektorale Wetter- und Resonanzlage",
     "ticker": "+++ Resonanzindex im Mittel +++ keine sektorenübergreifenden Auffälligkeiten +++ punktuelle Erhöhungen werden im Rahmen der dafür vorgesehenen Glättung berücksichtigt +++ Empfehlung: Innenräume bevorzugen, Frequenzhygiene 104,6 beachten +++",
     "hold": 12,
+    videoUrl: anchorWetterAsset.url,
+    voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte — jung, klinisch
+    accentClass: "text-cyan-200",
     "bulletins": [
       "Sektorenübergreifend. Die Resonanzlage bewegt sich innerhalb der Bandbreite, die als die der Resonanzlage entsprechende Bandbreite anerkannt ist.",
       "Sektor E67. Resonanzindex: im Erwartungsbereich. Eine Häufung von Hörmeldungen wurde nicht in einer der Veröffentlichung zugänglichen Form festgestellt.",
@@ -113,33 +137,143 @@ const CHANNELS: Channel[] = [
 
 export function Television() {
   const { tvOpen, closeTelevision } = useGame();
+  const { setDuck } = useMusic();
+  const { ttsEnabled } = useSettings();
   const [channelIdx, setChannelIdx] = useState(0);
   // Cursor pro Kanal — bleibt erhalten, wenn der Spieler umschaltet.
   const cursorsRef = useRef<number[]>(CHANNELS.map(() => 0));
   const [tick, setTick] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const fetchAbortRef = useRef<AbortController | null>(null);
+  const fallbackTimerRef = useRef<number | null>(null);
+  const advanceLockRef = useRef(false);
 
   useEffect(() => {
     if (!tvOpen) {
       cursorsRef.current = CHANNELS.map(() => 0);
       setChannelIdx(0);
       setTick(0);
+      stopBulletinAudio();
+      setDuck(1);
     }
+    return () => {
+      // Beim Unmount/Schließen: Audio stoppen, Musik wieder voll.
+      stopBulletinAudio();
+      setDuck(1);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tvOpen]);
 
   const channel = CHANNELS[channelIdx];
-
-  useEffect(() => {
-    if (!tvOpen) return;
-    const id = window.setInterval(() => {
-      cursorsRef.current[channelIdx] =
-        (cursorsRef.current[channelIdx] + 1) % channel.bulletins.length;
-      setTick((t) => t + 1);
-    }, channel.hold * 1000);
-    return () => window.clearInterval(id);
-  }, [tvOpen, channelIdx, channel.bulletins.length, channel.hold]);
-
   const bulletinIdx = cursorsRef.current[channelIdx];
   const bulletin = channel.bulletins[bulletinIdx];
+
+  function stopBulletinAudio() {
+    if (fetchAbortRef.current) {
+      fetchAbortRef.current.abort();
+      fetchAbortRef.current = null;
+    }
+    if (audioRef.current) {
+      audioRef.current.onended = null;
+      audioRef.current.onerror = null;
+      audioRef.current.pause();
+      audioRef.current.src = "";
+      audioRef.current = null;
+    }
+    if (fallbackTimerRef.current) {
+      window.clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
+  }
+
+  function advanceBulletin() {
+    if (advanceLockRef.current) return;
+    advanceLockRef.current = true;
+    cursorsRef.current[channelIdx] =
+      (cursorsRef.current[channelIdx] + 1) % channel.bulletins.length;
+    setTick((t) => t + 1);
+    // Lock kurz halten, damit doppelte ended-Events nicht zwei Schritte machen.
+    window.setTimeout(() => {
+      advanceLockRef.current = false;
+    }, 50);
+  }
+
+  // TTS-gesteuerter Bulletin-Loop. Pro neuem (Kanal, Bulletin) wird die
+  // Sprecher-Audiospur geladen und abgespielt; nach `ended` schaltet der
+  // Loop automatisch weiter. Bei deaktiviertem SFX oder Netzfehler greift
+  // der hold-basierte Fallback-Timer.
+  useEffect(() => {
+    if (!tvOpen) return;
+    stopBulletinAudio();
+    setDuck(1);
+
+    if (!ttsEnabled) {
+      // Kein Audio: rein zeitgesteuert weiterschalten.
+      fallbackTimerRef.current = window.setTimeout(() => {
+        advanceBulletin();
+      }, channel.hold * 1000);
+      return;
+    }
+
+    const ac = new AbortController();
+    fetchAbortRef.current = ac;
+
+    fetch("/api/tts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        voiceId: channel.voiceId,
+        text: bulletin,
+        speed: 0.95,
+      }),
+      signal: ac.signal,
+    })
+      .then(async (resp) => {
+        if (ac.signal.aborted) return;
+        if (!resp.ok) throw new Error(`TTS ${resp.status}`);
+        const blob = await resp.blob();
+        if (ac.signal.aborted) return;
+        const url = URL.createObjectURL(blob);
+        const a = new Audio(url);
+        a.volume = 1;
+        a.onended = () => {
+          URL.revokeObjectURL(url);
+          setDuck(1);
+          advanceBulletin();
+        };
+        a.onerror = () => {
+          URL.revokeObjectURL(url);
+          setDuck(1);
+          // Bei Fehler: nicht endlos hängenbleiben, einfach weiter.
+          fallbackTimerRef.current = window.setTimeout(() => {
+            advanceBulletin();
+          }, 1500);
+        };
+        audioRef.current = a;
+        setDuck(0.18);
+        void a.play().catch(() => {
+          // Autoplay blockiert o. ä. — Musik wieder hoch und timer-basiert weiter.
+          setDuck(1);
+          fallbackTimerRef.current = window.setTimeout(() => {
+            advanceBulletin();
+          }, channel.hold * 1000);
+        });
+      })
+      .catch((err) => {
+        if ((err as Error).name === "AbortError") return;
+        // Netzfehler/Server kaputt → still bleiben, Bulletin nach hold-Zeit weiter.
+        setDuck(1);
+        fallbackTimerRef.current = window.setTimeout(() => {
+          advanceBulletin();
+        }, channel.hold * 1000);
+      });
+
+    return () => {
+      stopBulletinAudio();
+      setDuck(1);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tvOpen, channelIdx, bulletinIdx, ttsEnabled]);
 
   const time = useMemo(() => {
     const d = new Date();
@@ -164,7 +298,7 @@ export function Television() {
         <div className="relative flex flex-1 flex-col overflow-hidden bg-[oklch(0.16_0.02_120)] scanlines">
           <div className="flex items-start justify-between px-5 pt-5">
             <div>
-              <div className="font-mono-crt text-2xl text-amber-glow amber-glow">
+              <div className={`font-mono-crt text-2xl amber-glow ${channel.accentClass}`}>
                 {channel.name}
               </div>
               <div className="mt-1 font-display text-xs uppercase tracking-widest text-muted-foreground">
@@ -179,13 +313,28 @@ export function Television() {
             </div>
           </div>
 
-          <div className="flex flex-1 items-center justify-center px-8 py-6">
-            <p
+          <div className="relative flex flex-1 items-center justify-center overflow-hidden px-5 py-4">
+            <video
+              key={channel.id}
+              src={channel.videoUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-auto max-w-full object-contain"
+            />
+            {/* Bauchbinde mit Bulletin-Text */}
+            <div
               key={`${channelIdx}-${bulletinIdx}`}
-              className="fade-in max-w-2xl text-center font-display text-base leading-relaxed text-foreground text-shadow-hard sm:text-lg"
+              className="fade-in pointer-events-none absolute inset-x-4 bottom-3 rounded-sm border border-amber-glow/30 bg-black/80 px-4 py-2 backdrop-blur-sm"
             >
-              {bulletin}
-            </p>
+              <div className={`font-mono-crt text-[10px] uppercase tracking-widest ${channel.accentClass}`}>
+                {channel.name}
+              </div>
+              <p className="mt-0.5 font-display text-xs leading-snug text-foreground sm:text-sm">
+                {bulletin}
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center justify-between border-t border-amber-glow/20 px-5 py-2 font-mono-crt text-[11px] uppercase tracking-widest text-muted-foreground">

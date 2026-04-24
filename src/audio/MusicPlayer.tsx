@@ -43,6 +43,12 @@ interface MusicCtx {
   next: () => void;
   prev: () => void;
   playIndex: (i: number) => void;
+  /**
+   * Multipliziert die effektive Lautstärke mit `factor` (0..1).
+   * Wird vom Teleempfänger genutzt, um die Musik zu „ducken", solange
+   * eine Sprecher-Meldung läuft. 1 = volle Lautstärke (Standard).
+   */
+  setDuck: (factor: number) => void;
 }
 
 const MusicContext = createContext<MusicCtx | null>(null);
@@ -67,6 +73,7 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
   const watchTimerRef = useRef<number | null>(null);
   const enabledRef = useRef(musicEnabled);
   const volumeRef = useRef(musicVolume);
+  const duckRef = useRef(1);
 
   // Keep refs in sync so timers always read fresh values.
   useEffect(() => {
@@ -102,7 +109,7 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
   useEffect(() => {
     const active = activeRef.current === "a" ? aRef.current : bRef.current;
     if (active && !fadeTimerRef.current) {
-      active.volume = clamp(musicVolume);
+      active.volume = clamp(musicVolume * duckRef.current);
     }
   }, [musicVolume]);
 
@@ -201,6 +208,15 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
     }, FADE_TICK_MS);
   }
 
+  const setDuck = useCallback((factor: number) => {
+    const f = clamp(factor);
+    duckRef.current = f;
+    const active = activeRef.current === "a" ? aRef.current : bRef.current;
+    if (active && !fadeTimerRef.current) {
+      active.volume = clamp(volumeRef.current * f);
+    }
+  }, []);
+
   const playIndex = useCallback((i: number) => {
     if (!aRef.current || !bRef.current) return;
     const target = ((i % PLAYLIST.length) + PLAYLIST.length) % PLAYLIST.length;
@@ -224,8 +240,8 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
   }, [playIndex]);
 
   const value = useMemo<MusicCtx>(
-    () => ({ tracks: PLAYLIST, currentIndex, next, prev, playIndex }),
-    [currentIndex, next, prev, playIndex],
+    () => ({ tracks: PLAYLIST, currentIndex, next, prev, playIndex, setDuck }),
+    [currentIndex, next, prev, playIndex, setDuck],
   );
 
   return <MusicContext.Provider value={value}>{children}</MusicContext.Provider>;
