@@ -1150,6 +1150,26 @@ export function Terminal() {
       return;
     }
 
+    // ── Sub-Modus: lotti läuft (Bodos Programm) ────────────
+    if (lottiState) {
+      playBeep(0.3 * sfxVolume);
+      const echo: Line = { text: `lotti> ${input}`, kind: "in" };
+      const result = lottiCommand(lottiState, raw);
+      const out: Line[] = result.out.map((t) => ({ text: t, kind: "out" } as Line));
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      const h = advHistoryRef.current;
+      if (h[h.length - 1] !== raw) h.push(raw);
+      historyCursorRef.current = -1;
+      draftRef.current = "";
+      if (result.quit) {
+        setLottiState(null);
+      } else {
+        setLottiState({ ...lottiState });
+      }
+      setInput("");
+      return;
+    }
+
     // ── Sub-Modus: Telnet wartet auf Passwort ─────────────
     if (telnetAwaitPass) {
       const host = findHost(telnetAwaitPass);
