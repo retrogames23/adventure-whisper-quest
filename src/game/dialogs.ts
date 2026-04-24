@@ -3348,12 +3348,6 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "INSA",
         text: "Worag. — Hier ist gerade ein Träger ausgefallen. Komplett. Wir haben das auf dem Pult als Alarm 4-7-7. Sagt Ihnen das was?",
         subtext: "Sie weiß die Antwort. Sie fragt trotzdem.",
-        next: "ic3",
-      },
-      ic3: {
-        id: "ic3",
-        speaker: "LAYARD",
-        text: "…",
         choices: [
           { text: "Ich war es. Tut mir leid.", next: "ic4a" },
           { text: "Sagt mir nichts.", next: "ic4b" },
