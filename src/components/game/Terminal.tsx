@@ -2111,7 +2111,11 @@ export function Terminal() {
               bodoMode ? "text-sepia sepia-glow" : "text-phosphor phosphor-glow"
             }`}
           >
-            CentralOS v{osVersion(flags.has("centralOsUpdated"), bodoMode)}
+            CentralOS v
+            {osVersion(
+              flags.has(bodoMode ? "centralOsUpdatedBodo" : "centralOsUpdated"),
+              bodoMode,
+            )}
             {bodoMode ? " — 2612" : ""}
           </span>
           <CloseButton
