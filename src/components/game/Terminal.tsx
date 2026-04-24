@@ -32,6 +32,14 @@ import {
   lottiComplete,
   type LottiState,
 } from "@/game/lottiProgram";
+import {
+  newsCommand,
+  newsStart,
+  newNewsState,
+  newsComplete,
+  nextTickerFrame,
+  type NewsState,
+} from "@/game/newsProgram";
 import { CloseButton } from "./CloseButton";
 
 interface Line {
@@ -124,6 +132,8 @@ const COMMANDS = [
   "./adventure.bin",
   "lotti",
   "./lotti",
+  "news",
+  "./news",
   "net",
   "telnet",
   "sysupdate",
@@ -988,6 +998,7 @@ function buildHelpLines(bodoMode: boolean): Line[] {
   if (bodoMode) {
     lines.push(
       { text: "  lotti         — Fütterungskalender (Eigenbau, für Lotti)", kind: "out" },
+      { text: "  news          — Quadranten-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
       { text: "WARTUNG (nur Hausmeister):", kind: "system" },
       { text: "  maint list                — offene Wartungsanfragen anzeigen", kind: "out" },
@@ -997,6 +1008,7 @@ function buildHelpLines(bodoMode: boolean): Line[] {
   } else {
     lines.push(
       { text: "  adventure     — »Ein Tag draußen« (Textadventure)", kind: "out" },
+      { text: "  news          — Quadranten-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
     );
   }
@@ -1030,6 +1042,11 @@ export function Terminal() {
   const [cwd, setCwd] = useState<string[]>([...HOME_PATH_WORAG]);
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const [lottiState, setLottiState] = useState<LottiState | null>(null);
+  const [newsState, setNewsState] = useState<NewsState | null>(null);
+  // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
+  // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
+  // bei jeder Eingabe sauber gestoppt.
+  const newsTickerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // Aktive Telnet-Sitzung (null = keine).
   const [telnetHost, setTelnetHost] = useState<string | null>(null);
   // Telnet wartet auf Passworteingabe für diesen Host.
@@ -1096,6 +1113,12 @@ export function Terminal() {
       setTelnetAwaitPass(null);
       // Cheat-Status gilt nur innerhalb einer Sitzung.
       setSuperuser(false);
+      // News-Programm (samt eventuell laufendem Ticker) zurücksetzen.
+      setNewsState(null);
+      if (newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
       // Banner explizit vom lokalen Modus aus aufbauen — eine zuvor
       // aktive Remote-Sitzung wurde gerade zurückgesetzt, der nächste
       // Render hat aber noch das alte (effektive) bodoMode-Flag.
@@ -1166,6 +1189,17 @@ export function Terminal() {
     }
   }, [lines]);
 
+  // Sicherheitsnetz: Beim Unmount des Terminals einen evtl. noch
+  // laufenden News-Ticker-Loop sauber abräumen.
+  useEffect(() => {
+    return () => {
+      if (newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
+    };
+  }, []);
+
   if (!terminalOpen) return null;
 
   // Spielt eine scriptgesteuerte Sequenz ab: hängt Zeilen mit gestaffelten
@@ -1210,6 +1244,11 @@ export function Terminal() {
       // Öffnen kein Sub-Programm mehr aktiv ist.
       setAdvState(null);
       setLottiState(null);
+      setNewsState(null);
+      if (newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
       // Direkt in den Server-Knoten springen. openNode5610 schließt
       // das Terminal und blendet NodeTerminal ein. „Bis zum Exit"
       // ergibt sich von selbst: der Knoten schließt mit exit.
@@ -1250,6 +1289,11 @@ export function Terminal() {
       setInput("");
       setAdvState(null);
       setLottiState(null);
+      setNewsState(null);
+      if (newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
 
       // Story-Flags der vorausliegenden Akt-1-Szenen.
       const flagsToSet: StoryFlag[] = [
@@ -1412,6 +1456,57 @@ export function Terminal() {
         setLottiState(null);
       } else {
         setLottiState({ ...lottiState });
+      }
+      setInput("");
+      return;
+    }
+
+    // ── Sub-Modus: news läuft (Quadranten-Bote) ────────────
+    if (newsState) {
+      playBeep(0.3 * sfxVolume);
+      const echo: Line = { text: `news> ${input}`, kind: "in" };
+      const result = newsCommand(newsState, raw);
+      const out: Line[] = result.out.map((t) => ({ text: t, kind: "out" } as Line));
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      const h = advHistoryRef.current;
+      if (h[h.length - 1] !== raw) h.push(raw);
+      historyCursorRef.current = -1;
+      draftRef.current = "";
+      // Ticker stoppen, falls eine Eingabe ihn beendet hat.
+      if (result.stopTicker && newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
+      // Ticker starten: alle 2,2 s die nächste Frame anhängen, bis er
+      // gestoppt wird oder eine Eingabe kommt.
+      if (result.startTicker) {
+        if (newsTickerTimerRef.current) clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = setInterval(() => {
+          // Wenn der Nutzer währenddessen weggeklickt oder etwas getippt
+          // hat, beendet das Polling im nächsten Tick: view ist dann nicht
+          // mehr "ticker".
+          if (newsState.view !== "ticker") {
+            if (newsTickerTimerRef.current) {
+              clearInterval(newsTickerTimerRef.current);
+              newsTickerTimerRef.current = null;
+            }
+            return;
+          }
+          const frame = nextTickerFrame(newsState);
+          setLines((prev) => [
+            ...prev,
+            ...frame.map((t) => ({ text: t, kind: "out" } as Line)),
+          ]);
+        }, 2200);
+      }
+      if (result.quit) {
+        if (newsTickerTimerRef.current) {
+          clearInterval(newsTickerTimerRef.current);
+          newsTickerTimerRef.current = null;
+        }
+        setNewsState(null);
+      } else {
+        setNewsState({ ...newsState });
       }
       setInput("");
       return;
@@ -1627,6 +1722,12 @@ export function Terminal() {
           ...lottiStart(fresh).map((t) => ({ text: t, kind: "out" } as Line)),
         );
       }
+    } else if (cmd === "news" || cmd === "./news" || cmd === "news.bin") {
+      const fresh = newNewsState();
+      setNewsState(fresh);
+      newLines.push(
+        ...newsStart(fresh).map((t) => ({ text: t, kind: "out" } as Line)),
+      );
     } else if (cmd === "clear") {
       setLines([]);
       setInput("");
@@ -2494,7 +2595,9 @@ export function Terminal() {
               ? "adventure>"
               : lottiState
                 ? "lotti>"
-                : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
+                : newsState
+                  ? "news>"
+                  : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
           </span>
           <input
             ref={inputRef}
@@ -2511,7 +2614,7 @@ export function Terminal() {
               if (e.key === "ArrowUp" || e.key === "ArrowDown") {
                 e.preventDefault();
                 const history =
-                  advState || lottiState
+                  advState || lottiState || newsState
                     ? advHistoryRef.current
                     : termHistoryRef.current;
                 if (!history.length) return;
@@ -2553,6 +2656,8 @@ export function Terminal() {
                 result = adventureComplete(advState, input);
               } else if (lottiState) {
                 result = lottiComplete(input);
+              } else if (newsState) {
+                result = newsComplete(input);
               } else if (telnetHost) {
                 const host = findHost(telnetHost);
                 const hostFiles: Record<string, string[]> = {
@@ -2582,6 +2687,8 @@ export function Terminal() {
                   echoPrompt = "adventure>";
                 } else if (lottiState) {
                   echoPrompt = "lotti>";
+                } else if (newsState) {
+                  echoPrompt = "news>";
                 } else if (telnetHost) {
                   const host = findHost(telnetHost);
                   echoPrompt = `${host?.host ?? telnetHost}:~$`;
