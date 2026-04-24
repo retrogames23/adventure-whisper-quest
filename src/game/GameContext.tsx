@@ -128,27 +128,29 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [burnSequence, setBurnSequence] = useState<"burn" | "reroute" | null>(
     null,
   );
-  // Mira besetzt 2 von 3 Wohnetagen (3, 4, 5). Philippe übernimmt die
-  // verbleibende Etage — so steht garantiert auf jeder Etage genau einer
-  // der beiden NPCs, aber nie beide. Wird einmal beim Mounten kryptografisch
-  // zufällig gewählt; die Verteilung ist unabhängig von der Render-Reihenfolge
-  // der visible()-Checks.
+  // Mira darf NICHT auf Etage 3 erscheinen — dort liegt das Büro des
+  // Abschnittsverantwortlichen (E67). Würde sie dort die Tür blockieren und
+  // Layard ginge nicht auf sie ein, gäbe es ein Dead End: er erfährt dann
+  // nicht, dass E67 nicht da ist.
+  // Verteilung: Mira besetzt EINE der Wohnetagen {4, 5}, Philippe besetzt
+  // die andere. Etage 3 bleibt für beide NPCs frei. Wird einmal beim Mounten
+  // kryptografisch zufällig gewählt.
   const miraFloorsRef = useRef<Array<3 | 4 | 5> | null>(null);
   const philippeFloorRef = useRef<3 | 4 | 5 | null>(null);
   if (miraFloorsRef.current === null) {
-    const pool: Array<3 | 4 | 5> = [3, 4, 5];
-    // Wähle die EINE Etage, die Mira NICHT besetzt — das wird Philippes Etage.
+    const livingFloors: Array<4 | 5> = [4, 5];
     let idx = 0;
     if (typeof crypto !== "undefined" && crypto.getRandomValues) {
       const buf = new Uint32Array(1);
       crypto.getRandomValues(buf);
-      idx = buf[0] % 3;
+      idx = buf[0] % 2;
     } else {
-      idx = Math.floor(Math.random() * 3);
+      idx = Math.floor(Math.random() * 2);
     }
-    const philippeFloor = pool[idx];
+    const miraFloor = livingFloors[idx];
+    const philippeFloor = livingFloors[1 - idx];
+    miraFloorsRef.current = [miraFloor];
     philippeFloorRef.current = philippeFloor;
-    miraFloorsRef.current = pool.filter((f) => f !== philippeFloor);
   }
 
   // Debug-Sprung über URL-Parameter:
