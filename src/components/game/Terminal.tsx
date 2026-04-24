@@ -1148,6 +1148,26 @@ export function Terminal() {
     const raw = input.trim();
     if (!raw) return;
 
+    // ── Undokumentierter Cheat ─────────────────────────────
+    // »cheat 2611« an *jedem* Terminal verwandelt das aktuelle
+    // Terminal bis zum Exit in das Wartungsterminal hinter Tür 5610.
+    // Funktioniert auch innerhalb laufender Sub-Programme
+    // (adventure, lotti, telnet-Passwort-Prompt) — daher steht es
+    // ganz oben, vor allen Sub-Modus-Weichen.
+    if (raw.toLowerCase() === "cheat 2611") {
+      playBeep(0.5 * sfxVolume);
+      setInput("");
+      // Sub-States sauber zurücksetzen, damit beim nächsten regulären
+      // Öffnen kein Sub-Programm mehr aktiv ist.
+      setAdvState(null);
+      setLottiState(null);
+      // Direkt in den Server-Knoten springen. openNode5610 schließt
+      // das Terminal und blendet NodeTerminal ein. „Bis zum Exit"
+      // ergibt sich von selbst: der Knoten schließt mit exit.
+      api.openNode5610();
+      return;
+    }
+
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
     if (advState) {
       playBeep(0.3 * sfxVolume);
