@@ -1336,10 +1336,6 @@ export function Terminal() {
       if (!bodoMode) {
         newLines.push(
           { text: "bash: lotti: Befehl nicht gefunden.", kind: "out" },
-          {
-            text: "(»lotti« ist Bodos Eigenbau und liegt nur auf 2612.)",
-            kind: "out",
-          },
         );
       } else {
         const fresh = newLottiState();
