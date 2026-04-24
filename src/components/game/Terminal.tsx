@@ -2584,7 +2584,9 @@ export function Terminal() {
               ? "adventure>"
               : lottiState
                 ? "lotti>"
-                : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
+                : newsState
+                  ? "news>"
+                  : `${userName}@${hostName}:${pathString(cwd).replace(homeLabel, "~") || "/"}$`}
           </span>
           <input
             ref={inputRef}
