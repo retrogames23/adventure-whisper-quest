@@ -34,6 +34,7 @@ interface GameState {
   terminalOpen: boolean;
   terminalBodoMode: boolean;
   keypadOpen: boolean;
+  tvOpen: boolean;
   radioActive: boolean; // tuned to 104.6, providing subtext
   resonance: number; // 0–100
   ending: boolean;
@@ -341,6 +342,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     terminalOpen,
     terminalBodoMode,
     keypadOpen,
+    tvOpen,
     radioActive,
     resonance,
     ending,
@@ -364,6 +366,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     closeRadio: () => setRadioOpen(false),
     closeTerminal: () => setTerminalOpen(false),
     closeKeypad: () => setKeypadOpen(false),
+    closeTelevision: () => setTvOpen(false),
     setRadioActive,
     bumpResonance: (d) => setResonance((r) => Math.max(0, Math.min(100, r + d))),
     resetResonance: () => setResonance(0),
