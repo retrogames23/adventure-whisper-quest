@@ -1397,7 +1397,26 @@ export function Terminal() {
         if (host.motd) {
           out.push(...host.motd.map((t) => ({ text: t, kind: "out" } as Line)));
         }
-        setTelnetHost(telnetAwaitPass);
+        // bodo.e67 / worag.e67 sind keine flachen Mini-Hosts, sondern
+        // vollständige Maschinen mit eigenem Filesystem. Hier wechseln wir
+        // bis `exit` in den vollwertigen Terminalmodus des Zielhosts.
+        const targetUser =
+          host.host === "bodo.e67"
+            ? "bodo"
+            : host.host === "worag.e67"
+              ? "worag"
+              : null;
+        const sameAsLocal =
+          (targetUser === "bodo" && localBodoMode) ||
+          (targetUser === "worag" && !localBodoMode);
+        if (targetUser && !sameAsLocal) {
+          savedCwdRef.current = cwd;
+          setRemoteMode(targetUser);
+          // Im Remote-Modus starten wir im Home des Zielhosts.
+          setCwd(targetUser === "bodo" ? [...HOME_PATH_BODO] : [...HOME_PATH_WORAG]);
+        } else {
+          setTelnetHost(telnetAwaitPass);
+        }
         setTelnetAwaitPass(null);
         // Easter-Egg: Philippe-Login als Flag merken (für späteren Story-Hook).
         if (host.host === "philippe.e67") {
