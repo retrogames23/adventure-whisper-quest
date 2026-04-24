@@ -25,6 +25,9 @@ export function NodeTerminal() {
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [listening, setListening] = useState(false);
+  const listenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const listenIndexRef = useRef<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
