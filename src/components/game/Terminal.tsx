@@ -2175,6 +2175,8 @@ export function Terminal() {
                 let echoPrompt: string;
                 if (advState) {
                   echoPrompt = "adventure>";
+                } else if (lottiState) {
+                  echoPrompt = "lotti>";
                 } else if (telnetHost) {
                   const host = findHost(telnetHost);
                   echoPrompt = `${host?.host ?? telnetHost}:~$`;
