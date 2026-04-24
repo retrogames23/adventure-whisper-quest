@@ -1217,6 +1217,27 @@ export function Terminal() {
       return;
     }
 
+    // ── Undokumentierter Cheat »cheat superuser« ──────────
+    // Nur in Layards eigenem Terminal (nicht an Bodos Maschine, nicht in
+    // einer aktiven Remote-Sitzung). Aktiviert einen Modus, in dem
+    // `telnet <host>` jede Passwortabfrage überspringt.
+    if (raw.toLowerCase() === "cheat superuser") {
+      if (!localBodoMode && !remoteMode) {
+        playBeep(0.5 * sfxVolume);
+        setSuperuser(true);
+        setLines((prev) => [
+          ...prev,
+          { text: `worag@centralos:~$ ${raw}`, kind: "in" },
+          { text: ">> [DEBUG] superuser-mode aktiviert.", kind: "system" },
+          { text: ">> telnet umgeht ab jetzt jede Authentifizierung.", kind: "out" },
+          { text: "", kind: "out" },
+        ]);
+        setInput("");
+        return;
+      }
+      // Sonst durchfallen lassen — wird unten als unbekannter Befehl behandelt.
+    }
+
     // ── Debug-Cheat »cheat 0001« ──────────────────────────
     // Springt mitten in Akt 1: Sanitäter waren da, Layard hat das
     // Einsatzprotokoll, die Aufzugswartung 4711 ist bereits storniert,
