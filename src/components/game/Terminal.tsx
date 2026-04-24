@@ -2106,9 +2106,10 @@ export function Terminal() {
               // ── Verlaufs-Navigation mit ↑/↓ ───────────────────
               if (e.key === "ArrowUp" || e.key === "ArrowDown") {
                 e.preventDefault();
-                const history = advState
-                  ? advHistoryRef.current
-                  : termHistoryRef.current;
+                const history =
+                  advState || lottiState
+                    ? advHistoryRef.current
+                    : termHistoryRef.current;
                 if (!history.length) return;
                 let cursor = historyCursorRef.current;
                 if (e.key === "ArrowUp") {
