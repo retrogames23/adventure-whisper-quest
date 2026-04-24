@@ -1435,6 +1435,23 @@ export const dialogs: Record<string, DialogTree> = {
           },
         ],
       },
+      // Layard hört zu, lässt sich aber nicht hineinziehen.
+      // Mira hält das Blatt zurück und bleibt offen für Wiederbegegnung.
+      miraDefer: {
+        id: "miraDefer",
+        speaker: "MIRA",
+        text: "Auch gut. — Ich bin oft hier oben, falls du irgendwann doch mal Lust hast, weiterzudenken.",
+        subtext:
+          "Sie steckt etwas zurück in die Innentasche, ohne es ihm zu zeigen.",
+        end: true,
+      },
+      miraDeferDry: {
+        id: "miraDeferDry",
+        speaker: "MIRA",
+        text: "Mag sein. — Dann eben ein hübsches Bild. Schönen Tag noch.",
+        subtext: "Sie wendet den Blick ab. Das Gespräch ist für heute vorbei.",
+        end: true,
+      },
       // GESCHLOSSEN
       miraClosed1: {
         id: "miraClosed1",
