@@ -127,6 +127,11 @@ function cleanText(text: string): string {
     .replace(/…/g, "...")
     .trim();
 
+  // Wenn nach dem Säubern nur noch Punkte/Kommas/Whitespace übrig sind
+  // (z. B. Zeilen wie "…" oder "..."), kein TTS abspielen — sonst erzeugt
+  // ElevenLabs ein kurzes, befremdliches Klick-/Atemgeräusch.
+  if (!/[A-Za-zÄÖÜäöüß0-9]/.test(normalized)) return "";
+
   return normalizeNumbersForSpeech(normalized);
 }
 
