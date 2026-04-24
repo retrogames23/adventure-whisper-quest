@@ -12,7 +12,6 @@
  * öffnet, ist das Erste, was er tippt: »lotti«. Dann »heute«.
  * Dann weiß er wieder, wer er ist.
  */
-import type { CompleteResult } from "./adventureGame.types-shim";
 
 // ── Datenmodell ───────────────────────────────────────────
 export type FutterSorte = "rind" | "fisch" | "trocken";
