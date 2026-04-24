@@ -18,6 +18,13 @@ import {
   adventureComplete,
   type AdvState,
 } from "@/game/adventureGame";
+import {
+  lottiCommand,
+  lottiStart,
+  newLottiState,
+  lottiComplete,
+  type LottiState,
+} from "@/game/lottiProgram";
 import { CloseButton } from "./CloseButton";
 
 interface Line {
