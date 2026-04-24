@@ -1360,6 +1360,25 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "MIKAEL",
         text: "E67. — Ja. Ich vertrete dort heute formal mit. Frau Bauerfeind hat es vermutlich erwähnt.",
         subtext: "Er nickt langsam. Wie jemand, der eine Auskunft bestätigt, die er selbst nicht gegeben hat.",
+        next: "mr4burnA",
+      },
+      // Reaktion auf den abgeschalteten Knoten — nur, wenn Layard burn
+      // ausgeführt hat. Owned/Dodged bekommt Mikael unterschiedlich
+      // gespiegelt. Beide Linien führen wieder in den Standard-Verlauf.
+      mr4burnA: {
+        id: "mr4burnA",
+        speaker: "MIKAEL",
+        text: "Sie haben den Knoten weggeschossen. Das war nicht klug — aber es war ehrlicher als alles, was ich heute hier gemacht habe.",
+        subtext: "Er sagt das nicht zu Layard. Eher: zu sich selbst.",
+        requires: ["burnedAndOwned"],
+        next: "mr5",
+      },
+      mr4burnB: {
+        id: "mr4burnB",
+        speaker: "MIKAEL",
+        text: "Sie haben ihn weggeschossen — und wissen nicht warum. Das ist das Schlimmste daran.",
+        subtext: "Es ist kein Vorwurf. Eher eine Diagnose.",
+        requires: ["burnedAndDodged"],
         next: "mr5",
       },
       mr5: {
