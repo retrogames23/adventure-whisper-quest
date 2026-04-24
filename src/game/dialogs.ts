@@ -1349,19 +1349,23 @@ export const dialogs: Record<string, DialogTree> = {
         id: "miraOpen1",
         speaker: "MIRA",
         text: "Frag dich mal, warum 104,6 deinen Schmerz lindert und nicht den Grund dafür wegnimmt. Ein gutes Mittel würde das Problem lösen — nicht dich an das Problem gewöhnen.",
-        next: "miraOpen2",
+        choices: [
+          { text: "Sprich weiter.", next: "miraOpen2" },
+          {
+            text: "Das ist mir jetzt zu groß. Lass gut sein.",
+            next: "miraDefer",
+          },
+        ],
       },
       miraOpen2: {
         id: "miraOpen2",
         speaker: "MIRA",
         text: "Die Frequenz ist eine Leine. Lang genug, dass du dich frei fühlst. Kurz genug, dass du nicht aus dem Quadranten läufst.",
-        next: "miraOpen3",
-      },
-      miraOpen3: {
-        id: "miraOpen3",
-        speaker: "LAYARD",
-        text: "Und wer hält das andere Ende?",
-        next: "miraOpen4",
+        choices: [
+          { text: "Und wer hält das andere Ende?", next: "miraOpen4" },
+          { text: "Hübsches Bild. Mehr nicht.", next: "miraDeferDry" },
+          { text: "Reicht. Ich muss weiter.", next: "miraDefer" },
+        ],
       },
       miraOpen4: {
         id: "miraOpen4",
@@ -1428,6 +1432,33 @@ export const dialogs: Record<string, DialogTree> = {
           {
             text: "[ Beenden ]",
             action: (api) => api.setFlag("miraOpenness"),
+          },
+        ],
+      },
+      // Layard hört zu, lässt sich aber nicht hineinziehen.
+      // Mira hält das Blatt zurück und bleibt offen für Wiederbegegnung.
+      miraDefer: {
+        id: "miraDefer",
+        speaker: "MIRA",
+        text: "Auch gut. — Ich bin oft hier oben, falls du irgendwann doch mal Lust hast, weiterzudenken.",
+        subtext:
+          "Sie steckt etwas zurück in die Innentasche, ohne es ihm zu zeigen.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => api.setFlag("miraDeferred"),
+          },
+        ],
+      },
+      miraDeferDry: {
+        id: "miraDeferDry",
+        speaker: "MIRA",
+        text: "Mag sein. — Dann eben ein hübsches Bild. Schönen Tag noch.",
+        subtext: "Sie wendet den Blick ab. Das Gespräch ist für heute vorbei.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => api.setFlag("miraDeferred"),
           },
         ],
       },
