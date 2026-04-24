@@ -1034,6 +1034,15 @@ export function Terminal() {
   const [telnetHost, setTelnetHost] = useState<string | null>(null);
   // Telnet wartet auf Passworteingabe für diesen Host.
   const [telnetAwaitPass, setTelnetAwaitPass] = useState<string | null>(null);
+  // Wenn die Telnet-Sitzung auf bodo.e67 oder worag.e67 läuft, schalten
+  // wir bis `exit` in den vollen Terminalmodus des Zielhosts um — gleiche
+  // Befehle (`ls -a`, `cd`, `cat`, `tree`, …) wie am eigenen Rechner,
+  // aber mit dem fremden Filesystem. `null` = keine vollwertige Remote-
+  // Sitzung aktiv (Mini-Modus für alle anderen Hosts).
+  const [remoteMode, setRemoteMode] = useState<"worag" | "bodo" | null>(null);
+  // Cwd-Stack: pro Remote-Sitzung sichern wir den lokalen cwd, damit
+  // `exit` ihn wiederherstellen kann.
+  const savedCwdRef = useRef<string[] | null>(null);
   // True während eine scriptgesteuerte Ausgabesequenz läuft (sysupdate, trouble net).
   const [scriptedRunning, setScriptedRunning] = useState(false);
   // Wenn Bodo gerade B3 für Lotti holt, sitzen wir an seinem Terminal —
@@ -1041,11 +1050,16 @@ export function Terminal() {
   // Wird explizit über openTerminal(true) am Hotspot in Bodos Wohnung gesetzt.
   // Layards eigenes Terminal (TopBar, Wohnung 2611, Sektor-Türen-Terminal)
   // läuft immer im normalen Phosphor-Grün-Modus.
-  const bodoMode = terminalBodoMode;
+  // „Lokaler" Modus = an welchem physischen Terminal sitzt man tatsächlich.
+  const localBodoMode = terminalBodoMode;
+  // „Effektiver" Modus = welche Maschine wir gerade bedienen. Während
+  // einer vollwertigen Telnet-Sitzung kann das ein anderer Host sein.
+  const bodoMode = remoteMode ? remoteMode === "bodo" : localBodoMode;
   const userName = bodoMode ? "bodo" : "worag";
   // Beide Maschinen hängen am Sektor-Netz E67 — der Hostname ist
-  // konsistent „e67“, nur der Benutzer wechselt.
-  const hostName = "e67";
+  // konsistent „e67“, nur der Benutzer wechselt. In einer Remote-Sitzung
+  // zeigt der Prompt zusätzlich den Zielhost (z. B. `worag@bodo:~$`).
+  const hostName = remoteMode ? (remoteMode === "bodo" ? "bodo" : "worag") : "e67";
   const homePath = bodoMode ? HOME_PATH_BODO : HOME_PATH_WORAG;
   const homeLabel = bodoMode ? "/home/bodo" : "/home/worag";
   // ── Filesystem-Adapter: leiten je nach Modus auf den jeweiligen Baum.
