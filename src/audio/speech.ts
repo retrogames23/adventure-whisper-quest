@@ -147,7 +147,10 @@ async function fetchAndCache(
   signal: AbortSignal,
 ): Promise<Blob | null> {
   const profile = PROFILES[speaker];
-  const key = hashKey(profile.voiceId, String(profile.speed), cleaned);
+  const settingsKey = profile.settings
+    ? JSON.stringify(profile.settings)
+    : "";
+  const key = hashKey(profile.voiceId, String(profile.speed), settingsKey, cleaned);
 
   const cached = await getCachedAudio(key);
   if (cached) return cached;
@@ -161,6 +164,7 @@ async function fetchAndCache(
       voiceId: profile.voiceId,
       text: cleaned,
       speed: profile.speed,
+      settings: profile.settings,
     }),
     signal,
   });
