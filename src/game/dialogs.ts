@@ -1371,7 +1371,7 @@ export const dialogs: Record<string, DialogTree> = {
         text: "Sie haben den Knoten weggeschossen. Das war nicht klug — aber es war ehrlicher als alles, was ich heute hier gemacht habe.",
         subtext: "Er sagt das nicht zu Layard. Eher: zu sich selbst.",
         requires: ["burnedAndOwned"],
-        next: "mr5",
+        next: "mr4burnB",
       },
       mr4burnB: {
         id: "mr4burnB",
