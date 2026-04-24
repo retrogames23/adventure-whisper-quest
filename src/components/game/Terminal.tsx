@@ -158,6 +158,7 @@ function complete(
   input: string,
   cwd: string[],
   hasFlag: (f: StoryFlag) => boolean,
+  bodoMode: boolean,
 ): CompleteResult {
   const tokens = input.split(/\s+/);
   const lastToken = tokens[tokens.length - 1] ?? "";
@@ -182,7 +183,7 @@ function complete(
   const fragment = segments.pop() ?? "";
   const baseSegments = segments.filter(Boolean);
   const dirParts = isAbsolute ? baseSegments : [...cwd, ...baseSegments];
-  const dir = resolvePath(dirParts);
+  const dir = bodoMode ? resolveBodo(dirParts) : resolveWorag(dirParts);
   if (!dir || dir.type !== "dir") return { newInput: input, matches: [] };
 
   // Always show all entries (-a equivalent) so users can complete .hidden_log etc.
