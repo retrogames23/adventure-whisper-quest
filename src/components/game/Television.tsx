@@ -74,6 +74,9 @@ const CHANNELS: Channel[] = [
     "tag": "Bürger-Verlautbarung — Programm 2",
     "ticker": "+++ Bekanntmachung +++ Anpassung der Sprechzeiten in den nicht öffentlich zugänglichen Bereichen +++ Hinweise zur Frequenzhygiene 104,6 sind unverändert gültig +++ Antragsformular B-3a in der Fassung vom Vortag weiterhin anwendbar +++ Bei Rückfragen gilt die Auskunftslage des Vortages +++",
     "hold": 13,
+    videoUrl: anchorBvAsset.url,
+    voiceId: "JBFqnCBsd6RMkjVDRZzb", // George — älter, paternalistisch
+    accentClass: "text-amber-200",
     "bulletins": [
       "Bekanntmachung der zuständigen Verlautbarungsstelle. Die nachfolgenden Inhalte ersetzen frühere Bekanntmachungen nur insoweit, als frühere Bekanntmachungen erkennbar ersetzt werden sollen.",
       "Antragsformular B-3a. Die Verwendung der Fassung vom Vortag bleibt zulässig, solange keine aktuellere Fassung in einer dem Antragsteller zumutbaren Weise zur Kenntnis gelangt ist.",
