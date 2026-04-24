@@ -1450,6 +1450,57 @@ export function Terminal() {
       return;
     }
 
+    // ── Sub-Modus: news läuft (Quadranten-Bote) ────────────
+    if (newsState) {
+      playBeep(0.3 * sfxVolume);
+      const echo: Line = { text: `news> ${input}`, kind: "in" };
+      const result = newsCommand(newsState, raw);
+      const out: Line[] = result.out.map((t) => ({ text: t, kind: "out" } as Line));
+      setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
+      const h = advHistoryRef.current;
+      if (h[h.length - 1] !== raw) h.push(raw);
+      historyCursorRef.current = -1;
+      draftRef.current = "";
+      // Ticker stoppen, falls eine Eingabe ihn beendet hat.
+      if (result.stopTicker && newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
+      // Ticker starten: alle 2,2 s die nächste Frame anhängen, bis er
+      // gestoppt wird oder eine Eingabe kommt.
+      if (result.startTicker) {
+        if (newsTickerTimerRef.current) clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = setInterval(() => {
+          // Wenn der Nutzer währenddessen weggeklickt oder etwas getippt
+          // hat, beendet das Polling im nächsten Tick: view ist dann nicht
+          // mehr "ticker".
+          if (newsState.view !== "ticker") {
+            if (newsTickerTimerRef.current) {
+              clearInterval(newsTickerTimerRef.current);
+              newsTickerTimerRef.current = null;
+            }
+            return;
+          }
+          const frame = nextTickerFrame(newsState);
+          setLines((prev) => [
+            ...prev,
+            ...frame.map((t) => ({ text: t, kind: "out" } as Line)),
+          ]);
+        }, 2200);
+      }
+      if (result.quit) {
+        if (newsTickerTimerRef.current) {
+          clearInterval(newsTickerTimerRef.current);
+          newsTickerTimerRef.current = null;
+        }
+        setNewsState(null);
+      } else {
+        setNewsState({ ...newsState });
+      }
+      setInput("");
+      return;
+    }
+
     // ── Sub-Modus: Telnet wartet auf Passwort ─────────────
     if (telnetAwaitPass) {
       const host = findHost(telnetAwaitPass);
