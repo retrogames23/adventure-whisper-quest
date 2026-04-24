@@ -1025,6 +1025,67 @@ export const dialogs: Record<string, DialogTree> = {
   },
 
   // ---------------------------------------------------------------
+  // 10b. E71 — reception, Layard hat den Übertritt NICHT gemeldet
+  // ---------------------------------------------------------------
+  receptionUnannounced: {
+    id: "receptionUnannounced",
+    start: "ru1",
+    lines: {
+      ru1: {
+        id: "ru1",
+        speaker: "RECEPTION",
+        text: "Sektor E71 — Medizin. Sie wünschen?",
+        subtext: "Sie sieht ihn an, ohne zu lächeln. Die Hand bleibt auf dem Terminal.",
+        next: "ru2",
+      },
+      ru2: {
+        id: "ru2",
+        speaker: "LAYARD",
+        text: "Worag. E67, Quadrant 26. Ich bringe ein Einsatzprotokoll für Herrn Stegmann. Zimmer 1534.",
+        next: "ru3",
+      },
+      ru3: {
+        id: "ru3",
+        speaker: "RECEPTION",
+        text: "E67. — Ihr Eintritt ist hier nicht vorgemerkt, Herr Worag.",
+        subtext: "Sie tippt zweimal. Wartet. Tippt noch einmal.",
+        next: "ru4",
+      },
+      ru4: {
+        id: "ru4",
+        speaker: "LAYARD",
+        text: "Die Vermittlung hat mich hierher geschickt. Direkt.",
+        next: "ru5",
+      },
+      ru5: {
+        id: "ru5",
+        speaker: "RECEPTION",
+        text: "Üblich ist das nicht. Übertritte werden vorgemerkt. Das wissen Sie.",
+        subtext: "Es klingt nicht streng. Eher müde. So, als hätte sie heute schon zwei davon gehabt.",
+        next: "ru6",
+      },
+      ru6: {
+        id: "ru6",
+        speaker: "RECEPTION",
+        text: "Ich notiere das nach. Halten Sie Ihren Ausweis bereit, falls jemand fragt.",
+        next: "ru7",
+      },
+      ru7: {
+        id: "ru7",
+        speaker: "RECEPTION",
+        text: "Korridor 15. Den langen Gang entlang. Letzte Tür rechts, rotes Licht. Herr Stegmann hat heute viel auf dem Tisch — fassen Sie sich kurz.",
+        next: "ru8",
+      },
+      ru8: {
+        id: "ru8",
+        speaker: "SYSTEM",
+        text: "[ Sie schiebt einen Besucherchip über den Tresen. Etwas härter, als es nötig wäre. ]",
+        end: true,
+      },
+    },
+  },
+
+  // ---------------------------------------------------------------
   // 11. Mikael Stegmann — lehnt das Protokoll ab
   // ---------------------------------------------------------------
   mikaelReject: {
