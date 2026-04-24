@@ -3164,4 +3164,67 @@ export const dialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ─────────────────────────────────────────────────────────────
+  // Insa-Rückruf nach burn am Knoten 5610.
+  // Wird automatisch ausgelöst, wenn Layard nach der Burn-Sequenz
+  // wieder in seine Wohnung oder den Korridor 56 kommt.
+  // Sie weiß, dass etwas passiert ist. Sie macht weiter — und gibt
+  // den Code trotzdem heraus. Das Spiel läuft weiter.
+  // ─────────────────────────────────────────────────────────────
+  insaCallbackAfterBurn: {
+    id: "insaCallbackAfterBurn",
+    start: "ic1",
+    onEnd: (api) => {
+      api.setFlag("insaCallbackBurnDone");
+    },
+    lines: {
+      ic1: {
+        id: "ic1",
+        speaker: "SYSTEM",
+        text: "[ Das Telefon klingelt. Einmal. Layard hebt ab. Insa, ohne Vorrede. ]",
+        next: "ic2",
+      },
+      ic2: {
+        id: "ic2",
+        speaker: "INSA",
+        text: "Worag. — Hier ist gerade ein Träger ausgefallen. Komplett. Wir haben das auf dem Pult als Alarm 4-7-7. Sagt Ihnen das was?",
+        subtext: "Sie weiß die Antwort. Sie fragt trotzdem.",
+        next: "ic3",
+      },
+      ic3: {
+        id: "ic3",
+        speaker: "LAYARD",
+        text: "…",
+        choices: [
+          { text: "Ich war es. Tut mir leid.", next: "ic4a" },
+          { text: "Sagt mir nichts.", next: "ic4b" },
+        ],
+      },
+      ic4a: {
+        id: "ic4a",
+        speaker: "INSA",
+        text: "Gut. Dann sind wir wenigstens ehrlich. — Hören Sie. Was Sie kaputt gemacht haben, war nicht meines. Es war auch nicht das Ihrer Nachbarn. Wem es gehörte, finde ich noch heraus.",
+        next: "ic5",
+      },
+      ic4b: {
+        id: "ic4b",
+        speaker: "INSA",
+        text: "Doch. Sagt es. Sie waren zur richtigen Zeit am richtigen Ort. — Schon gut. Wir reden nicht weiter darüber.",
+        next: "ic5",
+      },
+      ic5: {
+        id: "ic5",
+        speaker: "INSA",
+        text: "Der Code für die Sektor-Tür liegt in Ihrem Terminal. Datum, ohne Punkte. Sie wissen, wie. Kommen Sie trotzdem rüber, Worag. Es ist heute kein guter Tag, allein zu bleiben.",
+        next: "ic6",
+      },
+      ic6: {
+        id: "ic6",
+        speaker: "SYSTEM",
+        text: "[ Im Terminal liegt eine Nachricht der Leitstelle. Datum: 06.11.1997. Acht Ziffern, ohne Punkte. ]",
+        end: true,
+      },
+    },
+  },
 };
