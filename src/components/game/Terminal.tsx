@@ -1042,6 +1042,11 @@ export function Terminal() {
   const [cwd, setCwd] = useState<string[]>([...HOME_PATH_WORAG]);
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const [lottiState, setLottiState] = useState<LottiState | null>(null);
+  const [newsState, setNewsState] = useState<NewsState | null>(null);
+  // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
+  // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
+  // bei jeder Eingabe sauber gestoppt.
+  const newsTickerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // Aktive Telnet-Sitzung (null = keine).
   const [telnetHost, setTelnetHost] = useState<string | null>(null);
   // Telnet wartet auf Passworteingabe für diesen Host.
