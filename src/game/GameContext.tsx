@@ -487,23 +487,26 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setInventory(persisted.inventory);
       setResonance(persisted.resonance);
       setEnding(persisted.ending);
-      // Wiederherstellung mit Rückwärtskompatibilität: alte Saves (vor der
-      // 2-Etagen-Verteilung) hatten nur miraFloor — wir spreizen das auf
-      // {miraFloor + eine zufällige zweite} und Philippe bekommt die Reste.
-      const pool: Array<3 | 4 | 5> = [3, 4, 5];
+      // Wiederherstellung mit Rückwärtskompatibilität: Mira darf nie auf
+      // Etage 3 stehen. Alte Saves, die das noch erlaubten, werden auf das
+      // neue Schema (Mira ∈ {4,5}, Philippe = die andere, 3 frei) gemappt.
+      const livingFloors: Array<4 | 5> = [4, 5];
+      const sanitizeMira = (
+        floors: ReadonlyArray<3 | 4 | 5>,
+      ): Array<4 | 5> => {
+        const filtered = floors.filter((f): f is 4 | 5 => f === 4 || f === 5);
+        if (filtered.length > 0) return [filtered[0]];
+        // Save hatte Mira nur auf 3 — zufällig auf 4 oder 5 verschieben.
+        return [livingFloors[Math.floor(Math.random() * 2)]];
+      };
       if (persisted.miraFloors && persisted.miraFloors.length > 0) {
-        miraFloorsRef.current = persisted.miraFloors;
-        philippeFloorRef.current =
-          persisted.philippeFloor ??
-          (pool.find((f) => !persisted.miraFloors!.includes(f)) ?? 5);
+        const mira = sanitizeMira(persisted.miraFloors);
+        miraFloorsRef.current = mira;
+        philippeFloorRef.current = livingFloors.find((f) => f !== mira[0]) ?? 5;
       } else if (persisted.miraFloor) {
-        const others = pool.filter((f) => f !== persisted.miraFloor);
-        const second = others[Math.floor(Math.random() * others.length)];
-        miraFloorsRef.current = [persisted.miraFloor, second].sort() as Array<
-          3 | 4 | 5
-        >;
-        philippeFloorRef.current =
-          pool.find((f) => !miraFloorsRef.current!.includes(f)) ?? 5;
+        const mira = sanitizeMira([persisted.miraFloor]);
+        miraFloorsRef.current = mira;
+        philippeFloorRef.current = livingFloors.find((f) => f !== mira[0]) ?? 5;
       } else {
         miraFloorsRef.current = null;
         philippeFloorRef.current = null;
