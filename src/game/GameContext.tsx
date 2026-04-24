@@ -35,6 +35,10 @@ interface GameState {
   terminalBodoMode: boolean;
   keypadOpen: boolean;
   tvOpen: boolean;
+  /** Welche Tür wird gerade am Keypad geprüft. */
+  keypadTarget: "sectorDoor" | "door5610";
+  /** Wartungsterminal hinter Tür 5610 sichtbar. */
+  nodeOpen: boolean;
   radioActive: boolean; // tuned to 104.6, providing subtext
   resonance: number; // 0–100
   ending: boolean;
@@ -50,6 +54,7 @@ interface GameContextValue extends GameState {
   closeTerminal: () => void;
   closeKeypad: () => void;
   closeTelevision: () => void;
+  closeNode: () => void;
   setRadioActive: (active: boolean) => void;
   bumpResonance: (delta: number) => void;
   resetResonance: () => void;
@@ -109,6 +114,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [terminalBodoMode, setTerminalBodoMode] = useState(false);
   const [keypadOpen, setKeypadOpen] = useState(false);
+  const [keypadTarget, setKeypadTarget] = useState<"sectorDoor" | "door5610">(
+    "sectorDoor",
+  );
+  const [nodeOpen, setNodeOpen] = useState(false);
   const [radioActive, setRadioActive] = useState(false);
   const [tvOpen, setTvOpen] = useState(false);
   const [resonance, setResonance] = useState(0);
@@ -267,12 +276,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setTerminalOpen(false);
         setRadioOpen(true);
       },
-      openKeypad: () => setKeypadOpen(true),
+      openKeypad: (target) => {
+        setKeypadTarget(target ?? "sectorDoor");
+        setKeypadOpen(true);
+      },
       isRadioActive: () => radioActiveRef.current,
       openTelevision: () => {
         setRadioOpen(false);
         setTerminalOpen(false);
         setTvOpen(true);
+      },
+      openNode5610: () => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setNodeOpen(true);
       },
       setEnding: () => setEnding(true),
       getMiraFloors: () => miraFloorsRef.current ?? [3, 4],
@@ -354,6 +371,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
     terminalBodoMode,
     keypadOpen,
     tvOpen,
+    keypadTarget,
+    nodeOpen,
     radioActive,
     resonance,
     ending,
@@ -378,6 +397,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     closeTerminal: () => setTerminalOpen(false),
     closeKeypad: () => setKeypadOpen(false),
     closeTelevision: () => setTvOpen(false),
+    closeNode: () => setNodeOpen(false),
     setRadioActive,
     bumpResonance: (d) => setResonance((r) => Math.max(0, Math.min(100, r + d))),
     resetResonance: () => setResonance(0),
@@ -468,6 +488,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setTerminalOpen(false);
       setKeypadOpen(false);
       setRadioActive(false);
+      setNodeOpen(false);
+      setKeypadTarget("sectorDoor");
       return true;
     },
     listSaves: async (): Promise<Array<SaveSummary | null>> => {

@@ -5,17 +5,73 @@ import { playBeep, playKeypress, playUnlock } from "@/audio/sfx";
 import { CloseButton } from "./CloseButton";
 import { Delete, Check } from "lucide-react";
 
-const CORRECT_CODE = "06111997";
-const MAX_LEN = 8;
-
 type Status = "idle" | "ok" | "err";
 
+/** Konfiguration pro Schloss. */
+interface LockConfig {
+  /** Anzeige im Display-Header. */
+  label: string;
+  /** Code-Länge. */
+  length: number;
+  /** Akzeptierte Codes (string, exakt). */
+  codes: string[];
+  /** Bereits-offen-Flag. */
+  openFlag: import("@/game/types").StoryFlag;
+  /** onUnlock — wird ausgeführt, wenn Code stimmt UND noch nicht offen. */
+  onUnlock: (api: import("@/game/types").GameApi) => void;
+}
+
 export function Keypad() {
-  const { keypadOpen, closeKeypad, api, flags } = useGame();
+  const { keypadOpen, closeKeypad, api, flags, keypadTarget, radioActive } =
+    useGame();
   const { sfxVolume } = useSettings();
   const [code, setCode] = useState("");
   const [status, setStatus] = useState<Status>("idle");
-  const alreadyOpen = flags.has("sectorDoorOpen");
+
+  // Frequenz-Slot: nur für door5610 + nur, wenn Mira-Hint + Radio aktiv.
+  // Vier zusätzliche Tasten 1-0-4-6, ein Klick → Code wird gesetzt.
+  const showFreqSlot =
+    keypadTarget === "door5610" &&
+    flags.has("miraSystemic") &&
+    radioActive;
+
+  const config: LockConfig =
+    keypadTarget === "door5610"
+      ? {
+          label: "Wartungstür · 5610",
+          length: 4,
+          // 7032 = Bodo-Wartungscode, 1046 = Frequenz-Schlüssel (Mira-Spur).
+          codes: ["7032", "1046"],
+          openFlag: "serverRoom5610Open",
+          onUnlock: (a) => {
+            a.setFlag("serverRoom5610Open");
+            a.showText([
+              "Klacken im Schloss. Die Magnetriegel geben nach.",
+              "Warme Luft schlägt ihm entgegen — sie riecht nach Lötzinn,",
+              "altem Staub und etwas, das Layard noch nie gerochen hat.",
+              "",
+              "Hinter der Tür: kein Korridor. Ein Raum.",
+            ]);
+          },
+        }
+      : {
+          label: "Sektor-Tür · E67/E71",
+          length: 8,
+          codes: ["06111997"],
+          openFlag: "sectorDoorOpen",
+          onUnlock: (a) => {
+            a.setFlag("sectorDoorOpen");
+            a.addItem({
+              id: "exitCode",
+              name: "Ausgangscode 06111997",
+              description:
+                "Acht Ziffern, ein Datum. Der Code, der die Tür zwischen E67 und E71 öffnet.",
+            });
+          },
+        };
+
+  const MAX_LEN = config.length;
+  const alreadyOpen = flags.has(config.openFlag);
 
   // Reset bei jedem Öffnen.
   useEffect(() => {
@@ -80,16 +136,10 @@ export function Keypad() {
       setStatus("err");
       return;
     }
-    if (code === CORRECT_CODE) {
+    if (config.codes.includes(code)) {
       playUnlock(0.7 * sfxVolume);
       setStatus("ok");
-      api.setFlag("sectorDoorOpen");
-      api.addItem({
-        id: "exitCode",
-        name: "Ausgangscode 06111997",
-        description:
-          "Acht Ziffern, ein Datum. Der Code, der die Tür zwischen E67 und E71 öffnet.",
-      });
+      config.onUnlock(api);
       setTimeout(() => {
         closeKeypad();
       }, 1400);
@@ -142,7 +192,7 @@ export function Keypad() {
         <div className="mb-3 flex items-center gap-2">
           <span className={`h-2.5 w-2.5 rounded-full transition-all ${ledClass}`} />
           <span className="font-mono-crt text-[0.65rem] uppercase tracking-[0.3em] text-amber-glow/80">
-            Sektor-Tür · E67/E71
+            {config.label}
           </span>
         </div>
 
@@ -184,6 +234,28 @@ export function Keypad() {
             <Check className="h-5 w-5" />
           </KeypadButton>
         </div>
+
+        {/* Frequenz-Schnelltaste — nur door5610 + Mira-Spur + Radio aktiv. */}
+        {showFreqSlot && (
+          <div className="mt-3 rounded-sm border border-amber-glow/30 bg-black/40 p-2">
+            <div className="mb-1 font-mono-crt text-[0.55rem] uppercase tracking-[0.3em] text-amber-glow/70">
+              ▸ Frequenz-Resonanz erkannt
+            </div>
+            <button
+              type="button"
+              disabled={alreadyOpen}
+              onClick={() => {
+                if (alreadyOpen) return;
+                playKeypress(0.5 * sfxVolume);
+                setStatus("idle");
+                setCode("1046");
+              }}
+              className="w-full rounded-sm border border-amber-glow/50 bg-amber-glow/5 px-2 py-1.5 font-mono-crt text-xs uppercase tracking-[0.2em] text-amber-glow hover:bg-amber-glow/15 disabled:opacity-40"
+            >
+              ▸ 104,6 senden
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

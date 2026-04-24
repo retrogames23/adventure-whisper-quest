@@ -195,6 +195,28 @@ function FlyerIcon() {
   );
 }
 
+/** Wartungsnotiz 5610 — kleines Karteikärtchen mit Zifferncode. */
+function WartungsnotizIcon() {
+  return (
+    <>
+      {/* Karteikarte */}
+      <rect x="3" y="5" width="18" height="14" fill={ICON_DK} />
+      <rect x="4" y="6" width="16" height="12" fill={ICON_HI} />
+      {/* Reiter oben */}
+      <rect x="6" y="4" width="6" height="2" fill={ICON_DK} />
+      <rect x="7" y="5" width="4" height="1" fill={ICON_HI} />
+      {/* Code 7-0-3-2 als Klötzchen */}
+      <rect x="6" y="9" width="2" height="3" fill={ICON_BG} />
+      <rect x="9" y="9" width="2" height="3" fill={ICON_BG} />
+      <rect x="13" y="9" width="2" height="3" fill={ICON_BG} />
+      <rect x="16" y="9" width="2" height="3" fill={ICON_BG} />
+      {/* Linie darunter */}
+      <rect x="6" y="14" width="12" height="1" fill={ICON_BG} opacity="0.7" />
+      <rect x="6" y="16" width="9" height="1" fill={ICON_BG} opacity="0.5" />
+    </>
+  );
+}
+
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
   exitCode: ExitCodeIcon,
@@ -202,6 +224,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   tuningCrystal: TuningCrystalIcon,
   mikaelLetter: MikaelLetterIcon,
   flyer: FlyerIcon,
+  wartungsnotiz5610: WartungsnotizIcon,
 };
 
 export function ItemIcon({ id, className, size = 24, title }: Props) {

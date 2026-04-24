@@ -14,6 +14,7 @@ import passageBg from "@/assets/scene-passage.jpg";
 import corridor36Bg from "@/assets/scene-corridor-36.jpg";
 import corridor46Bg from "@/assets/scene-corridor-46.jpg";
 import corridor56Bg from "@/assets/scene-corridor-56.jpg";
+import serverRoom5610Bg from "@/assets/scene-server-room-5610.jpg";
 import miraSprite from "@/assets/npc-mira.png";
 import philippeSprite from "@/assets/npc-philippe.png";
 import type { Scene } from "./types";
@@ -1701,6 +1702,60 @@ export const scenes: Record<string, Scene> = {
             "Layard rüttelt nicht einmal. Er weiß, was er nicht öffnet.",
           ]),
       },
+      // ─────────────────────────────────────────────────────────
+      // Tür 5610 — Serverraum hinter Korridor 56.
+      // Sichtbar nur, wenn eine der drei Motivations-Spuren erfüllt ist:
+      //   (a) Mira-Hint: tookFlyer
+      //   (b) Schmerz-Radio aktiv (104,6)
+      //   (c) Mindestens 3 Philippe-Sonden gelesen
+      // Öffnet sich entweder mit Code 7032 (Bodo-Terminal) oder
+      // 1046 (Mira-Spur, nur mit miraSystemic + Radio aktiv).
+      // Nach dem Öffnen führt der Hotspot direkt in den Raum.
+      // ─────────────────────────────────────────────────────────
+      {
+        id: "door5610",
+        x: 24,
+        y: 32,
+        w: 14,
+        h: 50,
+        label: "Tür 5610 · Technik",
+        visible: (api) => {
+          if (api.hasFlag("serverRoom5610Open")) return true;
+          const probeCount =
+            (api.hasFlag("philippeProbeNote1") ? 1 : 0) +
+            (api.hasFlag("philippeProbeNote2") ? 1 : 0) +
+            (api.hasFlag("philippeProbeNote3") ? 1 : 0) +
+            (api.hasFlag("philippeProbeNote4") ? 1 : 0) +
+            (api.hasFlag("philippeProbeNote5") ? 1 : 0);
+          return (
+            api.hasFlag("tookFlyer") ||
+            api.isRadioActive() ||
+            probeCount >= 3
+          );
+        },
+        onUse: (api) => {
+          if (api.hasFlag("serverRoom5610Open")) {
+            api.goTo("serverRoom5610");
+            return;
+          }
+          // Erstkontakt — kurze Beschreibung, dann Keypad.
+          if (!api.hasFlag("saw5610Door")) {
+            api.setFlag("saw5610Door");
+            api.showText(
+              [
+                "Eine Stahltür, schmal, in die Wand eingelassen.",
+                "Schild: »5610 · Technik · Kein Zutritt«.",
+                api.isRadioActive()
+                  ? "Hier ist das Brummen am lautesten. Das Signal kommt von hinter dieser Tür."
+                  : "Daneben: ein kleines, eingelassenes Keypad.",
+              ],
+              () => api.openKeypad("door5610"),
+            );
+          } else {
+            api.openKeypad("door5610");
+          }
+        },
+      },
       {
         id: "back56",
         x: 80,
@@ -1709,6 +1764,51 @@ export const scenes: Record<string, Scene> = {
         h: 60,
         label: "Zurück zum Aufzug",
         onUse: (api) => api.goTo("elevator"),
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Serverraum hinter Tür 5610 — lokaler Resonanz-Knoten von E67.
+  // ───────────────────────────────────────────────────────────
+  serverRoom5610: {
+    id: "serverRoom5610",
+    background: serverRoom5610Bg,
+    title: "Serverraum 5610 — Knoten E67",
+    intro:
+      "Drei Racks, blinkende LEDs, der Geruch von heißem Lötzinn. In der Ecke: ein einzelnes Wartungsterminal. Hier laufen die Resonanz-Pakete von E67 zusammen, bevor sie an die Leitstelle gehen.",
+    hotspots: [
+      {
+        id: "nodeTerminal5610",
+        x: 70,
+        y: 45,
+        w: 26,
+        h: 40,
+        label: "Wartungsterminal",
+        onUse: (api) => api.openNode5610(),
+      },
+      {
+        id: "racks5610",
+        x: 18,
+        y: 25,
+        w: 38,
+        h: 60,
+        label: "Racks (warm)",
+        onUse: (api) =>
+          api.showText([
+            "Drei Racks, dicht an dicht. Die LEDs flackern im Takt von 104,6.",
+            "Layard hält die Hand kurz an das Gehäuse — es ist warm.",
+            "Wärme von etwas, das ohne Pause arbeitet.",
+          ]),
+      },
+      {
+        id: "exit5610",
+        x: 0,
+        y: 50,
+        w: 14,
+        h: 50,
+        label: "Zurück in den Korridor",
+        onUse: (api) => api.goTo("corridor56"),
       },
     ],
   },

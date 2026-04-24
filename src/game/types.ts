@@ -13,7 +13,8 @@ export type SceneId =
   | "passage"
   | "corridor36"
   | "corridor46"
-  | "corridor56";
+  | "corridor56"
+  | "serverRoom5610";
 
 export type InventoryItemId =
   | "protocol"
@@ -21,7 +22,8 @@ export type InventoryItemId =
   | "b3sample"
   | "tuningCrystal"
   | "mikaelLetter"
-  | "flyer";
+  | "flyer"
+  | "wartungsnotiz5610";
 
 export type KnowledgeFlag =
   | "freq1046"
@@ -134,7 +136,16 @@ export type StoryFlag =
   // Insas Rückruf-Code: ein verpasster Anruf landet bei Stegmann.
   | "insaCallbackPending"
   | "insaCallbackTaken"
-  | "insaCallbackMissed";
+  | "insaCallbackMissed"
+  // Tür 5610 (Serverraum, Korridor 56) — Entdeckung & Zustand
+  | "saw5610Door"
+  | "serverRoom5610Open"
+  | "tappedNode5610"
+  | "reroutedNode5610"
+  | "burnedNode5610"
+  // Variante des Endings: bestimmt durch Aktion am Knoten 5610
+  | "endingSilent"
+  | "endingSabotage";
 
 export interface InventoryItem {
   id: InventoryItemId;
@@ -269,8 +280,10 @@ export interface GameApi {
   startDialog: (id: string) => void;
   openTerminal: (asBodo?: boolean) => void;
   openRadio: () => void;
-  openKeypad: () => void;
+  openKeypad: (target?: KeypadTarget) => void;
   openTelevision: () => void;
+  /** Wartungsterminal hinter Tür 5610 (eigenes UI, kein CentralOS). */
+  openNode5610: () => void;
   isRadioActive: () => boolean;
   setEnding: () => void;
   /**
@@ -287,3 +300,10 @@ export interface GameApi {
    */
   getPhilippeFloor: () => 3 | 4 | 5;
 }
+
+/**
+ * Welches Schloss steckt hinter dem aktuellen Keypad-Aufruf.
+ * - "sectorDoor" — bestehende E67/E71-Tür, 8-stellig.
+ * - "door5610"   — Wartungstür im Korridor 56, 4-stellig + Frequenz-Slot.
+ */
+export type KeypadTarget = "sectorDoor" | "door5610";
