@@ -1,144 +1,176 @@
+
 ## Ziel
 
-Jedes Terminal im Spiel — Layards (Worag), Bodos und das Wartungsterminal im Serverraum (Node 5610) — wird zu einem **eigenständigen Modul**. Änderungen an einem Terminal haben **keine Auswirkung** auf die anderen. Auch zukünftige Terminals folgen demselben Muster.
+Zwei narrative/UX-Probleme beheben:
 
-Cross-Access auf Home-Verzeichnisse anderer Terminals geht **nur über `telnet` mit Passwort**.
-
----
-
-## Neue Datei-/Modulstruktur
-
-```text
-src/components/game/terminal/
-  shared.tsx           — UI-Primitives (Line-Renderer, CRT-Frame, CloseButton-Wrapper)
-                          + reine Helfer (commonPrefix, formatLs, buildTree, applyOsVersion,
-                          completeTelnet, NetHost-Typ)
-  telnet.ts            — Pure NET_HOSTS-Definitionen + getHost(name|ip)
-WoragTerminal.tsx      — Layards Terminal (TopBar, Wohnung 2611, Sektor-Türen)
-BodoTerminal.tsx       — Bodos Wartungsterminal (Hotspot in Bodos Wohnung)
-NodeTerminal.tsx       — bleibt unverändert in Funktion, nutzt aber jetzt shared.tsx
-
-src/game/
-  filesystemWorag.ts   — Layards komplette Datei-Hierarchie
-                          (Root: /, /home/worag, /etc, /var, /sektor, …)
-  filesystemBodo.ts    — Bodos komplette Datei-Hierarchie
-                          (Root: /, /home/bodo, /etc, /var, …)
-  filesystem.ts        — DEPRECATED, nach Migration entfernen
-```
-
-Wichtig: jedes Filesystem ist ein **separater Baum**. `/home/bodo` existiert nicht in Worags Baum, `/home/worag` nicht in Bodos. Es gibt **keinen Shared Root**.
+1. **Insas Auftrag glaubwürdiger machen.** Aktuell sagt sie nur diffus „Ich brauche eine Probe vom Knoten". Künftig: Sie hat seit langem den Verdacht einer **illegalen Installation** im Knoten 5610 und wartet seit Wochen auf die Genehmigung des Sektorbeauftragten E67, das nachzuprüfen — der aber, wie Layard heute selbst gesehen hat, gar nicht im Dienst ist. Sie nutzt Layards Anwesenheit, um die Probe „inoffiziell" zu bekommen.
+2. **Zugang zum Serverraum 5610 entkoppeln vom Keypad-Code.** Sonst gibt es zwei Code-Türen direkt hintereinander (5610 und Sektor-Tür E67/E71). Stattdessen: Tür 5610 öffnet sich per **Wartungs-Override** — Insa schickt fernausgelöst die Magnetriegel auf, oder Layard nutzt eine **Wartungskarte** (von Bodo / aus Mira-Spur) am Kartenleser. Kein Zifferncode mehr.
 
 ---
 
-## Trennung der Befehle
+## 1. Insas Motivation — Dialog-Überarbeitung
 
-| Befehl | Worag | Bodo | Node 5610 |
-|---|---|---|---|
-| `help`, `clear`, `exit`, `pwd`, `ls`, `cd`, `cat`, `tree` | ✓ | ✓ | – |
-| `inbox`, `read`, `status`, `report` | ✓ | ✓ (Bodos eigene Inbox) | – |
-| `net`, `telnet` | ✓ | ✓ | – |
-| `sysupdate`, `trouble` | ✓ | ✓ | – |
-| `adventure`, `./adventure.bin` | **✓** | **✗ entfernt** | – |
-| `lotti`, `./lotti` | **✗ entfernt** | **✓** | – |
-| `maint` (WARTUNG nur Hausmeister) | **✗ entfernt** | **✓** | – |
-| `tap`, `listen`, `reroute`, `burn` | – | – | ✓ |
+**Datei:** `src/game/dialogs.ts`
 
-Die Tab-Completion-Liste `COMMANDS` wird pro Terminal eigenständig definiert — `WORAG_COMMANDS`, `BODO_COMMANDS`. Wer in WoragTerminal `lotti` tippt, bekommt „Unbekannter Befehl". Wer in BodoTerminal `adventure` tippt, ebenso.
+### 1.1 `insaDispatch` — Pflicht-Pfad (`idPflicht1`–`idPflicht4`) neu schreiben
 
----
+Bisher: vage „Ich brauche eine Probe". Neu: ehrliche Begründung, die an die laufende Geschichte andockt (leeres Büro 1534 in E71 → kein Sektorbeauftragter heute im Dienst).
 
-## Filesystem-Trennung im Detail
+Vorgeschlagener neuer Text (vier Beats, gleiche Knoten-IDs, gleiche `hiddenWhen`-Logik bleibt, nur Text + leichte Struktur ändern):
 
-**`filesystemWorag.ts`** exportiert:
-- `WORAG_ROOT: FsDir` — vollständiger Baum mit `/home/worag`, Worag-spezifischem `/etc/motd`, `/var/mail/worag`, `/sektor/...` (alles aus dem aktuellen Baum, das Worag sieht).
-- `WORAG_HOME: string[] = ["home", "worag"]`
-- `resolveWorag(parts)` und `pathStringWorag(parts)`.
+- **`idPflicht1` (INSA):**
+  „Herr Worag — bevor ich Ihnen den Code gebe, brauche ich etwas von Ihnen. Es ist nicht ganz Standardprotokoll. Aber Sie waren heute selbst in 1534. Sie wissen, dass der Abschnittsverantwortliche E67 nicht da ist."
+  *subtext:* „Sie sagt das nicht als Vorwurf. Eher: als geteilte Beobachtung."
 
-**`filesystemBodo.ts`** exportiert:
-- `BODO_ROOT: FsDir` — eigenständiger Baum mit `/home/bodo`, `/etc/motd` (Hausmeister-Variante: alte v2.0), `/var/mail/bodo`, `/wartung/...` (neuer Bereich für `maint`).
-- `BODO_HOME: string[] = ["home", "bodo"]`
-- `resolveBodo(parts)`, `pathStringBodo(parts)`.
+- **`idPflicht2` (INSA):**
+  „Seit Wochen läuft im Knoten 5610 — Korridor 56, Wartungstür hinter der „Technik"-Plakette — etwas, das in keinem Wartungsplan steht. Mehr Datenverkehr, als E67 erzeugen kann. Falsche Quell-Routen. Ich vermute eine Installation, die nicht genehmigt ist."
+  *subtext:* „Sie hat das schon oft formuliert. Nur nie laut."
 
-`/home/worag` ist in Bodos Baum **nicht vorhanden**. `cd /home/worag` an Bodos Terminal liefert „Verzeichnis existiert nicht" (saubererer Schein als „Zugriff verweigert" — Layards Daten liegen schlicht nicht lokal).
+- **`idPflicht3` (INSA):**
+  „Ich habe einen Antrag auf Inspektion gestellt. Er liegt seit elf Tagen beim Sektorbeauftragten E67. Heute hätte er ihn unterschreiben sollen. Er ist nicht da. Und morgen ist er auch nicht da."
+  *subtext:* „Sie hat bis 18:00 gewartet, bevor sie das eingestanden hat."
 
-Inhaltlich werden die heute schon vorhandenen Daten 1:1 in die jeweiligen Bäume übernommen. Doppelt vorhandene Dateien (z. B. `/etc/motd`) sind ab dann **echt unabhängig** — eine Änderung am Banner in `filesystemWorag.ts` betrifft Bodo nicht.
+- **`idPflicht4` (INSA):**
+  „Sie sind ohnehin in E67 unterwegs. Gehen Sie zur Wartungstür 5610. Am Wartungsterminal tippen Sie »tap« — das ist ein Read-only-Mitschnitt, nichts, was auffällt. Danach rufen Sie mich an. Erst dann kann ich Ihnen den Code geben — als Gegenleistung sozusagen."
+  *subtext:* „Sie sagt »Gegenleistung«, als würde sie das Wort selbst zum ersten Mal verwenden."
 
----
+  Choice „Verstanden. Auf Wiederhören." behält Funktion: setzt `insaSentTo5610`, `skippedExitReport`, und legt **keine** Wartungsnotiz mehr ans Inventar (siehe 2.3) — stattdessen die neue **Wartungs-Override-Token-Mail** bzw. **Karten-Hinweis**.
 
-## `maint` (nur Bodo)
+### 1.2 `insa2` — Pflicht-Beats `x4pflicht1` und `x4pflicht2` analog kürzen
 
-Neuer Befehl für `BodoTerminal.tsx`. Stellt Hausmeister-spezifische Wartungsaktionen bereit. Erste Ausbaustufe:
+- **`x4pflicht1` (INSA):** kurz aber mit derselben Begründung — „Bevor ich den Code gebe: Ich brauche die Probe aus 5610. Sie wissen, warum: der Abschnittsverantwortliche, der mein Inspektionsformular unterschreiben müsste, ist heute nicht im Dienst. Korridor 56, Wartungstür. »tap« am Terminal, danach Anruf."
+- **`x4pflicht2` (INSA):** wird zu einem **Override-Hinweis** statt Code:
+  „Die Tür kennt Sie schon — und falls nicht, gebe ich von hier aus den Wartungs-Override frei. Geben Sie mir zwanzig Sekunden, dann sind die Riegel offen. Aber das wissen Sie nicht von mir."
+  Choice „Verstanden. Auf Wiederhören." setzt `insaSentTo5610` **und** `serverRoom5610OverrideArmed` (neuer Flag, siehe 2.1) — keine Wartungsnotiz mehr ins Inventar.
 
-- `maint status` — kurze Liste: Aufzug 1 OK, Aufzug 2 Notabschaltung, Lüftung Sektor 5 grenzwertig, Knoten 5610 „nicht autorisiert".
-- `maint log` — letzte 10 Wartungseinträge (statisch, atmosphärisch).
-- `maint help` — Subcommands.
+### 1.3 `idPflicht4`-Choice ebenfalls auf Override umstellen
 
-`maint` wird in Worags `COMMANDS`-Liste **nicht** registriert und in `WoragTerminal.handleCommand` nicht behandelt — Layard sieht nicht einmal die Hilfe.
+Im `insaDispatch`-Pflicht-Pfad ebenfalls `serverRoom5610OverrideArmed` setzen statt der bisherigen Notiz mit dem Wartungsmuster.
 
 ---
 
-## NodeTerminal bleibt eigenständig
+## 2. Zugang Tür 5610 — Code raus, Override/Karte rein
 
-`NodeTerminal.tsx` ist heute schon ein separater Komponentenbaum. Wir lassen Funktion und Layout unverändert und nur:
+### 2.1 Neue StoryFlags
 
-- Importiert künftig `playBeep`/`playKeypress`/`playUnlock` und den `CloseButton`-Wrapper aus `terminal/shared.tsx` (kosmetische Konsolidierung — keine Verhaltensänderung).
-- Greift **nicht** auf `filesystemWorag.ts` oder `filesystemBodo.ts` zu. Hat keinen `ls`/`cd`/`cat`. Bleibt rein befehlsorientiert.
+**Datei:** `src/game/types.ts`
 
----
+Im `StoryFlag`-Union ergänzen (in der bestehenden 5610-Gruppe):
+- `serverRoom5610OverrideArmed` — Insa hat den Wartungs-Override scharfgeschaltet (Pflicht-Pfad).
+- `hasMaintCard5610` — Layard besitzt eine physische Wartungskarte für die Tür 5610 (Bodo- oder Mira-Spur).
 
-## Telnet bleibt der einzige Cross-Access
+`serverRoom5610Open` bleibt wie gehabt; das ist der „Tür ist offen"-Endzustand.
 
-`terminal/telnet.ts` definiert `NET_HOSTS` als gemeinsame Hostliste (IP, Hostname, Telnet-Passwort, MOTD, Files, dynamicFiles). Beide Terminals nutzen dieselbe Liste, weil das Sektor-Netz für beide gleich aussieht — aber die **Datei-Inhalte hinter Telnet sind unabhängig** vom lokalen Filesystem des einloggenden Terminals.
+### 2.2 Tür 5610 in `corridor56`: kein Keypad mehr, sondern szenische Auflösung
 
-Konfiguration je Host:
-- `worag.e67` — Telnet aktiv, Passwort-geschützt (Default: kein Passwort bekannt → Bodo kommt nicht rein, außer er findet eines im Spiel).
-- `bodo.e67` — Telnet aktiv, Passwort `Lotti` (case-insensitive). Wie heute.
-- Andere Hosts (`philippe.e67`, `gateway.e67`, …) bleiben wie heute.
+**Datei:** `src/game/scenes.ts`, Hotspot `door5610` (~Zeilen 1743–1786)
 
-Damit ist die Spielregel sauber: lokal sieht jedes Terminal nur sein eigenes Home; auf das andere kommt man nur über `telnet` + Passwort.
-
----
-
-## API-Anpassung
-
-`GameApi.openTerminal` wird typisiert:
+Neue `onUse`-Logik (kein `openKeypad("door5610")` mehr):
 
 ```ts
-type TerminalTarget = "worag" | "bodo";
-openTerminal: (target?: TerminalTarget) => void; // default "worag"
+onUse: (api) => {
+  if (api.hasFlag("serverRoom5610Open")) {
+    api.goTo("serverRoom5610");
+    return;
+  }
+
+  // (a) Insa hat ferngesteuert die Riegel freigegeben (Pflicht-Pfad)
+  if (api.hasFlag("serverRoom5610OverrideArmed")) {
+    api.setFlag("serverRoom5610Open");
+    api.showText([
+      "Ein leises Klacken in der Wand — die Magnetriegel geben nach.",
+      "Insa hat Wort gehalten.",
+      "Hinter der Tür: kein Korridor. Ein Raum.",
+    ], () => api.goTo("serverRoom5610"));
+    return;
+  }
+
+  // (b) Layard hat eine Wartungskarte (Bodo / Mira)
+  if (api.hasFlag("hasMaintCard5610") || api.hasItem("maintCard5610")) {
+    api.setFlag("serverRoom5610Open");
+    api.showText([
+      "Layard hält die Wartungskarte an den Leser.",
+      "Ein dumpfes Surren, ein Klacken im Schloss.",
+      "Hinter der Tür: kein Korridor. Ein Raum.",
+    ], () => api.goTo("serverRoom5610"));
+    return;
+  }
+
+  // (c) Erstkontakt / noch keine Berechtigung
+  if (!api.hasFlag("saw5610Door")) {
+    api.setFlag("saw5610Door");
+    api.showText([
+      "Eine Stahltür, schmal, in die Wand eingelassen.",
+      "Schild: »5610 · Technik · Kein Zutritt«.",
+      "Kein Keypad — nur ein flacher Kartenleser und ein blaues",
+      "Wartungs-LED, das ruhig blinkt. Ohne Berechtigung kein Zutritt.",
+    ]);
+  } else {
+    api.showText([
+      "Die Tür gibt nicht nach. Der Kartenleser blinkt blau.",
+      "Ohne Wartungskarte oder Freigabe der Leitstelle bleibt sie zu.",
+    ]);
+  }
+},
 ```
 
-`GameContext` führt statt `terminalBodoMode: boolean` ein Feld `terminalTarget: TerminalTarget | null`. `terminalOpen` bleibt als abgeleitete Bedingung (`terminalTarget !== null`).
+`visible`-Logik bleibt — die Tür wird also weiterhin nur sichtbar, wenn eine der Spuren erfüllt ist.
 
-In `Game.tsx` werden statt einem `<Terminal />` jetzt zwei Komponenten gerendert (jede prüft selbst, ob sie dran ist):
+### 2.3 Inventar-Item `wartungsnotiz5610` → Wartungskarte
 
-```tsx
-<WoragTerminal />
-<BodoTerminal />
-<NodeTerminal />
+**Dateien:** `src/game/dialogs.ts` (Funktion `maybeGiveWartungsnotiz5610` und alle Stellen, die die Notiz vergeben)
+
+Statt Notiz „7-0-Pause-3-2" eine **Wartungskarte** (Item) vergeben — diese steht für Bodos & Philippes Spur (er hat ihm „seine alte" Karte zugesteckt / Layard rekonstruiert die Existenz aus Philippes Andeutungen → er holt sie aus Bodos Werkbank ab; Detail beim Implementieren).
+
+```ts
+// Umbenennen + Bedeutung ändern
+api.addItem({
+  id: "maintCard5610",
+  name: "Wartungskarte (E67 · 56er-Korridor)",
+  description:
+    "Eine abgegriffene blaue Plastikkarte. Auf der Rückseite mit Bleistift: „5610 · nur Bodo“.",
+});
+api.setFlag("hasMaintCard5610");
 ```
 
-`scenes.ts` ruft weiterhin `api.openTerminal()` (Worag) bzw. `api.openTerminal("bodo")` (Bodos Hotspot bei `bodoAway`) auf — Aufrufseite ändert sich minimal.
+Alle 3 bisherigen Stellen in `dialogs.ts`, die das `wartungsnotiz5610`-Item vergeben (Zeilen ~15–22, ~602–609, ~724–731) anpassen → Karte statt Notiz, **außer** im Pflicht-Pfad: dort wird stattdessen `serverRoom5610OverrideArmed` gesetzt (Insa öffnet remote, kein Karten-Hand-out).
+
+Tatsächliche Quelle der Karte:
+- **Bodo-Spur:** Bei einem der Bodo-Dialoge (zu prüfen welcher; vermutlich der mit dem alten Wartungscode 7032) wird stattdessen die Karte überreicht.
+- **Mira-Spur:** Frequenz-Schnelltaste fällt weg (siehe 2.4); stattdessen erhält Layard die Karte, wenn `miraSystemic` + Radio-Bedingung erfüllt sind, an passender Stelle in Miras Dialog.
+- **Philippe-Sonden ≥3:** Funktion `maybeGiveMaintCard5610` (Umbenennung) gibt die Karte.
+
+### 2.4 `Keypad.tsx` — `door5610`-Branch entfernen
+
+**Datei:** `src/components/game/Keypad.tsx`
+
+- `LockConfig`-Branch für `keypadTarget === "door5610"` löschen.
+- `showFreqSlot` + Frequenz-Schnelltaste komplett entfernen (nur für 5610 relevant gewesen).
+- `Keypad` bedient damit nur noch die Sektor-Tür E67/E71 (8-stellig, `06111997`).
+
+**Datei:** `src/game/types.ts`
+- `KeypadTarget` auf `"sectorDoor"` reduzieren (Type-Union zu Single-Literal); ggf. `keypadTarget`-State in `GameContext.tsx` vereinfachen oder den Parameter optional/ignored lassen.
+
+**Datei:** `src/game/GameContext.tsx`
+- `keypadTarget`-State und Setter entfernen oder als const fixieren.
+- `openKeypad(target?)` darf bleiben, ignoriert aber jetzt das Argument.
+
+### 2.5 Keine Spielraum-Verluste prüfen
+
+- Im Wartungsterminal-Flow (`nodeOpen`/`tap`) wird **nichts** geändert — `tap` setzt weiter `tappedNode5610`, der Insa-Anruf-Pfad in `scenes.ts` (Zeilen 71–79) bleibt funktional.
+- Der `cheat 0001` und alle anderen Skip-Pfade berühren `serverRoom5610Open` direkt nicht; falls Tests aufzeigen, dass jemand ohne `OverrideArmed`/`hasMaintCard5610` die Tür danach nicht mehr öffnen kann: in `cheat 0001` zusätzlich `hasMaintCard5610` setzen.
 
 ---
 
-## Migrationsschritte (Reihenfolge)
+## 3. Akzeptanzkriterien
 
-1. `terminal/shared.tsx` und `terminal/telnet.ts` anlegen, gemeinsame Helfer extrahieren.
-2. `filesystemWorag.ts` und `filesystemBodo.ts` anlegen, Inhalte aus heutigem `filesystem.ts` aufteilen.
-3. `WoragTerminal.tsx` aus heutigem `Terminal.tsx` forken — `lotti`/`maint`-Pfade entfernen, nur `WORAG_ROOT` benutzen.
-4. `BodoTerminal.tsx` als zweiter Fork — `adventure`-Pfad entfernen, `maint` ergänzen, nur `BODO_ROOT`.
-5. `NodeTerminal.tsx` auf `terminal/shared.tsx` umstellen (Imports), Verhalten unverändert.
-6. `GameContext` + `types.ts`: `terminalTarget` einführen, `openTerminal(target?)` typisieren.
-7. `Game.tsx`: beide Terminal-Komponenten einbinden.
-8. `scenes.ts`: Aufrufstellen anpassen (`openTerminal("bodo")`).
-9. `Terminal.tsx` und `filesystem.ts` löschen, sobald nichts mehr darauf zeigt.
+- Insas Pflicht-Dialog erklärt nachvollziehbar, **warum** sie die Probe braucht (illegale Installation, hängender Inspektionsantrag, Sektorbeauftragter heute nicht da) und referenziert Layards eigene Erfahrung in 1534.
+- Tür 5610 öffnet sich **ohne** Keypad. Drei narrative Wege:
+  1. Insa-Pflicht-Pfad: Remote-Override.
+  2. Bodo: Wartungskarte als Item.
+  3. Philippe-Sonden ≥3: rekonstruierte Karte.
+  4. Mira-Spur: ebenfalls Karte (statt Frequenz-Schnelltaste).
+- Keypad-UI hat keinen 5610-Branch und keinen Frequenz-Slot mehr; `KeypadTarget`-Type ist auf Sektor-Tür reduziert.
+- `cheat 0001` führt weiterhin nicht in einen toten Zustand bzgl. Tür 5610.
+- Keine Dead-Ends: jede vorher mögliche Spur zur Tür endet in einem Öffnen-Mechanismus, der ohne Code-Eingabe auskommt.
 
----
-
-## Was bewusst **nicht** geändert wird
-
-- Optik/CRT-Look ist für beide Terminals identisch (Phosphor-Grün). Nur der Banner unterscheidet sie.
-- NodeTerminal-Optik bleibt amber.
-- `NET_HOSTS` ist geteilt — das ist das gemeinsame Netzwerk, nicht ein gemeinsames Filesystem.
-- Bestehende Spielzustände (Flags, Inbox-Mails) bleiben unberührt.
