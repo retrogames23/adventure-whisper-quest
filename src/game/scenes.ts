@@ -1736,8 +1736,13 @@ export const scenes: Record<string, Scene> = {
       //   (b) Schmerz-Radio aktiv (104,6)
       //   (c) Mindestens 3 Philippe-Sonden gelesen
       //   (d) Insa hat Layard explizit dorthin geschickt (Pflicht-Pfad)
-      // Öffnet sich entweder mit Code 7032 (Bodo-Terminal) oder
-      // 1046 (Mira-Spur, nur mit miraSystemic + Radio aktiv).
+      // Öffnet sich ohne Keypad — drei narrative Wege:
+      //   (1) Insa-Pflicht-Pfad → "serverRoom5610OverrideArmed"
+      //       (Insa schaltet die Magnetriegel aus der Leitstelle frei).
+      //   (2) Layard hat eine Wartungskarte (Item "wartungsnotiz5610",
+      //       intern weiterhin so heißend; vergeben aus Bodo-/Mira-/
+      //       Philippe-Spur).
+      //   (3) Andernfalls bleibt die Tür zu — Hinweis-Text.
       // Nach dem Öffnen führt der Hotspot direkt in den Raum.
       // ─────────────────────────────────────────────────────────
       {
@@ -1767,21 +1772,56 @@ export const scenes: Record<string, Scene> = {
             api.goTo("serverRoom5610");
             return;
           }
-          // Erstkontakt — kurze Beschreibung, dann Keypad.
-          if (!api.hasFlag("saw5610Door")) {
+          // (1) Insa hat den Wartungs-Override scharfgeschaltet.
+          if (api.hasFlag("serverRoom5610OverrideArmed")) {
+            api.setFlag("serverRoom5610Open");
             api.setFlag("saw5610Door");
             api.showText(
               [
-                "Eine Stahltür, schmal, in die Wand eingelassen.",
-                "Schild: »5610 · Technik · Kein Zutritt«.",
-                api.isRadioActive()
-                  ? "Hier ist das Brummen am lautesten. Das Signal kommt von hinter dieser Tür."
-                  : "Daneben: ein kleines, eingelassenes Keypad.",
+                "Layard tritt an die Tür. Das blaue Wartungs-LED",
+                "schaltet auf Grün — von ganz alleine.",
+                "Ein dumpfes Klacken in der Wand: die Magnetriegel geben nach.",
+                "Insa hat Wort gehalten.",
+                "",
+                "Hinter der Tür: kein Korridor. Ein Raum.",
               ],
-              () => api.openKeypad("door5610"),
+              () => api.goTo("serverRoom5610"),
             );
+            return;
+          }
+          // (2) Wartungskarte im Inventar (Bodo / Mira / Philippe-Spur).
+          if (api.hasItem("wartungsnotiz5610")) {
+            api.setFlag("serverRoom5610Open");
+            api.setFlag("saw5610Door");
+            api.showText(
+              [
+                "Layard hält die abgegriffene Wartungskarte an den Leser.",
+                "Ein kurzes Surren. Das blaue LED schaltet auf Grün.",
+                "Klacken im Schloss. Die Magnetriegel geben nach.",
+                "",
+                "Hinter der Tür: kein Korridor. Ein Raum.",
+              ],
+              () => api.goTo("serverRoom5610"),
+            );
+            return;
+          }
+          // (3) Erstkontakt ohne Berechtigung — nur Beschreibung.
+          if (!api.hasFlag("saw5610Door")) {
+            api.setFlag("saw5610Door");
+            api.showText([
+              "Eine Stahltür, schmal, in die Wand eingelassen.",
+              "Schild: »5610 · Technik · Kein Zutritt«.",
+              api.isRadioActive()
+                ? "Hier ist das Brummen am lautesten. Das Signal kommt von hinter dieser Tür."
+                : "Kein Keypad — nur ein flacher Kartenleser und ein blaues",
+              "Wartungs-LED, das ruhig blinkt. Ohne Wartungskarte",
+              "oder Freigabe der Leitstelle bleibt die Tür zu.",
+            ]);
           } else {
-            api.openKeypad("door5610");
+            api.showText([
+              "Die Tür gibt nicht nach. Der Kartenleser blinkt blau.",
+              "Ohne Wartungskarte oder Freigabe der Leitstelle bleibt sie zu.",
+            ]);
           }
         },
       },
