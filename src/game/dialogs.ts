@@ -1,4 +1,26 @@
-import type { DialogTree } from "./types";
+import type { DialogTree, GameApi } from "./types";
+
+/**
+ * Weg C zum Serverraum 5610: Sobald drei Philippe-Sondierungs-Notizen
+ * gesetzt sind, rekonstruiert Layard sich das Wartungsmuster der Tür.
+ * Wird aus den onEnd-Callbacks aller fünf Sonden aufgerufen.
+ */
+function maybeGiveWartungsnotiz5610(api: GameApi) {
+  const probes =
+    (api.hasFlag("philippeProbeNote1") ? 1 : 0) +
+    (api.hasFlag("philippeProbeNote2") ? 1 : 0) +
+    (api.hasFlag("philippeProbeNote3") ? 1 : 0) +
+    (api.hasFlag("philippeProbeNote4") ? 1 : 0) +
+    (api.hasFlag("philippeProbeNote5") ? 1 : 0);
+  if (probes >= 3 && !api.hasItem("wartungsnotiz5610")) {
+    api.addItem({
+      id: "wartungsnotiz5610",
+      name: "Notiz: Wartungsmuster 5610",
+      description:
+        "Aus Philippes Andeutungen rekonstruiert: 7-0-Pause-3-2. Wartungstür im Korridor 56, Dachetage E67. „Lokaler Spiegel.“",
+    });
+  }
+}
 
 export const dialogs: Record<string, DialogTree> = {
   // ---------------------------------------------------------------
@@ -1729,14 +1751,45 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Du hast es noch. Gut. — Und du bist immer noch hier. Auch gut.",
         hiddenWhen: ["sawEmptyOffice"],
-        next: "ma1b",
-        end: true,
+        next: "ma2",
       },
       ma1b: {
         id: "ma1b",
         speaker: "MIRA",
         text: "Du hast es noch. Gut. — Und der Verantwortliche ist immer noch keiner. Auch gut.",
         requires: ["sawEmptyOffice"],
+        next: "ma2",
+      },
+      // Mira nennt jetzt konkret den Knoten 5610. Sie tut das nur einmal:
+      // sobald saw5610Door gesetzt ist, übergeht sie diese Zeilen.
+      ma2: {
+        id: "ma2",
+        speaker: "MIRA",
+        text: "Hör zu. Eine Sache noch. Auf 56 ist eine Tür. 5610. Steht „Technik“ dran. Ist sie aber nicht. Nicht nur.",
+        hiddenWhen: ["saw5610Door"],
+        next: "ma3",
+      },
+      ma3: {
+        id: "ma3",
+        speaker: "MIRA",
+        text: "Hinter der Tür sitzt ein Knoten. Da läuft euer Schmerz-Radio durch, bevor es nach draußen geht. Frequenz 104,6 — die hörst du nicht, die wird euch geschickt.",
+        hiddenWhen: ["saw5610Door"],
+        next: "ma4",
+      },
+      ma4: {
+        id: "ma4",
+        speaker: "MIRA",
+        text: "Wenn du den Knoten findest, hörst du, woher die Sendung wirklich kommt. — Mehr sage ich nicht. Geh.",
+        hiddenWhen: ["saw5610Door"],
+        next: "maAck",
+        end: true,
+      },
+      // Sobald die Tür schon entdeckt ist, bleibt die Begrüßung schlicht.
+      maAck: {
+        id: "maAck",
+        speaker: "MIRA",
+        text: "Du hast die Tür gesehen. Gut. Lass dich nicht erwischen.",
+        requires: ["saw5610Door"],
         end: true,
       },
     },
@@ -1767,7 +1820,10 @@ export const dialogs: Record<string, DialogTree> = {
   philippeProbe1: {
     id: "philippeProbe1",
     start: "pr1",
-    onEnd: (api) => api.setFlag("philippeProbeNote1"),
+    onEnd: (api) => {
+      api.setFlag("philippeProbeNote1");
+      maybeGiveWartungsnotiz5610(api);
+    },
     lines: {
       pr1: {
         id: "pr1",
@@ -1814,7 +1870,10 @@ export const dialogs: Record<string, DialogTree> = {
   philippeProbe2: {
     id: "philippeProbe2",
     start: "ps1",
-    onEnd: (api) => api.setFlag("philippeProbeNote2"),
+    onEnd: (api) => {
+      api.setFlag("philippeProbeNote2");
+      maybeGiveWartungsnotiz5610(api);
+    },
     lines: {
       ps1: {
         id: "ps1",
@@ -1855,7 +1914,10 @@ export const dialogs: Record<string, DialogTree> = {
   philippeProbe3: {
     id: "philippeProbe3",
     start: "pt1",
-    onEnd: (api) => api.setFlag("philippeProbeNote3"),
+    onEnd: (api) => {
+      api.setFlag("philippeProbeNote3");
+      maybeGiveWartungsnotiz5610(api);
+    },
     lines: {
       pt1: {
         id: "pt1",
@@ -1896,7 +1958,10 @@ export const dialogs: Record<string, DialogTree> = {
   philippeProbe4: {
     id: "philippeProbe4",
     start: "pu1",
-    onEnd: (api) => api.setFlag("philippeProbeNote4"),
+    onEnd: (api) => {
+      api.setFlag("philippeProbeNote4");
+      maybeGiveWartungsnotiz5610(api);
+    },
     lines: {
       pu1: {
         id: "pu1",
@@ -1937,7 +2002,10 @@ export const dialogs: Record<string, DialogTree> = {
   philippeProbe5: {
     id: "philippeProbe5",
     start: "pv1",
-    onEnd: (api) => api.setFlag("philippeProbeNote5"),
+    onEnd: (api) => {
+      api.setFlag("philippeProbeNote5");
+      maybeGiveWartungsnotiz5610(api);
+    },
     lines: {
       pv1: {
         id: "pv1",
