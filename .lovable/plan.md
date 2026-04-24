@@ -1,93 +1,62 @@
 
-# Vorschläge: Neue Rätsel & Hindernisse für Akt I
 
-Akt I lebt von Telefon, Tür, Terminal, Korridor — und vom Spannungsfeld zwischen B2-Konformität und einem ersten Schritt zur Eigeninitiative. Die folgenden Vorschläge bauen auf bereits etablierten Elementen auf (Bodo, Lotti, Helka, Ennis, Mira, der Flyer, Insa, Stegmann, das leere Büro, die Sektor-Tür) und fügen sich in die bestehende Flag- und Inventar-Logik. Keine fremden Mechaniken — nur tiefere Nutzung der vorhandenen.
+# Serverraum hinter Tür 5610 — Vorschlag
 
-Geordnet nach Themenblöcken. Du kannst beliebig auswählen, was wir umsetzen.
+## Worum es geht
 
----
+Auf Etage 5 (Korridor 56, Dachetage E67) bekommt eine bisher unauffällige Wandstelle eine Tür mit der Nummer **5610** und dem Schild „Technik / Kein Zutritt". Dahinter liegt ein kleiner Serverraum: warme Luft, drei Racks, blinkende Status-LEDs, ein Wartungsterminal. Genau hier laufen die lokalen Resonanz-Pakete von E67 zusammen, bevor sie an die Leitstelle gehen.
 
-## A — Rätsel rund um Bodos Terminal
+## Warum Layard rein will (Motivation)
 
-Bodos Terminal ist bereits etabliert (Bodo geht für 15 Min B3 holen, sobald Layard Lotti kennt und ihn überredet hat). Aktuell wird das Terminal nur einmal genutzt (CentralOS sysupdate). Wir können es mehrfach gewinnbringender einsetzen.
+Drei Spuren, die im Spiel bereits angelegt sind, laufen hier zusammen:
 
-1. **Quersuche im Quadranten-Verzeichnis**
-   - Layard braucht Bodos Terminal, um in CentralOS auf eine Datei zuzugreifen, die in seinem eigenen Account gesperrt ist — z. B. `/sektor/E67/bewohner/2615.txt`. Bodos Account hat eine ältere Berechtigungsstufe ("Hausmeister-Restzugriff"), die dort noch greift.
-   - Belohnung: der Name des Mannes an der Wand (z. B. "Otmar Reiss"), ein Geburtsdatum, vielleicht ein Hinweis auf eine frühere Quarantäne. Macht den Patienten zum Menschen statt zur Anekdote.
-   - Hindernis davor: ohne sysupdate (CentralOS v2.3.1) wird die Datei nicht angezeigt — also kommt das eigentliche Rätsel (Update + Suche) zusammen in einem Schwung.
+1. **Mira-Spur** — Mira deutet im Flyer-Gespräch an, dass die Frequenz 104,6 nicht „gehört", sondern *gerichtet* wird. Wer den Flyer genommen hat (`tookFlyer`), bekommt ein neues Mira-Dialog-Branch: „Auf 56 ist ein Knoten. 5610. Wenn du ihn findest, hörst du, woher das Schmerz-Radio wirklich sendet."
+2. **Philippe-Sonden** — Philippes Notizen 1–5 (`philippeProbeNote*`) erwähnen wiederholt einen „lokalen Spiegel" auf der Dachetage. Wer alle fünf gelesen hat, bekommt im Korridor 56 eine Caption „Hier muss er sein."
+3. **Schmerz-Radio im Korridor** — Steht der Radio aktiv (`radioActive` auf 104,6) und Layard nähert sich Tür 5610, lauter werdendes Brummen + Untertitel: „Das Signal kommt von hinter dieser Tür."
 
-2. **Mira im System finden**
-   - Nach der Begegnung mit Mira (mira_open) kann Layard auf Bodos Terminal nach ihrem Namen suchen — und findet sie nicht. Stattdessen einen Eintrag mit "ZUGRIFF VERWEIGERT — Schicht 2". Bestätigt Miras Andeutung, dass sie offiziell gar nicht hier wohnt.
-   - Gibt einen neuen Knowledge-Flag `miraNotInRegistry`, der später den Endlos-Tür-Dialog mit Insa beeinflusst.
+Mindestens **eine** dieser drei Spuren reicht, damit die Tür sichtbar wird und Layard einen Grund hat, sich daran zu versuchen. Das passt zur bestehenden Logik (mehrere Wege führen zum Ziel).
 
-3. **Flyer-Quelle nachvollziehen**
-   - Layard prüft am Terminal, wann der Flyer im Treppenhaus auftauchte. Logfile `/var/log/cleaning.log` zeigt: er wurde zwischen zwei Reinigungsrunden eingeworfen — also von jemandem aus dem Quadranten. Bodo kommt zurück, bevor Layard den Eintrag löschen kann → neuer Bodo-Dialog ("Sie haben in den Reinigungslogs gewühlt, Worag.")
+## Wie er die Tür öffnet (Game-Logik)
 
----
+Die Tür hat ein **Keypad**, aber der vierstellige Code ist nicht über Insa zu bekommen — sie würde ihn nie herausgeben. Stattdessen drei alternative Wege, je nach Spielstil:
 
-## B — Hindernisse, die Layard mit Bodos Terminal lösen muss
+**Weg A — Bodos Hausmeister-Account (Technik-Spieler).**
+Über Bodos Terminal (`bodoTerminal`, bereits im Spiel) gibt es einen neuen Befehl `maint list e67`. Der listet u. a. „Tech-5610 · Code: 7032 · Letzte Wartung: …". Code merken, am Keypad eingeben → Tür auf. *Voraussetzung:* `bodoLeftForB3` (Bodo ist außer Haus, Layard sitzt am Account).
 
-Hier konkrete Blockaden, deren Auflösung zwingend Bodos Maschine braucht:
+**Weg B — Mira-Hint + Schmerz-Radio (Lore-Spieler).**
+Wenn der Spieler beides hat (`miraSystemic` + `radioActive`), schaltet sich am Keypad ein vierter Slot frei: „Frequenz eingeben". Eingabe von **1046** entriegelt die Tür — der lokale Knoten reagiert auf seine eigene Sendefrequenz wie ein Schlüssel. Diegetisch passt das zur Resonanz-Logik des Spiels.
 
-1. **Defekter Aufzug**
-   - Beim ersten Versuch, in den Aufzug zu steigen (nach `protocolReceived`), zeigt das Display "AUFZUG GESPERRT — WARTUNGSANFRAGE 4711". Das eigene Terminal in 2611 darf Wartungsanfragen nur lesen, nicht löschen. Bodos Account darf.
-   - Layard muss also: Lotti kennenlernen → Bodo überreden → an Bodos Terminal die Wartungsanfrage stornieren (`maint cancel 4711`) → Aufzug fährt wieder.
-   - Schöne Kollision: das hängt direkt mit dem Auftrag zusammen, das Protokoll nach E71 zu bringen — und macht den Block-Hausmeister zum unfreiwilligen Komplizen.
+**Weg C — Philippes Sonden (Detektiv-Spieler).**
+Nach 3 von 5 gelesenen Probe-Notizen (`philippeProbeNote1..5`) hat Layard im Inventar einen neuen Eintrag „Notiz: Wartungsmuster 5610 — 7-0-Pause-3-2". Auch das öffnet die Tür.
 
-2. **Phantom-Quarantäne auf 2611**
-   - Nach dem Telefonat mit Stegmann (oder als Folge des "skippedExitReport"-Pfades) wird Layards eigene Wohnung als "kontaminiert" markiert. Ergebnis: das Schloss von 2611 schließt sich beim Verlassen automatisch, Layard kann nicht mehr zurück, bis der Marker entfernt ist.
-   - Auflösung: Bodos Terminal hat Zugriff auf den Sektor-Türserver (`door unflag 2611`). Schöner Twist: Bodo darf das eigentlich auch nicht — aber sein Account weiß das nicht.
+Alle drei Wege setzen denselben Flag `serverRoom5610Open` und lösen einmalig eine kurze Sequenz aus („Klacken. Warme Luft schlägt ihm entgegen.").
 
-3. **Frequenzsperre auf der Etage**
-   - Nach dem Resonanz-Trigger (104,6 max.) erkennt das Sektor-System eine "lokale Übersteuerung" und drosselt 104,6 für Korridor 26. Effekt: Schmerz-Radio funktioniert in 2611 nicht mehr, Layard wird unruhig (neuer Subtext-Layer in allen Dialogen, leichtes UI-Flackern).
-   - Auflösung: Bodos Terminal kann den Drosselungseintrag im Block-Router zurücksetzen. Macht klar, dass die "Frequenz" administrativ verwaltet wird — Vorbereitung auf Mikaels Wahrheit in Akt II.
+## Was Layard drinnen tut (Payoff)
 
----
+Im Serverraum gibt es **ein Wartungsterminal** (eigene Terminal-Variante) mit drei sinnvollen Aktionen, die jeweils das Ende beeinflussen:
 
-## C — Rätsel ohne Bodos Terminal (andere Stellen)
+- **`tap`** — passives Mithören. Layard hört für 10 Sekunden den Roh-Stream: *seine eigene Stimme, gefiltert*. Setzt Knowledge `radioOrigin`. Verändert kein Ende, schaltet aber neue Dialog-Optionen mit Insa und Mira frei.
+- **`reroute`** — den Knoten auf eine Schleife legen. E67 sendet ab jetzt nur noch Echo, keine neuen Schmerz-Daten. Friedliche Variante: führt zu einem zusätzlichen Ende „Stiller Sektor".
+- **`burn`** — Hardware-Reset, der Knoten brennt durch. Lautes Ende: Alarm in der Lobby, Insa ruft an, Sektor-Tür schließt für immer. Führt zu einem alternativen „Sabotage"-Ende.
 
-1. **Insas Rückruf-Code**
-   - Insa ruft in 2611 zurück (Telefon klingelt nach einer bestimmten Aktion). Layard muss innerhalb weniger Klicks rangehen — sonst geht der Anruf an die Voicemail von CentralOS, und er hört eine *andere* Stimme antworten (vielleicht Stegmann), die "im Namen von I. Bauerfeind" eine Standardformel abspult.
-   - Mechanik: kleines Zeitfenster (z. B. 10s sichtbarer Pulsanimation am Hotspot). Verpasst → neuer Knowledge-Flag `insaScreened`, der spätere Insa-Dialoge anders färbt.
+## Wo genau die Tür sitzt
 
-2. **Die Wartung in 2615**
-   - Bevor die Sanitäter eintreffen, klopft der Mann nach Rhythmus 104,6. Layard kann mit Philippe an der Wand mitklopfen — wenn er den Rhythmus genau trifft (kleines Reaktions-Mini-Spiel: 4 Beats, Tempo passt zu echtem 104,6-Audio), antwortet der Mann *einmal* anders: drei kurze Schläge. Nur Layard hört es. Setzt `heardAnswer`-Flag, der in Mikaels Dialog später aufgegriffen wird.
+In Korridor 56 ist rechts neben der Wartungsluke (`hatch56`, x:50) noch Platz. Vorschlag: neuer Hotspot `door5610` bei x:24, y:32, w:14, h:50 — auf einer aktuell leeren Wandfläche links neben Mira. Das Schild „5610 · Technik" wird als Caption angezeigt; sichtbar erst, wenn eine der drei Motivations-Spuren erfüllt ist.
 
-3. **Ennis' Tür**
-   - Aktuell: Ennis bricht erst auf, wenn er den Flyer sieht. Zwischenstufe: Layard muss erst etwas *teilen*, damit Ennis ihm überhaupt zuhört. Z. B.: nachdem Layard mit Helka und Bodo gesprochen hat, kann er Ennis *zitieren* ("Helka sagt, sie hört es seit zwei Jahren nicht mehr"). Erst dann öffnet Ennis (auch ohne Flyer) einen Spalt.
-   - Mechanik: Dialogchoice bei Ennis nur sichtbar, wenn `talkedHelka2` UND `metBodo` UND `knowsLotti` gesetzt sind. Belohnt das Erkunden des Korridors.
+## Technische Umsetzung (für später)
 
-4. **Helkas verschlossene Box**
-   - Helka erwähnt in einem späteren Smalltalk eine "Kiste meines Mannes" hinter der Tür. Sie würde sie öffnen, wenn jemand ihr eine alte Quittungsnummer von 1988 vorlesen würde — die nur auf einem alten Zeitungsausschnitt im CentralOS-Archiv (`/sektor/presse/1988_morgenblatt.txt`) zu finden ist. Layard liest, merkt sich (Knowledge-Flag), trägt vor.
-   - Belohnung: der Brief eines früheren E67-Bewohners, der nach E71 versetzt wurde — Vorbote des Mikael-Plots.
+- 1 neue `SceneId`: `serverRoom5610` + Hintergrundbild (Image-Generierung).
+- 3 neue `StoryFlag`: `serverRoom5610Open`, `tappedNode5610`, `reroutedNode5610`, `burnedNode5610`.
+- Neuer Hotspot `door5610` in `corridor56` mit `visible`-Predikat (3 Spuren).
+- Erweiterung von `Keypad.tsx` um optionalen 4-stelligen Modus + optionaler Frequenz-Slot (Weg B).
+- Neuer Befehl `maint list` in `Terminal.tsx` (nur im Bodo-Modus).
+- 1 neues Inventar-Item `wartungsnotiz5610` (Weg C).
+- 2 neue Endings in `Ending.tsx` („Stiller Sektor", „Sabotage").
+- Decal/Asset für die Tür im Korridor (CSS-only oder kleines PNG).
 
-5. **Das leere Büro auf Etage 3**
-   - Aktuell wird das leere Büro nur "gesehen". Vorschlag: dort liegt eine handschriftliche Notiz auf dem Schreibtisch, halb unter einem Aktenstapel. Aufheben funktioniert nur, wenn Layard zuvor Mira getroffen hat (sie warnt vor der Kamera über der Tür) — sonst wird er 30 Sekunden später aus dem Apartment-Telefon angerufen und Stegmann mahnt ihn ab (`troubleReported`-Flag wird gesetzt, beeinflusst späteren Insa-Tonfall).
+## Was ich von dir brauche
 
-6. **Philippes Stille**
-   - Wenn Layard zu schnell zurück nach 2611 geht (z. B. ohne mit Helka oder Bodo gesprochen zu haben), klingelt Philippe später nochmal — aber sagt nur ein einziges Wort. Erst wenn Layard mit mindestens einem anderen Bewohner gesprochen hat, hat er die "soziale Sprache" wieder freigeschaltet, um Philippe richtig zuzuhören.
-   - Mechanik: Dialogvariante in `philippeAfter` über `requires: ["talkedHelka2 OR metBodo OR talkedEnnis2"]`-Logik. Macht das Nachbarschafts-Erkunden zur weichen Pflicht.
+- Ist die Position (links neben Mira, x:24) okay, oder soll die Tür woanders sitzen?
+- Sollen wirklich **alle drei** Wege rein, oder reicht dir einer (welcher)?
+- Sollen `reroute` und `burn` echte zusätzliche Endings auslösen oder nur das bestehende Ende färben (Epilog-Text)?
 
----
-
-## D — Optionale "Atmosphäre"-Rätsel (kurz, charmant)
-
-- **Lottis Trick**: Lotti will erst geknuddelt werden, wenn Layard im Inventar nichts metallisches mehr trägt (sie hört das Klimpern). Setzt `lottiTrust`-Flag → Bodo wird offener.
-- **Solaranlage am Fenster**: Layard kann das Fenster prüfen und feststellen, dass die Solaranlage nur 6 Stunden lädt, nicht 48. Wenn er das auf seinem Terminal an Insa meldet, kommt am nächsten Etappenpunkt ein Techniker — der heimlich einen Brief von Mikael dabei hat.
-- **Adventure.bin als Hinweisträger**: Das Mini-Adventure enthält einen Raum mit einer Notiz, die einen Code ergibt (z. B. "madebyhumans" → Passworthinweis für eine Datei in Bodos `/var/log`). Belohnt Spieler, die das Easter Egg ernst nehmen.
-
----
-
-## Empfohlene Kombination (kompakt)
-
-Wenn du nur 2–3 Sachen einbauen willst, schlage ich vor:
-
-1. **Defekter Aufzug** (B1) — bindet Bodo zwingend an die Hauptachse und belohnt das Lotti/Bodo-Erkundungsspiel.
-2. **Ennis öffnet auf Zitat** (C3) — nutzt alle Korridor-NPCs, ohne neue Assets.
-3. **Insas Rückruf-Code** (C1) — eine zeitkritische Spielmechanik, die thematisch perfekt passt (Überwachung, Frequenz, Druck).
-
-Diese drei zusammen verlängern Akt I um geschätzt 15–25 Minuten echter Spielzeit, ohne die Erzählung zu zerdehnen.
-
----
-
-Sag mir, welche der Vorschläge ich konkret umsetzen soll — dann mache ich daraus einen Implementierungsplan mit Flags, Dialogen, Hotspots und Terminal-Befehlen.
