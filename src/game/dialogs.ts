@@ -584,7 +584,6 @@ export const dialogs: Record<string, DialogTree> = {
         text: "Falls die Tür nicht aufgeht: Wartungsmuster ist 7-0-Pause-3-2. Aber das wissen Sie nicht von mir.",
         subtext: "Sie sagt es so leise, als würde sie selbst nicht zuhören.",
         hiddenWhen: ["tappedNode5610"],
-        next: "idCode4",
         choices: [
           {
             text: "Verstanden. Auf Wiederhören.",
