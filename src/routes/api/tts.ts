@@ -245,7 +245,18 @@ export const Route = createFileRoute("/api/tts")({
           );
         }
 
-        let body: { voiceId?: string; text?: string; pitch?: number; speed?: number };
+        let body: {
+          voiceId?: string;
+          text?: string;
+          pitch?: number;
+          speed?: number;
+          settings?: {
+            stability?: number;
+            similarity_boost?: number;
+            style?: number;
+            use_speaker_boost?: boolean;
+          };
+        };
         try {
           body = await request.json();
         } catch {
@@ -274,6 +285,25 @@ export const Route = createFileRoute("/api/tts")({
           ? Math.max(0.7, Math.min(1.2, body.speed))
           : 1.0;
 
+        // Per-Sprecher voice_settings (optional). Wir clampen jeden Wert
+        // in die ElevenLabs-Range [0,1], damit kaputter Input keine
+        // 400er-Antwort produziert.
+        const reqSettings = body.settings ?? {};
+        const clamp01 = (v: unknown, fb: number) =>
+          typeof v === "number" && Number.isFinite(v)
+            ? Math.max(0, Math.min(1, v))
+            : fb;
+        const voiceSettings = {
+          stability: clamp01(reqSettings.stability, 0.55),
+          similarity_boost: clamp01(reqSettings.similarity_boost, 0.8),
+          style: clamp01(reqSettings.style, 0.35),
+          use_speaker_boost:
+            typeof reqSettings.use_speaker_boost === "boolean"
+              ? reqSettings.use_speaker_boost
+              : true,
+          speed,
+        };
+
         // Vor dem Senden: deutschen Aussprache-Fix anwenden. Sektorcodes,
         // Wohnungsnummern, Frequenzen werden zu deutschen Wörtern, damit
         // ElevenLabs sie korrekt liest.
@@ -284,7 +314,10 @@ export const Route = createFileRoute("/api/tts")({
         // and reused across ALL players from then on.
         // Cache-Key auf dem normalisierten Text — sonst würde ein alter
         // (falsch ausgesprochener) Cache-Eintrag den neuen Fix maskieren.
-        const cacheKey = hashKey(voiceId, String(speed), "v2", ttsText);
+        // Settings sind Teil des Keys: Insa mit style:0 darf nicht den
+        // alten style:0.35-Cache treffen.
+        const settingsKey = JSON.stringify(voiceSettings);
+        const cacheKey = hashKey(voiceId, String(speed), settingsKey, "v3", ttsText);
         const objectPath = `${cacheKey}.mp3`;
 
         try {
@@ -317,13 +350,7 @@ export const Route = createFileRoute("/api/tts")({
             body: JSON.stringify({
               text: ttsText,
               model_id: "eleven_multilingual_v2",
-              voice_settings: {
-                stability: 0.55,
-                similarity_boost: 0.8,
-                style: 0.35,
-                use_speaker_boost: true,
-                speed,
-              },
+              voice_settings: voiceSettings,
             }),
           },
         );
