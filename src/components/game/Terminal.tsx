@@ -1181,6 +1181,70 @@ export function Terminal() {
       return;
     }
 
+    // ── Debug-Cheat »cheat 0001« ──────────────────────────
+    // Springt mitten in Akt 1: Sanitäter waren da, Layard hat das
+    // Einsatzprotokoll, die Aufzugswartung 4711 ist bereits storniert,
+    // und er weiß bereits, dass der Abschnittsverantwortliche in 3601
+    // nicht da ist. Endpunkt: Wohnung 2611 — Telefon ist freigeschaltet
+    // (sawEmptyOffice), so dass der nächste Anruf bei Insa direkt zu
+    // E71/Stegmann weiterleitet.
+    if (raw.toLowerCase() === "cheat 0001") {
+      playBeep(0.5 * sfxVolume);
+      setInput("");
+      setAdvState(null);
+      setLottiState(null);
+
+      // Story-Flags der vorausliegenden Akt-1-Szenen.
+      const flagsToSet: StoryFlag[] = [
+        // Philippe-Begegnung & Notruf
+        "metPhilippeBefore",
+        "knockingHeard",
+        "talkedPhilippe2613",
+        "calledLeitstelle",
+        "paramedicsArrived",
+        "doorBrokenOpen",
+        // Wohnung 2615 / Patient / Protokoll
+        "sawCatatonic",
+        "protocolReceived",
+        // Aufzugs-Wartungssperre wurde gesetzt UND wieder gelöscht
+        "elevatorMaintBlocked",
+        "elevatorMaintCleared",
+        // E67 erkundet, Abschnittsverantwortlicher abwesend
+        "sawEmptyOffice",
+      ];
+      for (const f of flagsToSet) api.setFlag(f);
+
+      // Wissens-Flag, das der Sanitäter normalerweise vergibt.
+      api.setKnowledge("responsibilityE67");
+
+      // Inventar: Einsatzprotokoll (verschlüsselt), wie vom Sanitäter übergeben.
+      if (!api.hasItem("protocol")) {
+        api.addItem({
+          id: "protocol",
+          name: "Einsatzprotokoll (verschlüsselt)",
+          description:
+            "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
+        });
+      }
+
+      setLines((prev) => [
+        ...prev,
+        { text: `worag@centralos:~$ ${raw}`, kind: "in" },
+        { text: ">> [DEBUG] Akt-1-Sprungpunkt geladen.", kind: "system" },
+        { text: ">> Flags gesetzt: Protokoll erhalten, Aufzug 4711 storniert,", kind: "out" },
+        { text: ">> Büro 3601 (Abschnittsverantwortlicher) als leer markiert.", kind: "out" },
+        { text: ">> Rückkehr in Wohnung 2611.", kind: "system" },
+        { text: "", kind: "out" },
+      ]);
+
+      // Terminal schließen und Spieler in Wohnung 2611 absetzen.
+      setTimeout(() => {
+        closeTerminal();
+        api.goTo("apartment");
+      }, 250);
+      return;
+    }
+
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
     if (advState) {
       playBeep(0.3 * sfxVolume);
