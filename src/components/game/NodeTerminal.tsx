@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
-import { playBeep, playKeypress, playUnlock } from "@/audio/sfx";
+import { playBeep, playKeypress } from "@/audio/sfx";
 import {
   SECTOR_CHATTER,
   chatterDelayMs,
@@ -16,7 +16,7 @@ interface Line {
 
 /**
  * Wartungsterminal hinter Tür 5610 — eigenes UI.
- * Drei sinnvolle Befehle: tap, reroute, burn.
+ * Drei sinnvolle Befehle: tap, listen, burn.
  * Jede Aktion ist einmalig pro Run und beeinflusst das Ende.
  */
 export function NodeTerminal() {
@@ -34,19 +34,16 @@ export function NodeTerminal() {
   useEffect(() => {
     if (!nodeOpen) return;
     const tapped = flags.has("tappedNode5610");
-    const rerouted = flags.has("reroutedNode5610");
     const burned = flags.has("burnedNode5610");
     const status = burned
       ? "OFFLINE (Hardware)"
-      : rerouted
-        ? "LOOPBACK (Echo only)"
-        : "AKTIV — Pakete: 1.04k/s";
+      : "AKTIV — Pakete: 1.04k/s";
     setLines([
       { text: "── NODE-MAINT 5610 · E67 ──────────────────", kind: "system" },
       { text: "── Lokaler Resonanz-Konzentrator         ──", kind: "system" },
       { text: "── Träger: 104,6 MHz · Quelle: aggregiert ──", kind: "system" },
       { text: "", kind: "out" },
-      { text: `Status: ${status}`, kind: tapped || rerouted || burned ? "warn" : "out" },
+      { text: `Status: ${status}`, kind: tapped || burned ? "warn" : "out" },
       { text: "", kind: "out" },
       { text: "Verfügbare Befehle:", kind: "system" },
       {
@@ -55,10 +52,6 @@ export function NodeTerminal() {
       },
       {
         text: "  listen   — Live-Mitschnitt des Sektor-Verkehrs",
-        kind: "out",
-      },
-      {
-        text: "  reroute  — Knoten in Echo-Schleife legen",
         kind: "out",
       },
       {
