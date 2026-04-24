@@ -942,7 +942,7 @@ function findHost(query: string): NetHost | null {
  * weder das Lotti-Programm noch die Hausmeister-Wartungsbefehle, noch
  * Hinweise wie „nur 2611". Auf Bodos Konsole bleibt alles sichtbar.
  */
-function buildHelpLines(bodoMode: boolean): Line[] {
+function buildHelpLines(): Line[] {
   const lines: Line[] = [
     { text: "VERFÜGBARE BEFEHLE:", kind: "system" },
     { text: "  help          — Diese Liste anzeigen", kind: "out" },
@@ -962,23 +962,8 @@ function buildHelpLines(bodoMode: boolean): Line[] {
     { text: "  telnet <host> — Verbindungsversuch zu einem Host", kind: "out" },
     { text: "", kind: "out" },
     { text: "PROGRAMME:", kind: "system" },
-  ];
-  if (bodoMode) {
-    lines.push(
-      { text: "  lotti         — Fütterungskalender (Eigenbau, für Lotti)", kind: "out" },
-      { text: "", kind: "out" },
-      { text: "WARTUNG (nur Hausmeister):", kind: "system" },
-      { text: "  maint list                — offene Wartungsanfragen anzeigen", kind: "out" },
-      { text: "  maint cancel <id>         — Anfrage stornieren", kind: "out" },
-      { text: "", kind: "out" },
-    );
-  } else {
-    lines.push(
-      { text: "  adventure     — »Ein Tag draußen« (Textadventure)", kind: "out" },
-      { text: "", kind: "out" },
-    );
-  }
-  lines.push(
+    { text: "  adventure     — »Ein Tag draußen« (Textadventure)", kind: "out" },
+    { text: "", kind: "out" },
     { text: "TAB-VERVOLLSTÄNDIGUNG:", kind: "system" },
     { text: "  <Tab>         — Aktuelles Wort vervollständigen", kind: "out" },
     { text: "                  (Befehle, Verzeichnisse, Dateinamen)", kind: "out" },
@@ -988,7 +973,7 @@ function buildHelpLines(bodoMode: boolean): Line[] {
     { text: "", kind: "out" },
     { text: "  clear         — Bildschirm leeren", kind: "out" },
     { text: "  exit          — Terminal schließen", kind: "out" },
-  );
+  ];
   return lines;
 }
 
