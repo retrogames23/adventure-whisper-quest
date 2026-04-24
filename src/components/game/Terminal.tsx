@@ -1318,7 +1318,7 @@ export function Terminal() {
 
     if (cmd === "help") {
       newLines.push(...buildHelpLines(bodoMode));
-      if (flags.has("calledInsa2") && !flags.has("calledStegmann")) {
+      if (!bodoMode && flags.has("calledInsa2") && !flags.has("calledStegmann")) {
         newLines.push(
           { text: "", kind: "out" },
           {
@@ -1328,6 +1328,7 @@ export function Terminal() {
         );
       }
       if (
+        !bodoMode &&
         flags.has("calledStegmann") &&
         !(flags.has("centralOsUpdated") && flags.has("troubleReported"))
       ) {
