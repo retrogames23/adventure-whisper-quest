@@ -1278,6 +1278,11 @@ export function Terminal() {
       setInput("");
       setAdvState(null);
       setLottiState(null);
+      setNewsState(null);
+      if (newsTickerTimerRef.current) {
+        clearInterval(newsTickerTimerRef.current);
+        newsTickerTimerRef.current = null;
+      }
 
       // Story-Flags der vorausliegenden Akt-1-Szenen.
       const flagsToSet: StoryFlag[] = [
