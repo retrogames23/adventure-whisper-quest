@@ -612,7 +612,10 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "SYSTEM",
         text: "[ Insa wirft einen Blick auf etwas, das Layard nicht sieht — und nickt knapp. ]",
         requires: ["tappedNode5610"],
-        next: "idCode4",
+        // Wenn getappt → SYSTEM-Beat, dann Code-Mail-Pfad.
+        // Wenn NICHT getappt → diese Zeile ist via `requires` hidden,
+        //   Engine folgt `next` weiter nach idPflicht1 (Pflicht-Pfad).
+        next: "idPflicht1",
       },
       idCode4: {
         id: "idCode4",
