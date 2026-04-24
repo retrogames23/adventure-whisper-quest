@@ -1245,6 +1245,74 @@ export function Terminal() {
       return;
     }
 
+    // ── Debug-Cheat »cheat 0002« ──────────────────────────
+    // Springt direkt vor den letzten Insa-Anruf: alles aus Akt 1
+    // ist erledigt, Layard war in E71, hat Mikael getroffen, der
+    // das Protokoll abgelehnt hat. Endpunkt: Wohnung 2611 — der
+    // nächste Klick aufs Telefon startet `insaAct2Return` und
+    // damit den Abspann.
+    if (raw.toLowerCase() === "cheat 0002") {
+      playBeep(0.5 * sfxVolume);
+      setInput("");
+      setAdvState(null);
+      setLottiState(null);
+
+      const flagsToSet: StoryFlag[] = [
+        // Akt 1 (identisch zu cheat 0001)
+        "metPhilippeBefore",
+        "knockingHeard",
+        "talkedPhilippe2613",
+        "calledLeitstelle",
+        "paramedicsArrived",
+        "doorBrokenOpen",
+        "sawCatatonic",
+        "protocolReceived",
+        "elevatorMaintBlocked",
+        "elevatorMaintCleared",
+        "sawEmptyOffice",
+        // Übergang Akt 1 → Akt 2: Sektor-Tür offen, E71 betreten
+        "elevatorTaken",
+        "sectorDoorOpen",
+        "enteredE71",
+        // Empfang E71 + Mikael — Protokoll wurde abgelehnt
+        "metReceptionist",
+        "foundRoom1534",
+        "metMikael",
+        "heardMikaelTruth",
+        "mikaelRejectedProtocol",
+      ];
+      for (const f of flagsToSet) api.setFlag(f);
+
+      // Wissens-Flag, das der Sanitäter normalerweise vergibt.
+      api.setKnowledge("responsibilityE67");
+
+      // Inventar: das (abgelehnte) Einsatzprotokoll trägt Layard
+      // nach dem Mikael-Gespräch unverändert wieder zurück.
+      if (!api.hasItem("protocol")) {
+        api.addItem({
+          id: "protocol",
+          name: "Einsatzprotokoll (verschlüsselt)",
+          description:
+            "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
+        });
+      }
+
+      setLines((prev) => [
+        ...prev,
+        { text: `worag@centralos:~$ ${raw}`, kind: "in" },
+        { text: ">> [DEBUG] Akt-2-Endsprung geladen.", kind: "system" },
+        { text: ">> Mikael hat das Protokoll abgelehnt. Layard ist zurück in 2611.", kind: "out" },
+        { text: ">> Nächster Klick aufs Telefon → Abspann.", kind: "system" },
+        { text: "", kind: "out" },
+      ]);
+
+      setTimeout(() => {
+        closeTerminal();
+        api.goTo("apartment");
+      }, 250);
+      return;
+    }
+
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
     if (advState) {
       playBeep(0.3 * sfxVolume);

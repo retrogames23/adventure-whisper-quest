@@ -20,7 +20,7 @@ interface Line {
  * Jede Aktion ist einmalig pro Run und beeinflusst das Ende.
  */
 export function NodeTerminal() {
-  const { nodeOpen, closeNode, api, flags } = useGame();
+  const { nodeOpen, closeNode, api, flags, ending } = useGame();
   const { sfxVolume } = useSettings();
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
@@ -95,6 +95,19 @@ export function NodeTerminal() {
       }
     };
   }, [nodeOpen]);
+
+  // Sobald das Ending startet, brechen wir einen laufenden Listen-Loop
+  // und das Wartungsterminal komplett ab — sonst rieseln die Sektor-
+  // Chatter weiter unter dem Abspann durch (mit den begleitenden Beeps).
+  useEffect(() => {
+    if (!ending) return;
+    if (listenTimerRef.current) {
+      clearTimeout(listenTimerRef.current);
+      listenTimerRef.current = null;
+    }
+    setListening(false);
+    if (nodeOpen) closeNode();
+  }, [ending, nodeOpen, closeNode]);
 
   if (!nodeOpen) return null;
 
