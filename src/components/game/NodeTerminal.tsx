@@ -394,7 +394,13 @@ export function NodeTerminal() {
               setInput(e.target.value);
             }}
             className="flex-1 bg-transparent font-mono-crt text-base text-amber-glow caret-amber-glow outline-none disabled:opacity-40 placeholder:text-amber-glow/40"
-            placeholder={busy ? "… Ausgabe läuft …" : "tap | reroute | burn | exit"}
+            placeholder={
+              busy
+                ? "… Ausgabe läuft …"
+                : listening
+                  ? "… Mitschnitt läuft. Enter beendet."
+                  : "listen | tap | reroute | burn | exit"
+            }
             spellCheck={false}
             autoComplete="off"
           />
