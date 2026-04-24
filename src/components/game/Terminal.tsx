@@ -14,6 +14,8 @@ import {
   HOME_PATH_BODO,
   resolveBodo,
   pathStringBodo,
+  FREIHEIT_TXT,
+  LAYARD_TXT,
 } from "@/game/filesystemBodo";
 import type { StoryFlag } from "@/game/types";
 import {
