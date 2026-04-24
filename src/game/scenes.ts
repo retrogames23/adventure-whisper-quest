@@ -1651,7 +1651,7 @@ export const scenes: Record<string, Scene> = {
         label: "Philippe (Nachbar)",
         hiddenWhen: ["doorbellRang"],
         visible: (api) => api.getPhilippeFloor() === 5,
-        onUse: (api) => api.startDialog("philippeInCorridor36"),
+        onUse: (api) => api.startDialog("philippeInCorridor56"),
       },
       {
         id: "miraSpot56",
