@@ -1514,7 +1514,7 @@ export const dialogs: Record<string, DialogTree> = {
       ar12: {
         id: "ar12",
         speaker: "INSA",
-        text: "Es ist nichts Dienstliches. Ich möchte einfach jemanden treffen, der eine Kapsel zwei Sektoren weit getragen hat, ohne sie unterwegs „zu verlieren“.",
+        text: "Ich möchte einfach jemanden treffen, der eine Kapsel zwei Sektoren weit getragen hat, ohne sie unterwegs „zu verlieren“.",
         subtext: "Bitte. Sie hat noch nicht „bitte“ gesagt. Aber es ist einer.",
         next: "ar13",
       },
