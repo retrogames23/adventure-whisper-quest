@@ -34,6 +34,7 @@ interface GameState {
   terminalOpen: boolean;
   terminalBodoMode: boolean;
   keypadOpen: boolean;
+  tvOpen: boolean;
   radioActive: boolean; // tuned to 104.6, providing subtext
   resonance: number; // 0–100
   ending: boolean;
@@ -48,6 +49,7 @@ interface GameContextValue extends GameState {
   closeRadio: () => void;
   closeTerminal: () => void;
   closeKeypad: () => void;
+  closeTelevision: () => void;
   setRadioActive: (active: boolean) => void;
   bumpResonance: (delta: number) => void;
   resetResonance: () => void;
@@ -103,6 +105,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [terminalBodoMode, setTerminalBodoMode] = useState(false);
   const [keypadOpen, setKeypadOpen] = useState(false);
   const [radioActive, setRadioActive] = useState(false);
+  const [tvOpen, setTvOpen] = useState(false);
   const [resonance, setResonance] = useState(0);
   const [ending, setEnding] = useState(false);
   // Floor (3, 4 or 5) where Mira appears this run.
@@ -256,6 +259,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       },
       openKeypad: () => setKeypadOpen(true),
       isRadioActive: () => radioActiveRef.current,
+      openTelevision: () => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setTvOpen(true);
+      },
       setEnding: () => setEnding(true),
       getMiraFloor: () => miraFloorRef.current ?? 3,
     }),
@@ -334,6 +342,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     terminalOpen,
     terminalBodoMode,
     keypadOpen,
+    tvOpen,
     radioActive,
     resonance,
     ending,
@@ -357,6 +366,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     closeRadio: () => setRadioOpen(false),
     closeTerminal: () => setTerminalOpen(false),
     closeKeypad: () => setKeypadOpen(false),
+    closeTelevision: () => setTvOpen(false),
     setRadioActive,
     bumpResonance: (d) => setResonance((r) => Math.max(0, Math.min(100, r + d))),
     resetResonance: () => setResonance(0),
