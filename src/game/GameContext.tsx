@@ -304,7 +304,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setNodeOpen(false);
         setBurnSequence(kind);
       },
-      getMiraFloors: () => miraFloorsRef.current ?? [3, 4],
+      getMiraFloors: () => miraFloorsRef.current ?? [4],
       getPhilippeFloor: () => philippeFloorRef.current ?? 5,
     }),
     [],
