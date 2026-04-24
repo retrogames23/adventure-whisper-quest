@@ -451,7 +451,6 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "SYSTEM",
         text: "[ Wartetonschleife. Acht Sekunden. Ein Knacken. Eine Männerstimme. ]",
         next: "idNet3",
-        action: undefined,
       },
       idNet3: {
         id: "idNet3",
