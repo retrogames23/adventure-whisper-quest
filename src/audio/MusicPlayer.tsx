@@ -73,6 +73,7 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
   const watchTimerRef = useRef<number | null>(null);
   const enabledRef = useRef(musicEnabled);
   const volumeRef = useRef(musicVolume);
+  const duckRef = useRef(1);
 
   // Keep refs in sync so timers always read fresh values.
   useEffect(() => {
