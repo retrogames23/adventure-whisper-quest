@@ -77,7 +77,12 @@ interface PersistedState {
   resonance: number;
   ending: boolean;
   savedAt: string;
+  /** Legacy single-floor field — still read for backwards compatibility. */
   miraFloor?: 3 | 4 | 5 | null;
+  /** Current encoding: which floors Mira occupies this run (length 2). */
+  miraFloors?: Array<3 | 4 | 5> | null;
+  /** Floor where Philippe appears in the corridor this run. */
+  philippeFloor?: 3 | 4 | 5 | null;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -108,13 +113,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [tvOpen, setTvOpen] = useState(false);
   const [resonance, setResonance] = useState(0);
   const [ending, setEnding] = useState(false);
-  // Floor (3, 4 or 5) where Mira appears this run.
-  // Wird einmal beim Mounten **eager** und kryptografisch zufällig gewählt,
-  // damit die Verteilung nicht durch die Reihenfolge der visible()-Checks
-  // (die immer mit Etage 3 beginnen) verzerrt wird.
-  const miraFloorRef = useRef<3 | 4 | 5 | null>(null);
-  if (miraFloorRef.current === null) {
+  // Mira besetzt 2 von 3 Wohnetagen (3, 4, 5). Philippe übernimmt die
+  // verbleibende Etage — so steht garantiert auf jeder Etage genau einer
+  // der beiden NPCs, aber nie beide. Wird einmal beim Mounten kryptografisch
+  // zufällig gewählt; die Verteilung ist unabhängig von der Render-Reihenfolge
+  // der visible()-Checks.
+  const miraFloorsRef = useRef<Array<3 | 4 | 5> | null>(null);
+  const philippeFloorRef = useRef<3 | 4 | 5 | null>(null);
+  if (miraFloorsRef.current === null) {
     const pool: Array<3 | 4 | 5> = [3, 4, 5];
+    // Wähle die EINE Etage, die Mira NICHT besetzt — das wird Philippes Etage.
     let idx = 0;
     if (typeof crypto !== "undefined" && crypto.getRandomValues) {
       const buf = new Uint32Array(1);
@@ -123,7 +131,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     } else {
       idx = Math.floor(Math.random() * 3);
     }
-    miraFloorRef.current = pool[idx];
+    const philippeFloor = pool[idx];
+    philippeFloorRef.current = philippeFloor;
+    miraFloorsRef.current = pool.filter((f) => f !== philippeFloor);
   }
 
   // Debug-Sprung über URL-Parameter:
@@ -265,7 +275,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setTvOpen(true);
       },
       setEnding: () => setEnding(true),
-      getMiraFloor: () => miraFloorRef.current ?? 3,
+      getMiraFloors: () => miraFloorsRef.current ?? [3, 4],
+      getPhilippeFloor: () => philippeFloorRef.current ?? 5,
     }),
     [],
   );
