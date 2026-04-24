@@ -1870,14 +1870,14 @@ export const dialogs: Record<string, DialogTree> = {
       ma3: {
         id: "ma3",
         speaker: "MIRA",
-        text: "Hinter der Tür sitzt ein Knoten. Da läuft euer Schmerz-Radio durch, bevor es nach draußen geht. Frequenz 104,6 — die hörst du nicht, die wird euch geschickt.",
+        text: "Hinter der Tür sitzt ein Knoten. Da läuft dein eigenes Schmerz-Radio durch, bevor es zu jemand anderem geht. 104,6 — du hörst sie nicht. Du bist sie. Gefiltert.",
         hiddenWhen: ["saw5610Door"],
         next: "ma4",
       },
       ma4: {
         id: "ma4",
         speaker: "MIRA",
-        text: "Wenn du den Knoten findest, hörst du, woher die Sendung wirklich kommt. — Mehr sage ich nicht. Geh.",
+        text: "Wenn du den Knoten findest, hörst du, woher die Sendung wirklich kommt — und wohin sie geht. Mehr sage ich nicht. Geh.",
         hiddenWhen: ["saw5610Door"],
         next: "maAck",
         end: true,
