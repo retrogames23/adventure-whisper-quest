@@ -32,6 +32,14 @@ import {
   lottiComplete,
   type LottiState,
 } from "@/game/lottiProgram";
+import {
+  newsCommand,
+  newsStart,
+  newNewsState,
+  newsComplete,
+  nextTickerFrame,
+  type NewsState,
+} from "@/game/newsProgram";
 import { CloseButton } from "./CloseButton";
 
 interface Line {
@@ -124,6 +132,8 @@ const COMMANDS = [
   "./adventure.bin",
   "lotti",
   "./lotti",
+  "news",
+  "./news",
   "net",
   "telnet",
   "sysupdate",
