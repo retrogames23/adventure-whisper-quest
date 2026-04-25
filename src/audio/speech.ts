@@ -71,7 +71,16 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
     },
   },
   RADIO: { voiceId: "XrExE9yKIg1WjnnlVkGX", speed: 0.92 }, // Matilda — mystisch, weich
-  SYSTEM: { voiceId: "CwhRBWXzGAHq8TQ4Fs17", speed: 0.95 }, // Roger — nüchtern
+  SYSTEM: {
+    voiceId: "CwhRBWXzGAHq8TQ4Fs17", // Roger — nüchtern, aber für Deutsch stark stabilisiert
+    speed: 0.88,
+    settings: {
+      stability: 0.9,
+      similarity_boost: 0.85,
+      style: 0,
+      use_speaker_boost: false,
+    },
+  },
   RECEPTION: { voiceId: "Xb7hH8MSUJpSbSDYk0k2", speed: 1.1 }, // Alice — klar
   MIRA: { voiceId: "XB0fDUnXU5powFXDhCwa", speed: 1.08 }, // Charlotte — jung, neugierig
   BODO: { voiceId: "JBFqnCBsd6RMkjVDRZzb", speed: 0.88 }, // George — älter, knurrig
@@ -85,6 +94,8 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
 let currentAudio: HTMLAudioElement | null = null;
 /** AbortController for in-flight TTS fetch — aborted on stop. */
 let currentFetch: AbortController | null = null;
+/** Resolves the promise returned by speak() when playback is stopped externally. */
+let currentSpeechFinalizer: (() => void) | null = null;
 
 const DIGIT_WORDS: Record<string, string> = {
   "0": "null",
@@ -151,14 +162,28 @@ function cleanText(text: string): string {
 }
 
 /** Browser-SpeechSynthesis fallback — only used if ElevenLabs request fails. */
-function browserFallback(text: string, volume: number) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+function browserFallback(text: string, volume: number): Promise<void> {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    return Promise.resolve();
+  }
   const synth = window.speechSynthesis;
   synth.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "de-DE";
   u.volume = volume;
-  synth.speak(u);
+  return new Promise((resolve) => {
+    let settled = false;
+    const finalize = () => {
+      if (settled) return;
+      settled = true;
+      if (currentSpeechFinalizer === finalize) currentSpeechFinalizer = null;
+      resolve();
+    };
+    currentSpeechFinalizer = finalize;
+    u.onend = () => finalize();
+    u.onerror = () => finalize();
+    synth.speak(u);
+  });
 }
 
 async function fetchAndCache(
