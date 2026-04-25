@@ -237,7 +237,8 @@ export function ParamedicsCutscene() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  // Hauptablauf: einmal beim Start die komplette Zeitleiste planen.
+  // Hauptablauf: sequenziell abspielen. Jede Dialogzeile wartet auf das echte
+  // Audio-Ende, damit TTS nicht durch die nächste Zeile abgeschnitten wird.
   useEffect(() => {
     if (!active) return;
     if (startedRef.current) return;
@@ -250,61 +251,48 @@ export function ParamedicsCutscene() {
 
     const timers: ReturnType<typeof setTimeout>[] = [];
     timersRef.current = timers;
-    let cursor = 0;
 
-    beats.forEach((beat, bi) => {
-      // Bildwechsel + leadIn
-      const isFirst = bi === 0;
-      if (!isFirst) {
-        // Crossfade zum nächsten Bild
-        timers.push(
-          setTimeout(() => {
-            if (cancelledRef.current) return;
-            setVisible(false);
-          }, cursor),
-        );
-        cursor += CROSSFADE_MS / 2;
-        timers.push(
-          setTimeout(() => {
-            if (cancelledRef.current) return;
-            setBeatIdx(bi);
-            setLineIdx(-1);
-            setVisible(true);
-          }, cursor),
-        );
-        cursor += CROSSFADE_MS / 2;
-      }
-      const lead = beat.leadIn ?? 200;
-      cursor += lead;
-
-      beat.lines.forEach((ln, li) => {
-        timers.push(
-          setTimeout(() => {
-            if (cancelledRef.current) return;
-            setLineIdx(li);
-            void speak(ln.speaker, ln.speech ?? ln.text, sfxVolume);
-          }, cursor),
-        );
-        cursor += ln.hold;
+    const wait = (ms: number) =>
+      new Promise<void>((resolve) => {
+        const t = setTimeout(resolve, ms);
+        timers.push(t);
       });
 
-      cursor += beat.tail ?? 200;
-    });
+    void (async () => {
+      for (const [bi, beat] of beats.entries()) {
+        if (cancelledRef.current) return;
 
-    // Abschluss: Flag setzen, Cutscene schließen.
-    timers.push(
-      setTimeout(() => {
-        if (cancelledRef.current) return;
-        setVisible(false);
-      }, cursor),
-    );
-    cursor += CROSSFADE_MS;
-    timers.push(
-      setTimeout(() => {
-        if (cancelledRef.current) return;
-        finish();
-      }, cursor),
-    );
+        if (bi !== 0) {
+          setVisible(false);
+          await wait(CROSSFADE_MS / 2);
+          if (cancelledRef.current) return;
+          setBeatIdx(bi);
+          setLineIdx(-1);
+          setVisible(true);
+          await wait(CROSSFADE_MS / 2);
+        }
+
+        await wait(beat.leadIn ?? 200);
+
+        for (const [li, ln] of beat.lines.entries()) {
+          if (cancelledRef.current) return;
+          setLineIdx(li);
+          const startedAt = performance.now();
+          await speak(ln.speaker, ln.speech ?? ln.text, sfxVolume);
+          if (cancelledRef.current) return;
+          const remainingHold = ln.hold - (performance.now() - startedAt);
+          if (remainingHold > 0) await wait(remainingHold);
+        }
+
+        await wait(beat.tail ?? 200);
+      }
+
+      if (cancelledRef.current) return;
+      setVisible(false);
+      await wait(CROSSFADE_MS);
+      if (cancelledRef.current) return;
+      finish();
+    })();
 
     return () => {
       for (const t of timers) clearTimeout(t);
