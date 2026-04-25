@@ -1,93 +1,68 @@
-# Konzept: Dr. Adaeze Okwu — Ärztin im Trakt E71
+## Ziel
 
-Eine neue NPC-Figur im Korridor 15 (Sektor E71), die durch progressive Dialoge Worldbuilding über die Quadranten-Nachbarschaft liefert — mit Witz und ohne Pathos.
+Das Spiel ist als 16:9-Bühne mit fixen prozentualen Hotspot-Koordinaten gebaut. Auf Mobil (390×621) ist die Bühne winzig, die Top-Bar bricht um, das Inventar verdeckt Hotspots, und Hotspots sind zu klein zum Treffen. Eine vollständige Mobile-Variante wäre teuer — aber es gibt einen pragmatischen Fix, der die Desktop-Experience NICHT verändert.
 
-## Charakter
+## Ansatz: „Forced Landscape Stage" auf Mobil
 
-**Name:** Dr. Adaeze Okwu (gerufen: „Dr. Okwu" oder „Adaeze")
-**Alter:** ca. 50
-**Aussehen (Unavowed-Stil):** schwarze Frau, schulterlange Locken (halb hochgesteckt), goldene Ohrstecker, weißer Kittel über schlichter dunkelgrüner Bluse. Stethoskop locker um den Hals. Lesebrille auf der Stirn — sie schiebt sie beim Nachdenken runter. Warme, aufmerksame Augen, entspannte Körperhaltung. Hält oft ein Klemmbrett oder eine Kaffeetasse.
-**Rolle:** Stationsärztin in E71, gerade auf einem Korridor-Plausch zwischen zwei Visiten. Kennt jeden, klatscht aber nur, wenn man's verdient hat.
+Statt das Layout responsiv umzubauen, rendern wir auf Mobil dieselbe Desktop-Bühne in einer fixen virtuellen Auflösung (z. B. 1024×640) und skalieren sie per CSS `transform: scale()` so, dass sie ins Mobil-Viewport passt — bei Hochformat wird die Bühne um 90° rotiert. Alle prozentbasierten Hotspots, Overlays, Terminals etc. funktionieren dadurch unverändert. Der Spieler dreht das Handy quer (oder spielt im Hochformat mit rotierter Ansicht).
 
-## Tonalität
+Das ist genau der Trick, den viele klassische Point-&-Click-Ports auf Mobil benutzen.
 
-- **Warm, trocken-witzig, professionell.** Nicht zynisch, nicht naiv.
-- Spricht über E67 wie über exzentrische entfernte Verwandte: liebevoll, aber mit hochgezogener Augenbraue.
-- Über Bürokratie: pragmatisch, fast koffeiniert-gelassen. „Papier ist geduldig, Terminal-Daten sind die Ruhe selbst — und ich bin um sieben zu Hause."
-- Nutzt medizinische Mini-Metaphern („eine Sektor-Gänsehaut", „chronischer Fall von Dienst nach Vorschrift").
+### Was sich ändert (nur Mobil-Pfad)
 
-## Platzierung
+1. **Viewport-Wrapper in `Game.tsx`**: Wenn `window.innerWidth < 768`, die ganze App in einen Container mit fester Größe (1024×640) packen und per CSS-Transform passend ins Viewport skalieren. Bei Portrait zusätzlich rotieren mit Hinweis „Bitte Gerät drehen für beste Erfahrung" + Auto-Rotate-Option.
+2. **Touch-Treffergröße**: In `Hotspot.tsx` auf Touch-Geräten einen unsichtbaren Padding-Bereich (`min-h-[44px] min-w-[44px]`) einfügen, damit Hotspots fingerfreundlich sind. Visuell unverändert auf Desktop.
+3. **TopBar kompakt auf Mobil**: Track-Wechsler ist bereits `hidden sm:inline-flex`. Zusätzlich „SCHMERZ-RADIO"-Label und Szenenname auf sehr kleinen Breiten verstecken, damit Buttons in einer Zeile bleiben.
+4. **Inventar-Button-Position**: Auf Mobil von `bottom-4 right-4` auf `bottom-2 right-2` mit etwas kleinerem Button (h-12 w-12 statt h-14 w-14), damit es nicht über Hotspots am unteren Bildrand liegt. Desktop bleibt unverändert via `sm:`-Breakpoint.
 
-- **Szene:** `corridor15` (zwischen Empfang und Tür 1534).
-- Sie steht halb-mittig im Korridor, in entspannter Pose neben einem Wartungswagen.
-- **Hotspot:** „Dr. Okwu" — gespräch immer verfügbar, sobald Layard im Korridor 15 ist, **bis** er in Zimmer 1534 war (`foundRoom1534`). Danach verschwindet sie (Visite). Optional: kurzer Abschiedssatz im Vorbeigehen, wenn man später nochmal durch den Korridor läuft.
-- **Kein Puzzle-Blocker** — reines optionales Worldbuilding + Atmosphäre.
+### Variante: Nur Skalieren ohne Rotation
 
-## Dialog-Aufbau (progressiv, 4 Schichten)
+Falls Rotation zu invasiv wirkt: nur die feste virtuelle Bühne (1024×640) per `scale()` ins Mobil-Viewport einpassen — auf Portrait wird die Bühne dann sehr klein, aber alles ist sichtbar und antippbar (mit Pinch-to-Zoom-Geste browserseitig deaktiviert). Querformat-Spiel funktioniert dann optimal.
 
-Die Ärztin wird beim ersten Klick reserviert-höflich. Jeder weitere Dialog-Klick (oder Wahl von „Weiterfragen") schaltet eine tiefere Schicht frei. Layard kann jederzeit aussteigen.
+**Empfehlung**: Variante mit Rotation + Hinweis-Banner „Für beste Erfahrung Gerät querhalten" beim ersten Mobil-Aufruf. Wenn der Spieler das Handy dreht (orientation change), entfällt die Rotation automatisch.
 
-### Schicht 1 — Höflicher Smalltalk (`okwu1`)
-Sie nickt knapp, fragt routiniert, ob er sich verlaufen hat. Erwähnt, dass E71 heute „erstaunlich ruhig" sei. Wenn Layard antwortet, dass er aus E67 kommt, hebt sie kaum merklich eine Augenbraue: „E67. Aha. Selten."
-**Auswahl:** [Weiterreden] / [Verabschieden]
+## Technische Details
 
-### Schicht 2 — E71 als Vorzeige-Quadrant (`okwu2`)
-Lockerer. Erklärt, dass E71 der Medizin-Quadrant der Gegend sei — neuester technischer Stand, „die Geräte hier sind jünger als meine Praktikanten." Erwähnt die Nachbar-Quadranten:
-- **E68** — „Logistik. Die heben die Hand schon, bevor du die Frage gestellt hast."
-- **E69** — „Wohnen, Familien. Lärm im Treppenhaus, aber sie bringen Kuchen."
-- **E70** — „Verwaltung. Sehr nett, sehr langsam. Wie eine warme Dusche mit niedrigem Druck."
-Zur Bürokratie: *„Papier ist geduldig, Terminal-Daten sind die Ruhe selbst. Ich unterschreibe was ich muss und gehe um sieben."*
-**Auswahl:** [Und E67?] / [Verabschieden]
+- **Wrapper-Struktur** in `Game.tsx`:
+  ```tsx
+  <div className="mobile-stage-wrapper"> {/* nur < 768px aktiv */}
+    <div className="mobile-stage" style={{ width: 1024, height: 640, transform: `scale(${scale}) rotate(${rotate}deg)` }}>
+      {/* bestehender App-Inhalt unverändert */}
+    </div>
+  </div>
+  ```
+  `scale` und `rotate` werden via `useEffect` + `resize`/`orientationchange`-Listener berechnet:
+  - Landscape Mobil: `scale = min(vw/1024, vh/640)`, `rotate = 0`
+  - Portrait Mobil: `scale = min(vh/1024, vw/640)`, `rotate = 90`
+  - Desktop (≥ 768px): Wrapper wird nicht aktiviert, Layout unverändert
 
-### Schicht 3 — Was die Nachbarn über E67 sagen (`okwu3`)
-Hier wird sie richtig warm. Lacht kurz, schiebt die Brille runter.
-- „E67? Also — die sind … speziell."
-- Erzählt, was die anderen Quadranten kolportieren: dass E67er nie zum Quadrantenfest kommen. Dass dort angeblich seit Jahren niemand neu eingezogen sei. Dass die Aufzüge nach E67 immer leer ankommen.
-- „Eine Kollegin aus E68 schwört, sie hat mal jemanden aus E67 winken sehen. Sie redet seitdem nicht mehr darüber." (Augenzwinkern.)
-- „Ihr seid die Eigenbrödler im Witz, Herr Worag. Nichts Persönliches."
-**Auswahl:** [Was glauben Sie?] / [Verabschieden]
+- **CSS in `styles.css`**: 
+  - `.mobile-stage-wrapper { @media (min-width: 768px) { display: contents; } }` — auf Desktop transparent
+  - `touch-action: manipulation` global für schnelleres Tap-Response
+  - `body { overscroll-behavior: none; }` gegen Pull-to-Refresh
 
-### Schicht 4 — Ihre eigene Sicht (`okwu4`)
-Wird kurz ernster, aber bleibt zugewandt.
-- „Ehrlich? Ich glaube, ihr habt euch da drüben einfach … eingerichtet. Sehr gründlich. Mit allem drum und dran."
-- Sanfter Verweis auf das, was Layard gerade *tatsächlich* tut: „Aber Sie sind ja heute hier. Vielleicht ist das schon der Anfang von etwas."
-- Schließt mit: „Wenn Sie zurückwollen, der Empfang weiß Bescheid. Wenn Sie nicht zurückwollen — auch gut. Aber dann sagen Sie's bitte vorher, das spart Papier."
-**Auswahl:** [Verabschieden] (Dialog endet)
+- **Hotspot.tsx**: Min-Größe per Media Query (`@media (pointer: coarse)`) — wirkt nur auf Touch-Geräten, Desktop unberührt.
 
-### Nach Zimmer 1534
-Falls Layard nach dem Gespräch mit Mikael nochmal in Korridor 15 zurückkehrt, ist Dr. Okwu weg. Optional: ein leerer Wartungswagen mit einer halbleeren Kaffeetasse als stille Anspielung.
+- **Viewport-Meta**: Bereits `width=device-width, initial-scale=1` in `__root.tsx`. Ergänzen um `maximum-scale=1, user-scalable=no` damit das Browser-Pinch-Zoom nicht mit unserem Stage-Scale konkurriert.
 
-## Zweck im Spiel
+- **Drag-Cursor**: `DragCursorLayer` nutzt `fixed` mit Cursor-Koordinaten — bei skalierter/rotierter Bühne passt das nicht. Lösung: Inverse Transform berücksichtigen oder den Layer in den Stage-Container verlegen, damit er mitskaliert/rotiert.
 
-1. **Worldbuilding** — gibt der Quadranten-Geographie (E67–E71) erstmals soziale Textur und macht E67's Isolation greifbar. Spiegelt Layards Reise: er ist gerade erst aus dem Eigenbrödler-Quadranten ausgebrochen.
-2. **Tonaler Kontrast** — bisher ist E71 sterile Funktionalität (Empfang, Mikael). Dr. Okwu macht den Quadranten menschlich und unterstreicht: E67's Schwermut ist ein hausgemachtes Problem, kein universelles.
-3. **Lore-Verstärkung** — sie erwähnt beiläufig, dass *Daten* ruhiger sind als *Papier* — passt zur Resonanz/Z.K.S.-Thematik, ohne sie auszubuchstabieren.
+## Was NICHT geändert wird
 
-## Bilder zur Auswahl (drei Varianten, Unavowed-Stil)
+- Keine Änderung an Szenen, Hotspot-Koordinaten, Dialogen, Audio, Terminal, Radio.
+- Keine Änderung am Desktop-Layout (≥ 768px Breakpoint).
+- Keine neue Steuerung, keine separaten Mobil-Komponenten.
 
-Drei Pixel-Art-Sprites von Dr. Okwu (transparenter Hintergrund, ca. 512×1024, Unavowed-Look: weiche Pixel, gedeckte Farben, leichte Zellschattierung). Alle als `npc-okwu-v1.png`, `npc-okwu-v2.png`, `npc-okwu-v3.png` generiert via Lovable AI Image (`google/gemini-3.1-flash-image-preview`).
+## Aufwand
 
-- **Variante A — „Visiten-Pause":** Stethoskop um den Hals, Klemmbrett unterm Arm, Brille auf der Stirn. Halb seitlich gedreht, ein leichtes Lächeln. Klassische Ärztinnen-Pose.
-- **Variante B — „Kaffee-Diplomatin":** Beide Hände um eine Kaffeetasse, Kittel offen, lehnt minimal nach vorn. Wirkt einladend zum Plausch — passt zur dialoglastigen Rolle.
-- **Variante C — „Augenbraue hoch":** Hände in den Kitteltaschen, Kopf leicht schräg, eine Augenbraue gehoben, Mundwinkel zuckt. Die „E67? Aha."-Pose. Direkter Charakter-Read.
+Klein bis mittel — ein neuer Wrapper-Komponent, ein bisschen CSS, kleine Anpassungen an `Hotspot.tsx`, `TopBar.tsx`, `Inventory.tsx`, `DragCursorLayer`. Insgesamt 4–5 Dateien.
 
-Nach Generierung: Bilder als Vorschau einbetten, du wählst eine — die wird unter `src/assets/npc-okwu.png` final abgelegt.
+## Dateien
 
-## Technische Umsetzung (zur Referenz)
-
-**Dateien zu ändern:**
-- `src/assets/npc-okwu.png` — neues Sprite (gewählte Variante)
-- `src/game/scenes.ts` — `corridor15`: NPC-Eintrag + Hotspot „Dr. Okwu" mit `hiddenWhen: ["foundRoom1534"]`
-- `src/game/dialogs.ts` — vier neue Dialog-Trees `okwu1`–`okwu4`, jeweils mit Verzweigung [Weiter] / [Verabschieden]
-- `src/components/game/DialogOverlay.tsx` — `speakerColor` um `OKWU: "text-foreground"` ergänzen
-- ggf. `src/audio/speech.ts` falls dort Sprecher-Stimmen pro Speaker konfiguriert sind (eine warme, mittlere Frauenstimme)
-
-**Dialog-Pattern:** Ich nutze die existierende `next`/`choices`-Struktur (siehe `reception`). Die Schichten sind separate Dialog-Trees, die per `api.startDialog("okwu2")` aus der jeweils vorherigen Wahl angesprungen werden — so kann Layard nach jeder Schicht aussteigen, und beim nächsten Klick auf die Ärztin geht's an der zuletzt erreichten Stelle weiter (gesteuert per Flags `metOkwu`, `okwuLayer2`, `okwuLayer3`, `okwuLayer4`).
-
-**Umfang:** Geschätzt ~120 Dialogzeilen über 4 Trees + ~40 Zeilen Scene-Integration. Keine Auswirkungen auf bestehende Puzzles.
-
-## Workflow nach Approval
-
-1. Drei Bildvarianten generieren und dir zur Auswahl präsentieren.
-2. Nach deiner Wahl: Sprite final ablegen, Scene + Dialoge integrieren, Speaker-Color ergänzen.
-3. Quick-Test: Hotspot sichtbar, Dialog läuft durch alle 4 Schichten, verschwindet nach `foundRoom1534`.
+- `src/components/game/Game.tsx` — Mobile-Stage-Wrapper hinzufügen
+- `src/components/game/MobileStage.tsx` — neue Komponente mit Scale/Rotate-Logik
+- `src/styles.css` — Wrapper-CSS + touch-action
+- `src/routes/__root.tsx` — Viewport-Meta erweitern
+- `src/components/game/Hotspot.tsx` — Touch-Min-Größe
+- `src/components/game/TopBar.tsx` — Mobile-kompaktere Variante
+- `src/components/game/Inventory.tsx` — Button-Position/Größe auf Mobil + DragLayer-Fix
