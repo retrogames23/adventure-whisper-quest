@@ -228,7 +228,7 @@ export function ParamedicsCutscene() {
         timersRef.current = null;
       }
       stopCutsceneMusic();
-      music.setDuck(1);
+      music.resume();
       startedRef.current = false;
       setBeatIdx(0);
       setLineIdx(-1);
@@ -244,8 +244,8 @@ export function ParamedicsCutscene() {
     startedRef.current = true;
     cancelledRef.current = false;
 
-    // Hintergrundmusik komplett ducken und eigene Cutscene-Musik starten.
-    music.setDuck(0);
+    // Hintergrundmusik komplett anhalten und eigene Cutscene-Musik starten.
+    music.pause();
     startCutsceneMusic();
 
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -321,7 +321,7 @@ export function ParamedicsCutscene() {
       timersRef.current = null;
     }
     fadeOutAndStopCutsceneMusic();
-    music.setDuck(1);
+    music.resume();
     // Folgen, die früher die Dialoge `paramedicsArrive` und `paramedic`
     // gesetzt haben — die Cutscene ersetzt beide Räume und Dialoge.
     api.setFlag("doorBrokenOpen");
