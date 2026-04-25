@@ -15,6 +15,7 @@ import corridor36Bg from "@/assets/scene-corridor-36.jpg";
 import corridor46Bg from "@/assets/scene-corridor-46.jpg";
 import corridor56Bg from "@/assets/scene-corridor-56.jpg";
 import serverRoom5610Bg from "@/assets/scene-server-room-5610.jpg";
+import room1532Bg from "@/assets/scene-room-1532.jpg";
 import miraSprite from "@/assets/npc-mira.png";
 import philippeSprite from "@/assets/npc-philippe.png";
 import type { Scene } from "./types";
@@ -1113,10 +1114,22 @@ export const scenes: Record<string, Scene> = {
         label: "Türen 1530–1540",
         onUse: (api) =>
           api.showText([
-            "1530, 1532, 1536, 1538 — alle grün. Alle leer.",
+            "1530, 1536, 1538 — alle grün. Alle leer.",
+            "1532 — grünes Licht, ein kleines Schild: „Dr. A. Okwu — Allgemeinmedizin“.",
             "1531 — gelbes Band. Versiegelt.",
             "Nur 1534 zeigt ein rotes Licht. Aktiv. Besetzt.",
           ]),
+      },
+      {
+        id: "door1532",
+        // Tür 1532 — Praxis Dr. Okwu. Links neben den anderen Türen,
+        // außerhalb der Fluchtachse, damit sie 1534 nicht verdeckt.
+        x: 30,
+        y: 38,
+        w: 11,
+        h: 38,
+        label: "Tür 1532 — Praxis Dr. Okwu",
+        onUse: (api) => api.goTo("room1532"),
       },
       {
         id: "door1534",
@@ -1223,6 +1236,101 @@ export const scenes: Record<string, Scene> = {
         h: 90,
         label: "Zurück in den Korridor",
         requires: ["mikaelRejectedProtocol"],
+        onUse: (api) => api.goTo("corridor15"),
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Zimmer 1532 — Praxis Dr. Adaeze Okwu (Allgemeinmedizin, E71).
+  // Optionaler Side-Quest-Raum für World-Building rund um E71 und
+  // die anderen Quadranten E68–E70. Dauerhaft erreichbar, sobald
+  // Layard im Korridor 15 ist.
+  // ───────────────────────────────────────────────────────────
+  room1532: {
+    id: "room1532",
+    background: room1532Bg,
+    title: "Zimmer 1532 — Praxis Dr. Okwu",
+    intro:
+      "Ein wohnliches Sprechzimmer. Bücherregale voller Aktenordner mit Quadrantenetiketten, ein bernsteinfarbener Terminalbildschirm, eine Lederliege mit einem zusammengelegten Kissen. Hinter dem Schreibtisch sitzt eine schwarze Ärztin Anfang fünfzig in weißem Kittel, eine dampfende Tasse Tee in der Hand. Sie blickt auf, lächelt freundlich.",
+    hotspots: [
+      {
+        id: "okwuTalk",
+        // Dr. Okwu sitzt mittig hinter dem Schreibtisch.
+        x: 30,
+        y: 18,
+        w: 28,
+        h: 76,
+        label: "Dr. Adaeze Okwu",
+        onUse: (api) => {
+          // Progressive Schichten: jeder erneute Klick öffnet die nächste
+          // Ebene. Ab dem zweiten Klick werden die Folge-Dialoge freigeschaltet.
+          if (!api.hasFlag("metOkwu")) {
+            api.setFlag("metOkwu");
+            api.startDialog("okwu1");
+          } else if (!api.hasFlag("okwuLayer2")) {
+            api.startDialog("okwu1");
+          } else if (!api.hasFlag("okwuLayer3")) {
+            api.startDialog("okwu2");
+          } else if (!api.hasFlag("okwuLayer4")) {
+            api.startDialog("okwu3");
+          } else {
+            api.startDialog("okwu4");
+          }
+        },
+      },
+      {
+        id: "okwuTerminal",
+        // Bernsteinfarbenes CRT-Terminal links auf dem Schreibtisch.
+        x: 14,
+        y: 42,
+        w: 16,
+        h: 26,
+        label: "Patient:innen-Terminal",
+        onUse: (api) =>
+          api.showText([
+            "Ein bernsteinfarbenes Terminal. Auf dem Schirm laufen ruhig Datenzeilen — Wartezimmer leer, drei Termine heute, alle bestätigt.",
+            "Daneben, säuberlich daneben gelegt, ein Stapel Papierformulare. Beides nebeneinander, ohne Hierarchie.",
+            "„Papier ist geduldig, Terminal-Daten sind die Ruhe selbst.“ — sagt jemand hier offenbar oft.",
+          ]),
+      },
+      {
+        id: "okwuShelves",
+        // Aktenordner-Regal hinter Dr. Okwu, oben rechts.
+        x: 56,
+        y: 4,
+        w: 38,
+        h: 32,
+        label: "Aktenordner",
+        onUse: (api) =>
+          api.showText([
+            "Reihen von Aktenordnern, sauber nach Quadranten beschriftet:",
+            "E68 — Logistik. E69 — Wohnen. E70 — Verwaltung. E71 — Medizin.",
+            "Auf einem oberen Brett, etwas verstaubt, ein einzelner Ordner: E67. Dünn. Sehr dünn.",
+          ]),
+      },
+      {
+        id: "okwuCouch",
+        // Lederliege rechts.
+        x: 60,
+        y: 50,
+        w: 36,
+        h: 42,
+        label: "Untersuchungsliege",
+        onUse: (api) =>
+          api.showText([
+            "Eine alte Lederliege, weich vom Gebrauch. Ein zusammengelegtes Kissen darauf.",
+            "Layard merkt erst beim Hinsehen, wie müde er eigentlich ist.",
+          ]),
+      },
+      {
+        id: "leaveRoom1532",
+        // Türrahmen ganz links.
+        x: 0,
+        y: 4,
+        w: 14,
+        h: 94,
+        label: "Zurück in den Korridor",
         onUse: (api) => api.goTo("corridor15"),
       },
     ],
