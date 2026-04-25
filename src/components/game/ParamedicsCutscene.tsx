@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
+import { useMusic } from "@/audio/MusicPlayer";
 import { speak, stopSpeech } from "@/audio/speech";
 import beat1 from "@/assets/cutscene-paramedics-1.jpg";
 import beat2 from "@/assets/cutscene-paramedics-2.jpg";
@@ -8,6 +9,7 @@ import beat3 from "@/assets/cutscene-paramedics-3.jpg";
 import beat4 from "@/assets/cutscene-paramedics-4.jpg";
 import beat5 from "@/assets/cutscene-paramedics-5.jpg";
 import beat6 from "@/assets/cutscene-paramedics-6.jpg";
+import cutsceneMusic from "@/assets/cutscene-paramedics-music.mp3";
 
 type Speaker = "SANITÄTER" | "LAYARD" | "SYSTEM";
 
@@ -187,7 +189,8 @@ const CROSSFADE_MS = 600;
 
 export function ParamedicsCutscene() {
   const { cutscene, endCutscene, api } = useGame();
-  const { sfxVolume } = useSettings();
+  const { sfxVolume, musicVolume, musicEnabled } = useSettings();
+  const music = useMusic();
   const beats = useMemo(buildBeats, []);
   const [beatIdx, setBeatIdx] = useState(0);
   const [lineIdx, setLineIdx] = useState(-1); // -1 = leadIn
@@ -195,8 +198,21 @@ export function ParamedicsCutscene() {
   const startedRef = useRef(false);
   const cancelledRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[] | null>(null);
+  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
+  const musicFadeTimerRef = useRef<number | null>(null);
 
   const active = cutscene === "paramedics";
+
+  // Lautstärke der Cutscene-Musik live an Settings koppeln, solange sie spielt.
+  // Wir liegen bewusst ein Stück unter musicVolume, damit Dialog/TTS klar oben
+  // sitzt — die Musik ist nur Untermalung.
+  useEffect(() => {
+    if (!musicAudioRef.current) return;
+    const target = musicEnabled ? clamp01(musicVolume * 0.55) : 0;
+    if (musicFadeTimerRef.current == null) {
+      musicAudioRef.current.volume = target;
+    }
+  }, [musicVolume, musicEnabled]);
 
   // Reset wenn die Cutscene endet.
   useEffect(() => {
@@ -207,11 +223,14 @@ export function ParamedicsCutscene() {
         for (const t of timersRef.current) clearTimeout(t);
         timersRef.current = null;
       }
+      stopCutsceneMusic();
+      music.setDuck(1);
       startedRef.current = false;
       setBeatIdx(0);
       setLineIdx(-1);
       setVisible(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   // Hauptablauf: einmal beim Start die komplette Zeitleiste planen.
@@ -220,6 +239,10 @@ export function ParamedicsCutscene() {
     if (startedRef.current) return;
     startedRef.current = true;
     cancelledRef.current = false;
+
+    // Hintergrundmusik komplett ducken und eigene Cutscene-Musik starten.
+    music.setDuck(0);
+    startCutsceneMusic();
 
     const timers: ReturnType<typeof setTimeout>[] = [];
     timersRef.current = timers;
@@ -293,6 +316,8 @@ export function ParamedicsCutscene() {
       for (const t of timersRef.current) clearTimeout(t);
       timersRef.current = null;
     }
+    fadeOutAndStopCutsceneMusic();
+    music.setDuck(1);
     // Folgen, die früher die Dialoge `paramedicsArrive` und `paramedic`
     // gesetzt haben — die Cutscene ersetzt beide Räume und Dialoge.
     api.setFlag("doorBrokenOpen");
