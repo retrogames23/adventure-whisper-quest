@@ -49,6 +49,10 @@ interface MusicCtx {
    * eine Sprecher-Meldung läuft. 1 = volle Lautstärke (Standard).
    */
   setDuck: (factor: number) => void;
+  /** Hält die Wiedergabe komplett an (z. B. für Cutscenes). */
+  pause: () => void;
+  /** Setzt die zuvor angehaltene Wiedergabe fort. */
+  resume: () => void;
 }
 
 const MusicContext = createContext<MusicCtx | null>(null);
@@ -74,6 +78,7 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
   const enabledRef = useRef(musicEnabled);
   const volumeRef = useRef(musicVolume);
   const duckRef = useRef(1);
+  const externallyPausedRef = useRef(false);
 
   // Keep refs in sync so timers always read fresh values.
   useEffect(() => {
@@ -217,6 +222,29 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
     }
   }, []);
 
+  const pause = useCallback(() => {
+    externallyPausedRef.current = true;
+    if (fadeTimerRef.current) {
+      window.clearInterval(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
+    if (aRef.current) aRef.current.pause();
+    if (bRef.current) bRef.current.pause();
+  }, []);
+
+  const resume = useCallback(() => {
+    if (!externallyPausedRef.current) return;
+    externallyPausedRef.current = false;
+    if (!enabledRef.current) return;
+    const active = activeRef.current === "a" ? aRef.current : bRef.current;
+    if (!active) return;
+    active.volume = clamp(volumeRef.current * duckRef.current);
+    void active.play().catch(() => {
+      /* autoplay blocked */
+    });
+    ensureWatcher();
+  }, []);
+
   const playIndex = useCallback((i: number) => {
     if (!aRef.current || !bRef.current) return;
     const target = ((i % PLAYLIST.length) + PLAYLIST.length) % PLAYLIST.length;
@@ -240,8 +268,8 @@ export function MusicPlayer({ children }: { children?: ReactNode }) {
   }, [playIndex]);
 
   const value = useMemo<MusicCtx>(
-    () => ({ tracks: PLAYLIST, currentIndex, next, prev, playIndex, setDuck }),
-    [currentIndex, next, prev, playIndex, setDuck],
+    () => ({ tracks: PLAYLIST, currentIndex, next, prev, playIndex, setDuck, pause, resume }),
+    [currentIndex, next, prev, playIndex, setDuck, pause, resume],
   );
 
   return <MusicContext.Provider value={value}>{children}</MusicContext.Provider>;
