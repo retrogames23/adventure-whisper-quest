@@ -4,7 +4,6 @@ import { useSettings } from "@/audio/SettingsContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { speak, stopSpeech } from "@/audio/speech";
 import beat1 from "@/assets/cutscene-paramedics-1.jpg";
-import beat2 from "@/assets/cutscene-paramedics-2.jpg";
 import beat3 from "@/assets/cutscene-paramedics-3.jpg";
 import beat4 from "@/assets/cutscene-paramedics-4.jpg";
 import beat5 from "@/assets/cutscene-paramedics-5.jpg";
@@ -59,25 +58,6 @@ function buildBeats(): Beat[] {
           speaker: "SANITÄTER",
           text: "Gehen Sie zurück. Wir brechen die Tür auf.",
           hold: holdFor("Gehen Sie zurück. Wir brechen die Tür auf."),
-        },
-      ],
-      tail: 200,
-    },
-    {
-      // 2) Layard im Türrahmen. Zaghafte Frage. Keine Antwort.
-      image: beat2,
-      zoom: [1.06, 1.14],
-      pan: [1, 0, -1, -2],
-      lines: [
-        {
-          speaker: "LAYARD",
-          text: "Sie brauchen mich nicht mehr?",
-          hold: holdFor("Sie brauchen mich nicht mehr?"),
-        },
-        {
-          speaker: "SYSTEM",
-          text: "Sie antworten nicht. Hochkonzentriert. Routine.",
-          hold: holdFor("Sie antworten nicht. Hochkonzentriert. Routine."),
         },
       ],
       tail: 200,
