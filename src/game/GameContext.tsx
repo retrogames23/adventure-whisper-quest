@@ -424,6 +424,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     resonance,
     ending,
     burnSequence,
+    cutscene,
     api,
     setCaption,
     closeText: () => {
@@ -447,6 +448,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     closeTelevision: () => setTvOpen(false),
     closeNode: () => setNodeOpen(false),
     endBurnSequence: () => setBurnSequence(false),
+    endCutscene: () => setCutscene(null),
     setRadioActive,
     bumpResonance: (d) => setResonance((r) => Math.max(0, Math.min(100, r + d))),
     resetResonance: () => setResonance(0),
