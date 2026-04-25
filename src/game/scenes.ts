@@ -600,7 +600,10 @@ export const scenes: Record<string, Scene> = {
 
   hallway: {
     id: "hallway",
-    background: hallwayBg,
+    // Nach der Sanitäter-Cutscene zeigt der Korridor die mit gelbem
+    // Siegelband versperrte Tür 2615. Vorher der unberührte Korridor.
+    background: (api) =>
+      api.hasFlag("paramedicsCutsceneSeen") ? hallway2615SealedBg : hallwayBg,
     title: "Korridor 26 — Quadrant E67",
     intro:
       "Der Korridor. Wie jeden Morgen. Nur dass Layard ihn jeden Morgen nicht betritt.",
