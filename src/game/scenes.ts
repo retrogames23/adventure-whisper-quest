@@ -766,7 +766,7 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) => {
           api.setFlag("elevatorMaintSeen");
           api.showText([
-            "Ein roter LED-Streifen über der Aufzugstür blinkt zweimal.",
+            "Rotes Klebeband versperrt den Aufzug.",
             "Display: „WARTUNGSANFRAGE 4711 — AUFZUG GESPERRT“.",
             "Darunter, kleiner: „Stornierung über Hausmeister-Konsole.“",
             "Layards eigenes Terminal kann diese Sperre nur lesen,",
