@@ -71,7 +71,7 @@ export function Hotspot({ hotspot, reveal = false }: Props) {
         hotspot.onUse(api);
       }}
       aria-label={hotspot.label}
-      className={`absolute z-20 rounded-sm border transition-colors duration-200 focus:outline-none ${
+      className={`hotspot-touch absolute z-20 rounded-sm border transition-colors duration-200 focus:outline-none ${
         drag.dragItem
           ? "cursor-copy border-amber-glow/40 bg-amber-glow/5 hover:border-amber-glow hover:bg-amber-glow/20"
           : reveal

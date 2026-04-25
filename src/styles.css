@@ -407,3 +407,32 @@
   0%, 100% { filter: brightness(0.72) saturate(0.55) hue-rotate(-12deg) contrast(1.05); }
   50%      { filter: brightness(0.62) saturate(0.55) hue-rotate(-12deg) contrast(1.10); }
 }
+
+/* ===== Mobile-Stage =====
+   Auf < 768px wird die App in einer fixen 1024×640-Bühne gerendert
+   und per CSS-transform skaliert. Der Host muss dann tatsächliche
+   Pixelgrößen haben, nicht 100vh/100vw. */
+@media (max-width: 767px) {
+  .mobile-stage-host {
+    height: 640px !important;
+    width: 1024px !important;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+  /* Touch-Targets: Hotspots sind oft nur ein paar Prozent groß. Auf
+     Coarse-Pointer-Geräten Mindestschrift- und Treffergröße erhöhen. */
+}
+
+/* Größere Trefferfläche für Hotspots auf Touch-Geräten ohne das
+   Desktop-Verhalten zu ändern. Wir hängen unsichtbares Padding an,
+   das den Klickbereich vergrößert, aber das visuelle Layout nicht
+   verschiebt (negative Margin gleicht aus). */
+@media (pointer: coarse) {
+  .hotspot-touch::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    pointer-events: auto;
+  }
+}

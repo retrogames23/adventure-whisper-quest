@@ -20,6 +20,7 @@ import { ParamedicsCutscene } from "./ParamedicsCutscene";
 import { Ending } from "./Ending";
 import { TitleScreen } from "./TitleScreen";
 import { PauseMenu } from "./PauseMenu";
+import { MobileStage } from "./MobileStage";
 
 export function Game() {
   const [started, setStarted] = useState(false);
@@ -37,13 +38,15 @@ export function Game() {
   if (!started)
     return (
       <SettingsProvider>
-        <TitleScreen
+        <MobileStage>
+          <TitleScreen
           onStart={() => {
             unlockAudio();
             preloadVoices();
             setStarted(true);
           }}
-        />
+          />
+        </MobileStage>
       </SettingsProvider>
     );
 
@@ -52,7 +55,8 @@ export function Game() {
       <MusicPlayer>
         <GameProvider>
           <InventoryDragProvider>
-            <div className="flex h-screen flex-col overflow-hidden bg-bureaucracy">
+            <MobileStage>
+            <div className="flex h-screen flex-col overflow-hidden bg-bureaucracy mobile-stage-host">
               <TopBar onOpenPause={() => setPauseOpen(true)} />
               <main className="relative flex min-h-0 flex-1 items-center justify-center px-2 py-2 sm:px-4">
                 <div className="relative flex h-full w-full items-center justify-center">
@@ -71,8 +75,9 @@ export function Game() {
                 </div>
               </main>
               <Inventory />
-              <DragCursorLayer />
             </div>
+            </MobileStage>
+            <DragCursorLayer />
           </InventoryDragProvider>
         </GameProvider>
       </MusicPlayer>
