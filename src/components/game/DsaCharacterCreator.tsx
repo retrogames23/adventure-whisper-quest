@@ -93,6 +93,33 @@ function emptyAttrs(): Partial<Attrs> {
   return {};
 }
 
+/**
+ * Stellt einen gebalancten Satz Eigenschaftswerte für eine Klasse zusammen.
+ * Mindestwerte werden um +1 angehoben (komfortabel), Maximalwerte respektiert,
+ * der Rest landet bei einem soliden 11. So erfüllt der Bogen garantiert die
+ * Voraussetzungen, ohne übertrieben stark zu wirken.
+ */
+function balancedAttrsFor(cls: DsaClass): Attrs {
+  const base: Attrs = { MU: 11, KL: 11, CH: 11, FF: 11, GE: 11, IN: 11, KK: 11 };
+  if (cls.min) {
+    for (const k of Object.keys(cls.min) as Array<keyof Attrs>) {
+      const need = cls.min[k];
+      if (need !== undefined) {
+        base[k] = Math.min(13, need + 1);
+      }
+    }
+  }
+  if (cls.max) {
+    for (const k of Object.keys(cls.max) as Array<keyof Attrs>) {
+      const cap = cls.max[k];
+      if (cap !== undefined && base[k] > cap) {
+        base[k] = cap;
+      }
+    }
+  }
+  return base;
+}
+
 /** Ein Eigenschafts-Kästchen in DSA2-Optik. */
 function AttrBox({
   attr,
