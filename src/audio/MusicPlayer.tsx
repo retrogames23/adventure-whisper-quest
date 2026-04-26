@@ -14,6 +14,7 @@ import trackMidnight from "@/assets/midnight-at-the-loading-bay.mp3";
 import trackSunrise from "@/assets/music/Before_the_Sunrise.mp3";
 import trackSteelRain from "@/assets/music/Steel_Rain_at_Midnight.mp3";
 import trackDsaTavern from "@/assets/music/dsa-tavern.mp3";
+import trackDsaTable from "@/assets/music/dsa-table.mp3";
 
 /**
  * Background music. Plays a playlist of tracks in sequence and
@@ -43,6 +44,7 @@ const PLAYLIST: MusicTrack[] = [
  */
 export const MUSIC_OVERRIDES = {
   dsaTavern: { title: "Tavernen-Stube (DSA)", src: trackDsaTavern } as MusicTrack,
+  dsaTable: { title: "The Worn Oak Table (DSA)", src: trackDsaTable } as MusicTrack,
 };
 export type MusicOverrideId = keyof typeof MUSIC_OVERRIDES;
 const CROSSFADE_SECONDS = 6;
