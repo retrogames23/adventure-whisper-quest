@@ -43,7 +43,8 @@ type Phase =
       result: CombatResult;
     }
   | { kind: "outcome"; option: DsaOption; check: AttrCheckResult | null }
-  | { kind: "defeat"; fallen: { id: string; name: string }[] };
+  | { kind: "defeat"; fallen: { id: string; name: string }[] }
+  | { kind: "outro"; victory: boolean };
 
 export function DsaAdventureScene() {
   const {
@@ -137,10 +138,13 @@ export function DsaAdventureScene() {
     if (phase.kind !== "outcome") return;
     const target = phase.option.next;
     if (target === "end") {
-      api.setFlag("dsaAdventureScene3Done");
-      api.setFlag("dsaCampaignFinished");
-      api.setDsaBeat(null);
-      closeDsaAdventure();
+      // Wir schließen NICHT direkt — sonst wirkt es wie ein Abbruch.
+      // Statt­dessen zeigen wir eine Outro-Szene am Tisch, in der Tjark
+      // das Buch zuklappt und der Spieler bewusst aufsteht.
+      // „Sieg" hier heißt: das Abenteuer wurde regulär beendet (Buch
+      // geholt oder bewusst weggegangen). Niederlage geht über die
+      // Defeat-Phase und kommt nie hier an.
+      setPhase({ kind: "outro", victory: true });
       return;
     }
     if (target === "scene2") {
@@ -170,6 +174,14 @@ export function DsaAdventureScene() {
   function handleDefeatGiveUp() {
     // Vom Tisch aufstehen — Spieler kehrt zurück, ohne Fortschritt.
     api.clearDsaCharacter();
+    api.setDsaBeat(null);
+    closeDsaAdventure();
+  }
+
+  function handleOutroLeaveTable() {
+    // Reguläres Ende: Flags setzen, Beat zurücksetzen, schließen.
+    api.setFlag("dsaAdventureScene3Done");
+    api.setFlag("dsaCampaignFinished");
     api.setDsaBeat(null);
     closeDsaAdventure();
   }
@@ -256,6 +268,8 @@ export function DsaAdventureScene() {
               onRetry={handleDefeatRetry}
               onGiveUp={handleDefeatGiveUp}
             />
+          ) : phase.kind === "outro" ? (
+            <OutroView onLeave={handleOutroLeaveTable} />
           ) : (
             <OutcomeView
               option={phase.option}
