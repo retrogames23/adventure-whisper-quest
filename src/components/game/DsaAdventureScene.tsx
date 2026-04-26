@@ -126,7 +126,7 @@ export function DsaAdventureScene() {
               options={beat.options}
               visibleOptions={visibleOptions}
               onChoose={handleChoose}
-              characterClass={cls?.name ?? "?"}
+              characterName={dsaCharacter.name}
               isMagic={isMagic}
             />
           ) : (
@@ -159,14 +159,14 @@ function NarrationView({
   options,
   visibleOptions,
   onChoose,
-  characterClass,
+  characterName,
   isMagic,
 }: {
   lines: string[];
   options: DsaOption[];
   visibleOptions: DsaOption[];
   onChoose: (o: DsaOption) => void;
-  characterClass: string;
+  characterName: string;
   isMagic: boolean;
 }) {
   const hiddenCount = options.length - visibleOptions.length;
@@ -179,7 +179,7 @@ function NarrationView({
       </div>
       <div className="border-t border-[#3a2c1a]/40 pt-4">
         <div className="text-xs uppercase tracking-widest opacity-70 mb-2">
-          Was tut {characterClass} Layard?
+          Was tut {characterName}?
         </div>
         <ul className="space-y-2">
           {visibleOptions.map((o) => (
