@@ -1,68 +1,73 @@
 ## Ziel
 
-Das Spiel ist als 16:9-Bühne mit fixen prozentualen Hotspot-Koordinaten gebaut. Auf Mobil (390×621) ist die Bühne winzig, die Top-Bar bricht um, das Inventar verdeckt Hotspots, und Hotspots sind zu klein zum Treffen. Eine vollständige Mobile-Variante wäre teuer — aber es gibt einen pragmatischen Fix, der die Desktop-Experience NICHT verändert.
+Du sollst alle Dialoge des Spiels (`src/game/dialogs.ts`, ca. 3640 Zeilen, ~70 Dialogbäume) als gut lesbare Textdatei zum Bearbeiten bekommen — und die bearbeitete Version später wieder in den Spielcode einspielen können.
 
-## Ansatz: „Forced Landscape Stage" auf Mobil
+## Lösungsweg
 
-Statt das Layout responsiv umzubauen, rendern wir auf Mobil dieselbe Desktop-Bühne in einer fixen virtuellen Auflösung (z. B. 1024×640) und skalieren sie per CSS `transform: scale()` so, dass sie ins Mobil-Viewport passt — bei Hochformat wird die Bühne um 90° rotiert. Alle prozentbasierten Hotspots, Overlays, Terminals etc. funktionieren dadurch unverändert. Der Spieler dreht das Handy quer (oder spielt im Hochformat mit rotierter Ansicht).
+Die Dialoge stecken aktuell in einer TypeScript-Datei mit Code (Callbacks, Bedingungen, Items). Reiner Klartext-Export ist deshalb nicht 1:1 reversibel — wir trennen daher **Text** (von dir bearbeitbar) und **Logik** (bleibt im Code).
 
-Das ist genau der Trick, den viele klassische Point-&-Click-Ports auf Mobil benutzen.
+### Format: YAML
 
-### Was sich ändert (nur Mobil-Pfad)
+Ich exportiere die Dialoge als **YAML-Datei**, weil:
+- gut lesbar für Menschen, mehrzeilige Texte ohne Escaping
+- jede Dialogzeile als Block mit `id`, `speaker`, `text`, optional `subtext` und Auswahlmöglichkeiten
+- Logik-Felder (`requires`, `hiddenWhen`, `next`, `action`, `onEnd`) werden als Kommentare bzw. Read-only-Felder mitgeführt, damit du sie siehst, aber nicht versehentlich kaputt machst
 
-1. **Viewport-Wrapper in `Game.tsx`**: Wenn `window.innerWidth < 768`, die ganze App in einen Container mit fester Größe (1024×640) packen und per CSS-Transform passend ins Viewport skalieren. Bei Portrait zusätzlich rotieren mit Hinweis „Bitte Gerät drehen für beste Erfahrung" + Auto-Rotate-Option.
-2. **Touch-Treffergröße**: In `Hotspot.tsx` auf Touch-Geräten einen unsichtbaren Padding-Bereich (`min-h-[44px] min-w-[44px]`) einfügen, damit Hotspots fingerfreundlich sind. Visuell unverändert auf Desktop.
-3. **TopBar kompakt auf Mobil**: Track-Wechsler ist bereits `hidden sm:inline-flex`. Zusätzlich „SCHMERZ-RADIO"-Label und Szenenname auf sehr kleinen Breiten verstecken, damit Buttons in einer Zeile bleiben.
-4. **Inventar-Button-Position**: Auf Mobil von `bottom-4 right-4` auf `bottom-2 right-2` mit etwas kleinerem Button (h-12 w-12 statt h-14 w-14), damit es nicht über Hotspots am unteren Bildrand liegt. Desktop bleibt unverändert via `sm:`-Breakpoint.
+Beispiel-Auszug:
+```yaml
+- tree: philippeAtDoor
+  lines:
+    - id: p2
+      speaker: PHILIPPE
+      text: |
+        Hallo. Ich bin Philippe. Ich … habe ein Problem.
+        Ich weiß nicht, was ich tun soll.
+      subtext: "Echte Angst. Er hat das nicht im Schauspielkurs gelernt."
+      # next: p3   (Logik – nicht ändern)
+```
 
-### Variante: Nur Skalieren ohne Rotation
+### Schritt 1 — Export (jetzt sofort, einmalig)
 
-Falls Rotation zu invasiv wirkt: nur die feste virtuelle Bühne (1024×640) per `scale()` ins Mobil-Viewport einpassen — auf Portrait wird die Bühne dann sehr klein, aber alles ist sichtbar und antippbar (mit Pinch-to-Zoom-Geste browserseitig deaktiviert). Querformat-Spiel funktioniert dann optimal.
+Ich schreibe ein kleines Node-Skript, das `src/game/dialogs.ts` lädt und alle `DialogTree`-Objekte in eine YAML-Datei schreibt:
 
-**Empfehlung**: Variante mit Rotation + Hinweis-Banner „Für beste Erfahrung Gerät querhalten" beim ersten Mobil-Aufruf. Wenn der Spieler das Handy dreht (orientation change), entfällt die Rotation automatisch.
+- `dialogs.yaml` — alle ~70 Dialogbäume mit Speaker, Text, Subtext und Auswahltexten
+- Logik-Felder werden als Kommentare angezeigt, damit du den Kontext siehst
+- Ablage in `/mnt/documents/dialogs.yaml` zum Download
 
-## Technische Details
+Du erhältst direkt einen `presentation-artifact`-Link zum Herunterladen.
 
-- **Wrapper-Struktur** in `Game.tsx`:
-  ```tsx
-  <div className="mobile-stage-wrapper"> {/* nur < 768px aktiv */}
-    <div className="mobile-stage" style={{ width: 1024, height: 640, transform: `scale(${scale}) rotate(${rotate}deg)` }}>
-      {/* bestehender App-Inhalt unverändert */}
-    </div>
-  </div>
-  ```
-  `scale` und `rotate` werden via `useEffect` + `resize`/`orientationchange`-Listener berechnet:
-  - Landscape Mobil: `scale = min(vw/1024, vh/640)`, `rotate = 0`
-  - Portrait Mobil: `scale = min(vh/1024, vw/640)`, `rotate = 90`
-  - Desktop (≥ 768px): Wrapper wird nicht aktiviert, Layout unverändert
+### Schritt 2 — Re-Import (wenn du die bearbeitete Datei zurückgibst)
 
-- **CSS in `styles.css`**: 
-  - `.mobile-stage-wrapper { @media (min-width: 768px) { display: contents; } }` — auf Desktop transparent
-  - `touch-action: manipulation` global für schnelleres Tap-Response
-  - `body { overscroll-behavior: none; }` gegen Pull-to-Refresh
+Sobald du die bearbeitete `dialogs.yaml` hochlädst, läuft ein Import-Skript:
 
-- **Hotspot.tsx**: Min-Größe per Media Query (`@media (pointer: coarse)`) — wirkt nur auf Touch-Geräten, Desktop unberührt.
+1. Lädt aktuelle `src/game/dialogs.ts` und parst die Struktur (mit TypeScript-AST, `ts-morph`).
+2. Liest deine YAML-Datei.
+3. Ersetzt für jede Zeile die Felder `text`, `subtext` sowie Choice-`text`-Felder durch deine neuen Werte.
+4. Lässt alle Code-Felder (`action`, `onEnd`, `next`, `requires`, …) **unangetastet**.
+5. Schreibt die Datei zurück und führt den Build aus, um sicherzustellen, dass alles sauber kompiliert.
 
-- **Viewport-Meta**: Bereits `width=device-width, initial-scale=1` in `__root.tsx`. Ergänzen um `maximum-scale=1, user-scalable=no` damit das Browser-Pinch-Zoom nicht mit unserem Stage-Scale konkurriert.
+So bleiben Spiellogik, Items und Flags garantiert konsistent — du veränderst ausschließlich Wortlaut.
 
-- **Drag-Cursor**: `DragCursorLayer` nutzt `fixed` mit Cursor-Koordinaten — bei skalierter/rotierter Bühne passt das nicht. Lösung: Inverse Transform berücksichtigen oder den Layer in den Stage-Container verlegen, damit er mitskaliert/rotiert.
+### Was du bearbeiten darfst / nicht darfst
 
-## Was NICHT geändert wird
+| Feld | Bearbeitbar? |
+|---|---|
+| `text` | Ja |
+| `subtext` (Schmerz-Radio-Einblendung) | Ja |
+| Choice-Texte (Antwortoptionen) | Ja |
+| `speaker` | Ja, aber nur aus der bekannten Liste (LAYARD, PHILIPPE, INSA, …) |
+| `id`, `next`, `requires`, `hiddenWhen`, `action`, `onEnd` | Nein — werden ignoriert beim Re-Import |
 
-- Keine Änderung an Szenen, Hotspot-Koordinaten, Dialogen, Audio, Terminal, Radio.
-- Keine Änderung am Desktop-Layout (≥ 768px Breakpoint).
-- Keine neue Steuerung, keine separaten Mobil-Komponenten.
+Wenn eine `id` in deiner YAML fehlt oder nicht im Code existiert, melde ich das beim Import als Warnung, statt stillschweigend Texte zu verlieren.
 
-## Aufwand
+### Optional (später)
 
-Klein bis mittel — ein neuer Wrapper-Komponent, ein bisschen CSS, kleine Anpassungen an `Hotspot.tsx`, `TopBar.tsx`, `Inventory.tsx`, `DragCursorLayer`. Insgesamt 4–5 Dateien.
+Falls dir YAML zu technisch ist, kann ich alternativ ein **Markdown-Format** mit Überschriften pro Dialog und reinen Textblöcken pro Zeile generieren. YAML ist robuster für den Re-Import; Markdown ist bequemer zum Lesen. Sag mir gerne, wenn du das lieber magst.
 
-## Dateien
+## Umsetzungsschritte
 
-- `src/components/game/Game.tsx` — Mobile-Stage-Wrapper hinzufügen
-- `src/components/game/MobileStage.tsx` — neue Komponente mit Scale/Rotate-Logik
-- `src/styles.css` — Wrapper-CSS + touch-action
-- `src/routes/__root.tsx` — Viewport-Meta erweitern
-- `src/components/game/Hotspot.tsx` — Touch-Min-Größe
-- `src/components/game/TopBar.tsx` — Mobile-kompaktere Variante
-- `src/components/game/Inventory.tsx` — Button-Position/Größe auf Mobil + DragLayer-Fix
+1. Export-Skript schreiben (`scripts/export-dialogs.mjs`), `dialogs.yaml` nach `/mnt/documents/` schreiben und dir als Artefakt anbieten.
+2. Import-Skript anlegen (`scripts/import-dialogs.mjs`) inkl. ts-morph als Dev-Dependency, damit der spätere Re-Import per Knopfdruck funktioniert. Anleitung dafür gebe ich dir mit.
+3. Kurze README im Projekt (`scripts/DIALOGS.md`) mit den Regeln aus der Tabelle oben.
+
+Nach Freigabe lege ich los und liefere dir die `dialogs.yaml` direkt zum Download.
