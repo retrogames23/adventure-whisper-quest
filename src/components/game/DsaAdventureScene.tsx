@@ -95,12 +95,12 @@ export function DsaAdventureScene() {
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 sm:p-6">
-      <div className="dsa-adventure-shell relative w-full max-w-5xl overflow-hidden rounded-md shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto bg-black/85 p-4 sm:p-6">
+      <div className="dsa-adventure-shell relative my-auto w-full max-w-5xl overflow-hidden rounded-md shadow-2xl flex flex-col max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)]">
         <CloseButton onClick={handleStandUp} />
 
         {/* Header: Akt-Titel */}
-        <div className="dsa-adventure-header px-6 pt-5 pb-2">
+        <div className="dsa-adventure-header shrink-0 px-6 pt-5 pb-2">
           <div className="text-xs uppercase tracking-[0.3em] opacity-70">
             Akt {DSA_CAMPAIGN.findIndex((a) => a.id === act.id) + 1} · Tjark erzählt
           </div>
@@ -108,7 +108,7 @@ export function DsaAdventureScene() {
         </div>
 
         {/* Illustration */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden border-y-2 border-[#3a2c1a]">
+        <div className="relative w-full shrink-0 overflow-hidden border-y-2 border-[#3a2c1a] h-[28vh] sm:h-[32vh] md:h-[36vh]">
           <img
             src={beat.illustration}
             alt={`${act.title} — ${beat.id}`}
@@ -119,7 +119,7 @@ export function DsaAdventureScene() {
         </div>
 
         {/* Erzähltext / Outcome */}
-        <div className="dsa-adventure-body p-5 sm:p-6">
+        <div className="dsa-adventure-body min-h-0 flex-1 overflow-y-auto p-5 sm:p-6">
           {phase.kind === "narration" ? (
             <NarrationView
               lines={beat.narration}
@@ -138,7 +138,7 @@ export function DsaAdventureScene() {
           )}
         </div>
 
-        <div className="dsa-adventure-footer flex items-center justify-between px-6 py-3 text-xs opacity-80">
+        <div className="dsa-adventure-footer shrink-0 flex items-center justify-between px-6 py-3 text-xs opacity-80">
           <span>
             {dsaCharacter.name} · {dsaCharacter.className}
           </span>
