@@ -406,7 +406,20 @@ export function stopSpeech() {
   }
 }
 
-/** No-op kept for backwards-compatibility (used to warm up browser voices). */
+/**
+ * Vorab die Browser-Stimmenliste initialisieren. Auf Chrome/Edge wird
+ * `getVoices()` erst nach dem `voiceschanged`-Event befüllt; ohne Warm-up
+ * würde der allererste Fallback noch keine deutsche Stimme finden und
+ * auf den globalen Default zurückfallen (oft eine englische Roboter-
+ * Stimme).
+ */
 export function preloadVoices() {
-  /* no longer needed — ElevenLabs voices are server-side */
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  // Initial-Aufruf triggert das Laden auf Chrome/Edge.
+  window.speechSynthesis.getVoices();
+  // Manche Browser feuern `voiceschanged` einmalig nach dem ersten
+  // Aufruf; ein No-op-Listener reicht, um die Liste warmzuhalten.
+  window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+  };
 }
