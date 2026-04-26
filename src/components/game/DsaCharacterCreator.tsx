@@ -317,8 +317,8 @@ export function DsaCharacterCreator() {
       : `↻ Nochmal würfeln (${rollCount}× geworfen)`;
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/85 px-4 py-4 overflow-y-auto">
-      <div className="relative w-full max-w-4xl my-auto">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto bg-black/85 px-2 py-2 sm:absolute sm:items-center sm:px-4 sm:py-4">
+      <div className="relative my-2 w-full max-w-4xl sm:my-auto">
         <CloseButton
           onClick={handleCancel}
           label="Charakter-Erschaffung abbrechen"
@@ -326,21 +326,21 @@ export function DsaCharacterCreator() {
         />
 
         {/* Der Bogen */}
-        <div className="dsa-paper relative px-6 py-5 sm:px-10 sm:py-7">
+        <div className="dsa-paper relative w-full max-w-full overflow-hidden px-3 py-4 sm:px-10 sm:py-7">
           {/* Kopfzeile */}
-          <div className="flex items-start justify-between border-b-2 border-[rgba(30,18,8,0.85)] pb-3 mb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[rgba(30,18,8,0.85)] dsa-ink">
-                <span className="font-display text-2xl">◉</span>
+          <div className="flex min-w-0 items-start justify-between border-b-2 border-[rgba(30,18,8,0.85)] pb-3 mb-4">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-[rgba(30,18,8,0.85)] dsa-ink sm:h-12 sm:w-12">
+                <span className="font-display text-xl sm:text-2xl">◉</span>
               </div>
-              <div>
-                <div className="dsa-typed text-[10px] uppercase tracking-[0.35em] dsa-ink-faded">
+              <div className="min-w-0">
+                <div className="dsa-typed truncate text-[8px] uppercase tracking-[0.18em] dsa-ink-faded sm:text-[10px] sm:tracking-[0.35em]">
                   Schmidt-Spiele · Verlag
                 </div>
-                <div className="font-display text-2xl sm:text-3xl dsa-ink leading-tight">
+                <div className="font-display text-xl sm:text-3xl dsa-ink leading-tight">
                   HELDEN-DOKUMENT
                 </div>
-                <div className="dsa-typed text-[11px] tracking-widest dsa-ink-faded">
+                <div className="dsa-typed truncate text-[9px] tracking-normal dsa-ink-faded sm:text-[11px] sm:tracking-widest">
                   DAS SCHWARZE AUGE · Zweite Edition
                 </div>
               </div>
