@@ -193,6 +193,54 @@ export function foeCombatantFromStat(stat: EnemyStat, idx = 0): Combatant {
   };
 }
 
+/**
+ * Layards Gefährten am Spieltisch — Yelva (Elfe) und Brem (Streuner).
+ * Sie kämpfen automatisch mit, sind aber etwas schwächer als der Held.
+ */
+export const COMPANION_STATS: ReadonlyArray<EnemyStat & { id: string }> = [
+  {
+    id: "yelva",
+    name: "Yelva (Elfe)",
+    le: 22,
+    at: 11,
+    pa: 10,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 1,
+    iniBase: 13,
+    weapon: "Elfenbogen",
+  },
+  {
+    id: "brem",
+    name: "Brem (Streuner)",
+    le: 24,
+    at: 11,
+    pa: 10,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 1,
+    iniBase: 12,
+    weapon: "Dolch",
+  },
+];
+
+export function companionCombatants(): Combatant[] {
+  return COMPANION_STATS.map((c) => ({
+    id: c.id,
+    name: c.name,
+    side: "hero",
+    le: c.le,
+    leMax: c.le,
+    at: c.at,
+    pa: c.pa,
+    tpDice: c.tpDice,
+    tpBonus: c.tpBonus,
+    rs: c.rs,
+    iniBase: c.iniBase,
+    weapon: c.weapon,
+  }));
+}
+
 function d6(): number {
   return Math.floor(Math.random() * 6) + 1;
 }
