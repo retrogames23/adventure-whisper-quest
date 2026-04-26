@@ -20,6 +20,59 @@ import {
 
 type Phase = "intro" | "rolling" | "review" | "done";
 
+/** Ein paar typische DSA2-Vornamen je Klasse + Geschlecht — für den
+ *  Würfel-Knopf neben dem Namensfeld. */
+const NAME_POOL: Record<DsaClassId, { männlich: string[]; weiblich: string[] }> = {
+  krieger: {
+    männlich: ["Hjalmar von Salzgar", "Edur von Tannstein", "Roban Greifenklau", "Aldred von Eberstamm"],
+    weiblich: ["Sigwine von Salzgar", "Brynja Greifenklau", "Hilde von Tannstein", "Roana von Eberstamm"],
+  },
+  streuner: {
+    männlich: ["Knut Schattenstrich", "Marek Pfennigfuchs", "Dietrich Krummfinger"],
+    weiblich: ["Lisbeth Schattenstrich", "Mara Pfennigfuchs", "Yala Krummfinger"],
+  },
+  magier: {
+    männlich: ["Wendelmir der Genaue", "Halmir vom Drachenstein", "Aldebrand der Stille"],
+    weiblich: ["Wendelmira die Genaue", "Halma vom Drachenstein", "Aldebranda die Stille"],
+  },
+  elf: {
+    männlich: ["Niamhal Silberlied", "Faenor Mondhauch", "Cael Tiefwurzel"],
+    weiblich: ["Niamhuin Silberlied", "Faelin Mondhauch", "Caela Tiefwurzel"],
+  },
+  zwerg: {
+    männlich: ["Angbar, Sohn des Angrosch", "Torin Steinaxt", "Brogar Erzhand"],
+    weiblich: ["Anga, Tochter des Angrosch", "Torina Steinaxt", "Brogina Erzhand"],
+  },
+  gaukler: {
+    männlich: ["Tjelvar mit dem doppelten Gesicht", "Riko Buntfuß", "Faldur Lautenklang"],
+    weiblich: ["Tjelva mit dem doppelten Gesicht", "Rika Buntfuß", "Faldura Lautenklang"],
+  },
+  thorwaler: {
+    männlich: ["Asleif Walfangsohn", "Garm Eisbart", "Sven Sturmhand"],
+    weiblich: ["Asleif Walfangstochter", "Gerda Eisbart", "Svenja Sturmhand"],
+  },
+  druide: {
+    männlich: ["Brandil von der Eiche", "Ailwin Mistelzweig", "Tarvil Hainwacht"],
+    weiblich: ["Brandila von der Eiche", "Ailwina Mistelzweig", "Tarvila Hainwacht"],
+  },
+};
+
+type Geschlecht = "männlich" | "weiblich";
+
+function pickRandomName(cid: DsaClassId, g: Geschlecht): string {
+  const pool = NAME_POOL[cid][g];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/** Bissige Kommentare nach 10 Re-Rolls — rotieren mit jeder weiteren 10er-Schwelle. */
+const SNIPPY_COMMENTS: { speaker: "BREM" | "YELVA" | "TJARK"; text: string }[] = [
+  { speaker: "BREM", text: "Zehn Würfe. Zehn! Wir sind hier nicht bei der Lotterie." },
+  { speaker: "YELVA", text: "Du weißt schon, dass die Würfel sich nicht ändern, wenn man sie öfter wirft?" },
+  { speaker: "TJARK", text: "Spätestens beim Zwanzigsten erwarte ich eine Bestechung." },
+  { speaker: "BREM", text: "Bei mir hat's beim ersten Mal geklappt. Nur so." },
+  { speaker: "YELVA", text: "Statistisch gesehen … nein, lass es. Würfel einfach." },
+];
+
 /** Flavor-Default-Felder je Klasse — handgeschriebene Persona auf dem Bogen. */
 const CLASS_FLAVOR: Record<
   DsaClassId,
@@ -123,7 +176,11 @@ export function DsaCharacterCreator() {
   const [le, setLe] = useState<number | null>(null);
   const [rollingIdx, setRollingIdx] = useState<number>(-1);
   const [chosenClassId, setChosenClassId] = useState<DsaClassId | null>(null);
-  const [rerolled, setRerolled] = useState<boolean>(false);
+  const [rollCount, setRollCount] = useState<number>(0);
+  const [snippy, setSnippy] = useState<{ speaker: string; text: string } | null>(null);
+  const [chosenName, setChosenName] = useState<string>("");
+  const [chosenGender, setChosenGender] = useState<Geschlecht>("männlich");
+  const [nameTouched, setNameTouched] = useState<boolean>(false);
   const cancelRef = useRef(false);
 
   useEffect(() => {
@@ -134,7 +191,11 @@ export function DsaCharacterCreator() {
     setLe(null);
     setRollingIdx(-1);
     setChosenClassId(null);
-    setRerolled(flags.has("dsaCharacterRerolled"));
+    setRollCount(0);
+    setSnippy(null);
+    setChosenName("");
+    setChosenGender("männlich");
+    setNameTouched(false);
   }, [dsaCreatorOpen, flags]);
 
   const fullAttrs: Attrs | null = useMemo(() => {
@@ -161,6 +222,15 @@ export function DsaCharacterCreator() {
     ? DSA_CLASSES.find((c) => c.id === chosenClassId) ?? null
     : null;
 
+  // Wenn die Klasse gewechselt wird (oder zum ersten Mal eine Klasse
+  // gewählt wird) und der Spieler den Namen noch nicht selbst getippt hat,
+  // schlagen wir einen passenden Default-Namen vor.
+  useEffect(() => {
+    if (!chosenClass) return;
+    if (nameTouched) return;
+    setChosenName(pickRandomName(chosenClass.id, chosenGender));
+  }, [chosenClass, chosenGender, nameTouched]);
+
   const ae = useMemo(() => {
     if (!fullAttrs || !chosenClass) return null;
     if (!chosenClass.magic) return null;
@@ -172,6 +242,7 @@ export function DsaCharacterCreator() {
     setAttrs(emptyAttrs());
     setLe(null);
     setChosenClassId(null);
+    setSnippy(null);
     const rolled: Partial<Attrs> = {};
     for (let i = 0; i < ATTR_ORDER.length; i++) {
       if (cancelRef.current) return;
@@ -185,28 +256,40 @@ export function DsaCharacterCreator() {
     const finalAttrs = rolled as Attrs;
     setLe(rollLE(finalAttrs.KK));
     setPhase("review");
+    // Reroll-Zähler erhöhen + ggf. bissigen Spruch zeigen.
+    setRollCount((prev) => {
+      const next = prev + 1;
+      // Erst ab dem 2. Wurf zählt es als "Re-Roll".
+      if (next > 1) {
+        const rerolls = next - 1; // 1, 2, 3, …
+        if (rerolls > 0 && rerolls % 10 === 0) {
+          const idx = Math.floor((rerolls / 10 - 1) % SNIPPY_COMMENTS.length);
+          setSnippy(SNIPPY_COMMENTS[idx]);
+        }
+      }
+      return next;
+    });
   }
 
   function handleReroll() {
-    if (rerolled) return;
-    setRerolled(true);
-    api.setFlag("dsaCharacterRerolled");
     rollAll();
   }
 
   function handleConfirm() {
     if (!fullAttrs || !chosenClass || le === null) return;
+    const finalName = chosenName.trim() || DEFAULT_NAME[chosenClass.id];
     setDsaCharacter({
       classId: chosenClass.id,
       className: chosenClass.name,
-      name: DEFAULT_NAME[chosenClass.id],
+      name: finalName,
       attrs: { ...fullAttrs },
       le,
       ae,
-      rerolled,
+      rerolled: rollCount > 1,
     });
     api.setFlag("dsaCharacterRolled");
     api.setFlag("dsaSeatedAtTable");
+    if (rollCount > 1) api.setFlag("dsaCharacterRerolled");
     closeDsaCreator();
   }
 
@@ -219,15 +302,19 @@ export function DsaCharacterCreator() {
 
   const flavor = chosenClass ? CLASS_FLAVOR[chosenClass.id] : null;
   const persona = {
-    name: chosenClass ? DEFAULT_NAME[chosenClass.id] : "",
+    name: chosenName,
     typus: chosenClass?.name ?? "",
     stand: flavor?.stand ?? "",
     heimat: flavor?.heimat ?? "",
     goetter: flavor?.goetter ?? "",
     haar: flavor?.haar ?? "",
     augen: flavor?.augen ?? "",
-    geschlecht: chosenClass?.id === "elf" || chosenClass?.id === "thorwaler" ? "weiblich" : "männlich",
+    geschlecht: chosenGender,
   };
+  const rerollLabel =
+    rollCount === 0
+      ? "▸ Würfeln"
+      : `↻ Nochmal würfeln (${rollCount}× geworfen)`;
 
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/85 px-4 py-4 overflow-y-auto">
@@ -263,19 +350,80 @@ export function DsaCharacterCreator() {
                 {chosenClass.name}
               </div>
             )}
-            {rerolled && (
+            {rollCount > 1 && (
               <div className="absolute right-12 top-3 dsa-stamp text-[10px] opacity-70">
-                2. Wurf
+                {rollCount}. Wurf
               </div>
             )}
           </div>
 
           {/* Persönliche Angaben */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 mb-5">
-            <Field label="Name" value={persona.name} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-5">
+            {/* Name — editierbar, sobald eine Klasse gewählt wurde */}
+            <div className="flex items-end gap-2">
+              <span className="dsa-typed text-[9px] uppercase tracking-widest dsa-ink-faded shrink-0">
+                Name
+              </span>
+              {phase === "review" && chosenClass ? (
+                <>
+                  <input
+                    type="text"
+                    value={chosenName}
+                    onChange={(e) => {
+                      setChosenName(e.target.value);
+                      setNameTouched(true);
+                    }}
+                    placeholder="Charaktername eintragen …"
+                    className="dsa-rule flex-1 dsa-typed text-sm dsa-ink pb-0.5 bg-transparent outline-none focus:bg-[rgba(255,250,230,0.4)]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setChosenName(pickRandomName(chosenClass.id, chosenGender));
+                      setNameTouched(true);
+                    }}
+                    title="Zufallsname"
+                    className="dsa-typed text-[10px] uppercase tracking-widest dsa-ink underline shrink-0"
+                  >
+                    🎲
+                  </button>
+                </>
+              ) : (
+                <span className="dsa-rule flex-1 dsa-typed text-sm dsa-ink pb-0.5 truncate">
+                  {persona.name || "\u00A0"}
+                </span>
+              )}
+            </div>
             <Field label="Typus" value={persona.typus} />
             <Field label="Stand" value={persona.stand} />
-            <Field label="Geschlecht" value={persona.geschlecht} />
+            {/* Geschlecht — Auswahl */}
+            <div className="flex items-end gap-2">
+              <span className="dsa-typed text-[9px] uppercase tracking-widest dsa-ink-faded shrink-0">
+                Geschlecht
+              </span>
+              {phase === "review" && chosenClass ? (
+                <div className="flex-1 flex items-center gap-1.5 pb-0.5">
+                  {(["männlich", "weiblich"] as const).map((g) => (
+                    <button
+                      key={g}
+                      type="button"
+                      onClick={() => setChosenGender(g)}
+                      className={`dsa-typed text-xs px-2 py-0.5 border transition ${
+                        chosenGender === g
+                          ? "border-[#6b1a0e] bg-[rgba(180,60,40,0.15)] dsa-ink"
+                          : "border-[rgba(30,18,8,0.45)] dsa-ink-faded hover:bg-[rgba(255,250,230,0.5)]"
+                      }`}
+                    >
+                      {g}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <span className="dsa-rule flex-1 dsa-typed text-sm dsa-ink pb-0.5 truncate">
+                  {persona.geschlecht}
+                </span>
+              )}
+            </div>
             <Field label="Heimat" value={persona.heimat} />
             <Field label="Götter" value={persona.goetter} />
             <Field label="Haar" value={persona.haar} />
@@ -376,9 +524,8 @@ export function DsaCharacterCreator() {
                   zu.
                 </p>
                 <p className="dsa-typed text-xs dsa-ink-faded">
-                  {rerolled
-                    ? "Zweiter Wurf — danach bleibt es, wie es ist."
-                    : "Wenn kein Krieger drin ist, darfst du noch einmal alles neu würfeln."}
+                  Du kannst so oft neu würfeln, wie du willst — solange du den
+                  Bogen noch nicht unterschrieben hast.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-1">
                   <button
@@ -407,6 +554,14 @@ export function DsaCharacterCreator() {
 
             {phase === "review" && fullAttrs && (
               <>
+                {snippy && (
+                  <div className="dsa-table-aside text-sm italic">
+                    <span className="font-semibold not-italic mr-1">
+                      {snippy.speaker}:
+                    </span>
+                    „{snippy.text}"
+                  </div>
+                )}
                 <div>
                   <div className="dsa-typed text-[10px] uppercase tracking-[0.3em] dsa-ink-faded mb-2">
                     Typus wählen — möglich mit diesen Werten:
@@ -447,19 +602,29 @@ export function DsaCharacterCreator() {
                   <button
                     type="button"
                     onClick={handleConfirm}
-                    disabled={!chosenClassId}
+                    disabled={!chosenClassId || !chosenName.trim()}
+                    title={
+                      !chosenClassId
+                        ? "Erst einen Typus wählen"
+                        : !chosenName.trim()
+                        ? "Erst einen Namen eintragen"
+                        : "Bogen unterschreiben"
+                    }
                     className="dsa-stamp text-sm cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     ▣ Bogen unterschreiben
                   </button>
-                  {!kriegerOk && !rerolled && (
-                    <button
-                      type="button"
-                      onClick={handleReroll}
-                      className="dsa-typed text-xs uppercase tracking-widest dsa-ink underline"
-                    >
-                      ↻ Nochmal würfeln (kein Krieger möglich)
-                    </button>
+                  <button
+                    type="button"
+                    onClick={handleReroll}
+                    className="dsa-typed text-xs uppercase tracking-widest dsa-ink underline"
+                  >
+                    {rerollLabel}
+                  </button>
+                  {!kriegerOk && (
+                    <span className="dsa-typed text-[10px] dsa-ink-faded italic">
+                      (kein Krieger möglich)
+                    </span>
                   )}
                 </div>
               </>
