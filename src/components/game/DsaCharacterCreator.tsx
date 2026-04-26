@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Dices } from "lucide-react";
 import { useGame } from "@/game/GameContext";
 import { CloseButton } from "./CloseButton";
 import {
