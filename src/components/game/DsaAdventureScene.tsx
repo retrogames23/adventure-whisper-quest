@@ -47,6 +47,7 @@ export function DsaAdventureScene() {
     dsaAdventureOpen,
     dsaBeat,
     dsaCharacter,
+    setDsaCharacter,
     api,
     closeDsaAdventure,
   } = useGame();
@@ -118,7 +119,7 @@ export function DsaAdventureScene() {
     });
     // Aktualisiere LE des Charakters, falls Schaden genommen.
     if (dsaCharacter && phase.result.heroLeFinal !== dsaCharacter.le) {
-      api.setDsaCharacter({
+      setDsaCharacter({
         ...dsaCharacter,
         le: Math.max(1, phase.result.heroLeFinal),
       });
