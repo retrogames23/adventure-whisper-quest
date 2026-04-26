@@ -493,10 +493,12 @@
   border: 1px solid rgba(60, 40, 10, 0.4);
 }
 .dsa-ink {
-  color: #1a1208;
+  color: #0f0905;
+  font-weight: 600;
 }
 .dsa-ink-faded {
-  color: #4a3418;
+  color: #2d1d08;
+  font-weight: 600;
 }
 .dsa-rule {
   border-bottom: 1px solid rgba(40, 25, 5, 0.55);
@@ -524,6 +526,8 @@
 .dsa-typed {
   font-family: "Special Elite", "Courier New", monospace;
   letter-spacing: 0.02em;
+  font-weight: 600;
+  color: #1a1208;
 }
 @keyframes dsa-stamp-in {
   0% { transform: scale(2.2) rotate(-12deg); opacity: 0; }
