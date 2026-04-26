@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Dices } from "lucide-react";
 import { useGame } from "@/game/GameContext";
 import { CloseButton } from "./CloseButton";
 import {
@@ -329,8 +330,8 @@ export function DsaCharacterCreator() {
   };
   const rerollLabel =
     rollCount === 0
-      ? "▸ Würfeln"
-      : `↻ Nochmal würfeln (${rollCount}× geworfen)`;
+      ? "Würfeln"
+      : `Nochmal würfeln (${rollCount}× geworfen)`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto bg-black/85 px-2 py-2 sm:absolute sm:items-center sm:px-4 sm:py-4">
@@ -618,24 +619,23 @@ export function DsaCharacterCreator() {
                 <div className="flex flex-wrap items-center gap-3 pt-2">
                   <button
                     type="button"
-                    onClick={handleOpenSigning}
-                    disabled={!chosenClassId}
-                    title={
-                      !chosenClassId
-                        ? "Erst einen Typus wählen"
-                        : "Bogen unterschreiben"
-                    }
-                    className="dsa-stamp text-sm cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    ▣ Bogen unterschreiben
-                  </button>
-                  <button
-                    type="button"
                     onClick={handleReroll}
-                    className="dsa-typed text-xs uppercase tracking-widest dsa-ink underline"
+                    className="dsa-stamp inline-flex items-center gap-2 text-base px-4 py-2 cursor-pointer hover:bg-[rgba(255,250,230,0.5)]"
+                    title="Eigenschaften neu auswürfeln"
                   >
-                    {rerollLabel}
+                    <Dices className="h-5 w-5" aria-hidden="true" />
+                    <span>{rerollLabel}</span>
                   </button>
+                  {chosenClassId && (
+                    <button
+                      type="button"
+                      onClick={handleOpenSigning}
+                      title="Bogen unterschreiben"
+                      className="dsa-stamp text-sm cursor-pointer"
+                    >
+                      ▣ Bogen unterschreiben
+                    </button>
+                  )}
                   {!kriegerOk && (
                     <span className="dsa-typed text-[10px] dsa-ink-faded italic">
                       (kein Krieger möglich)
