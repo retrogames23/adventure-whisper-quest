@@ -23,6 +23,7 @@ import { PauseMenu } from "./PauseMenu";
 import { MobileStage } from "./MobileStage";
 import { DsaCharacterCreator } from "./DsaCharacterCreator";
 import { DsaAdventureScene } from "./DsaAdventureScene";
+import { DsaCharacterSheet } from "./DsaCharacterSheet";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useGame } from "@/game/GameContext";
 
@@ -123,6 +124,7 @@ function GameStage({
             <ParamedicsCutscene />
             <DsaCharacterCreator />
             <DsaAdventureScene />
+            <DsaCharacterSheet />
             <DsaMusicBridge />
             <Ending />
             <PauseMenu open={pauseOpen} onClose={() => setPauseOpen(false)} />
