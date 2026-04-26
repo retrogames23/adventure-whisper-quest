@@ -1923,4 +1923,129 @@ export const scenes: Record<string, Scene> = {
       },
     ],
   },
+
+  // ───────────────────────────────────────────────────────────
+  // Gemeinschaftsraum E67 — drei Jugendliche spielen DSA 2.
+  // ───────────────────────────────────────────────────────────
+  commonRoomE67: {
+    id: "commonRoomE67",
+    background: commonRoomBg,
+    title: "Gemeinschaftsraum — Erdgeschoss, E67",
+    intro:
+      "Warmes Lampenlicht über einem viel zu großen Tisch. Würfel, ein aufgeschlagenes Regelwerk, ein Plan auf Karopapier. Drei Jugendliche schauen auf, als die Tür aufgeht.",
+    npcs: [
+      {
+        id: "bremSprite",
+        src: bremSprite,
+        x: 14,
+        y: 22,
+        w: 14,
+        h: 56,
+        alt: "Brem, der Streuner-Spieler",
+      },
+      {
+        id: "tjarkSprite",
+        src: tjarkSprite,
+        x: 56,
+        y: 22,
+        w: 14,
+        h: 56,
+        alt: "Tjark, der Spielleiter",
+      },
+      {
+        id: "yelvaSprite",
+        src: yelvaSprite,
+        x: 76,
+        y: 22,
+        w: 14,
+        h: 56,
+        alt: "Yelva, die Elfen-Spielerin",
+      },
+    ],
+    hotspots: [
+      {
+        id: "tableSeat",
+        // Der freie Stuhl im Vordergrund.
+        x: 30,
+        y: 60,
+        w: 28,
+        h: 36,
+        label: (() => "Freier Stuhl am Tisch")(),
+        onUse: (api) => {
+          api.setFlag("enteredCommonRoom");
+          api.setFlag("metRpgGroup");
+          if (!api.getDsaCharacter()) {
+            api.openDsaCreator();
+          } else {
+            api.showText([
+              `Du setzt dich wieder zu ${api.getDsaCharacter()?.name ?? "deiner Heldin"}, ${api.getDsaCharacter()?.className ?? ""}.`,
+              "Tjark schiebt dir einen Tee zu. „Wo waren wir?“",
+              "[ Das Gruppenabenteuer ist in Arbeit — die nächste Szene kommt bald. ]",
+            ]);
+          }
+        },
+      },
+      {
+        id: "tjarkSpot",
+        x: 56,
+        y: 22,
+        w: 14,
+        h: 56,
+        label: "Tjark (Meister)",
+        onUse: (api) =>
+          api.showText([
+            "Tjark schaut kurz hoch.",
+            "„Setz dich. Wir brauchen wirklich einen Vierten — am liebsten einen Krieger.“",
+          ]),
+      },
+      {
+        id: "yelvaSpot",
+        x: 76,
+        y: 22,
+        w: 14,
+        h: 56,
+        label: "Yelva (Elfe)",
+        onUse: (api) =>
+          api.showText([
+            "Yelva mustert dich kurz, dann das Regelwerk.",
+            "„Wenn du dich setzt, würfelst du erstmal sieben Eigenschaften. 1W6 plus 7.“",
+          ]),
+      },
+      {
+        id: "bremSpot",
+        x: 14,
+        y: 22,
+        w: 14,
+        h: 56,
+        label: "Brem (Streuner)",
+        onUse: (api) =>
+          api.showText([
+            "Brem grinst schief.",
+            "„Bloß keinen Magier. Magier sind langweilig.“",
+          ]),
+      },
+      {
+        id: "rulebook",
+        x: 35,
+        y: 75,
+        w: 18,
+        h: 14,
+        label: "DSA-Regelwerk",
+        onUse: (api) =>
+          api.showText([
+            "„Das Schwarze Auge“, zweite Edition. Eselsohren, Kaffeeflecken,",
+            "mit Bleistift annotiert: „Praxisregel — KEINE Charaktertode in der Anreise.“",
+          ]),
+      },
+      {
+        id: "exitCommon",
+        x: 0,
+        y: 30,
+        w: 10,
+        h: 60,
+        label: "Zurück in die Lobby",
+        onUse: (api) => api.goTo("floor1Lobby"),
+      },
+    ],
+  },
 };
