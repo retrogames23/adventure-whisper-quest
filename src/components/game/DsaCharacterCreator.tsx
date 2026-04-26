@@ -618,13 +618,11 @@ export function DsaCharacterCreator() {
                 <div className="flex flex-wrap items-center gap-3 pt-2">
                   <button
                     type="button"
-                    onClick={handleConfirm}
-                    disabled={!chosenClassId || !chosenName.trim()}
+                    onClick={handleOpenSigning}
+                    disabled={!chosenClassId}
                     title={
                       !chosenClassId
                         ? "Erst einen Typus wählen"
-                        : !chosenName.trim()
-                        ? "Erst einen Namen eintragen"
                         : "Bogen unterschreiben"
                     }
                     className="dsa-stamp text-sm cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
