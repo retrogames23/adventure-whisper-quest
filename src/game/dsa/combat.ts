@@ -66,12 +66,12 @@ export const ENEMY_STATS: Record<string, EnemyStat> = {
   wegelagerer_anfuehrer: {
     id: "wegelagerer_anfuehrer",
     name: "Anführer der Wegelagerer",
-    le: 28,
-    at: 12,
-    pa: 11,
+    le: 22,
+    at: 11,
+    pa: 9,
     tpDice: 1,
-    tpBonus: 3,
-    rs: 2,
+    tpBonus: 2,
+    rs: 1,
     iniBase: 11,
     weapon: "Kurzschwert",
     intro: "Gebrochene Nase, breites Grinsen, ruhige Hand am Schwertgriff.",
@@ -79,35 +79,35 @@ export const ENEMY_STATS: Record<string, EnemyStat> = {
   wegelagerer_armbrust: {
     id: "wegelagerer_armbrust",
     name: "Armbrustschütze",
-    le: 18,
-    at: 11,
-    pa: 8,
-    tpDice: 2,
-    tpBonus: 1,
-    rs: 1,
+    le: 14,
+    at: 10,
+    pa: 7,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 0,
     iniBase: 9,
     weapon: "leichte Armbrust",
   },
   wegelagerer_stab: {
     id: "wegelagerer_stab",
     name: "Wegelagerer mit Knüppel",
-    le: 20,
-    at: 10,
-    pa: 9,
+    le: 16,
+    at: 9,
+    pa: 8,
     tpDice: 1,
-    tpBonus: 2,
-    rs: 1,
+    tpBonus: 1,
+    rs: 0,
     iniBase: 10,
     weapon: "Knüppel",
   },
   glatzkopf: {
     id: "glatzkopf",
     name: "Glatzköpfiger Söldner",
-    le: 32,
-    at: 12,
-    pa: 10,
+    le: 24,
+    at: 11,
+    pa: 9,
     tpDice: 1,
-    tpBonus: 4,
+    tpBonus: 3,
     rs: 1,
     iniBase: 10,
     weapon: "Faust wie ein Schmiedehammer",
@@ -116,12 +116,12 @@ export const ENEMY_STATS: Record<string, EnemyStat> = {
   spiegelhueter: {
     id: "spiegelhueter",
     name: "Hüter des Spiegels",
-    le: 40,
-    at: 14,
-    pa: 13,
-    tpDice: 2,
-    tpBonus: 2,
-    rs: 3,
+    le: 30,
+    at: 12,
+    pa: 11,
+    tpDice: 1,
+    tpBonus: 3,
+    rs: 2,
     iniBase: 14,
     weapon: "Schattenklinge",
     intro:
@@ -193,6 +193,54 @@ export function foeCombatantFromStat(stat: EnemyStat, idx = 0): Combatant {
   };
 }
 
+/**
+ * Layards Gefährten am Spieltisch — Yelva (Elfe) und Brem (Streuner).
+ * Sie kämpfen automatisch mit, sind aber etwas schwächer als der Held.
+ */
+export const COMPANION_STATS: ReadonlyArray<EnemyStat & { id: string }> = [
+  {
+    id: "yelva",
+    name: "Yelva (Elfe)",
+    le: 22,
+    at: 11,
+    pa: 10,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 1,
+    iniBase: 13,
+    weapon: "Elfenbogen",
+  },
+  {
+    id: "brem",
+    name: "Brem (Streuner)",
+    le: 24,
+    at: 11,
+    pa: 10,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 1,
+    iniBase: 12,
+    weapon: "Dolch",
+  },
+];
+
+export function companionCombatants(): Combatant[] {
+  return COMPANION_STATS.map((c) => ({
+    id: c.id,
+    name: c.name,
+    side: "hero",
+    le: c.le,
+    leMax: c.le,
+    at: c.at,
+    pa: c.pa,
+    tpDice: c.tpDice,
+    tpBonus: c.tpBonus,
+    rs: c.rs,
+    iniBase: c.iniBase,
+    weapon: c.weapon,
+  }));
+}
+
 function d6(): number {
   return Math.floor(Math.random() * 6) + 1;
 }
@@ -226,8 +274,10 @@ export interface CombatEvent {
 export interface CombatResult {
   victory: boolean;
   events: CombatEvent[];
-  /** LE-Status des Helden am Ende (für Übernahme in Charakterbogen). */
+  /** LE-Status des Spieler-Helden (Layards Charakter) am Ende. */
   heroLeFinal: number;
+  /** LE-Status aller Helden am Ende (Held + Gefährten). */
+  heroesFinal: { id: string; le: number }[];
 }
 
 function snapshot(all: Combatant[]): { id: string; le: number }[] {
@@ -236,6 +286,12 @@ function snapshot(all: Combatant[]): { id: string; le: number }[] {
 
 function alive(c: Combatant): boolean {
   return c.le > 0;
+}
+
+function pickWeakest(group: Combatant[]): Combatant | null {
+  const live = group.filter(alive);
+  if (live.length === 0) return null;
+  return live.sort((a, b) => a.le - b.le)[0];
 }
 
 function pickFoeTarget(foes: Combatant[]): Combatant | null {
@@ -250,12 +306,13 @@ function pickFoeTarget(foes: Combatant[]): Combatant | null {
  * Die Anzeige spielt die Events dann zeitversetzt ab.
  */
 export function resolveCombat(
-  hero: Combatant,
+  heroes: Combatant[],
   foes: Combatant[],
   opts: { maxRounds?: number } = {},
 ): CombatResult {
   const maxRounds = opts.maxRounds ?? 20;
-  const all: Combatant[] = [hero, ...foes];
+  const hero = heroes[0];
+  const all: Combatant[] = [...heroes, ...foes];
   const events: CombatEvent[] = [];
 
   // Intro-Events für Gegner mit Flavor.
@@ -270,12 +327,14 @@ export function resolveCombat(
     }
   }
 
+  const heroesAllDead = () => heroes.every((h) => !alive(h));
+
   for (let round = 1; round <= maxRounds; round++) {
-    if (!alive(hero)) break;
+    if (heroesAllDead()) break;
     if (foes.every((f) => !alive(f))) break;
 
     // Initiative pro Runde — höchste zuerst.
-    const order = [hero, ...foes.filter(alive)]
+    const order = [...heroes.filter(alive), ...foes.filter(alive)]
       .map((c) => ({ c, ini: c.iniBase + d6() }))
       .sort((a, b) => b.ini - a.ini);
 
@@ -298,11 +357,13 @@ export function resolveCombat(
 
     for (const { c: actor } of order) {
       if (!alive(actor)) continue;
-      if (!alive(hero)) break;
+      if (heroesAllDead()) break;
       if (foes.every((f) => !alive(f))) break;
 
       const target =
-        actor.side === "hero" ? pickFoeTarget(foes) : alive(hero) ? hero : null;
+        actor.side === "hero"
+          ? pickFoeTarget(foes)
+          : pickWeakest(heroes);
       if (!target) continue;
 
       // Attacke
@@ -387,12 +448,12 @@ export function resolveCombat(
     }
   }
 
-  const victory = alive(hero) && foes.every((f) => !alive(f));
+  const victory = !heroesAllDead() && foes.every((f) => !alive(f));
   events.push({
     kind: victory ? "end-victory" : "end-defeat",
     text: victory
       ? "Der Kampf ist vorbei. Ihr habt überlebt."
-      : "Der Kampf ist verloren. Brem zieht euch raus.",
+      : "Der Kampf ist verloren. Stille legt sich über die Lichtung.",
     snapshot: snapshot(all),
   });
 
@@ -400,5 +461,6 @@ export function resolveCombat(
     victory,
     events,
     heroLeFinal: hero.le,
+    heroesFinal: heroes.map((h) => ({ id: h.id, le: h.le })),
   };
 }

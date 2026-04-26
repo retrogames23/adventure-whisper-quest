@@ -17,19 +17,20 @@ import type {
  */
 
 const STEP_MS = 1100;
-const STEP_FAST_MS = 240;
+const STEP_FAST_MS = 50;
 
 export function DsaCombatOverlay({
-  hero,
+  heroes,
   foes,
   result,
   onDone,
 }: {
-  hero: Combatant;
+  heroes: Combatant[];
   foes: Combatant[];
   result: CombatResult;
   onDone: (victory: boolean) => void;
 }) {
+  const hero = heroes[0];
   const [step, setStep] = useState(0);
   const [fast, setFast] = useState(false);
   const [hitFlash, setHitFlash] = useState<string | null>(null);
@@ -100,7 +101,8 @@ export function DsaCombatOverlay({
       ? current.targetId ?? null
       : null;
 
-  const heroSide = attackerId === hero.id;
+  const heroIds = new Set(heroes.map((h) => h.id));
+  const heroSide = attackerId !== null && heroIds.has(attackerId);
 
   return (
     <div
@@ -139,14 +141,18 @@ export function DsaCombatOverlay({
             {/* Helden-Spalte */}
             <div className="space-y-2">
               <SideLabel label="Eure Seite" align="left" />
-              <CombatantCard
-                c={hero}
-                le={leMap[hero.id] ?? hero.le}
-                isHit={hitFlash === hero.id}
-                isAttacking={attackerId === hero.id}
-                isDefending={defenderId === hero.id}
-                facing="right"
-              />
+              {heroes.map((h) => (
+                <CombatantCard
+                  key={h.id}
+                  c={h}
+                  le={leMap[h.id] ?? h.le}
+                  isHit={hitFlash === h.id}
+                  isAttacking={attackerId === h.id}
+                  isDefending={defenderId === h.id}
+                  facing="right"
+                  compact={heroes.length > 1}
+                />
+              ))}
             </div>
 
             {/* Mitte: Aktion-Indikator */}

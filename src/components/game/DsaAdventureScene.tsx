@@ -19,6 +19,7 @@ import {
   ENEMY_STATS,
   foeCombatantFromStat,
   heroCombatantFromCharacter,
+  companionCombatants,
   resolveCombat,
   type Combatant,
   type CombatResult,
@@ -37,11 +38,12 @@ type Phase =
   | {
       kind: "combat";
       option: DsaOption;
-      hero: Combatant;
+      heroes: Combatant[];
       foes: Combatant[];
       result: CombatResult;
     }
-  | { kind: "outcome"; option: DsaOption; check: AttrCheckResult | null };
+  | { kind: "outcome"; option: DsaOption; check: AttrCheckResult | null }
+  | { kind: "defeat" };
 
 export function DsaAdventureScene() {
   const {
@@ -79,6 +81,8 @@ export function DsaAdventureScene() {
     // Automatischer Kampf hat Vorrang vor einfacher Probe.
     if (option.combat && dsaCharacter) {
       const hero = heroCombatantFromCharacter(dsaCharacter);
+      const companions = companionCombatants();
+      const heroes = [hero, ...companions];
       const foes = option.combat.enemyIds.map((id, i) => {
         const stat = ENEMY_STATS[id];
         if (!stat) {
@@ -88,10 +92,10 @@ export function DsaAdventureScene() {
       });
       // Wir kopieren die Combatants, damit resolveCombat sie mutieren darf,
       // ohne die UI-Referenzen zu zerstören. Snapshots im Result reichen.
-      const heroForFight = { ...hero };
+      const heroesForFight = heroes.map((h) => ({ ...h }));
       const foesForFight = foes.map((f) => ({ ...f }));
-      const result = resolveCombat(heroForFight, foesForFight);
-      setPhase({ kind: "combat", option, hero, foes, result });
+      const result = resolveCombat(heroesForFight, foesForFight);
+      setPhase({ kind: "combat", option, heroes, foes, result });
       return;
     }
     let result: AttrCheckResult | null = null;
@@ -104,29 +108,26 @@ export function DsaAdventureScene() {
 
   function handleCombatDone(victory: boolean) {
     if (phase.kind !== "combat") return;
-    // Synthetisches Probe-Resultat, damit OutcomeView den richtigen Text wählt.
-    const synthetic: AttrCheckResult = {
-      rolls: [0, 0, 0],
-      total: 0,
-      target: 0,
-      success: victory,
-    };
-    // Ohne attrCheck zeigt OutcomeView keine Würfelzeile — gut, der Kampf
-    // hatte schon seine eigene. Wir setzen daher check=null bei Kampf.
-    void synthetic;
-    const opt = phase.option;
-    setPhase({
-      kind: "outcome",
-      option: { ...opt, attrCheck: undefined },
-      check: { rolls: [0, 0, 0], total: 0, target: 0, success: victory },
-    });
-    // Aktualisiere LE des Charakters, falls Schaden genommen.
+    // Bei Niederlage: dedizierter Defeat-Dialog statt Outcome (sonst läuft
+    // die Story einfach weiter und es kommt zum Absturz, wenn der Held
+    // bei LE 0 steht und der nächste Beat ihn lebend voraussetzt).
+    if (!victory) {
+      setPhase({ kind: "defeat" });
+      return;
+    }
+    // Sieg: LE übernehmen (mind. 1, damit der Held „angeschlagen" weitergeht).
     if (dsaCharacter && phase.result.heroLeFinal !== dsaCharacter.le) {
       setDsaCharacter({
         ...dsaCharacter,
         le: Math.max(1, phase.result.heroLeFinal),
       });
     }
+    const opt = phase.option;
+    setPhase({
+      kind: "outcome",
+      option: { ...opt, attrCheck: undefined },
+      check: { rolls: [0, 0, 0], total: 0, target: 0, success: true },
+    });
   }
 
   function handleAdvance() {
@@ -155,9 +156,26 @@ export function DsaAdventureScene() {
     closeDsaAdventure();
   }
 
+  function handleDefeatRetry() {
+    // Charakter zurücksetzen, Beat zurücksetzen, Charaktererschaffung öffnen.
+    api.clearDsaCharacter();
+    api.setDsaBeat(null);
+    closeDsaAdventure();
+    api.openDsaCreator();
+  }
+
+  function handleDefeatGiveUp() {
+    // Vom Tisch aufstehen — Spieler kehrt zurück, ohne Fortschritt.
+    api.clearDsaCharacter();
+    api.setDsaBeat(null);
+    closeDsaAdventure();
+  }
+
   const visibleOptions = beat.options.filter((o) =>
     meetsRequirement(classId, isMagic, o.requires),
   );
+
+  const wasKrieger = dsaCharacter.classId === "krieger";
 
   return (
     <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto bg-black/85 p-4 sm:p-6">
@@ -228,6 +246,12 @@ export function DsaAdventureScene() {
               isMagic={isMagic}
               frozen
             />
+          ) : phase.kind === "defeat" ? (
+            <DefeatView
+              wasKrieger={wasKrieger}
+              onRetry={handleDefeatRetry}
+              onGiveUp={handleDefeatGiveUp}
+            />
           ) : (
             <OutcomeView
               option={phase.option}
@@ -255,7 +279,7 @@ export function DsaAdventureScene() {
       {/* Kampf-Overlay (eigenes Fenster wie der Charakterbogen) */}
       {phase.kind === "combat" && (
         <DsaCombatOverlay
-          hero={phase.hero}
+          heroes={phase.heroes}
           foes={phase.foes}
           result={phase.result}
           onDone={handleCombatDone}
@@ -418,6 +442,53 @@ function DiceRow({
       >
         {success ? "Erfolg" : "Misslungen"}
       </span>
+    </div>
+  );
+}
+
+function DefeatView({
+  wasKrieger,
+  onRetry,
+  onGiveUp,
+}: {
+  wasKrieger: boolean;
+  onRetry: () => void;
+  onGiveUp: () => void;
+}) {
+  return (
+    <div className="space-y-5">
+      <div className="space-y-3 font-serif text-base sm:text-lg leading-relaxed dsa-ink">
+        <p className="font-semibold">
+          Tjark legt das Regelbuch zur Seite, schaut in die Runde und seufzt:
+        </p>
+        <p className="dsa-table-aside italic text-base">
+          „Tja Leute, leider alle tot."
+        </p>
+        <p>
+          Yelva schiebt die Brille hoch, Brem sammelt grummelnd die Würfel ein.
+        </p>
+        <p className="font-semibold">Wollt ihr es mit neuen Charakteren noch mal probieren?</p>
+        {!wasKrieger && (
+          <p className="dsa-table-aside italic text-base">
+            „Vielleicht versuchst du es diesmal mit einem Krieger?" — Brem grinst
+            schief. „Die halten was aus."
+          </p>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-3 justify-end pt-2">
+        <button
+          onClick={onGiveUp}
+          className="inline-flex items-center gap-2 rounded border-2 border-[#3a2c1a] bg-[#fbf2d8] px-4 py-2 text-sm font-bold uppercase tracking-wider text-[#2a1f10] hover:bg-[#f1d99a]"
+        >
+          Aufgeben
+        </button>
+        <button
+          onClick={onRetry}
+          className="inline-flex items-center gap-2 rounded border-2 border-[#2d5a1e] bg-[#2d5a1e] px-4 py-2 text-sm font-bold uppercase tracking-wider text-[#f1e6c8] shadow-[0_2px_0_rgba(0,0,0,0.35)] transition-all hover:-translate-y-px"
+        >
+          Neue Charaktere — noch mal!
+        </button>
+      </div>
     </div>
   );
 }
