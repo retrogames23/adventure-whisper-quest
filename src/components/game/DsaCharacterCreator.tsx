@@ -93,6 +93,33 @@ function emptyAttrs(): Partial<Attrs> {
   return {};
 }
 
+/**
+ * Stellt einen gebalancten Satz Eigenschaftswerte für eine Klasse zusammen.
+ * Mindestwerte werden um +1 angehoben (komfortabel), Maximalwerte respektiert,
+ * der Rest landet bei einem soliden 11. So erfüllt der Bogen garantiert die
+ * Voraussetzungen, ohne übertrieben stark zu wirken.
+ */
+function balancedAttrsFor(cls: DsaClass): Attrs {
+  const base: Attrs = { MU: 11, KL: 11, CH: 11, FF: 11, GE: 11, IN: 11, KK: 11 };
+  if (cls.min) {
+    for (const k of Object.keys(cls.min) as Array<keyof Attrs>) {
+      const need = cls.min[k];
+      if (need !== undefined) {
+        base[k] = Math.min(13, need + 1);
+      }
+    }
+  }
+  if (cls.max) {
+    for (const k of Object.keys(cls.max) as Array<keyof Attrs>) {
+      const cap = cls.max[k];
+      if (cap !== undefined && base[k] > cap) {
+        base[k] = cap;
+      }
+    }
+  }
+  return base;
+}
+
 /** Ein Eigenschafts-Kästchen in DSA2-Optik. */
 function AttrBox({
   attr,
@@ -278,6 +305,29 @@ export function DsaCharacterCreator() {
 
   function handleReroll() {
     rollAll();
+  }
+
+  /**
+   * Direktwahl: vorgefertigter, gebalancter Charakter ohne Würfeln.
+   * Setzt Werte, LE/AE, Klasse — und springt direkt zum Unterschreiben.
+   */
+  function handlePickPremade(cid: DsaClassId) {
+    const cls = DSA_CLASSES.find((c) => c.id === cid);
+    if (!cls) return;
+    const a = balancedAttrsFor(cls);
+    setAttrs(a);
+    setLe(rollLE(a.KK));
+    setChosenClassId(cid);
+    setRollingIdx(-1);
+    setSnippy(null);
+    setRollCount(1);
+    setPhase("review");
+    // Namensvorschlag passend zur Klasse + aktuellem Geschlecht.
+    setChosenName(pickRandomName(cid, chosenGender));
+    setNameTouched(false);
+    // Direkt den Unterschreiben-Dialog öffnen, damit Spieler nur noch Name
+    // und Geschlecht festlegen muss.
+    setSigningOpen(true);
   }
 
   function handleConfirm() {
@@ -560,6 +610,26 @@ export function DsaCharacterCreator() {
                   >
                     Doch nicht
                   </button>
+                </div>
+
+                {/* Shortcut: vorgefertigter Charakter ohne Würfeln */}
+                <div className="mt-4 pt-3 border-t border-dashed border-[rgba(30,18,8,0.45)]">
+                  <p className="dsa-typed text-xs dsa-ink-faded italic mb-2">
+                    Keinen Nerv mehr? Gib mir einfach einen fertigen …
+                  </p>
+                  <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-4">
+                    {DSA_CLASSES.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => handlePickPremade(c.id)}
+                        title={c.blurb}
+                        className="dsa-typed text-xs px-2 py-1.5 text-left transition border border-[rgba(30,18,8,0.6)] dsa-ink hover:bg-[rgba(255,250,230,0.5)] cursor-pointer"
+                      >
+                        … {c.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </>
             )}
