@@ -1428,6 +1428,17 @@ export const scenes: Record<string, Scene> = {
         label: "Sektor-Tür → E71",
         onUse: (api) => api.goTo("sectorDoor"),
       },
+      {
+        id: "commonRoomDoor",
+        // Schmale Tür links neben dem Empfangstresen (unterer Bildbereich,
+        // damit es nicht mit den anderen Hotspots kollidiert).
+        x: 0,
+        y: 60,
+        w: 8,
+        h: 36,
+        label: "Tür: Gemeinschaftsraum",
+        onUse: (api) => api.goTo("commonRoomE67"),
+      },
     ],
   },
 
