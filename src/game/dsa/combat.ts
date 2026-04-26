@@ -451,6 +451,7 @@ export function resolveCombat(
       });
 
       if (!alive(target)) {
+        markIfFallen(target);
         events.push({
           kind: "downed",
           text:
@@ -465,7 +466,7 @@ export function resolveCombat(
     }
   }
 
-  const victory = !heroesAllDead() && foes.every((f) => !alive(f));
+  const victory = !anyHeroDown() && foes.every((f) => !alive(f));
   events.push({
     kind: victory ? "end-victory" : "end-defeat",
     text: victory
@@ -479,5 +480,6 @@ export function resolveCombat(
     events,
     heroLeFinal: hero.le,
     heroesFinal: heroes.map((h) => ({ id: h.id, le: h.le })),
+    fallenHeroes,
   };
 }
