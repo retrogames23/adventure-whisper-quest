@@ -43,7 +43,7 @@ type Phase =
       result: CombatResult;
     }
   | { kind: "outcome"; option: DsaOption; check: AttrCheckResult | null }
-  | { kind: "defeat" };
+  | { kind: "defeat"; fallen: { id: string; name: string }[] };
 
 export function DsaAdventureScene() {
   const {
@@ -112,7 +112,10 @@ export function DsaAdventureScene() {
     // die Story einfach weiter und es kommt zum Absturz, wenn der Held
     // bei LE 0 steht und der nächste Beat ihn lebend voraussetzt).
     if (!victory) {
-      setPhase({ kind: "defeat" });
+      setPhase({
+        kind: "defeat",
+        fallen: phase.result.fallenHeroes,
+      });
       return;
     }
     // Sieg: LE übernehmen (mind. 1, damit der Held „angeschlagen" weitergeht).
@@ -248,6 +251,7 @@ export function DsaAdventureScene() {
             />
           ) : phase.kind === "defeat" ? (
             <DefeatView
+              fallen={phase.fallen}
               wasKrieger={wasKrieger}
               onRetry={handleDefeatRetry}
               onGiveUp={handleDefeatGiveUp}
