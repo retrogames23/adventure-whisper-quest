@@ -3653,7 +3653,7 @@ export const dialogs: Record<string, DialogTree> = {
       t0: {
         id: "t0",
         speaker: "TJARK",
-        text: "Du musst Worag sein. Setz dich. Ich bin Tjark — ich leite das hier.",
+        text: "Du musst Layard sein. Setz dich. Ich bin Tjark — ich leite das hier.",
         hiddenWhen: ["dsaCharacterRolled"],
         next: "t1",
       },
@@ -3668,7 +3668,7 @@ export const dialogs: Record<string, DialogTree> = {
       tBack: {
         id: "tBack",
         speaker: "TJARK",
-        text: "Schön, dass du wieder da bist, Worag. Wir warten nur noch auf dich. Soll ich nochmal was erklären, oder sollen wir loslegen?",
+        text: "Schön, dass du wieder da bist, Layard. Wir warten nur noch auf dich. Soll ich nochmal was erklären, oder sollen wir loslegen?",
         requires: ["dsaCharacterRolled"],
         next: "tHub",
       },
@@ -3728,7 +3728,7 @@ export const dialogs: Record<string, DialogTree> = {
       tRules2: {
         id: "tRules2",
         speaker: "TJARK",
-        text: "Danach suchst du dir eine Klasse, deren Mindestwerte du erreichst. Krieger, Streuner, Magier, Elf, Zwerg, Gaukler, Thorwaler, Druide. Wenn nichts passt, wirfst du nochmal. Aber nur einmal.",
+        text: "Danach suchst du dir eine Klasse, deren Mindestwerte du erreichst. Krieger, Streuner, Magier, Elf, Zwerg, Gaukler, Thorwaler, Druide. Wenn nichts passt, wirfst du nochmal. Und nochmal, wenn du magst.",
         choices: [
           { text: "Klingt machbar.", next: "tHub", action: (api) => api.setFlag("askedTjarkAboutRules") },
         ],
