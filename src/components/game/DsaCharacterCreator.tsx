@@ -122,7 +122,7 @@ function AttrBox({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="dsa-typed text-[8px] uppercase tracking-[0.2em] dsa-ink-faded mb-0.5">
+      <div className="dsa-typed text-[8px] uppercase tracking-[0.2em] dsa-ink-faded mb-0.5 hidden sm:block truncate w-full text-center">
         {ATTR_LABEL[attr]}
       </div>
       <div
