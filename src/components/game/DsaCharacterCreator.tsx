@@ -222,14 +222,16 @@ export function DsaCharacterCreator() {
     ? DSA_CLASSES.find((c) => c.id === chosenClassId) ?? null
     : null;
 
-  // Wenn die Klasse gewechselt wird (oder zum ersten Mal eine Klasse
-  // gewählt wird) und der Spieler den Namen noch nicht selbst getippt hat,
-  // schlagen wir einen passenden Default-Namen vor.
+  // Sobald der Bogen geprüft wird, schlagen wir einen passenden
+  // Default-Namen vor (aus der Krieger-Liste, bis eine Klasse gewählt wird).
+  // Wechselt die Klasse oder das Geschlecht und der Spieler hat den Namen
+  // noch nicht selbst getippt, wird der Vorschlag aktualisiert.
   useEffect(() => {
-    if (!chosenClass) return;
+    if (phase !== "review") return;
     if (nameTouched) return;
-    setChosenName(pickRandomName(chosenClass.id, chosenGender));
-  }, [chosenClass, chosenGender, nameTouched]);
+    const cid = chosenClass?.id ?? "krieger";
+    setChosenName(pickRandomName(cid, chosenGender));
+  }, [phase, chosenClass, chosenGender, nameTouched]);
 
   const ae = useMemo(() => {
     if (!fullAttrs || !chosenClass) return null;
@@ -291,6 +293,8 @@ export function DsaCharacterCreator() {
     api.setFlag("dsaSeatedAtTable");
     if (rollCount > 1) api.setFlag("dsaCharacterRerolled");
     closeDsaCreator();
+    // Abenteuer sofort starten, sobald der Bogen unterschrieben ist.
+    api.openDsaAdventure();
   }
 
   function handleCancel() {
@@ -364,7 +368,7 @@ export function DsaCharacterCreator() {
               <span className="dsa-typed text-[9px] uppercase tracking-widest dsa-ink-faded shrink-0">
                 Name
               </span>
-              {phase === "review" && chosenClass ? (
+              {phase === "review" ? (
                 <>
                   <input
                     type="text"
@@ -379,7 +383,8 @@ export function DsaCharacterCreator() {
                   <button
                     type="button"
                     onClick={() => {
-                      setChosenName(pickRandomName(chosenClass.id, chosenGender));
+                      const cid = chosenClass?.id ?? "krieger";
+                      setChosenName(pickRandomName(cid, chosenGender));
                       setNameTouched(true);
                     }}
                     title="Zufallsname"
@@ -401,7 +406,7 @@ export function DsaCharacterCreator() {
               <span className="dsa-typed text-[9px] uppercase tracking-widest dsa-ink-faded shrink-0">
                 Geschlecht
               </span>
-              {phase === "review" && chosenClass ? (
+              {phase === "review" ? (
                 <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 pb-0.5">
                   {(["männlich", "weiblich"] as const).map((g) => (
                     <button
