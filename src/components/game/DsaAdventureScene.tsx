@@ -43,7 +43,8 @@ type Phase =
       result: CombatResult;
     }
   | { kind: "outcome"; option: DsaOption; check: AttrCheckResult | null }
-  | { kind: "defeat"; fallen: { id: string; name: string }[] };
+  | { kind: "defeat"; fallen: { id: string; name: string }[] }
+  | { kind: "outro"; victory: boolean };
 
 export function DsaAdventureScene() {
   const {
@@ -137,10 +138,13 @@ export function DsaAdventureScene() {
     if (phase.kind !== "outcome") return;
     const target = phase.option.next;
     if (target === "end") {
-      api.setFlag("dsaAdventureScene3Done");
-      api.setFlag("dsaCampaignFinished");
-      api.setDsaBeat(null);
-      closeDsaAdventure();
+      // Wir schließen NICHT direkt — sonst wirkt es wie ein Abbruch.
+      // Statt­dessen zeigen wir eine Outro-Szene am Tisch, in der Tjark
+      // das Buch zuklappt und der Spieler bewusst aufsteht.
+      // „Sieg" hier heißt: das Abenteuer wurde regulär beendet (Buch
+      // geholt oder bewusst weggegangen). Niederlage geht über die
+      // Defeat-Phase und kommt nie hier an.
+      setPhase({ kind: "outro", victory: true });
       return;
     }
     if (target === "scene2") {
@@ -170,6 +174,14 @@ export function DsaAdventureScene() {
   function handleDefeatGiveUp() {
     // Vom Tisch aufstehen — Spieler kehrt zurück, ohne Fortschritt.
     api.clearDsaCharacter();
+    api.setDsaBeat(null);
+    closeDsaAdventure();
+  }
+
+  function handleOutroLeaveTable() {
+    // Reguläres Ende: Flags setzen, Beat zurücksetzen, schließen.
+    api.setFlag("dsaAdventureScene3Done");
+    api.setFlag("dsaCampaignFinished");
     api.setDsaBeat(null);
     closeDsaAdventure();
   }
@@ -256,6 +268,8 @@ export function DsaAdventureScene() {
               onRetry={handleDefeatRetry}
               onGiveUp={handleDefeatGiveUp}
             />
+          ) : phase.kind === "outro" ? (
+            <OutroView onLeave={handleOutroLeaveTable} />
           ) : (
             <OutcomeView
               option={phase.option}
@@ -538,6 +552,39 @@ function DefeatView({
           className="inline-flex items-center gap-2 rounded border-2 border-[#2d5a1e] bg-[#2d5a1e] px-4 py-2 text-sm font-bold uppercase tracking-wider text-[#f1e6c8] shadow-[0_2px_0_rgba(0,0,0,0.35)] transition-all hover:-translate-y-px"
         >
           Neue Charaktere — noch mal!
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function OutroView({ onLeave }: { onLeave: () => void }) {
+  return (
+    <div className="space-y-5">
+      <div className="space-y-3 font-serif text-base sm:text-lg leading-relaxed dsa-ink">
+        <p>
+          Tjark schließt sein Notizbuch, schiebt die Würfel zur Mitte des
+          Tisches und lehnt sich zurück.
+        </p>
+        <p className="dsa-table-aside italic text-base">
+          „Das war's für heute, Leute. Schöne Runde."
+        </p>
+        <p>
+          Yelva nimmt die Brille ab und reibt sich die Augen. Brem grinst,
+          klopft dir auf die Schulter und sammelt die Bleistifte ein.
+        </p>
+        <p>
+          Draußen ist es längst dunkel. Der Gemeinschaftsraum riecht nach
+          kaltem Tee und altem Papier. Dein Charakterbogen liegt vor dir —
+          gut beschmiert, mit Eselsohren.
+        </p>
+      </div>
+      <div className="flex justify-end pt-2">
+        <button
+          onClick={onLeave}
+          className="inline-flex items-center gap-2 rounded border-2 border-[#3a2c1a] bg-[#fbf2d8] px-4 py-2 text-sm font-bold uppercase tracking-wider text-[#2a1f10] hover:bg-[#f1d99a] transition-all"
+        >
+          Vom Tisch aufstehen
         </button>
       </div>
     </div>
