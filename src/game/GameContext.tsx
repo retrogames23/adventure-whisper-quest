@@ -589,6 +589,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setKeypadOpen(false);
       setRadioActive(false);
       setNodeOpen(false);
+      setDsaCreatorOpen(false);
       return true;
     },
     listSaves: async (): Promise<Array<SaveSummary | null>> => {
