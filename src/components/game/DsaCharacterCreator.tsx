@@ -366,7 +366,7 @@ export function DsaCharacterCreator() {
               <span className="dsa-typed text-[9px] uppercase tracking-widest dsa-ink-faded shrink-0">
                 Name
               </span>
-              {phase === "review" && chosenClass ? (
+              {phase === "review" ? (
                 <>
                   <input
                     type="text"
@@ -381,7 +381,8 @@ export function DsaCharacterCreator() {
                   <button
                     type="button"
                     onClick={() => {
-                      setChosenName(pickRandomName(chosenClass.id, chosenGender));
+                      const cid = chosenClass?.id ?? "krieger";
+                      setChosenName(pickRandomName(cid, chosenGender));
                       setNameTouched(true);
                     }}
                     title="Zufallsname"
@@ -403,7 +404,7 @@ export function DsaCharacterCreator() {
               <span className="dsa-typed text-[9px] uppercase tracking-widest dsa-ink-faded shrink-0">
                 Geschlecht
               </span>
-              {phase === "review" && chosenClass ? (
+              {phase === "review" ? (
                 <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 pb-0.5">
                   {(["männlich", "weiblich"] as const).map((g) => (
                     <button
