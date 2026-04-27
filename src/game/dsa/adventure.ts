@@ -1296,7 +1296,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
             attrCheck: { attr: "KL" },
             outcome: {
               success: [
-                "Du nimmst das mittlere — „halb geöffnetes Auge" — heraus, vorsichtig.",
+                "Du nimmst das mittlere — ‚halb geöffnetes Auge‘ — heraus, vorsichtig.",
                 "Es ist ein Bann-Vademecum. Drei Formeln gegen Spiegelwesen, eine davon einfach genug, dass du sie heute lernst.",
                 "Du schiebst es unter die Robe. Wendelmir muss das nicht wissen.",
               ],
