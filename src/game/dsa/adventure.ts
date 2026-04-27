@@ -16,11 +16,62 @@ export type DsaRequirement =
   | DsaClassId
   | DsaClassId[];
 
+/**
+ * Flags, die Entscheidungen über Akte hinweg tragen. Werden in
+ * AdventureState.flags gehalten und steuern Sichtbarkeit von Optionen,
+ * Kampfwerte (Boni/Mali), Routing in den Epilog.
+ */
+export type AdventureFlag =
+  | "bandit_leader_alive"
+  | "bandit_killed"
+  | "bandit_friendly"
+  | "tavern_brawl_won"
+  | "tavern_brawl_lost"
+  | "haggled_high"
+  | "warrior_word"
+  | "yelva_bond"
+  | "brem_bond"
+  | "lone_wolf"
+  | "mercy_shown"
+  | "suspicion_high"
+  | "amulet_found"
+  | "rested_well"
+  | "krypt_freed"
+  | "krypt_pillaged"
+  | "warden_pacted"
+  | "library_read"
+  | "swamp_path"
+  | "mountain_path"
+  | "river_path";
+
+export interface AdventureState {
+  flags: Set<AdventureFlag>;
+  /** Zusätzliches Gold (z.B. nach Verhandlungserfolg). */
+  goldExtra: number;
+  /** LE-Bonus für nächste Kampfszene (Rast, Trank). */
+  leBonus: number;
+  /** RS-Bonus aus Hesinde-Amulett im Endkampf. */
+  rsBonus: number;
+}
+
+export function createAdventureState(): AdventureState {
+  return {
+    flags: new Set(),
+    goldExtra: 0,
+    leBonus: 0,
+    rsBonus: 0,
+  };
+}
+
 export interface DsaOption {
   id: string;
   text: string;
   /** Anforderung an Layards Klasse. Standard: jeder kann das wählen. */
   requires?: DsaRequirement;
+  /** Option nur sichtbar, wenn dieses Flag gesetzt ist. */
+  requiresFlag?: AdventureFlag;
+  /** Option nur sichtbar, wenn dieses Flag NICHT gesetzt ist. */
+  forbiddenFlag?: AdventureFlag;
   /** Optional: Eigenschafts-Probe (3W20 unter Eigenschaft). */
   attrCheck?: { attr: Attr; modifier?: number };
   /**
@@ -38,9 +89,22 @@ export interface DsaOption {
     failure?: string[];
     /** Lockerer Kommentar vom Tisch (Brem / Yelva / Tjark). */
     table?: { speaker: "BREM" | "YELVA" | "TJARK"; text: string };
+    /** Flags, die bei Erfolg gesetzt werden. */
+    setFlags?: AdventureFlag[];
+    /** Flags, die bei Misserfolg gesetzt werden (sonst wie setFlags). */
+    setFlagsOnFailure?: AdventureFlag[];
+    /** Stat-Modifikatoren bei Erfolg. */
+    grantGold?: number;
+    grantLeBonus?: number;
+    grantRsBonus?: number;
   };
   /** Nächster Beat (lokaler ID), oder Sprungmarke. */
   next: string | "scene2" | "scene3" | "end";
+  /**
+   * Falls gesetzt, überschreibt `next` bei Erfolg/Misserfolg. So kann z.B.
+   * eine misslungene Probe in einen anderen Beat führen.
+   */
+  nextOnFailure?: string | "scene2" | "scene3" | "end";
 }
 
 export interface DsaBeat {
@@ -229,6 +293,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Tjark kritzelt etwas auf seinen Block. „Drei Lebenspunkte. Halt durch, Held.“",
               ],
               table: { speaker: "YELVA", text: "Subtil." },
+              setFlags: ["bandit_killed"],
             },
             next: "s1b3",
           },
@@ -249,6 +314,8 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Es wird hässlich. Ihr verliert ein paar Silber, aber niemand stirbt.",
               ],
               table: { speaker: "BREM", text: "Sie hat den Bären-Trick gemacht. Den BÄREN-Trick." },
+              setFlags: ["bandit_friendly", "bandit_leader_alive"],
+              setFlagsOnFailure: ["bandit_leader_alive"],
             },
             next: "s1b3",
           },
@@ -269,6 +336,8 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Es wird zur Schlägerei. Ihr kommt durch, aber ihr seid zerschlagen.",
               ],
               table: { speaker: "TJARK", text: "Patzer auf der MU-Probe. Astralpunkte sind trotzdem weg." },
+              setFlags: ["bandit_leader_alive"],
+              setFlagsOnFailure: ["bandit_leader_alive"],
             },
             next: "s1b3",
           },
@@ -286,6 +355,8 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Es kommt zur Schlägerei. Ihr verliert ein paar Münzen, niemand stirbt — aber dein Stolz hat eine Beule.",
               ],
               table: { speaker: "BREM", text: "Klassiker. Funktioniert manchmal." },
+              setFlags: ["bandit_leader_alive"],
+              setFlagsOnFailure: ["bandit_leader_alive"],
             },
             next: "s1b3",
           },
@@ -299,6 +370,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Brem brummt etwas vom „verdammten Pragmatismus“, aber alle leben noch.",
               ],
               table: { speaker: "BREM", text: "Neun Silber. Neun!" },
+              setFlags: ["bandit_leader_alive"],
             },
             next: "s1b3",
           },
@@ -536,7 +608,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "TJARK", text: "Gut. Dann reisen wir morgen. Schlaft schon mal." },
             },
-            next: "scene3",
+            next: "camp1",
           },
           {
             id: "s2b3-haggle",
@@ -554,8 +626,10 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "„Dann eben jemand anderes.“ Es kostet Brem zehn Minuten Schmeicheln, ihn zurück an den Tisch zu holen — und am Ende sind es vierzig, nicht fünfzig.",
               ],
               table: { speaker: "BREM", text: "Tu es. Tu es. Tu es." },
+              setFlags: ["haggled_high"],
+              grantGold: 30,
             },
-            next: "scene3",
+            next: "camp1",
           },
           {
             id: "s2b3-info",
@@ -569,7 +643,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "TJARK", text: "Hesinde-Tempel. Nehmt das ernst." },
             },
-            next: "scene3",
+            next: "camp1",
           },
           {
             id: "s2b3-warrior-promise",
@@ -581,8 +655,10 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "„Ein Wort von einem Mann mit Klinge ist mehr wert als zehn Verträge.“ Er legt einen Beutel auf den Tisch. „Vorab. Damit ihr wisst, dass ich es ernst meine.“",
               ],
               table: { speaker: "BREM", text: "Das ist alte Schule. Ich mag das." },
+              setFlags: ["warrior_word"],
+              grantGold: 10,
             },
-            next: "scene3",
+            next: "camp1",
           },
           {
             id: "s2b3-decline",
@@ -596,6 +672,335 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Manchmal ist das richtige Ende, gar nicht erst anzufangen.",
               ],
               table: { speaker: "TJARK", text: "Auch Ablehnen ist eine Entscheidung. Da endet eure Geschichte — heute jedenfalls." },
+            },
+            next: "ending_decline",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Lager — Nacht zwischen Wirtshaus und Aufbruch
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "camp1",
+        illustration: imgForest,
+        narration: [
+          "Vor dem Wirtshaus, in einer Mulde hinter dem Stallschuppen, habt ihr das Lager aufgeschlagen.",
+          "Wendelmir schläft im Schankraum. Brem prüft sein Wurfmesser, Yelva sitzt am Feuer und liest in einem zerlesenen Hesinde-Brevier.",
+          "Es ist die Stunde, in der man redet — oder schweigt. Was tut Layard?",
+        ],
+        options: [
+          {
+            id: "camp1-yelva",
+            text: "Du setzt dich zu Yelva ans Feuer.",
+            outcome: {
+              success: [
+                "Sie schiebt das Brevier zur Seite und mustert dich lange.",
+                "„Mein Bruder ist in einer Ruine geblieben. So eine wie die da oben.“ Sie sagt es ohne Pathos. „Er hat zu spät gemerkt, dass das, was er gesucht hat, ihn schon gefunden hatte.“",
+                "„Ich erzähl dir das, damit du eine Sache weißt: morgen, wenn etwas glitzert — fass es nicht zuerst an. Lass es uns gemeinsam tun.“",
+                "Sie reicht dir ihren Trinkschlauch. Es ist Tee, kein Wein. Aber er wärmt.",
+              ],
+              table: { speaker: "TJARK", text: "Bindung mit Yelva. Plus 1 auf eine Probe später, wenn du sie brauchst." },
+              setFlags: ["yelva_bond"],
+            },
+            next: "camp2",
+          },
+          {
+            id: "camp1-brem",
+            text: "Du hockst dich neben Brem in den Schatten.",
+            outcome: {
+              success: [
+                "Brem grinst, ohne aufzusehen. „Wenn du redest, redest du. Wenn nicht, dann nicht. Mir egal.“",
+                "Lange Pause. Dann: „Ich war mal in so einer Ruine. Mit zwei anderen. Ich bin der einzige, der wieder rauskam.“",
+                "Er dreht das Wurfmesser einmal in der Hand, stößt es in den Boden. „Was ich sagen will: wenn ich morgen renne, renn mit. Frag nicht. Renn.“",
+                "Du nickst. Er klopft dir kurz aufs Knie. Das war's mit der Vertraulichkeit für heute.",
+              ],
+              table: { speaker: "YELVA", text: "Brem hat Augen im Hinterkopf. Hör auf ihn." },
+              setFlags: ["brem_bond"],
+            },
+            next: "camp2",
+          },
+          {
+            id: "camp1-alone",
+            text: "Du gehst ein Stück in den Wald, allein. Du brauchst Stille.",
+            outcome: {
+              success: [
+                "Du lehnst an eine Tanne, der Atem dampft. Über dir kreist eine Eule.",
+                "Du denkst an niemanden Bestimmtes. Vielleicht an deinen Vater, vielleicht an die Frau im Marktdorf, die dir den Talisman gegeben hat. Du weißt nicht.",
+                "Als du zurückkommst, schläft Brem schon. Yelva nickt dir zu, ohne Frage.",
+              ],
+              table: { speaker: "TJARK", text: "Einsamer Wolf. Manche Optionen werden später nicht offen sein." },
+              setFlags: ["lone_wolf"],
+            },
+            next: "camp2",
+          },
+          {
+            id: "camp1-druid-stars",
+            text: "(Druide) Du liest die Sterne und suchst Hesindes Zeichen.",
+            requires: "druide",
+            attrCheck: { attr: "IN" },
+            outcome: {
+              success: [
+                "Du legst dich auf den Rücken, blickst zwischen die Tannenwipfel.",
+                "Drei Sterne in Reihe, die ostwärts wandern — die Schlange der Hesinde. Sie zeigt nach links, weg vom geraden Weg.",
+                "Du verstehst: morgen, an der Wegkreuzung, der südliche Pfad. Auch wenn er länger ist.",
+              ],
+              failure: [
+                "Wolken ziehen auf, ehe du etwas erkennen kannst. Die Göttin schweigt heute.",
+              ],
+              table: { speaker: "TJARK", text: "Druiden-Astrologie. Selten gespielt — schön." },
+              setFlags: ["yelva_bond"],
+            },
+            next: "camp2",
+          },
+        ],
+      },
+      {
+        id: "camp2",
+        illustration: imgForest,
+        narration: [
+          "Mitternacht. Du hast die zweite Wache.",
+          "Etwas knackt im Unterholz — zu laut für ein Tier, zu leise für eine Gruppe.",
+          "Was sich aus dem Schatten löst, hängt davon ab, was vorher geschah.",
+        ],
+        options: [
+          {
+            id: "camp2-bandit",
+            text: "Ein Mann kriecht auf allen Vieren ins Lager — gebrochene Nase, blutiges Hemd. Du erkennst ihn.",
+            requiresFlag: "bandit_leader_alive",
+            attrCheck: { attr: "MU" },
+            outcome: {
+              success: [
+                "Du legst die Hand an die Klinge, aber nimmst sie nicht aus der Scheide.",
+                "„Bitte“, krächzt er. „Meine Männer haben mich liegengelassen. Ich verblute, wenn ihr nichts tut.“",
+                "Du knotest sein Hemd zu einem Druckverband. Brem brummt etwas Unfreundliches, aber hilft. Am Morgen ist der Wegelagerer fort — und auf eurem Karren liegt eine kleine Eisenmünze, die nach altem Tempelmetall schmeckt.",
+                "(Du hast das Hesinde-Amulett gefunden, ohne es zu wissen.)",
+              ],
+              failure: [
+                "Du legst die Hand an die Klinge — und ziehst sie. Brem hält dich am Arm.",
+                "„Lass ihn liegen. Wer will, der stirbt.“ Am Morgen ist der Mann tot. Yelva schaut dich lange an, sagt nichts.",
+              ],
+              table: { speaker: "BREM", text: "Gnade. Pff. Aber gut, manchmal." },
+              setFlags: ["mercy_shown", "amulet_found"],
+              setFlagsOnFailure: ["suspicion_high"],
+              grantRsBonus: 1,
+            },
+            next: "road1",
+          },
+          {
+            id: "camp2-bote",
+            text: "Ein verschwitzter Bote tritt ans Feuer. Er bringt einen Brief — von Wendelmir an einen Käufer in Punin.",
+            forbiddenFlag: "bandit_leader_alive",
+            attrCheck: { attr: "KL" },
+            outcome: {
+              success: [
+                "Du fängst den Boten ab, ehe er mit Wendelmir reden kann. Der Brief ist kurz: „Habe Träger gefunden. Wenn das Buch sicher ist, schickt das Doppelte.“",
+                "Du steckst den Brief ein. Wendelmir hat euch belogen — er will das Buch nicht hüten, er will es verkaufen.",
+                "Du lässt den Boten weiterziehen. Niemand muss wissen, dass du es weißt.",
+              ],
+              failure: [
+                "Der Bote weicht aus, schnell wie eine Eidechse. Wendelmir empfängt ihn am Hintereingang. Du siehst es nicht. Du ahnst es nur.",
+              ],
+              table: { speaker: "YELVA", text: "Geheimnisse mehren sich. Unangenehm." },
+              setFlags: ["suspicion_high"],
+              setFlagsOnFailure: ["suspicion_high"],
+            },
+            next: "road1",
+          },
+          {
+            id: "camp2-wolves",
+            text: "Ein Wolfsrudel streift an eurem Lager vorbei. Sie schauen dich an.",
+            forbiddenFlag: "bandit_leader_alive",
+            attrCheck: { attr: "MU" },
+            outcome: {
+              success: [
+                "Du bewegst dich nicht. Atmest langsam. Der Leitwolf mustert dich, dann zieht er weiter, ohne ein Geräusch.",
+                "Beim Morgenlicht findest du auf einem flachen Stein einen Hirschknochen — als hätten sie dir etwas dagelassen. Du steckst ihn ein. Glück für die Reise, sagt der Aberglaube.",
+              ],
+              failure: [
+                "Du machst einen Schritt zurück, knirschst im Laub. Der Leitwolf knurrt.",
+                "Brem ist schneller — wirft das Wurfmesser, das Rudel verschwindet. Niemand wird verletzt, aber du schläfst nicht mehr ein.",
+              ],
+              table: { speaker: "TJARK", text: "Wölfe respektieren Stille." },
+              setFlags: ["rested_well"],
+              grantLeBonus: 4,
+            },
+            next: "road1",
+          },
+          {
+            id: "camp2-uneventful",
+            text: "Es war nichts. Nur Wind. Du löscht das Feuer nieder und legst dich hin.",
+            outcome: {
+              success: [
+                "Du sitzt noch eine Weile im Halbschlaf, lauschst dem Knacken der Glut.",
+                "Die Nacht zieht ohne weiteren Vorfall vorbei. Am Morgen seid ihr ausgeruht.",
+              ],
+              table: { speaker: "BREM", text: "Manchmal ist „nichts“ das beste Ergebnis." },
+              setFlags: ["rested_well"],
+              grantLeBonus: 3,
+            },
+            next: "road1",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Anreise zur Ruine — die Wahl der Route
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "road1",
+        illustration: imgForest,
+        narration: [
+          "Im ersten Licht brecht ihr auf. Wendelmir bleibt zurück; er hat eine Karte gezeichnet, die er euch ohne ein Wort zugeschoben hat.",
+          "Drei Wege führen nach Hesindes Auge:",
+          "— der Sumpfweg ist kurz, aber tückisch.",
+          "— der Bergpfad ist sicher, aber er kostet einen halben Tag.",
+          "— der Flusslauf existiert nur für die, die ihn kennen.",
+        ],
+        options: [
+          {
+            id: "road1-swamp",
+            text: "Wir gehen durch den Sumpf. Schnelligkeit zählt.",
+            attrCheck: { attr: "IN" },
+            combat: { enemyIds: ["sumpfwurm"] },
+            outcome: {
+              success: [
+                "Du erkennst die Trittsteine zwischen den Schlieren — kleine, hellere Flecken im Schwarz.",
+                "Etwas hebt sich hinter euch aus dem Morast — ein bleicher Wurm, drei Mannslängen lang. Er greift Yelva, ihr schlagt zurück, ehe er sie einrollt.",
+                "Eine halbe Stunde später steht ihr durchnässt, aber lebendig auf festem Grund. Ihr habt Stunden gespart.",
+              ],
+              failure: [
+                "Du wählst falsch — ein Stein gibt nach, du sinkst bis zur Hüfte. Brem zieht dich raus, fluchend.",
+                "Etwas hebt sich aus dem Morast und greift an. Ihr schlagt zurück, kommt durch, aber ihr seid erschöpft.",
+              ],
+              table: { speaker: "BREM", text: "Wer Sumpf wählt, weiß, was er tut. Hoffe ich." },
+              setFlags: ["swamp_path"],
+            },
+            next: "road2",
+          },
+          {
+            id: "road1-mountain",
+            text: "Wir nehmen den Bergpfad. Sicher ist sicher.",
+            outcome: {
+              success: [
+                "Der Aufstieg ist beschwerlich, aber niemand kommt euch entgegen, niemand kreuzt euren Weg.",
+                "Als ihr am Tempelhang ankommt, ist die Sonne schon weit fortgeschritten. Die Symbole am Eingang glühen leicht — die Falle ist aktiv.",
+              ],
+              table: { speaker: "YELVA", text: "Spät. Die Falle wird wütend sein." },
+              setFlags: ["mountain_path"],
+            },
+            next: "road2",
+          },
+          {
+            id: "road1-river",
+            text: "(Druide / Elf) Den Flusslauf entlang. Ich kenne den Weg.",
+            requires: ["druide", "elf"],
+            outcome: {
+              success: [
+                "Du führst sie an einer alten Otter-Pfade entlang, dort wo der Bach unter den Felsen verschwindet.",
+                "Niemand sieht euch. Ihr kommt vor Mittag an, ausgeruht, trocken, fast vergnügt.",
+              ],
+              table: { speaker: "BREM", text: "Wenn du Wege kennst, gefällst du mir." },
+              setFlags: ["river_path", "rested_well"],
+              grantLeBonus: 3,
+            },
+            next: "road2",
+          },
+        ],
+      },
+      {
+        id: "road2",
+        illustration: imgTavernExt,
+        narration: [
+          "Bevor der Weg in den Tempelhang einmündet, taucht zwischen den Bäumen eine Köhlerhütte auf.",
+          "Halb eingestürzt, das Strohdach moosig. Die Tür hängt schief. Innen riecht es nach kaltem Rauch — und schwach nach altem Räucherwerk.",
+          "Drei Krähen sitzen auf dem First und kommentieren euch leise.",
+        ],
+        options: [
+          {
+            id: "road2-search",
+            text: "Wir gehen rein und durchsuchen die Hütte.",
+            attrCheck: { attr: "IN" },
+            outcome: {
+              success: [
+                "Hinter dem zerbrochenen Webstuhl: eine kleine Holztruhe. Innen, in einem Tuch eingeschlagen, ein Amulett — ein Auge aus Silber auf einer Bronze-Spange.",
+                "Yelva atmet hörbar ein. „Hesinde-Sigill. Echt. Im Tempel ist es mehr wert als zehn Schwerter.“",
+                "Du steckst es ein. Das Auge ist warm, obwohl die Hütte kalt ist.",
+              ],
+              failure: [
+                "Du wühlst eine Weile durch alten Plunder. Nichts Wertvolles. Nur ein Igel, der dich anfaucht.",
+              ],
+              table: { speaker: "TJARK", text: "Plus 1 RS im Endkampf, wenn ihr es findet." },
+              setFlags: ["amulet_found"],
+              grantRsBonus: 1,
+            },
+            next: "s3b1",
+          },
+          {
+            id: "road2-rest",
+            text: "Wir bleiben hier zwei Stunden — Wunden versorgen, Atem schöpfen.",
+            outcome: {
+              success: [
+                "Yelva kocht Tee aus Tannensprossen. Brem flickt eine Sehne, die er heute kaum noch hätte halten können.",
+                "Als ihr aufbrecht, spürst du keinen Druck mehr im Brustkorb. Die Müdigkeit ist nicht weg — aber sie ist leichter zu tragen.",
+              ],
+              table: { speaker: "BREM", text: "Pause. Heilig wie Bier." },
+              setFlags: ["rested_well"],
+              grantLeBonus: 5,
+            },
+            next: "s3b1",
+          },
+          {
+            id: "road2-skip",
+            text: "Wir gehen weiter. Zeit ist Zeit.",
+            outcome: {
+              success: [
+                "Du wendest dich ab. Eine der Krähen krächzt fast empört, dann fliegen alle drei auf.",
+                "Eine Stunde später erreicht ihr den Tempelhang. Die Sonne neigt sich.",
+              ],
+              table: { speaker: "YELVA", text: "Vielleicht war da was. Vielleicht nicht." },
+            },
+            next: "s3b1",
+          },
+          {
+            id: "road2-dwarf-stones",
+            text: "(Zwerg) Du klopfst das Mauerwerk ab — Köhler bauen Verstecke in Steinen.",
+            requires: "zwerg",
+            attrCheck: { attr: "FF" },
+            outcome: {
+              success: [
+                "Du tippst eine Reihe von Steinen am Kamin ab — der vierte klingt hohl. Ein Tritt, ein Krachen: dahinter ein verstaubter Beutel mit zwölf Silberlingen und einer Tinktur.",
+                "Die Tinktur riecht nach Bitterwurz. Yelva nickt: „Heilelixier. Echt.“",
+              ],
+              failure: [
+                "Du klopfst, klopfst, alles klingt gleich. Köhler waren wohl ehrlich. Oder zu klug.",
+              ],
+              table: { speaker: "BREM", text: "Stein versteht Stein. Kennen wir." },
+              grantGold: 12,
+              grantLeBonus: 3,
+            },
+            next: "s3b1",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Ende: Auftrag in Akt 2 abgelehnt
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ending_decline",
+        illustration: imgTavernExt,
+        narration: [
+          "Drei Wochen später, in einer anderen Schenke. Eine Karawane bringt Nachricht: Eine Söldnergruppe ist in Hesindes Auge verschwunden. Niemand kommt zurück.",
+          "Yelva trinkt schweigend. Brem starrt in den Krug. Du weißt nicht, ob du erleichtert sein sollst, oder beschämt.",
+          "Tjark legt das Brevier zur Seite. „Manchmal ist das die ganze Geschichte: nicht hingehen.“",
+        ],
+        options: [
+          {
+            id: "ending_decline-leave",
+            text: "Du nickst. Mehr braucht es nicht.",
+            outcome: {
+              success: [
+                "Yelva drückt dir kurz die Hand. Brem nickt einmal, knapp.",
+                "Tjark schließt das Notizbuch.",
+              ],
             },
             next: "end",
           },
@@ -636,7 +1041,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "YELVA", text: "Das war IHR Problem, sagt sie. Nicht ihres." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
           {
             id: "s3b1-magic-disarm",
@@ -654,7 +1059,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "TJARK", text: "Hesinde-Symbole. Schwierige Probe." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
           {
             id: "s3b1-warrior-charge",
@@ -672,7 +1077,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "BREM", text: "Subtil wie immer." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
           {
             id: "s3b1-dwarf-stone",
@@ -689,7 +1094,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "BREM", text: "Stein versteht Stein. Logisch." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
           {
             id: "s3b1-druid-bless",
@@ -706,7 +1111,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "TJARK", text: "Selten gesehen, aber sauber gespielt." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
           {
             id: "s3b1-go-around",
@@ -722,7 +1127,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "YELVA", text: "Manchmal ist drumherum die ganze Kunst." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
           {
             id: "s3b1-throw-stone",
@@ -734,7 +1139,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "BREM", text: "Wissenschaft. Reine Wissenschaft." },
             },
-            next: "s3b2",
+            next: "ruin_library",
           },
         ],
       },
@@ -764,7 +1169,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "TJARK", text: "Endkampf. Würfle eure MU-Probe gemeinsam." },
             },
-            next: "end",
+            next: "ending_choose",
           },
           {
             id: "s3b2-talk",
@@ -781,8 +1186,9 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Ihr kommt raus, mit dem Buch, aber Brem hinkt seitdem.",
               ],
               table: { speaker: "YELVA", text: "Das war… elegant. Ich nehme alles zurück." },
+              setFlags: ["warden_pacted"],
             },
-            next: "end",
+            next: "ending_choose",
           },
           {
             id: "s3b2-druid-ritual",
@@ -799,8 +1205,9 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Das Auge bleibt offen. Der Hüter reagiert nicht. Es kommt zum Kampf.",
               ],
               table: { speaker: "TJARK", text: "Ein sehr DSA-Moment. Schön gemacht." },
+              setFlags: ["warden_pacted"],
             },
-            next: "end",
+            next: "ending_choose",
           },
           {
             id: "s3b2-elf-song",
@@ -817,8 +1224,9 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Du singst — der Hüter starrt dich an, als wäre dein Gesang ein Hohn. Es kommt zum Kampf. Ihr siegt knapp.",
               ],
               table: { speaker: "YELVA", text: "Singen funktioniert manchmal. Wer hätte das gedacht." },
+              setFlags: ["warden_pacted"],
             },
-            next: "end",
+            next: "ending_choose",
           },
           {
             id: "s3b2-mage-banish",
@@ -835,7 +1243,7 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
               ],
               table: { speaker: "TJARK", text: "Bann-Formel auf einen Hesinde-Hüter. Mutig." },
             },
-            next: "end",
+            next: "ending_choose",
           },
           {
             id: "s3b2-leave",
@@ -847,6 +1255,246 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
                 "Wendelmir wird enttäuscht sein. Aber ihr lebt.",
               ],
               table: { speaker: "BREM", text: "Fünfzig Dukaten. FÜNFZIG." },
+            },
+            next: "ending_empty",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Bibliothek — Wissen, Hinweise auf den Hüter
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ruin_library",
+        illustration: imgRuinChamber,
+        narration: [
+          "Hinter dem Vorraum öffnet sich eine niedrige Halle. Regale, halb zerfallen, voller verrosteter Schließen.",
+          "Die meisten Bücher sind verfault — aber drei stehen aufrecht, sauber gepflegt. Auf jedem ein anderes Auge: weit, halb, geschlossen.",
+          "Auf einem Lesepult: ein Pergament, frisch gefaltet. Jemand war hier, vor euch.",
+        ],
+        options: [
+          {
+            id: "ruin_library-read",
+            text: "Wir lesen das Pergament.",
+            attrCheck: { attr: "KL" },
+            outcome: {
+              success: [
+                "Du entrollst es vorsichtig. Eine Skizze des Altarraums, daneben in eiliger Schrift: „Der Hüter ist gebunden an das Auge im Boden. Brichst du das Auge, bricht der Hüter.“",
+                "Du steckst die Notiz ein. Drei Wörter darunter sind unterstrichen: ,Vorsicht — die Krypta.‘",
+              ],
+              failure: [
+                "Du erkennst nur Bruchstücke. Etwas vom Hüter, etwas vom Auge. Ihr werdet im Altarraum improvisieren müssen.",
+              ],
+              table: { speaker: "TJARK", text: "Wer liest, lebt länger. Manchmal." },
+              setFlags: ["library_read"],
+            },
+            next: "ruin_krypta",
+          },
+          {
+            id: "ruin_library-mage",
+            text: "(Magie) Du untersuchst die drei aufrechten Bücher.",
+            requires: "magic",
+            attrCheck: { attr: "KL" },
+            outcome: {
+              success: [
+                "Du nimmst das mittlere — ‚halb geöffnetes Auge‘ — heraus, vorsichtig.",
+                "Es ist ein Bann-Vademecum. Drei Formeln gegen Spiegelwesen, eine davon einfach genug, dass du sie heute lernst.",
+                "Du schiebst es unter die Robe. Wendelmir muss das nicht wissen.",
+              ],
+              failure: [
+                "Eines der Bücher zerfällt unter deiner Hand. Staub, Asche, ein Geruch wie nach Wespen. Yelva tritt zurück.",
+              ],
+              table: { speaker: "YELVA", text: "Stiehl mit Anstand, Magier." },
+              setFlags: ["library_read"],
+              grantRsBonus: 1,
+            },
+            next: "ruin_krypta",
+          },
+          {
+            id: "ruin_library-druid",
+            text: "(Druide) Du legst die Hand auf den ältesten Regalpfosten.",
+            requires: "druide",
+            attrCheck: { attr: "IN" },
+            outcome: {
+              success: [
+                "Holz erinnert sich, wenn man fragt. Du siehst Bilder: ein Geweihter, der ein Buch bewacht, weil er es geschworen hat. Niemand hat ihn von dem Schwur entbunden.",
+                "Wenn jemand käme und es täte — würde er gehen können. Endlich.",
+              ],
+              failure: [
+                "Das Holz schweigt. Es ist hier zu lange tot.",
+              ],
+              table: { speaker: "TJARK", text: "Druiden hören Holz. Schön gespielt." },
+              setFlags: ["library_read"],
+            },
+            next: "ruin_krypta",
+          },
+          {
+            id: "ruin_library-ignore",
+            text: "Wir gehen weiter. Bücher sind für später.",
+            outcome: {
+              success: [
+                "Brem stößt mit dem Stiefel an ein verfaultes Regal. Es kippt mit einem dumpfen Krachen, das durch die Halle hallt.",
+                "Yelva zischt. „Subtil.“ Ihr geht weiter, und etwas in der Tiefe der Ruine hat euch jetzt gehört.",
+              ],
+              table: { speaker: "BREM", text: "Krach gehört zum Beruf." },
+            },
+            next: "ruin_krypta",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Krypta — moralisches Dilemma vor dem Altarraum
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ruin_krypta",
+        illustration: imgRuinChamber,
+        narration: [
+          "Eine Wendeltreppe führt hinab in eine schmale Krypta. Drei Sarkophage, einer offen.",
+          "Im offenen Sarg: ein Skelett, in zerfetzter Robe. Auf der Stirn das Sigill der Hesinde — eingebrannt, nicht gemalt.",
+          "Ihr spürt es alle: dies hier war ein Geweihter. Und etwas an ihm wartet.",
+        ],
+        options: [
+          {
+            id: "ruin_krypta-honor",
+            text: "Wir ordnen die Knochen. Schließen den Sarg. Sprechen ein Wort des Friedens.",
+            attrCheck: { attr: "IN" },
+            outcome: {
+              success: [
+                "Du legst die Schädelknochen behutsam zurecht, faltest die Hände aufeinander.",
+                "Brem flucht leise — nicht aus Verachtung, sondern weil er es selbst nicht über die Lippen bringt.",
+                "Etwas in der Krypta atmet einmal aus, langsam und tief. Dann wird es still. Wirklich still.",
+              ],
+              failure: [
+                "Du versuchst es, aber deine Hände zittern. Eine Rippe bricht. Die Stille danach fühlt sich falsch an.",
+              ],
+              table: { speaker: "TJARK", text: "Hesinde sieht so etwas. Notiert." },
+              setFlags: ["krypt_freed"],
+            },
+            next: "s3b2",
+          },
+          {
+            id: "ruin_krypta-loot",
+            text: "(Streuner / Gaukler) Der Geweihte trägt einen Goldring. Den nehmen wir.",
+            requires: ["streuner", "gaukler"],
+            attrCheck: { attr: "FF" },
+            outcome: {
+              success: [
+                "Du löst den Ring vom Knochen, als wäre er nie hier gewesen. Yelva schaut weg.",
+                "Der Ring brennt nicht — aber er ist kalt. Sehr kalt. Du steckst ihn ein.",
+              ],
+              failure: [
+                "Der Ring sitzt fest. Du musst den Finger brechen, um ihn zu bekommen. Das Geräusch wird dich heute Nacht im Schlaf besuchen.",
+              ],
+              table: { speaker: "YELVA", text: "Ich habe nichts gesehen. Aber ich habe alles gesehen." },
+              setFlags: ["krypt_pillaged"],
+              grantGold: 25,
+            },
+            next: "s3b2",
+          },
+          {
+            id: "ruin_krypta-leave",
+            text: "Wir lassen ihn in Ruhe. Schließen leise die Tür.",
+            outcome: {
+              success: [
+                "Du nickst Yelva zu, sie zieht den Sargdeckel über die Knochen, sanft wie eine Decke.",
+                "Brem grummelt etwas, aber bewegt sich vorsichtiger als vorher.",
+              ],
+              table: { speaker: "BREM", text: "Tote schlafen lassen. Verstanden." },
+            },
+            next: "s3b2",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Endung A — Buch geliefert vs. behalten
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ending_choose",
+        illustration: imgTavernInt,
+        narration: [
+          "Vor euch liegt das Buch. Schwer, in Leder gebunden, mit einem Verschluss aus Sehne und Bronze.",
+          "Yelva atmet vorsichtig. Brem schaut dich an, das Wurfmesser noch in der Hand.",
+          "Was tut ihr mit dem, was ihr habt?",
+        ],
+        options: [
+          {
+            id: "ending_choose-deliver",
+            text: "Wir bringen es zu Wendelmir, wie versprochen.",
+            outcome: {
+              success: [
+                "Du wickelst das Buch in Yelvas Decke und schließt den Mantel darüber.",
+                "Der Rückweg ist still. Niemand redet. Was ihr tragt, ist schwerer als sein Gewicht.",
+              ],
+            },
+            next: "end",
+          },
+          {
+            id: "ending_choose-betray",
+            text: "(Streuner / Gaukler) Wir verkaufen es selbst. Doppeltes Geld in Punin.",
+            requires: ["streuner", "gaukler"],
+            requiresFlag: "suspicion_high",
+            outcome: {
+              success: [
+                "Du grinst schief. „Wendelmir hat uns belogen. Wir machen jetzt unser eigenes Geschäft.“",
+                "Yelva schaut dich lange an. Dann nickt sie, einmal. Brem zuckt mit den Schultern. „Geld ist Geld.“",
+              ],
+              table: { speaker: "BREM", text: "Verrat als Karriere. Akzeptiert." },
+            },
+            next: "ending_betray",
+          },
+          {
+            id: "ending_choose-give-warden",
+            text: "Wir lassen das Buch hier. Beim Hüter, wo es hingehört.",
+            requiresFlag: "warden_pacted",
+            outcome: {
+              success: [
+                "Du legst das Buch zurück auf den Altar. Der Hüter verneigt sich, eine Geste, älter als das Reich.",
+                "Auf dem Altar erscheint ein kleiner Lederbeutel — gemünztes Tempelsilber, rein und schwer. Eure Belohnung, vom alten Bund.",
+              ],
+              table: { speaker: "TJARK", text: "Pakt-Ende. Selten gesehen." },
+              grantGold: 60,
+            },
+            next: "end",
+          },
+        ],
+      },
+      {
+        id: "ending_betray",
+        illustration: imgTavernExt,
+        narration: [
+          "Drei Wochen später, in Punin. Ein stiller Antiquar zählt euch hundertzwanzig Dukaten in die Hand.",
+          "Yelva legt ihren Anteil weg, ohne ihn zu zählen. Brem grinst, aber das Grinsen erreicht die Augen nicht.",
+          "Wendelmir wird euch suchen. Aber heute, in diesem Schankraum, seid ihr reich.",
+        ],
+        options: [
+          {
+            id: "ending_betray-end",
+            text: "Du hebst den Krug.",
+            outcome: {
+              success: [
+                "„Auf das nächste Mal“, sagt Brem. „Auf das letzte Mal“, sagt Yelva.",
+                "Du sagst nichts. Du trinkst.",
+              ],
+            },
+            next: "end",
+          },
+        ],
+      },
+      {
+        id: "ending_empty",
+        illustration: imgRuinEntrance,
+        narration: [
+          "Ihr steht draußen, atmet die kalte Nachtluft. Hinter euch fällt der Tempel ins Schweigen zurück.",
+          "Kein Buch. Aber drei Atemzüge, die nicht selbstverständlich waren.",
+        ],
+        options: [
+          {
+            id: "ending_empty-end",
+            text: "Ihr macht euch auf den Heimweg.",
+            outcome: {
+              success: [
+                "Wendelmir wird wütend sein, vielleicht wird er nicht zahlen.",
+                "Aber morgen ist auch ein Tag, an dem die Sonne aufgeht. Und das ist mehr, als drei andere Gruppen vor euch sagen können.",
+              ],
             },
             next: "end",
           },
@@ -882,6 +1530,48 @@ export function meetsRequirement(
   if (req === "noMagic") return !magic;
   if (Array.isArray(req)) return req.includes(classId);
   return req === classId;
+}
+
+/** Prüft, ob eine Option im aktuellen State sichtbar sein soll. */
+export function isOptionVisible(
+  option: DsaOption,
+  classId: DsaClassId | null,
+  magic: boolean,
+  state: AdventureState,
+): boolean {
+  if (!meetsRequirement(classId, magic, option.requires)) return false;
+  if (option.requiresFlag && !state.flags.has(option.requiresFlag)) return false;
+  if (option.forbiddenFlag && state.flags.has(option.forbiddenFlag)) return false;
+  return true;
+}
+
+/**
+ * Wählt anhand der gesammelten Flags das passende Endbild aus. Wird
+ * aufgerufen, wenn ein Beat `next: "end"` erreicht. Steuert den Outro-Text
+ * in DsaAdventureScene.
+ */
+export type EndingId =
+  | "hero_return"
+  | "hero_betray"
+  | "pact_with_warden"
+  | "decline_path"
+  | "tragic_victory"
+  | "empty_handed";
+
+export function pickEnding(
+  state: AdventureState,
+  context: { lastBeatId: string; victory: boolean },
+): EndingId {
+  // Sonderfall: Auftrag wurde bereits in Akt 2 abgelehnt.
+  if (context.lastBeatId === "ending_decline") return "decline_path";
+  // Pakt mit dem Hüter (Druide/Elf/Charisma haben den Hüter überzeugt).
+  if (state.flags.has("warden_pacted")) return "pact_with_warden";
+  // Verrat: Streuner/Gaukler haben das Buch behalten.
+  if (context.lastBeatId === "ending_betray") return "hero_betray";
+  // Sieg, aber jemand wurde im Endkampf verletzt — wir benutzen einen Flag,
+  // den der Endbeat setzt, wenn der Spieler ohne Buch zurückkommt.
+  if (context.lastBeatId === "ending_empty") return "empty_handed";
+  return "hero_return";
 }
 
 /**

@@ -127,6 +127,61 @@ export const ENEMY_STATS: Record<string, EnemyStat> = {
     intro:
       "Eine Gestalt, geformt aus euren eigenen Umrissen. Sie spricht mit Wendelmirs Stimme.",
   },
+  spiegelhueter_zornig: {
+    id: "spiegelhueter_zornig",
+    name: "Hüter des Spiegels (zornig)",
+    le: 36,
+    at: 13,
+    pa: 12,
+    tpDice: 1,
+    tpBonus: 4,
+    rs: 3,
+    iniBase: 15,
+    weapon: "Schattenklinge",
+    intro:
+      "Die Gestalt zittert vor Zorn — die Krypta ist geschändet, der Spiegel weiß es.",
+  },
+  spiegelhueter_milde: {
+    id: "spiegelhueter_milde",
+    name: "Hüter des Spiegels (versöhnlich)",
+    le: 24,
+    at: 11,
+    pa: 10,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 2,
+    iniBase: 13,
+    weapon: "Schattenklinge",
+    intro:
+      "Die Gestalt nickt euch zu, müde. Sie kämpft, weil sie muss — nicht weil sie will.",
+  },
+  sumpfwurm: {
+    id: "sumpfwurm",
+    name: "Sumpfwurm",
+    le: 18,
+    at: 10,
+    pa: 6,
+    tpDice: 1,
+    tpBonus: 2,
+    rs: 1,
+    iniBase: 8,
+    weapon: "Bisszähne",
+    intro: "Etwas Schleimiges hebt sich aus dem Morast — drei Mannslängen lang.",
+  },
+  bandit_revenant: {
+    id: "bandit_revenant",
+    name: "Wegelagerer-Anführer (zurück)",
+    le: 26,
+    at: 12,
+    pa: 10,
+    tpDice: 1,
+    tpBonus: 3,
+    rs: 2,
+    iniBase: 12,
+    weapon: "Kurzschwert (mit Hass geschliffen)",
+    intro:
+      "Du erkennst die gebrochene Nase sofort. „Ich hab dir geschworen, wir sehen uns wieder.“",
+  },
 };
 
 /** Klassen-Profile für die Spielerableitung. Exportiert, damit der
