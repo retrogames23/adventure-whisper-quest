@@ -1260,6 +1260,246 @@ export const DSA_CAMPAIGN: ReadonlyArray<DsaAct> = [
           },
         ],
       },
+      // ──────────────────────────────────────────────────────────────
+      // Bibliothek — Wissen, Hinweise auf den Hüter
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ruin_library",
+        illustration: imgRuinChamber,
+        narration: [
+          "Hinter dem Vorraum öffnet sich eine niedrige Halle. Regale, halb zerfallen, voller verrosteter Schließen.",
+          "Die meisten Bücher sind verfault — aber drei stehen aufrecht, sauber gepflegt. Auf jedem ein anderes Auge: weit, halb, geschlossen.",
+          "Auf einem Lesepult: ein Pergament, frisch gefaltet. Jemand war hier, vor euch.",
+        ],
+        options: [
+          {
+            id: "ruin_library-read",
+            text: "Wir lesen das Pergament.",
+            attrCheck: { attr: "KL" },
+            outcome: {
+              success: [
+                "Du entrollst es vorsichtig. Eine Skizze des Altarraums, daneben in eiliger Schrift: „Der Hüter ist gebunden an das Auge im Boden. Brichst du das Auge, bricht der Hüter.“",
+                "Du steckst die Notiz ein. Drei Wörter darunter sind unterstrichen: ,Vorsicht — die Krypta.‘",
+              ],
+              failure: [
+                "Du erkennst nur Bruchstücke. Etwas vom Hüter, etwas vom Auge. Ihr werdet im Altarraum improvisieren müssen.",
+              ],
+              table: { speaker: "TJARK", text: "Wer liest, lebt länger. Manchmal." },
+              setFlags: ["library_read"],
+            },
+            next: "ruin_krypta",
+          },
+          {
+            id: "ruin_library-mage",
+            text: "(Magie) Du untersuchst die drei aufrechten Bücher.",
+            requires: "magic",
+            attrCheck: { attr: "KL" },
+            outcome: {
+              success: [
+                "Du nimmst das mittlere — „halb geöffnetes Auge" — heraus, vorsichtig.",
+                "Es ist ein Bann-Vademecum. Drei Formeln gegen Spiegelwesen, eine davon einfach genug, dass du sie heute lernst.",
+                "Du schiebst es unter die Robe. Wendelmir muss das nicht wissen.",
+              ],
+              failure: [
+                "Eines der Bücher zerfällt unter deiner Hand. Staub, Asche, ein Geruch wie nach Wespen. Yelva tritt zurück.",
+              ],
+              table: { speaker: "YELVA", text: "Stiehl mit Anstand, Magier." },
+              setFlags: ["library_read"],
+              grantRsBonus: 1,
+            },
+            next: "ruin_krypta",
+          },
+          {
+            id: "ruin_library-druid",
+            text: "(Druide) Du legst die Hand auf den ältesten Regalpfosten.",
+            requires: "druide",
+            attrCheck: { attr: "IN" },
+            outcome: {
+              success: [
+                "Holz erinnert sich, wenn man fragt. Du siehst Bilder: ein Geweihter, der ein Buch bewacht, weil er es geschworen hat. Niemand hat ihn von dem Schwur entbunden.",
+                "Wenn jemand käme und es täte — würde er gehen können. Endlich.",
+              ],
+              failure: [
+                "Das Holz schweigt. Es ist hier zu lange tot.",
+              ],
+              table: { speaker: "TJARK", text: "Druiden hören Holz. Schön gespielt." },
+              setFlags: ["library_read"],
+            },
+            next: "ruin_krypta",
+          },
+          {
+            id: "ruin_library-ignore",
+            text: "Wir gehen weiter. Bücher sind für später.",
+            outcome: {
+              success: [
+                "Brem stößt mit dem Stiefel an ein verfaultes Regal. Es kippt mit einem dumpfen Krachen, das durch die Halle hallt.",
+                "Yelva zischt. „Subtil.“ Ihr geht weiter, und etwas in der Tiefe der Ruine hat euch jetzt gehört.",
+              ],
+              table: { speaker: "BREM", text: "Krach gehört zum Beruf." },
+            },
+            next: "ruin_krypta",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Krypta — moralisches Dilemma vor dem Altarraum
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ruin_krypta",
+        illustration: imgRuinChamber,
+        narration: [
+          "Eine Wendeltreppe führt hinab in eine schmale Krypta. Drei Sarkophage, einer offen.",
+          "Im offenen Sarg: ein Skelett, in zerfetzter Robe. Auf der Stirn das Sigill der Hesinde — eingebrannt, nicht gemalt.",
+          "Ihr spürt es alle: dies hier war ein Geweihter. Und etwas an ihm wartet.",
+        ],
+        options: [
+          {
+            id: "ruin_krypta-honor",
+            text: "Wir ordnen die Knochen. Schließen den Sarg. Sprechen ein Wort des Friedens.",
+            attrCheck: { attr: "IN" },
+            outcome: {
+              success: [
+                "Du legst die Schädelknochen behutsam zurecht, faltest die Hände aufeinander.",
+                "Brem flucht leise — nicht aus Verachtung, sondern weil er es selbst nicht über die Lippen bringt.",
+                "Etwas in der Krypta atmet einmal aus, langsam und tief. Dann wird es still. Wirklich still.",
+              ],
+              failure: [
+                "Du versuchst es, aber deine Hände zittern. Eine Rippe bricht. Die Stille danach fühlt sich falsch an.",
+              ],
+              table: { speaker: "TJARK", text: "Hesinde sieht so etwas. Notiert." },
+              setFlags: ["krypt_freed"],
+            },
+            next: "s3b2",
+          },
+          {
+            id: "ruin_krypta-loot",
+            text: "(Streuner / Gaukler) Der Geweihte trägt einen Goldring. Den nehmen wir.",
+            requires: ["streuner", "gaukler"],
+            attrCheck: { attr: "FF" },
+            outcome: {
+              success: [
+                "Du löst den Ring vom Knochen, als wäre er nie hier gewesen. Yelva schaut weg.",
+                "Der Ring brennt nicht — aber er ist kalt. Sehr kalt. Du steckst ihn ein.",
+              ],
+              failure: [
+                "Der Ring sitzt fest. Du musst den Finger brechen, um ihn zu bekommen. Das Geräusch wird dich heute Nacht im Schlaf besuchen.",
+              ],
+              table: { speaker: "YELVA", text: "Ich habe nichts gesehen. Aber ich habe alles gesehen." },
+              setFlags: ["krypt_pillaged"],
+              grantGold: 25,
+            },
+            next: "s3b2",
+          },
+          {
+            id: "ruin_krypta-leave",
+            text: "Wir lassen ihn in Ruhe. Schließen leise die Tür.",
+            outcome: {
+              success: [
+                "Du nickst Yelva zu, sie zieht den Sargdeckel über die Knochen, sanft wie eine Decke.",
+                "Brem grummelt etwas, aber bewegt sich vorsichtiger als vorher.",
+              ],
+              table: { speaker: "BREM", text: "Tote schlafen lassen. Verstanden." },
+            },
+            next: "s3b2",
+          },
+        ],
+      },
+      // ──────────────────────────────────────────────────────────────
+      // Endung A — Buch geliefert vs. behalten
+      // ──────────────────────────────────────────────────────────────
+      {
+        id: "ending_choose",
+        illustration: imgTavernInt,
+        narration: [
+          "Vor euch liegt das Buch. Schwer, in Leder gebunden, mit einem Verschluss aus Sehne und Bronze.",
+          "Yelva atmet vorsichtig. Brem schaut dich an, das Wurfmesser noch in der Hand.",
+          "Was tut ihr mit dem, was ihr habt?",
+        ],
+        options: [
+          {
+            id: "ending_choose-deliver",
+            text: "Wir bringen es zu Wendelmir, wie versprochen.",
+            outcome: {
+              success: [
+                "Du wickelst das Buch in Yelvas Decke und schließt den Mantel darüber.",
+                "Der Rückweg ist still. Niemand redet. Was ihr tragt, ist schwerer als sein Gewicht.",
+              ],
+            },
+            next: "end",
+          },
+          {
+            id: "ending_choose-betray",
+            text: "(Streuner / Gaukler) Wir verkaufen es selbst. Doppeltes Geld in Punin.",
+            requires: ["streuner", "gaukler"],
+            requiresFlag: "suspicion_high",
+            outcome: {
+              success: [
+                "Du grinst schief. „Wendelmir hat uns belogen. Wir machen jetzt unser eigenes Geschäft.“",
+                "Yelva schaut dich lange an. Dann nickt sie, einmal. Brem zuckt mit den Schultern. „Geld ist Geld.“",
+              ],
+              table: { speaker: "BREM", text: "Verrat als Karriere. Akzeptiert." },
+            },
+            next: "ending_betray",
+          },
+          {
+            id: "ending_choose-give-warden",
+            text: "Wir lassen das Buch hier. Beim Hüter, wo es hingehört.",
+            requiresFlag: "warden_pacted",
+            outcome: {
+              success: [
+                "Du legst das Buch zurück auf den Altar. Der Hüter verneigt sich, eine Geste, älter als das Reich.",
+                "Auf dem Altar erscheint ein kleiner Lederbeutel — gemünztes Tempelsilber, rein und schwer. Eure Belohnung, vom alten Bund.",
+              ],
+              table: { speaker: "TJARK", text: "Pakt-Ende. Selten gesehen." },
+              grantGold: 60,
+            },
+            next: "end",
+          },
+        ],
+      },
+      {
+        id: "ending_betray",
+        illustration: imgTavernExt,
+        narration: [
+          "Drei Wochen später, in Punin. Ein stiller Antiquar zählt euch hundertzwanzig Dukaten in die Hand.",
+          "Yelva legt ihren Anteil weg, ohne ihn zu zählen. Brem grinst, aber das Grinsen erreicht die Augen nicht.",
+          "Wendelmir wird euch suchen. Aber heute, in diesem Schankraum, seid ihr reich.",
+        ],
+        options: [
+          {
+            id: "ending_betray-end",
+            text: "Du hebst den Krug.",
+            outcome: {
+              success: [
+                "„Auf das nächste Mal“, sagt Brem. „Auf das letzte Mal“, sagt Yelva.",
+                "Du sagst nichts. Du trinkst.",
+              ],
+            },
+            next: "end",
+          },
+        ],
+      },
+      {
+        id: "ending_empty",
+        illustration: imgRuinEntrance,
+        narration: [
+          "Ihr steht draußen, atmet die kalte Nachtluft. Hinter euch fällt der Tempel ins Schweigen zurück.",
+          "Kein Buch. Aber drei Atemzüge, die nicht selbstverständlich waren.",
+        ],
+        options: [
+          {
+            id: "ending_empty-end",
+            text: "Ihr macht euch auf den Heimweg.",
+            outcome: {
+              success: [
+                "Wendelmir wird wütend sein, vielleicht wird er nicht zahlen.",
+                "Aber morgen ist auch ein Tag, an dem die Sonne aufgeht. Und das ist mehr, als drei andere Gruppen vor euch sagen können.",
+              ],
+            },
+            next: "end",
+          },
+        ],
+      },
     ],
   },
 ];
