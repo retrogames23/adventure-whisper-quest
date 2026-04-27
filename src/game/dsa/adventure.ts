@@ -16,11 +16,62 @@ export type DsaRequirement =
   | DsaClassId
   | DsaClassId[];
 
+/**
+ * Flags, die Entscheidungen über Akte hinweg tragen. Werden in
+ * AdventureState.flags gehalten und steuern Sichtbarkeit von Optionen,
+ * Kampfwerte (Boni/Mali), Routing in den Epilog.
+ */
+export type AdventureFlag =
+  | "bandit_leader_alive"
+  | "bandit_killed"
+  | "bandit_friendly"
+  | "tavern_brawl_won"
+  | "tavern_brawl_lost"
+  | "haggled_high"
+  | "warrior_word"
+  | "yelva_bond"
+  | "brem_bond"
+  | "lone_wolf"
+  | "mercy_shown"
+  | "suspicion_high"
+  | "amulet_found"
+  | "rested_well"
+  | "krypt_freed"
+  | "krypt_pillaged"
+  | "warden_pacted"
+  | "library_read"
+  | "swamp_path"
+  | "mountain_path"
+  | "river_path";
+
+export interface AdventureState {
+  flags: Set<AdventureFlag>;
+  /** Zusätzliches Gold (z.B. nach Verhandlungserfolg). */
+  goldExtra: number;
+  /** LE-Bonus für nächste Kampfszene (Rast, Trank). */
+  leBonus: number;
+  /** RS-Bonus aus Hesinde-Amulett im Endkampf. */
+  rsBonus: number;
+}
+
+export function createAdventureState(): AdventureState {
+  return {
+    flags: new Set(),
+    goldExtra: 0,
+    leBonus: 0,
+    rsBonus: 0,
+  };
+}
+
 export interface DsaOption {
   id: string;
   text: string;
   /** Anforderung an Layards Klasse. Standard: jeder kann das wählen. */
   requires?: DsaRequirement;
+  /** Option nur sichtbar, wenn dieses Flag gesetzt ist. */
+  requiresFlag?: AdventureFlag;
+  /** Option nur sichtbar, wenn dieses Flag NICHT gesetzt ist. */
+  forbiddenFlag?: AdventureFlag;
   /** Optional: Eigenschafts-Probe (3W20 unter Eigenschaft). */
   attrCheck?: { attr: Attr; modifier?: number };
   /**
@@ -38,9 +89,22 @@ export interface DsaOption {
     failure?: string[];
     /** Lockerer Kommentar vom Tisch (Brem / Yelva / Tjark). */
     table?: { speaker: "BREM" | "YELVA" | "TJARK"; text: string };
+    /** Flags, die bei Erfolg gesetzt werden. */
+    setFlags?: AdventureFlag[];
+    /** Flags, die bei Misserfolg gesetzt werden (sonst wie setFlags). */
+    setFlagsOnFailure?: AdventureFlag[];
+    /** Stat-Modifikatoren bei Erfolg. */
+    grantGold?: number;
+    grantLeBonus?: number;
+    grantRsBonus?: number;
   };
   /** Nächster Beat (lokaler ID), oder Sprungmarke. */
   next: string | "scene2" | "scene3" | "end";
+  /**
+   * Falls gesetzt, überschreibt `next` bei Erfolg/Misserfolg. So kann z.B.
+   * eine misslungene Probe in einen anderen Beat führen.
+   */
+  nextOnFailure?: string | "scene2" | "scene3" | "end";
 }
 
 export interface DsaBeat {
