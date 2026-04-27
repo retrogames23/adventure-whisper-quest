@@ -948,6 +948,48 @@ export function meetsRequirement(
   return req === classId;
 }
 
+/** Prüft, ob eine Option im aktuellen State sichtbar sein soll. */
+export function isOptionVisible(
+  option: DsaOption,
+  classId: DsaClassId | null,
+  magic: boolean,
+  state: AdventureState,
+): boolean {
+  if (!meetsRequirement(classId, magic, option.requires)) return false;
+  if (option.requiresFlag && !state.flags.has(option.requiresFlag)) return false;
+  if (option.forbiddenFlag && state.flags.has(option.forbiddenFlag)) return false;
+  return true;
+}
+
+/**
+ * Wählt anhand der gesammelten Flags das passende Endbild aus. Wird
+ * aufgerufen, wenn ein Beat `next: "end"` erreicht. Steuert den Outro-Text
+ * in DsaAdventureScene.
+ */
+export type EndingId =
+  | "hero_return"
+  | "hero_betray"
+  | "pact_with_warden"
+  | "decline_path"
+  | "tragic_victory"
+  | "empty_handed";
+
+export function pickEnding(
+  state: AdventureState,
+  context: { lastBeatId: string; victory: boolean },
+): EndingId {
+  // Sonderfall: Auftrag wurde bereits in Akt 2 abgelehnt.
+  if (context.lastBeatId === "ending_decline") return "decline_path";
+  // Pakt mit dem Hüter (Druide/Elf/Charisma haben den Hüter überzeugt).
+  if (state.flags.has("warden_pacted")) return "pact_with_warden";
+  // Verrat: Streuner/Gaukler haben das Buch behalten.
+  if (context.lastBeatId === "ending_betray") return "hero_betray";
+  // Sieg, aber jemand wurde im Endkampf verletzt — wir benutzen einen Flag,
+  // den der Endbeat setzt, wenn der Spieler ohne Buch zurückkommt.
+  if (context.lastBeatId === "ending_empty") return "empty_handed";
+  return "hero_return";
+}
+
 /**
  * Würfelt eine vereinfachte Eigenschaftsprobe (3W6, statt 3W20 nach DSA1/2,
  * da unsere Eigenschaften nur 8..14 sind). Erfolg, wenn die Summe der drei
