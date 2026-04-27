@@ -1,81 +1,119 @@
-## Problem
+# Episches Abenteuer: Tiefe, Verzweigungen, Konsequenzen
 
-Der Kampf wird derzeit innerhalb des Adventure-Overlays gerendert (`DsaCombatScene` als Body-Inhalt). Das aktuelle Comic-Token-Layout sitzt über der Original-Beat-Illustration und sieht überladen aus — Helden/Gegner-Kreise wirken billig, die HP-Balken überlappen mit dem Hintergrundbild, und die Szene konkurriert visuell mit der bereits gezeigten Illustration darunter.
+Aktuell: 3 kurze Akte, 7 Beats insgesamt, lineare Abfolge — fast alle Wege münden in denselben nächsten Beat. Ziel: echte Pfade, Flags mit Auswirkungen, optionale Inhalte, mehrere Enden.
 
-## Lösung
-
-Ein **eigenes Vollbild-Overlay** für den Kampf — analog zu `DsaCharacterSheet` — im gleichen Pergament-/Tafel-Stil wie das Adventure. Das Adventure-Overlay bleibt im Hintergrund pausiert sichtbar; der Kampf legt sich darüber. Sieg/Niederlage schließt das Kampf-Fenster und kehrt zur Outcome-Phase zurück.
-
-### Neues Kampf-Fenster — Aufbau
+## Neue Aktstruktur (5 Akte, ~18 Beats)
 
 ```text
-┌──── Pergament-Bogen (max-w-4xl) ─────────────────────┐
-│  KAMPF  ·  Runde 2 / max 20            [✕ schließen] │
-│ ────────────────────────────────────────────────────── │
-│                                                        │
-│   PARTEI 1                  ⚔                PARTEI 2  │
-│   ┌──────────────┐                 ┌──────────────┐    │
-│   │ 🛡  Aldred   │                 │ ⚔  Anführer  │    │
-│   │ Krieger      │   <Treffer→     │ 28/28        │    │
-│   │ ████░ 24/33  │                 │ ████ 28/28   │    │
-│   │ AT 13 PA 11  │                 │ AT 12 PA 11  │    │
-│   └──────────────┘                 └──────────────┘    │
-│                                    ┌──────────────┐    │
-│                                    │ 🏹 Armbrust  │    │
-│                                    │ ███░ 12/18   │    │
-│                                    └──────────────┘    │
-│                                                        │
-│ ─── Aktueller Wurf ─────────────────────────────────── │
-│   AT (1W20)  6 / 13   ✓ trifft                        │
-│   "Aldred trifft den Anführer mit dem Anderthalbhänder."│
-│                                                        │
-│ ─── Kampfprotokoll ──────────────────────────────────── │
-│   Runde 1 · Initiative: Aldred 17, Anführer 14...     │
-│   Aldred greift an — daneben.                          │
-│   Anführer trifft Aldred. → 4 TP                       │
-│ ────────────────────────────────────────────────────── │
-│   [ Schneller ⏩ ]              [ Sieg! Weiter → ]    │
-└────────────────────────────────────────────────────────┘
+Akt 1 — Anreise (3 Beats, bestehend, leicht erweitert)
+  s1b1 Gabelung → s1b2 Wegelagerer → s1b3 Schenke
+        ↓ Flag: bandit_leader_alive / bandit_killed / bandit_friendly
+
+Akt 2 — Wirtshaus (3 Beats, bestehend) → Lagerszene
+  s2b1 Wendelmir → s2b2 Schlägerei → s2b3 Auftrag
+        Annehmen → camp                  Ablehnen → ending_decline (neu, nicht mehr "end")
+
+Akt 2.5 — Lager (NEU, 2 Beats)
+  camp1 Gefährten-Gespräch (Wahl: Yelva ODER Brem ODER allein)
+        → setzt Flag yelva_bond / brem_bond / lone
+  camp2 Nachtwache — moralisches Dilemma (NEU)
+        Verwundeter Wegelagerer kriecht ins Lager (nur falls bandit_leader_alive)
+        ODER: Bote mit Brief vom Magister, der widersprüchlich klingt
+        → Flag mercy_shown / suspicion_high
+
+Akt 3 — Anreise zur Ruine (NEU, 2 Beats)
+  road1 Wahl der Route:
+        - Sumpfweg (schnell, Probe IN, sonst LE-Verlust)
+        - Bergpfad (sicher, kostet Zeit → Falle in Ruine bereits aktiv)
+        - Flusslauf (Klassenoption Druide/Elf, gratis)
+  road2 Optionaler Nebenpfad: verlassene Köhlerhütte (NEU)
+        → Item "Hesinde-Amulett" (Bonus auf Endkampf-Probe)
+        ODER: ausruhen → LE auffüllen
+
+Akt 4 — Ruine (4 Beats, erweitert von 2)
+  ruin1 Vorhalle/Falle (bestehend s3b1)
+  ruin2 Bibliothek (NEU) — Wissensprobe, Hinweis auf Hüter
+  ruin3 Krypta (NEU) — moralisches Dilemma: Skelett bittet um Ruhe
+        → Flag krypt_freed / krypt_pillaged
+  ruin4 Altarraum/Hüter (bestehend s3b2)
+        Hüter-Verhalten je nach krypt_freed milder/härter
+        Endkampf-Werte modifiziert durch Flags
+
+Akt 5 — Epilog (NEU, multiple Enden)
+  ending je nach Pfad:
+    - hero_return       Buch geliefert, Wendelmir zahlt
+    - hero_betray       Buch behalten / verkaufen (Streuner-Option)
+    - pact_with_warden  Hüter überzeugt → Buch bleibt, eigene Belohnung
+    - decline_path      Auftrag abgelehnt (vom alten "end")
+    - tragic            Sieg, aber Gefährte gefallen (siehe Combat)
 ```
 
-- **Im Pergament-Stil** mit `dsa-adventure-shell`, `dsa-typed`, `dsa-ink` — einheitlich mit dem Bogen.
-- **Karten** für jeden Combatant statt Tokens auf einem Bild: dicker Pergament-Rahmen, Name, Klasse/Waffe, fette LE-Zahl, LE-Balken, AT/PA/RS.
-- **Mittelspur** mit Pfeil/Treffer-Symbol, der zwischen Angreifer und Verteidiger zeigt — ohne überlagernde Comic-Effekte.
-- **Karten "wackeln" leicht** beim Treffer, getroffene Karte bekommt kurzen roten Schein, Karte des Angreifers schiebt sich minimal in die Mitte. Subtile Animationen, keine Emoji-Explosionen.
-- **Würfel-Panel** unter den Karten zeigt die zuletzt gefallenen Würfel groß mit Ziel-Wert und Erfolg/Misserfolg-Farbe.
-- **Log** wie bisher, aber im Pergament-Stil (dunkle Tinte auf gealtertem Papier, nicht schwarz auf weiß).
+## Flag-System (neu)
 
-### Technische Umsetzung
+In `src/game/dsa/adventure.ts` neuer Typ:
 
-1. **Neue Komponente** `src/components/game/DsaCombatOverlay.tsx`:
-   - Vollbild-Backdrop wie `DsaCharacterSheet` (`fixed inset-0 z-[55]`), eigene Karte mit `dsa-adventure-shell`.
-   - Empfängt `hero`, `foes`, `result`, `onDone`. Spielt die `CombatEvent`-Liste zeitversetzt ab (wie bisher).
-   - Eigene `CombatantCard`-Subkomponente mit Pergament-Look (`dsa-box-thick`, `font-display`-Zahlen).
-   - Mittelteil: SVG-Pfeil/Klingen-Symbol vom aktiven Angreifer zum Ziel.
-   - Header zeigt aktuelle Runde und Gesamtrunden.
+```ts
+export type AdventureFlag =
+  | "bandit_leader_alive" | "bandit_killed"   | "bandit_friendly"
+  | "tavern_brawl_won"   | "tavern_brawl_lost"
+  | "haggled_high"       | "warrior_word"
+  | "yelva_bond"         | "brem_bond"        | "lone_wolf"
+  | "mercy_shown"        | "suspicion_high"
+  | "amulet_found"       | "rested_well"
+  | "krypt_freed"        | "krypt_pillaged"
+  | "warden_pacted";
 
-2. **`DsaAdventureScene` umbauen**:
-   - Beim `combat`-Phase **nicht** mehr im Body rendern. Stattdessen weiterhin die `narration` des Beats anzeigen (statisch eingefroren), und parallel das Kampf-Overlay öffnen.
-   - Beim `onDone` Overlay schließt sich, wir wechseln in `outcome`-Phase wie gehabt.
+export interface AdventureState {
+  flags: Set<AdventureFlag>;
+  goldExtra: number;       // Verhandlungserfolg
+  leBonus: number;         // Rastbonus für nächsten Kampf
+  hesindeAmuletAktiv: boolean;
+}
+```
 
-3. **`DsaCombatScene.tsx`** wird durch das neue Overlay ersetzt — alte Datei löschen.
+`DsaOption.outcome` bekommt optional:
+- `setFlags?: AdventureFlag[]` — beim Wählen gesetzt
+- `requiresFlag?: AdventureFlag` — Option nur sichtbar mit Flag
+- `forbiddenFlag?: AdventureFlag` — Option versteckt mit Flag
 
-4. **Animations-Klassen** in `src/styles.css` ergänzen:
-   - `@keyframes dsa-shake` (kleines Wackeln bei Treffer).
-   - `@keyframes dsa-lunge-right` / `dsa-lunge-left` (Karte stößt nach vorn).
-   - `.dsa-combat-card` Basis-Stil, `.dsa-combat-arrow` für die Mittelspur.
+`combat.enemyIds` bleibt, aber neuer Helfer baut Gegner aus Flags auf (z.B. Endkampf -1 LE-Bonus pro `krypt_freed`, +RS bei `amulet_found`).
 
-5. **Layout-Detail**: Bei mehreren Gegnern Karten gestapelt (max 3 sichtbar, Scroll bei mehr). Tote Gegner werden ausgegraut + durchgestrichen, bleiben aber als „Leichen-Karte" stehen.
+## Anpassungen in `DsaAdventureScene.tsx`
 
-### Was bleibt unverändert
+- `useState<AdventureState>` mit `flags: new Set()` neben `phase`.
+- Beim Wählen einer Option: `setFlags` einsammeln vor `setPhase`.
+- `meetsRequirement()` wird erweitert um Flag-Check.
+- `handleAdvance()`: bei `next === "end"` nicht direkt Outro, sondern Routing in Epilog-Beat passend zu Flags (`pickEnding(state)`).
+- `OutroView` zeigt verschiedene Schlussbilder/Texte je nach Endung.
+- Combat-Loader liest `state.leBonus` und `state.hesindeAmuletAktiv` und passt Helden-Werte an.
 
-- Kampf-Engine `combat.ts` (Würfellogik, Events).
-- Verbindung in `DsaAdventureScene` (Aufruf, LE-Übernahme, Outcome-Wechsel).
-- Bogen-Toggle-Button im Header bleibt sichtbar — auch während des Kampfes nutzbar.
+## Inhaltliche Tiefe (was wirklich neu geschrieben wird)
 
-## Dateien
+Pro neuem Beat ~5–7 Optionen, davon mindestens 3 Klassen-/Magie-/Flag-spezifisch, jeweils mit eigenem Erfolgs-/Misserfolgstext und Tisch-Kommentar von Brem/Yelva/Tjark. Geschätzt ~600–800 Zeilen neuer Erzähltext. Der vorhandene Stil (Tjarks Lesetext, Brem-Sarkasmus, Yelva trocken) wird konsequent beibehalten.
 
-- **Neu**: `src/components/game/DsaCombatOverlay.tsx`
-- **Geändert**: `src/components/game/DsaAdventureScene.tsx` (combat-Phase rendert Overlay statt inline)
-- **Geändert**: `src/styles.css` (3 Keyframes + Combat-Card-Styles)
-- **Gelöscht**: `src/components/game/DsaCombatScene.tsx`
+Beispiele für moralische Dilemmata:
+- **Lager-Nachtwache**: Verletzter Wegelagerer um Gnade — heilen (Flag `mercy_shown`, später dankbar im Epilog) / töten (Brem grummelt) / fortjagen.
+- **Krypta**: Skelett mit ehrenvollem Sigill bittet wortlos um Ruhe — Knochen ordnen (Hüter milder), Goldring nehmen (Hüter wütender), unberührt lassen (neutral).
+- **Magister-Brief im Lager**: Hinweis, dass Wendelmir das Buch verkaufen wird, statt es zu hüten — beeinflusst spätere Verrat-Option im Endakt.
+
+## Bilder
+
+Bestehende 6 Bilder reichen für die meisten neuen Beats (Wald → Lager/Straße/Hütte; Tavern interior → Lagerfeuer-Notlösung; Ruin entrance → Bibliothek/Krypta). Neu zu generierende Bilder: keine zwingend (Text-First-Ansatz). Falls gewünscht, kann später nachgelegt werden — vermerkbar.
+
+## Reihenfolge der Implementierung
+
+1. `adventure.ts`: Flag-Typen, `AdventureState`, erweiterte Option-Felder, `pickEnding()`.
+2. `DsaAdventureScene.tsx`: State um Flags erweitern, Routing-Logik, Combat-Modifikatoren.
+3. Neue Beats schreiben: `camp1`, `camp2`, `road1`, `road2`, `ruin2`, `ruin3` plus 4 Epilog-Beats.
+4. Bestehende Beats anpassen (s1b2/s1b3/s2b3/s3b1/s3b2: `setFlags` einbauen, Endkampf liest Flags).
+5. UI-Hinweise: kleines Icon/Tooltip wenn Option durch Flag freigeschaltet (z.B. "(weil ihr ihn verschont habt)").
+6. Schnelltest aller Pfade (mehrere Klassen).
+
+## Was sich für den Spieler ändert
+
+Statt ~10 Min linearem Klick-Through bekommt der Spieler eine ~25–35 Min Sitzung mit:
+- 5 echten Hauptpfaden zum Ende
+- Klassenwahl beeinflusst nicht nur Probetexte sondern auch Routenwahl
+- Companion-Bindung verändert Epilog-Text
+- Frühe Entscheidungen tauchen spät wieder auf (Wegelagerer, Krypta, Magister-Misstrauen)
+- Items/Boni machen Endkampf mechanisch beeinflussbar
