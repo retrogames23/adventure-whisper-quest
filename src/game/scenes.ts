@@ -220,6 +220,16 @@ export const scenes: Record<string, Scene> = {
         label: "Philippe",
         requires: ["paramedicsArrived"],
         onUse: (api) => {
+          // Höchste Priorität: Layard hat die B3-Ration für Philippe und
+          // hat sie noch nicht übergeben.
+          if (
+            api.hasItem("b3Ration") &&
+            !api.hasFlag("gaveB3ToPhilippe")
+          ) {
+            api.setFlag("gaveB3ToPhilippe");
+            api.startDialog("philippeReceivesB3");
+            return;
+          }
           if (api.hasFlag("ending")) {
             api.startDialog("philippeSmalltalk");
           } else if (!api.hasFlag("talkedPhilippeAfter")) {
@@ -231,6 +241,16 @@ export const scenes: Record<string, Scene> = {
             } else {
               api.startDialog("philippeAfterEarly");
             }
+          } else if (
+            // Vollmacht-Bitte: nach erstem Zurückkommen, sobald Layard
+            // weiß, dass auf Etage 3 etwas zu holen ist (sawEmptyOffice
+            // → er war oben). Einmalig.
+            api.hasFlag("sawEmptyOffice") &&
+            !api.hasFlag("philippeAskedFavor") &&
+            !api.hasFlag("ending")
+          ) {
+            api.setFlag("philippeAskedFavor");
+            api.startDialog("philippeAsksFavor");
           } else if (api.hasFlag("protocolReceived")) {
             // Tür ist versiegelt → Philippe beginnt Layard auszufragen.
             // Fünf Sondierungs-Dialoge in fester Reihenfolge.
