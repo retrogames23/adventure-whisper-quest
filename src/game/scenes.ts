@@ -2082,10 +2082,10 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "brustSpot",
-        x: 58,
-        y: 30,
+        x: 70,
+        y: 36,
         w: 14,
-        h: 56,
+        h: 50,
         label: "Herr Brust",
         onUse: (api) => {
           if (!api.hasFlag("metBrust")) {
