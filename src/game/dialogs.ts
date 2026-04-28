@@ -3845,4 +3845,515 @@ export const dialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ───────────────────────────────────────────────────────────
+  // Kantine 3602 — Vollmachts-Rätsel (Akt I, Erweiterung)
+  // ───────────────────────────────────────────────────────────
+
+  // Philippe bittet Layard, B3 mitzubringen, und gibt eine Vollmacht.
+  philippeAsksFavor: {
+    id: "philippeAsksFavor",
+    start: "pf1",
+    lines: {
+      pf1: {
+        id: "pf1",
+        speaker: "PHILIPPE",
+        text: "Worag — Sie waren oben? Etage 3? Dann sind Sie sicher auch durch den Korridor 36 gekommen.",
+        next: "pf2",
+      },
+      pf2: {
+        id: "pf2",
+        speaker: "LAYARD",
+        text: "Ja. Tür 3601 — leer. 3602 hat Geruch. Was war das?",
+        next: "pf3",
+      },
+      pf3: {
+        id: "pf3",
+        speaker: "PHILIPPE",
+        text: "Die Kantine. — Hören Sie. Ich frage Sie nicht gern, aber ich frage Sie.",
+        subtext:
+          "Er sieht eine Sekunde länger zur Wand 2615 als zu Layard.",
+        next: "pf4",
+      },
+      pf4: {
+        id: "pf4",
+        speaker: "PHILIPPE",
+        text: "Würden Sie meine B3 mitnehmen, wenn Sie das nächste Mal runter müssen? Ich bin … nicht mehr ganz sicher, ob ich heute durch die Kantine komme.",
+        next: "pf5",
+      },
+      pf5: {
+        id: "pf5",
+        speaker: "PHILIPPE",
+        text: "Hier — meine Vollmacht. Vier-Drei-Eins-Sieben. Steht alles drauf. Geben Sie das einfach Frau Kowalk oder dem jüngeren Kollegen.",
+        choices: [
+          {
+            text: "Klar. Ich nehme sie mit.",
+            next: "pfAccept",
+          },
+          {
+            text: "Ich versuche es. Versprechen tue ich nichts.",
+            next: "pfMaybe",
+          },
+          {
+            text: "Lassen Sie. Heute nicht, Philippe.",
+            next: "pfDecline",
+          },
+        ],
+      },
+      pfAccept: {
+        id: "pfAccept",
+        speaker: "PHILIPPE",
+        text: "Danke. Wirklich. Ich revanchiere mich, wenn Sie zurück sind.",
+        choices: [
+          {
+            text: "[ Vollmacht einstecken ]",
+            action: (api) => {
+              api.setFlag("gotB3Authorization");
+              api.addItem({
+                id: "b3Authorization",
+                name: "Vollmacht 4317 — B3-Ausgabe",
+                description:
+                  "Pinkes Carbon-Formular auf das Layards Nachbar Philippe Marteau vier Ziffern und seine Unterschrift gesetzt hat: 4317. Daneben das Trockensiegel »BEWOHNERVERTRETUNG E67 / SCHICHT A«. Berechtigt zur einmaligen Abholung einer B3-Ration in der Kantine 3602.",
+              });
+            },
+          },
+        ],
+      },
+      pfMaybe: {
+        id: "pfMaybe",
+        speaker: "PHILIPPE",
+        text: "Versuchen reicht. Mehr verlange ich nicht.",
+        choices: [
+          {
+            text: "[ Vollmacht einstecken ]",
+            action: (api) => {
+              api.setFlag("gotB3Authorization");
+              api.addItem({
+                id: "b3Authorization",
+                name: "Vollmacht 4317 — B3-Ausgabe",
+                description:
+                  "Pinkes Carbon-Formular, Philippe Marteaus Hand, Code 4317. Trockensiegel »BEWOHNERVERTRETUNG E67 / SCHICHT A«. Einmalige B3-Ausgabe.",
+              });
+            },
+          },
+        ],
+      },
+      pfDecline: {
+        id: "pfDecline",
+        speaker: "PHILIPPE",
+        text: "… verstanden.",
+        subtext:
+          "Er nickt nicht. Er steckt die Vollmacht zurück, sehr sorgfältig.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => api.setFlag("refusedB3Favor"),
+          },
+        ],
+      },
+    },
+  },
+
+  // Philippe bekommt seine B3.
+  philippeReceivesB3: {
+    id: "philippeReceivesB3",
+    start: "pr1",
+    lines: {
+      pr1: {
+        id: "pr1",
+        speaker: "PHILIPPE",
+        text: "Sie haben es wirklich getan. — Setzen Sie sich kurz, Worag.",
+        next: "pr2",
+      },
+      pr2: {
+        id: "pr2",
+        speaker: "LAYARD",
+        text: "Brust hat erst nicht. Kowalk dann doch.",
+        next: "pr3",
+      },
+      pr3: {
+        id: "pr3",
+        speaker: "PHILIPPE",
+        text: "Frau Kowalk, ja. Sie kennt mich noch von früher. — Ich habe etwas für Sie. Behalten Sie es. Sehen Sie es sich an, wenn niemand zuschaut.",
+        next: "pr4",
+      },
+      pr4: {
+        id: "pr4",
+        speaker: "SYSTEM",
+        text: "[ Philippe schiebt einen vierfach gefalteten Bogen über den Tisch. Kopfbalken: rotes Kreuz. Im Briefkopf: »PROTOKOLL — KORRIDOR 26 / WOHNUNG 2615 / ÜBERFÜHRUNG«. ]",
+        next: "pr5",
+      },
+      pr5: {
+        id: "pr5",
+        speaker: "LAYARD",
+        text: "Wo haben Sie den her?",
+        next: "pr6",
+      },
+      pr6: {
+        id: "pr6",
+        speaker: "PHILIPPE",
+        text: "Den Sanitätern fällt manchmal Papier aus der Tasche. Ich hebe es dann auf. Reine Ordnung.",
+        subtext: "Er meint kein Wort davon.",
+        next: "pr7",
+      },
+      pr7: {
+        id: "pr7",
+        speaker: "PHILIPPE",
+        text: "Da steht nicht alles drauf, was passiert ist. Aber genug, dass jemand wie Sie weiß, dass nicht alles draufsteht.",
+        choices: [
+          {
+            text: "[ Bericht annehmen ]",
+            action: (api) => {
+              api.setFlag("gotParamedicsReport");
+              api.addItem({
+                id: "paramedicsReport",
+                name: "Sanitäter-Bericht 2615",
+                description:
+                  "Vierfach gefaltetes Formblatt der Sanitäter, Stempel »ÜBERFÜHRUNG STILL — RESONANZ«. Patient: keine Namen, nur eine Bewohnernummer. Befund: »wach, nicht reaktiv«. Maßnahme: »Kategorie B / Typ 3«. Vom Zielort steht nichts.",
+              });
+            },
+          },
+        ],
+      },
+    },
+  },
+
+  // ── Kowalk-Dialogbaum ─────────────────────────────────────
+  cafeteriaKowalk: {
+    id: "cafeteriaKowalk",
+    start: "k0",
+    lines: {
+      k0: {
+        id: "k0",
+        speaker: "KOWALK",
+        text: "Worag, E67, 2611. — Steht in der Liste. Was brauchen Sie?",
+        subtext:
+          "Sie hat die Liste nicht angesehen. Sie kennt die Leute auf E67.",
+        choices: [
+          {
+            text: "Ich habe eine Vollmacht. Vier-Drei-Eins-Sieben.",
+            next: "kAuth1",
+            requires: ["gotB3Authorization"],
+            hiddenWhen: ["gotB3Ration"],
+          },
+          {
+            text: "Ich wollte mich nur umsehen.",
+            next: "kSmall1",
+          },
+          {
+            text: "Sie streiten ständig über die Hygieneordnung.",
+            next: "kHyg1",
+          },
+          {
+            text: "Ihre Tochter — Sie haben sie vorhin erwähnt.",
+            next: "kDaughter1",
+            requires: ["metPhilippe"],
+            hiddenWhen: ["kowalkToldHerDaughter"],
+          },
+          {
+            text: "[ Beenden ]",
+            next: "kBye",
+          },
+        ],
+      },
+      kSmall1: {
+        id: "kSmall1",
+        speaker: "KOWALK",
+        text: "Umsehen ist nicht verboten. Mitnehmen schon.",
+        next: "k0",
+      },
+      kHyg1: {
+        id: "kHyg1",
+        speaker: "KOWALK",
+        text: "Brust ist neu. Brust glaubt, was im neuesten Aushang steht. Ich halte mich an das, was funktioniert. Manchmal überschneidet sich das. Manchmal nicht.",
+        next: "kHyg2",
+      },
+      kHyg2: {
+        id: "kHyg2",
+        speaker: "KOWALK",
+        text: "Wir streiten nicht über Hygiene, Worag. Wir streiten darüber, wer nachher schuld ist.",
+        next: "k0",
+      },
+      kDaughter1: {
+        id: "kDaughter1",
+        speaker: "KOWALK",
+        text: "Tilla. Ja. War zwei Jahre bei Resonanz-Hygiene. Ist letztes Frühjahr ohne Erklärung gegangen.",
+        next: "kDaughter2",
+      },
+      kDaughter2: {
+        id: "kDaughter2",
+        speaker: "KOWALK",
+        text: "Sie isst seitdem keine B2. Nur noch B3. Sagt, sie braucht was, das schmeckt. Klingt blöd, ich weiß.",
+        next: "kDaughter3",
+      },
+      kDaughter3: {
+        id: "kDaughter3",
+        speaker: "KOWALK",
+        text: "Vergessen Sie das wieder, ja? Ich rede sonst nicht über sowas.",
+        choices: [
+          {
+            text: "Verstanden.",
+            action: (api) => api.setFlag("kowalkToldHerDaughter"),
+            next: "k0",
+          },
+        ],
+      },
+      // Vollmacht-Pfad ──────────────────────────────────────
+      kAuth1: {
+        id: "kAuth1",
+        speaker: "KOWALK",
+        text: "4317. Marteau, Philippe. — Brust, was sagst du?",
+        next: "kAuth2",
+      },
+      kAuth2: {
+        id: "kAuth2",
+        speaker: "BRUST",
+        text: "Vollmacht 4317 ist von Schicht A gegengezeichnet. Heute ist Schicht B. Ich kann das nicht freigeben.",
+        next: "kAuth3",
+      },
+      kAuth3: {
+        id: "kAuth3",
+        speaker: "KOWALK",
+        text: "Brust.",
+        next: "kAuth4",
+      },
+      kAuth4: {
+        id: "kAuth4",
+        speaker: "BRUST",
+        text: "Es steht im Aushang.",
+        next: "kAuth5",
+      },
+      kAuth5: {
+        id: "kAuth5",
+        speaker: "KOWALK",
+        text: "Welcher.",
+        subtext: "Es ist keine Frage.",
+        next: "kAuth6",
+      },
+      kAuth6: {
+        id: "kAuth6",
+        speaker: "KOWALK",
+        text: "Worag. Ich brauche etwas, das ich Brust hinhalten kann. Sonst gibt’s das nicht.",
+        choices: [
+          {
+            // Lösungsweg A — Vertrauen via Ausweis + Philippe-Hinweis
+            text: "[ Bewohner-Ausweis zeigen ] Philippe sieht seit gestern schlecht aus. Ich gehe für ihn.",
+            requires: ["metPhilippe"],
+            hiddenWhen: ["brustOutruled"],
+            next: "kSideA1",
+          },
+          {
+            // Lösungsweg B — die alte Hygieneordnung
+            text: "[ E67-Handbuch zeigen ] Hier — Hygieneordnung 1991, wörtlich. Aushang sieben Punkt eins.",
+            requires: ["readHandbook"],
+            next: "kSideB1",
+          },
+          {
+            text: "Vergessen Sie’s. Komme später wieder.",
+            next: "kAuthLater",
+          },
+        ],
+      },
+      // Lösungsweg A — Kowalk handelt unter der Theke
+      kSideA1: {
+        id: "kSideA1",
+        speaker: "KOWALK",
+        text: "Marteau. — Marteau wohnt neben der Klopfwand. Ich weiß.",
+        next: "kSideA2",
+      },
+      kSideA2: {
+        id: "kSideA2",
+        speaker: "KOWALK",
+        text: "Brust, mach mir die Liste fertig für E70. Ich übergebe Worag noch einen Restposten aus dem Vortag.",
+        next: "kSideA3",
+      },
+      kSideA3: {
+        id: "kSideA3",
+        speaker: "BRUST",
+        text: "Restposten sind im Inventur—",
+        next: "kSideA4",
+      },
+      kSideA4: {
+        id: "kSideA4",
+        speaker: "KOWALK",
+        text: "E70-Liste. Brust.",
+        subtext: "Brust geht. Sehr gerade.",
+        next: "kSideA5",
+      },
+      kSideA5: {
+        id: "kSideA5",
+        speaker: "KOWALK",
+        text: "Hier. Eine Dose. Sie haben sie nie gesehen, und ich habe sie nie gegeben. Bringen Sie die hoch und öffnen Sie sie nicht im Korridor.",
+        choices: [
+          {
+            text: "[ Dose annehmen ]",
+            action: (api) => {
+              api.setFlag("kowalkSidedWithLayard");
+              api.setFlag("gotB3Ration");
+              api.addItem({
+                id: "b3Ration",
+                name: "B3-Ration",
+                description:
+                  "Eine grau-amber lackierte Konservendose, Etikett »B3 — KOMPENSATIONSRATION«. Auf der Bodenseite mit Bleistift gekritzelt: »Marteau«. Frau Kowalk hat sie unter der Theke hervorgeholt, ohne dass Brust es sah.",
+              });
+            },
+            next: "kSideA6",
+          },
+        ],
+      },
+      kSideA6: {
+        id: "kSideA6",
+        speaker: "KOWALK",
+        text: "Und Worag — wenn Sie Marteau sehen: ich frage nicht, was er hat. Aber sagen Sie ihm, er soll runterkommen, wenn’s wieder geht. Tilla hat auch immer gesagt, sie kann nicht. Bis sie nicht mehr konnte.",
+        choices: [{ text: "[ Beenden ]", next: "kBye" }],
+      },
+      // Lösungsweg B — Brust kapituliert vor seiner eigenen Logik
+      kSideB1: {
+        id: "kSideB1",
+        speaker: "BRUST",
+        text: "Das … das ist die alte Ausgabe. Die ist offiziell …",
+        next: "kSideB2",
+      },
+      kSideB2: {
+        id: "kSideB2",
+        speaker: "BRUST",
+        text: "… nicht widerrufen. Korrekt. Punkt sieben Eins ist nicht widerrufen. Nur überlagert.",
+        next: "kSideB3",
+      },
+      kSideB3: {
+        id: "kSideB3",
+        speaker: "KOWALK",
+        text: "Überlagert ist nicht widerrufen, Brust.",
+        next: "kSideB4",
+      },
+      kSideB4: {
+        id: "kSideB4",
+        speaker: "BRUST",
+        text: "Bei gegengezeichneten Vollmachten greift im Zweifel der jeweils ältere Aushang, sofern er nicht ausdrücklich—",
+        next: "kSideB5",
+      },
+      kSideB5: {
+        id: "kSideB5",
+        speaker: "KOWALK",
+        text: "— widerrufen wurde. Genau. — Brust, geben Sie ihm die B3.",
+        next: "kSideB6",
+      },
+      kSideB6: {
+        id: "kSideB6",
+        speaker: "BRUST",
+        text: "Bitte … bitte nehmen Sie die Ration. Quittung am Pneumatikrohr links abgeben. Danke.",
+        subtext: "Er sieht Layard nicht an.",
+        choices: [
+          {
+            text: "[ Dose annehmen ]",
+            action: (api) => {
+              api.setFlag("brustOutruled");
+              api.setFlag("gotB3Ration");
+              api.addItem({
+                id: "b3Ration",
+                name: "B3-Ration",
+                description:
+                  "Eine grau-amber lackierte Konservendose, Etikett »B3 — KOMPENSATIONSRATION«. Brust hat sie freigegeben, weil sein eigenes Regelwerk ihn dazu zwang. Er hat dabei nicht aufgeschaut.",
+              });
+            },
+            next: "kBye",
+          },
+        ],
+      },
+      kAuthLater: {
+        id: "kAuthLater",
+        speaker: "KOWALK",
+        text: "Tun Sie das. Aber heute Abend ist Schichtwechsel.",
+        next: "k0",
+      },
+      kBye: {
+        id: "kBye",
+        speaker: "KOWALK",
+        text: "Bis dann, Worag.",
+        end: true,
+      },
+    },
+  },
+
+  // ── Brust-Dialogbaum ──────────────────────────────────────
+  cafeteriaBrust: {
+    id: "cafeteriaBrust",
+    start: "b0",
+    lines: {
+      b0: {
+        id: "b0",
+        speaker: "BRUST",
+        text: "Bewohner Worag. Identität gegengezeichnet. Anliegen?",
+        subtext: "Er notiert die Frage, bevor sie beantwortet ist.",
+        choices: [
+          {
+            text: "Ich habe eine Vollmacht. 4317.",
+            next: "bAuth1",
+            requires: ["gotB3Authorization"],
+            hiddenWhen: ["gotB3Ration"],
+          },
+          {
+            text: "Welcher Aushang gilt jetzt eigentlich?",
+            next: "bHyg1",
+          },
+          {
+            text: "Wofür ist das Pneumatikrohr?",
+            next: "bTube1",
+          },
+          {
+            text: "[ Beenden ]",
+            next: "bBye",
+          },
+        ],
+      },
+      bAuth1: {
+        id: "bAuth1",
+        speaker: "BRUST",
+        text: "4317 — Marteau. Schicht A gegengezeichnet. Heute Schicht B. Aushang vier Punkt zwei.",
+        next: "bAuth2",
+      },
+      bAuth2: {
+        id: "bAuth2",
+        speaker: "BRUST",
+        text: "Ich kann das nicht freigeben. Bitte mit Frau Kowalk weiterreden.",
+        choices: [
+          {
+            text: "Verstanden.",
+            next: "b0",
+          },
+        ],
+      },
+      bHyg1: {
+        id: "bHyg1",
+        speaker: "BRUST",
+        text: "Aushang vier Punkt zwei vom 14. März 1996. Eindeutig. Frau Kowalk verweist auf Aushang sieben Punkt eins, von 91. Der ist überschrieben.",
+        next: "bHyg2",
+      },
+      bHyg2: {
+        id: "bHyg2",
+        speaker: "BRUST",
+        text: "Bei mehrfacher Überlagerung gilt der jüngere, sofern der ältere ausdrücklich widerrufen wurde. Das Wort »widerrufen« kommt im neuen Aushang nicht vor. Das ist … unschön.",
+        subtext: "Das ist das erste Mal, dass er die Stimme leiser macht.",
+        next: "b0",
+      },
+      bTube1: {
+        id: "bTube1",
+        speaker: "BRUST",
+        text: "Pneumatik nach E70. Quittungen, Schichtprotokolle, Anträge. Eingehende Sendungen sehr selten.",
+        next: "bTube2",
+      },
+      bTube2: {
+        id: "bTube2",
+        speaker: "BRUST",
+        text: "Heute morgen drei Sendungen ausgegangen. Eingehend: keine. Das Licht oben blinkt seit gestern. Frau Kowalk sagt, das blinkt manchmal einfach.",
+        next: "b0",
+      },
+      bBye: {
+        id: "bBye",
+        speaker: "BRUST",
+        text: "Auf Wiedersehen, Bewohner Worag.",
+        end: true,
+      },
+    },
+  },
 };

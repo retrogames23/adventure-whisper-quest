@@ -21,6 +21,9 @@ import room1532Bg from "@/assets/scene-room-1532.jpg";
 import miraSprite from "@/assets/npc-mira.png";
 import philippeSprite from "@/assets/npc-philippe.png";
 import commonRoomBg from "@/assets/scene-common-room.jpg";
+import cafeteriaBg from "@/assets/scene-cafeteria-e67.jpg";
+import kowalkSprite from "@/assets/npc-kowalk.png";
+import brustSprite from "@/assets/npc-brust.png";
 import type { Scene } from "./types";
 
 export const scenes: Record<string, Scene> = {
@@ -217,6 +220,16 @@ export const scenes: Record<string, Scene> = {
         label: "Philippe",
         requires: ["paramedicsArrived"],
         onUse: (api) => {
+          // Höchste Priorität: Layard hat die B3-Ration für Philippe und
+          // hat sie noch nicht übergeben.
+          if (
+            api.hasItem("b3Ration") &&
+            !api.hasFlag("gaveB3ToPhilippe")
+          ) {
+            api.setFlag("gaveB3ToPhilippe");
+            api.startDialog("philippeReceivesB3");
+            return;
+          }
           if (api.hasFlag("ending")) {
             api.startDialog("philippeSmalltalk");
           } else if (!api.hasFlag("talkedPhilippeAfter")) {
@@ -228,6 +241,16 @@ export const scenes: Record<string, Scene> = {
             } else {
               api.startDialog("philippeAfterEarly");
             }
+          } else if (
+            // Vollmacht-Bitte: nach erstem Zurückkommen, sobald Layard
+            // weiß, dass auf Etage 3 etwas zu holen ist (sawEmptyOffice
+            // → er war oben). Einmalig.
+            api.hasFlag("sawEmptyOffice") &&
+            !api.hasFlag("philippeAskedFavor") &&
+            !api.hasFlag("ending")
+          ) {
+            api.setFlag("philippeAskedFavor");
+            api.startDialog("philippeAsksFavor");
           } else if (api.hasFlag("protocolReceived")) {
             // Tür ist versiegelt → Philippe beginnt Layard auszufragen.
             // Fünf Sondierungs-Dialoge in fester Reihenfolge.
@@ -1493,9 +1516,9 @@ export const scenes: Record<string, Scene> = {
   corridor36: {
     id: "corridor36",
     background: corridor36Bg,
-    title: "Korridor 36 — Verwaltung E67",
+    title: "Korridor 36 — Verwaltung und Versorgung",
     intro:
-      "Andere Beleuchtung als zuhause. Sterilere Türen. Vor einer davon — 3601 — ein handgeschriebenes Schild.",
+      "Andere Beleuchtung als zuhause. Sterilere Türen. Vor einer davon — 3601 — ein handgeschriebenes Schild. Aus 3602 zieht warm und ranzig ein Geruch nach Mensa-Pampe und Bohnerwachs.",
     npcs: [
       {
         id: "miraSprite36",
@@ -1542,6 +1565,15 @@ export const scenes: Record<string, Scene> = {
           api.setFlag("sawEmptyOffice");
           api.startDialog("emptyOfficeSign");
         },
+      },
+      {
+        id: "cafeteriaDoor",
+        x: 1,
+        y: 30,
+        w: 14,
+        h: 54,
+        label: "Tür 3602 — Kantine E67",
+        onUse: (api) => api.goTo("cafeteriaE67"),
       },
       {
         id: "officeBell",
@@ -2020,6 +2052,128 @@ export const scenes: Record<string, Scene> = {
         h: 100,
         label: "Zurück in die Lobby",
         onUse: (api) => api.goTo("floor1Lobby"),
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Kantine 3602 — Nährstoffausgabe E67
+  // Zwei Mitarbeiter:innen hinter der Theke (Kowalk & Brust),
+  // wechselseitiges Hintergrund-Geplauder (FloatingChatter "cafeteria").
+  // ───────────────────────────────────────────────────────────
+  cafeteriaE67: {
+    id: "cafeteriaE67",
+    background: cafeteriaBg,
+    title: "Kantine 3602 — Nährstoffausgabe E67",
+    intro:
+      "Hinter der Theke zwei Kittel. Auf dem Boden ein Streifen, der einmal weiß war, jetzt eine Spur Anstellen markiert. Im Rohr über dem Tresen blinkt rot ein Licht, das niemand quittiert.",
+    npcs: [
+      {
+        id: "kowalkSprite",
+        src: kowalkSprite,
+        x: 22,
+        y: 30,
+        w: 14,
+        h: 56,
+        alt: "Frau Kowalk hinter der Ausgabetheke",
+      },
+      {
+        id: "brustSprite",
+        src: brustSprite,
+        x: 58,
+        y: 30,
+        w: 14,
+        h: 56,
+        alt: "Herr Brust hinter der Ausgabetheke",
+      },
+    ],
+    hotspots: [
+      {
+        id: "kowalkSpot",
+        x: 22,
+        y: 30,
+        w: 14,
+        h: 56,
+        label: "Frau Kowalk",
+        onUse: (api) => {
+          if (!api.hasFlag("metKowalk")) {
+            api.setFlag("metKowalk");
+          }
+          api.startDialog("cafeteriaKowalk");
+        },
+      },
+      {
+        id: "brustSpot",
+        x: 58,
+        y: 30,
+        w: 14,
+        h: 56,
+        label: "Herr Brust",
+        onUse: (api) => {
+          if (!api.hasFlag("metBrust")) {
+            api.setFlag("metBrust");
+          }
+          api.startDialog("cafeteriaBrust");
+        },
+      },
+      {
+        id: "cafeteriaCounter",
+        x: 36,
+        y: 56,
+        w: 22,
+        h: 16,
+        label: "Ausgabetheke",
+        onUse: (api) =>
+          api.showText([
+            "Ein gestempeltes Schild auf dem Tresen:",
+            "„AUSGABE NUR MIT BEWOHNER-AUSWEIS ODER GEGENGEZEICHNETER VOLLMACHT.“",
+            "Daneben ein zweites Schild, gelber:",
+            "„AUSNAHMEN AUF KULANZ — Schicht B / Frau Kowalk.“",
+          ]),
+      },
+      {
+        id: "cafeteriaPneumaticTube",
+        x: 38,
+        y: 14,
+        w: 14,
+        h: 18,
+        label: "Pneumatik-Rohrpost",
+        onUse: (api) =>
+          api.showText(
+            api.hasFlag("radioTunedTo1046")
+              ? [
+                  "Messing, blank gewienert. Das Licht oben blinkt rot.",
+                  "(SCHMERZ-RADIO: Hinter der Klappe atmet etwas, wie ein Mensch, der vergessen hat, wie das geht.)",
+                ]
+              : [
+                  "Messing, blank gewienert. Das Licht oben blinkt rot.",
+                  "Niemand schaut hin. Vielleicht blinkt es schon eine Weile.",
+                ],
+          ),
+      },
+      {
+        id: "cafeteriaPosters",
+        x: 60,
+        y: 28,
+        w: 18,
+        h: 24,
+        label: "Hygiene-Aushänge",
+        onUse: (api) =>
+          api.showText([
+            "Zwei Aushänge, übereinander getackert.",
+            "Oben, neu, von 1996: »Handschuhe bei jeder Ausgabe — ausnahmslos.«",
+            "Darunter, von 1991, vergilbt: »Handschuhe nur bei flüssigen Rationen — sonst Geschmacksstörung.«",
+            "Beide tragen das gleiche Siegel der Leitstelle.",
+          ]),
+      },
+      {
+        id: "back36FromCafeteria",
+        x: 86,
+        y: 70,
+        w: 12,
+        h: 28,
+        label: "Zurück in den Korridor",
+        onUse: (api) => api.goTo("corridor36"),
       },
     ],
   },

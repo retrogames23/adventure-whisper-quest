@@ -21,7 +21,9 @@ type Speaker =
   | "OKWU"
   | "TJARK"
   | "BREM"
-  | "YELVA";
+  | "YELVA"
+  | "KOWALK"
+  | "BRUST";
 
 
 interface VoiceProfile {
@@ -147,6 +149,20 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
     voiceId: "XB0fDUnXU5powFXDhCwa",
     speed: 1.0,
     settings: { stability: 0.55, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true },
+  },
+  // Kantine 3602 — zwei Mitarbeiter:innen.
+  KOWALK: {
+    // Sarah — reife, warme Frauenstimme; pragmatisch, leicht müde.
+    voiceId: "EXAVITQu4vr4xnSDxMaL",
+    speed: 0.95,
+    settings: { stability: 0.55, similarity_boost: 0.85, style: 0.2, use_speaker_boost: true },
+  },
+  BRUST: {
+    // Callum — schmal, korrekt, etwas nervös. Bewusst anders als
+    // Layards Daniel — höher und gespannter.
+    voiceId: "N2lVS1w4EtoT3dr4eOWO",
+    speed: 1.05,
+    settings: { stability: 0.45, similarity_boost: 0.8, style: 0.3, use_speaker_boost: true },
   },
 };
 
