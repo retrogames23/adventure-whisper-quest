@@ -24,7 +24,9 @@ export type InventoryItemId =
   | "tuningCrystal"
   | "mikaelLetter"
   | "flyer"
-  | "wartungsnotiz5610";
+  | "wartungsnotiz5610"
+  | "residentId"
+  | "e67Handbook";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
@@ -181,7 +183,13 @@ export type StoryFlag =
   | "askedTjarkAboutDsa"
   | "askedTjarkAboutGroup"
   | "askedTjarkAboutRules"
-  | "askedTjarkAboutPlan";
+  | "askedTjarkAboutPlan"
+  // E67-Handbuch & Bewohner-Ausweis (Akt I, Start-Items)
+  | "readHandbook"
+  | "examinedResidentId"
+  // Lobby-Schleuse (Tagesmodus): Bewohner-Ausweis + 4-stelliger Code
+  | "lobbyClearedDay"
+  | "insaLobbyEscalated";
 
 export interface InventoryItem {
   id: InventoryItemId;
@@ -380,7 +388,7 @@ export interface GameApi {
  * Aktuell nur die Sektor-Tür E67/E71 (8-stellig). Tür 5610 öffnet
  * über Wartungs-Override bzw. Wartungskarte ohne Keypad.
  */
-export type KeypadTarget = "sectorDoor";
+export type KeypadTarget = "sectorDoor" | "lobbyDay";
 
 /** Snapshot des im Gemeinschaftsraum gespielten DSA-Helden. */
 export interface DsaCharacterSummary {

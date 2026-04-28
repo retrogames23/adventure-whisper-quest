@@ -217,6 +217,55 @@ function WartungsnotizIcon() {
   );
 }
 
+/** E67-Bewohner-Ausweis — kleine Plastikkarte mit Lichtbild und Magnetstreifen. */
+function ResidentIdIcon() {
+  return (
+    <>
+      {/* Karte */}
+      <rect x="2" y="6" width="20" height="13" fill={ICON_DK} />
+      <rect x="3" y="7" width="18" height="11" fill={ICON_HI} />
+      {/* Lichtbild */}
+      <rect x="4" y="9" width="6" height="7" fill={ICON_DK} />
+      <rect x="5" y="10" width="4" height="3" fill={ICON_FG} />
+      <rect x="6" y="13" width="2" height="3" fill={ICON_FG} />
+      {/* Textzeilen */}
+      <rect x="11" y="9" width="9" height="1" fill={ICON_BG} />
+      <rect x="11" y="11" width="7" height="1" fill={ICON_BG} opacity="0.8" />
+      <rect x="11" y="13" width="6" height="1" fill={ICON_BG} opacity="0.6" />
+      {/* Magnetstreifen unten */}
+      <rect x="2" y="19" width="20" height="2" fill={ICON_BG} />
+    </>
+  );
+}
+
+/** E67-Handbuch — geheftete Broschüre mit Stempel. */
+function E67HandbookIcon() {
+  return (
+    <>
+      {/* Buchrücken-Schatten */}
+      <rect x="4" y="3" width="16" height="18" fill={ICON_DK} />
+      {/* Cover */}
+      <rect x="5" y="4" width="14" height="16" fill={ICON_FG} />
+      {/* Heft-Klammern */}
+      <rect x="5" y="7" width="2" height="1" fill={ICON_BG} />
+      <rect x="5" y="16" width="2" height="1" fill={ICON_BG} />
+      {/* Titelbalken */}
+      <rect x="8" y="6" width="9" height="2" fill={ICON_BG} />
+      {/* Quadrant-Code */}
+      <rect x="8" y="10" width="3" height="1" fill={ICON_BG} />
+      <rect x="12" y="10" width="2" height="1" fill={ICON_BG} />
+      <rect x="15" y="10" width="2" height="1" fill={ICON_BG} />
+      {/* Stempel (rund, schief) */}
+      <rect x="9" y="13" width="6" height="1" fill={ICON_DK} />
+      <rect x="8" y="14" width="8" height="1" fill={ICON_DK} />
+      <rect x="9" y="15" width="6" height="1" fill={ICON_DK} />
+      {/* Eselsohr unten rechts */}
+      <rect x="17" y="18" width="2" height="2" fill={ICON_HI} />
+      <rect x="18" y="17" width="1" height="1" fill={ICON_HI} />
+    </>
+  );
+}
+
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
   exitCode: ExitCodeIcon,
@@ -225,6 +274,8 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   mikaelLetter: MikaelLetterIcon,
   flyer: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
+  residentId: ResidentIdIcon,
+  e67Handbook: E67HandbookIcon,
 };
 
 export function ItemIcon({ id, className, size = 24, title }: Props) {
