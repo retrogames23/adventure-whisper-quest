@@ -943,7 +943,7 @@ export const dialogs: Record<string, DialogTree> = {
       pl4: {
         id: "pl4",
         speaker: "PHILIPPE",
-        text: "Ich … bin viel unterwegs. Wenn ich zu lange in der Wohnung bin, höre ich Dinge. Aus der Nachbarwand.",
+        text: "Ich … musste kurz raus. Wenn ich zu lange in der Wohnung bin, höre ich Dinge. Aus der Nachbarwand.",
         subtext: "Er sagt das so, wie man Wetterprognosen sagt.",
         next: "pl5",
       },
@@ -3576,12 +3576,17 @@ export const dialogs: Record<string, DialogTree> = {
     start: "ic1",
     onEnd: (api) => {
       api.setFlag("insaCallbackBurnDone");
-      // Nach dem burn-Anruf hat Insa den Code übergeben. Damit Layard
-      // sofort zur Sektor-Tür gehen und den Code eintippen kann, müssen
-      // die Tür-Gating-Flags (sonst über das Telefon-Insa2-Geflecht
-      // gesetzt) hier nachgezogen werden — sonst ist burn ein Dead End.
-      api.setFlag("calledInsa2");
-      api.setFlag("calledForCode");
+      // Nach dem burn-Anruf hat Insa den Code NUR DANN übergeben, wenn
+      // Layard vorher beim Abschnittsverantwortlichen war (sawEmptyOffice).
+      // Sonst weiß er gar nicht, wohin mit dem Protokoll — und Insa
+      // kann ihm den Code nicht „einfach so“ geben. In dem Fall setzen
+      // wir die Flags nicht; Layard muss erst zum leeren Büro gehen
+      // und dann über das normale Telefon-Geflecht (insa2a → insa2)
+      // den Code anfordern.
+      if (api.hasFlag("sawEmptyOffice")) {
+        api.setFlag("calledInsa2");
+        api.setFlag("calledForCode");
+      }
     },
     lines: {
       ic1: {
@@ -3628,12 +3633,33 @@ export const dialogs: Record<string, DialogTree> = {
         id: "ic5",
         speaker: "INSA",
         text: "Der Code für die Sektor-Tür liegt in Ihrem Terminal. Datum, ohne Punkte. Sie wissen, wie. Kommen Sie trotzdem rüber, Worag. Es ist heute kein guter Tag, allein zu bleiben.",
+        requires: ["sawEmptyOffice"],
+        next: "ic5b",
+      },
+      // Variante, wenn Layard noch gar nicht beim Abschnittsverantwortlichen
+      // war: Insa kann ihm keinen Code geben — er weiß ja nicht einmal,
+      // wohin er das Protokoll bringen soll. Sie schickt ihn erst dorthin.
+      // ic5 ist dann durch `requires` versteckt; resolveVisible springt
+      // entlang `next` weiter zu ic5b.
+      ic5b: {
+        id: "ic5b",
+        speaker: "INSA",
+        text: "Sie haben heute noch nicht einmal an Tür 3601 geklopft, oder? — Gehen Sie zuerst dort vorbei, Worag. Zum Abschnittsverantwortlichen E67. Ich kann Ihnen keinen Code geben für eine Tür, von der Sie nicht wissen, warum Sie sie aufmachen.",
+        hiddenWhen: ["sawEmptyOffice"],
+        next: "ic5bOk",
+      },
+      ic5bOk: {
+        id: "ic5bOk",
+        speaker: "LAYARD",
+        text: "Tür 3601. Verstanden.",
+        hiddenWhen: ["sawEmptyOffice"],
         next: "ic6",
       },
       ic6: {
         id: "ic6",
         speaker: "SYSTEM",
         text: "[ Im Terminal liegt eine Nachricht der Leitstelle. Datum: 06.11.1997. Acht Ziffern, ohne Punkte. ]",
+        requires: ["sawEmptyOffice"],
         end: true,
       },
     },
