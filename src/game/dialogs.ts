@@ -3634,7 +3634,7 @@ export const dialogs: Record<string, DialogTree> = {
         speaker: "INSA",
         text: "Der Code für die Sektor-Tür liegt in Ihrem Terminal. Datum, ohne Punkte. Sie wissen, wie. Kommen Sie trotzdem rüber, Worag. Es ist heute kein guter Tag, allein zu bleiben.",
         requires: ["sawEmptyOffice"],
-        next: "ic6",
+        next: "ic5b",
       },
       // Variante, wenn Layard noch gar nicht beim Abschnittsverantwortlichen
       // war: Insa kann ihm keinen Code geben — er weiß ja nicht einmal,
