@@ -24,20 +24,31 @@ export function TextOverlay() {
   const current = textOverlay[idx];
   const isLast = idx >= textOverlay.length - 1;
 
+  const advance = () => {
+    if (isLast) closeText();
+    else setIdx((i) => i + 1);
+  };
+
   return (
     <div
-      className="absolute inset-0 z-40 flex items-end justify-center bg-black/60 px-6 pb-24 text-left"
+      className="absolute inset-0 z-40 flex cursor-pointer items-end justify-center bg-black/60 px-6 pb-24 text-left"
+      onClick={advance}
+      role="button"
+      tabIndex={-1}
     >
       <CloseButton
-        onClick={closeText}
+        onClick={(e) => {
+          e.stopPropagation();
+          closeText();
+        }}
         label="Schließen"
         className="absolute right-4 top-4 z-10"
       />
       <button
         type="button"
-        onClick={() => {
-          if (isLast) closeText();
-          else setIdx((i) => i + 1);
+        onClick={(e) => {
+          e.stopPropagation();
+          advance();
         }}
         className="fade-in max-w-3xl cursor-pointer rounded-sm border border-amber-glow/40 bg-background/95 px-6 py-5 text-left shadow-[0_0_40px_rgba(0,0,0,0.6)]"
         aria-label="Weiter"
