@@ -2065,33 +2065,13 @@ export const scenes: Record<string, Scene> = {
     title: "Kantine 3602 — Nährstoffausgabe E67",
     intro:
       "Hinter der Theke zwei Kittel. Auf dem Boden ein Streifen, der einmal weiß war, jetzt eine Spur Anstellen markiert. Im Rohr über dem Tresen blinkt rot ein Licht, das niemand quittiert.",
-    npcs: [
-      {
-        id: "kowalkSprite",
-        src: kowalkSprite,
-        x: 22,
-        y: 30,
-        w: 14,
-        h: 56,
-        alt: "Frau Kowalk hinter der Ausgabetheke",
-      },
-      {
-        id: "brustSprite",
-        src: brustSprite,
-        x: 58,
-        y: 30,
-        w: 14,
-        h: 56,
-        alt: "Herr Brust hinter der Ausgabetheke",
-      },
-    ],
     hotspots: [
       {
         id: "kowalkSpot",
-        x: 22,
-        y: 30,
+        x: 19,
+        y: 46,
         w: 14,
-        h: 56,
+        h: 50,
         label: "Frau Kowalk",
         onUse: (api) => {
           if (!api.hasFlag("metKowalk")) {
