@@ -91,14 +91,18 @@ export function DialogOverlay() {
           }
         }}
       >
-        <CloseButton
-          onClick={() => {
-            stopSpeech();
-            closeDialog();
-          }}
-          label="Dialog schließen"
+        <span
           className="absolute right-3 top-3"
-        />
+          onClick={(e) => e.stopPropagation()}
+        >
+          <CloseButton
+            onClick={() => {
+              stopSpeech();
+              closeDialog();
+            }}
+            label="Dialog schließen"
+          />
+        </span>
         <div className="mb-2 flex items-center justify-between">
           <span
             className={`font-mono-crt text-sm uppercase tracking-[0.3em] ${
