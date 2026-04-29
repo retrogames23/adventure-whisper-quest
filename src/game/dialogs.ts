@@ -32,6 +32,7 @@ export const dialogs: Record<string, DialogTree> = {
   philippeAtDoor: {
     id: "philippeAtDoor",
     start: "p0",
+    npcId: "philippe",
     onEnd: (api) => {
       api.goTo("apt2613");
     },
