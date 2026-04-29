@@ -15,7 +15,8 @@ import type { ChatMsg } from "@/llm/runtime";
 import { createCloudRuntime } from "@/llm/cloudLlmRuntime";
 import type { LlmRuntime } from "@/llm/runtime";
 import { CloseButton } from "./CloseButton";
-import { Loader2 } from "lucide-react";
+import { Loader2, Bug } from "lucide-react";
+import { useDevMode, useLlmModeOverride } from "@/dev/devMode";
 
 interface UiMsg {
   role: "user" | "assistant";
@@ -115,6 +116,9 @@ function FreeChatInner({
   const persona = getPersona(npcId)!;
   const { runtime, status } = useLlmRuntime(npcId);
   const cloudFallbackRef = useRef<LlmRuntime | null>(null);
+  const devMode = useDevMode();
+  const [llmModeOverride, setLlmModeOverride] = useLlmModeOverride();
+  const [debugOpen, setDebugOpen] = useState(false);
 
   const [messages, setMessages] = useState<UiMsg[]>([]);
   const [input, setInput] = useState("");
@@ -136,6 +140,11 @@ function FreeChatInner({
       playedDialogIds: persona.staticDialogIds.filter(() => true),
     });
   }, [persona, game.scene, game.resonance, game.flags]);
+
+  const fewshotPreview = useMemo(
+    () => getFewshotMetaDeflection(persona),
+    [persona],
+  );
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -253,11 +262,89 @@ function FreeChatInner({
                 Geduld: {patience.remaining}/{PATIENCE_MAX}
               </span>
             )}
+            {devMode && (
+              <button
+                type="button"
+                onClick={() => setDebugOpen((v) => !v)}
+                className={`flex items-center gap-1 rounded-sm border px-2 py-1 text-xs uppercase tracking-widest transition ${
+                  debugOpen
+                    ? "border-phosphor/60 bg-phosphor/10 text-phosphor"
+                    : "border-phosphor/30 text-phosphor/80 hover:bg-phosphor/5"
+                }`}
+                title="Debug-Panel umschalten (nur Dev-Mode)"
+              >
+                <Bug className="h-3 w-3" />
+                Debug
+              </button>
+            )}
           </div>
           <span className="absolute right-3 top-3">
             <CloseButton onClick={onClose} label="Free-Chat schließen" />
           </span>
         </div>
+
+        {/* Debug-Panel — nur Dev-Mode */}
+        {devMode && debugOpen && (
+          <div className="border-b border-phosphor/30 bg-phosphor/5 px-4 py-3 text-foreground">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <span className="font-mono-crt text-xs uppercase tracking-widest text-phosphor">
+                LLM-Modus:
+              </span>
+              {(["auto", "local", "cloud"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setLlmModeOverride(m)}
+                  className={`rounded-sm border px-2 py-1 font-mono-crt text-xs uppercase tracking-widest transition ${
+                    llmModeOverride === m
+                      ? "border-phosphor bg-phosphor/20 text-phosphor"
+                      : "border-phosphor/30 text-phosphor/70 hover:bg-phosphor/10"
+                  }`}
+                >
+                  {m === "auto" ? "Auto" : m === "local" ? "Lokal erzwingen" : "Cloud erzwingen"}
+                </button>
+              ))}
+              <span className="ml-auto font-mono-crt text-[10px] uppercase tracking-widest text-muted-foreground">
+                Aktiv: {status.kind} {status.ready ? "✓" : "…"}
+              </span>
+            </div>
+            <p className="mb-2 font-mono-crt text-[10px] uppercase tracking-widest text-muted-foreground">
+              Mode-Wechsel: Dialog kurz schließen & neu öffnen, damit Runtime greift.
+            </p>
+
+            <details className="mb-2" open>
+              <summary className="cursor-pointer font-mono-crt text-xs uppercase tracking-widest text-phosphor">
+                System-Prompt ({systemPrompt.length} Zeichen)
+              </summary>
+              <pre className="mt-2 max-h-64 overflow-auto whitespace-pre-wrap rounded-sm border border-phosphor/20 bg-background/80 p-2 font-mono-crt text-[11px] leading-relaxed text-foreground">
+                {systemPrompt}
+              </pre>
+              <button
+                type="button"
+                onClick={() => {
+                  void navigator.clipboard?.writeText(systemPrompt);
+                }}
+                className="mt-1 rounded-sm border border-phosphor/30 px-2 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-phosphor hover:bg-phosphor/10"
+              >
+                Kopieren
+              </button>
+            </details>
+
+            <details>
+              <summary className="cursor-pointer font-mono-crt text-xs uppercase tracking-widest text-phosphor">
+                Few-Shot-Beispiele ({fewshotPreview.length})
+              </summary>
+              <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-sm border border-phosphor/20 bg-background/80 p-2 font-mono-crt text-[11px] leading-relaxed text-foreground">
+                {fewshotPreview
+                  .map(
+                    (ex, i) =>
+                      `# Beispiel ${i + 1}\nUSER: ${ex.user}\nASSISTANT: ${ex.assistant}`,
+                  )
+                  .join("\n\n")}
+              </pre>
+            </details>
+          </div>
+        )}
 
         {/* Transcript */}
         <div
