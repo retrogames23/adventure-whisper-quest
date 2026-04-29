@@ -189,7 +189,7 @@ export function resolveMira(parts: string[]): FsNode | null {
   let node: FsNode = FILESYSTEM_MIRA;
   for (const p of parts) {
     if (node.type !== "dir") return null;
-    const next = node.children.find((c) => c.name === p);
+    const next: FsNode | undefined = node.children.find((c) => c.name === p);
     if (!next) return null;
     node = next;
   }
