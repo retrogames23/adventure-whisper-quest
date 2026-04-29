@@ -590,6 +590,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     radioOpen,
     terminalOpen,
     terminalBodoMode,
+    terminalMiraMode,
     keypadOpen,
     tvOpen,
     keypadTarget,
