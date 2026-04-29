@@ -522,7 +522,18 @@ export const scenes: Record<string, Scene> = {
         label: "Lotti (Katze)",
         kind: "talk",
         onUse: (api) => {
-          if (api.hasFlag("knowsLotti")) {
+          if (
+            api.hasFlag("noticedTransferCode") &&
+            !api.hasFlag("tookPencilStub")
+          ) {
+            api.showText([
+              "Lotti hat etwas zwischen den Vorderpfoten — etwas Kurzes,",
+              "Spitzes, Holziges. Ein Bleistiftstummel, drei Zentimeter.",
+              "Sie schiebt ihn unauffällig in Layards Richtung. Sie weiß,",
+              "dass er etwas zu schreiben — oder zu reiben — hat.",
+              "[ Nachsehen kannst du auf dem Tisch links neben Bodos Terminal. ]",
+            ]);
+          } else if (api.hasFlag("knowsLotti")) {
             api.showText([
               "Lotti rollt sich enger ein und blinzelt Layard zu.",
               "Sie hat 14 Jahre Mensch gesehen. Sie hat eine Meinung.",
