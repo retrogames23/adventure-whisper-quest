@@ -17,6 +17,12 @@ import {
   FREIHEIT_TXT,
   LAYARD_TXT,
 } from "@/game/filesystemBodo";
+import {
+  FILESYSTEM_MIRA,
+  HOME_PATH_MIRA,
+  resolveMira,
+  pathStringMira,
+} from "@/game/filesystemMira";
 import type { StoryFlag } from "@/game/types";
 import {
   adventureCommand,
@@ -1051,6 +1057,7 @@ export function Terminal() {
     api,
     knowledge,
     terminalBodoMode,
+    terminalMiraMode,
   } = useGame();
   const { sfxVolume } = useSettings();
   const [lines, setLines] = useState<Line[]>([]);
@@ -1091,21 +1098,52 @@ export function Terminal() {
   const localBodoMode = terminalBodoMode;
   // „Effektiver" Modus = welche Maschine wir gerade bedienen. Während
   // einer vollwertigen Telnet-Sitzung kann das ein anderer Host sein.
-  const bodoMode = remoteMode ? remoteMode === "bodo" : localBodoMode;
-  const userName = bodoMode ? "bodo" : "worag";
+  // Mira-Modus: Layard sitzt an Miras gehackter Maschine (FuckTheSystemOS).
+  // Hat Vorrang vor jedem anderen Modus, solange keine Remote-Sitzung läuft.
+  const miraMode = terminalMiraMode && !remoteMode;
+  const bodoMode = remoteMode
+    ? remoteMode === "bodo"
+    : !miraMode && localBodoMode;
+  const userName = miraMode ? "root" : bodoMode ? "bodo" : "worag";
   // Beide Maschinen hängen am Sektor-Netz E67 — der Hostname ist
   // konsistent „e67“, nur der Benutzer wechselt. In einer Remote-Sitzung
   // zeigt der Prompt zusätzlich den Zielhost (z. B. `worag@bodo:~$`).
-  const hostName = remoteMode ? (remoteMode === "bodo" ? "bodo" : "worag") : "e67";
-  const homePath = bodoMode ? HOME_PATH_BODO : HOME_PATH_WORAG;
-  const homeLabel = bodoMode ? "/home/bodo" : "/home/worag";
+  const hostName = remoteMode
+    ? remoteMode === "bodo"
+      ? "bodo"
+      : "worag"
+    : miraMode
+      ? "miranet"
+      : "e67";
+  const homePath = miraMode
+    ? HOME_PATH_MIRA
+    : bodoMode
+      ? HOME_PATH_BODO
+      : HOME_PATH_WORAG;
+  const homeLabel = miraMode
+    ? "/home/mira"
+    : bodoMode
+      ? "/home/bodo"
+      : "/home/worag";
   // ── Filesystem-Adapter: leiten je nach Modus auf den jeweiligen Baum.
   // Damit bleibt der Rest der Komponente unverändert lesbar; alle
   // resolvePath/pathString-Aufrufe greifen automatisch auf den richtigen
   // Baum (Worag oder Bodo). Mono-`FILESYSTEM` gibt es nicht mehr.
-  const resolvePath = bodoMode ? resolveBodo : resolveWorag;
-  const pathString = bodoMode ? pathStringBodo : pathStringWorag;
-  const FILESYSTEM = bodoMode ? FILESYSTEM_BODO : FILESYSTEM_WORAG;
+  const resolvePath = miraMode
+    ? resolveMira
+    : bodoMode
+      ? resolveBodo
+      : resolveWorag;
+  const pathString = miraMode
+    ? pathStringMira
+    : bodoMode
+      ? pathStringBodo
+      : pathStringWorag;
+  const FILESYSTEM = miraMode
+    ? FILESYSTEM_MIRA
+    : bodoMode
+      ? FILESYSTEM_BODO
+      : FILESYSTEM_WORAG;
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastTabRef = useRef<{ input: string; matches: string[] } | null>(null);
