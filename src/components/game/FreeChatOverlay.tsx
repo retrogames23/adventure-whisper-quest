@@ -44,7 +44,7 @@ function LocalLoadingFooter({
           onClick={onCancel}
           className="rounded-sm border border-rust/50 px-2 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-rust hover:bg-rust/10"
         >
-          Abbrechen · Cloud nutzen
+          Später · Dialog schließen
         </button>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-sm bg-background/60">
@@ -65,9 +65,10 @@ function LocalLoadingFooter({
         </span>
       </div>
       <p className="mt-2 font-mono-crt text-[10px] leading-relaxed text-muted-foreground">
-        Das Spiel ist nicht abgestürzt. Beim ersten Mal wird ein kleines
-        Sprachmodell (~600 MB) in deinen Browser geladen. Folge-Gespräche
-        starten dann sofort.
+        Das Spiel ist nicht abgestürzt. Beim ersten Mal wird ein lokales
+        Sprachmodell (~4–5 GB, je nach Hardware kleiner) in deinen Browser
+        geladen. Du kannst diesen Dialog schließen — der Download läuft im
+        Hintergrund weiter.
       </p>
     </div>
   );
