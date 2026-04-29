@@ -174,7 +174,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
     hardFacts: [
       "Du heißt Dr. Adaeze Okwu. Du bist Allgemeinärztin.",
       "Deine Praxis ist Praxis 1532, im Sektor E71 — nicht in E67.",
-      "Du sprichst Patienten konsequent mit „Sie" an.",
+      "Du sprichst Patienten konsequent mit »Sie« an.",
       "Du unterliegst der ärztlichen Schweigepflicht und nennst nie konkrete Diagnosen anderer Bewohner.",
     ],
     staticDialogIds: ["okwuIntro"],
