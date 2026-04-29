@@ -148,7 +148,10 @@ function FreeChatInner({
     inputRef.current?.focus();
   }, []);
 
-  const locked = patience.lockedUntil > Date.now() || patience.remaining <= 0;
+  // Geduld nur bei Cloud durchsetzen — lokal sind Antworten „gratis".
+  const isCloud = status.kind === "cloud";
+  const locked =
+    isCloud && (patience.lockedUntil > Date.now() || patience.remaining <= 0);
   const lockMins = locked
     ? Math.max(1, Math.ceil((patience.lockedUntil - Date.now()) / 60_000))
     : 0;
@@ -188,14 +191,17 @@ function FreeChatInner({
       }
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
 
-      // Geduld erst nach erfolgreicher Antwort runterzählen.
-      const after = consumePatience(userId, npcId);
-      setPatience(after);
-      if (after.remaining === 0) {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: persona.patienceExhaustedLine },
-        ]);
+      // Geduld erst nach erfolgreicher Antwort runterzählen — und nur
+      // bei Cloud, da lokale Antworten den Spieler nichts kosten.
+      if (isCloud) {
+        const after = consumePatience(userId, npcId);
+        setPatience(after);
+        if (after.remaining === 0) {
+          setMessages((prev) => [
+            ...prev,
+            { role: "assistant", content: persona.patienceExhaustedLine },
+          ]);
+        }
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Unbekannter Fehler.";
@@ -240,9 +246,13 @@ function FreeChatInner({
           </div>
           <div className="flex items-center gap-3 font-mono-crt text-[11px] uppercase tracking-widest text-muted-foreground">
             <span>{modeLabel}</span>
-            <span className={patience.remaining < 10 ? "text-rust" : ""}>
-              Geduld: {patience.remaining}/{PATIENCE_MAX}
-            </span>
+            {/* Geduld-Counter ist eine Cloud-Schutzmaßnahme (Token-Kosten /
+                Spam). Lokale Antworten kosten nichts → kein Limit anzeigen. */}
+            {status.kind === "cloud" && (
+              <span className={patience.remaining < 10 ? "text-rust" : ""}>
+                Geduld: {patience.remaining}/{PATIENCE_MAX}
+              </span>
+            )}
           </div>
           <span className="absolute right-3 top-3">
             <CloseButton onClick={onClose} label="Free-Chat schließen" />
