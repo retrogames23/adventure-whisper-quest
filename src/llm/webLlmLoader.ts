@@ -55,6 +55,58 @@ let current: LoadProgress = {
   text: "Modell noch nicht geladen.",
 };
 
+// ----- Gate: erst laden, wenn das Spiel "essential assets" geladen hat. -----
+// Wir warten auf ein externes Signal (GameContext setzt es nach dem ersten
+// erfolgreich gerenderten Raum). Solange das Gate `false` ist, blockiert
+// `startLocalLlmLoad()` und stellt den Lade-Vorgang zurück.
+let essentialAssetsReady = false;
+const gateWaiters = new Set<() => void>();
+
+/**
+ * Vom Spiel aufzurufen, sobald die ersten Spiel-Assets (Hintergrundbild
+ * der Startszene etc.) im Browser angekommen sind.
+ */
+export function markEssentialAssetsLoaded() {
+  if (essentialAssetsReady) return;
+  essentialAssetsReady = true;
+  for (const w of gateWaiters) w();
+  gateWaiters.clear();
+}
+
+function waitForEssentialAssets(): Promise<void> {
+  if (essentialAssetsReady) return Promise.resolve();
+  return new Promise((resolve) => gateWaiters.add(resolve));
+}
+
+/**
+ * Führt `cb` aus, sobald der Browser-Hauptthread Ruhe hat.
+ * Fallback: 2 s `setTimeout`, damit dem Spiel ein Vorsprung beim Laden
+ * der Szene gegeben wird.
+ */
+function whenIdle(cb: () => void): () => void {
+  type IdleHandle = number;
+  type IdleWindow = Window & {
+    requestIdleCallback?: (
+      cb: (deadline: { didTimeout: boolean; timeRemaining: () => number }) => void,
+      opts?: { timeout?: number },
+    ) => IdleHandle;
+    cancelIdleCallback?: (handle: IdleHandle) => void;
+  };
+  if (typeof window === "undefined") {
+    cb();
+    return () => {};
+  }
+  const w = window as IdleWindow;
+  if (typeof w.requestIdleCallback === "function") {
+    const handle = w.requestIdleCallback(() => cb(), { timeout: 8000 });
+    return () => {
+      if (typeof w.cancelIdleCallback === "function") w.cancelIdleCallback(handle);
+    };
+  }
+  const t = window.setTimeout(cb, 2000);
+  return () => window.clearTimeout(t);
+}
+
 function emit(next: Partial<LoadProgress>) {
   current = { ...current, ...next };
   for (const s of subscribers) s(current);
@@ -90,12 +142,30 @@ export function startLocalLlmLoad(): Promise<Engine> {
   cancelled = false;
   emit({
     phase: "loading",
-    text: "Initialisiere lokales Modell …",
+    text: essentialAssetsReady
+      ? "Initialisiere lokales Modell …"
+      : "Wartet auf Spiel-Assets …",
     pct: 0,
     error: undefined,
   });
 
   loadingPromise = (async () => {
+    // 1) Erst warten, bis der erste Raum geladen ist — sonst blockieren
+    //    die GB-großen Modell-Downloads die Bandbreite für Spiel-Assets.
+    await waitForEssentialAssets();
+    if (cancelled) throw new Error("cancelled");
+
+    // 2) Dann auf den nächsten Idle-Slot warten, damit der Hauptthread
+    //    nicht beim Rendern der Szene blockiert wird.
+    await new Promise<void>((resolve) => whenIdle(resolve));
+    if (cancelled) throw new Error("cancelled");
+
+    emit({
+      phase: "loading",
+      text: "Initialisiere lokales Modell …",
+      pct: 0,
+    });
+
     const mod = await import("@mlc-ai/web-llm");
     if (cancelled) throw new Error("cancelled");
     const eng = new mod.MLCEngine({
