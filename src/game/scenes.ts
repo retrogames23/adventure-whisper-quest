@@ -1272,7 +1272,7 @@ export const scenes: Record<string, Scene> = {
         w: 16,
         h: 26,
         label: "Patient:innen-Terminal",
-        kind: "use",
+        kind: "look",
         onUse: (api) =>
           api.showText([
             "Ein bernsteinfarbenes Terminal. Auf dem Schirm laufen ruhig Datenzeilen — Wartezimmer leer, drei Termine heute, alle bestätigt.",
@@ -1304,7 +1304,7 @@ export const scenes: Record<string, Scene> = {
         w: 36,
         h: 42,
         label: "Untersuchungsliege",
-        kind: "exit",
+        kind: "look",
         onUse: (api) =>
           api.showText([
             "Eine alte Lederliege, weich vom Gebrauch. Ein zusammengelegtes Kissen darauf.",
@@ -1485,7 +1485,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 14,
         label: "Schwarzes Brett",
-        kind: "exit",
+        kind: "look",
         onUse: (api) =>
           api.showText([
             "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Hörer.“",
@@ -2194,6 +2194,7 @@ export const scenes: Record<string, Scene> = {
         w: 22,
         h: 16,
         label: "Ausgabetheke",
+        kind: "look",
         onUse: (api) =>
           api.showText([
             "Ein gestempeltes Schild auf dem Tresen:",
@@ -2209,6 +2210,7 @@ export const scenes: Record<string, Scene> = {
         w: 14,
         h: 18,
         label: "Pneumatik-Rohrpost",
+        kind: "look",
         onUse: (api) =>
           api.showText(
             api.hasFlag("radioTunedTo1046")
@@ -2229,6 +2231,7 @@ export const scenes: Record<string, Scene> = {
         w: 18,
         h: 24,
         label: "Hygiene-Aushänge",
+        kind: "look",
         onUse: (api) =>
           api.showText([
             "Zwei Aushänge, übereinander getackert.",
