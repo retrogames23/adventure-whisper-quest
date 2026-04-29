@@ -127,6 +127,36 @@ export function isWebGpuAvailable(): boolean {
 }
 
 /**
+ * Bittet den Browser, den Origin-Storage (IndexedDB / Cache Storage, wo
+ * WebLLM die Modell-Gewichte ablegt) als „persistent" zu markieren.
+ * Damit wird er nicht mehr unter Speicherdruck automatisch geleert —
+ * der nächste Spielstart kann das Modell aus dem Cache rehydrieren,
+ * statt die GB-große Datei erneut zu ziehen.
+ *
+ * Best effort: schlägt still fehl, wenn der Browser die API nicht hat
+ * oder die Anfrage ablehnt. Idempotent.
+ */
+let persistRequested = false;
+export async function requestPersistentModelCache(): Promise<void> {
+  if (persistRequested) return;
+  persistRequested = true;
+  try {
+    if (
+      typeof navigator !== "undefined" &&
+      navigator.storage &&
+      typeof navigator.storage.persist === "function"
+    ) {
+      const already = await navigator.storage.persisted?.().catch(() => false);
+      if (!already) {
+        await navigator.storage.persist();
+      }
+    }
+  } catch {
+    /* ignore — Cache-Persistenz ist eine Optimierung, kein Muss. */
+  }
+}
+
+/**
  * Startet das Laden, falls noch nicht passiert. Mehrfach-Aufrufe
  * teilen sich denselben Promise.
  */
@@ -159,6 +189,10 @@ export function startLocalLlmLoad(): Promise<Engine> {
     //    nicht beim Rendern der Szene blockiert wird.
     await new Promise<void>((resolve) => whenIdle(resolve));
     if (cancelled) throw new Error("cancelled");
+
+    // 3) Browser bitten, den Modell-Cache persistent zu halten, damit
+    //    der nächste Spielstart das Modell aus dem Cache lädt.
+    void requestPersistentModelCache();
 
     emit({
       phase: "loading",
