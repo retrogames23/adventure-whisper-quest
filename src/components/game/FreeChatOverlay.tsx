@@ -34,21 +34,21 @@ function LocalLoadingFooter({
   const percent =
     typeof pct === "number" ? Math.max(0, Math.min(100, Math.round(pct * 100))) : null;
   return (
-    <div className="border-t border-amber-glow/20 bg-amber-glow/5 px-4 py-3">
-      <div className="mb-2 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 font-mono-crt text-[11px] uppercase tracking-widest text-amber-glow">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+    <div className="border-t border-amber-glow/20 bg-amber-glow/5 px-5 py-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 font-mono-crt text-sm uppercase tracking-widest text-amber-glow">
+          <Loader2 className="h-4 w-4 animate-spin" />
           <span>Lokales Modell lädt …</span>
         </div>
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-sm border border-rust/50 px-2 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-rust hover:bg-rust/10"
+          className="rounded-sm border border-rust/50 px-3 py-1.5 font-mono-crt text-xs uppercase tracking-widest text-rust hover:bg-rust/10"
         >
           Später · Dialog schließen
         </button>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-sm bg-background/60">
+      <div className="h-2 w-full overflow-hidden rounded-sm bg-background/60">
         <div
           className="h-full bg-amber-glow/70 transition-all duration-300"
           style={{
@@ -59,13 +59,13 @@ function LocalLoadingFooter({
           }}
         />
       </div>
-      <div className="mt-2 flex items-center justify-between gap-3 font-mono-crt text-[10px] text-muted-foreground">
-        <span className="truncate">{text}</span>
-        <span className="shrink-0 text-amber-glow/80">
+      <div className="mt-3 flex items-start justify-between gap-3 font-mono-crt text-sm leading-relaxed text-foreground">
+        <span className="break-words">{text}</span>
+        <span className="shrink-0 text-amber-glow/90">
           {percent !== null ? `${percent}%` : "läuft …"}
         </span>
       </div>
-      <p className="mt-2 font-mono-crt text-[10px] leading-relaxed text-muted-foreground">
+      <p className="mt-3 font-display text-base leading-relaxed text-muted-foreground">
         Das Spiel ist nicht abgestürzt. Beim ersten Mal wird ein lokales
         Sprachmodell (~4–5 GB, je nach Hardware kleiner) in deinen Browser
         geladen. Du kannst diesen Dialog schließen — der Download läuft im
@@ -236,15 +236,15 @@ function FreeChatInner({
         <div className="flex items-center justify-between border-b border-amber-glow/20 px-4 py-3 pr-12">
           <div className="flex items-center gap-3">
             <span
-              className={`font-mono-crt text-sm uppercase tracking-[0.3em] ${speakerColor}`}
+              className={`font-mono-crt text-base uppercase tracking-[0.3em] ${speakerColor}`}
             >
               {persona.speaker}
             </span>
-            <span className="font-mono-crt text-[11px] uppercase tracking-widest text-muted-foreground">
+            <span className="font-mono-crt text-xs uppercase tracking-widest text-muted-foreground">
               · Free-Mode
             </span>
           </div>
-          <div className="flex items-center gap-3 font-mono-crt text-[11px] uppercase tracking-widest text-muted-foreground">
+          <div className="flex items-center gap-3 font-mono-crt text-xs uppercase tracking-widest text-muted-foreground">
             <span>{modeLabel}</span>
             {/* Geduld-Counter ist eine Cloud-Schutzmaßnahme (Token-Kosten /
                 Spam). Lokale Antworten kosten nichts → kein Limit anzeigen. */}
@@ -265,7 +265,7 @@ function FreeChatInner({
           className="min-h-0 flex-1 overflow-y-auto px-4 py-4"
         >
           {messages.length === 0 && (
-            <p className="font-mono-crt text-xs italic text-muted-foreground">
+            <p className="font-display text-base italic leading-relaxed text-muted-foreground">
               [ Du sprichst jetzt frei mit {persona.displayName}.
               {status.kind === "local" && !status.ready
                 ? " Das lokale Modell wird gerade geladen — Fortschritt siehst du unten."
@@ -284,7 +284,7 @@ function FreeChatInner({
                 }
               >
                 <div
-                  className={`mb-1 font-mono-crt text-[10px] uppercase tracking-widest ${
+                  className={`mb-1 font-mono-crt text-xs uppercase tracking-widest ${
                     m.role === "user"
                       ? "text-muted-foreground"
                       : speakerColor
@@ -292,13 +292,13 @@ function FreeChatInner({
                 >
                   {m.role === "user" ? "LAYARD" : persona.speaker}
                 </div>
-                <div className="whitespace-pre-wrap font-display text-base leading-relaxed text-foreground">
+                <div className="whitespace-pre-wrap font-display text-lg leading-relaxed text-foreground">
                   {m.content}
                 </div>
               </div>
             ))}
             {sending && (
-              <div className="self-start font-mono-crt text-xs italic text-amber-glow">
+              <div className="self-start font-mono-crt text-sm italic text-amber-glow">
                 {persona.displayName} sagt …
               </div>
             )}
@@ -319,12 +319,12 @@ function FreeChatInner({
           />
         )}
         {error && (
-          <div className="border-t border-rust/40 bg-rust/10 px-4 py-2 font-mono-crt text-[11px] text-rust">
+          <div className="border-t border-rust/40 bg-rust/10 px-4 py-3 font-mono-crt text-sm text-rust">
             {error}
           </div>
         )}
         {locked && (
-          <div className="border-t border-rust/40 bg-rust/10 px-4 py-2 font-mono-crt text-[11px] text-rust">
+          <div className="border-t border-rust/40 bg-rust/10 px-4 py-3 font-mono-crt text-sm text-rust">
             {persona.displayName} braucht eine Pause. Versuch es in {lockMins}{" "}
             {lockMins === 1 ? "Minute" : "Minuten"} noch einmal.
           </div>
@@ -350,12 +350,13 @@ function FreeChatInner({
                 : `Was sagst du zu ${persona.displayName}?`
             }
             className="min-h-[44px] flex-1 resize-none rounded-sm border border-border bg-secondary/40 px-3 py-2 font-display text-sm text-foreground outline-none focus:border-amber-glow/60 disabled:opacity-50"
+            style={{ fontSize: "1rem" }}
           />
           <button
             type="button"
             onClick={onSubmit}
             disabled={locked || sending || !input.trim()}
-            className="rounded-sm border border-amber-glow/40 px-3 py-2 font-mono-crt text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/10 disabled:opacity-40"
+            className="rounded-sm border border-amber-glow/40 px-4 py-2 font-mono-crt text-sm uppercase tracking-widest text-amber-glow hover:bg-amber-glow/10 disabled:opacity-40"
           >
             Senden
           </button>
