@@ -23,6 +23,7 @@ import miraSprite from "@/assets/npc-mira.png";
 import philippeSprite from "@/assets/npc-philippe.png";
 import commonRoomBg from "@/assets/scene-common-room.jpg";
 import cafeteriaBg from "@/assets/scene-cafeteria-e67.jpg";
+import aptMira4601Bg from "@/assets/scene-apt-mira-4601.jpg";
 import type { Scene } from "./types";
 
 export const scenes: Record<string, Scene> = {
@@ -1658,18 +1659,7 @@ export const scenes: Record<string, Scene> = {
     title: "Korridor 36 — Verwaltung und Versorgung",
     intro:
       "Andere Beleuchtung als zuhause. Sterilere Türen. Vor einer davon — 3601 — ein handgeschriebenes Schild. Aus 3602 zieht warm und ranzig ein Geruch nach Mensa-Pampe und Bohnerwachs.",
-    npcs: [
-      {
-        id: "miraSprite36",
-        src: miraSprite,
-        x: 22,
-        y: 36,
-        w: 14,
-        h: 54,
-        alt: "Junge Frau, an die Wand gelehnt",
-        visible: (api) => api.getMiraFloors().includes(3),
-      },
-    ],
+    npcs: [],
     hotspots: [
       {
         id: "philippeSpot36",
@@ -1719,28 +1709,6 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) => {
           api.setFlag("rangEmptyOfficeBell");
           api.startDialog("emptyOfficeBell");
-        },
-      },
-      {
-        id: "miraSpot36",
-        x: 22,
-        y: 38,
-        w: 14,
-        h: 50,
-        label: "Junge Frau an der Wand",
-        kind: "talk",
-        visible: (api) => api.getMiraFloors().includes(3),
-        onUse: (api) => {
-          if (api.hasFlag("tookFlyer")) {
-            api.startDialog("miraAfter");
-          } else if (api.hasFlag("miraSystemic")) {
-            api.startDialog("miraSystemicGreeting");
-          } else if (api.hasFlag("metMira")) {
-            api.startDialog("miraReturn");
-          } else {
-            api.setFlag("metMira");
-            api.startDialog("miraIntro");
-          }
         },
       },
       {
@@ -1835,6 +1803,32 @@ export const scenes: Record<string, Scene> = {
           ]),
       },
       {
+        id: "door4601Look",
+        x: 4,
+        y: 26,
+        w: 14,
+        h: 56,
+        label: "Tür 4601",
+        kind: "look",
+        hiddenWhen: ["miraTrustEarned"],
+        onUse: (api) =>
+          api.showText([
+            "Tür 4601. Kein Schild. Verkratzter Lack.",
+            "Auf Brusthöhe ein winziger Aufkleber: ein durchgestrichenes Ohr.",
+          ]),
+      },
+      {
+        id: "door4601Enter",
+        x: 4,
+        y: 26,
+        w: 14,
+        h: 56,
+        label: "Tür 4601 — Mira",
+        kind: "exit",
+        requires: ["miraTrustEarned"],
+        onUse: (api) => api.goTo("aptMira4601"),
+      },
+      {
         id: "back46",
         x: 80,
         y: 30,
@@ -1854,16 +1848,6 @@ export const scenes: Record<string, Scene> = {
     intro:
       "Oben. Am Ende des Korridors: ein vergittertes Fenster auf einen grauen Himmel.",
     npcs: [
-      {
-        id: "miraSprite56",
-        src: miraSprite,
-        x: 22,
-        y: 36,
-        w: 14,
-        h: 54,
-        alt: "Junge Frau, an die Wand gelehnt",
-        visible: (api) => api.getMiraFloors().includes(5),
-      },
       {
         id: "philippeSprite56",
         src: philippeSprite,
@@ -1888,28 +1872,6 @@ export const scenes: Record<string, Scene> = {
         hiddenWhen: ["doorbellRang", "metPhilippeBefore"],
         visible: (api) => api.getPhilippeFloor() === 5,
         onUse: (api) => api.startDialog("philippeInCorridor56"),
-      },
-      {
-        id: "miraSpot56",
-        x: 22,
-        y: 38,
-        w: 14,
-        h: 50,
-        label: "Junge Frau an der Wand",
-        kind: "talk",
-        visible: (api) => api.getMiraFloors().includes(5),
-        onUse: (api) => {
-          if (api.hasFlag("tookFlyer")) {
-            api.startDialog("miraAfter");
-          } else if (api.hasFlag("miraSystemic")) {
-            api.startDialog("miraSystemicGreeting");
-          } else if (api.hasFlag("metMira")) {
-            api.startDialog("miraReturn");
-          } else {
-            api.setFlag("metMira");
-            api.startDialog("miraIntro");
-          }
-        },
       },
       {
         id: "window56",
@@ -2372,6 +2334,113 @@ export const scenes: Record<string, Scene> = {
         label: "Zurück in den Korridor",
         kind: "exit",
         onUse: (api) => api.goTo("corridor36"),
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Wohnung 4601 — Miras gehacktes Jugendzimmer.
+  // Zugang nur, wenn `miraTrustEarned` gesetzt ist (siehe corridor46).
+  // ───────────────────────────────────────────────────────────
+  aptMira4601: {
+    id: "aptMira4601",
+    background: aptMira4601Bg,
+    title: "Wohnung 4601 — Mira",
+    intro:
+      "Eng. Ein Bett, ein Schreibtisch, an der Wand mehr Plakate als Tapete. Auf dem Tisch summt ein offenes Terminal in giftigem Phosphorgrün. Ein Kabel verschwindet hinter der Wand Richtung Etagendrucker.",
+    hotspots: [
+      {
+        id: "miraTerminal",
+        x: 70,
+        y: 50,
+        w: 22,
+        h: 30,
+        label: "Miras Terminal (FuckTheSystemOS)",
+        kind: "use",
+        onUse: (api) => api.openTerminal({ mira: true }),
+      },
+      {
+        id: "miraPosterLeine",
+        x: 28,
+        y: 22,
+        w: 30,
+        h: 24,
+        label: "Plakat „104,6 — DEINE LEINE“",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Stenciled, schwarz, schief geklebt. Darunter, klein:",
+            "»eine leine ist erst dann eine, wenn man sie spürt.«",
+            "Und ganz unten: Z.K.S.",
+          ]),
+      },
+      {
+        id: "miraPosterStille",
+        x: 56,
+        y: 36,
+        w: 14,
+        h: 14,
+        label: "Zettel „TAG DER STILLE — bald.“",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Mit roter Kreide übermalt: »bald.« Darunter, kleiner:",
+            "»eine etage. eine stunde. wir merken, dass wir nicht sterben.«",
+          ]),
+      },
+      {
+        id: "miraPortraits",
+        x: 0,
+        y: 24,
+        w: 22,
+        h: 38,
+        label: "Korkbrett mit Porträts",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Vier kopierte Bewohnerporträts, mit rotem Faden verbunden.",
+            "Mira hat daneben mit Bleistift kleine Notizen geschrieben:",
+            "»hört zu / schreibt mit / hat einen anker / weiß alles, sagt nichts«.",
+          ]),
+      },
+      {
+        id: "miraBed",
+        x: 14,
+        y: 64,
+        w: 32,
+        h: 30,
+        label: "Bett",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Zerwühlte Decke. Halb aufgeschlagen ein Schulbuch:",
+            "»Sektor-Geographie · Klasse 10«. Am Rand mit Kuli:",
+            "»E54, E72, E81 — Brieffreunde. nicht namen. nie namen.«",
+          ]),
+      },
+      {
+        id: "miraVent",
+        x: 84,
+        y: 6,
+        w: 14,
+        h: 16,
+        label: "Verklebter Lüftungsschlitz",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Mit Paketband zugeklebt. Wer hier wohnt, will nicht,",
+            "dass sein Zimmer mithört.",
+          ]),
+      },
+      {
+        id: "aptMiraBack",
+        x: 0,
+        y: 80,
+        w: 14,
+        h: 18,
+        label: "Zurück in den Korridor",
+        kind: "exit",
+        onUse: (api) => api.goTo("corridor46"),
       },
     ],
   },

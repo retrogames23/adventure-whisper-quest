@@ -16,7 +16,8 @@ export type SceneId =
   | "corridor56"
   | "serverRoom5610"
   | "commonRoomE67"
-  | "cafeteriaE67";
+  | "cafeteriaE67"
+  | "aptMira4601";
 
 export type InventoryItemId =
   | "protocol"
@@ -37,7 +38,8 @@ export type InventoryItemId =
   | "aushang71Original"
   | "quittungBlankoB"
   | "quittungForged4317"
-  | "tillaTransfer";
+  | "tillaTransfer"
+  | "miraDoorNote";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
@@ -213,6 +215,15 @@ export type StoryFlag =
   | "gaveB3ToPhilippe"
   | "gotParamedicsReport"
   | "refusedB3Favor"
+  // Mira — Vertrauenspfad
+  | "readMiraManifest"
+  | "radioMutedAtLeast60s"
+  | "miraTrustEarned"
+  | "miraTrustWithheld"
+  | "miraAtHomeMet"
+  | "miraAtHomeBackstoryHeard"
+  | "miraAtHomeFriendsHeard"
+  | "miraAtHomeNeighboursHeard"
   // Akt-I-Pflichträtsel „Quittung 4317"
   | "noticedTransferCode"
   | "tookPencilStub"
@@ -391,7 +402,13 @@ export interface GameApi {
   hasItem: (id: InventoryItemId) => boolean;
   showText: (lines: string[], onClose?: () => void) => void;
   startDialog: (id: string) => void;
-  openTerminal: (asBodo?: boolean) => void;
+  /**
+   * Öffnet ein Terminal-Overlay.
+   * - `true` (legacy) oder `{ bodo: true }` → Bodos Hausmeister-Konsole.
+   * - `{ mira: true }` → Miras gehackter Rechner (FuckTheSystemOS 0.2).
+   * - sonst → Layards eigenes CentralOS.
+   */
+  openTerminal: (asBodoOrOpts?: boolean | { bodo?: boolean; mira?: boolean }) => void;
   openRadio: () => void;
   openKeypad: (target?: KeypadTarget) => void;
   openTelevision: () => void;
