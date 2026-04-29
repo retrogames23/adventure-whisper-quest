@@ -2006,21 +2006,24 @@ export function Terminal() {
       if (!node || node.type !== "dir") {
         newLines.push({ text: "ls: aktuelles Verzeichnis ungültig.", kind: "out" });
       } else {
-        const hideHomeName = bodoMode ? "worag" : "bodo";
+        const hideHomeName = miraMode ? null : bodoMode ? "worag" : "bodo";
         newLines.push({ text: `Inhalt von ${pathString(cwd)}:`, kind: "system" });
         let kids = visibleChildren(node, showAll, (f) => flags.has(f));
         // /home zeigt jeweils nur das eigene Heimatverzeichnis — Sektor-
         // Privatsphäre. Layard sieht bodo dort nicht, Bodo nicht worag.
-        if (pathString(cwd) === "/home") {
+        if (pathString(cwd) === "/home" && hideHomeName) {
           kids = kids.filter((c) => c.name !== hideHomeName);
         }
         newLines.push(...formatLs(kids));
       }
     } else if (head === "cd") {
       const target = args[0] ?? "";
-      const hideHomeName = bodoMode ? "worag" : "bodo";
+      const hideHomeName = miraMode ? null : bodoMode ? "worag" : "bodo";
       const isHiddenHome = (parts: string[]) =>
-        parts.length >= 2 && parts[0] === "home" && parts[1] === hideHomeName;
+        hideHomeName !== null &&
+        parts.length >= 2 &&
+        parts[0] === "home" &&
+        parts[1] === hideHomeName;
       if (!target || target === "~") {
         setCwd([...homePath]);
       } else if (target === "/") {
