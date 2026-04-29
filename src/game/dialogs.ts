@@ -2239,6 +2239,7 @@ export const dialogs: Record<string, DialogTree> = {
   // Nach Erhalt des Flugblatts.
   miraAfter: {
     id: "miraAfter",
+    npcId: "mira",
     start: "ma1",
     lines: {
       ma1: {
