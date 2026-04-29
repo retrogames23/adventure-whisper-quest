@@ -14,10 +14,63 @@ import type { ChatMsg } from "@/llm/runtime";
 import { createCloudRuntime } from "@/llm/cloudLlmRuntime";
 import type { LlmRuntime } from "@/llm/runtime";
 import { CloseButton } from "./CloseButton";
+import { Loader2 } from "lucide-react";
 
 interface UiMsg {
   role: "user" | "assistant";
   content: string;
+}
+
+function LocalLoadingFooter({
+  text,
+  pct,
+  onCancel,
+}: {
+  text: string;
+  pct?: number;
+  onCancel: () => void;
+}) {
+  const percent =
+    typeof pct === "number" ? Math.max(0, Math.min(100, Math.round(pct * 100))) : null;
+  return (
+    <div className="border-t border-amber-glow/20 bg-amber-glow/5 px-4 py-3">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 font-mono-crt text-[11px] uppercase tracking-widest text-amber-glow">
+          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          <span>Lokales Modell lädt …</span>
+        </div>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-sm border border-rust/50 px-2 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-rust hover:bg-rust/10"
+        >
+          Abbrechen · Cloud nutzen
+        </button>
+      </div>
+      <div className="h-1.5 w-full overflow-hidden rounded-sm bg-background/60">
+        <div
+          className="h-full bg-amber-glow/70 transition-all duration-300"
+          style={{
+            width: percent !== null ? `${percent}%` : "30%",
+            ...(percent === null
+              ? { animation: "progressIndeterminate 1.6s ease-in-out infinite" }
+              : {}),
+          }}
+        />
+      </div>
+      <div className="mt-2 flex items-center justify-between gap-3 font-mono-crt text-[10px] text-muted-foreground">
+        <span className="truncate">{text}</span>
+        <span className="shrink-0 text-amber-glow/80">
+          {percent !== null ? `${percent}%` : "läuft …"}
+        </span>
+      </div>
+      <p className="mt-2 font-mono-crt text-[10px] leading-relaxed text-muted-foreground">
+        Das Spiel ist nicht abgestürzt. Beim ersten Mal wird ein kleines
+        Sprachmodell (~600 MB) in deinen Browser geladen. Folge-Gespräche
+        starten dann sofort.
+      </p>
+    </div>
+  );
 }
 
 const SPEAKER_COLORS: Record<string, string> = {
