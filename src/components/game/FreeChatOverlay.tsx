@@ -111,8 +111,7 @@ function FreeChatInner({
 }) {
   const game = useGame();
   const persona = getPersona(npcId)!;
-  const { runtime, status, cancelLocalLoad, switchToCloud } =
-    useLlmRuntime(npcId);
+  const { runtime, status } = useLlmRuntime(npcId);
   const cloudFallbackRef = useRef<LlmRuntime | null>(null);
 
   const [messages, setMessages] = useState<UiMsg[]>([]);
@@ -293,8 +292,10 @@ function FreeChatInner({
             text={status.loading.text}
             pct={status.loading.pct}
             onCancel={() => {
-              cancelLocalLoad();
-              switchToCloud();
+              // Lade-Vorgang läuft im Hintergrund weiter (Singleton),
+              // damit der Spieler beim nächsten Free-Mode davon profitiert.
+              // Wir schließen nur den Dialog.
+              onClose();
             }}
           />
         )}
