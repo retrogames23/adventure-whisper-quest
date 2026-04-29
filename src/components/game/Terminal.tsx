@@ -2059,8 +2059,9 @@ export function Terminal() {
         const segments = target.split("/").filter(Boolean);
         const base = target.startsWith("/") ? [] : [...cwd];
         const fullParts = [...base, ...segments];
-        const hideHomeName = bodoMode ? "worag" : "bodo";
+        const hideHomeName = miraMode ? null : bodoMode ? "worag" : "bodo";
         const isHiddenHome =
+          hideHomeName !== null &&
           fullParts.length >= 2 &&
           fullParts[0] === "home" &&
           fullParts[1] === hideHomeName;
@@ -2082,6 +2083,10 @@ export function Terminal() {
             ),
           );
           newLines.push({ text: "── EOF ──────────────────────────────", kind: "system" });
+          // Mira-Manifest gelesen → Trust-Voraussetzung erfüllt.
+          if (miraMode && node.name === "manifest.txt") {
+            api.setFlag("readMiraManifest");
+          }
         }
       }
     } else if (head === "tree") {
