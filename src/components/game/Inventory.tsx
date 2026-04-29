@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useInventoryDrag } from "@/game/InventoryDragContext";
 import { combineItem } from "@/game/combine";
