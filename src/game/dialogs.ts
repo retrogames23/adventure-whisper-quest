@@ -2052,6 +2052,7 @@ export const dialogs: Record<string, DialogTree> = {
   // Wiederbegegnung: Layard hat noch kein Flugblatt, kann zurückkommen.
   miraReturn: {
     id: "miraReturn",
+    npcId: "mira",
     start: "mr1",
     lines: {
       mr1: {
