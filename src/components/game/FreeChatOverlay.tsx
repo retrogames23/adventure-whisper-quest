@@ -34,21 +34,21 @@ function LocalLoadingFooter({
   const percent =
     typeof pct === "number" ? Math.max(0, Math.min(100, Math.round(pct * 100))) : null;
   return (
-    <div className="border-t border-amber-glow/20 bg-amber-glow/5 px-4 py-3">
-      <div className="mb-2 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 font-mono-crt text-[11px] uppercase tracking-widest text-amber-glow">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+    <div className="border-t border-amber-glow/20 bg-amber-glow/5 px-5 py-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 font-mono-crt text-sm uppercase tracking-widest text-amber-glow">
+          <Loader2 className="h-4 w-4 animate-spin" />
           <span>Lokales Modell lädt …</span>
         </div>
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-sm border border-rust/50 px-2 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-rust hover:bg-rust/10"
+          className="rounded-sm border border-rust/50 px-3 py-1.5 font-mono-crt text-xs uppercase tracking-widest text-rust hover:bg-rust/10"
         >
           Später · Dialog schließen
         </button>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-sm bg-background/60">
+      <div className="h-2 w-full overflow-hidden rounded-sm bg-background/60">
         <div
           className="h-full bg-amber-glow/70 transition-all duration-300"
           style={{
@@ -59,13 +59,13 @@ function LocalLoadingFooter({
           }}
         />
       </div>
-      <div className="mt-2 flex items-center justify-between gap-3 font-mono-crt text-[10px] text-muted-foreground">
-        <span className="truncate">{text}</span>
-        <span className="shrink-0 text-amber-glow/80">
+      <div className="mt-3 flex items-start justify-between gap-3 font-mono-crt text-sm leading-relaxed text-foreground">
+        <span className="break-words">{text}</span>
+        <span className="shrink-0 text-amber-glow/90">
           {percent !== null ? `${percent}%` : "läuft …"}
         </span>
       </div>
-      <p className="mt-2 font-mono-crt text-[10px] leading-relaxed text-muted-foreground">
+      <p className="mt-3 font-display text-base leading-relaxed text-muted-foreground">
         Das Spiel ist nicht abgestürzt. Beim ersten Mal wird ein lokales
         Sprachmodell (~4–5 GB, je nach Hardware kleiner) in deinen Browser
         geladen. Du kannst diesen Dialog schließen — der Download läuft im
