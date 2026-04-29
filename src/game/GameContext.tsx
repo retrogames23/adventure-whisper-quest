@@ -12,6 +12,7 @@ import { dialogs } from "./dialogs";
 import { scenes } from "./scenes";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/auth/AuthContext";
+import { markEssentialAssetsLoaded as notifyLoaderEssentialAssets } from "@/llm/webLlmLoader";
 import type {
   GameApi,
   CutsceneId,
@@ -70,6 +71,10 @@ interface GameContextValue extends GameState {
   freeChatNpcId: string | null;
   openFreeChat: (npcId: string) => void;
   closeFreeChat: () => void;
+  /** True, sobald die Assets der ersten Szene geladen sind. */
+  isEssentialAssetsLoaded: boolean;
+  /** Wird aus der SceneView aufgerufen, wenn der erste Hintergrund da ist. */
+  markEssentialAssetsLoaded: () => void;
   setCaption: (s: string | null) => void;
   closeText: () => void;
   advanceDialog: (nextId?: string) => void;
@@ -192,6 +197,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [idCardOpen, setIdCardOpen] = useState(false);
   const [lobbyGateOpen, setLobbyGateOpen] = useState(false);
   const [freeChatNpcId, setFreeChatNpcId] = useState<string | null>(null);
+  const [isEssentialAssetsLoaded, setIsEssentialAssetsLoaded] = useState(false);
   // Eskalationszähler der Lobby-Schleuse (Fehlversuche), nicht persistiert.
   const lobbyGateAttemptsRef = useRef(0);
   // Mira darf NICHT auf Etage 3 erscheinen — dort liegt das Büro des
@@ -611,6 +617,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
     freeChatNpcId,
     openFreeChat: (npcId: string) => setFreeChatNpcId(npcId),
     closeFreeChat: () => setFreeChatNpcId(null),
+    isEssentialAssetsLoaded,
+    markEssentialAssetsLoaded: () => {
+      // Idempotent: erst beim ersten Mal den Loader benachrichtigen.
+      setIsEssentialAssetsLoaded((v) => {
+        if (!v) notifyLoaderEssentialAssets();
+        return true;
+      });
+    },
     closeDsaAdventure: () => setDsaAdventureOpen(false),
     api,
     setCaption,

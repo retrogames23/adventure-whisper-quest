@@ -4,7 +4,16 @@ import { Hotspot } from "./Hotspot";
 import { FloatingChatter } from "./FloatingChatter";
 
 export function SceneView() {
-  const { scene, caption, setCaption, radioActive, resonance, flags, api } = useGame();
+  const {
+    scene,
+    caption,
+    setCaption,
+    radioActive,
+    resonance,
+    flags,
+    api,
+    markEssentialAssetsLoaded,
+  } = useGame();
   const current = scenes[scene];
   const backgroundSrc =
     typeof current.background === "function"
@@ -110,6 +119,12 @@ export function SceneView() {
         <img
           src={backgroundSrc}
           alt={current.title}
+          // Spiel-Assets bekommen Vorfahrt vor dem GB-großen LLM-Download,
+          // der parallel im Hintergrund laufen kann.
+          fetchPriority="high"
+          decoding="async"
+          onLoad={() => markEssentialAssetsLoaded()}
+          onError={() => markEssentialAssetsLoaded()}
           className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${
             scene === "corridor56" && flags.has("burnedNode5610")
               ? "corridor-emergency-power"
@@ -127,7 +142,10 @@ export function SceneView() {
             key={npc.id}
             src={npc.src}
             alt={npc.alt}
-            loading="lazy"
+            // Charakter-Sprites sind Teil der Szene — hohe Priorität, damit
+            // sie nicht hinter dem LLM-Download anstehen müssen.
+            fetchPriority="high"
+            decoding="async"
             className="pointer-events-none absolute z-10 select-none object-contain"
             style={{
               left: `${npc.x}%`,
