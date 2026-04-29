@@ -3452,6 +3452,39 @@ export const dialogs: Record<string, DialogTree> = {
     },
   },
 
+  // Insa hält den Code zurück, solange die Tilla-Sache nicht geklärt ist.
+  insaWaitingForTransfer: {
+    id: "insaWaitingForTransfer",
+    start: "iw1",
+    lines: {
+      iw1: {
+        id: "iw1",
+        speaker: "SYSTEM",
+        text: "[ Vermittlung. Insa. Im Hintergrund: das stete Klacken einer Tastatur. ]",
+        next: "iw2",
+      },
+      iw2: {
+        id: "iw2",
+        speaker: "INSA",
+        text: "Worag. Bevor Sie fragen — der Code liegt fertig. Aber ich gebe ihn heute nicht raus, solange auf meinem Tisch noch ein offener Vorgang aus E67 liegt.",
+        subtext: "Sie sagt das ruhig. Es ist keine Drohung. Es ist eine Reihenfolge.",
+        next: "iw3",
+      },
+      iw3: {
+        id: "iw3",
+        speaker: "INSA",
+        text: "Frau Kowalks Tochter. 4317-K. Ich brauche eine saubere Antwort von E70-K — Transferbogen, Bewohnernummer, Heim. Sie wissen, wie das geht: Ausgabestelle, Quittung Schicht B, Rohrpost.",
+        next: "iw4",
+      },
+      iw4: {
+        id: "iw4",
+        speaker: "INSA",
+        text: "Sobald der Bogen bei Ihnen aus dem Rohr fällt, rufen Sie mich noch einmal an. Dann bekommen Sie Ihren Code. Auf Wiederhören, Worag.",
+        end: true,
+      },
+    },
+  },
+
   // ═════════════════════════════════════════════════════════════
   // ENNIS KORR — Tür 2614 (Türgespräch)
   // ═════════════════════════════════════════════════════════════
