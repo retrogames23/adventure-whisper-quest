@@ -139,6 +139,7 @@ const COMMANDS = [
   "sysupdate",
   "trouble",
   "maint",
+  "forge",
 ];
 
 /** Longest common string prefix across all candidates. */
