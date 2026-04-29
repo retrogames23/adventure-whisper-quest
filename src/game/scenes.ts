@@ -554,6 +554,36 @@ export const scenes: Record<string, Scene> = {
             "„Wer was von mir will, klopft. Oder ist die Katze.“",
           ]),
       },
+      // Bleistiftstummel auf dem Terminaltisch — Pickup für das
+      // Akt-I-Pflichträtsel „Quittung 4317". Sichtbar erst, wenn
+      // Layard den Transfer-Code im Bericht entdeckt hat (sonst ist
+      // das nur Deko, die niemand braucht).
+      {
+        id: "bodoPencil",
+        // Tisch links neben dem Terminal.
+        x: 36,
+        y: 56,
+        w: 12,
+        h: 10,
+        label: "Bleistiftstummel",
+        kind: "use",
+        requires: ["noticedTransferCode"],
+        hiddenWhen: ["tookPencilStub"],
+        onUse: (api) => {
+          api.setFlag("tookPencilStub");
+          api.addItem({
+            id: "pencilStub",
+            name: "Bleistiftstummel",
+            description:
+              "Drei Zentimeter Bleistift, Mine 2B, abgelutschtes Ende. Lag auf Bodos Tisch zwischen einem Kaffeering und Lottis Schnurrhaar. Reicht noch für eine ordentliche Reibung.",
+          });
+          api.showText([
+            "Ein Bleistiftstummel, drei Zentimeter, Mine 2B.",
+            "Bodo merkt es nicht. Lotti merkt es. Sie behält es für sich.",
+            "[ Bleistiftstummel eingesteckt. ]",
+          ]);
+        },
+      },
       {
         id: "bodoTerminal",
         // CRT-Monitor mit Tisch in der Bildmitte rechts.
