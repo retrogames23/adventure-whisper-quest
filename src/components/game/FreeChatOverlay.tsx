@@ -14,10 +14,63 @@ import type { ChatMsg } from "@/llm/runtime";
 import { createCloudRuntime } from "@/llm/cloudLlmRuntime";
 import type { LlmRuntime } from "@/llm/runtime";
 import { CloseButton } from "./CloseButton";
+import { Loader2 } from "lucide-react";
 
 interface UiMsg {
   role: "user" | "assistant";
   content: string;
+}
+
+function LocalLoadingFooter({
+  text,
+  pct,
+  onCancel,
+}: {
+  text: string;
+  pct?: number;
+  onCancel: () => void;
+}) {
+  const percent =
+    typeof pct === "number" ? Math.max(0, Math.min(100, Math.round(pct * 100))) : null;
+  return (
+    <div className="border-t border-amber-glow/20 bg-amber-glow/5 px-4 py-3">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 font-mono-crt text-[11px] uppercase tracking-widest text-amber-glow">
+          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          <span>Lokales Modell lädt …</span>
+        </div>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-sm border border-rust/50 px-2 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-rust hover:bg-rust/10"
+        >
+          Abbrechen · Cloud nutzen
+        </button>
+      </div>
+      <div className="h-1.5 w-full overflow-hidden rounded-sm bg-background/60">
+        <div
+          className="h-full bg-amber-glow/70 transition-all duration-300"
+          style={{
+            width: percent !== null ? `${percent}%` : "30%",
+            ...(percent === null
+              ? { animation: "progressIndeterminate 1.6s ease-in-out infinite" }
+              : {}),
+          }}
+        />
+      </div>
+      <div className="mt-2 flex items-center justify-between gap-3 font-mono-crt text-[10px] text-muted-foreground">
+        <span className="truncate">{text}</span>
+        <span className="shrink-0 text-amber-glow/80">
+          {percent !== null ? `${percent}%` : "läuft …"}
+        </span>
+      </div>
+      <p className="mt-2 font-mono-crt text-[10px] leading-relaxed text-muted-foreground">
+        Das Spiel ist nicht abgestürzt. Beim ersten Mal wird ein kleines
+        Sprachmodell (~600 MB) in deinen Browser geladen. Folge-Gespräche
+        starten dann sofort.
+      </p>
+    </div>
+  );
 }
 
 const SPEAKER_COLORS: Record<string, string> = {
@@ -58,7 +111,8 @@ function FreeChatInner({
 }) {
   const game = useGame();
   const persona = getPersona(npcId)!;
-  const { runtime, status } = useLlmRuntime(npcId);
+  const { runtime, status, cancelLocalLoad, switchToCloud } =
+    useLlmRuntime(npcId);
   const cloudFallbackRef = useRef<LlmRuntime | null>(null);
 
   const [messages, setMessages] = useState<UiMsg[]>([]);
@@ -196,7 +250,7 @@ function FreeChatInner({
             <p className="font-mono-crt text-xs italic text-muted-foreground">
               [ Du sprichst jetzt frei mit {persona.displayName}.
               {status.kind === "local" && !status.ready
-                ? " Das lokale Modell wird im Hintergrund geladen."
+                ? " Das lokale Modell wird gerade geladen — Fortschritt siehst du unten."
                 : ""}{" "}
               Bleib höflich — die Geduld ist begrenzt. ]
             </p>
@@ -227,7 +281,7 @@ function FreeChatInner({
             ))}
             {sending && (
               <div className="self-start font-mono-crt text-xs italic text-amber-glow">
-                {persona.displayName} schreibt …
+                {persona.displayName} sagt …
               </div>
             )}
           </div>
@@ -235,12 +289,14 @@ function FreeChatInner({
 
         {/* Loader / error footer */}
         {status.loading && status.kind === "local" && !status.ready && (
-          <div className="border-t border-amber-glow/10 px-4 py-2 font-mono-crt text-[11px] text-muted-foreground">
-            {status.loading.text}
-            {typeof status.loading.pct === "number"
-              ? ` · ${Math.round(status.loading.pct * 100)}%`
-              : ""}
-          </div>
+          <LocalLoadingFooter
+            text={status.loading.text}
+            pct={status.loading.pct}
+            onCancel={() => {
+              cancelLocalLoad();
+              switchToCloud();
+            }}
+          />
         )}
         {error && (
           <div className="border-t border-rust/40 bg-rust/10 px-4 py-2 font-mono-crt text-[11px] text-rust">
