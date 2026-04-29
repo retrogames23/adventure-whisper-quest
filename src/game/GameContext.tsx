@@ -41,6 +41,8 @@ interface GameState {
   keypadTarget: "sectorDoor";
   /** Wartungsterminal hinter Tür 5610 sichtbar. */
   nodeOpen: boolean;
+  /** Pneumatik-Rohrpost-Overlay in der Kantine 3602. */
+  pneumaticOpen: boolean;
   radioActive: boolean; // tuned to 104.6, providing subtext
   resonance: number; // 0–100
   ending: boolean;
@@ -74,6 +76,7 @@ interface GameContextValue extends GameState {
   closeKeypad: () => void;
   closeTelevision: () => void;
   closeNode: () => void;
+  closePneumatic: () => void;
   endBurnSequence: () => void;
   endCutscene: () => void;
   closeDsaCreator: () => void;
@@ -165,6 +168,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   // Wartungs-Override / Wartungskarte ohne Keypad.
   const keypadTarget = "sectorDoor" as const;
   const [nodeOpen, setNodeOpen] = useState(false);
+  const [pneumaticOpen, setPneumaticOpen] = useState(false);
   const [radioActive, setRadioActive] = useState(false);
   const [tvOpen, setTvOpen] = useState(false);
   const [resonance, setResonance] = useState(0);
@@ -357,6 +361,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setTerminalOpen(false);
         setNodeOpen(true);
       },
+      openPneumaticTube: () => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setPneumaticOpen(true);
+      },
       setEnding: () => setEnding(true),
       playBurnSequence: () => {
         // Node-Terminal schließen, Sequenz übernimmt den Bildschirm.
@@ -460,6 +469,30 @@ export function GameProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Akt-I-Pflichträtsel: Sobald Layard den Sanitäter-Bericht UND
+  // Kowalks Tochter-Geschichte UND die B3 an Philippe übergeben hat,
+  // fällt ihm beim nächsten Szenenwechsel die Bewohnernummer auf der
+  // Kopie auf. Setzt `noticedTransferCode`, das den Pickup-Hotspot
+  // (Bleistift) und den Quittungsblock freischaltet.
+  useEffect(() => {
+    if (flags.has("noticedTransferCode")) return;
+    if (
+      flags.has("gotParamedicsReport") &&
+      flags.has("kowalkToldHerDaughter") &&
+      flags.has("gaveB3ToPhilippe")
+    ) {
+      api.setFlag("noticedTransferCode");
+      api.showText([
+        "Layard zieht den Sanitäter-Bericht noch einmal heraus.",
+        "Am rechten Rand, mit Kuli, klein: »TRANSFER E70 / 4317-K«.",
+        "Er hat das beim ersten Lesen übersehen.",
+        "Vier-Drei-Eins-Sieben. Das ist nicht Philippes Vollmacht.",
+        "Das ist eine Transfernummer. Und 4317-K — das K steht für",
+        "Kowalk.",
+      ]);
+    }
+  }, [flags, api]);
+
   // Lobby-Schleuse (Tagesmodus): Beim Betreten der Etage-1-Lobby vor dem
   // Aufbruch nach E71 muss Layard sich am Eingangsterminal ausweisen.
   // Ab `enteredE71` (Akt II) entfällt die Schleuse — der Ausgang gilt als
@@ -557,6 +590,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     tvOpen,
     keypadTarget,
     nodeOpen,
+    pneumaticOpen,
     radioActive,
     resonance,
     ending,
@@ -593,6 +627,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     closeKeypad: () => setKeypadOpen(false),
     closeTelevision: () => setTvOpen(false),
     closeNode: () => setNodeOpen(false),
+    closePneumatic: () => setPneumaticOpen(false),
     endBurnSequence: () => setBurnSequence(false),
     endCutscene: () => setCutscene(null),
     closeDsaCreator: () => setDsaCreatorOpen(false),

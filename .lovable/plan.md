@@ -1,79 +1,139 @@
-## Ziel
 
-Kontext-sensitive Cursor im Stil von *Broken Sword* — der Mauszeiger zeigt schon vor dem Klick, welche Art von Interaktion an einem Hotspot möglich ist.
+# Akt-I-Pflichträtsel „Quittung 4317"
 
-## Cursor-Set
+## Was sich gegenüber dem ersten Vorschlag ändert
 
-Vorschlag mit fünf Cursorn (drei aus deiner Liste + zwei Ergänzungen, die es bei Broken Sword auch gibt und die wir hier real brauchen):
+Pflichtpfad statt optional. **Und**: Brusts Schluss-Reaktion wird
+komisch statt bitter — siehe „Brusts Selbstüberführung" weiter unten.
 
-| Cursor | Bedeutung | Wann |
-|---|---|---|
-| Weiße Lupe | Anschauen / Lesen | Reine Info-Hotspots, Schilder, Notizen, "Tür zu Bodo" beim ersten Hinschauen |
-| Animierte Hand (Greifen) | Interaktion mit Objekt | Türen öffnen, Aufzug, Telefon, Radio, Terminal, Knopf, Aufheben |
-| Sprechblase | Gespräch | NPC-Hotspots (Philippe, Bodo, Helka, Mira, Brust, Kowalk, Türsprechen) |
-| **Pfeil (Exit)** | Szenenwechsel / Weggehen | Korridor-Ausgänge, Treppe, "zurück zum Aufzug" — sonst nicht von "Tür öffnen" unterscheidbar |
-| **Standard-Pfeil** | Nichts | Überall, wo kein Hotspot liegt |
+Der Übergang nach Akt II — heute getriggert über das Telefonat in
+2611, das den Sektor-Code freigibt — wird hinter das Rätsel gehängt.
+Insa rückt den Sektor-Code erst raus, wenn Layard ihr Tillas
+Transfer-Code nennen kann.
 
-Den Drop-Cursor (Inventar-Item ziehen) gibt es bereits (`cursor-copy`) und bleibt unverändert.
+## Fluss im Überblick
 
-Die "animierte Hand" wird als CSS-Animation (zwei Frames, ~0.6s Loop) umgesetzt, damit klar wird, dass die Aktion möglich ist.
-
-## Umsetzung
-
-### 1. Neues Feld am Hotspot-Typ
-
-`src/game/types.ts` — `Hotspot` bekommt:
-
-```ts
-kind?: "look" | "use" | "talk" | "exit";  // default: "use"
+```text
+B3-Rätsel (existiert)
+        │
+        ▼
+gaveB3ToPhilippe + gotParamedicsReport + kowalkToldHerDaughter
+        │
+        ▼
+Bericht erneut anschauen ─► noticedTransferCode
+        │
+        ▼
+Zug 1: 4 Items sammeln
+   ├─ quittungBlankoB     (Tresen, Kantine)
+   ├─ pencilStub          (Bodos Wohnung)
+   ├─ siegelAbdruck       (b3Authorization + pencilStub)
+   └─ aushang71Original   (Handbuch · "Seite herausnehmen")
+        │
+        ▼
+Zug 2: Bodo-Terminal · `forge`-Befehl  ─► forgedQuittung4317
+        │
+        ▼
+Zug 3: Pneumatik-Rohrpost (Overlay)    ─► sentForgedQuittung
+        │
+        ▼
+Nächster Kantinenbesuch: Rohr-LED grün ─► tillaTransfer (Item)
+        │
+        ▼
+Telefonat Insa: verlangt jetzt zuerst Tillas Transfer-Code
+        │
+        ▼
+Sektor-Code freigegeben ─► Akt II
 ```
 
-Optional, damit bestehende Hotspots weiter funktionieren. `"use"` ist der sinnvolle Default für die Mehrheit (Türen, Geräte, Gegenstände).
+## Brusts Selbstüberführung (Zug 3, neuer Tonfall)
 
-### 2. Cursor-Assets
+Brust steht am Rohr und liest die Quittung mit. Statt Drama:
 
-Vier kleine SVGs unter `src/assets/cursors/`:
+- Brust runzelt die Stirn. „Schicht-A-Gegenzeichnung Marschke …
+  1996-11-06 … Aushang 7 Punkt 1 …"
+- Er greift nach **Aushang 4.2** an der Wand. Liest. Greift nach
+  Aushang **7.1**. Liest. Greift nach **4.2**. Liest.
+- Frau Kowalk, ohne hochzusehen: „Brust."
+- Brust, sehr leise: „Es ist … formal … in Ordnung."
+- Brust, noch leiser: „Es ist sogar **vorbildlich** in Ordnung."
+- Er drückt selbst den Hebel. Die Hülse rauscht weg.
+- Er notiert in sein Klemmbrett: „Quittung 4317-K · einwandfrei ·
+  ggf. zur Schulung verwenden." Setzt einen kleinen Haken.
+- Frau Kowalk schaut Layard kurz an. Layard schaut zurück. Niemand
+  sagt etwas. Lottis abwesende Würde, bei zwei Erwachsenen.
 
-- `look.svg` — weiße Lupe mit dünnem schwarzem Rand (gut sichtbar auf hellen UND dunklen Hintergründen)
-- `hand-1.svg`, `hand-2.svg` — zwei Frames einer greifenden Hand (Animation)
-- `talk.svg` — Sprechblase
-- `exit.svg` — Richtungspfeil
+→ Brust hat **nicht** gemerkt, dass er getäuscht wurde. Er hat
+gemerkt, dass sein eigenes Regelwerk ihn dazu **zwingt**, die
+Fälschung freizugeben — und er ist darauf stolz. Das ist die
+Kantinen-Variante des Mikael-Witzes („das System ist makellos, bis
+es jemanden umbringt"), zwei Akte früher und in Pantoffelgröße.
 
-SVG, weil verlustfrei skalierbar und einfach inline einzubinden. Hotspot-Größe 32×32 mit korrektem Hotspot-Punkt.
+Konsequenz: keine `brustOutruled`-/`kowalkSidedWithLayard`-
+Bedingung mehr für den Pneumatik-Pfad. Brust nimmt **immer** an,
+über sein eigenes Regelwerk. Die früheren B3-Pfade beeinflussen nur
+noch eine Pointe in der letzten Zeile (Brust-Klemmbrett-Eintrag
+variiert um ein Adjektiv: „einwandfrei" / „mustergültig" /
+„exemplarisch"). Macht das Rätsel narrensicher und schiebt den Witz
+in die Beobachtung statt in die Verzweigung.
 
-### 3. Cursor anwenden
+## Wo der Pflicht-Gate sitzt
 
-In `src/components/game/Hotspot.tsx`:
-- Tailwind-Klassen `cursor-crosshair` ersetzen durch dynamische Cursor je `hotspot.kind`.
-- Für die Animation der Hand: kleine CSS-Klasse in `src/styles.css`, die per `@keyframes` zwischen zwei `cursor: url(...)` Bildern wechselt. (Funktioniert in allen aktuellen Browsern.)
-- Drag-State (`drag.dragItem`) behält Vorrang → bleibt `cursor-copy`.
+Im Telefon-Dialogbaum **`insa2`** (Code-Freigabe) wird die Freigabe
+an `receivedTillaTransfer` gekettet. Drei Verzweigungen:
 
-Default-Cursor außerhalb von Hotspots bleibt der System-Pfeil — keine Änderung am SceneView nötig.
+- **Code im Inventar** → Insa erkennt 70-2244 („Das ist eine
+  E70-K-Nummer. Wo haben Sie die her?"), liefert dann den
+  Sektor-Code. → bisheriges Akt-II-Übergangsverhalten.
+- **Item nicht da, `noticedTransferCode` aktiv** → Insa: „Bringen
+  Sie mir etwas, das ich dem Apparat zeigen kann. Etwas mit
+  Stempel von E70." Kein Code.
+- **Item nicht da, Trigger nicht ausgelöst** → Insa bleibt beim
+  alten „Erst Wartungsarbeiten melden"-Pfad. Beim nächsten
+  Bericht-Anschauen wird der Transfer-Code-Absatz enthüllt.
 
-### 4. Hotspots klassifizieren
+## Anti-Sackgassen-Garantien
 
-`src/game/scenes.ts` durchgehen und `kind` setzen. Grobes Mapping nach Label/onUse:
+| Schritt | Wenn der Spieler hängt | Auffang |
+|---|---|---|
+| Bericht erneut lesen | Schaut ihn nicht nochmal an | Philippe-Smalltalk: „Lesen Sie das Papier, das ich Ihnen gegeben habe, nochmal. Den Rand." |
+| Bleistift finden | Übersieht Pickup in Bodos Wohnung | Lotti, sobald `noticedTransferCode`: „Lotti hat etwas zwischen den Pfoten — einen Bleistiftstummel." |
+| Aushang aus Handbuch | Probiert Combine nicht | Look-Text aufs Handbuch: „Seite 7.1 ist nur lose eingelegt." |
+| Schicht-A-Unterschrift | Geht nicht zu Bodo | Insa: „Schicht-A-Gegenzeichnung. Marschke war Schicht A, fragen Sie ihn." |
+| `forge`-Befehl | Findet ihn nicht | `help` listet `forge` erst, sobald die 4 Items zusammen sind |
+| Rohrpost-Versuch zu früh | Items fehlen | Overlay zeigt explizit, was im Rohr fehlt, bevor der Hebel scharf wird |
 
-- `onUse` ruft `startDialog` mit NPC-Tree → `"talk"` (Philippe, Bodo, Helka, Ennis, Mira, Brust, Kowalk, Okwu, Tjark, Sprechanlagen)
-- `onUse` ruft `goTo(...)` auf benachbarte Korridor-/Lobby-Szene → `"exit"` (Aufzug, Treppe, Sektor-Tür, Korridor-Ausgang)
-- `onUse` ruft nur `showText` und der Hotspot ist ein Schild/Notiz/Plakat → `"look"`
-- Alles andere (Geräte, Türöffnen mit Code/Karte, Telefon, Radio, Terminal, Item aufheben, Fernseher) → `"use"` (= Default)
+## Was an Code/Assets neu gebraucht wird
 
-Da das ~80 Hotspots sind, mache ich das szenenweise und prüfe die spielerisch wichtigen (Etage 3, Lobby, Apartment) zuerst genau; bei Zweifel wähle ich `"use"`.
+**Items**: `pencilStub`, `siegelAbdruck`, `aushang71Original`,
+`quittungBlankoB`, `quittungForged4317`, `tillaTransfer`.
 
-### 5. Touch / Mobile
+**Flags**: `noticedTransferCode`, `bodoSignedForTilla`,
+`forgedQuittung4317`, `sentForgedQuittung`, `receivedTillaTransfer`.
+(`brustNoticedForge` entfällt — Brust merkt's prinzipiell nicht.)
 
-Auf Touch-Geräten gibt es keinen Hover-Cursor. Das aktuelle Reveal-Verhalten (Leertaste / `MobileStage`) zeigt schon Rahmen + Label — bleibt unverändert. Optional könnten wir das Label dort um ein kleines Icon (Lupe/Hand/Sprechblase) ergänzen, aber das hebe ich für eine zweite Iteration auf, falls du es willst.
+**Dialoge**: `bodoSignsForTilla`, `kowalkAfterForge`,
+`brustOnTube` (eine Linie, drei Adjektiv-Varianten am Ende),
+Erweiterung `insa2`/`insa2a` um den Tilla-Gate, je 1 Zeile bei
+Philippe und Insa als Hint.
 
-## Was ich vergessen sehe
+**Hotspots**: `cafeteriaQuittungsblock`, `bodoPencil`,
+`cafeteriaPneumaticTube` von `look` auf `use`.
 
-Ja, zwei Sachen fehlen in deiner Liste, die in Broken Sword auch existieren und hier echten Nutzen haben:
+**UI**: `PneumaticTubeOverlay.tsx` (kleines Overlay analog
+`LobbyGate`).
 
-1. **Exit-Pfeil** — sonst sieht eine Tür "raus aus dem Korridor" genauso aus wie eine Tür "Bodo besuchen". Das ist im Spiel der häufigste Verwechsler.
-2. **Inventar-Drop-Cursor** — gibt es schon (`cursor-copy`), erwähnt der Vollständigkeit halber.
+**Terminal**: `forge`-Befehl in `filesystemBodo.ts` mit
+Inventar-Validierung.
 
-Eine "Hand mit Plus" für *Aufheben* speziell (vs. allgemeine Benutzung) ist bei Broken Sword auch da, hier aber Overkill — wir haben sehr wenige reine Pickup-Hotspots, und die Hand passt für beide.
+**Combine**: `b3Authorization + pencilStub → siegelAbdruck`,
+„Seite 7.1 herausnehmen" als Self-Action am Handbuch.
 
-## Offene Frage
+**Bericht-Update**: zweiter Absatz erscheint dynamisch, sobald die
+Trigger erfüllt sind.
 
-Soll der Cursor auf Hotspots, die *gerade noch nicht aktiv* sind (`requires` nicht erfüllt), unterdrückt werden (= kein Cursor-Hinweis, du siehst nichts) oder soll dort weiterhin nichts angezeigt werden? Aktuell rendert `Hotspot.tsx` solche Hotspots gar nicht — das bleibt so, also keine Änderung nötig. Nur falls du willst, dass z.B. ein Schloss als "use" zu sehen ist, bevor du den Schlüssel hast, müsste man das anders bauen. Default: alles bleibt wie es ist.
+## Was bewusst NICHT gemacht wird
+
+- Keine neue Szene, kein neuer NPC.
+- Keine neue Tür. Pflicht-Gate hängt am bestehenden `insa2`.
+- Akt-II-Inhalte bleiben unverändert, das Rätsel ändert nur den
+  Übergang.

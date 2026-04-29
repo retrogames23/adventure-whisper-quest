@@ -406,6 +406,44 @@ export function combineItem(
     if (otherId === itemId) {
       lines = ["Layard schaut sich das eine Ding an. Es bleibt eines."];
     } else {
+      // ── Akt-I-Pflichträtsel: Bleistift auf Vollmacht 4317 reibt
+      //    den Trockensiegel-Abdruck heraus. Items bleiben erhalten —
+      //    Layard braucht beide noch.
+      const pair = pairKey(itemId, otherId);
+      if (pair === pairKey("pencilStub", "b3Authorization")) {
+        // Layard braucht ein dünnes Papier für die Reibung — der
+        // Quittungsblock liefert es. Ohne den geht's nicht.
+        if (!ctx.api.hasItem("quittungBlankoB")) {
+          ctx.api.showText([
+            "Layard braucht ein dünnes Stück Papier, um die Kontur",
+            "des Trockensiegels herauszureiben. Carbon-Formularpapier",
+            "wäre perfekt — aus der Kantine zum Beispiel.",
+          ]);
+          return;
+        }
+        if (!ctx.api.hasItem("siegelAbdruck")) {
+          ctx.api.addItem({
+            id: "siegelAbdruck",
+            name: "Trockensiegel-Abdruck",
+            description:
+              "Ein dünnes, vergilbtes Blatt mit einer mit Bleistift abgeriebenen Kontur des Trockensiegels »BEWOHNERVERTRETUNG E67 / SCHICHT A«. Nicht ganz so scharf wie das Original, aber an den richtigen Stellen schwarz.",
+          });
+          ctx.api.setFlag("extractedSiegelAbdruck");
+          ctx.api.showText([
+            "Layard legt ein Stück Papier (vom Quittungsblock abgerissen) über",
+            "die Vollmacht 4317 und reibt mit dem Stumpf des Bleistifts darüber.",
+            "Langsam tritt der Trockensiegel-Stempel hervor:",
+            "»BEWOHNERVERTRETUNG E67 / SCHICHT A«.",
+            "Der Abdruck landet in der Aktentasche, beide Originale auch.",
+          ]);
+          return;
+        } else {
+          ctx.api.showText([
+            "Einen Abdruck hat Layard schon. Mehr braucht er nicht.",
+          ]);
+          return;
+        }
+      }
       lines = ITEM_PAIRS[pairKey(itemId, otherId)];
     }
   } else {
