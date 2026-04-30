@@ -39,7 +39,11 @@ export type InventoryItemId =
   | "quittungBlankoB"
   | "quittungForged4317"
   | "tillaTransfer"
-  | "miraDoorNote";
+  | "miraDoorNote"
+  // Schmerz-Radio-Erweiterung (Akt I)
+  | "antennaWire"
+  | "amplifierAntenna"
+  | "wartungsDiktat";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
