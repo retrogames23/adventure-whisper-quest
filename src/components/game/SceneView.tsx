@@ -25,9 +25,19 @@ export function SceneView() {
   // Hintergrund-<img> als auch auf den 4:3-Hotspot-Layer angewendet,
   // damit Koordinaten und Motiv deckungsgleich bleiben.
   const bgFocus = current.bgFocus;
-  const focusStyle: React.CSSProperties | undefined = bgFocus
+  const bgImgStyle: React.CSSProperties | undefined = bgFocus
     ? {
         transform: `scale(${bgFocus.scale})`,
+        transformOrigin: `${bgFocus.originX}% ${bgFocus.originY}%`,
+      }
+    : undefined;
+  // Hotspot-Layer ist bereits mittig per -translate-x-1/2 positioniert.
+  // Damit der Skalierungs-Origin korrekt vom selben Punkt aus wirkt wie
+  // beim Bild, kombinieren wir Translate + Scale in einer einzelnen
+  // transform-Property.
+  const hotspotLayerStyle: React.CSSProperties | undefined = bgFocus
+    ? {
+        transform: `translateX(-50%) scale(${bgFocus.scale})`,
         transformOrigin: `${bgFocus.originX}% ${bgFocus.originY}%`,
       }
     : undefined;
@@ -144,7 +154,7 @@ export function SceneView() {
             ? "corridor-emergency-power"
             : ""
         }`}
-        style={focusStyle}
+        style={bgImgStyle}
       />
 
       {/* 4:3-Hotspot-Layer: liegt mittig in der 16:9-Bühne und deckt
@@ -156,8 +166,10 @@ export function SceneView() {
           vorher beschnitten war — dort liegen bewusst keine
           interaktiven Elemente. */}
       <div
-        className="absolute inset-y-0 left-1/2 z-10 aspect-[4/3] h-full -translate-x-1/2"
-        style={focusStyle}
+        className={`absolute inset-y-0 left-1/2 z-10 aspect-[4/3] h-full ${
+          bgFocus ? "" : "-translate-x-1/2"
+        }`}
+        style={hotspotLayerStyle}
       >
 
         {/* NPC sprites — gerendert über dem Hintergrund, unter den Hotspots */}
