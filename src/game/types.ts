@@ -288,6 +288,17 @@ export interface Scene {
    * darüber.
    */
   decals?: SceneDecal[];
+  /**
+   * Optionaler Bild-Zoom für Szenen, deren Hintergrund-Asset zu kleinteilig
+   * wirkt (z. B. Aufzug, in dem das Bedienpanel nur einen schmalen Bereich
+   * einnimmt). Sowohl das Hintergrundbild als auch der 4:3-Hotspot-Layer
+   * bekommen dieselbe CSS-Transform, damit Hotspot-Koordinaten weiterhin
+   * deckungsgleich mit dem sichtbaren Motiv bleiben.
+   *
+   * scale: Skalierungsfaktor (1 = unverändert, 1.4 = 40 % größer)
+   * originX/Y: Zoom-Mittelpunkt in Prozent (0..100), bezogen auf das Bild.
+   */
+  bgFocus?: { scale: number; originX: number; originY: number };
 }
 
 export interface SceneDecal {
