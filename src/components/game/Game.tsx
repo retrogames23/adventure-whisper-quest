@@ -33,6 +33,7 @@ import { PneumaticTubeOverlay } from "./PneumaticTubeOverlay";
 import { FreeChatOverlay } from "./FreeChatOverlay";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useGame } from "@/game/GameContext";
+import { DonationGate } from "@/components/donation/DonationGate";
 
 /**
  * Schaltet beim Betreten des DSA-Gemeinschaftsraums (oder solange das
