@@ -254,14 +254,20 @@ for (const item of ITEM_IDS) {
 
 // ── 5. requires ∩ hiddenWhen Konflikte ────────────────────────────
 for (const [file, src] of Object.entries(files)) {
-  // Suche kleine Blöcke {...}, die BEIDE Felder haben — über Regex
-  // simpel als "requires: [...] ... hiddenWhen: [...]" innerhalb
-  // 200 Zeichen.
+  // Wir matchen NUR Paare im SELBEN Object-Literal: das Fenster
+  // zwischen den beiden Feldern darf KEIN Object-Boundary enthalten
+  // (heuristisch: kein "},\n" und kein "{ id:" / "{ \n  id:").
   const blockRe =
-    /(requires|hiddenWhen)\s*:\s*\[([^\]]*)\][^]{0,400}?(requires|hiddenWhen)\s*:\s*\[([^\]]*)\]/g;
+    /(requires|hiddenWhen)\s*:\s*\[([^\]]*)\][^]{0,300}?(requires|hiddenWhen)\s*:\s*\[([^\]]*)\]/g;
   for (const m of src.matchAll(blockRe)) {
-    const [, k1, l1, k2, l2] = m;
+    const [full, k1, l1, k2, l2] = m;
     if (k1 === k2) continue;
+    // Bereich zwischen beiden Feldern auf Object-Grenze prüfen.
+    const between = full.slice(
+      full.indexOf("]") + 1,
+      full.lastIndexOf(k2),
+    );
+    if (/\}\s*,/.test(between)) continue; // anderes Object dazwischen
     const a = new Set([...l1.matchAll(/"([^"]+)"/g)].map((x) => x[1]));
     const b = new Set([...l2.matchAll(/"([^"]+)"/g)].map((x) => x[1]));
     for (const flag of a) {
