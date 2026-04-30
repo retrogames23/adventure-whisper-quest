@@ -48,6 +48,15 @@ export interface NpcPersona {
   staticDialogIds: string[];
   /** Optionale Dateien/E-Mails dieses Charakters, kurz zusammengefasst. */
   files?: Array<{ label: string; content: string }>;
+  /**
+   * Ausführliche Biografie dieser Person. Wird IMMER in den System-Prompt
+   * gerendert (eigener Block »BIOGRAFIE«). Soll Geburtsort, Eltern,
+   * Geschwister, Werdegang und persönliche Eigenheiten festhalten —
+   * damit das LLM bei Free-Mode-Nachfragen ("Wo bist du geboren?",
+   * "Hast du Geschwister?") nicht halluziniert. Nicht direkt zitieren,
+   * aber als Wahrheit behandeln.
+   */
+  biography?: string[];
   /** Story-Flags, die als »was Layard schon weiß/getan hat« gerendert werden. */
   contextFlags?: StoryFlag[];
   /** Satz, den der NPC sagt, wenn die Geduld auf 0 fällt. */
