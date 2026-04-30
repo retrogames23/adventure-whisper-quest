@@ -5,6 +5,7 @@ import { FloatingChatter } from "./FloatingChatter";
 import { useDevMode } from "@/dev/devMode";
 import { HotspotEditor } from "@/dev/HotspotEditor";
 import { RoomSwitcher } from "@/dev/RoomSwitcher";
+import { ConsoleSwitcher } from "@/dev/ConsoleSwitcher";
 
 export function SceneView() {
   const {
@@ -242,6 +243,7 @@ export function SceneView() {
         {/* Dev-only: Raum-Switcher (?dev=1). Eigener Floating-Button +
             Tastenkürzel "G". */}
         {dev && <RoomSwitcher />}
+        {dev && <ConsoleSwitcher />}
 
         {/* Hintergrund-Sprechblasen der DSA-Runde im Gemeinschaftsraum */}
         <FloatingChatter enabled={scene === "commonRoomE67"} variant="dsa" />
