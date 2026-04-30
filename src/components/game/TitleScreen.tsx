@@ -156,7 +156,7 @@ export function TitleScreen({ onStart }: Props) {
         <button
           type="button"
           onClick={() => setDonationOpen(true)}
-          className="mt-6 inline-block font-mono-crt text-sm uppercase tracking-[0.3em] text-amber-glow/80 underline-offset-4 hover:underline amber-glow"
+          className="mt-6 inline-block font-mono-crt uppercase tracking-[0.3em] text-amber-glow/80 underline-offset-4 hover:underline amber-glow text-base"
         >
           ☕ Buy me a coffee
         </button>
