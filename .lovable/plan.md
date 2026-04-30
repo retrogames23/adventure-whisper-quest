@@ -1,96 +1,75 @@
-# Hotspots gegen neue 16:9-Hintergründe ausrichten
-
 ## Problem
 
-Durch das Outpainting auf 16:9 hat sich der Bildinhalt in jeder Szene innerhalb des 4:3-Safe-Zone-Layers leicht verschoben (Beispiel Apartment: das Schmerz-Radio steht jetzt deutlich weiter rechts; der `radio`-Hotspot bei `x: 0, y: 52` markiert noch die alte Wand). Das betrifft potenziell alle ~150 Hotspots in 19 Szenen sowie NPC- und Decal-Positionen.
+Die Hotspot-Koordinaten in `src/game/scenes.ts` werden in Prozent eines **4:3-Layers** angegeben, der mittig in der 16:9-Bühne liegt (`SceneView.tsx` Zeile 147). Das Hintergrundbild wird dagegen mit `object-contain` über die **gesamte 16:9-Breite** gerendert. Bei nativen 16:9- oder breiten Assets (wie Aufzug, Hallway, Korridore) wandert das eigentliche Motiv dadurch in einen Bereich, den die 4:3-Hotspot-Koordinaten nicht direkt abbilden — Hotspots sitzen sichtbar links vom realen Knopf-Panel.
 
-Beim Repaint können sich außerdem Details verändern (Fenster verschoben, Möbel umgestellt) — eine reine mathematische Umrechnung reicht nicht. Wir brauchen einen **schnellen, visuellen QA-Loop pro Szene**.
+Zusätzlich wirkt das Aufzug-Bild zu kleinteilig, weil der Käfig die volle 16:9-Breite einnimmt und die Bedienleiste nur ~15% breit ist.
 
-## Werkzeug: Dev-Hotspot-Editor
+## Lösung — 3 Teile
 
-Wir nutzen den vorhandenen "Space-halten zeigt alle Hotspots"-Mechanismus aus `SceneView.tsx` und erweitern ihn nur im Dev-Modus (`devMode.ts`, schon im Projekt) zu einem leichtgewichtigen Inline-Editor:
+### 1. Aufzug-Overlays + Zoom kombiniert lösen
 
-- Bei aktivem Dev-Mode + gehaltener Space-Taste:
-  - Jeder Hotspot bekommt 8 Resize-Griffe + Drag-Handle.
-  - Drag verschiebt den Hotspot, Eckziehen ändert `w`/`h`.
-  - Werte werden live als Prozent (1 Nachkommastelle) im Hotspot-Label und in der Browser-Konsole angezeigt.
-  - "C"-Taste über einem Hotspot kopiert dessen aktuelle Koordinaten als JSON-Snippet (`{ x, y, w, h }`) in die Zwischenablage.
-- Gleicher Editor für `npcs` und `decals` (sie nutzen identisches Koordinatenschema).
-- Kein Persistieren in der DB — der Editor ist nur ein Mess-/Kopierwerkzeug. Eingefügte Werte werden manuell in `src/game/scenes.ts` übernommen.
+Statt nur die Koordinaten zu verschieben, **zoomen wir den Aufzug per CSS-Transform am Bedienpanel** (rechts) und passen die Hotspots in einem Rutsch an. Das löst Punkt 1+2 gleichzeitig.
 
-Das Tool gibt es nur, wenn `devMode` aktiv ist; im Produktionsbuild bleibt das Verhalten unverändert.
+Umsetzung in `SceneView.tsx`:
+- Neues optionales Feld `bgFocus?: { scale: number; originX: number; originY: number }` in der Scene-Definition.
+- Wenn gesetzt, wird das `<img>` mit `transform: scale(s)` und `transformOrigin: x% y%` gerendert. Der 4:3-Hotspot-Layer bekommt **dieselbe** Transform — so bleiben Bild und Hotspots deckungsgleich.
 
-## Vorgehen pro Szene (≈ 1–2 Minuten)
+Aufzug bekommt: `bgFocus: { scale: 1.4, originX: 75, originY: 50 }` — das vergrößert den Käfig um 40% und zentriert auf das rechte Bedienpanel.
 
-```
-1. Szene öffnen (Dev-Mode an)
-2. Space halten → alle Hotspots/NPCs sehen
-3. Falsch sitzende Hotspots per Drag/Resize über das gemeinte
-   Objekt legen
-4. "C" über jedem geänderten Hotspot → Koordinaten in Clipboard
-5. In scenes.ts die x/y/w/h-Werte ersetzen
-6. Reload, mit Maus durchklicken: jeder Hotspot zeigt korrekten
-   Cursor + Caption über dem richtigen Objekt
-```
+Hotspots werden anschließend mit dem Dev-Editor (`?dev=1` + Space) am gezoomten Bild final justiert und in `scenes.ts` eingetragen.
 
-## Reihenfolge der 19 Szenen
+### 2. Aufzug-Sound
 
-Nach Häufigkeit der Spielerinteraktion und Komplexität:
+- `public/audio/elevator-ding.mp3` ablegen (kurzer "Ding"-Ton + leichtes Motoren-Whirr, ~1.5s). Quelle: lizenzfreier Sample (z. B. von freesound.org als CC0).
+- In `SceneView.tsx` oder besser in einem zentralen `playSound(name)`-Helper den Ton beim `goTo("corridorXX")` aus dem Aufzug abspielen.
+- Auslöser: Beim `onUse` der Knöpfe `btn1`–`btn5` zuerst Sound abspielen, dann mit kleinem Delay (~400 ms) den Szenenwechsel auslösen — so hört man den Ding noch im Aufzug.
 
-1. apartment (höchste Prio, sichtbar bug — Radio, Terminal, Bett, Telefon, Box B2, Tür, Fenster)
-2. hallway / hallway-2615-sealed / hallway-elevator-sealed / hallway-elevator-and-2615-sealed (4 Varianten desselben Flurs — gleiche Hotspots)
-3. apt2612 (mit/ohne Bodo) und apt2613
-4. corridor15, corridor36 (+philippe), corridor46, corridor56
-5. elevator, sectorDoor, e71Lobby, floor1Lobby, passage
-6. room1532, room1534, serverRoom5610
-7. commonRoomE67, cafeteriaE67 (waren schon nativ 16:9 — vermutlich nichts zu tun, trotzdem kurz prüfen)
-8. aptMira4601 (war schon 16:9)
+### 3. Gesamt-Workflow für alle Szenen mit verschobenen Overlays
 
-Die nativ-16:9-Szenen (10 Stück) müssten unverändert korrekt sein, werden aber als Sanity-Check trotzdem einmal kurz aufgerufen.
+Reihenfolge zum Abarbeiten:
+1. **Apartment** — bereits korrigiert
+2. **Aufzug** — dieser Plan
+3. **Hallway (Korridor 26)** — letzte Iteration sitzt grob, Feinschliff offen
+4. **Korridor 15, 36, 46, 56**
+5. **Lobby (floor1Lobby)**
+6. **Sektor-Tür, Passage**
+7. **Apartment 2613, Hallway-sealed-Varianten**
+8. **Raum 1532, Serverraum 5610**
 
-## Prüf-Checkliste pro Szene
-
-Pro Szene jeweils festhalten:
-
-- [ ] alle Hotspots: Cursor erscheint exakt über dem visuellen Objekt
-- [ ] Caption erscheint mit passendem Label
-- [ ] NPCs (falls vorhanden) stehen korrekt im Raum, nicht in Wand/Möbel
-- [ ] Decals (TV im Common Room/Kantine) sitzen auf dem realen Bildschirm
-- [ ] Exits führen zu erwarteten Szenen
-- [ ] Falls Konditionalitäten (`requires`/`hiddenWhen`): mindestens einen positiven & negativen Zustand prüfen
-
-Ergebnis: Häkchen-Liste in `.lovable/plan.md`, damit beim nächsten Pass nachvollziehbar ist, was bereits abgenommen wurde.
+Pro Szene:
+- Screenshot vom User (oder via Browser-Tool) mit aktuellen Overlays
+- Bei stark abweichenden Assets `bgFocus` setzen statt jede Koordinate einzeln zu schieben
+- Koordinaten in `scenes.ts` patchen
+- Visuelle Verifikation per Screenshot
 
 ## Technische Details
 
-### Neue Datei: `src/dev/HotspotEditor.tsx`
+**Geänderte Dateien:**
+- `src/game/types.ts` — `bgFocus`-Feld an `Scene`-Typ
+- `src/components/game/SceneView.tsx` — Transform auf `<img>` und Hotspot-Layer; Sound-Hook
+- `src/game/scenes.ts` — `bgFocus` für Aufzug, neue Hotspot-Koordinaten für `btn1`–`btn5` und Indikator
+- `public/audio/elevator-ding.mp3` — neues Asset (per Skript heruntergeladen)
+- ggf. `src/lib/sound.ts` — kleiner Wrapper für Sound-Playback (Singleton-AudioContext, Mute-State)
 
-- Komponente, die innerhalb der 4:3-Safe-Zone in `SceneView.tsx` gerendert wird, wenn `isDevMode() && revealHotspots`.
-- Nimmt `hotspots`, `npcs`, `decals` der aktuellen Szene als Props.
-- Zustand lokal: `dragging | resizing | null`, aktuelle `{x,y,w,h}` der bearbeiteten Box.
-- Mausposition wird relativ zum 4:3-Container in Prozent umgerechnet (`getBoundingClientRect`).
-- Neue Werte werden **nicht** in den globalen State zurückgespielt — sie überschreiben nur die visuelle Darstellung lokal und werden geloggt/kopiert.
-- Beim Loslassen: `console.info` mit Snippet `id: "<id>", x: 12.3, y: 45.6, w: 18.0, h: 22.4,` ready zum Einfügen.
+**Sound-Snippet:**
+```ts
+// src/lib/sound.ts
+const cache = new Map<string, HTMLAudioElement>();
+export function playSound(src: string, volume = 0.6) {
+  let a = cache.get(src);
+  if (!a) { a = new Audio(src); cache.set(src, a); }
+  a.volume = volume; a.currentTime = 0; a.play().catch(() => {});
+}
+```
 
-### Anpassung `src/components/game/SceneView.tsx`
+**Aufzug onUse:**
+```ts
+onUse: (api) => {
+  playSound("/audio/elevator-ding.mp3");
+  setTimeout(() => api.goTo("corridor46"), 400);
+}
+```
 
-- Innerhalb der bestehenden 4:3-Safe-Zone den `HotspotEditor` zusätzlich montieren, wenn Dev + Space.
-- Bestehende `Hotspot`-Komponente weiterhin verwenden (Maus-Interaktion bleibt aktiv, damit normales Spielen funktioniert).
-- Editor-Layer liegt darüber mit `z-30`, akzeptiert Pointer-Events nur während aktivem Drag/Resize.
+## Nach Approval
 
-### Keine Änderungen an
-
-- `src/game/scenes.ts`-Schema oder Typen (`src/game/types.ts`) — wir editieren nur die Werte.
-- Mobile Stage / Aspect-Ratio-Logik — die ist mit dem 4:3-Layer + 16:9-Bühne richtig.
-- Hotspot-Koordinatensystem (bleibt Prozent vom 4:3-Layer; das hat sich bewährt und vermeidet doppelte Umrechnungen).
-
-## Liefer-Reihenfolge
-
-1. Editor-Werkzeug bauen + dokumentieren (1 Schritt).
-2. Szene 1–6 (Apartment + 4 Flure + apt2612/13) korrigieren — größte sichtbare Bugs.
-3. Szene 7–13 (Korridore, Aufzug, Lobbies, Passage).
-4. Szene 14–17 (Räume, Server-Raum).
-5. Szene 18–19 (Common Room, Kantine, Mira-Apartment) — Sanity-Pass.
-6. Final: kurzer End-to-End-Run durch Akt I, in dem jede Szene mindestens einmal besucht und jeder Pflicht-Hotspot benutzt wird.
-
-Die Korrektur-Schritte 2–5 lassen sich auf mehrere Antworten aufteilen, damit du jederzeit zwischendrin reviewen kannst.
+Ich setze 1+2+3 in einem Rutsch um (Aufzug zuerst inkl. Sound), dann frage ich dich für jede weitere Szene aus der Liste oben einzeln nach einem Screenshot, bevor ich weiter justiere.
