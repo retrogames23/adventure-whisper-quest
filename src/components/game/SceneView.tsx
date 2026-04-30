@@ -21,6 +21,24 @@ export function SceneView() {
     typeof current.background === "function"
       ? current.background(api)
       : current.background;
+  // Optionaler Bild-Zoom (siehe Scene.bgFocus). Wird auf das
+  // Hintergrund-<img> angewendet, damit zu kleinteilige Szenen
+  // (z. B. Aufzug, in dem das Panel nur einen schmalen Bereich
+  // einnimmt) heran-skaliert werden können. Hotspot-Koordinaten
+  // müssen passend zum gezoomten Motiv gesetzt werden.
+  //
+  // Außerdem nutzen wir bgFocus als Hinweis, dass der Hintergrund
+  // visuell auf den 4:3-Bereich „eingerahmt" werden soll: dann
+  // erweitern wir den Bild-Container auf die 4:3-Breite, was
+  // automatisch dafür sorgt, dass Bild und Hotspot-Layer
+  // deckungsgleich sind.
+  const bgFocus = current.bgFocus;
+  const bgImgStyle: React.CSSProperties | undefined = bgFocus
+    ? {
+        transform: `scale(${bgFocus.scale})`,
+        transformOrigin: `${bgFocus.originX}% ${bgFocus.originY}%`,
+      }
+    : undefined;
   const [showIntro, setShowIntro] = useState(true);
   // Wackelt nur für max. 10 Sekunden ab dem Moment, in dem die Überlastung beginnt.
   const [shakeActive, setShakeActive] = useState(false);
@@ -134,6 +152,7 @@ export function SceneView() {
             ? "corridor-emergency-power"
             : ""
         }`}
+        style={bgImgStyle}
       />
 
       {/* 4:3-Hotspot-Layer: liegt mittig in der 16:9-Bühne und deckt

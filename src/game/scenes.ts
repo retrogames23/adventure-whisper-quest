@@ -24,7 +24,17 @@ import philippeSprite from "@/assets/npc-philippe.png";
 import commonRoomBg from "@/assets/scene-common-room.jpg";
 import cafeteriaBg from "@/assets/scene-cafeteria-e67.jpg";
 import aptMira4601Bg from "@/assets/scene-apt-mira-4601.jpg";
-import type { Scene } from "./types";
+import type { GameApi, Scene, SceneId } from "./types";
+import { playSound } from "@/lib/sound";
+
+const ELEVATOR_DING = "/audio/elevator-ding.mp3";
+
+/** Spielt das klassische Aufzug-„Ding-Dong" und wechselt danach die Szene. */
+function rideElevator(api: GameApi, target: SceneId) {
+  playSound(ELEVATOR_DING, 0.7);
+  // Kurze Verzögerung, damit der erste Ton noch im Aufzug zu hören ist.
+  window.setTimeout(() => api.goTo(target), 350);
+}
 
 export const scenes: Record<string, Scene> = {
   apartment: {
@@ -1399,71 +1409,71 @@ export const scenes: Record<string, Scene> = {
       "Käfig aus Edelstahl, halb so groß wie eine Wohnung. An der rechten Seitenwand: ein Bedienfeld mit fünf Knöpfen. Über der Tür blinzelt der Etagen-Indikator.",
     hotspots: [
       // Knöpfe von oben (5) nach unten (1) — passend zum Hintergrundbild.
-      // Hotspot-Boxen decken Label-Plättchen UND amber-Knopf in einem Stück ab.
-      // Bild ist 1:1, wird in 4:3-Container per object-cover gezeigt
-      // (oben/unten je 12,5 % beschnitten). y-Werte sind bereits umgerechnet.
+      // Bild wurde auf 4:3 zugeschnitten (rechte Hälfte des 16:9-Originals),
+      // sodass das Bedienpanel groß rechts sitzt. Hotspot-Boxen decken
+      // jeweils nur den amber-Knopf ab.
       {
         id: "btn5",
-        x: 66,
-        y: 25,
-        w: 20,
-        h: 9,
+        x: 60,
+        y: 38,
+        w: 8,
+        h: 8,
         label: "Etage 5 — Wohnen / Dach",
         kind: "exit",
         exitDir: "left",
-        onUse: (api) => api.goTo("corridor56"),
+        onUse: (api) => rideElevator(api, "corridor56"),
       },
       {
         id: "btn4",
-        x: 66,
-        y: 37,
-        w: 20,
-        h: 9,
+        x: 60,
+        y: 48,
+        w: 8,
+        h: 8,
         label: "Etage 4 — Wohnen",
         kind: "exit",
         exitDir: "left",
-        onUse: (api) => api.goTo("corridor46"),
+        onUse: (api) => rideElevator(api, "corridor46"),
       },
       {
         id: "btn3",
-        x: 66,
-        y: 49,
-        w: 20,
-        h: 9,
+        x: 60,
+        y: 58,
+        w: 8,
+        h: 8,
         label: "Etage 3 — Verwaltung und Versorgung",
         kind: "exit",
         exitDir: "left",
-        onUse: (api) => api.goTo("corridor36"),
+        onUse: (api) => rideElevator(api, "corridor36"),
       },
       {
         id: "btn2",
-        x: 66,
-        y: 61,
-        w: 20,
-        h: 9,
+        x: 60,
+        y: 68,
+        w: 8,
+        h: 8,
         label: "Etage 2 — Korridor 26 (Heim)",
         kind: "exit",
         exitDir: "left",
-        onUse: (api) => api.goTo("hallway"),
+        onUse: (api) => rideElevator(api, "hallway"),
       },
       {
         id: "btn1",
-        x: 66,
-        y: 73,
-        w: 20,
-        h: 9,
+        x: 60,
+        y: 78,
+        w: 8,
+        h: 8,
         label: "Etage 1 — Lobby",
         kind: "exit",
         exitDir: "left",
-        onUse: (api) => api.goTo("floor1Lobby"),
+        onUse: (api) => rideElevator(api, "floor1Lobby"),
       },
       {
         // Etagen-Indikator über den Türen — kleines amber-Display.
         id: "elevatorIndicator",
-        x: 12,
-        y: 0,
-        w: 30,
-        h: 6,
+        x: 26,
+        y: 8,
+        w: 28,
+        h: 10,
         label: "Etagen-Indikator",
         kind: "look",
         onUse: (api) =>
