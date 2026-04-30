@@ -26,7 +26,7 @@ import { DsaCharacterCreator } from "./DsaCharacterCreator";
 import { DsaAdventureScene } from "./DsaAdventureScene";
 import { DsaCharacterSheet } from "./DsaCharacterSheet";
 import { HandbookOverlay } from "./HandbookOverlay";
-import { HelpOverlay } from "./HelpOverlay";
+import { HelpOverlay, type HelpTab } from "./HelpOverlay";
 import { IdCardOverlay } from "./IdCardOverlay";
 import { LobbyGate } from "./LobbyGate";
 import { PneumaticTubeOverlay } from "./PneumaticTubeOverlay";
@@ -67,7 +67,7 @@ function DsaMusicBridge() {
 export function Game() {
   const [started, setStarted] = useState(false);
   const [pauseOpen, setPauseOpen] = useState(false);
-  const [helpOpen, setHelpOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState<false | HelpTab>(false);
 
   useEffect(() => {
     if (!started) return;
@@ -75,7 +75,7 @@ export function Game() {
       if (e.key === "Escape") setPauseOpen((v) => !v);
       if (e.key === "F1") {
         e.preventDefault();
-        setHelpOpen((v) => !v);
+        setHelpOpen((v) => (v ? false : "cheatsheet"));
       }
     };
     window.addEventListener("keydown", onKey);
@@ -131,8 +131,8 @@ function GameStage({
 }: {
   pauseOpen: boolean;
   setPauseOpen: (v: boolean) => void;
-  helpOpen: boolean;
-  setHelpOpen: (v: boolean) => void;
+  helpOpen: false | HelpTab;
+  setHelpOpen: (v: false | HelpTab) => void;
 }) {
   const {
     terminalOpen,
@@ -190,7 +190,7 @@ function GameStage({
       <div className="flex h-screen flex-col overflow-hidden bg-bureaucracy mobile-stage-host">
         <TopBar
           onOpenPause={() => setPauseOpen(true)}
-          onOpenHelp={() => setHelpOpen(true)}
+          onOpenHelp={(tab) => setHelpOpen(tab ?? "cheatsheet")}
         />
         <main className="relative flex min-h-0 flex-1 items-center justify-center px-2 py-2 sm:px-4">
           <div className="relative flex h-full w-full items-center justify-center">
@@ -209,7 +209,11 @@ function GameStage({
             <DsaCharacterSheet />
             <DsaMusicBridge />
             <HandbookOverlay open={handbookOpen} onClose={closeHandbook} />
-            <HelpOverlay open={helpOpen} onClose={() => setHelpOpen(false)} />
+            <HelpOverlay
+              open={helpOpen !== false}
+              initialTab={helpOpen === false ? "cheatsheet" : helpOpen}
+              onClose={() => setHelpOpen(false)}
+            />
             <IdCardOverlay open={idCardOpen} onClose={closeIdCard} />
             <LobbyGate />
             <PneumaticTubeOverlay />
