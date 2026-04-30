@@ -66,7 +66,7 @@ export const Route = createFileRoute("/api/public/donation-checkout")({
           `https://${request.headers.get("host")}`;
 
         const stripe = new Stripe(stripeKey, {
-          apiVersion: "2025-08-27.basil",
+          apiVersion: "2026-04-22.dahlia",
         });
 
         let customerId: string | undefined;
@@ -86,7 +86,7 @@ export const Route = createFileRoute("/api/public/donation-checkout")({
             mode: "payment",
             customer: customerId,
             customer_email: customerId ? undefined : user.email,
-            client_reference_id: user.id,
+            client_reference_id: user.id ?? null,
             metadata: {
               user_id: user.id,
               email: user.email,
