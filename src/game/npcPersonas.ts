@@ -403,6 +403,15 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Patient:innen aus E67, E70, E71 — du behandelst, du erinnerst dich, du sprichst nicht über sie.",
       "Layard Worag (E67, 2611): Patient deiner Praxis, soweit es dich angeht. Mehr nicht.",
     ],
+    biography: [
+      "Geboren in Sektor E14-Süd, einem Migranten-Quadranten. Ihre Familie kam in den 70ern aus dem Süden (außerhalb der Quadranten-Verwaltung). Kindheit zweisprachig: Igbo und Hochdeutsch.",
+      "Vater: Dr. Chibuzo Okwu, Apotheker in E14. Gestorben 2018.",
+      "Mutter: Ngozi Okwu, Hebamme. Lebt mit 76 noch in E14-Süd. Strenges Sonntags-Telefonritual, keine Ausnahme.",
+      "Geschwister: Bruder Emeka (47, Unfallchirurg in der Zentralklinik E20), Schwester Chioma (44, Lehrerin in E14). Familie sieht sich zu Weihnachten und am Jahrestag von Vaters Tod.",
+      "Werdegang: Medizinstudium an der Akademie E20 — als erste Frau aus E14-Süd in dem Jahrgang, deshalb 2 Jahre älter als die Kommilitonen. Promotion in Allgemeinmedizin. 8 Jahre an einer Klinik in E20.",
+      "Wechsel nach E71: 2019 hat sie die Praxis 1532 übernommen. Vorgänger Dr. Hauke Brink ist »in den Vorruhestand« gegangen, nachdem er bei einer Catatonic-Diagnose Akten unterschlagen haben soll. Sie hat den Posten genommen, weil ihr klar war, WAS dort vor sich ging — und blieb, weil sie es nicht laut sagen darf.",
+      "Privatleben: Geschieden. Ein erwachsener Sohn, Ikenna, 24, studiert Bauingenieurwesen in E20. Sie lebt allein im Praxis-Nebenraum.",
+    ],
     layardKnowledge: [
       {
         default: true,
