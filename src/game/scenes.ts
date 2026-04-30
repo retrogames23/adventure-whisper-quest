@@ -1569,7 +1569,7 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "lobbyElevator",
-        x: 78,
+        x: 62,
         y: 22,
         w: 18,
         h: 70,
