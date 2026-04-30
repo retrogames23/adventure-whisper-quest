@@ -165,6 +165,13 @@ const MIRA_REACTIONS: ItemReactionMap = {
     "Mira lächelt. Zum ersten Mal richtig.",
     "„Sie haben es behalten. Gut.“",
   ],
+  amplifierAntenna: [
+    "Mira nimmt die häßliche Spule, dreht sie einmal in der Hand.",
+    "„Du hast es wirklich gebaut.“",
+    "Sie hängt sie an den Draht, der aus dem Fenster führt.",
+    "„Geh ein Stück weg, dreh dein Schmerz-Radio auf 104,0 und halt die",
+    "Frequenz dort. Ich drücke von unten.“",
+  ],
 };
 
 const MIKAEL_REACTIONS: ItemReactionMap = {
@@ -278,9 +285,11 @@ const NPC_REACTIONS: Record<string, ItemReactionMap> = {
   bodoNpc: BODO_REACTIONS,
   door2614Ennis: ENNIS_REACTIONS,
   mikaelNpc: MIKAEL_REACTIONS,
+  mikaelNpcAfter: MIKAEL_REACTIONS,
   miraSpot36: MIRA_REACTIONS,
   miraSpot46: MIRA_REACTIONS,
   miraSpot56: MIRA_REACTIONS,
+  miraInRoom: MIRA_REACTIONS,
   kowalkSpot: KOWALK_REACTIONS,
   brustSpot: BRUST_REACTIONS,
 };
@@ -444,6 +453,33 @@ export function combineItem(
           return;
         }
       }
+      // ── Schmerz-Radio-Erweiterung: Verstärker-Antenne bauen.
+      //    Bernstein-Kristall + Antennen-Draht → Verstärker-Antenne.
+      //    Beide Bauteile bleiben in Layards Tasche (er braucht den
+      //    Kristall noch, der Draht ist Teil der Antenne — narrativ
+      //    abstrahiert).
+      if (pair === pairKey("tuningCrystal", "antennaWire")) {
+        if (!ctx.api.hasItem("amplifierAntenna")) {
+          ctx.api.addItem({
+            id: "amplifierAntenna",
+            name: "Verstärker-Antenne (improvisiert)",
+            description:
+              "Eine kleine, gewickelte Spule — Antennen-Draht um den Bernstein-Resonator gelegt. Sieht selbstgebastelt aus. Soll Miras Sender so weit verstärken, dass er das alte Trauer-Band überschreibt.",
+          });
+          ctx.api.showText([
+            "Layard wickelt den Antennen-Draht eng um den Bernstein-Resonator.",
+            "Eine kleine, häßliche Spule entsteht. Sie summt, wenn er sie näher",
+            "ans Schmerz-Radio hält.",
+            "„Mira müsste damit was anfangen können.“",
+          ]);
+        } else {
+          ctx.api.showText([
+            "Eine Verstärker-Antenne hat Layard bereits.",
+            "Eine zweite würde dasselbe tun.",
+          ]);
+        }
+        return;
+      }
       lines = ITEM_PAIRS[pairKey(itemId, otherId)];
     }
   } else {
@@ -453,6 +489,23 @@ export function combineItem(
       if (!ctx.api.hasFlag("sectorDoorOpen")) {
         ctx.api.setFlag("sectorDoorOpen");
       }
+    }
+    // Spezialfall: Verstärker-Antenne an Mira (in jeder Mira-Szene).
+    // Setzt das Flag, das das Resonanz-Duell im Schmerz-Radio scharf
+    // schaltet. Item bleibt im Inventar — narrativ ist die Antenne
+    // jetzt an Miras Sender; Layards Notiz davon bleibt.
+    const miraHotspots = new Set([
+      "miraSpot36",
+      "miraSpot46",
+      "miraSpot56",
+      "miraInRoom",
+    ]);
+    if (
+      itemId === "amplifierAntenna" &&
+      miraHotspots.has(ctx.targetId) &&
+      !ctx.api.hasFlag("miraHasAmplifier")
+    ) {
+      ctx.api.setFlag("miraHasAmplifier");
     }
     const hotspotMap = HOTSPOT_REACTIONS[ctx.targetId];
     const npcMap = NPC_REACTIONS[ctx.targetId];

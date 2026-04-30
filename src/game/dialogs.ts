@@ -1649,6 +1649,42 @@ export const dialogs: Record<string, DialogTree> = {
     },
   },
 
+  // Hinweis 3/3 für die Hidden Frequency 102,7 — Mikael bestätigt das
+  // Gefühl der Frequenz, ohne eine Zahl zu nennen. Er ist Resonanz-
+  // Archivar; das passt diegetisch zum „E67 — Resonanz — 1996–“-Etikett.
+  mikaelHiddenFreq: {
+    id: "mikaelHiddenFreq",
+    start: "mh1",
+    lines: {
+      mh1: {
+        id: "mh1",
+        speaker: "MIKAEL",
+        text: "Sie sind noch hier. Suchen Sie etwas, Herr Worag?",
+        next: "mh2",
+      },
+      mh2: {
+        id: "mh2",
+        speaker: "LAYARD",
+        text: "Eine Frequenz. Zwischen den Bändern. Niemand will sie zugeben.",
+        next: "mh3",
+      },
+      mh3: {
+        id: "mh3",
+        speaker: "MIKAEL",
+        text: "Dann hören Sie sie. Sie klingt wie eine Stimme, die nicht weint, aber kurz davor ist. Wer sie einmal gehört hat, erkennt sie wieder. Mehr sage ich nicht.",
+        subtext: "Er deutet kurz auf den Aktenschrank: »E67 — Resonanz — 1996–«.",
+        choices: [
+          {
+            text: "[ Verstanden. ]",
+            action: (api) => {
+              api.setFlag("mikaelHintHiddenFreqMood");
+            },
+          },
+        ],
+      },
+    },
+  },
+
   // ---------------------------------------------------------------
   // 11b. Akt-II-Übergang: Layard ruft aus 2611 die Leitstelle an.
   //      Insa öffnet sich zum ersten Mal — und lädt ihn ein.
@@ -2451,6 +2487,101 @@ export const dialogs: Record<string, DialogTree> = {
     },
   },
 
+  // ── Mira-Verstärker-Quest (Resonanz-Duell) ──────────────────────
+  // Beim zweiten Besuch in 4601 fragt Mira Layard um Hilfe: sie will
+  // Wut auf das Trauer-Band drücken und braucht eine improvisierte
+  // Verstärker-Antenne. Dafür zeigt sie ihm den Bauplan im Kopf:
+  // Bernstein-Kristall + Antennen-Draht.
+  miraAmplifierAsk: {
+    id: "miraAmplifierAsk",
+    npcId: "mira",
+    start: "ma1",
+    lines: {
+      ma1: {
+        id: "ma1",
+        speaker: "MIRA",
+        text: "Gut, dass du nochmal kommst. Ich brauche jemanden mit Hausschlüssel und ohne Akte.",
+        next: "ma2",
+      },
+      ma2: {
+        id: "ma2",
+        speaker: "MIRA",
+        text: "Ich versuche seit drei Wochen, auf das Trauer-Band zu senden. Wut. Konkret. Kein Diffuses.",
+        subtext: "Sie deutet zum Fenster — da hängt ein dünner Draht in den Innenhof.",
+        next: "ma3",
+      },
+      ma3: {
+        id: "ma3",
+        speaker: "MIRA",
+        text: "Aber Trauer ist seit 91 fest belegt. Mein Sender allein reicht nicht. Ich brauche eine Verstärker-Antenne, die mein Signal über das alte legt — wenigstens für ein paar Minuten.",
+        next: "ma4",
+      },
+      ma4: {
+        id: "ma4",
+        speaker: "LAYARD",
+        text: "Und ich soll die bauen?",
+        next: "ma5",
+      },
+      ma5: {
+        id: "ma5",
+        speaker: "MIRA",
+        text: "Du hast bessere Verbindungen als ich. Du brauchst zwei Sachen: einen Bernstein-Resonator — du hast einen, ich seh’ ihn an deiner Tasche — und ein Stück Antennen-Draht. Den findest du nicht im Bewohner-Handel, aber im Wartungsbereich. Frag Bodo. Oder schau im Serverraum 5610, wenn du da reinkommst.",
+        next: "ma6",
+      },
+      ma6: {
+        id: "ma6",
+        speaker: "MIRA",
+        text: "Wenn du beides hast, kombinier es und bring es mir. Ich häng’s an meinen Sender. Dann öffnest du dein Schmerz-Radio bei mir, gehst auf 104,0 und hältst die Frequenz, bis das Band kippt. Den Rest mache ich.",
+        choices: [
+          {
+            text: "Verstanden — ich besorg den Draht.",
+            action: (api) => api.setFlag("miraAskedAmplifier"),
+          },
+          {
+            text: "Klingt nach mehr Ärger, als ich heute brauche.",
+            action: (api) => api.setFlag("miraAskedAmplifier"),
+          },
+        ],
+      },
+    },
+  },
+
+  // Wiederbesuch, solange die Antenne noch nicht gebaut/übergeben ist.
+  miraAmplifierWait: {
+    id: "miraAmplifierWait",
+    npcId: "mira",
+    start: "mw1",
+    lines: {
+      mw1: {
+        id: "mw1",
+        speaker: "MIRA",
+        text: "Bernstein und Draht, Worag. Beides kombinieren, dann mir geben. Ich kann nicht ewig auf das Band schauen — irgendwann merkt jemand, dass ich es versuche.",
+        end: true,
+      },
+    },
+  },
+
+  // Nach erfolgreichem Resonanz-Duell.
+  miraAfterAmplifier: {
+    id: "miraAfterAmplifier",
+    npcId: "mira",
+    start: "mf1",
+    lines: {
+      mf1: {
+        id: "mf1",
+        speaker: "MIRA",
+        text: "Du hast das Band gehalten. Eine ganze Minute lang. Ich hab gemerkt, wie unten im zweiten Stock jemand das Radio leiser gedreht hat — weil Wut anders weh tut als Trauer.",
+        next: "mf2",
+      },
+      mf2: {
+        id: "mf2",
+        speaker: "MIRA",
+        text: "Das Terminal ist offen. Schau dich um, lies, was du willst. Ich passe nicht auf. Wenn du was kaputt machst, ist es eh nicht meins.",
+        end: true,
+      },
+    },
+  },
+
   // ---------------------------------------------------------------
   // Philippe — Sondierungs-Dialoge nach versiegelter Tür (2615).
   // Philippe versucht über mehrere Besuche herauszufinden, wer
@@ -2807,7 +2938,33 @@ export const dialogs: Record<string, DialogTree> = {
         id: "hs24",
         speaker: "HELKA",
         text: "Er wohnt noch hier. Drei Türen weiter. Er weiß es nicht. Ich weiß es. Sie wissen es jetzt auch.",
-        end: true,
+        choices: [
+          {
+            text: "Welche Frequenz hat er manipuliert? Nicht 104,6 — eine andere?",
+            next: "helkaHiddenFreq1",
+          },
+          { text: "[ Beenden ]" },
+        ],
+      },
+      // Hinweis 2/3 für die Hidden Frequency 102,7 — Helka nennt die Stelle.
+      helkaHiddenFreq1: {
+        id: "helkaHiddenFreq1",
+        speaker: "HELKA",
+        text: "Eine andere, ja. Sein Trick war einfach: er ist von der ersten Stelle des Trauer-Bandes — 103,4 — sieben Stufen nach unten gegangen, je ein Zehntel. Da, sagte er, sitzen die Wartungsleute. Da hört einen niemand zufällig.",
+        next: "helkaHiddenFreq2",
+      },
+      helkaHiddenFreq2: {
+        id: "helkaHiddenFreq2",
+        speaker: "HELKA",
+        text: "Ich habe nie geprüft, ob es stimmt. Ich habe es nur aufgeschrieben. Wenn Sie es heute prüfen wollen — von mir aus. Sagen Sie nicht, dass Sie es von mir wissen.",
+        choices: [
+          {
+            text: "[ Verstanden. ]",
+            action: (api) => {
+              api.setFlag("helkaHintHiddenFreqStep");
+            },
+          },
+        ],
       },
     },
   },
@@ -3009,7 +3166,31 @@ export const dialogs: Record<string, DialogTree> = {
             text: "Da bewegt sich etwas auf dem Sessel.",
             next: "bodoLottiReveal",
           },
+          {
+            text: "Sie haben vorhin von Trägersignalen geredet — gibt es da Frequenzen außerhalb der Skala?",
+            next: "bodoHiddenFreq1",
+          },
           { text: "[ Beenden ]" },
+        ],
+      },
+      // Hinweis 1/3 für die Hidden Frequency 102,7 — Bodo nennt das Band.
+      bodoHiddenFreq1: {
+        id: "bodoHiddenFreq1",
+        speaker: "BODO",
+        text: "Außerhalb der Skala? Nein. Aber zwischen den Bändern, das ist eine andere Sache. Stadtwerke hatten Wartungs-Träger, die haben wir nie auf die Bewohner-Skala gedruckt. Die lagen dort, wo niemand hinhörte: zwischen Einsamkeit und Trauer.",
+        next: "bodoHiddenFreq2",
+      },
+      bodoHiddenFreq2: {
+        id: "bodoHiddenFreq2",
+        speaker: "BODO",
+        text: "Zum Feintunen brauchten wir damals einen Bernstein-Resonator. So einen wie den, den Sie da in der Tasche haben, Worag. — Schon gut. Ich sehe nichts.",
+        choices: [
+          {
+            text: "[ Verstanden. ]",
+            action: (api) => {
+              api.setFlag("bodoHintHiddenFreqBand");
+            },
+          },
         ],
       },
       // Wiederverwendete Lotti-Reveal-Sequenz, falls der Spieler das Tier

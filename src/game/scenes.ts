@@ -1236,9 +1236,21 @@ export const scenes: Record<string, Scene> = {
         w: 30,
         h: 60,
         label: "Mikael Stegmann",
-        kind: "look",
+        kind: "talk",
         requires: ["metMikael"],
         onUse: (api) => {
+          // Hidden-Frequency-Hinweis: Hat Layard schon mindestens einen
+          // anderen Hinweis (Bodo oder Helka), bietet Mikael den dritten
+          // — kryptisch, aber bestätigend. Ohne Vorwissen bleibt es bei
+          // der bisherigen Schweigeszene.
+          if (
+            !api.hasFlag("mikaelHintHiddenFreqMood") &&
+            (api.hasFlag("bodoHintHiddenFreqBand") ||
+              api.hasFlag("helkaHintHiddenFreqStep"))
+          ) {
+            api.startDialog("mikaelHiddenFreq");
+            return;
+          }
           api.showText([
             "Mikael sieht kurz auf. Schüttelt langsam den Kopf.",
             "„Ich kann nichts annehmen, Herr Worag. Wirklich nicht.“",
@@ -2089,6 +2101,49 @@ export const scenes: Record<string, Scene> = {
             "Wärme von etwas, das ohne Pause arbeitet.",
           ]),
       },
+      // Wartungs-Funkgerät — alter Kassetten-Funk, an dem ein
+      // verschollener Vorgänger-Hausmeister einmal saß. Reagiert nur
+      // auf eine Frequenz, die nicht auf der Skala steht (102,7).
+      // Der Spieler muss die Zahl aus drei NPC-Aussagen herleiten,
+      // das Schmerz-Radio öffnen und feintunen.
+      {
+        id: "wartungsFunk5610",
+        x: 56,
+        y: 60,
+        w: 12,
+        h: 22,
+        label: "Wartungs-Funkgerät (alt)",
+        kind: "use",
+        onUse: (api) => {
+          if (!api.hasFlag("sawWartungsFunk5610")) {
+            api.setFlag("sawWartungsFunk5610");
+          }
+          if (api.hasFlag("hiddenFrequencyFound")) {
+            api.showText([
+              "Das alte Wartungs-Funkgerät rauscht leise vor sich hin.",
+              "Die Träger-Frequenz, die der Vorgänger-Hausmeister benutzt hat,",
+              "ist jetzt notiert. Mehr verrät das Gerät nicht.",
+            ]);
+            return;
+          }
+          if (!api.hasItem("tuningCrystal")) {
+            api.showText([
+              "Ein alter Kassetten-Funk mit handgekritzelter Skala.",
+              "Der Drehknopf ist abgebrochen — wer den hier benutzen wollte,",
+              "musste auf einer anderen Frequenz feintunen können.",
+              "Ohne ein passendes Werkzeug bleibt das Ding stumm.",
+            ]);
+            return;
+          }
+          api.showText([
+            "Ein alter Kassetten-Funk. Auf einer vergilbten Klebefläche steht:",
+            "»TRÄGER LIEGT NEBEN DER SKALA. NICHT AUF EINEM PRESET.«",
+            "Layard erinnert sich an den Bernstein-Kristall in seiner Tasche.",
+            "Wenn er das Schmerz-Radio öffnet und exakt die richtige Frequenz",
+            "trifft, wird das Funkgerät vielleicht antworten.",
+          ]);
+        },
+      },
       {
         id: "exit5610",
         x:  0,
@@ -2405,9 +2460,19 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) => {
           if (!api.hasFlag("miraAtHomeMet")) {
             api.startDialog("miraAtHomeIntro");
-          } else {
-            api.startDialog("miraAtHomeIntro");
+            return;
           }
+          if (api.hasFlag("miraSentAnger")) {
+            api.startDialog("miraAfterAmplifier");
+            return;
+          }
+          if (api.hasFlag("miraAskedAmplifier")) {
+            // Wiederholtes Nachfragen, solange Layard noch keine Antenne
+            // gebaut/übergeben hat.
+            api.startDialog("miraAmplifierWait");
+            return;
+          }
+          api.startDialog("miraAmplifierAsk");
         },
       },
       {
@@ -2418,7 +2483,17 @@ export const scenes: Record<string, Scene> = {
         h: 30,
         label: "Miras Terminal (FuckTheSystemOS)",
         kind: "use",
-        onUse: (api) => api.openTerminal({ mira: true }),
+        onUse: (api) => {
+          if (!api.hasFlag("miraTerminalUnlocked")) {
+            api.showText([
+              "Das Terminal summt. Der Login-Prompt blinkt.",
+              "Mira hat noch nicht gesagt, dass Layard hier reinschauen darf.",
+              "Solange das Trauer-Band steht, lässt sie ihn nicht ran.",
+            ]);
+            return;
+          }
+          api.openTerminal({ mira: true });
+        },
       },
       {
         id: "miraPosterLeine",
