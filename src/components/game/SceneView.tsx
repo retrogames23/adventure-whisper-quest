@@ -114,8 +114,10 @@ export function SceneView() {
         shakeActive ? "resonance-shake" : ""
       }`}
     >
-      {/* Inner 4:3 stage — keeps existing percent-based coordinates intact */}
-      <div className="relative mx-auto aspect-[4/3] h-full">
+      {/* Inner 16:9 stage — Hintergrundbilder sind nativ 16:9 und werden
+          jetzt vollständig (ohne Crop) gezeigt. Hotspot-Koordinaten in
+          scenes.ts sind auf diese 16:9-Bühne kalibriert. */}
+      <div className="relative mx-auto aspect-[16/9] h-full w-full">
         <img
           src={backgroundSrc}
           alt={current.title}
@@ -125,7 +127,7 @@ export function SceneView() {
           decoding="async"
           onLoad={() => markEssentialAssetsLoaded()}
           onError={() => markEssentialAssetsLoaded()}
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${
+          className={`pointer-events-none absolute inset-0 h-full w-full object-contain ${
             scene === "corridor56" && flags.has("burnedNode5610")
               ? "corridor-emergency-power"
               : ""
