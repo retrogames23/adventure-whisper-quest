@@ -165,6 +165,13 @@ const MIRA_REACTIONS: ItemReactionMap = {
     "Mira lächelt. Zum ersten Mal richtig.",
     "„Sie haben es behalten. Gut.“",
   ],
+  amplifierAntenna: [
+    "Mira nimmt die häßliche Spule, dreht sie einmal in der Hand.",
+    "„Du hast es wirklich gebaut.“",
+    "Sie hängt sie an den Draht, der aus dem Fenster führt.",
+    "„Geh ein Stück weg, dreh dein Schmerz-Radio auf 104,0 und halt die",
+    "Frequenz dort. Ich drücke von unten.“",
+  ],
 };
 
 const MIKAEL_REACTIONS: ItemReactionMap = {
