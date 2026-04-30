@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { npcPersonas } from "@/game/npcPersonas";
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * Free-Mode NPC Chat — Cloud-Fallback, wenn der Browser kein WebGPU
@@ -38,6 +39,9 @@ function rateLimited(ip: string): boolean {
 }
 
 const ALLOWED_NPCS = new Set(Object.keys(npcPersonas));
+
+const SOFT_LIMIT = 30;
+const HARD_LIMIT = 50;
 
 function json(status: number, data: unknown): Response {
   return new Response(JSON.stringify(data), {
@@ -82,6 +86,57 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           "unknown";
         if (rateLimited(ip)) {
           return json(429, { error: "Rate limit exceeded" });
+        }
+
+        // Per-User Counter & Spenden-Gate (nur für eingeloggte User).
+        // Anonyme Anfragen werden vom Frontend nicht erlaubt — falls doch,
+        // greift weiter unten der IP-Rate-Limit.
+        const supabaseUrl = process.env.SUPABASE_URL;
+        const supabasePub = process.env.SUPABASE_PUBLISHABLE_KEY;
+        const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        const authHeader = request.headers.get("authorization") ?? "";
+        const userToken = authHeader.replace(/^Bearer\s+/i, "");
+
+        let countAfter: number | null = null;
+        let donationUnlocked = false;
+
+        if (userToken && supabaseUrl && supabasePub && serviceKey) {
+          const userClient = createClient(supabaseUrl, supabasePub, {
+            global: { headers: { Authorization: `Bearer ${userToken}` } },
+            auth: { persistSession: false, autoRefreshToken: false },
+          });
+          const { data: u } = await userClient.auth.getUser(userToken);
+          const uid = u?.user?.id;
+          if (uid) {
+            const admin = createClient(supabaseUrl, serviceKey, {
+              auth: { persistSession: false, autoRefreshToken: false },
+            });
+            const { data: profile } = await admin
+              .from("profiles")
+              .select("donation_unlocked, cloud_request_count")
+              .eq("user_id", uid)
+              .maybeSingle();
+            donationUnlocked = !!profile?.donation_unlocked;
+            const current = profile?.cloud_request_count ?? 0;
+            if (!donationUnlocked && current >= HARD_LIMIT) {
+              return json(402, {
+                error:
+                  "Cloud-Limit erreicht. Bitte spende, um weiter chatten zu können.",
+                code: "donation_required",
+                count: current,
+                limit: HARD_LIMIT,
+              });
+            }
+            // Increment (nur wenn nicht freigeschaltet — sonst schenken wir uns die DB-Schreibe).
+            if (!donationUnlocked) {
+              const next = current + 1;
+              await admin
+                .from("profiles")
+                .update({ cloud_request_count: next })
+                .eq("user_id", uid);
+              countAfter = next;
+            }
+          }
         }
 
         let body: unknown;
@@ -227,7 +282,13 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         const reply = data.choices?.[0]?.message?.content?.trim() ?? "";
         if (!reply) return json(502, { error: "Leere Antwort." });
 
-        return json(200, { reply });
+        return json(200, {
+          reply,
+          count: countAfter,
+          limit: HARD_LIMIT,
+          softLimit: SOFT_LIMIT,
+          unlocked: donationUnlocked,
+        });
       },
     },
   },
