@@ -400,9 +400,8 @@ export function ParamedicsCutscene() {
       api.setFlag("protocolReceived");
       api.addItem({
         id: "protocol",
-        name: "Einsatzprotokoll (verschlüsselt)",
-        description:
-          "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
+        name: PARAMEDICS_PROTOCOL_ITEM.name,
+        description: PARAMEDICS_PROTOCOL_ITEM.description,
       });
       api.setKnowledge("responsibilityE67");
       api.setFlag("elevatorMaintBlocked");
