@@ -37,7 +37,7 @@ export const scenes: Record<string, Scene> = {
       {
         id: "radio",
         x: 17,
-        y: 38,
+        y: 52,
         w: 9,
         h: 19,
         label: "Schmerz-Radio",
@@ -47,7 +47,7 @@ export const scenes: Record<string, Scene> = {
       {
         id: "terminal",
         x: 23,
-        y: 25,
+        y: 38,
         w: 18,
         h: 28,
         label: "CentralOS Terminal",
