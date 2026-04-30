@@ -371,6 +371,10 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   quittungForged4317: QuittungForgedIcon,
   tillaTransfer: TillaTransferIcon,
   miraDoorNote: FlyerIcon,
+  // Schmerz-Radio-Erweiterung — vorerst aus dem bestehenden Bestand.
+  antennaWire: TuningCrystalIcon,
+  amplifierAntenna: TuningCrystalIcon,
+  wartungsDiktat: WartungsnotizIcon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */
