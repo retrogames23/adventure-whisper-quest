@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as ApiPublicNpcChatRouteImport } from './routes/api/public/npc-chat'
+import { Route as ApiPublicDonationCheckoutRouteImport } from './routes/api/public/donation-checkout'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,11 +26,22 @@ const ApiTtsRoute = ApiTtsRouteImport.update({
   path: '/api/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
+  id: '/api/public/stripe-webhook',
+  path: '/api/public/stripe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicNpcChatRoute = ApiPublicNpcChatRouteImport.update({
   id: '/api/public/npc-chat',
   path: '/api/public/npc-chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicDonationCheckoutRoute =
+  ApiPublicDonationCheckoutRouteImport.update({
+    id: '/api/public/donation-checkout',
+    path: '/api/public/donation-checkout',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -39,20 +52,26 @@ const LovableEmailQueueProcessRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/tts': typeof ApiTtsRoute
+  '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/npc-chat': typeof ApiPublicNpcChatRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/tts': typeof ApiTtsRoute
+  '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/npc-chat': typeof ApiPublicNpcChatRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/tts': typeof ApiTtsRoute
+  '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/npc-chat': typeof ApiPublicNpcChatRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
@@ -60,22 +79,34 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/api/tts'
+    | '/api/public/donation-checkout'
     | '/api/public/npc-chat'
+    | '/api/public/stripe-webhook'
     | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/tts' | '/api/public/npc-chat' | '/lovable/email/queue/process'
+  to:
+    | '/'
+    | '/api/tts'
+    | '/api/public/donation-checkout'
+    | '/api/public/npc-chat'
+    | '/api/public/stripe-webhook'
+    | '/lovable/email/queue/process'
   id:
     | '__root__'
     | '/'
     | '/api/tts'
+    | '/api/public/donation-checkout'
     | '/api/public/npc-chat'
+    | '/api/public/stripe-webhook'
     | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiTtsRoute: typeof ApiTtsRoute
+  ApiPublicDonationCheckoutRoute: typeof ApiPublicDonationCheckoutRoute
   ApiPublicNpcChatRoute: typeof ApiPublicNpcChatRoute
+  ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
@@ -95,11 +126,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTtsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/stripe-webhook': {
+      id: '/api/public/stripe-webhook'
+      path: '/api/public/stripe-webhook'
+      fullPath: '/api/public/stripe-webhook'
+      preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/npc-chat': {
       id: '/api/public/npc-chat'
       path: '/api/public/npc-chat'
       fullPath: '/api/public/npc-chat'
       preLoaderRoute: typeof ApiPublicNpcChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/donation-checkout': {
+      id: '/api/public/donation-checkout'
+      path: '/api/public/donation-checkout'
+      fullPath: '/api/public/donation-checkout'
+      preLoaderRoute: typeof ApiPublicDonationCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lovable/email/queue/process': {
@@ -115,18 +160,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiTtsRoute: ApiTtsRoute,
+  ApiPublicDonationCheckoutRoute: ApiPublicDonationCheckoutRoute,
   ApiPublicNpcChatRoute: ApiPublicNpcChatRoute,
+  ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

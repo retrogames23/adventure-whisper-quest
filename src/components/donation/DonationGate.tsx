@@ -1,0 +1,80 @@
+import { useEffect, useState } from "react";
+import { onCloudError, onCloudUsage } from "@/llm/cloudLlmRuntime";
+import { useDonationStatus } from "@/hooks/useDonationStatus";
+import { useAuth } from "@/auth/AuthContext";
+import { DonationModal } from "./DonationModal";
+
+/**
+ * Globaler Listener: zeigt das Spenden-Modal bei Soft-Limit (Warnung)
+ * und Hard-Limit (Block). Soft wird nur einmal pro Session angezeigt.
+ */
+export function DonationGate() {
+  const { user } = useAuth();
+  const status = useDonationStatus();
+  const [open, setOpen] = useState(false);
+  const [variant, setVariant] = useState<"soft" | "hard" | "manual">("soft");
+  const [shownSoftAt, setShownSoftAt] = useState<number | null>(null);
+  const [count, setCount] = useState(0);
+
+  // Hard-Limit aus 402-Response
+  useEffect(() => {
+    return onCloudError((e) => {
+      if (e.code === "donation_required" && user && !status.unlocked) {
+        setVariant("hard");
+        setCount(status.hardLimit);
+        setOpen(true);
+      }
+    });
+  }, [user, status.unlocked, status.hardLimit]);
+
+  // Soft-Limit beim Erreichen von 30 (einmal pro Session)
+  useEffect(() => {
+    return onCloudUsage((e) => {
+      if (e.unlocked || !user) return;
+      const c = e.count ?? 0;
+      if (c >= e.softLimit && c < e.limit && shownSoftAt !== c) {
+        setShownSoftAt(c);
+        setVariant("soft");
+        setCount(c);
+        setOpen(true);
+      }
+    });
+  }, [user, shownSoftAt]);
+
+  // Erfolgs-/Cancel-Banner aus URL nach Stripe-Redirect
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const donation = params.get("donation");
+    if (donation === "success") {
+      void status.refresh();
+      params.delete("donation");
+      const qs = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + (qs ? `?${qs}` : ""),
+      );
+    } else if (donation === "cancel") {
+      params.delete("donation");
+      const qs = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + (qs ? `?${qs}` : ""),
+      );
+    }
+    // run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <DonationModal
+      open={open}
+      onClose={() => setOpen(false)}
+      variant={variant}
+      count={count}
+      hardLimit={status.hardLimit}
+    />
+  );
+}
