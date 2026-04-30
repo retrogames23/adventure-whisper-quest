@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
-import { Radio, TerminalSquare, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle } from "lucide-react";
+import { Radio, TerminalSquare, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb } from "lucide-react";
 
 interface Props {
   onOpenPause: () => void;
-  onOpenHelp: () => void;
+  onOpenHelp: (tab?: "cheatsheet" | "hints") => void;
 }
 
 export function TopBar({ onOpenPause, onOpenHelp }: Props) {
@@ -142,12 +142,24 @@ export function TopBar({ onOpenPause, onOpenHelp }: Props) {
           </button>
           <button
             type="button"
-            onClick={onOpenHelp}
+            onClick={() => onOpenHelp("cheatsheet")}
             title="Spielehilfe (F1)"
             aria-label="Spielehilfe öffnen"
             className="group inline-flex h-8 w-8 items-center justify-center rounded-sm border border-amber-glow/30 bg-gradient-to-b from-amber-glow/10 to-transparent text-amber-glow/85 transition-all duration-200 hover:-translate-y-px hover:border-amber-glow/70 hover:text-amber-glow hover:shadow-[0_0_12px_rgba(255,170,60,0.25)]"
           >
             <HelpCircle className="h-4 w-4" strokeWidth={2.25} />
+          </button>
+          <button
+            type="button"
+            onClick={() => onOpenHelp("hints")}
+            title="Stuck? Tipps anzeigen"
+            aria-label="Tipps anzeigen — wenn du nicht weiterkommst"
+            className="group inline-flex h-8 items-center gap-1.5 rounded-sm border border-amber-glow/30 bg-gradient-to-b from-amber-glow/10 to-transparent px-2 text-amber-glow/85 transition-all duration-200 hover:-translate-y-px hover:border-amber-glow/70 hover:text-amber-glow hover:shadow-[0_0_12px_rgba(255,170,60,0.25)]"
+          >
+            <Lightbulb className="h-4 w-4" strokeWidth={2.25} />
+            <span className="font-display text-[10px] uppercase tracking-[0.2em] hidden sm:inline">
+              Stuck?
+            </span>
           </button>
         </div>
       </div>
