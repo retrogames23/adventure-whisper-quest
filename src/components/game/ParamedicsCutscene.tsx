@@ -60,11 +60,18 @@ function holdFor(text: string, factor = 70): number {
   return Math.max(2400, Math.min(7000, Math.round(text.length * factor + 800)));
 }
 
-/** Untertitel-Zeilen mit `hold`-Dauer aus den reinen Text-Daten anreichern. */
-function withHold(lines: ParamedicsLine[], extraTailMs = 0): Line[] {
+/**
+ * Untertitel-Zeilen mit `hold`-Dauer aus den reinen Text-Daten anreichern.
+ * `extraHoldByIndex` ergänzt einzelne Zeilen um zusätzliche Halte-Zeit
+ * (z. B. für Atempausen vor besonders bedeutungsvollen Sätzen).
+ */
+function withHold(
+  lines: ParamedicsLine[],
+  extraHoldByIndex: Record<number, number> = {},
+): Line[] {
   return lines.map((ln, i) => ({
     ...ln,
-    hold: holdFor(ln.text) + (i === lines.length - 1 ? extraTailMs : 0),
+    hold: holdFor(ln.text) + (extraHoldByIndex[i] ?? 0),
   }));
 }
 
@@ -124,7 +131,9 @@ function buildBeats(): Beat[] {
       image: beat6,
       zoom: [1.04, 1.10],
       pan: [-1, -1, 1, 1],
-      lines: withHold(PARAMEDICS_LINES[5], 400),
+      // Beat 5: kleine Atempause nach „In Ordnung." (Index 4) und vor
+      // dem SYSTEM-Schlusssatz (Index 5).
+      lines: withHold(PARAMEDICS_LINES[5], { 4: 300, 5: 400 }),
       tail: 600,
     },
   ];
