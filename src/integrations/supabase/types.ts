@@ -14,45 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      donation_codes: {
+      donations: {
         Row: {
           amount_cents: number
-          code: string
           created_at: string
           currency: string
           email: string
           id: string
-          redeemed_at: string | null
-          redeemed_device_id: string | null
           stripe_payment_intent: string | null
           stripe_session_id: string
-          updated_at: string
+          user_id: string
         }
         Insert: {
           amount_cents: number
-          code: string
           created_at?: string
           currency?: string
           email: string
           id?: string
-          redeemed_at?: string | null
-          redeemed_device_id?: string | null
           stripe_payment_intent?: string | null
           stripe_session_id: string
-          updated_at?: string
+          user_id: string
         }
         Update: {
           amount_cents?: number
-          code?: string
           created_at?: string
           currency?: string
           email?: string
           id?: string
-          redeemed_at?: string | null
-          redeemed_device_id?: string | null
           stripe_payment_intent?: string | null
           stripe_session_id?: string
-          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -177,6 +168,36 @@ export type Database = {
           saved_at?: string
           scene?: string
           slot?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          cloud_request_count: number
+          created_at: string
+          donation_unlocked: boolean
+          email: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cloud_request_count?: number
+          created_at?: string
+          donation_unlocked?: boolean
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cloud_request_count?: number
+          created_at?: string
+          donation_unlocked?: boolean
+          email?: string | null
+          id?: string
           updated_at?: string
           user_id?: string
         }
