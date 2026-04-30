@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as ApiPublicNpcChatRouteImport } from './routes/api/public/npc-chat'
+import { Route as ApiPublicDonationCheckoutRouteImport } from './routes/api/public/donation-checkout'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,12 @@ const ApiPublicNpcChatRoute = ApiPublicNpcChatRouteImport.update({
   path: '/api/public/npc-chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicDonationCheckoutRoute =
+  ApiPublicDonationCheckoutRouteImport.update({
+    id: '/api/public/donation-checkout',
+    path: '/api/public/donation-checkout',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -39,12 +46,14 @@ const LovableEmailQueueProcessRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/tts': typeof ApiTtsRoute
+  '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/npc-chat': typeof ApiPublicNpcChatRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/tts': typeof ApiTtsRoute
+  '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/npc-chat': typeof ApiPublicNpcChatRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
@@ -52,6 +61,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/tts': typeof ApiTtsRoute
+  '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/npc-chat': typeof ApiPublicNpcChatRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
@@ -60,14 +70,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/api/tts'
+    | '/api/public/donation-checkout'
     | '/api/public/npc-chat'
     | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/tts' | '/api/public/npc-chat' | '/lovable/email/queue/process'
+  to:
+    | '/'
+    | '/api/tts'
+    | '/api/public/donation-checkout'
+    | '/api/public/npc-chat'
+    | '/lovable/email/queue/process'
   id:
     | '__root__'
     | '/'
     | '/api/tts'
+    | '/api/public/donation-checkout'
     | '/api/public/npc-chat'
     | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
@@ -75,6 +92,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiTtsRoute: typeof ApiTtsRoute
+  ApiPublicDonationCheckoutRoute: typeof ApiPublicDonationCheckoutRoute
   ApiPublicNpcChatRoute: typeof ApiPublicNpcChatRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
@@ -102,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicNpcChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/donation-checkout': {
+      id: '/api/public/donation-checkout'
+      path: '/api/public/donation-checkout'
+      fullPath: '/api/public/donation-checkout'
+      preLoaderRoute: typeof ApiPublicDonationCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
       path: '/lovable/email/queue/process'
@@ -115,6 +140,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiTtsRoute: ApiTtsRoute,
+  ApiPublicDonationCheckoutRoute: ApiPublicDonationCheckoutRoute,
   ApiPublicNpcChatRoute: ApiPublicNpcChatRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
