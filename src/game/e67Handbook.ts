@@ -76,6 +76,22 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     ],
   },
   {
+    id: "p36",
+    shortTitle: "§3.6 Beschwerden",
+    title: "§3.6 Beschwerdewege, Schicht-Übergaben & Vollmachten",
+    body: [
+      "Sollte ein Anliegen am Tresen einer Ausgabezone (Kantine 26, Wäscherei 27, Postamt 28) **nicht direkt freigegeben** werden, beachten Sie bitte:",
+      "- Bestehen Sie nicht auf einer ärztlichen Bescheinigung, wenn eine **Vollmacht mit Marteau-Vermerk** vorliegt — diese gilt nach **§5 Abs. 2 lit. b** als hinreichendes Indiz.",
+      "- Bei Schichtwechsel: Eine Vollmacht der **Schicht A** kann am selben Werktag in **Schicht B** weiterbedient werden (**§3 Abs. 4 — Schichtübergangsklausel**), sofern sie vor 14:00 vorgelegt wurde.",
+      "- **Carbon-Durchschläge** der Schicht A gelten nach **§7 Abs. 1** als ausgabegleichwertig, sofern das Trockensiegel auf der dritten Lage lesbar ist.",
+      "- Die **Gegenzeichnung** auf dem Trockensiegel ersetzt nach **§1 Abs. 3 der Schichtübergabeordnung** die Eintragung im Handzettel.",
+      "- Bei Diskussionen über die **Sichtbarkeit eines Siegels:** Eine bloße Mattheit oder ein abgegriffener Bogen begründen keine Zurückweisung — verlangt ist nach **§1 Abs. 5** ein *vollständig fehlender* Bogen.",
+      "- Eine Aufforderung zum **Rückruf bei der Leitstelle** ist nach **§6 Abs. 4 (Bringschuld)** nur zulässig, wenn dem Vorgang **kein Aktenzeichen** zugeordnet ist. Bei Vorgängen mit Aktenzeichen (z. B. 4317) entfällt die Bringschuld.",
+      "> Diese Hinweise gelten ausdrücklich nicht als „Argumentationshilfe gegen Mitarbeitende der Ausgabezone“. Sie dienen ausschließlich der **Vermeidung formaler Missverständnisse**. (Anm.: Das Handbuch hat diese Formulierung bewusst gewählt.)",
+      "> *„Wer ruhig bleibt, gewinnt nichts. Wer freundlich bleibt, gewinnt manchmal.“* — handschriftlicher Randvermerk, ungeklärte Hand.",
+    ],
+  },
+  {
     id: "p4",
     shortTitle: "§4 Terminal",
     title: "§4 Terminal-Benutzung (CentralOS 2.3)",
