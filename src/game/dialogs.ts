@@ -2807,7 +2807,33 @@ export const dialogs: Record<string, DialogTree> = {
         id: "hs24",
         speaker: "HELKA",
         text: "Er wohnt noch hier. Drei Türen weiter. Er weiß es nicht. Ich weiß es. Sie wissen es jetzt auch.",
-        end: true,
+        choices: [
+          {
+            text: "Welche Frequenz hat er manipuliert? Nicht 104,6 — eine andere?",
+            next: "helkaHiddenFreq1",
+          },
+          { text: "[ Beenden ]" },
+        ],
+      },
+      // Hinweis 2/3 für die Hidden Frequency 102,7 — Helka nennt die Stelle.
+      helkaHiddenFreq1: {
+        id: "helkaHiddenFreq1",
+        speaker: "HELKA",
+        text: "Eine andere, ja. Sein Trick war einfach: er ist von der ersten Stelle des Trauer-Bandes — 103,4 — sieben Stufen nach unten gegangen, je ein Zehntel. Da, sagte er, sitzen die Wartungsleute. Da hört einen niemand zufällig.",
+        next: "helkaHiddenFreq2",
+      },
+      helkaHiddenFreq2: {
+        id: "helkaHiddenFreq2",
+        speaker: "HELKA",
+        text: "Ich habe nie geprüft, ob es stimmt. Ich habe es nur aufgeschrieben. Wenn Sie es heute prüfen wollen — von mir aus. Sagen Sie nicht, dass Sie es von mir wissen.",
+        choices: [
+          {
+            text: "[ Verstanden. ]",
+            action: (api) => {
+              api.setFlag("helkaHintHiddenFreqStep");
+            },
+          },
+        ],
       },
     },
   },
