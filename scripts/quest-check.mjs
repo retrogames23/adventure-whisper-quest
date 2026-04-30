@@ -155,12 +155,35 @@ for (const [file, src] of Object.entries(files)) {
 }
 
 // ── 3. Tippfehler-Detektor ────────────────────────────────────────
+// DSA-Subsystem (Adventure-Engine) hat eigene Flag-Map und teilt sich
+// die generischen setFlag/hasFlag-Helper nicht mit der Story-Engine.
+const DSA_FILES = new Set([
+  "src/game/adventureGame.ts",
+  "src/game/dsa/adventure.ts",
+  "src/game/dsa/chatter.ts",
+  "src/game/dsa/classes.ts",
+  "src/game/dsa/combat.ts",
+  "src/game/dsa/dice.ts",
+  "src/components/game/DsaAdventureScene.tsx",
+  "src/components/game/DsaCombatOverlay.tsx",
+  "src/components/game/DsaCharacterCreator.tsx",
+  "src/components/game/DsaCharacterSheet.tsx",
+]);
+function isDsaOnlyUsage(flag) {
+  const sites = [
+    ...(flagWriters.get(flag) ?? []),
+    ...(flagReaders.get(flag) ?? []),
+    ...(flagClears.get(flag) ?? []),
+  ];
+  return sites.length > 0 && sites.every((s) => DSA_FILES.has(s.file));
+}
 for (const flag of [
   ...flagWriters.keys(),
   ...flagReaders.keys(),
   ...flagClears.keys(),
 ]) {
   if (!STORY_FLAGS.has(flag)) {
+    if (isDsaOnlyUsage(flag)) continue; // DSA-Engine hat eigene Flag-Map
     const writes = flagWriters.get(flag) ?? [];
     const reads = flagReaders.get(flag) ?? [];
     const sample = writes[0] ?? reads[0];
