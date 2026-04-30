@@ -1,62 +1,86 @@
-## Ausgangslage Akt I
+## Ziel
 
-Die meisten Akt-I-Aufgaben sind „hol mir das"-Quests (Protokoll, Sektor-Code, B3-Vollmacht, Tilla-Quittung). Echte Knobel-Momente gibt es bisher nur einen:
+Ein "Stuck?"-Tipp-System nach Vorbild von *Return to Monkey Island*: Der Spieler bekommt auf Wunsch Hinweise zum **aktuellen offenen Ziel**, in drei Stufen abgestuft:
 
-- `pencilStub + b3Authorization + quittungBlankoB → siegelAbdruck` (Trockensiegel-Abrieb)
+1. **Stufe 1 — Andeutung**: Erinnert nur an das Thema ("Da war doch was mit dem Tresen in der Kantine…")
+2. **Stufe 2 — Richtung**: Nennt Ort/Person/Item konkret ("Brust akzeptiert die Vollmacht nicht — du brauchst einen Hebel.")
+3. **Stufe 3 — Lösung**: Sagt exakt, was als Nächstes zu tun ist ("Geh zum Tresen, fordere Brust heraus → Bürokratie-Duell starten.")
 
-Was fehlt: ein zweites Item-Kombi-Rätsel mit „Aha"-Effekt **und** ein eigenständiges Mini-Rätsel mit erkennbarer Mechanik (Monkey-Island-Schwertkampf-Vibe), das in die Welt passt.
+## Architektur
 
-## Vorschlag: zwei neue Akt-I-Rätsel
+### 1. Daten-Modul `src/game/hints.ts` (neu)
 
-### Rätsel 1 — „Das Bürokratie-Duell" (Mini-Game in der Kantine)
+Zentrale i18n-freundliche Hint-Definitionen. Pro **Quest/Ziel** ein Eintrag mit:
+- `id` (stabil, z. B. `"act1.b3Authorization"`)
+- `title` — kurzer Quest-Name für die UI ("Vollmacht B3 besorgen")
+- `isActive(api)` — Prädikat: ist diese Quest gerade offen? (Story-Flag-basiert)
+- `isResolved(api)` — Prädikat: erledigt? (Quest verschwindet aus der Liste)
+- `priority` — Sortier-/Default-Auswahl (kritischer Pfad zuerst)
+- `hints: [string, string, string]` — die 3 Stufen, ganze Sätze, mit `{platzhalter}` wo nötig
 
-**Setting:** Kantine 3602. Brust (Schicht A, Paragraphenreiter) blockt Layards B3-Vollmacht ab („Vollmacht 4317. Schicht A. Heute Schicht B. Ich kann das nicht."). Kowalk steht im Hintergrund und hört amüsiert zu — sie greift nur ein, wenn Layard sich behauptet.
+Dazu Helfer:
+- `getActiveHints(api): HintQuest[]` — liefert alle aktuell offenen Quests, sortiert nach Priorität
+- `HINTS_UI_TEXT` — alle UI-Labels (Tab-Titel, Buttons "Nächster Tipp", "Tipps verbergen", "Alles erledigt — keine offenen Aufgaben.")
 
-**Mechanik (Monkey-Island-Schwertkampf-Adaption):**
-Ein verbales Duell, ausgetragen in **Verwaltungs-Floskeln**. Brust eröffnet mit einer Paragraphen-Behauptung („Diese Charge ist seit 6:00 nicht mehr im Sortiment."), Layard muss aus 4 Antwortoptionen die *konternde Floskel* wählen, die formal die Behauptung entkräftet. Trifft er drei Runden hintereinander, gibt Brust auf — und Kowalk trägt B3 über ihren Kanal aus.
+### 2. Quest-Inventar (initial; lebt mit dem Spiel)
 
-- **Pool:** 8–10 Brust-Eröffnungen × jeweils eine korrekte Konter-Floskel + drei plausible Falschantworten.
-- **Lerneffekt:** Konter werden während des Duells eingesammelt — entweder durch (a) Lesen des E67-Handbuchs (neuer Abschnitt „Beschwerdewege & Schicht-Übergaben"), (b) Insas Telefonate, (c) Helkas Tür-Tipps. Wer alle Quellen abklappert, kennt die Konter; wer ohne Vorbereitung antritt, bluffed sich höchstens zu einem oder zwei Treffern.
-- **Fail-State ist nicht tödlich:** Bei 3 Fehlern bricht Brust das Gespräch mit „Bitte verlassen Sie die Ausgabezone." ab. Layard kann es nach kurzer Cooldown-Zeit (oder nach dem Lesen einer weiteren Quelle) erneut versuchen. **Kein Hard-Lock.**
-- **Belohnung:** Bisheriger Pfad (Trockensiegel-Abrieb → Quittung 4317 fälschen) bleibt als *zweite Lösung* bestehen — wer das Duell gewinnt, kann das Fälschen überspringen. Wer fälscht, kann das Duell überspringen. **Zwei Wege zum Ziel** (klassisches Adventure-Design).
-- **Witz:** Die Konter sind absurd-bürokratisch („Ich verweise auf §3 Abs. 4 der Schichtübergabeordnung, Variante kulant.") und werden von Kowalk mit kleinen, halblauten Kommentaren begleitet („Den hatte ich noch nie gehört, Brust."). Brusts Mimik-Beschreibungen eskalieren von steif → schwitzend → resigniert.
+Pro Akt-I-Strang ein Eintrag, z. B.:
+- `act1.callLeitstelle` — Türklopfen 2615 → Insa anrufen
+- `act1.paramedicsReport` — Sanitäter-Report aus 2615 holen
+- `act1.b3Authorization` — Vollmacht B3 in der Kantine
+- `act1.bureaucracyDuel` — alternativer Pfad: Brust herausfordern
+- `act1.quittung4317` — Tilla-Transfer / Siegel / gefälschte Quittung
+- `act1.elevatorMaint` — Wartungssperre 4711 lösen (Bodos Account)
+- `act1.serverRoom5610` — Knoten 5610 anzapfen / brennen
+- `act1.miraTrust` — Mira-Vertrauenspfad
+- `act1.sectorDoor` — 8-stelliger Code → E67 verlassen
 
-### Rätsel 2 — „Die falsche Frequenz" (Kombi-Rätsel mit Aha)
+Jede Quest schließt sich automatisch, sobald der entsprechende Erledigt-Flag (z. B. `gotB3Authorization`, `sectorDoorOpen`, `duelWon`) gesetzt ist.
 
-**Setting:** Layard hat den `tuningCrystal` (Bernstein) und das `flyer` (Z.K.S.-Flugblatt). Aktuell beide nur Reaktions-Items. Neues Rätsel: Eine bisher unzugängliche, kurze Audio-Botschaft auf einer **Phantom-Frequenz** (knapp jenseits 104,6) freischalten.
+### 3. UI: Tipps-Tab im bestehenden `HelpOverlay`
 
-**Mechanik:**
-- Layard muss `tuningCrystal` mit `radio` kombinieren (existiert bereits als reine Flavor-Reaktion) — neu: dabei wird die Skala um eine versteckte Position erweitert (z. B. 104,7 wird klickbar).
-- Auf 104,7 hört man nur Rauschen — bis Layard zusätzlich `flyer` mit `radio` kombiniert (Z.K.S.-Code als „Schlüsselwort" auf der Rückseite). Dann wird aus dem Rauschen ein 20-Sekunden-Snippet einer Z.K.S.-Botschaft, die einen **Hinweis auf den Sektor-Code** gibt — als alternative Quelle zu Insas Mail.
-- **Nicht zwingend:** wer den Code sowieso über Insa+Knoten 5610 holt, verpasst nur eine optionale Vertiefung. Wer das Rätsel löst, bekommt früher Zugang **und** erfährt narrativ etwas über Z.K.S. (Belohnung in Lore, nicht in Progress).
+Statt eines neuen Overlays bekommt das Help-Overlay **zwei Tabs**:
+- "Spickzettel" (das bisherige durchsuchbare Mechanik-Help)
+- "Tipps" (neu) — mit großem Spoiler-Hinweis am Kopf
 
-**Warum das passt:** Tuning-Kristall + Flugblatt sind beide schon im Spiel, beide haben thematische Nähe zur Frequenz/Resonanz, beide wirken bisher unterausgenutzt. Das Rätsel macht aus zwei Flavor-Items eine echte Kombination.
+Im Tipps-Tab:
+- **Quest-Wahl**: Wenn mehrere Quests offen sind, Liste mit der höchsten Priorität vorausgewählt. Spieler kann eine andere wählen.
+- **Hint-Stufen**: Stufe 1 sofort sichtbar. Button "Nächster Tipp" enthüllt Stufe 2, dann Stufe 3. Jede neue Stufe ersetzt nicht die vorherige, sondern ergänzt darunter — Spieler sieht den ganzen "Pfad zur Lösung".
+- **State**: Pro Quest wird die enthüllte Stufe in `sessionStorage` gemerkt (`hint:<questId>` → 1/2/3), damit beim erneuten Öffnen der Stand erhalten bleibt. Kein Eintrag im persistenten Save — Hint-Nutzung soll konsequenzlos sein.
+- **Empty State**: "Du hast gerade keine offene Aufgabe — schau dich um, sprich mit Leuten, lies das Handbuch."
 
-## Was ich nicht vorschlage
+### 4. Auslöser
 
-- **Keine** neuen NPCs oder Räume — beide Rätsel nutzen vorhandene Schauplätze (Kantine, Apartment).
-- **Keine** Akt-Verlängerung — beide Rätsel sind optional/parallel zum bestehenden Pfad.
-- **Kein** Game-Over-Risiko — Akt I bleibt auch für Spieler:innen lösbar, die ein Rätsel verfehlen.
+- Bestehender Hilfe-Button in der TopBar bleibt — Tab "Tipps" als Default für Spieler, die "stuck" sind, wird über `?stuck`-Hash oder einen separaten Button "Stuck?" in der TopBar gesetzt. **Variante A (empfohlen)**: Zweiter kleiner Knopf "Stuck?" mit Glühbirnen-Icon (`Lightbulb` aus lucide-react) direkt neben dem `?`-Button, öffnet `HelpOverlay` mit aktivem Tipps-Tab.
+- ESC schließt wie bisher.
 
-## Technische Umsetzung (Stichpunkte für die Build-Phase)
+### 5. i18n-Konformität
 
-**Rätsel 1 — Bürokratie-Duell:**
-- Neuer Overlay-Component `src/components/game/BureaucracyDuelOverlay.tsx` (analog `DialogOverlay`, mit 4 Antwort-Buttons).
-- Neue Datendatei `src/game/bureaucracyDuel.ts`: Array von Runden `{ brustOpening, counters: [{text, isCorrect, learnedFrom}] }`. **i18n-konform** — alle Strings als ganze Sätze in dieser Datei, keine JSX-Strings im Overlay.
-- Neue Flags: `duelStarted`, `duelWon`, `duelLost`, `learnedCounter1..N`.
-- Trigger: Im Brust-Dialog (`cafeteriaBrust` in `dialogs.ts`) bei Vollmacht-Übergabe neuer Zweig „Sie wollen das nicht akzeptieren? — [Duell starten]".
-- Sieg-Pfad: setzt `gotB3Ration` direkt (überspringt Trockensiegel-Pfad).
+- Alle Hint-Texte stehen in `src/game/hints.ts` als ganze Sätze.
+- UI-Labels in `HINTS_UI_TEXT`-Konstante (Vorbild: `ENDING_UI_TEXT`).
+- Quest-Titel mit Platzhaltern, wo Werte einfließen (selten — meiste Quests sind statisch).
+- Keine String-Konkatenation; Stufe-1/2/3 jeweils eigene Sätze.
 
-**Rätsel 2 — Falsche Frequenz:**
-- `RadioPanel.tsx`: zusätzliche Frequenz-Position 104,7, sichtbar/klickbar nur wenn `flag: tuningCrystalAppliedToRadio`.
-- `combine.ts`: `tuningCrystal × radio` setzt diese Flag (statt nur Flavortext); `flyer × radio` setzt zweite Flag `flyerKeywordKnown`.
-- Bei `freq === 104.7 && tuningCrystalAppliedToRadio && flyerKeywordKnown`: 20-Sekunden-Audio (oder Text-Sequenz, falls kein Audio-Asset gewünscht) mit Z.K.S.-Botschaft, anschließend `setKnowledge("frequencyControl")` und neuer Inventar-Eintrag „Frequenz-Notiz" mit Sektor-Code-Hinweis.
-- Texte in `cutscenes.ts` als `ZKS_BROADCAST_LINES` ablegen.
+## Technische Details
 
-**Handbuch & Hinweis-Streuung:**
-- `src/game/e67Handbook.ts` um Abschnitt „Beschwerdewege & Schicht-Übergaben" ergänzen (liefert 2 von ~6 Konter-Floskeln).
-- Helka-Dialog (2610) und Insa-Telefonat um je 1–2 Konter-Hinweise erweitern.
+**Neue Dateien:**
+- `src/game/hints.ts` — Quest-Definitionen, Helfer, UI-Texte
 
-## Frage vor der Umsetzung
+**Geänderte Dateien:**
+- `src/components/game/HelpOverlay.tsx` — Tab-Switcher, neuer Tipps-Pane, Prop `initialTab?: "cheatsheet" | "hints"`
+- `src/components/game/TopBar.tsx` — neuer "Stuck?"-Button mit Lightbulb-Icon, ruft `onOpenHelp("hints")`
+- `src/components/game/Game.tsx` — `helpOpen`-State erweitern um initialTab (z. B. `helpOpen: false | "cheatsheet" | "hints"`)
 
-Soll ich **beide** Rätsel in einem Schritt einbauen, oder erst Rätsel 1 (Bürokratie-Duell — größerer Umfang, mehr Wow-Effekt) und Rätsel 2 in einer separaten Runde danach? Mein Vorschlag: erst Rätsel 1 vollständig, weil das Duell mehr Tuning braucht (Schwierigkeitskurve, Hinweis-Verteilung); Rätsel 2 ist mechanisch kleiner und passt gut als zweite Iteration.
+**Keine Änderungen an:**
+- `src/game/types.ts` — keine neuen StoryFlags nötig, Hints lesen die existierenden
+- `GameContext` — `api` reicht aus, kein neuer State
+
+## Erweiterbarkeit
+
+Wenn später Akt II / III dazukommen, einfach weitere Einträge in `hints.ts` ergänzen — die UI bleibt unverändert. Wenn ein Rätsel mehrere Lösungspfade hat (wie B3 vs. Bürokratie-Duell), bekommt jeder Pfad einen eigenen Quest-Eintrag mit eigenem Aktiv-Prädikat; der Spieler sieht beide nebeneinander, falls beide offen sind.
+
+## Out-of-Scope (für später)
+
+- Kein "Achievement"-System à la "ohne Tipps gespielt".
+- Keine adaptiven Tipps basierend auf Verweildauer ("Du bist seit 10 Min in derselben Szene…").
+- Kein Voice-over für Hints.
