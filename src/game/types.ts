@@ -204,6 +204,11 @@ export type StoryFlag =
   | "gaveB3ToPhilippe"
   | "gotParamedicsReport"
   | "refusedB3Favor"
+  // Bürokratie-Duell (Akt I, Brust-Tresen) — alternativer dritter Lösungsweg
+  | "duelOffered"
+  | "duelStarted"
+  | "duelWon"
+  | "duelLost"
   // Mira — Vertrauenspfad
   | "readMiraManifest"
   | "radioMutedAtLeast60s"
