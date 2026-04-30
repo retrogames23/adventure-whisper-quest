@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { scenes, useGame } from "@/game/GameContext";
 import { Hotspot } from "./Hotspot";
 import { FloatingChatter } from "./FloatingChatter";
+import { useDevMode } from "@/dev/devMode";
+import { HotspotEditor } from "@/dev/HotspotEditor";
 
 export function SceneView() {
   const {
@@ -28,6 +30,7 @@ export function SceneView() {
   // Rahmen und Label eingeblendet. Beim Loslassen wieder ausgeblendet.
   // Tastatureingaben in Eingabefeldern (Terminal etc.) werden ignoriert.
   const [revealHotspots, setRevealHotspots] = useState(false);
+  const dev = useDevMode();
   useEffect(() => {
     const isTypingTarget = (t: EventTarget | null) => {
       if (!(t instanceof HTMLElement)) return false;
@@ -204,6 +207,17 @@ export function SceneView() {
         {current.hotspots.map((h) => (
           <Hotspot key={h.id} hotspot={h} reveal={revealHotspots} />
         ))}
+
+        {/* Dev-only: drag/resize Editor über allen Hotspots, NPCs und
+            Decals — nur sichtbar mit ?dev=1 + gehaltener Space-Taste. */}
+        {dev && revealHotspots && (
+          <HotspotEditor
+            sceneId={scene}
+            hotspots={current.hotspots}
+            npcs={current.npcs}
+            decals={current.decals}
+          />
+        )}
 
         {/* Hintergrund-Sprechblasen der DSA-Runde im Gemeinschaftsraum */}
         <FloatingChatter enabled={scene === "commonRoomE67"} variant="dsa" />
