@@ -2077,9 +2077,7 @@ export const scenes: Record<string, Scene> = {
       {
         id: "tableSeat",
         // Der freie Stuhl links im Vordergrund (mit Lehne).
-        // Stage 1024×640 zeigt 16:9-Bild via object-cover: sichtbar
-        // sind ~5.4 %..94.6 % der Original-Bildbreite. Alle Werte sind
-        // bereits in Stage-% angegeben.
+        // Hotspot-Koordinaten sind in Stage-% (0..100) auf der 16:9-Bühne.
         x: -16.6667,
         y: 62,
         w: 17.3333,
