@@ -212,11 +212,6 @@ export const Route = createFileRoute("/api/public/npc-chat")({
               content:
                 "Was soll die Frage. Schau mich doch an. — Wenn du nichts willst, geh weiter.",
             },
-            { role: "user", content: "Wo bist du geboren?" },
-            {
-              role: "assistant",
-              content: "Hier. E67. Wie die meisten. Warum fragst du so was?",
-            },
             {
               role: "user",
               content:
