@@ -1,87 +1,62 @@
-## Ziel
+## Ausgangslage Akt I
 
-Die Sanitäter-Cutscene wird mit **Framer Motion** vollständig neu inszeniert. Text, Sprecher, Audio, Skip, Flags, Items und Szenenwechsel bleiben **bitidentisch** — geändert wird nur das Visuelle. Zusätzlich wird ein **neuer Eröffnungs-Beat in Philippes Wohnung 2613** eingefügt, der zeigt, wie Philippe (und Layard) das Klopfen aus der Wand zur 2615 hört. Die Cast-Liste der Szene ist damit fixiert.
+Die meisten Akt-I-Aufgaben sind „hol mir das"-Quests (Protokoll, Sektor-Code, B3-Vollmacht, Tilla-Quittung). Echte Knobel-Momente gibt es bisher nur einen:
 
-## Cast (fix)
+- `pencilStub + b3Authorization + quittungBlankoB → siegelAbdruck` (Trockensiegel-Abrieb)
 
-1. **Layard Worag** — Spielercharakter, im Bild eher Beobachter / Schulter-Perspektive (Look siehe `portrait-layard.png`).
-2. **Philippe Marteau** — Bewohner 2613, Cardigan-Look wie `npc-philippe.png`.
-3. **Sanitäter** (1 Person) — EMS-Jacke, wie in Beat 1/2 etabliert.
-4. **Technischer Mitarbeiter** (1 Person) — graue Arbeitskluft mit Gürtel/Werkzeug, Brecheisen, wie in Beat 1/2 etabliert.
-5. **Der klopfende Mann** — ausgemergelt, fahle Haut, klare grüne Augen, wie in Beat 4 + 5 etabliert.
+Was fehlt: ein zweites Item-Kombi-Rätsel mit „Aha"-Effekt **und** ein eigenständiges Mini-Rätsel mit erkennbarer Mechanik (Monkey-Island-Schwertkampf-Vibe), das in die Welt passt.
 
-Die Cutscene **beginnt nach** dem Auftreten von Sanitäter + Techniker im Korridor — d. h. der allererste neue Beat zeigt die ruhige Vorgeschichte in 2613, der zweite Beat ist dann der bestehende „Sanitäter & Techniker stehen vor 2615".
+## Vorschlag: zwei neue Akt-I-Rätsel
 
-## Beat-Sequenz (final)
+### Rätsel 1 — „Das Bürokratie-Duell" (Mini-Game in der Kantine)
 
-| # | Ort / Bild | Sprecher / Aktion | Inhalt |
-|---|---|---|---|
-| **0 NEU** | `scene-apt-2613.jpg` (Philippes Wohnung) | nur SYSTEM, eine kurze Zeile | „Vorhin. Philippes Wohnung. Das Klopfen kommt aus der Wand zur 2615." — *(neuer Text, präziser unten)* |
-| 1 | `cutscene-paramedics-1.jpg` | SANITÄTER | „Gehen Sie zurück. Wir brechen die Tür auf." (unverändert) |
-| 2 | `cutscene-paramedics-3.jpg` | SYSTEM | „Beim dritten Schlag gibt die Tür nach …" (unverändert) |
-| 3 | `cutscene-paramedics-4.jpg` | SYSTEM (2 Zeilen) | „Ein ausgemergelter Mann …" + „Layard nimmt seinen Mut zusammen …" (unverändert) |
-| 4 | `cutscene-paramedics-5.jpg` | SYSTEM (2 Zeilen) | „Er erwartet tote, glasige Augen …" + „Wie ein Portal …" (unverändert) |
-| 5 | `cutscene-paramedics-6.jpg` | SANITÄTER + LAYARD (Dialog wie heute) | „Kein A-, B- oder C-Problem …" bis „Warum hat er ja gesagt? …" (unverändert) |
+**Setting:** Kantine 3602. Brust (Schicht A, Paragraphenreiter) blockt Layards B3-Vollmacht ab („Vollmacht 4317. Schicht A. Heute Schicht B. Ich kann das nicht."). Kowalk steht im Hintergrund und hört amüsiert zu — sie greift nur ein, wenn Layard sich behauptet.
 
-### Zum neuen Beat 0 — Klärung des Texts
+**Mechanik (Monkey-Island-Schwertkampf-Adaption):**
+Ein verbales Duell, ausgetragen in **Verwaltungs-Floskeln**. Brust eröffnet mit einer Paragraphen-Behauptung („Diese Charge ist seit 6:00 nicht mehr im Sortiment."), Layard muss aus 4 Antwortoptionen die *konternde Floskel* wählen, die formal die Behauptung entkräftet. Trifft er drei Runden hintereinander, gibt Brust auf — und Kowalk trägt B3 über ihren Kanal aus.
 
-Der User hat gesagt „Text und Handlung ändert sich nichts". Beat 0 hat damit ein Spannungsfeld: er ist neu, also brauchen wir entweder (i) **gar keinen** Text (nur visuelle Stille mit rhythmischen Klopf-Pulsen aus der Wand und einer Untertitel-Zeile „— ohne Text —"), oder (ii) **eine** sehr knappe SYSTEM-Zeile, die nur kontextualisiert.
+- **Pool:** 8–10 Brust-Eröffnungen × jeweils eine korrekte Konter-Floskel + drei plausible Falschantworten.
+- **Lerneffekt:** Konter werden während des Duells eingesammelt — entweder durch (a) Lesen des E67-Handbuchs (neuer Abschnitt „Beschwerdewege & Schicht-Übergaben"), (b) Insas Telefonate, (c) Helkas Tür-Tipps. Wer alle Quellen abklappert, kennt die Konter; wer ohne Vorbereitung antritt, bluffed sich höchstens zu einem oder zwei Treffern.
+- **Fail-State ist nicht tödlich:** Bei 3 Fehlern bricht Brust das Gespräch mit „Bitte verlassen Sie die Ausgabezone." ab. Layard kann es nach kurzer Cooldown-Zeit (oder nach dem Lesen einer weiteren Quelle) erneut versuchen. **Kein Hard-Lock.**
+- **Belohnung:** Bisheriger Pfad (Trockensiegel-Abrieb → Quittung 4317 fälschen) bleibt als *zweite Lösung* bestehen — wer das Duell gewinnt, kann das Fälschen überspringen. Wer fälscht, kann das Duell überspringen. **Zwei Wege zum Ziel** (klassisches Adventure-Design).
+- **Witz:** Die Konter sind absurd-bürokratisch („Ich verweise auf §3 Abs. 4 der Schichtübergabeordnung, Variante kulant.") und werden von Kowalk mit kleinen, halblauten Kommentaren begleitet („Den hatte ich noch nie gehört, Brust."). Brusts Mimik-Beschreibungen eskalieren von steif → schwitzend → resigniert.
 
-→ Ich implementiere ihn als **Variante (i): rein visueller Beat ohne neuen Text** (3 Sekunden). Damit bleibt der Wortlaut der bestehenden Cutscene 100 % unangetastet — der neue Beat ist eine stille Vorgeschichte. Falls du doch eine kurze SYSTEM-Zeile willst, sag Bescheid, dann ergänze ich sie.
+### Rätsel 2 — „Die falsche Frequenz" (Kombi-Rätsel mit Aha)
 
-## Was bleibt unverändert
+**Setting:** Layard hat den `tuningCrystal` (Bernstein) und das `flyer` (Z.K.S.-Flugblatt). Aktuell beide nur Reaktions-Items. Neues Rätsel: Eine bisher unzugängliche, kurze Audio-Botschaft auf einer **Phantom-Frequenz** (knapp jenseits 104,6) freischalten.
 
-- Reihenfolge, Wortlaut, Sprecher, `speech`-Override und Hold-Heuristik aller bestehenden Zeilen.
-- Audio/Musik-Layer (`cutscene-paramedics-music.mp3`, Fade-In/Out, TTS via `speak()`).
-- Skip-Button + Esc/Enter.
-- Alle Game-State-Effekte am Ende (`doorBrokenOpen`, `paramedicsCutsceneSeen`, `protocol`-Item, `responsibilityE67`, `elevatorMaintBlocked`, Wechsel zu `hallway`).
-- Die fünf bestehenden Beat-Bilder werden weiterverwendet — keine neuen Bild-Generierungen, der etablierte Lore-Look bleibt erhalten.
-- Das vorhandene `scene-apt-2613.jpg` wird für Beat 0 wiederverwendet — Philippe ist im Spiel bereits in 2613 etabliert, der Look passt 1:1.
+**Mechanik:**
+- Layard muss `tuningCrystal` mit `radio` kombinieren (existiert bereits als reine Flavor-Reaktion) — neu: dabei wird die Skala um eine versteckte Position erweitert (z. B. 104,7 wird klickbar).
+- Auf 104,7 hört man nur Rauschen — bis Layard zusätzlich `flyer` mit `radio` kombiniert (Z.K.S.-Code als „Schlüsselwort" auf der Rückseite). Dann wird aus dem Rauschen ein 20-Sekunden-Snippet einer Z.K.S.-Botschaft, die einen **Hinweis auf den Sektor-Code** gibt — als alternative Quelle zu Insas Mail.
+- **Nicht zwingend:** wer den Code sowieso über Insa+Knoten 5610 holt, verpasst nur eine optionale Vertiefung. Wer das Rätsel löst, bekommt früher Zugang **und** erfährt narrativ etwas über Z.K.S. (Belohnung in Lore, nicht in Progress).
 
-## Was sich visuell ändert (Framer Motion)
+**Warum das passt:** Tuning-Kristall + Flugblatt sind beide schon im Spiel, beide haben thematische Nähe zur Frequenz/Resonanz, beide wirken bisher unterausgenutzt. Das Rätsel macht aus zwei Flavor-Items eine echte Kombination.
 
-### Pro Beat — Layer-System
+## Was ich nicht vorschlage
 
-1. **Background (bestehendes Bild)** — Ken-Burns als echte Spring-Animation (`damping: 40, stiffness: 30, mass: 1.5`) statt linearer CSS-Transition. Sanftes Atmen über die ganze Beat-Dauer.
+- **Keine** neuen NPCs oder Räume — beide Rätsel nutzen vorhandene Schauplätze (Kantine, Apartment).
+- **Keine** Akt-Verlängerung — beide Rätsel sind optional/parallel zum bestehenden Pfad.
+- **Kein** Game-Over-Risiko — Akt I bleibt auch für Spieler:innen lösbar, die ein Rätsel verfehlen.
 
-2. **Atmosphären-Layer** — leichter animierter Lichtschein/Staub als low-opacity SVG-Gradient, langsame `x`/`opacity`-Schleife. Pro Beat ein dezenter **Neon-Flicker** (kurze Opacity-Spikes, getriggert beim Beat-Eintritt) — passt zur Leuchtstoffröhre des etablierten Korridors.
+## Technische Umsetzung (Stichpunkte für die Build-Phase)
 
-3. **Beat-spezifische Akzente:**
-   - **Beat 0 (NEU, 2613, Philippe):** Drei rhythmische **Klopf-Pulse** als Schockwellen-Ringe an der rechten Wand (`scale 0 → 1.4`, `opacity 0.5 → 0`, im Takt 0 / 0.7 / 1.4 s). Synchron periodisches Mikro-Shake (±1.5 px) der Szene. Untertitel-Slot bleibt leer („— ohne Text —" als pulse-leere Anzeige), Szene hält ~3 s, dann Crossfade auf Beat 1.
-   - **Beat 1 (Sanitäter + Techniker vor 2615):** Sanftes Atmen, Untertitel fadet von unten ein.
-   - **Beat 2 (Tür birst):** Kurzer **Screen-Shake** (±6 px Spring 250 ms) + Weiß-Blitz (Opacity 0 → 0.35 → 0, 180 ms). ~12 deterministische Holzsplitter-Partikel fliegen aus der Türmitte (700 ms, individuelle `x`/`y`/`rotate`).
-   - **Beat 3 (Klopfer an Wand):** Identisches Klopf-Pulse-Muster wie Beat 0 (ruft ihn visuell auf — narrative Klammer), aber an der Innenwand. 5 Pulse über die Beat-Dauer.
-   - **Beat 4 (Augen-Closeup):** Langsamer **Push-In** auf das Augenpaar (`scale 1.10 → 1.28`, Spring, 5 s). Grüner radialer Glow-Layer hinter den Augen, der atmet (`opacity` sin-Loop 0 → 0.4 → 0.25). CRT-Vignette etwas tiefer.
-   - **Beat 5 (Bergung & Protokoll):** Langsames Pan nach links. Bei „Ich drucke Ihnen das Protokoll …" eine sanfte Aufmerksamkeits-Vignette auf die Hand des Sanitäters mit dem Protokoll. Bei „Warum hat er ja gesagt?" langsamer Pull-Out.
+**Rätsel 1 — Bürokratie-Duell:**
+- Neuer Overlay-Component `src/components/game/BureaucracyDuelOverlay.tsx` (analog `DialogOverlay`, mit 4 Antwort-Buttons).
+- Neue Datendatei `src/game/bureaucracyDuel.ts`: Array von Runden `{ brustOpening, counters: [{text, isCorrect, learnedFrom}] }`. **i18n-konform** — alle Strings als ganze Sätze in dieser Datei, keine JSX-Strings im Overlay.
+- Neue Flags: `duelStarted`, `duelWon`, `duelLost`, `learnedCounter1..N`.
+- Trigger: Im Brust-Dialog (`cafeteriaBrust` in `dialogs.ts`) bei Vollmacht-Übergabe neuer Zweig „Sie wollen das nicht akzeptieren? — [Duell starten]".
+- Sieg-Pfad: setzt `gotB3Ration` direkt (überspringt Trockensiegel-Pfad).
 
-4. **Untertitel** — Bottom-Box bleibt strukturell, Animation auf Framer Motion (`<motion.div>` mit `initial`/`animate`/`exit`, `<AnimatePresence mode="wait">` keyed auf `${beatIdx}-${lineIdx}`). Sprechername fadet 80 ms vor dem Text ein.
+**Rätsel 2 — Falsche Frequenz:**
+- `RadioPanel.tsx`: zusätzliche Frequenz-Position 104,7, sichtbar/klickbar nur wenn `flag: tuningCrystalAppliedToRadio`.
+- `combine.ts`: `tuningCrystal × radio` setzt diese Flag (statt nur Flavortext); `flyer × radio` setzt zweite Flag `flyerKeywordKnown`.
+- Bei `freq === 104.7 && tuningCrystalAppliedToRadio && flyerKeywordKnown`: 20-Sekunden-Audio (oder Text-Sequenz, falls kein Audio-Asset gewünscht) mit Z.K.S.-Botschaft, anschließend `setKnowledge("frequencyControl")` und neuer Inventar-Eintrag „Frequenz-Notiz" mit Sektor-Code-Hinweis.
+- Texte in `cutscenes.ts` als `ZKS_BROADCAST_LINES` ablegen.
 
-5. **Beat-Crossfade** — `<AnimatePresence>` mit Opacity + leichtem 4-px-Lateral-Slide. Dauer bleibt ~600 ms (das im async-Loop verwendete `CROSSFADE_MS` bleibt erhalten).
+**Handbuch & Hinweis-Streuung:**
+- `src/game/e67Handbook.ts` um Abschnitt „Beschwerdewege & Schicht-Übergaben" ergänzen (liefert 2 von ~6 Konter-Floskeln).
+- Helka-Dialog (2610) und Insa-Telefonat um je 1–2 Konter-Hinweise erweitern.
 
-## Technische Umsetzung
+## Frage vor der Umsetzung
 
-### Dependencies
-
-- `framer-motion` per `bun add framer-motion` ergänzen.
-
-### Datei-Änderungen
-
-- **`src/components/game/ParamedicsCutscene.tsx`** — überarbeitet:
-  - `Beat`-Typ um optionale Felder erweitert: `shake?`, `burst?`, `pulse?: { count, intervalMs, x, y }`, `eyeGlow?: { x, y }`, `silent?: boolean` (für Beat 0 ohne Untertitel).
-  - `buildBeats()` bekommt den neuen Beat 0 (Bild: `scene-apt-2613.jpg`, `silent: true`, `pulse: { count: 3, intervalMs: 700, x: 78, y: 50 }`, `tail: 600`).
-  - Async-Loop kennt `silent`-Beats: dann wird `lineIdx` auf -1 belassen, statt der Lines-Schleife einfach `await wait(beat.tail ?? 2500)`.
-  - Render-Output auf Framer-Motion-Komponenten umgestellt; kleine interne Sub-Komponenten `<KnockPulses/>`, `<DoorBurstParticles/>`, `<EyeGlow/>`, `<NeonFlicker/>`, `<ScreenShake/>` (alle in derselben Datei oder schlankem Sub-File — pragmatisch beim Code).
-  - Audio-/Musik-Block, `finish()`, Esc/Enter-Handler bleiben unverändert.
-
-### Performance
-
-- Alle Effekte auf `transform`/`opacity` (GPU-freundlich), kein `backdropFilter`.
-- Partikel ≤ 12 pro Burst, Pulse-Ringe ≤ 3 gleichzeitig.
-
-## Akzeptanzkriterien
-
-1. Cutscene startet visuell mit der stillen Philippe-Szene in 2613 (Klopfen sichtbar als Wandpulse), wechselt dann nahtlos auf den bestehenden Korridor-Beat mit Sanitäter + Techniker.
-2. Wortlaut, Reihenfolge, Sprecher, TTS, Audio, Game-State-Effekte sind 1:1 wie vorher.
-3. Türbruch hat Shake + Splitter, Klopfszene rhythmische Pulse, Augen-Closeup grünen Glow + Push-In.
-4. Skip-Button und Esc/Enter beenden die Szene weiterhin sauber.
-5. Keine neuen Bilder generiert — die etablierte Lore-Optik (Korridor wie `scene-hallway.jpg`, Klopfer wie Beat 4/5, Philippes Wohnung wie `scene-apt-2613.jpg`) bleibt unverändert.
+Soll ich **beide** Rätsel in einem Schritt einbauen, oder erst Rätsel 1 (Bürokratie-Duell — größerer Umfang, mehr Wow-Effekt) und Rätsel 2 in einer separaten Runde danach? Mein Vorschlag: erst Rätsel 1 vollständig, weil das Duell mehr Tuning braucht (Schwierigkeitskurve, Hinweis-Verteilung); Rätsel 2 ist mechanisch kleiner und passt gut als zweite Iteration.
