@@ -2460,9 +2460,19 @@ export const scenes: Record<string, Scene> = {
         onUse: (api) => {
           if (!api.hasFlag("miraAtHomeMet")) {
             api.startDialog("miraAtHomeIntro");
-          } else {
-            api.startDialog("miraAtHomeIntro");
+            return;
           }
+          if (api.hasFlag("miraSentAnger")) {
+            api.startDialog("miraAfterAmplifier");
+            return;
+          }
+          if (api.hasFlag("miraAskedAmplifier")) {
+            // Wiederholtes Nachfragen, solange Layard noch keine Antenne
+            // gebaut/übergeben hat.
+            api.startDialog("miraAmplifierWait");
+            return;
+          }
+          api.startDialog("miraAmplifierAsk");
         },
       },
       {
@@ -2473,7 +2483,17 @@ export const scenes: Record<string, Scene> = {
         h: 30,
         label: "Miras Terminal (FuckTheSystemOS)",
         kind: "use",
-        onUse: (api) => api.openTerminal({ mira: true }),
+        onUse: (api) => {
+          if (!api.hasFlag("miraTerminalUnlocked")) {
+            api.showText([
+              "Das Terminal summt. Der Login-Prompt blinkt.",
+              "Mira hat noch nicht gesagt, dass Layard hier reinschauen darf.",
+              "Solange das Trauer-Band steht, lässt sie ihn nicht ran.",
+            ]);
+            return;
+          }
+          api.openTerminal({ mira: true });
+        },
       },
       {
         id: "miraPosterLeine",
