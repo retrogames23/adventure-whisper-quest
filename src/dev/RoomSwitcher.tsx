@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { scenes, useGame } from "@/game/GameContext";
 
+type SceneKey = keyof typeof scenes;
+
 /**
  * Dev-only Room-Switcher: Listet alle im Spiel registrierten Räume und
  * teleportiert die Figur per Klick dorthin. Nur sichtbar im Dev-Mode
@@ -97,7 +99,7 @@ export function RoomSwitcher() {
                       <button
                         type="button"
                         onClick={() => {
-                          api.goTo(e.id);
+                          api.goTo(e.id as SceneKey);
                           setOpen(false);
                         }}
                         className={
