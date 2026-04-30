@@ -89,7 +89,7 @@ export const Route = createFileRoute("/api/public/donation-checkout")({
             client_reference_id: user.id ?? null,
             metadata: {
               user_id: user.id,
-              email: user.email,
+              email: user.email ?? "",
             },
             line_items: [
               {
