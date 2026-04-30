@@ -1569,7 +1569,7 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "lobbyElevator",
-        x: 78,
+        x: 62,
         y: 22,
         w: 18,
         h: 70,
@@ -1873,10 +1873,10 @@ export const scenes: Record<string, Scene> = {
       },
       {
         id: "back46",
-        x: 44,
-        y: 50,
-        w: 14,
-        h: 30,
+        x: 10,
+        y: 92,
+        w: 80,
+        h: 7,
         label: "Zurück zum Aufzug",
         kind: "exit",
         onUse: (api) => api.goTo("elevator"),
