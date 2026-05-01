@@ -80,18 +80,34 @@ export function MonitorCodeStream() {
   const lastRef = useRef<number>(0);
   const lineHeightPx = 13;
 
-  // Measure container.
+  // Measure container. We poll on the next animation frames in addition to
+  // ResizeObserver because the parent uses percentage sizing that can take a
+  // tick to settle on first mount.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+    let cancelled = false;
     const update = () => {
+      if (cancelled || !el) return;
       const rect = el.getBoundingClientRect();
-      setSize({ w: rect.width, h: rect.height });
+      if (rect.width > 0 && rect.height > 0) {
+        setSize((prev) =>
+          prev.w === rect.width && prev.h === rect.height
+            ? prev
+            : { w: rect.width, h: rect.height },
+        );
+      } else {
+        // Try again on next frame until we get real measurements.
+        requestAnimationFrame(update);
+      }
     };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      cancelled = true;
+      ro.disconnect();
+    };
   }, []);
 
   // Build columns when size changes.
@@ -133,6 +149,7 @@ export function MonitorCodeStream() {
       ref={containerRef}
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
+      style={{ width: "100%", height: "100%" }}
     >
       {/* DEBUG marker so we can verify the component mounts and renders. */}
       <div
