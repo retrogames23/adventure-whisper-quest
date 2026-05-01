@@ -4954,4 +4954,100 @@ export const dialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ── Vossbeck-Dialogbaum (Endgegner) ───────────────────────
+  // Sichtbar erst nach drei Trainingssiegen in Folge gegen Brust
+  // (Flag `vossbeckSummoned`). Vossbeck führt das Endduell um die
+  // Vollmacht 4317.
+  cafeteriaVossbeck: {
+    id: "cafeteriaVossbeck",
+    start: "v0",
+    lines: {
+      v0: {
+        id: "v0",
+        speaker: "SYSTEM",
+        text: "[ Hinten beim Hochregal: ein Mann in dunklem Kittel, etwa fünfzig, kein Namensschild. Aktendeckel auf den Knien. Bleistift senkrecht in der Hand. ]",
+        hiddenWhen: ["metVossbeck"],
+        next: "v1",
+      },
+      v1: {
+        id: "v1",
+        speaker: "BRUST",
+        text: "Oberinspektor Vossbeck. Bewohnervertretung E67, Bürokratiemeisterschaft.",
+        subtext: "Brust hat das aus zwei Metern Entfernung gerufen. Vossbeck hebt nicht den Kopf.",
+        hiddenWhen: ["metVossbeck"],
+        next: "v2",
+      },
+      v2: {
+        id: "v2",
+        speaker: "BRUST",
+        text: "Bewohner Worag. Vorgang Vollmacht 4317. Drei Trainingssiege in Folge dokumentiert.",
+        hiddenWhen: ["metVossbeck"],
+        next: "v3",
+      },
+      v3: {
+        id: "v3",
+        speaker: "SYSTEM",
+        text: "[ Vossbeck legt den Aktendeckel auf den Tisch. Schaut zum ersten Mal hoch. ]",
+        hiddenWhen: ["metVossbeck"],
+        next: "v4",
+      },
+      vReturn: {
+        id: "vReturn",
+        speaker: "SYSTEM",
+        text: "[ Vossbeck schaut auf, ohne den Bleistift abzulegen. ]",
+        requires: ["metVossbeck"],
+        hiddenWhen: ["duelEndgameWon"],
+        next: "v4",
+      },
+      v4: {
+        id: "v4",
+        speaker: "BREM",
+        text: "Worag. Sie wollen Vorgang Vollmacht 4317 verhandelt sehen.",
+        hiddenWhen: ["duelEndgameWon"],
+        next: "v5",
+      },
+      v5: {
+        id: "v5",
+        speaker: "BREM",
+        text: "Drei Runden. Drei Treffer in Folge — und ich gebe die Ration frei. Drei Fehler — und der Vorgang ist abschlägig beschieden. Permanent.",
+        hiddenWhen: ["duelEndgameWon"],
+        next: "v6",
+      },
+      v6: {
+        id: "v6",
+        speaker: "BREM",
+        text: "Ich verwende ausschließlich Paragraphen, die in Ihrem Notizbuch stehen sollten. Wenn nicht — ist das Ihr Versäumnis.",
+        hiddenWhen: ["duelEndgameWon"],
+        choices: [
+          {
+            text: "[ Endduell beginnen ]",
+            action: (api) => {
+              api.setFlag("metVossbeck");
+              api.openBureaucracyDuel("endgame");
+            },
+          },
+          {
+            text: "Ich brauche noch einen Moment.",
+            action: (api) => api.setFlag("metVossbeck"),
+            next: "vWait",
+          },
+        ],
+      },
+      vWait: {
+        id: "vWait",
+        speaker: "BREM",
+        text: "Nehmen Sie sich. Ich gehe nirgendwo hin.",
+        end: true,
+      },
+      // Nach gewonnenem Endduell — sehr knapper Smalltalk.
+      vAfter: {
+        id: "vAfter",
+        speaker: "BREM",
+        text: "Worag. Vorgang abgeschlossen. Ich notiere Sie für Folgetermine.",
+        requires: ["duelEndgameWon"],
+        end: true,
+      },
+    },
+  },
 };
