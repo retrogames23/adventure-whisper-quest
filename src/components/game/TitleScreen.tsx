@@ -114,10 +114,10 @@ export function TitleScreen({ onStart }: Props) {
         aria-hidden="true"
         className="pointer-events-none absolute"
         style={{
-          left: "64.0%",
-          top: "53.5%",
-          width: "20.3%",
-          height: "20.5%",
+          left: "56.3%",
+          top: "39.8%",
+          width: "19.2%",
+          height: "26.9%",
           overflow: "hidden",
           borderRadius: "6px",
           // Solid backdrop so the painted (fake) green text is fully replaced
