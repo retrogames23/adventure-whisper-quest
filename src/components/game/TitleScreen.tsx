@@ -97,7 +97,7 @@ export function TitleScreen({ onStart }: Props) {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-black px-6 text-center">
+    <div className="relative flex h-screen min-h-screen flex-col items-center overflow-hidden bg-black px-6 text-center">
       {/* Painted key art as the backdrop. */}
       <img
         src={titleArtwork}
