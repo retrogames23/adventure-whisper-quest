@@ -72,67 +72,36 @@ function buildColumns(width: number, height: number): ColumnState[] {
   return cols;
 }
 
-export function MonitorCodeStream() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  // Sensible defaults so we render columns immediately (the very first frame)
-  // even before the ResizeObserver has fired. Real measurements take over as
-  // soon as the container settles.
-  const [size, setSize] = useState<{ w: number; h: number }>({ w: 320, h: 220 });
-  const [columns, setColumns] = useState<ColumnState[]>([]);
+interface MonitorCodeStreamProps {
+  /** Width of the screen area in px (e.g. 360). */
+  width: number;
+  /** Height of the screen area in px (e.g. 220). */
+  height: number;
+}
+
+export function MonitorCodeStream({ width, height }: MonitorCodeStreamProps) {
+  const [columns, setColumns] = useState<ColumnState[]>(() =>
+    width > 0 && height > 0 ? buildColumns(width, height) : [],
+  );
   const rafRef = useRef<number | null>(null);
   const lastRef = useRef<number>(0);
   const lineHeightPx = 13;
 
-  // Measure container. We poll on the next animation frames in addition to
-  // ResizeObserver because the parent uses percentage sizing that can take a
-  // tick to settle on first mount.
+  // Rebuild columns if the size prop changes.
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    let cancelled = false;
-    const update = () => {
-      if (cancelled || !el) return;
-      // Prefer the parent's size — our own absolute+inset-0 element can
-      // momentarily report 0 during first layout. The painted-monitor
-      // wrapper in the parent has explicit percentage sizing.
-      const parent = el.parentElement;
-      const target = parent ?? el;
-      const rect = target.getBoundingClientRect();
-      if (rect.width > 0 && rect.height > 0) {
-        setSize((prev) =>
-          prev.w === rect.width && prev.h === rect.height
-            ? prev
-            : { w: rect.width, h: rect.height },
-        );
-      } else {
-        // Try again on next frame until we get real measurements.
-        requestAnimationFrame(update);
-      }
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    if (el.parentElement) ro.observe(el.parentElement);
-    ro.observe(el);
-    return () => {
-      cancelled = true;
-      ro.disconnect();
-    };
-  }, []);
-
-  // Build columns when size changes.
-  useEffect(() => {
-    if (size.w === 0 || size.h === 0) return;
-    setColumns(buildColumns(size.w, size.h));
-  }, [size.w, size.h]);
+    if (width > 0 && height > 0) {
+      setColumns(buildColumns(width, height));
+    }
+  }, [width, height]);
 
   // Animate.
   useEffect(() => {
-    if (columns.length === 0 || size.h === 0) return;
+    if (columns.length === 0 || height === 0) return;
     const animate = (t: number) => {
       const last = lastRef.current || t;
       const dt = Math.min(0.1, (t - last) / 1000);
       lastRef.current = t;
-      const wrap = size.h * 2;
+      const wrap = height * 2;
       setColumns((prev) =>
         prev.map((c) => {
           let y = c.y - c.speed * dt;
@@ -149,32 +118,16 @@ export function MonitorCodeStream() {
       lastRef.current = 0;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns.length, size.h]);
+  }, [columns.length, height]);
 
   const cols = useMemo(() => columns, [columns]);
 
   return (
     <div
-      ref={containerRef}
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
       style={{ width: "100%", height: "100%" }}
     >
-      {/* DEBUG marker so we can verify the component mounts and renders. */}
-      <div
-        style={{
-          position: "absolute",
-          left: 4,
-          top: 4,
-          color: "#39ff7a",
-          fontSize: "10px",
-          fontFamily: "monospace",
-          textShadow: "0 0 4px rgba(57,255,122,0.8)",
-          zIndex: 5,
-        }}
-      >
-        DBG cols={cols.length} {Math.round(size.w)}x{Math.round(size.h)}
-      </div>
       {cols.map((c, idx) => (
         <div
           key={idx}
