@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
@@ -9,7 +9,7 @@ interface Props {
   onOpenHelp: (tab?: "cheatsheet" | "hints") => void;
 }
 
-export function TopBar({ onOpenPause, onOpenHelp }: Props) {
+function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
   const game = useGame();
   const { scene, radioActive, flags, ending, dsaCharacter, dsaSheetOpen, toggleDsaSheet } = game;
   const inAct2 = flags.has("enteredE71");
@@ -182,3 +182,10 @@ export function TopBar({ onOpenPause, onOpenHelp }: Props) {
     </>
   );
 }
+
+/**
+ * Memoisiert: re-rendert nur, wenn sich `onOpenPause`/`onOpenHelp` oder
+ * der konsumierte GameContext tatsächlich ändert. Voraussetzung dafür ist,
+ * dass die Handler-Props in `Game.tsx` mit `useCallback` stabilisiert sind.
+ */
+export const TopBar = memo(TopBarImpl);
