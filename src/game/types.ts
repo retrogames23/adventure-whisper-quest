@@ -58,6 +58,7 @@ export type CutsceneId = "paramedics";
 export type StoryFlag =
   | "radioTunedTo1046"
   | "doorbellRang"
+  | "openedAlmanach"
   | "metPhilippe"
   | "metPhilippeBefore"
   | "knockingHeard"
@@ -443,6 +444,8 @@ export interface GameApi {
   openRadio: () => void;
   openKeypad: (target?: KeypadTarget) => void;
   openTelevision: () => void;
+  /** Quadranten-Almanach (Lese-Overlay) öffnen. */
+  openAlmanach: () => void;
   /** Wartungsterminal hinter Tür 5610 (eigenes UI, kein CentralOS). */
   openNode5610: () => void;
   /** Pneumatik-Rohrpost-Overlay in der Kantine 3602. */

@@ -378,6 +378,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setTerminalOpen(false);
         setRadioOpen(true);
       },
+      openAlmanach: () => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setAlmanachOpen(true);
+      },
       openKeypad: () => {
         setKeypadOpen(true);
       },
