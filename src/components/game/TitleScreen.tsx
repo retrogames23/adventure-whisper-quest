@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import titleTrack from "@/assets/almost-freedom.mp3";
 import { CrtMatrixBackground } from "./CrtMatrixBackground";
-import { isWebGpuAvailable, startLocalLlmLoad } from "@/llm/webLlmLoader";
 import { ImpressumOverlay } from "./ImpressumOverlay";
 import { OpenSourceOverlay } from "./OpenSourceOverlay";
 import { DonationModal } from "@/components/donation/DonationModal";
