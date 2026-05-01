@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GameProvider } from "@/game/GameContext";
 import { InventoryDragProvider } from "@/game/InventoryDragContext";
 import { SettingsProvider } from "@/audio/SettingsContext";
@@ -148,6 +148,18 @@ function GameStage({
     closeIdCard,
   } = useGame();
 
+  // Stabile Handler-Referenzen für die memoizierten Kinder (TopBar etc.).
+  const handleOpenPause = useCallback(() => setPauseOpen(true), [setPauseOpen]);
+  const handleOpenHelp = useCallback(
+    (tab?: HelpTab) => setHelpOpen(tab ?? "cheatsheet"),
+    [setHelpOpen],
+  );
+  const handleClosePause = useCallback(
+    () => setPauseOpen(false),
+    [setPauseOpen],
+  );
+  const handleCloseHelp = useCallback(() => setHelpOpen(false), [setHelpOpen]);
+
   // Tastenkürzel C: Charakterbogen ein-/ausblenden — nur wenn ein
   // Charakter existiert und gerade kein anderes textlastiges Modal
   // aktiv ist (Terminal/Charakter-Erstellung/Abenteuer-Beat eingeben).
@@ -190,8 +202,8 @@ function GameStage({
     <MobileStage uprightOnPortrait={consoleOpen}>
       <div className="flex h-screen flex-col overflow-hidden bg-bureaucracy mobile-stage-host">
         <TopBar
-          onOpenPause={() => setPauseOpen(true)}
-          onOpenHelp={(tab) => setHelpOpen(tab ?? "cheatsheet")}
+          onOpenPause={handleOpenPause}
+          onOpenHelp={handleOpenHelp}
         />
         <main className="relative flex min-h-0 flex-1 items-center justify-center px-2 py-2 sm:px-4">
           <div className="relative flex h-full w-full items-center justify-center">
@@ -213,7 +225,7 @@ function GameStage({
             <HelpOverlay
               open={helpOpen !== false}
               initialTab={helpOpen === false ? "cheatsheet" : helpOpen}
-              onClose={() => setHelpOpen(false)}
+              onClose={handleCloseHelp}
             />
             <IdCardOverlay open={idCardOpen} onClose={closeIdCard} />
             <LobbyGate />
@@ -222,7 +234,7 @@ function GameStage({
             <ParagraphenNotizbuchOverlay />
             <FreeChatOverlay />
             <Ending />
-            <PauseMenu open={pauseOpen} onClose={() => setPauseOpen(false)} />
+            <PauseMenu open={pauseOpen} onClose={handleClosePause} />
           </div>
         </main>
         <Inventory />
