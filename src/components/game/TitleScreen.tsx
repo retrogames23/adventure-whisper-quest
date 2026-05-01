@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import titleTrack from "@/assets/almost-freedom.mp3";
 import { CrtMatrixBackground } from "./CrtMatrixBackground";
+import { MonitorCodeStream } from "./MonitorCodeStream";
 import { ImpressumOverlay } from "./ImpressumOverlay";
 import { OpenSourceOverlay } from "./OpenSourceOverlay";
 import { DonationModal } from "@/components/donation/DonationModal";
@@ -117,7 +118,7 @@ export function TitleScreen({ onStart }: Props) {
           left: "56.3%",
           top: "39.8%",
           width: "19.2%",
-          height: "26.9%",
+          height: "23.5%",
           overflow: "hidden",
           borderRadius: "6px",
           // Solid backdrop so the painted (fake) green text is fully replaced
@@ -127,7 +128,7 @@ export function TitleScreen({ onStart }: Props) {
             "inset 0 0 18px rgba(0,0,0,0.85), inset 0 0 36px rgba(57,255,122,0.15)",
         }}
       >
-        <CrtMatrixBackground />
+        <MonitorCodeStream />
       </div>
       {/* Vignette + darken so foreground text stays readable on top of the art. */}
       <div
