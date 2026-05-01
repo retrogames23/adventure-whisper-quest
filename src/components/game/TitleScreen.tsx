@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import titleTrack from "@/assets/almost-freedom.mp3";
 import { CrtMatrixBackground } from "./CrtMatrixBackground";
-import { MonitorCodeStream } from "./MonitorCodeStream";
 import { ImpressumOverlay } from "./ImpressumOverlay";
 import { OpenSourceOverlay } from "./OpenSourceOverlay";
 import { DonationModal } from "@/components/donation/DonationModal";
@@ -28,34 +27,24 @@ export function TitleScreen({ onStart }: Props) {
   const [ossOpen, setOssOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [donationOpen, setDonationOpen] = useState(false);
-  const monitorRef = useRef<HTMLDivElement | null>(null);
-  const [monitorSize, setMonitorSize] = useState<{ w: number; h: number }>({
-    w: 0,
-    h: 0,
-  });
-
-  useEffect(() => {
-    const el = monitorRef.current;
-    if (!el) return;
-    const update = () => {
-      const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) {
-        setMonitorSize((prev) =>
-          prev.w === r.width && prev.h === r.height
-            ? prev
-            : { w: r.width, h: r.height },
-        );
-      }
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    window.addEventListener("resize", update);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", update);
-    };
-  }, []);
+  const monitorLines = [
+    ">> CENTRALOS v2.3",
+    "AUTH 001 -> Insa",
+    "open ROUTER567",
+    "ERR 4567 gateway",
+    "uplink E67 stable",
+    "ps -ef | schmerz",
+    "tail klopf.log",
+    "klopf 26.13/26.15",
+    "DISPATCH 26.15",
+    "GET door/code 401",
+    "POST door/code 200",
+    "verify layard OK",
+    "FREQ 104.6 lock",
+    "ALERT res 0.81",
+    "ZKS @ 03:14",
+    ">> ready.",
+  ];
 
   useEffect(() => {
     const a = new Audio(titleTrack);
