@@ -58,19 +58,11 @@ export function TitleScreen({ onStart }: Props) {
     };
   }, []);
 
-  // Heimliches Vorladen des lokalen Free-Mode-Modells, damit es
-  // bereits warm ist, wenn der Spieler einen NPC frei anspricht.
-  // Schlägt still fehl (z.B. ohne WebGPU) — die Cloud-Runtime
-  // greift dann später automatisch.
-  useEffect(() => {
-    if (!isWebGpuAvailable()) return;
-    const t = window.setTimeout(() => {
-      void startLocalLlmLoad().catch(() => {
-        /* still ignorieren — UI zeigt es im Free-Chat ggf. nochmal an */
-      });
-    }, 1500);
-    return () => window.clearTimeout(t);
-  }, []);
+  // Hinweis: Das lokale WebLLM-Modell wird NICHT mehr vom Titelbildschirm
+  // vorgeladen. Stattdessen startet das Vorladen erst, wenn der Spieler
+  // erstmals die Cloud-Soft-Limit-Spendenaufforderung sieht (siehe
+  // DonationGate). Spieler, die nie an dieses Limit kommen, müssen die
+  // GB-große Modelldatei nie herunterladen.
 
   const toggleMusic = () => {
     const a = audioRef.current;
