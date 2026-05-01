@@ -4652,20 +4652,24 @@ export const dialogs: Record<string, DialogTree> = {
       kAuth6: {
         id: "kAuth6",
         speaker: "KOWALK",
-        text: "Worag. Ich brauche etwas, das ich Brust hinhalten kann. Sonst gibt’s das nicht.",
+        text: "Worag. Hier kommen Sie an mir nicht vorbei — und an Brust auch nicht. Nicht über die Theke.",
+        next: "kAuth7",
+      },
+      kAuth7: {
+        id: "kAuth7",
+        speaker: "KOWALK",
+        text: "Brust hat das vor zwei Wochen weiterdelegiert. Bei der Vollmacht 4317 entscheidet jetzt Oberinspektor Vossbeck. Sitzt drüben, hinterm Aktentisch, beim Hochregal. Mit Ihm reden — nicht mit uns.",
+        subtext: "Sie sagt »Vossbeck« mit der Vorsicht von jemandem, der den Namen schon einmal verloren hat.",
+        next: "kAuth8",
+      },
+      kAuth8: {
+        id: "kAuth8",
+        speaker: "KOWALK",
+        text: "Aber Vossbeck redet nur mit Leuten, die Paragraphen können. Brust trainiert die Bewohner manchmal — fiktive Kantinenfälle. Wer ihn dreimal in Folge schlägt, gilt als satisfaktionsfähig. Wer das nicht ist, läuft bei Vossbeck gegen eine Wand.",
         choices: [
           {
-            // Lösungsweg A — Vertrauen via Ausweis + Philippe-Hinweis
-            text: "[ Bewohner-Ausweis zeigen ] Philippe sieht seit gestern schlecht aus. Ich gehe für ihn — Sie wissen, warum.",
-            requires: ["metPhilippe", "kowalkToldHerDaughter", "learnedMarteauPhilippeLink"],
-            hiddenWhen: ["brustOutruled"],
-            next: "kSideA1",
-          },
-          {
-            // Lösungsweg B — die alte Hygieneordnung
-            text: "[ E67-Handbuch zeigen ] Hier — Hygieneordnung 1991, wörtlich. Aushang sieben Punkt eins.",
-            requires: ["readHandbook"],
-            next: "kSideB1",
+            text: "Verstanden. Ich rede mit Brust.",
+            next: "k0",
           },
           {
             text: "Vergessen Sie’s. Komme später wieder.",
