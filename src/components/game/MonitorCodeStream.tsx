@@ -48,20 +48,22 @@ interface ColumnState {
 }
 
 function buildColumns(width: number, height: number): ColumnState[] {
-  const colWidthPx = 56; // approx px per column
-  const count = Math.max(3, Math.min(6, Math.floor(width / colWidthPx)));
-  const lineHeightPx = 11;
+  const colWidthPx = 70; // approx px per column
+  const count = Math.max(3, Math.min(5, Math.floor(width / colWidthPx)));
+  const lineHeightPx = 13;
   const linesPerCol = Math.ceil((height * 2) / lineHeightPx);
   const cols: ColumnState[] = [];
   for (let i = 0; i < count; i++) {
-    const x = (i / count) * width + (Math.random() * 6 - 3);
+    const x = (i / count) * width + 4 + (Math.random() * 4 - 2);
     const text: string[] = [];
     for (let j = 0; j < linesPerCol; j++) {
       text.push(LINES[Math.floor(Math.random() * LINES.length)]);
     }
     cols.push({
-      y: -Math.random() * height,
-      speed: 14 + Math.random() * 22,
+      // Start each column at a random position WITHIN the visible viewport so
+      // the user sees code immediately on load (not after a long scroll-in).
+      y: Math.random() * height,
+      speed: 18 + Math.random() * 24,
       x,
       text,
       alpha: 0.65 + Math.random() * 0.35,
@@ -76,7 +78,7 @@ export function MonitorCodeStream() {
   const [columns, setColumns] = useState<ColumnState[]>([]);
   const rafRef = useRef<number | null>(null);
   const lastRef = useRef<number>(0);
-  const lineHeightPx = 11;
+  const lineHeightPx = 13;
 
   // Measure container.
   useEffect(() => {
@@ -142,8 +144,8 @@ export function MonitorCodeStream() {
             top: `${c.y}px`,
             color: "#39ff7a",
             opacity: c.alpha,
-            textShadow: "0 0 4px rgba(57,255,122,0.65)",
-            fontSize: "9px",
+            textShadow: "0 0 5px rgba(57,255,122,0.7)",
+            fontSize: "10px",
             lineHeight: `${lineHeightPx}px`,
             letterSpacing: "0.02em",
             transform: "translateZ(0)",
