@@ -704,12 +704,12 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
   },
   hallway: {
     id: "hallway",
-    // Hintergrund: immer das saubere Original. Klebebänder (rotes X am
-    // Aufzug bei Wartungssperre 4711, gelbes Siegelband an Tür 2615 nach
-    // der Sanitäter-Cutscene) werden in SceneView als CSS/SVG-Overlay
-    // eingeblendet — die zuvor verwendeten Bildvarianten hatten harte
-    // Render-Artefakte (horizontales Banding).
-    background: hallwayBg,
+    // Zwei Hintergrund-Varianten: vor der Sanitäter-Cutscene das saubere
+    // Original, danach die Variante mit gelbem Quarantäne-Klebeband vor
+    // Tür 2615. Die Aufzugs-Sperre wird ausschließlich über das Display
+    // („WARTUNGSANFRAGE 4711") kommuniziert — kein Tape-Overlay mehr.
+    background: (api) =>
+      api.hasFlag("paramedicsCutsceneSeen") ? hallway2615SealedBg : hallwayBg,
     title: "Korridor 26 — Quadrant E67",
     intro:
       "Der Korridor. Wie jeden Morgen. Nur dass Layard ihn jeden Morgen nicht betritt.",
