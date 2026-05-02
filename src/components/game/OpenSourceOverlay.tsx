@@ -89,25 +89,24 @@ export function OpenSourceOverlay({ open, onClose }: Props) {
             <div className="text-amber-glow uppercase tracking-[0.2em] text-xs mb-2">
               Verwendete Open-Source-Komponenten
             </div>
-            <ul className="space-y-2">
+            <ul className="divide-y divide-amber-glow/15 border-y border-amber-glow/15">
               {components.map((c) => (
-                <li key={c.name} className="border-l-2 border-amber-glow/30 pl-3">
-                  <div className="flex flex-wrap items-baseline gap-x-2">
-                    <span className="text-foreground">{c.name}</span>
-                    <span className="text-xs text-muted-foreground">
-                      ({c.license})
+                <li key={c.name} className="py-1.5">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <a
+                      href={c.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground hover:text-amber-glow underline-offset-4 hover:underline truncate"
+                    >
+                      {c.name}
+                    </a>
+                    <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                      {c.license}
                     </span>
                   </div>
-                  <a
-                    href={c.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-amber-glow/80 underline-offset-4 hover:underline break-all"
-                  >
-                    {c.url}
-                  </a>
                   {c.note && (
-                    <div className="text-xs italic text-muted-foreground">
+                    <div className="text-xs italic text-muted-foreground mt-0.5">
                       {c.note}
                     </div>
                   )}
@@ -120,25 +119,24 @@ export function OpenSourceOverlay({ open, onClose }: Props) {
             <div className="text-amber-glow uppercase tracking-[0.2em] text-xs mb-2">
               Verwendete Schriftarten
             </div>
-            <ul className="space-y-2">
+            <ul className="divide-y divide-amber-glow/15 border-y border-amber-glow/15">
               {fonts.map((c) => (
-                <li key={c.name} className="border-l-2 border-amber-glow/30 pl-3">
-                  <div className="flex flex-wrap items-baseline gap-x-2">
-                    <span className="text-foreground">{c.name}</span>
-                    <span className="text-xs text-muted-foreground">
-                      ({c.license})
+                <li key={c.name} className="py-1.5">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <a
+                      href={c.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground hover:text-amber-glow underline-offset-4 hover:underline truncate"
+                    >
+                      {c.name}
+                    </a>
+                    <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                      {c.license}
                     </span>
                   </div>
-                  <a
-                    href={c.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-amber-glow/80 underline-offset-4 hover:underline break-all"
-                  >
-                    {c.url}
-                  </a>
                   {c.note && (
-                    <div className="text-xs italic text-muted-foreground">
+                    <div className="text-xs italic text-muted-foreground mt-0.5">
                       {c.note}
                     </div>
                   )}
