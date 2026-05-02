@@ -452,7 +452,7 @@ function HintLevels({
       })}
 
       <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-        {revealed < 3 ? (
+        {revealed < quest.hints.length ? (
           <button
             type="button"
             onClick={() => onReveal(revealed + 1)}
