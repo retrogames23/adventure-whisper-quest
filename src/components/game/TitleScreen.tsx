@@ -145,7 +145,7 @@ export function TitleScreen({ onStart }: Props) {
           Schmerz-Radio auf 104,6
         </div>
 
-        <p className="mx-auto mt-6 max-w-xl font-display text-base italic leading-relaxed text-foreground/85 sm:text-lg">
+        <p className="mx-auto mt-6 max-w-xl font-display text-base italic leading-relaxed text-foreground/85 sm:text-lg font-semibold">
           Ein klassisches Cozypunk-Point-&amp;-Click-Adventure
         </p>
 
