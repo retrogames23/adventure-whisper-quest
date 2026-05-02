@@ -1,112 +1,108 @@
-## Neuer Divergenzpunkt: 1924 — Bucharin statt Stalin
 
-Lenin stirbt im Januar 1924. In unserer Zeitlinie setzt sich Stalin im internen Machtkampf durch. In der Welt von Schmerz-Radio gewinnt **Nikolai Bucharin** — der Vertreter des „weichen", marktverträglichen Sozialismus, der die NEP (Neue Ökonomische Politik) verlängern und vertiefen will. Trotzki bleibt einflussreich, wird aber nicht ermordet, sondern in eine Art innerparteiliche Opposition gedrängt. Es gibt keine Zwangskollektivierung, keine Großen Säuberungen, keinen Gulag-Apparat im historischen Ausmaß.
+# Akt II — „Organisierte Verantwortungslosigkeit"
 
-Daraus entsteht ein anderer 20. Jahrhundert-Bogen — global, nicht nur europäisch.
+Dies ist ein **narrativer Konzeptplan**, kein Code-Plan. Sobald du ihn freigibst, kann ich daraus in Folge-Loops konkrete Szenen, Dialogbäume, Quests und Flags bauen.
 
-## Zeitstrahl 1924–1997
+## 1. Leitidee
 
-**1924–1939: Der weiche Block**
-- UdSSR bleibt ein autoritärer Einparteienstaat, aber wirtschaftlich gemischt (NEP-Industrien, bäuerliches Eigentum). Industrialisierung langsamer, aber breiter getragen.
-- Kein Hitler-Stalin-Pakt in der Form, die wir kennen — aber auch kein militärischer Rüstungsschub Stalin'schen Ausmaßes.
-- Faschismus in Italien, Spanien, Deutschland entsteht trotzdem — die innenpolitischen Krisen Europas nach 1929 sind nicht vom sowjetischen Schreckbild allein abhängig.
+Layard wird in Akt II nicht zum Helden. Er wird zum **ersten Beobachter**, der laut ausspricht, was Mira längst denkt: Hinter dem Apparat steht **kein Plan**. Keine Verschwörung, kein Diktator, kein Masterplan. Sondern eine **kollektive Mutlosigkeit**: niemand will entscheiden, niemand will schuld sein, alle wollen pünktlich Feierabend.
 
-**1939–1948: Krieg und Bruch**
-- Der Zweite Weltkrieg findet statt, im Wesentlichen wie historisch, mit zwei Unterschieden: Die UdSSR ist militärisch schwächer, leidet entsprechend härter, und der Krieg endet etwa ein Jahr später (1946) mit einer **gemeinsamen vier-Mächte-Verwaltung Mitteleuropas** statt einer harten Ost-West-Teilung. Deutschland und Österreich werden für lange Zeit ein **Quadranten-Mandat** der Siegermächte — kein Nationalstaat, sondern eine verwaltete Zone.
-- **Kein Atombombenabwurf auf Japan.** Der Krieg im Pazifik endet 1946 durch Verhandlung. Das Atomwaffen-Tabu prägt die nächsten 50 Jahre — Kernwaffen existieren, werden aber als „nicht-einsetzbar" behandelt.
+Tonfall bleibt: höflich, melancholisch, „Cozypunk". Die Erkenntnis ist nicht „Es ist alles böse", sondern „Es ist alles **niemand**".
 
-**1948–1965: Die lange Tauwetter-Periode**
-- Statt Kalter Krieg: **„Korrespondenz"** — ein semi-offizieller Austausch zwischen den Blöcken auf wissenschaftlicher, verwaltungstechnischer und kultureller Ebene. Trotzki-Schüler in Moskau und Keynes-Schüler in London entwickeln in den 50ern parallele „Mischwirtschafts"-Modelle.
-- Die UdSSR überlebt eine Reform-Krise 1956 ohne Zusammenbruch, weil es weder Ungarn-Aufstand noch Stalin-Erbe gibt.
-- China geht einen eigenen, weniger maoistischen Weg (kein Großer Sprung, keine Kulturrevolution in dieser Härte) und wird ein dritter, halb-isolierter Pol.
-- Entkolonialisierung verläuft langsamer, aber weniger blutig.
+Damit andocken an LORE §4: *„niemand ist mehr politisch zuständig, aber die Formulare laufen weiter."* Akt II macht genau diesen Satz erfahrbar.
 
-**1965–1980: Die Konvergenz**
-- Westeuropäische Sozialdemokratien und osteuropäische Reformsozialisten treffen sich in der Mitte. Es entsteht ein Verwaltungs-Esperanto: gemeinsame Normen für Statistik, Sozialversicherung, Stadtplanung, Industriestandards.
-- **1971: Die Quadranten-Konvention.** Ein technokratisches Abkommen zwischen rund 30 Staaten beidseits des alten Eisernen Vorhangs vereinheitlicht Verwaltungsstrukturen. Adressen werden zu Koordinaten, Behörden zu nummerierten Sektoren. Das Modell wird besonders im deutschsprachigen Mandatsraum, in Skandinavien, in der Tschechoslowakei und in Teilen der UdSSR umgesetzt.
-- Die USA bleiben außen vor und entwickeln eigene Standards — sie sind in dieser Welt der **exotische Pol**, nicht das globale Vorbild.
-- Konsumkultur entwickelt sich, aber gedämpfter: kein Reagan-Boom, kein Thatcher-Schock.
+## 2. Layards Motivation (C + D)
 
-**1980–1990: Stillstand als Stabilität**
-- Keine Wende, kein Mauerfall — weil es keine Mauer in der scharfen Form gegeben hat. Das Mandatsgebiet Mitteleuropa wird 1986 in einen lockeren Staatenbund umgewandelt, der wirtschaftlich integriert, politisch aber bewusst klein gehalten ist.
-- Der Computer kommt, das Internet kommt **nicht**. Stattdessen gibt es **ZENTRAL.NETZ** — ein staatlich kuratiertes Bote- und Verzeichnissystem auf bernsteinfarbenen Terminals, betrieben von den Postverwaltungen. Das passt zur etablierten Spielästhetik (CRT, Rohrpost, Aktenkultur).
+**Auslöser am Akt-II-Beginn:**
+- Layard wird das Protokoll los (Übergabe an Insa selbst, nicht mehr an einen abwesenden Abschnittsverantwortlichen).
+- **Insa-Begegnung in Person** in der Leitstelle: erste nicht-telefonische Szene. Sie ist müder, kleiner, menschlicher als am Hörer.
+- **Dr. Okwu verhängt Resonanz-Pause** (D): wegen Akt-I-Überlastung darf Layard das Schmerz-Radio 7 Tage nicht einschalten. Sein einziger Kanal zur Welt fällt weg. Er muss anders fühlen lernen — durch Zuhören, durch Akten, durch Insa.
 
-**1990–1997: Die Gegenwart der Welt**
-- Die globale Lage ist ruhig, langweilig, leicht bedrückend. Es gibt weniger Krieg, aber auch weniger Aufbruch.
-- **Der Quadranten-Verwaltungsraum** (Mitteleuropa, Skandinavien, Teile Osteuropas, Teile der UdSSR) ist besonders stark normiert. Deutschland, weil es seit 1946 als Mandatsgebiet entstand und nie ein souveräner Nationalstaat im klassischen Sinn war, ist der **bürokratische Extremfall**: hier ist die Verwaltung nicht nur Verwaltung, sondern die einzige verbliebene gemeinsame Identität.
-- Die **Sektor-Reform 1996** ist die jüngste Straffung dieses Apparats.
+**Insas Anliegen (C):**
+- Insa hat eine **private Liste** von „Verwaltungs-Anomalien", die sie offiziell nicht melden kann (weil niemand zuständig ist, der unterschreiben würde). Sie braucht jemanden, der **physisch hingeht** und schaut. Layard ist der Einzige, dem sie zutraut, dass er fragt statt nur abhakt.
+- Sie sagt nie „Ermitteln Sie". Sie sagt: „Schauen Sie zufällig vorbei, Herr Worag."
 
-## Wo das Spiel sitzt
+**Layards eigene Frage** entwickelt sich aus dem ersten Auftrag heraus:
+> „Wer hat das eigentlich entschieden?"
 
-Sektor 28, Quadrant E67, im **Mandatsgebiet Mitteleuropa**, November 1997. Layard ist Zustellbeamter in einer Verwaltung, die nie wirklich aufgehört hat, eine Besatzungsadministration zu sein — sie hat sich nur über 50 Jahre selbst zur Normalität gemacht. Das erklärt den Tonfall (höflich-fremdbestimmt), die Architektur (geometrische Quartiere), die Sprache (paragraphenverliebt, multilingual influenced) und das Fehlen großer politischer Konflikte: es gibt schlicht niemanden mehr, der politisch zuständig wäre.
+Diese Frage wird zum Akt-II-Refrain. Jede Spur endet bei einem leeren Stuhl, einem unterschriebenen-aber-nie-abgesendeten Formular, einer Zuständigkeit, die 1986 mit den Mandatsmächten formal aufgehoben, faktisch aber nie zugewiesen wurde.
 
-## Schmerz-Radio in dieser Welt
+## 3. Drei-Akt-Struktur innerhalb von Akt II
 
-Unverändert gegenüber der letzten Klärung — eine **private, marginale Bastler-Technologie**, kein Staatsprojekt:
+```text
+II.1  Der erste Auftrag      → "Wer hat das entschieden?"
+II.2  Die Marteau-Spur (E)   → "Was war das mal gemeint?"
+II.3  Der leere Stuhl        → "Niemand. Wirklich niemand."
+```
 
-- Erfunden Mitte der 70er von Funkamateur **Cornel Marteau** (Name bereits in §3.6 etabliert).
-- Sendet auf 104,6 MHz, Reichweite wenige hundert Meter, überträgt überwiegend negative affektive Zustände.
-- Marktdurchdringung gering, gilt als skurriles Hobby.
-- Behördlich nicht reguliert, wird bei „Resonanz-Überlastung" als **medizinischer**, nicht als sicherheitsrelevanter Vorgang behandelt.
-- Layard hört es, weil er selbst zu wenig fühlt.
+### II.1 — Der erste Auftrag (Einstieg, ~2 Szenen)
+- Insa schickt Layard zu einer **Nährpasten-Lieferung B3**, die seit drei Wochen falsch in Quadrant E68 ankommt statt in E67.
+- Layard verfolgt die Spur: Lieferschein → Kantinenleitung → Logistik → ein Beamter im Vorruhestand → ein **Formular von 1994**, das nie widerrufen wurde, weil der damals Zuständige in Pension ging und sein Nachfolger „erst mal nichts ändern" wollte.
+- **Erkenntnis**: Drei Wochen falsche Lieferung, weil niemand sich traut, ein altes Häkchen zu entfernen. Niemand ist böse. Alle sind nett.
+- Schließt mit einer Szene bei Insa: sie nickt nur. Sie kennt das.
 
-Die schon im Code etablierten Begriffe „Resonanz", „Resonanz-Hygiene", „Resonanz-Überlastung" beziehen sich auf das **persönliche emotionale Gleichgewicht** der Hörer.
+### II.2 — Die Marteau-Spur (Nebenstrang E, ~3 Szenen, optional aber empfohlen)
+- Akten-Nebenfund: ein Brief aus dem Jahr 1978 von **Cornel Marteau** an die damalige Sektorleitung. Er bietet die Schmerz-Radios als **Frühwarnsystem für Versorgungslücken** an: wo viele Menschen gleichzeitig leiden, stimmt etwas Strukturelles nicht.
+- Der Brief wurde nie beantwortet. Stempelvermerk: „Zuständigkeit unklar — abwarten."
+- Layard besucht Marteaus alte Werkstatt (jetzt Trödelladen, neuer Schauplatz). Marteau ist **vor Jahren weggezogen**, niemand weiß wohin. Im Hinterzimmer: eine zweite Kiste Geräte, nie ausgeliefert.
+- Diese Spur **löst sich nicht auf**. Sie verstärkt nur das Akt-II-Thema: gute Idee, kein Adressat, versandet.
 
-## Was bewusst NICHT in dieser Welt vorkommt
+### II.3 — Der leere Stuhl (Akt-II-Finale, ~2 Szenen)
+- Insa schickt Layard zur **Sektorleitung** (Etage, die er nie betreten hat). Er soll einen Antrag persönlich übergeben — irgendeinen, es spielt keine Rolle welchen.
+- Der **Sektorleiter ist nicht da**. Sein Vorzimmer ist sauber, der Kalender leer, das Namensschild aktuell. Die Sekretärin: „Er ist im Termin." Auf Nachfrage: „Welcher Termin?" — „Das darf ich nicht sagen." Auf weiteres Nachfragen, leise: „Ich weiß es nicht."
+- Layard erkennt: Der Stuhl ist seit 1986 formal besetzt und faktisch leer. Die Sekretärin auch. Sie macht ihre Arbeit. Sie weiß seit Jahren, dass es keinen Chef gibt. Sie schreibt jeden Morgen in den Kalender: „im Termin."
+- Akt-II-Schluss-Bild: Layard und Insa, kein Pathos, ein Tee. Insa sagt: „Jetzt wissen Sie es auch." Akt III kann sich daraus ergeben („Was macht man damit?").
 
-- Stalinistische Verbrechen, Gulag-System, Holodomor in historischer Form
-- Holocaust und NS-Massenverbrechen — bleibt eine **Tabu-Zone**: weder verharmlosen noch ausspielen. Lore-intern: der NS-Staat hat existiert und ist 1945/46 untergegangen, das Mandatsgebiet ist die Konsequenz; die genauen Verbrechen werden im Spiel nicht thematisiert.
-- Kalter Krieg im historischen Sinn
-- Reale lebende oder kürzlich verstorbene reale Politiker als handelnde Figuren
-- EU, Euro, NATO in heutiger Form, Internet, Mobiltelefone, soziale Medien
+## 4. Insas Funktion in Akt II
 
-Die **Tabu-Liste** wird Teil der Lore-Bibel und gilt für alle künftigen Inhalte.
+- **Nicht Mentorin**, nicht Auftraggeberin im klassischen Sinn. Eher: jemand, der lange allein war und jetzt zum ersten Mal jemanden hat, dem sie Beobachtungen sagen kann, ohne dass sie ein Formular werden müssen.
+- **Persönliche Wärme** dosieren: ein gemeinsamer Tee, eine kurze Erinnerung an ihren Vorgänger, ein Halbsatz über ihre eigene Antrags-Schublade. Nichts Großes.
+- Sie öffnet **keine** Türen mit Macht — sie kennt nur die Schleichwege. Das ist wichtig: auch Insa hat keine Autorität. Sie hat nur Erfahrung.
 
-## Aufbau der Lore-Bibel
+## 5. Mira als Spiegel
 
-`LORE.md` im Repo-Root als Wahrheitsquelle. Kapitel:
+- Mira (Bewohnervertretung, Trockensiegel-Hüterin) bekommt in Akt II **eine Schlüsselszene**: sie sagt Layard, dass sie das alles seit Jahren weiß und aufgehört hat, sich aufzuregen. Sie ist die **Was-wäre-wenn-Layard-resigniert**-Figur.
+- Funktion: Layards Erkenntnis bekommt durch Mira eine zweite Stimme — und eine Warnung. Akt III muss entscheiden, ob Layard wie Mira wird oder nicht.
 
-1. Divergenzpunkt 1924 — Bucharin statt Stalin
-2. Zeitstrahl 1924–1997
-3. Globale politische Geographie 1997 (Blöcke, Mandatsgebiet, USA als Außenseiter, China als dritter Pol)
-4. Mandatsgebiet Mitteleuropa und das Quadrantensystem
-5. Verwaltung & Alltag in Sektor 28
-6. Tech-Stand 1997 (was es gibt, was es nicht gibt)
-7. Skurrile Geräte & Hobbys (inkl. Schmerz-Radio als ein Eintrag unter mehreren)
-8. Personenverzeichnis (kompatibel zu `npcPersonas.ts`)
-9. Tabu-Liste
+## 6. Was Akt II **nicht** ist
 
-In-Game-Pendant: ein **Lese-Buch** im Spiel mit gestraffter, bewohner-bürokratischer Fassung — nicht alles aus der Bibel, sondern nur, was eine Figur 1997 wissen würde.
+- Kein Whodunit. Es gibt keinen Schuldigen.
+- Keine Verschwörung. Keine geheime Stelle, die alles steuert.
+- Kein Aufstand, kein Widerstand, keine Befreiung.
+- Kein Marteau-Treffen. Marteau bleibt eine Akte. (Lore: §8 — „im Spiel nicht anwesend".)
 
-## Umsetzung
+Das ist die zentrale Erzählentscheidung: **Die Pointe ist die Abwesenheit der Pointe.**
 
-### Schritt 1 — Lore-Bibel
-`LORE.md` im Projekt-Root. ~3000–4000 Wörter. Autorenfassung, eindeutig, für interne Konsistenz.
+## 7. Neue Schauplätze (grobe Liste)
 
-### Schritt 2 — In-Game-Buch
-- Inhaltsdaten in `src/game/quadrantenAlmanach.ts` (parallel zu `e67Handbook.ts`, gleiche `HandbookChapter`-Struktur).
-- Reader: `src/components/game/AlmanachOverlay.tsx`, abgeleitet von `HandbookOverlay.tsx`. Wenn Render-Logik 1:1 ist, prüfen wir bei der Implementierung, ob `HandbookOverlay` generisch werden kann; sonst zwei Komponenten.
+- **Leitstelle E67 (Innenraum)** — Insas Arbeitsplatz, erstmals begehbar.
+- **Sektor-Logistik** (II.1) — Regalreihen, ein einzelner Beamter.
+- **Marteaus Werkstatt / Trödelladen** (II.2) — staubig, ein freundlicher Erbe.
+- **Sektorleitung-Vorzimmer** (II.3) — sauber, leer, eine Sekretärin.
+- **Dr. Okwus Sprechzimmer** (Rahmen) — Resonanz-Pause-Verordnung am Anfang, Aufhebung am Ende.
 
-### Schritt 3 — Auffindbarkeit
-Vorschlag: **Bücherregal in Layards Wohnung** als Hotspot, optional zusätzlich Insas Sprechzimmer. Klärungsfrage unten.
+## 8. Mechanische Konsequenzen (kurz)
 
-### Schritt 4 — i18n-konform
-Alle narrativen Strings im Daten-Modul, UI-Labels in `*_UI_TEXT`-Konstanten. Folgt `mem://preferences/i18n-readiness`.
+- **Schmerz-Radio gesperrt** für die ersten ~2/3 von Akt II → ändert Spielgefühl, zwingt zu anderen Wahrnehmungswegen (Akten lesen, Zuhören, Beobachten in Szenen).
+- **Neuer Inventar-Typ:** Akten-Notizen / Kopien — Layard sammelt Hinweise auf Zuständigkeitslücken, sichtbar im neuen Almanach-Tab „Wer ist zuständig?".
+- **Insa-Beziehungs-Flag**: steigt diskret durch ehrliche Berichte, sinkt durch reines Abhaken. Beeinflusst Akt-III-Optionen, nicht Akt II selbst.
 
-### Schritt 5 — Lore-Check (Folgeschritt)
-`scripts/lore-check.mjs` erweitern, sodass es zusätzlich gegen `LORE.md` validiert.
+## 9. Was ich in Folge-Loops konkret bauen würde
 
-## Klärungsfragen
+In dieser Reihenfolge, jeweils einzeln freigebbar:
 
-1. **Divergenzpunkt 1924 (Bucharin statt Stalin) und die daraus folgende „weiche Blockkonfrontation"** — passt das, oder lieber ein anderer Anker (z. B. „Trotzki gewinnt" für eine internationalistischere Variante, oder bereits 1917 „Februarrevolution stabilisiert sich, keine Oktoberrevolution")?
-2. **Mandatsgebiet Mitteleuropa als Rahmen für das Spiel** — Deutschland existiert nur noch als verwaltete Zone unter vier Mächten, seit 1946, ohne je wieder Nationalstaat geworden zu sein. Trifft das den Ton, oder soll es einen formalen deutschen Staat geben, der nur faktisch von der Verwaltungs-Konvention überlagert wird?
-3. **USA als exotischer Außenseiter-Pol vs. China als dritter Pol** — sollen beide in der Lore vorkommen (auch wenn sie im Spiel nicht auftreten), damit die Welt global glaubwürdig ist? Oder lieber nur das andeuten, was Layard 1997 in einer Sektor-Wohnung wissen würde?
-4. **Auffindbarkeit des Almanachs** — Bücherregal in Layards Wohnung von Anfang an, oder erst später als Fundstück (z. B. nach erstem Postamt-Besuch)?
+1. **Akt-II-Bridge-Cutscene**: Protokoll-Übergabe + Okwu-Verordnung + erste Insa-in-Person-Szene.
+2. **Schauplatz „Leitstelle E67 Innenraum"** + Insa-Hub-Dialog (Auftrag annehmen / berichten).
+3. **Quest II.1 (Nährpasten)** — Szene Logistik, Dialogbaum, Auflösung.
+4. **Quest II.2 (Marteau-Spur)** — Werkstatt-Schauplatz, Akten-Item, Dialog mit Erbe.
+5. **Quest II.3 (Leerer Stuhl)** — Sektorleitung-Vorzimmer, Sekretärin-Dialog, Akt-II-Schluss.
+6. **Mira-Spiegelszene** (zwischen II.2 und II.3 einzubauen).
 
-## Geplante Datei-Änderungen
+## 10. Offene Entscheidungen für dich
 
-- **neu:** `LORE.md` (Wahrheitsquelle, Repo-Root)
-- **neu:** `src/game/quadrantenAlmanach.ts` (In-Game-Inhalt)
-- **neu:** `src/components/game/AlmanachOverlay.tsx` (Reader-Komponente)
-- **edit:** eine Szenendatei in `src/game/scenes/` (Hotspot, abhängig von Frage 4)
-- **edit:** `src/components/game/Game.tsx` (Overlay einhängen, analog `HandbookOverlay`)
+Bevor ich Code anfasse, brauche ich von dir noch zu wissen:
+- **Resonanz-Pause** (D) wirklich harte Sperre des Radios oder nur narrative Mahnung mit „Schummel-Option"?
+- **Akt-II-Länge**: knapp (3 Quests, ~45 Min Spielzeit) oder ausgebaut (5–6 Quests, ~90 Min)?
+- **Marteau-Strang** wirklich nur Akte (klassisch, melancholisch) — oder darf ein Brief von ihm aus dem Jahr 1997 auftauchen, der Layard direkt anspricht (riskanter, weicht von Lore §8 ab)?
+
+Sobald du mir auf diese drei Punkte antwortest und den Plan freigibst, fange ich mit Schritt 1 (Bridge-Cutscene) an.
