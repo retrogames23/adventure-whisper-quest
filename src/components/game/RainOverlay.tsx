@@ -120,22 +120,12 @@ export function RainOverlay() {
         }
       }
 
-      // Render & age splashes.
-      for (let i = splashes.length - 1; i >= 0; i--) {
-        const s = splashes[i];
+      // Age splashes without drawing them. The rain is behind glass only;
+      // viewport-bottom splashes would appear on the desk/interior.
+      splashes.length = splashes.filter((s) => {
         s.life += 1;
-        const t = s.life / s.max;
-        if (t >= 1) {
-          splashes.splice(i, 1);
-          continue;
-        }
-        const r = 1 + t * 4;
-        ctx.strokeStyle = `rgba(200, 220, 240, ${0.35 * (1 - t)})`;
-        ctx.lineWidth = 0.8;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, r, Math.PI, 2 * Math.PI);
-        ctx.stroke();
-      }
+        return s.life / s.max < 1;
+      }).length;
 
       raf = window.requestAnimationFrame(tick);
     };
