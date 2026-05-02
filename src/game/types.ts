@@ -478,6 +478,8 @@ export interface GameApi {
   resetBrustWinStreak: () => void;
   isRadioActive: () => boolean;
   setEnding: () => void;
+  /** Ending-Overlay wieder schließen (z. B. beim Akt-II-Einstieg). */
+  clearEnding: () => void;
   /**
    * Spielt eine Fullscreen-Sequenz nach burn.
    * Beendet das Spiel NICHT.
