@@ -7,6 +7,7 @@ import {
   startResonanceDrone,
 } from "@/audio/sfx";
 import { CloseButton } from "./CloseButton";
+import { ACT2_BRIDGE_UI_TEXT } from "@/game/cutscenes";
 
 // Schmerz-Radio-Erweiterung — i18n-freundliche UI-/Erzähltexte
 // gehören in eine zentrale Konstante, nicht hartkodiert in JSX.
@@ -125,6 +126,23 @@ export function RadioPanel() {
   const droneStopRef = useRef<(() => void) | null>(null);
   const lastFreqRef = useRef(freq);
   const [tick, setTick] = useState(0);
+
+  // ── Akt-II-Resonanz-Pause (Dr. Okwu, weich) ─────────────────────
+  // Solange `radioOnPause` gesetzt ist und Layard die Pause noch nicht
+  // einmal innerhalb dieser Session bewusst übergangen hat, blockiert
+  // ein Warnhinweis das Panel. Zwei Optionen: lassen (schließt das Panel)
+  // oder trotzdem einschalten (setzt `cheatedRadioOnPause`).
+  const [pauseAck, setPauseAck] = useState(false);
+  const showPauseGate =
+    radioOpen &&
+    flags.has("radioOnPause") &&
+    !flags.has("cheatedRadioOnPause") &&
+    !pauseAck;
+
+  // Reset des Session-Acks, sobald das Radio wieder geschlossen wird.
+  useEffect(() => {
+    if (!radioOpen) setPauseAck(false);
+  }, [radioOpen]);
 
   // ── Resonanz-Duell (Mira-Verstärker) ────────────────────────────
   // Aktiv, sobald Layard Miras Antenne übergeben hat (`miraHasAmplifier`)
@@ -382,6 +400,65 @@ export function RadioPanel() {
   }, [radioOpen, inE71, freq, api, setRadioActive, resetResonance, closeRadio, flags]);
 
   if (!radioOpen) return null;
+
+  // ── Pause-Gate (Akt II) ─────────────────────────────────────────
+  // Dr. Okwus weiche Verordnung. Solange der Spieler nicht entschieden
+  // hat, blockieren wir das eigentliche Panel mit einer Bestätigungs-
+  // tafel. Das ist bewusst kein hartes Lock — beide Wege sind erlaubt.
+  if (showPauseGate) {
+    return (
+      <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/85 px-4">
+        <div className="fade-in relative w-full max-w-md rounded-sm border border-amber-glow/40 bg-background p-6 text-center shadow-[0_0_60px_rgba(0,0,0,0.8)]">
+          <CloseButton
+            onClick={() => {
+              setRadioActive(false);
+              closeRadio();
+            }}
+            label="Radio schließen"
+            className="absolute right-3 top-3"
+          />
+          <div className="mb-4 space-y-2 pr-6">
+            {ACT2_BRIDGE_UI_TEXT.radioPauseWarning.map((line, i) => (
+              <p
+                key={i}
+                className={
+                  i === 0
+                    ? "font-mono-crt text-xs uppercase tracking-[0.3em] text-amber-glow amber-glow"
+                    : "font-display text-base text-foreground/90"
+                }
+              >
+                {line}
+              </p>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-col items-stretch gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setRadioActive(false);
+                closeRadio();
+              }}
+              className="rounded-sm border border-amber-glow/60 px-4 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/10"
+            >
+              {ACT2_BRIDGE_UI_TEXT.radioPauseAbort}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (!flags.has("cheatedRadioOnPause")) {
+                  api.setFlag("cheatedRadioOnPause");
+                }
+                setPauseAck(true);
+              }}
+              className="rounded-sm border border-destructive/60 px-4 py-2 text-xs uppercase tracking-widest text-destructive hover:bg-destructive/10"
+            >
+              {ACT2_BRIDGE_UI_TEXT.radioPauseContinue}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const burned = flags.has("burnedNode5610");
   // Nach burn ist 104,6 in E67-Reichweite stumm — Layard hört nur noch

@@ -17,6 +17,7 @@ import { Television } from "./Television";
 import { NodeTerminal } from "./NodeTerminal";
 import { BurnSequence } from "./BurnSequence";
 import { ParamedicsCutscene } from "./ParamedicsCutscene";
+import { Act2BridgeCutscene } from "./Act2BridgeCutscene";
 import { Ending } from "./Ending";
 import { TitleScreen } from "./TitleScreen";
 import { PauseMenu } from "./PauseMenu";
@@ -254,6 +255,7 @@ function GameStage({
             <ParagraphenNotizbuchOverlay />
             <FreeChatOverlay />
             <Ending />
+            <Act2BridgeCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
             {/* Lazy-Overlays: Komponente erst gemounted (= Chunk geladen),
                 wenn der entsprechende Open-State true ist. So schlummert
