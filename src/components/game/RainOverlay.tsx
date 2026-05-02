@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import rainMask from "@/assets/title/whisper-quest-v1-rain-mask.png";
 
 /**
@@ -8,10 +8,19 @@ import rainMask from "@/assets/title/whisper-quest-v1-rain-mask.png";
  */
 export function RainOverlay() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [maskImg, setMaskImg] = useState<HTMLImageElement | null>(null);
+
+  // Preload the mask image once.
+  useEffect(() => {
+    const img = new Image();
+    img.src = rainMask;
+    img.onload = () => setMaskImg(img);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    if (!maskImg) return;
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -38,6 +47,22 @@ export function RainOverlay() {
     const drops: Drop[] = [];
     const splashes: Splash[] = [];
     const WIND = 0.35; // horizontal drift factor (slight diagonal)
+
+    // Artwork is rendered with object-cover. Reproduce that mapping for the
+    // mask so it lines up pixel-accurately with the painted scene.
+    const ART_W = 1280;
+    const ART_H = 853; // intrinsic aspect of whisper-quest-v1 (3:2)
+    let coverW = 0;
+    let coverH = 0;
+    let coverX = 0;
+    let coverY = 0;
+    const computeCover = () => {
+      const scale = Math.max(width / ART_W, height / ART_H);
+      coverW = ART_W * scale;
+      coverH = ART_H * scale;
+      coverX = (width - coverW) / 2;
+      coverY = (height - coverH) / 2;
+    };
 
     const makeDrop = (initial = false): Drop => {
       // Three depth layers: far (slow, thin), mid, near (fast, thick).
@@ -89,6 +114,7 @@ export function RainOverlay() {
       );
       drops.length = 0;
       for (let i = 0; i < target; i++) drops.push(makeDrop(true));
+      computeCover();
     };
 
     resize();
@@ -96,6 +122,7 @@ export function RainOverlay() {
 
     let raf = 0;
     const tick = () => {
+      ctx.globalCompositeOperation = "source-over";
       ctx.clearRect(0, 0, width, height);
       ctx.lineCap = "round";
 
@@ -137,6 +164,14 @@ export function RainOverlay() {
         ctx.stroke();
       }
 
+      // Mask: keep rain ONLY where the mask is bright (window-glass areas).
+      // 'destination-in' multiplies existing pixels by the mask's alpha;
+      // because the mask PNG is opaque everywhere, we instead use 'multiply'
+      // by drawing the inverted mask via 'destination-out' for the dark areas.
+      ctx.globalCompositeOperation = "destination-in";
+      ctx.drawImage(maskImg, coverX, coverY, coverW, coverH);
+      ctx.globalCompositeOperation = "source-over";
+
       raf = window.requestAnimationFrame(tick);
     };
     raf = window.requestAnimationFrame(tick);
@@ -145,26 +180,13 @@ export function RainOverlay() {
       window.cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [maskImg]);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-[1] h-full w-full"
-      style={{
-        // Pixel-precise mask matching the artwork: rain only renders where the
-        // mask is white (window-glass / sky areas). Curtains, frames, person,
-        // desk, monitor are black -> rain hidden behind them.
-        WebkitMaskImage: `url(${rainMask})`,
-        maskImage: `url(${rainMask})`,
-        WebkitMaskSize: "100% 100%",
-        maskSize: "100% 100%",
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        WebkitMaskPosition: "center",
-        maskPosition: "center",
-      }}
     />
   );
 }
