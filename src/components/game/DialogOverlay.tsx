@@ -118,7 +118,7 @@ export function DialogOverlay() {
 
   return (
     <div
-      className={`absolute inset-0 z-40 flex items-end justify-center bg-black/55 px-4 pb-6 ${
+      className={`absolute inset-0 z-40 flex items-end justify-center bg-black/80 px-4 pb-6 ${
         canAdvance ? "cursor-pointer" : ""
       }`}
       onClick={handleAdvance}
