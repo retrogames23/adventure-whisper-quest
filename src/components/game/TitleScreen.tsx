@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import titleTrack from "@/assets/almost-freedom.mp3";
+import titleTrack from "@/assets/the-glass-hour.mp3";
 import { ImpressumOverlay } from "./ImpressumOverlay";
 import { OpenSourceOverlay } from "./OpenSourceOverlay";
 import { DonationModal } from "@/components/donation/DonationModal";
