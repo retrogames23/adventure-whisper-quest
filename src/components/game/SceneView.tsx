@@ -229,21 +229,6 @@ export function SceneView() {
           <Hotspot key={h.id} hotspot={h} reveal={revealHotspots} />
         ))}
 
-        {/* Hallway-only: Klebeband-Overlays als SVG. Liegen über dem
-            Hintergrund, aber unter den Hotspots (pointer-events: none).
-            Frühere Bildvarianten hatten Render-Artefakte und wurden durch
-            diese sauberen Overlays ersetzt. Koordinaten sind in % des
-            4:3-Layers — abgestimmt auf die Aufzugs- bzw. 2615-Hotspots. */}
-        {scene === "hallway" && (
-          <HallwayTapeOverlays
-            elevatorSealed={
-              flags.has("elevatorMaintBlocked") &&
-              !flags.has("elevatorMaintCleared")
-            }
-            apt2615Sealed={flags.has("paramedicsCutsceneSeen")}
-          />
-        )}
-
         {/* Dev-only: drag/resize Editor über allen Hotspots, NPCs und
             Decals — nur sichtbar mit ?dev=1 + gehaltener Space-Taste. */}
         {dev && revealHotspots && (
