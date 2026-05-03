@@ -353,6 +353,13 @@ export interface Scene {
   bgFocus?: { scale: number; originX: number; originY: number };
 }
 
+/**
+ * Pixel-Größe (Original-Asset) eines Szenen-Hintergrundbildes. Wird
+ * benötigt, damit Hotspots/NPCs/Decals pixelgenau auf dem sichtbaren
+ * Bildbereich liegen — auch wenn das Asset nicht exakt 16:9 ist.
+ */
+export type SceneImageSize = { w: number; h: number };
+
 export interface SceneDecal {
   id: string;
   kind: "television";
