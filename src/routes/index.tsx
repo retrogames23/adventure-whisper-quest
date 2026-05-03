@@ -5,7 +5,7 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Schmerz-Radio auf 104,6 — Akt I" },
+      { title: "WHISPER·QUEST – kostenloses klassisches Point-&-Click-Adventure im Cozypunk-Universum" },
       {
         name: "description",
         content:
