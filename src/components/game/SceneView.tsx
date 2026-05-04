@@ -6,6 +6,8 @@ import { useDevMode } from "@/dev/devMode";
 import { HotspotEditor } from "@/dev/HotspotEditor";
 import { RoomSwitcher } from "@/dev/RoomSwitcher";
 import { ConsoleSwitcher } from "@/dev/ConsoleSwitcher";
+import { OverlayQAOverlay } from "@/dev/OverlayQAOverlay";
+import { useQA } from "@/dev/overlayQAState";
 import { Eye, EyeOff } from "lucide-react";
 
 export function SceneView() {
@@ -56,6 +58,7 @@ export function SceneView() {
     return () => mq.removeEventListener?.("change", update);
   }, []);
   const dev = useDevMode();
+  const qa = useQA();
   // Pixelgenaues Layout: Hotspot-/NPC-/Decal-Layer werden exakt über die
   // sichtbare Bildfläche gelegt — auch wenn das Asset nicht exakt 16:9
   // ist. Dadurch sind alle Hotspot-Koordinaten (in % des Bildes)
@@ -314,7 +317,7 @@ export function SceneView() {
 
         {/* Dev-only: drag/resize Editor über allen Hotspots, NPCs und
             Decals — nur sichtbar mit ?dev=1 + gehaltener Space-Taste. */}
-        {dev && revealHotspots && (
+        {dev && (revealHotspots || (qa.active && qa.editorForced)) && (
           <HotspotEditor
             sceneId={scene}
             hotspots={current.hotspots}
@@ -327,6 +330,7 @@ export function SceneView() {
             Tastenkürzel "G". */}
         {dev && <RoomSwitcher />}
         {dev && <ConsoleSwitcher />}
+        {dev && <OverlayQAOverlay />}
 
         {/* Hintergrund-Sprechblasen der DSA-Runde im Gemeinschaftsraum */}
         <FloatingChatter enabled={scene === "commonRoomE67"} variant="dsa" />
