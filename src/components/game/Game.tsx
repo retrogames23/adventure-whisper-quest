@@ -29,6 +29,8 @@ import { LobbyGate } from "./LobbyGate";
 import { PneumaticTubeOverlay } from "./PneumaticTubeOverlay";
 import { ParagraphenNotizbuchOverlay } from "./ParagraphenNotizbuchOverlay";
 import { FreeChatOverlay } from "./FreeChatOverlay";
+import { PubOverlay } from "./PubOverlay";
+import { ToiletWallOverlay } from "./ToiletWallOverlay";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useGame } from "@/game/GameContext";
 import { DonationGate } from "@/components/donation/DonationGate";
@@ -254,6 +256,8 @@ function GameStage({
             <PneumaticTubeOverlay />
             <ParagraphenNotizbuchOverlay />
             <FreeChatOverlay />
+            <PubOverlay />
+            <ToiletWallOverlay />
             <Ending />
             <Act2BridgeCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
