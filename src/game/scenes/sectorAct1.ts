@@ -246,8 +246,8 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       {
         id: "doors",
         // Übersichts-Look auf die Türenreihe im Mittelgrund.
-        x: 32,
-        y: 40,
+        x: 29.8,
+        y: 42.6,
         w: 36,
         h: 12,
         label: "Türen 1530–1540",
@@ -264,8 +264,8 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       {
         id: "door1532",
         // Tür vorne links (Praxis Dr. Okwu).
-        x: 12.5,
-        y: 5,
+        x: 9.7,
+        y: 9.5,
         w: 12,
         h: 95,
         label: "Tür 1532 — Praxis Dr. Okwu",
@@ -275,10 +275,10 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       {
         id: "door1534",
         // Tür ganz hinten in der Fluchtachse, mit rotem Status-Licht darüber.
-        x: 44.75,
-        y: 40,
-        w: 10.5,
-        h: 38,
+        x: 45.6,
+        y: 40.8,
+        w: 9.5,
+        h: 18.8,
         label: "Tür 1534 (rot beleuchtet)",
         kind: "exit",
         onUse: (api) => {

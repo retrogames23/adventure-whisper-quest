@@ -18,8 +18,8 @@ export const communalE67Scenes: Record<string, Scene> = {
         // Stage 1024×640 zeigt 16:9-Bild via object-cover: sichtbar
         // sind ~5.4 %..94.6 % der Original-Bildbreite. Alle Werte sind
         // bereits in Stage-% angegeben.
-        x:  0,
-        y: 62,
+        x: 10.7,
+        y: 59.1,
         w: 13,
         h: 38,
         label: (() => "Freier Stuhl am Tisch")(),
@@ -54,7 +54,7 @@ export const communalE67Scenes: Record<string, Scene> = {
       {
         id: "yelvaSpot",
         // Yelva (grünes Kleid, Brille) sitzt rechts am Tisch.
-        x: 84,
+        x: 75.2,
         y: 38,
         w: 16,
         h: 58,

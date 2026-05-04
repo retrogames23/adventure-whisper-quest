@@ -301,10 +301,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "lampPhilippe",
         // Tischlampe rechts neben Philippe auf dem Nachttisch.
-        x: 57.5,
-        y: 38,
-        w: 10.5,
-        h: 24,
+        x: 64.5,
+        y: 42.8,
+        w: 8.1,
+        h: 20.2,
         label: "Lampe",
         kind: "look",
         requires: ["paramedicsArrived"],
@@ -355,9 +355,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "phone2613",
         // Beiger Bakelit-Wandapparat ganz links.
-        x: 12.5,
+        x: 19.2,
         y: 18,
-        w: 16.5,
+        w: 9.8,
         h: 55,
         label: "Telefon (Wandapparat)",
         kind: "use",
@@ -409,9 +409,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "exit2613",
         // Türrahmen ganz rechts (hinter Philippe).
-        x: 83,
-        y: 18,
-        w: 4.5,
+        x: 83.8,
+        y: 18.3,
+        w: 12.3,
         h: 80,
         label: "In den Korridor",
         kind: "exit",
@@ -445,8 +445,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "bodoNpc",
         // Hotspot deckt das Bodo-Sprite auf dem Sessel.
-        x: 23,
-        y: 36,
+        x: 15.4,
+        y: 25.5,
         w: 22.5,
         h: 60,
         label: "Bodo Marschke",
@@ -533,8 +533,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "lottiSpot",
         // Katze liegt auf der Ottomane vor dem Sessel.
-        x: 33.5,
-        y: 64,
+        x: 42.8,
+        y: 58.9,
         w: 16.5,
         h: 22,
         label: "Lotti (Katze)",
@@ -570,10 +570,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "bodoPhone",
         // Beiges Wandtelefon rechts oberhalb des Terminal-Tisches.
-        x: 65,
-        y: 24,
+        x: 72.9,
+        y: 13.9,
         w: 9,
-        h: 22,
+        h: 17.2,
         label: "Wandtelefon",
         kind: "look",
         onUse: (api) =>
@@ -590,8 +590,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "bodoPencil",
         // Tisch links neben dem Terminal.
-        x: 53,
-        y: 50,
+        x: 49.6,
+        y: 48.1,
         w: 7,
         h: 6,
         label: "Bleistiftstummel",
@@ -616,8 +616,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "bodoTerminal",
         // CRT-Monitor mit Tisch in der Bildmitte rechts.
-        x: 47,
-        y: 38,
+        x: 53.9,
+        y: 22.2,
         w: 19.5,
         h: 32,
         label: "Bodos Terminal",
@@ -655,8 +655,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "exit2612",
         // Wohnungstür rechts neben dem Telefon-/Schreibtischbereich.
-        x: 57.5,
-        y: 14,
+        x: 83.7,
+        y: 4.1,
         w: 12,
         h: 80,
         label: "Zurück in den Korridor",
