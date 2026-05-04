@@ -17,7 +17,8 @@ export type SceneId =
   | "serverRoom5610"
   | "commonRoomE67"
   | "cafeteriaE67"
-  | "aptMira4601";
+  | "aptMira4601"
+  | "vossbeckOffice";
 
 export type InventoryItemId =
   | "protocol"
