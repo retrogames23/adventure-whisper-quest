@@ -214,7 +214,7 @@ export function SceneView() {
   return (
     <div
       ref={stageRef}
-      className={`relative mx-auto h-full max-h-full w-full max-w-full overflow-hidden border border-border bg-black scanlines sm:aspect-[16/9] sm:w-auto ${
+      className={`relative mx-auto h-full max-h-full w-full max-w-full overflow-hidden border border-border bg-black scanlines ${
         shakeActive ? "resonance-shake" : ""
       }`}
     >
