@@ -651,6 +651,26 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       },
     },
   },
+  // Vossbeck winkt jeden Bewohner ab, der sich nicht vorher bei Brust
+  // qualifiziert hat — Tür 3603 ist offen, der Vorgang aber nicht.
+  vossbeckUnready: {
+    id: "vossbeckUnready",
+    start: "u0",
+    lines: {
+      u0: {
+        id: "u0",
+        speaker: "SYSTEM",
+        text: "[ Vossbeck blättert weiter, ohne aufzuschauen. ]",
+        next: "u1",
+      },
+      u1: {
+        id: "u1",
+        speaker: "VOSSBECK",
+        text: "Ohne dokumentierte Trainingssiege bei Herrn Brust nehme ich keine Vorgänge an. Bewohner Worag — drei in Folge. Dann reden wir.",
+        end: true,
+      },
+    },
+  },
   tjarkSmalltalk: {
     id: "tjarkSmalltalk",
     start: "t0",
