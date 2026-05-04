@@ -473,9 +473,9 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       // das Schmerz-Radio öffnen und feintunen.
       {
         id: "wartungsFunk5610",
-        x: 54.5,
-        y: 60,
-        w: 9,
+        x: 46,
+        y: 40,
+        w: 13,
         h: 22,
         label: "Wartungs-Funkgerät (alt)",
         kind: "use",
