@@ -123,6 +123,7 @@ export function DialogOverlay() {
     TJARK: "text-foreground",
     BREM: "text-foreground",
     YELVA: "text-foreground",
+    BRAM: "text-amber-glow",
   };
 
   // Tastatur: Space / Enter / Klick-irgendwohin → weiter (nur wenn keine Auswahl)
