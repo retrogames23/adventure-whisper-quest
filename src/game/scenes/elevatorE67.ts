@@ -250,6 +250,18 @@ export const elevatorE67Scenes: Record<string, Scene> = {
           api.goTo("e71Lobby");
         },
       },
+      {
+        id: "toPub",
+        // Schmale, halb verborgene Tür unter dem Geländer im Vordergrund.
+        x: 41.5,
+        y: 70,
+        w: 17,
+        h: 22,
+        label: "Kneipe „Zum stillen Funk“",
+        kind: "exit",
+        exitDir: "down",
+        onUse: (api) => api.goTo("pub"),
+      },
     ],
   },
 };
