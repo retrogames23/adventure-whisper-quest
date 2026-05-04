@@ -244,24 +244,6 @@ export const sectorAct1Scenes: Record<string, Scene> = {
           ]),
       },
       {
-        id: "doors",
-        // Übersichts-Look auf die Türenreihe im Mittelgrund.
-        x: 29.8,
-        y: 42.6,
-        w: 36,
-        h: 12,
-        label: "Türen 1530–1540",
-        kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "1530, 1536 — grün. Leer.",
-            "1532 — grünes Licht, ein kleines Schild: „Dr. A. Okwu — Allgemeinmedizin“.",
-            "1538 — gelbes Wartelicht. Drinnen sitzt jemand, hörbar nervös.",
-            "1531 — gelbes Band. Versiegelt.",
-            "Nur 1534 zeigt ein rotes Licht. Aktiv. Besetzt.",
-          ]),
-      },
-      {
         id: "door1532",
         // Tür vorne links (Praxis Dr. Okwu).
         x: 9.7,
