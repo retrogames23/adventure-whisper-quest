@@ -197,9 +197,8 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         h: 41.4,
         label: "Aufzug zurück nach E67",
         kind: "exit",
-        // Sobald Layard mit Mikael gesprochen hat, ist der Rückweg offen.
-        requires: ["mikaelRejectedProtocol"],
-        onUse: (api) => api.goTo("apartment"),
+        // Rückweg in den Aufzug ist immer offen.
+        onUse: (api) => api.goTo("elevatorE67"),
       },
       {
         id: "toCorridor15",
