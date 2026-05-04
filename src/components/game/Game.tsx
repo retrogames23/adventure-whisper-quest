@@ -233,7 +233,7 @@ function GameStage({
     terminalOpen || nodeOpen || dsaCreatorOpen || dsaAdventureOpen;
   return (
     <MobileStage uprightOnPortrait={consoleOpen}>
-      <div className="flex h-full w-full flex-col overflow-hidden bg-bureaucracy mobile-stage-host" style={{ height: "100%" }}>
+      <div className="flex h-screen flex-col overflow-hidden bg-bureaucracy mobile-stage-host">
         <TopBar
           onOpenPause={handleOpenPause}
           onOpenHelp={handleOpenHelp}
