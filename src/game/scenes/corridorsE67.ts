@@ -23,7 +23,9 @@ export const corridorsE67Scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "philippeSpot36",
-        x: 64,
+        // Philippe steht (wenn er Etage 3 ist) vor seiner Wohnung — wir
+        // nutzen den freien Wandstreifen zwischen 3603 und Aufzug.
+        x: 76,
         y: 36,
         w: 7.5,
         h: 50,
@@ -35,10 +37,11 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "officeDoor",
-        x: 60,
-        y: 24,
-        w: 11.25,
-        h: 64,
+        // Tür 3601 — links außen.
+        x: 5.5,
+        y: 22,
+        w: 11,
+        h: 65,
         label: "Tür 3601 — Abschnittsverantwortlicher E67",
         kind: "talk",
         onUse: (api) => {
@@ -48,18 +51,19 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "cafeteriaDoor",
-        x: 6.6,
-        y: 17,
+        // Tür 3602 — Kantine, mittig.
+        x: 25,
+        y: 19,
         w: 27,
-        h: 60.6,
+        h: 65,
         label: "Tür 3602 — Kantine E67",
         kind: "exit",
         onUse: (api) => api.goTo("cafeteriaE67"),
       },
       {
         id: "verwaltungDoor",
-        // Tür 3603 — Kantinenverwaltung, direkt rechts neben 3602.
-        x: 36,
+        // Tür 3603 — Kantinenverwaltung, rechts neben 3602.
+        x: 60,
         y: 22,
         w: 13,
         h: 65,
@@ -69,7 +73,8 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "officeBell",
-        x: 65.5,
+        // Klingelknopf neben Tür 3601 (links).
+        x: 16,
         y: 47,
         w: 3,
         h: 7,
@@ -84,10 +89,11 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "back36",
-        x: 80,
-        y: 17.2,
-        w: 16.5,
-        h: 74,
+        // Aufzug rechts außen.
+        x: 82,
+        y: 19,
+        w: 14,
+        h: 70,
         label: "Zurück zum Aufzug",
         kind: "exit",
         onUse: (api) => api.goTo("elevator"),
