@@ -63,8 +63,7 @@ export function useToiletWall(active: boolean) {
       return { ok: false, error: `Noch ${wait}s warten.` };
     }
     lastWriteRef.current = now;
-    const x = 6 + Math.random() * 88;
-    const y = 8 + Math.random() * 70;
+    const { x, y } = pickSpot(graffiti);
     const rotation = -8 + Math.random() * 16;
     const colorIndex = Math.floor(Math.random() * 5);
     const { error: e } = await supabase.from("toilet_graffiti").insert({
@@ -78,6 +77,27 @@ export function useToiletWall(active: boolean) {
   }
 
   return { graffiti, error, write };
+}
+
+function pickSpot(existing: Graffiti[]): { x: number; y: number } {
+  let best = { x: 50, y: 50 };
+  let bestScore = -Infinity;
+  for (let i = 0; i < 40; i++) {
+    const cx = 8 + Math.random() * 84;
+    const cy = 10 + Math.random() * 75;
+    let minDist = Infinity;
+    for (const g of existing) {
+      const dx = g.x - cx;
+      const dy = (g.y - cy) * 1.4; // y is shorter visually
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < minDist) minDist = d;
+    }
+    if (minDist > bestScore) {
+      bestScore = minDist;
+      best = { x: cx, y: cy };
+    }
+  }
+  return best;
 }
 
 function toG(row: {
