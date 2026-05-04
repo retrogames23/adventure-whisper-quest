@@ -1,0 +1,105 @@
+import kantinenverwaltungBg from "@/assets/scene-kantinenverwaltung-3603.jpg";
+import vossbeckSprite from "@/assets/npc-vossbeck.png";
+import type { Scene } from "../types";
+
+/**
+ * Raum 3603 — Kantinenverwaltung E67. Eigenes Hinterzimmer von
+ * Oberinspektor Vossbeck, direkt neben der Kantine 3602 im Korridor 36.
+ * Die Tür existiert immer (anders als zuvor: keine Aktentür hinter der
+ * Theke), aber Vossbeck reagiert nur, wenn Layard drei Trainingsfälle
+ * gegen Brust gewonnen hat (Flag `vossbeckSummoned`). Vorher ist der
+ * Raum betretbar — Vossbeck winkt aber jeden ohne Vorlauf wieder hinaus.
+ */
+export const kantinenverwaltung3603Scenes: Record<string, Scene> = {
+  kantinenverwaltung3603: {
+    id: "kantinenverwaltung3603",
+    background: kantinenverwaltungBg,
+    title: "3603 — Kantinenverwaltung E67",
+    intro:
+      "Ein schmales Hinterzimmer, kaum drei Schritte breit. Eine Lampe, ein Bleistift, ein Mann, der nicht aufschaut. An der rechten Wand bis zur Decke Pappschachteln mit Vorgangsnummern. Es riecht nach altem Papier und Bohnerwachs.",
+    npcs: [
+      {
+        id: "vossbeckSprite",
+        src: vossbeckSprite,
+        // Vossbeck mittig hinter dem Schreibtisch.
+        x: 39,
+        y: 24,
+        w: 24,
+        h: 70,
+        alt: "Oberinspektor Vossbeck am Schreibtisch",
+      },
+    ],
+    hotspots: [
+      {
+        id: "vossbeckSpot",
+        x: 39,
+        y: 24,
+        w: 24,
+        h: 70,
+        label: "Oberinspektor Vossbeck",
+        kind: "talk",
+        onUse: (api) => {
+          if (!api.hasFlag("vossbeckSummoned")) {
+            api.startDialog("vossbeckUnready");
+            return;
+          }
+          api.startDialog("cafeteriaVossbeck");
+        },
+      },
+      {
+        id: "vossbeckDesk",
+        x: 28,
+        y: 78,
+        w: 50,
+        h: 18,
+        label: "Schreibtisch",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Ein Stahlschreibtisch, militärgrau. Auf der rechten Seite ein Stapel",
+            "Vorgänge, alle mit der gleichen, sehr akkuraten Handschrift annotiert.",
+            "Daneben ein einzelner Bleistift, vorne neu angespitzt, hinten unbenutzt.",
+          ]),
+      },
+      {
+        id: "vossbeckShelves",
+        x: 80,
+        y: 4,
+        w: 19,
+        h: 92,
+        label: "Aktenregal bis zur Decke",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Pappschachteln, alphabetisch nach Paragraph sortiert. §1 ganz",
+            "oben links, §99 unten rechts, mit einem zusätzlichen roten Punkt.",
+            "Vossbeck hat den §99 offenbar oft in der Hand.",
+          ]),
+      },
+      {
+        id: "vossbeckWindow",
+        x: 1,
+        y: 0,
+        w: 25,
+        h: 70,
+        label: "Fenster mit Jalousie",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Die Jalousie steht halb offen, aber dahinter ist nur Schacht.",
+            "Kein Tag, keine Nacht. Vossbeck hat sie wohl seit Jahren nicht angefasst.",
+          ]),
+      },
+      {
+        id: "vossbeckExit",
+        x: 0,
+        y: 70,
+        w: 12,
+        h: 30,
+        label: "Zurück in den Korridor",
+        kind: "exit",
+        onUse: (api) => api.goTo("corridor36"),
+      },
+    ],
+  },
+};
