@@ -372,13 +372,13 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         // Exit am rechten 16:9-Bildrand: bewusst über die alte 4:3-Hotspot-
         // Fläche hinausgezogen, damit der sichtbare Türbereich zuverlässig
         // anklickbar bleibt.
-        x: 86,
-        y: 0,
-        w: 13.5,
-        h: 100,
+        x: 16.9,
+        y: 84.4,
+        w: 64.8,
+        h: 15.3,
         label: "Zurück in den Korridor",
         kind: "exit",
-        exitDir: "right",
+        exitDir: "down",
         onUse: (api) => api.goTo("corridor15"),
       },
     ],
