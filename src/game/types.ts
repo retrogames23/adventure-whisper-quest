@@ -51,10 +51,9 @@ export type InventoryItemId =
   // Bürokratie-Duell — gesammelte Verwaltungs-Paragraphen
   | "paragraphenNotizbuch"
   // MARV-9 / Kneipenvorraum
-  | "oilCan";
-
-// (medMask wird unten als StoryFlag gepflegt, das Item-Pendant
-//  ist `medMask` als InventoryItemId — siehe ergänzte Union.)
+  | "oilCan"
+  // E71-Hygienevorschrift / Kondomautomat in „Zum stillen Funk"
+  | "medMask";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
