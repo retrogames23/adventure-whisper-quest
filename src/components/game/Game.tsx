@@ -184,6 +184,7 @@ function GameStage({
     idCardOpen,
     closeIdCard,
   } = useGame();
+  const dev = useDevMode();
 
   // Stabile Handler-Referenzen für die memoizierten Kinder (TopBar etc.).
   const handleOpenPause = useCallback(() => setPauseOpen(true), [setPauseOpen]);
