@@ -437,7 +437,7 @@ export function DsaCharacterCreator() {
                 Negative Eigenschaften
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 dsa-typed text-[11px] dsa-ink">
-                {["Aberglaube", "Höhenangst", "Goldgier", "Jähzorn", "Neugier", "Raumangst", "Totenangst"].map((n) => (
+                {NEGATIVE_ATTRS.map((n) => (
                   <div key={n} className="flex items-center justify-between border-b border-[rgba(40,25,5,0.35)]">
                     <span>{n}</span>
                     <span className="dsa-ink-faded">3W+4</span>
@@ -450,18 +450,7 @@ export function DsaCharacterCreator() {
                 Talente · Auswahl
               </div>
               <div className="dsa-typed text-[11px] dsa-ink space-y-1">
-                {(chosenClass?.id === "magier" || chosenClass?.id === "druide"
-                  ? ["Stab+5", "Lesen/Schreiben +6", "Sprachen +4", "Pflanzenkunde +3"]
-                  : chosenClass?.id === "streuner" || chosenClass?.id === "gaukler"
-                  ? ["Dolch +5", "Schleichen +6", "Taschendieb +5", "Lügen +4"]
-                  : chosenClass?.id === "elf"
-                  ? ["Bogen +7", "Sinnenschärfe +6", "Wildnisleben +5", "Singen +4"]
-                  : chosenClass?.id === "thorwaler"
-                  ? ["Hiebwaffen +7", "Boote fahren +5", "Zechen +5"]
-                  : chosenClass?.id === "zwerg"
-                  ? ["Hiebwaffen +6", "Mineralogie +5", "Bergbau +5"]
-                  : ["Hiebwaffen +6", "Schild +5", "Reiten +4", "Athletik +4"]
-                ).map((t) => (
+                {talentsFor(chosenClass?.id).map((t) => (
                   <div key={t} className="flex items-center justify-between border-b border-[rgba(40,25,5,0.35)]">
                     <span>{t.split(" ").slice(0, -1).join(" ") || t}</span>
                     <span className="dsa-ink-faded">{t.split(" ").slice(-1)}</span>
