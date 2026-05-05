@@ -15,6 +15,8 @@ export interface Graffiti {
 }
 
 const WRITE_COOLDOWN_MS = 8000;
+const ONE_GRAFFITI_WINDOW_MS = 48 * 60 * 60 * 1000;
+const LS_KEY = "toilet-wall:last-write-at";
 
 export function useToiletWall(active: boolean) {
   const [graffiti, setGraffiti] = useState<Graffiti[]>([]);
@@ -62,6 +64,29 @@ export function useToiletWall(active: boolean) {
       const wait = Math.ceil((WRITE_COOLDOWN_MS - (now - lastWriteRef.current)) / 1000);
       return { ok: false, error: `Noch ${wait}s warten.` };
     }
+    // 48-h-Limit: ein Graffiti pro Browser/Login.
+    try {
+      const lsRaw = typeof localStorage !== "undefined" ? localStorage.getItem(LS_KEY) : null;
+      const lsTs = lsRaw ? Number(lsRaw) : 0;
+      if (lsTs && now - lsTs < ONE_GRAFFITI_WINDOW_MS) {
+        const hours = Math.ceil((ONE_GRAFFITI_WINDOW_MS - (now - lsTs)) / 3_600_000);
+        return { ok: false, error: `Du hast schon gekritzelt. Noch ~${hours} h warten.` };
+      }
+    } catch { /* ignore */ }
+    const since = new Date(now - ONE_GRAFFITI_WINDOW_MS).toISOString();
+    const { data: existing, error: qErr } = await supabase
+      .from("toilet_graffiti")
+      .select("id, created_at")
+      .eq("user_id", args.userId)
+      .gte("created_at", since)
+      .limit(1);
+    if (qErr) return { ok: false, error: qErr.message };
+    if (existing && existing.length > 0) {
+      const last = new Date(existing[0].created_at).getTime();
+      const hours = Math.max(1, Math.ceil((ONE_GRAFFITI_WINDOW_MS - (now - last)) / 3_600_000));
+      try { localStorage.setItem(LS_KEY, String(last)); } catch { /* ignore */ }
+      return { ok: false, error: `Du hast schon gekritzelt. Noch ~${hours} h warten.` };
+    }
     lastWriteRef.current = now;
     const { x, y } = pickSpot(graffiti);
     const rotation = -8 + Math.random() * 16;
@@ -74,6 +99,7 @@ export function useToiletWall(active: boolean) {
       is_anonymous: args.isAnonymous,
     });
     if (e) return { ok: false, error: e.message };
+    try { localStorage.setItem(LS_KEY, String(now)); } catch { /* ignore */ }
     return { ok: true };
   }
 
