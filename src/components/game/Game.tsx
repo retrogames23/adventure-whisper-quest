@@ -291,8 +291,14 @@ function GameStage({
         </main>
         <Inventory />
       </div>
+            {dev && <RoomSwitcher />}
+            {dev && <ConsoleSwitcher />}
+            {dev && <OverlayQAOverlay />}
+          </div>
+        </main>
+        <Inventory />
+      </div>
     </MobileStage>
-    
   );
 }
 
