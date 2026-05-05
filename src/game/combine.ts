@@ -507,6 +507,34 @@ export function combineItem(
     ) {
       ctx.api.setFlag("miraHasAmplifier");
     }
+    // Ölkännchen → MARV-9. Ölt den Servo-Kiefer, setzt ein Flag und
+    // wandert anschließend aus dem Inventar (verbraucht). Der Server
+    // gibt MARV beim nächsten Free-Mode-Talk dadurch eine warmere
+    // Tonfärbung — das Ölen allein öffnet die Tür aber NICHT.
+    if (
+      itemId === "oilCan" &&
+      ctx.targetId === "marvSpeak" &&
+      !ctx.api.hasFlag("marvOiled")
+    ) {
+      ctx.api.setFlag("marvOiled");
+      ctx.api.removeItem("oilCan");
+      // Server-State synchronisieren (Best-Effort, fire-and-forget).
+      void fetch("/api/public/marv-oil", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }).catch(() => { /* ignore */ });
+      lines = [
+        "Layard tritt einen halben Schritt näher an die Lautsprecher-",
+        "Maske, hebt den schmalen Schnabel des Ölkännchens und tropft",
+        "zwei winzige Tropfen in den Spalt, wo der Servo-Kiefer sitzt.",
+        "Es klickt leise. Dann ein Geräusch, das fast wie ein Atemzug",
+        "klingt.",
+        "MARV-9 (sehr leise): „… oh.“",
+      ];
+      ctx.api.showText(lines);
+      return;
+    }
     const hotspotMap = HOTSPOT_REACTIONS[ctx.targetId];
     const npcMap = NPC_REACTIONS[ctx.targetId];
     lines = hotspotMap?.[itemId] ?? npcMap?.[itemId];
