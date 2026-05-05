@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { CloseButton } from "./CloseButton";
 import { useToiletWall } from "@/multiplayer/useToiletWall";
+import { ArrowLeft } from "lucide-react";
 import { ensureAuthSession, getDisplayName, getShiftNumber } from "@/multiplayer/identity";
 import { useDonationStatus } from "@/hooks/useDonationStatus";
 
@@ -45,9 +46,15 @@ export function ToiletWallOverlay() {
 
   return (
     <div className="absolute inset-0 z-30 flex flex-col">
-      <div className="absolute right-2 top-2 z-10">
-        <CloseButton onClick={() => game.api.goTo("pub")} label="Zurück" />
-      </div>
+      <button
+        type="button"
+        onClick={() => game.api.goTo("pub")}
+        aria-label="Zurück zur Kneipe"
+        className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-sm border border-amber-glow/50 bg-background/85 px-3 py-2 font-mono-crt text-xs uppercase tracking-widest text-amber-glow shadow-lg hover:bg-amber-glow/15"
+      >
+        <ArrowLeft className="h-4 w-4" strokeWidth={2.25} />
+        Zurück zur Kneipe
+      </button>
       {/* Wand mit Graffiti */}
       <div className="relative flex-1 overflow-hidden">
         {wall.graffiti.map((g) => (
