@@ -379,7 +379,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   // Bürokratie-Duell — Layards Sammlung gelernter Paragraphen.
   paragraphenNotizbuch: E67HandbookIcon,
   // Ölkännchen für MARV-9 — vorerst geliehenes Notiz-Icon.
-  oilCan: WartungsnotizIcon,
+  oilCan: OilCanIcon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */
