@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { npcPersonas } from "@/game/npcPersonas";
+import { buildSystemPrompt } from "@/game/promptBuilder";
+import { buildBramSystemPrompt } from "@/game/bramPrompt";
+import type { StoryFlag } from "@/game/types";
 import { createClient } from "@supabase/supabase-js";
 
 /**
@@ -150,7 +153,7 @@ export const Route = createFileRoute("/api/public/npc-chat")({
 
         const b = body as {
           npcId?: unknown;
-          systemPrompt?: unknown;
+          context?: unknown;
           history?: unknown;
           userMessage?: unknown;
         };
@@ -159,10 +162,53 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         if (!/^[a-z0-9_-]{1,40}$/.test(npcId) || !ALLOWED_NPCS.has(npcId)) {
           return json(400, { error: "Invalid npcId" });
         }
-        const systemPrompt =
-          typeof b.systemPrompt === "string" ? b.systemPrompt : "";
-        if (systemPrompt.length < 20 || systemPrompt.length > 16000) {
-          return json(400, { error: "Invalid systemPrompt length" });
+        // Server baut den System-Prompt selbst aus der Persona +
+        // klar typisiertem Kontext. Es gibt keinen vom Client
+        // gelieferten Freitext mehr, der ins LLM wandert.
+        const ctxRaw = (b.context ?? {}) as Record<string, unknown>;
+        let systemPrompt: string;
+        if (npcId === "bram") {
+          const seatedCount =
+            typeof ctxRaw.seatedCount === "number" ? ctxRaw.seatedCount : 0;
+          const myShift =
+            typeof ctxRaw.myShift === "number" ? ctxRaw.myShift : null;
+          systemPrompt = buildBramSystemPrompt({ seatedCount, myShift });
+        } else {
+          const persona = npcPersonas[npcId];
+          const sceneTitle =
+            typeof ctxRaw.sceneTitle === "string"
+              ? ctxRaw.sceneTitle.slice(0, 120)
+              : "";
+          const resonance =
+            typeof ctxRaw.resonance === "number" &&
+            Number.isFinite(ctxRaw.resonance)
+              ? Math.max(0, Math.min(100, Math.round(ctxRaw.resonance)))
+              : 0;
+          const allowedFlags = new Set<string>(persona.contextFlags ?? []);
+          const activeFlagsRaw = Array.isArray(ctxRaw.activeFlags)
+            ? (ctxRaw.activeFlags as unknown[])
+            : [];
+          const activeFlags = activeFlagsRaw
+            .filter(
+              (f): f is string => typeof f === "string" && allowedFlags.has(f),
+            )
+            .slice(0, 64) as StoryFlag[];
+          const allowedDialogIds = new Set<string>(persona.staticDialogIds);
+          const playedRaw = Array.isArray(ctxRaw.playedDialogIds)
+            ? (ctxRaw.playedDialogIds as unknown[])
+            : [];
+          const playedDialogIds = playedRaw
+            .filter(
+              (d): d is string =>
+                typeof d === "string" && allowedDialogIds.has(d),
+            )
+            .slice(0, 64);
+          systemPrompt = buildSystemPrompt(persona, {
+            sceneTitle,
+            resonance,
+            activeFlags,
+            playedDialogIds,
+          });
         }
         const userMessage =
           typeof b.userMessage === "string" ? b.userMessage.trim() : "";

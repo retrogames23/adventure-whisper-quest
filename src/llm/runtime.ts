@@ -3,6 +3,24 @@ export interface ChatMsg {
   content: string;
 }
 
+/**
+ * Strukturierter Kontext, den der Server zum Bauen des System-Prompts
+ * braucht. Niemals Freitext aus dem Client einfließen lassen.
+ */
+export type LlmContext =
+  | {
+      kind: "persona";
+      sceneTitle: string;
+      resonance: number;
+      activeFlags: string[];
+      playedDialogIds: string[];
+    }
+  | {
+      kind: "bram";
+      seatedCount: number;
+      myShift: number | null;
+    };
+
 export interface LlmRuntimeStatus {
   kind: "local" | "cloud";
   ready: boolean;
@@ -15,6 +33,9 @@ export interface LlmRuntimeStatus {
 
 export interface LlmRuntime {
   status: LlmRuntimeStatus;
-  send(messages: ChatMsg[], opts?: { signal?: AbortSignal }): Promise<string>;
+  send(
+    messages: ChatMsg[],
+    opts?: { signal?: AbortSignal; context?: LlmContext },
+  ): Promise<string>;
   dispose?(): void;
 }
