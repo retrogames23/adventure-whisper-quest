@@ -292,6 +292,7 @@ function GameStage({
         <Inventory />
       </div>
     </MobileStage>
+    
   );
 }
 
