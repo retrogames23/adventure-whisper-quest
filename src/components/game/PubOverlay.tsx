@@ -143,10 +143,6 @@ export function PubOverlay() {
         setErr("Sitzung verloren.");
         return;
       }
-      const systemPrompt = buildBramSystemPrompt({
-        seatedCount,
-        myShift: presence.me?.shiftNumber ?? null,
-      });
       const resp = await fetch("/api/public/npc-chat", {
         method: "POST",
         headers: {
@@ -155,7 +151,10 @@ export function PubOverlay() {
         },
         body: JSON.stringify({
           npcId: "bram",
-          systemPrompt,
+          context: {
+            seatedCount,
+            myShift: presence.me?.shiftNumber ?? null,
+          },
           history: bramHistory,
           userMessage: text,
         }),
