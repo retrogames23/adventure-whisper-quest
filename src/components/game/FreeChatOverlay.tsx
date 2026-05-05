@@ -146,7 +146,7 @@ function FreeChatInner({
     const off = onMarvUpdate((u) => {
       setMarv(u);
       if (u.justUnlocked) {
-        try { game.setFlag("marvUnlocked"); } catch { /* ignore */ }
+        try { game.api.setFlag("marvUnlocked"); } catch { /* ignore */ }
       }
     });
     return () => { off(); };
