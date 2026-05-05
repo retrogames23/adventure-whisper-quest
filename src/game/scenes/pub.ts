@@ -20,10 +20,10 @@ export const pubScenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "marvSpeak",
-        x: 75,
-        y: 28,
-        w: 18,
-        h: 50,
+        x: 64,
+        y: 20.1,
+        w: 16.2,
+        h: 40.7,
         label: "MARV-9 ansprechen",
         kind: "talk",
         onUse: (api) => {
