@@ -51,7 +51,9 @@ export type InventoryItemId =
   // Bürokratie-Duell — gesammelte Verwaltungs-Paragraphen
   | "paragraphenNotizbuch"
   // MARV-9 / Kneipenvorraum
-  | "oilCan";
+  | "oilCan"
+  // E71-Hygienevorschrift / Kondomautomat in „Zum stillen Funk"
+  | "medMask";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
@@ -295,7 +297,14 @@ export type StoryFlag =
   /** MARV hat genug Empathie gespürt — die Kneipentür ist offen. */
   | "marvUnlocked"
   /** Layard hat das Ölkännchen aus Serverraum 5610 mitgenommen. */
-  | "tookOilCan";
+  | "tookOilCan"
+  // ── E71-Hygiene / Maskenrätsel ─────────────────────────────────
+  /** Empfangsdame hat einmalig auf die Maskenpflicht hingewiesen. */
+  | "receptionRefusedNoMask"
+  /** Layard trägt die OP-Maske aus dem Kondomautomat. */
+  | "wearingMedMask"
+  /** Der Kondomautomat hat bereits eine Maske ausgegeben. */
+  | "tookMedMaskFromAutomat";
 
 export interface InventoryItem {
   id: InventoryItemId;
