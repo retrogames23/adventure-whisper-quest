@@ -53,6 +53,9 @@ export type InventoryItemId =
   // MARV-9 / Kneipenvorraum
   | "oilCan";
 
+// (medMask wird unten als StoryFlag gepflegt, das Item-Pendant
+//  ist `medMask` als InventoryItemId — siehe ergänzte Union.)
+
 export type KnowledgeFlag =
   | "responsibilityE67"
   | "radioOrigin"
