@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { scenes, useGame } from "@/game/GameContext";
-import { Hotspot } from "./Hotspot";
 import { FloatingChatter } from "./FloatingChatter";
 import { useDevMode } from "@/dev/devMode";
 import { HotspotEditor } from "@/dev/HotspotEditor";
 import { useQA } from "@/dev/overlayQAState";
 import { getOverridesFor } from "@/dev/overlayQAState";
 import { Eye, EyeOff } from "lucide-react";
+import { NpcLayer } from "./scene/NpcLayer";
+import { DecalLayer } from "./scene/DecalLayer";
+import { HotspotLayer } from "./scene/HotspotLayer";
 
 export function SceneView() {
   const {
@@ -28,12 +30,19 @@ export function SceneView() {
   // Hintergrund UND Hotspot-/NPC-/Decal-Layer angewendet, damit das
   // Bild-Koordinatensystem erhalten bleibt.
   const bgFocus = current.bgFocus;
-  const bgFocusStyle: React.CSSProperties | undefined = bgFocus
-    ? {
-        transform: `scale(${bgFocus.scale})`,
-        transformOrigin: `${bgFocus.originX}% ${bgFocus.originY}%`,
-      }
-    : undefined;
+  // Stabiles Style-Objekt: nur neu erzeugen, wenn der Szenen-Zoom wechselt.
+  // Andernfalls würde jeder Re-Render (Caption, Resize, Reveal) ein neues
+  // Objekt produzieren und alle gespreadeten Layer-Styles invalidieren.
+  const bgFocusStyle = useMemo<React.CSSProperties | undefined>(
+    () =>
+      bgFocus
+        ? {
+            transform: `scale(${bgFocus.scale})`,
+            transformOrigin: `${bgFocus.originX}% ${bgFocus.originY}%`,
+          }
+        : undefined,
+    [bgFocus?.scale, bgFocus?.originX, bgFocus?.originY],
+  );
   const [showIntro, setShowIntro] = useState(true);
   // Wackelt nur für max. 10 Sekunden ab dem Moment, in dem die Überlastung beginnt.
   const [shakeActive, setShakeActive] = useState(false);
@@ -57,16 +66,19 @@ export function SceneView() {
   }, []);
   const dev = useDevMode();
   const qa = useQA();
-  // Persistente Editor-Overrides (localStorage) — werden bei jedem
-  // QA-Tick neu gelesen, damit Drag/Resize sofort sichtbar wird.
+  // Persistente Editor-Overrides (localStorage) — bei jedem QA-Tick neu
+  // gelesen, damit Drag/Resize sofort sichtbar wird.
   const overrides = getOverridesFor(scene);
-  const applyOverride = <T extends { id: string; x: number; y: number; w: number; h: number }>(
-    key: string,
-    box: T,
-  ): T => {
-    const o = overrides[key];
-    return o ? { ...box, x: o.x, y: o.y, w: o.w, h: o.h } : box;
-  };
+  const applyOverride = useCallback(
+    <T extends { id: string; x: number; y: number; w: number; h: number }>(
+      key: string,
+      box: T,
+    ): T => {
+      const o = overrides[key];
+      return o ? { ...box, x: o.x, y: o.y, w: o.w, h: o.h } : box;
+    },
+    [overrides],
+  );
   // Pixelgenaues Layout: Hotspot-/NPC-/Decal-Layer werden exakt über die
   // sichtbare Bildfläche gelegt — auch wenn das Asset nicht exakt 16:9
   // ist. Dadurch sind alle Hotspot-Koordinaten (in % des Bildes)
@@ -231,13 +243,17 @@ export function SceneView() {
       */}
       <div
         className="pointer-events-none absolute z-0"
-        style={{
-          left: imgRect ? imgRect.left : 0,
-          top: imgRect ? imgRect.top : 0,
-          width: imgRect ? imgRect.width : "100%",
-          height: imgRect ? imgRect.height : "100%",
-          ...(bgFocusStyle ?? {}),
-        }}
+        style={useMemo(
+          () => ({
+            left: imgRect ? imgRect.left : 0,
+            top: imgRect ? imgRect.top : 0,
+            width: imgRect ? imgRect.width : "100%",
+            height: imgRect ? imgRect.height : "100%",
+            ...(bgFocusStyle ?? {}),
+          }),
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          [imgRect, bgFocusStyle],
+        )}
       >
         <img
           ref={imgRef}
@@ -260,85 +276,40 @@ export function SceneView() {
 
       <div
         className="absolute z-10"
-        style={{
-          left: imgRect ? imgRect.left : 0,
-          top: imgRect ? imgRect.top : 0,
-          width: imgRect ? imgRect.width : "100%",
-          height: imgRect ? imgRect.height : "100%",
-          ...(bgFocusStyle ?? {}),
-        }}
+        style={useMemo(
+          () => ({
+            left: imgRect ? imgRect.left : 0,
+            top: imgRect ? imgRect.top : 0,
+            width: imgRect ? imgRect.width : "100%",
+            height: imgRect ? imgRect.height : "100%",
+            ...(bgFocusStyle ?? {}),
+          }),
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          [imgRect, bgFocusStyle],
+        )}
       >
 
         {/* NPC sprites — gerendert über dem Hintergrund, unter den Hotspots */}
-        {current.npcs?.map((rawNpc) => {
-        const npc = applyOverride(`npc:${rawNpc.id}`, rawNpc);
-        if (npc.requires?.some((f) => !flags.has(f))) return null;
-        if (npc.hiddenWhen?.some((f) => flags.has(f))) return null;
-        if (npc.visible && !npc.visible(api)) return null;
-        return (
-          <img
-            key={npc.id}
-            src={npc.src}
-            alt={npc.alt}
-            // Charakter-Sprites sind Teil der Szene — hohe Priorität, damit
-            // sie nicht hinter dem LLM-Download anstehen müssen.
-            fetchPriority="high"
-            decoding="async"
-            className="pointer-events-none absolute z-10 select-none object-contain"
-            style={{
-              left: `${npc.x}%`,
-              top: `${npc.y}%`,
-              width: `${npc.w}%`,
-              height: `${npc.h}%`,
-              filter:
-                "drop-shadow(0 6px 12px rgba(0,0,0,0.55)) contrast(0.95) saturate(0.85)",
-            }}
-          />
-        );
-        })}
+        <NpcLayer
+          npcs={current.npcs}
+          flags={flags}
+          api={api}
+          applyOverride={applyOverride}
+        />
 
         {/* Decals — sichtbare Wandgeräte etc., unter den Hotspots */}
-        {current.decals?.map((rawD) => {
-          const d = applyOverride(`decal:${rawD.id}`, rawD);
-          if (d.requires?.some((f) => !flags.has(f))) return null;
-          if (d.hiddenWhen?.some((f) => flags.has(f))) return null;
-          if (d.kind !== "television") return null;
-          return (
-            <div
-              key={d.id}
-              className="pointer-events-none absolute z-10 select-none"
-              style={{
-                left: `${d.x}%`,
-                top: `${d.y}%`,
-                width: `${d.w}%`,
-                height: `${d.h}%`,
-              }}
-              aria-hidden
-            >
-              <div className="relative h-full w-full rounded-sm border-2 border-zinc-800 bg-zinc-900 shadow-[0_4px_10px_rgba(0,0,0,0.6)]">
-                {/* Bildschirm */}
-                <div className="absolute inset-[10%] overflow-hidden rounded-[1px] border border-black/60 bg-black">
-                  <div className="tv-decal-screen h-full w-full" />
-                  <div className="pointer-events-none absolute inset-0 tv-decal-scan" />
-                </div>
-                {/* Standby-LED */}
-                <div className="absolute bottom-[3%] right-[6%] h-[8%] w-[5%] rounded-full bg-red-500/80 shadow-[0_0_4px_rgba(255,0,0,0.8)]" />
-              </div>
-            </div>
-          );
-        })}
+        <DecalLayer
+          decals={current.decals}
+          flags={flags}
+          applyOverride={applyOverride}
+        />
 
         {/* Hotspots */}
-        {current.hotspots.map((rawH) => {
-          const h = applyOverride(rawH.id, rawH);
-          return (
-          <Hotspot
-            key={h.id}
-            hotspot={h}
-            reveal={revealHotspots || touchReveal || qa.active}
-          />
-          );
-        })}
+        <HotspotLayer
+          hotspots={current.hotspots}
+          reveal={revealHotspots || touchReveal || qa.active}
+          applyOverride={applyOverride}
+        />
 
         {/* Dev-only: drag/resize Editor über allen Hotspots, NPCs und
             Decals — nur sichtbar mit ?dev=1 + gehaltener Space-Taste. */}
