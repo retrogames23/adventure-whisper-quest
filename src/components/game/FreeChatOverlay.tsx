@@ -11,7 +11,7 @@ import {
 } from "@/game/npcPatience";
 import { scenes } from "@/game/scenes";
 import { useLlmRuntime } from "@/llm/useLlmRuntime";
-import type { ChatMsg } from "@/llm/runtime";
+import type { ChatMsg, LlmContext } from "@/llm/runtime";
 import { createCloudRuntime } from "@/llm/cloudLlmRuntime";
 import type { LlmRuntime } from "@/llm/runtime";
 import { CloseButton } from "./CloseButton";
@@ -234,11 +234,23 @@ function FreeChatInner({
         ...next.map((m) => ({ role: m.role, content: m.content }) as ChatMsg),
       ];
 
+      const sceneTitle = scenes[game.scene]?.title ?? game.scene;
+      const activeFlags = (persona.contextFlags ?? []).filter((f) =>
+        game.flags.has(f),
+      );
+      const cloudContext: LlmContext = {
+        kind: "persona",
+        sceneTitle,
+        resonance: game.resonance,
+        activeFlags,
+        playedDialogIds: persona.staticDialogIds.filter(() => true),
+      };
+
       let reply: string;
       try {
         if (!runtime) throw new Error("Runtime nicht bereit.");
         if (status.kind === "cloud") cloudUsedRef.current = true;
-        reply = await runtime.send(chatMsgs);
+        reply = await runtime.send(chatMsgs, { context: cloudContext });
       } catch (e) {
         // Lokal kaputt → Cloud probieren.
         if (status.kind === "local") {
@@ -246,7 +258,9 @@ function FreeChatInner({
             cloudFallbackRef.current = createCloudRuntime(npcId);
           }
           cloudUsedRef.current = true;
-          reply = await cloudFallbackRef.current.send(chatMsgs);
+          reply = await cloudFallbackRef.current.send(chatMsgs, {
+            context: cloudContext,
+          });
         } else {
           throw e;
         }
