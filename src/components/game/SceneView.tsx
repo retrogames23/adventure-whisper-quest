@@ -127,7 +127,15 @@ export function SceneView() {
   // alter Bildausschnitt für das neue Asset verwendet wird.
   useEffect(() => {
     setImgRect(null);
-  }, [backgroundSrc]);
+    // Falls das Asset bereits im Browser-Cache liegt, feuert <img>.onLoad
+    // nicht erneut — dann müssen wir die Geometrie selbst nachziehen,
+    // sonst bleibt das Bild im 100%/100%-Fallback und wird verzerrt
+    // (z. B. 16:9-Hallway in einer 4:3-Bühne nach Aufzug-Rückkehr).
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      recomputeImgRect();
+    }
+  }, [backgroundSrc, recomputeImgRect]);
   useEffect(() => {
     const isTypingTarget = (t: EventTarget | null) => {
       if (!(t instanceof HTMLElement)) return false;
