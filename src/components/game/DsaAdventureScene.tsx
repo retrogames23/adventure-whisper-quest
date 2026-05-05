@@ -235,15 +235,22 @@ export function DsaAdventureScene() {
     closeDsaAdventure();
   }
 
-  const visibleOptions = beat.options.filter((o) =>
-    isOptionVisible(o, classId, isMagic, advState),
+  const visibleOptions = useMemo(
+    () =>
+      beat.options.filter((o) =>
+        isOptionVisible(o, classId, isMagic, advState),
+      ),
+    [beat.options, classId, isMagic, advState],
   );
 
   // Welche Endung passt zur aktuellen Lage?
-  const endingId =
-    phase.kind === "outro"
-      ? pickEnding(advState, { lastBeatId: beat.id, victory: true })
-      : null;
+  const endingId = useMemo(
+    () =>
+      phase.kind === "outro"
+        ? pickEnding(advState, { lastBeatId: beat.id, victory: true })
+        : null,
+    [phase.kind, advState, beat.id],
+  );
 
   const wasKrieger = dsaCharacter.classId === "krieger";
 
