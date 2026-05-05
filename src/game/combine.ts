@@ -517,13 +517,23 @@ export function combineItem(
       !ctx.api.hasFlag("marvOiled")
     ) {
       ctx.api.setFlag("marvOiled");
-      ctx.api.removeItem("oilCan");
-      // Server-State synchronisieren (Best-Effort, fire-and-forget).
-      void fetch("/api/public/marv-oil", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }).catch(() => { /* ignore */ });
+      // Server-State synchronisieren, damit MARVs Tonfärbung beim
+      // nächsten Free-Mode-Talk passt. Best-Effort, fire-and-forget.
+      void (async () => {
+        try {
+          const { supabase } = await import("@/integrations/supabase/client");
+          const { data: sess } = await supabase.auth.getSession();
+          const token = sess.session?.access_token;
+          if (!token) return;
+          await fetch("/api/public/marv-oil", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch { /* ignore */ }
+      })();
       lines = [
         "Layard tritt einen halben Schritt näher an die Lautsprecher-",
         "Maske, hebt den schmalen Schnabel des Ölkännchens und tropft",
