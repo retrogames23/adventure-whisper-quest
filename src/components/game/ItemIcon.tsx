@@ -245,6 +245,32 @@ function OilCanIcon() {
   );
 }
 
+/** Medizinische Maske — rechteckige OP-Maske mit zwei Bändern. */
+function MedMaskIcon() {
+  return (
+    <>
+      {/* Bänder links/rechts */}
+      <rect x="2" y="9" width="2" height="1" fill={ICON_DK} />
+      <rect x="3" y="10" width="2" height="1" fill={ICON_DK} />
+      <rect x="3" y="14" width="2" height="1" fill={ICON_DK} />
+      <rect x="2" y="15" width="2" height="1" fill={ICON_DK} />
+      <rect x="20" y="9" width="2" height="1" fill={ICON_DK} />
+      <rect x="19" y="10" width="2" height="1" fill={ICON_DK} />
+      <rect x="19" y="14" width="2" height="1" fill={ICON_DK} />
+      <rect x="20" y="15" width="2" height="1" fill={ICON_DK} />
+      {/* Maskenkörper */}
+      <rect x="5" y="8" width="14" height="9" fill={ICON_DK} />
+      <rect x="6" y="9" width="12" height="7" fill={ICON_HI} />
+      {/* Plissee-Falten */}
+      <rect x="6" y="11" width="12" height="1" fill={ICON_DK} opacity="0.5" />
+      <rect x="6" y="13" width="12" height="1" fill={ICON_DK} opacity="0.5" />
+      <rect x="6" y="15" width="12" height="1" fill={ICON_DK} opacity="0.5" />
+      {/* Nasenbügel */}
+      <rect x="9" y="9" width="6" height="1" fill={ICON_FG} />
+    </>
+  );
+}
+
 /** E67-Bewohner-Ausweis — kleine Plastikkarte mit Lichtbild und Magnetstreifen. */
 function ResidentIdIcon() {
   return (
