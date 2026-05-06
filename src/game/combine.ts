@@ -521,9 +521,8 @@ export function combineItem(
       // nächsten Free-Mode-Talk passt. Best-Effort, fire-and-forget.
       void (async () => {
         try {
-          const { supabase } = await import("@/integrations/supabase/client");
-          const { data: sess } = await supabase.auth.getSession();
-          const token = sess.session?.access_token;
+          const { getFreshAccessToken } = await import("@/auth/freshToken");
+          const token = await getFreshAccessToken();
           if (!token) return;
           await fetch("/api/public/marv-oil", {
             method: "POST",

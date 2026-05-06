@@ -137,8 +137,8 @@ export function PubOverlay() {
     const next = [...bramHistory, { role: "user" as const, content: text }];
     setBramHistory(next);
     try {
-      const { data: sess } = await supabase.auth.getSession();
-      const token = sess.session?.access_token;
+      const { getFreshAccessToken } = await import("@/auth/freshToken");
+      const token = await getFreshAccessToken();
       if (!token) {
         setErr("Sitzung verloren.");
         return;

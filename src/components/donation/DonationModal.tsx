@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/auth/AuthContext";
 import { AuthDialog } from "@/auth/AuthDialog";
+import { getFreshAccessToken } from "@/auth/freshToken";
 
 interface Props {
   open: boolean;
@@ -54,8 +54,7 @@ export function DonationModal({
     setError(null);
     setBusy(true);
     try {
-      const { data: sess } = await supabase.auth.getSession();
-      const token = sess.session?.access_token;
+      const token = await getFreshAccessToken();
       if (!token) throw new Error("Nicht angemeldet.");
       const resp = await fetch("/api/public/donation-checkout", {
         method: "POST",
