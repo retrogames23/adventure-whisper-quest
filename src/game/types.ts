@@ -53,7 +53,9 @@ export type InventoryItemId =
   // MARV-9 / Kneipenvorraum
   | "oilCan"
   // E71-Hygienevorschrift / Kondomautomat in „Zum stillen Funk"
-  | "medMask";
+  | "medMask"
+  // Tragbares Schmerz-Radio aus Layards Wohnung (Akt I)
+  | "painRadio";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
@@ -65,6 +67,8 @@ export type CutsceneId = "paramedics" | "act2Bridge";
 
 export type StoryFlag =
   | "radioTunedTo1046"
+  /** Layard hat das Schmerz-Radio vom Tisch eingesteckt (jetzt im Inventar). */
+  | "tookPainRadio"
   | "doorbellRang"
   | "openedAlmanach"
   | "metPhilippe"
