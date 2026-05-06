@@ -245,6 +245,35 @@ function OilCanIcon() {
   );
 }
 
+/** Bodos grüne Thermoskanne — zylindrisch, mit Delle und Schraubdeckel. */
+function BodoThermosIcon() {
+  const GREEN_DK = "#1f3a1c";
+  const GREEN_FG = "#3f7a35";
+  const GREEN_HI = "#7fc26b";
+  return (
+    <>
+      {/* Schraubdeckel oben */}
+      <rect x="9" y="2" width="6" height="2" fill={ICON_DK} />
+      <rect x="9" y="3" width="6" height="1" fill={GREEN_HI} opacity="0.6" />
+      {/* Halsring */}
+      <rect x="8" y="4" width="8" height="1" fill={ICON_DK} />
+      {/* Korpus */}
+      <rect x="7" y="5" width="10" height="16" fill={GREEN_DK} />
+      <rect x="8" y="5" width="8" height="16" fill={GREEN_FG} />
+      {/* Highlight links */}
+      <rect x="8" y="6" width="1" height="14" fill={GREEN_HI} opacity="0.7" />
+      {/* Delle (dunkler Fleck) */}
+      <rect x="12" y="11" width="3" height="2" fill={GREEN_DK} />
+      <rect x="13" y="10" width="2" height="1" fill={GREEN_DK} opacity="0.6" />
+      {/* Etikett */}
+      <rect x="9" y="14" width="6" height="3" fill={ICON_HI} opacity="0.85" />
+      <rect x="10" y="15" width="4" height="1" fill={ICON_DK} />
+      {/* Boden */}
+      <rect x="7" y="21" width="10" height="1" fill={ICON_DK} />
+    </>
+  );
+}
+
 /** Medizinische Maske — rechteckige OP-Maske mit zwei Bändern. */
 function MedMaskIcon() {
   return (
