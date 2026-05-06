@@ -158,6 +158,19 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
         id: "kInsa6",
         speaker: "KOWALK",
         text: "Heißt für Sie: Sie brauchen jemanden, der die 4317 jetzt freigibt. Vossbeck. Sitzt nebenan, Tür 3603, Kantinenverwaltung. Sonst läuft hier gar nichts.",
+        next: "kInsa6b",
+      },
+      kInsa6b: {
+        id: "kInsa6b",
+        speaker: "KOWALK",
+        text: "Keine Angst, Worag — Sie müssen sich das nicht alles merken. Vossbeck hat den Vorgang auf dem Tisch. Sie müssen nur zu ihm durchkommen.",
+        subtext: "Sie sagt es, ohne den Tresen-Lappen aus der Hand zu legen. Es klingt, als hätte sie den Satz schon öfter zu jemandem gesagt.",
+        next: "kInsa6c",
+      },
+      kInsa6c: {
+        id: "kInsa6c",
+        speaker: "KOWALK",
+        text: "Und durchkommen heißt: erst Brust. Trainingsfall. Drei in Folge. Vossbeck nimmt nur Bewohner an, die paragraphenfest sind. — Den Rest mache ich von hier aus.",
         choices: [
           {
             text: "Verstanden. Ich rede mit Vossbeck.",
@@ -165,6 +178,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
               api.setFlag("gotTillaTransferInfo");
               api.setFlag("learnedMarteauPhilippeLink");
               api.setFlag("needsMarteauAuthForTilla");
+              api.setFlag("knowsVossbeckPath");
             },
             next: "k0",
           },
