@@ -429,6 +429,9 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             // Bleibt verfügbar, bis Layard das Endduell gewonnen hat.
             text: "Ich würde mit Ihnen einen Trainingsfall durchgehen.",
             next: "bDuelOffer",
+            // Erst sichtbar, sobald Layard weiß, warum er paragraphenfest
+            // werden muss (Vossbeck-Pfad über Kowalk/Brust erfahren).
+            requires: ["knowsVossbeckPath"],
             hiddenWhen: ["gotB3Ration"],
           },
           {
