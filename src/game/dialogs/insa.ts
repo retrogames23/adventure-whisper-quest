@@ -125,7 +125,7 @@ export const insaDialogs: Record<string, DialogTree> = {
           {
             text: "Ich komme nicht durchs Netz. Error 4567.",
             next: "idNet1",
-            hiddenWhen: ["reportedExit"],
+            hiddenWhen: ["calledStegmann"],
           },
           {
             text: "Ich brauche einen Code für die Sektor-Tür.",
