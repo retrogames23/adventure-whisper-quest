@@ -571,7 +571,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         label: "Grüne Thermoskanne (auf dem Rack)",
         kind: "use",
         hiddenWhen: ["tookBodoThermos"],
-        visibleWhen: ["bodoGaveWartungskarte"],
+        requires: ["bodoGaveWartungskarte"],
         onUse: (api) => {
           api.setFlag("tookBodoThermos");
           api.addItem({
