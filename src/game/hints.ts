@@ -161,7 +161,11 @@ export const HINT_QUESTS: HintQuest[] = [
     title: "Aufzug benutzen",
     priority: 8,
     isActive: (a) =>
-      a.hasFlag("protocolReceived") && !a.hasFlag("elevatorTaken"),
+      a.hasFlag("protocolReceived") &&
+      !a.hasFlag("elevatorTaken") &&
+      // Solange die Wartungssperre 4711 aktiv ist, kann der Aufzug nicht
+      // benutzt werden — dann gilt der separate Hint act1.elevatorMaint.
+      !(a.hasFlag("elevatorMaintBlocked") && !a.hasFlag("elevatorMaintCleared")),
     isResolved: (a) => a.hasFlag("elevatorTaken") || a.hasFlag("sawEmptyOffice"),
     hints: [
       "Du hast jetzt etwas in der Hand, das du jemand anderem geben sollst. Der zuständige Mensch sitzt nicht auf deiner Etage.",
