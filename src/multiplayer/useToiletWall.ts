@@ -107,7 +107,9 @@ export function useToiletWall(active: boolean) {
 
 // Wand-Fläche (in % der Bühne): links durch Rohr, oben durch Querrohr,
 // rechts durch Wandende, unten durch Bodenkante begrenzt.
-const WALL = { xMin: 24, xMax: 90, yMin: 16, yMax: 76 };
+// Wand: links neben Rohr (~22 %) bis vor die Türlaibung (~85 %),
+// oben unter Querrohr, unten überm Bodenfliesenrand.
+const WALL = { xMin: 26, xMax: 84, yMin: 18, yMax: 72 };
 
 function pickSpot(existing: Graffiti[]): { x: number; y: number } {
   let best = { x: (WALL.xMin + WALL.xMax) / 2, y: (WALL.yMin + WALL.yMax) / 2 };
