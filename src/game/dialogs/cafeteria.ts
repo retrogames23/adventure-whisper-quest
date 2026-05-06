@@ -710,13 +710,26 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       u1: {
         id: "u1",
         speaker: "VOSSBECK",
-        text: "Fallnummer?",
+        text: "Fallnummer.",
         next: "u2",
       },
       u2: {
         id: "u2",
         speaker: "VOSSBECK",
-        text: "Sie haben keine. Was wollen Sie dann hier? Ich habe zu tun.",
+        text: "Vier-Drei-Eins-Sieben. Vorgang Vollmacht 4317. Bewohner Worag. — Habe ich auf dem Tisch.",
+        subtext: "Er sagt es, ohne aufzusehen. Der Bleistift bleibt senkrecht.",
+        next: "u3",
+      },
+      u3: {
+        id: "u3",
+        speaker: "VOSSBECK",
+        text: "Trainingssiege bei Herrn Brust: keine dokumentiert. Ich verhandle nicht mit Bewohnern, die nicht satisfaktionsfähig sind.",
+        next: "u4",
+      },
+      u4: {
+        id: "u4",
+        speaker: "VOSSBECK",
+        text: "Drei in Folge bei Brust. Dann reden wir. Vorher nicht. — Tür ist da.",
         end: true,
       },
     },
