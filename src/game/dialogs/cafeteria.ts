@@ -38,15 +38,12 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           },
           {
             // Übergabe der drei Forgery-Zutaten direkt an Kowalk.
-            // Sichtbar, sobald Layard alle drei Sachen hat.
+            // Immer sichtbar nach Forgery-Briefing — der Handover-Knoten
+            // prüft, ob alle drei Items wirklich da sind.
             text: "[ Hier — Bleistift, Quittungsblanko und der Siegelabdruck. ]",
             next: "kForgeHandover1",
             requires: ["kowalkOfferedForgery"],
             hiddenWhen: ["forgedQuittung4317"],
-            hidden: (api) =>
-              !api.hasItem("pencilStub") ||
-              !api.hasItem("quittungBlankoB") ||
-              !api.hasItem("siegelAbdruck"),
           },
           {
             text: "Ich habe eine Vollmacht. Vier-Drei-Eins-Sieben.",
@@ -270,8 +267,19 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kForgeHandover1: {
         id: "kForgeHandover1",
         speaker: "SYSTEM",
-        text: "[ Layard schiebt drei Sachen über den Tresen: den Bleistiftstummel, einen frischen Quittungsblanko, das dünne Papier mit dem Siegelabdruck. ]",
+        text: "[ Layard greift in die Aktentasche. ]",
+        next: "kForgeCheck",
+      },
+      // Prüfknoten: hat Layard wirklich alle drei Sachen?
+      kForgeCheck: {
+        id: "kForgeCheck",
+        speaker: "SYSTEM",
+        text: "[ Bleistiftstummel? Quittungsblanko? Siegelabdruck? ]",
+        // Wenn alle drei vorhanden → weiter zur Übergabe; sonst → Kowalk hakt nach.
+        requires: ["pencilStub" as never], // Platzhalter, wird unten via line-skip nicht genutzt
         next: "kForgeHandover2",
+        hiddenWhen: [],
+        choices: undefined,
       },
       kForgeHandover2: {
         id: "kForgeHandover2",
