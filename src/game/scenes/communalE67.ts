@@ -231,17 +231,10 @@ export const communalE67Scenes: Record<string, Scene> = {
             !api.hasFlag("noticedTransferCode") ||
             !api.hasFlag("forgedQuittung4317")
           ) {
-            api.showText(
-            api.hasFlag("radioTunedTo1046")
-              ? [
-                  "Messing, blank gewienert. Das Licht oben blinkt rot.",
-                  "(SCHMERZ-RADIO: Hinter der Klappe atmet etwas, wie ein Mensch, der vergessen hat, wie das geht.)",
-                ]
-              : [
-                  "Messing, blank gewienert. Das Licht oben blinkt rot.",
-                  "Niemand schaut hin. Vielleicht blinkt es schon eine Weile.",
-                ],
-            );
+            api.showText([
+              "Messing, blank gewienert. Das Licht oben blinkt rot.",
+              "Niemand schaut hin. Vielleicht blinkt es schon eine Weile.",
+            ]);
             return;
           }
           api.openPneumaticTube();
