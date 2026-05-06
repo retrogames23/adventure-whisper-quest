@@ -55,7 +55,9 @@ export type InventoryItemId =
   // E71-Hygienevorschrift / Kondomautomat in „Zum stillen Funk"
   | "medMask"
   // Tragbares Schmerz-Radio aus Layards Wohnung (Akt I)
-  | "painRadio";
+  | "painRadio"
+  // Bodos vergessene grüne Thermoskanne aus Tech-Knoten 5610
+  | "bodoThermos";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
