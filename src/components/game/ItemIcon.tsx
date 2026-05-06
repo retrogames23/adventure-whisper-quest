@@ -430,7 +430,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   amplifierAntenna: TuningCrystalIcon,
   wartungsDiktat: WartungsnotizIcon,
   // Bürokratie-Duell — Layards Sammlung gelernter Paragraphen.
-  paragraphenNotizbuch: E67HandbookIcon,
+  paragraphenNotizbuch: ParagraphenNotizbuchIcon,
   // Ölkännchen für MARV-9 — vorerst geliehenes Notiz-Icon.
   oilCan: OilCanIcon,
   // E71-Hygiene: medizinische Maske aus dem Kondomautomaten.
