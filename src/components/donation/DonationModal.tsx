@@ -43,7 +43,8 @@ export function DonationModal({
   const validAmount = amountCents >= 300 && amountCents <= 100_000;
 
   const handleDonate = async () => {
-    if (!user) {
+    const isAnon = (user as { is_anonymous?: boolean } | null)?.is_anonymous;
+    if (!user || isAnon || !user.email) {
       setAuthOpen(true);
       return;
     }
@@ -193,7 +194,9 @@ export function DonationModal({
         >
           {busy
             ? "…"
-            : !user
+            : !user ||
+                (user as { is_anonymous?: boolean }).is_anonymous ||
+                !user.email
               ? "Anmelden & spenden"
               : `${(amountCents / 100).toLocaleString("de-DE", { minimumFractionDigits: amountCents % 100 ? 2 : 0 })} € spenden`}
         </button>
