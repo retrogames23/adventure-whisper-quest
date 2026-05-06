@@ -55,7 +55,9 @@ export type InventoryItemId =
   // E71-Hygienevorschrift / Kondomautomat in „Zum stillen Funk"
   | "medMask"
   // Tragbares Schmerz-Radio aus Layards Wohnung (Akt I)
-  | "painRadio";
+  | "painRadio"
+  // Bodos vergessene grüne Thermoskanne aus Tech-Knoten 5610
+  | "bodoThermos";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
@@ -304,6 +306,7 @@ export type StoryFlag =
   | "marvUnlocked"
   /** Layard hat das Ölkännchen aus Serverraum 5610 mitgenommen. */
   | "tookOilCan"
+  | "tookBodoThermos"
   // ── E71-Hygiene / Maskenrätsel ─────────────────────────────────
   /** Empfangsdame hat einmalig auf die Maskenpflicht hingewiesen. */
   | "receptionRefusedNoMask"
