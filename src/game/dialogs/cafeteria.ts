@@ -278,10 +278,12 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           {
             text: "Verstanden. Ich rede mit Brust.",
             next: "k0",
+            action: (api) => api.setFlag("knowsVossbeckPath"),
           },
           {
             text: "Vergessen Sie’s. Komme später wieder.",
             next: "kAuthLater",
+            action: (api) => api.setFlag("knowsVossbeckPath"),
           },
         ],
       },
@@ -427,6 +429,9 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             // Bleibt verfügbar, bis Layard das Endduell gewonnen hat.
             text: "Ich würde mit Ihnen einen Trainingsfall durchgehen.",
             next: "bDuelOffer",
+            // Erst sichtbar, sobald Layard weiß, warum er paragraphenfest
+            // werden muss (Vossbeck-Pfad über Kowalk/Brust erfahren).
+            requires: ["knowsVossbeckPath"],
             hiddenWhen: ["gotB3Ration"],
           },
           {
@@ -470,10 +475,12 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           {
             text: "Trainingsfall, ja.",
             next: "bDuelOffer",
+            action: (api) => api.setFlag("knowsVossbeckPath"),
           },
           {
             text: "Verstanden.",
             next: "b0",
+            action: (api) => api.setFlag("knowsVossbeckPath"),
           },
         ],
       },
