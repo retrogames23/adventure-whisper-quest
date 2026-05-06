@@ -465,6 +465,14 @@ export type Database = {
           read_ct: number
         }[]
       }
+      try_increment_cloud_request_count: {
+        Args: { _hard_limit: number; _user_id: string }
+        Returns: {
+          donation_unlocked: boolean
+          limit_reached: boolean
+          new_count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
