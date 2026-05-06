@@ -437,6 +437,8 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   medMask: MedMaskIcon,
   // Tragbares Schmerz-Radio.
   painRadio: PainRadioIcon,
+  // Bodos vergessene grüne Thermoskanne (Tech-Knoten 5610).
+  bodoThermos: BodoThermosIcon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */
