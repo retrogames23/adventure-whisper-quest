@@ -325,6 +325,8 @@ export interface InventoryItem {
   id: InventoryItemId;
   name: string;
   description: string;
+  /** Stückzahl (Default: 1). Wird im Inventar als kleines Badge gezeigt. */
+  count?: number;
 }
 
 export interface Hotspot {
@@ -506,6 +508,10 @@ export interface GameApi {
   hasKnowledge: (k: KnowledgeFlag) => boolean;
   addItem: (item: InventoryItem) => void;
   hasItem: (id: InventoryItemId) => boolean;
+  /** Anzahl eines Items im Inventar (0, wenn nicht vorhanden). */
+  getItemCount: (id: InventoryItemId) => number;
+  /** Zieht `n` Stück vom Item ab; entfernt es bei 0. No-op, wenn nicht vorhanden. */
+  removeItem: (id: InventoryItemId, n?: number) => void;
   showText: (lines: string[], onClose?: () => void) => void;
   startDialog: (id: string) => void;
   /**
