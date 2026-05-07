@@ -34,12 +34,9 @@ export function Keypad() {
     openFlag: "sectorDoorOpen",
     onUnlock: (a) => {
       a.setFlag("sectorDoorOpen");
-      a.addItem({
-        id: "exitCode",
-        name: "Ausgangscode 06111997",
-        description:
-          "Acht Ziffern, ein Datum. Der Code, der die Tür zwischen E67 und E71 öffnet.",
-      });
+      // Code wurde direkt eingegeben — der Zettel wird nicht mehr gebraucht
+      // und verschwindet aus dem Inventar (falls Layard ihn vorher hatte).
+      if (a.hasItem("exitCode")) a.removeItem("exitCode");
     },
   };
 
