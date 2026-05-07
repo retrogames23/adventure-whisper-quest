@@ -319,7 +319,11 @@ export type StoryFlag =
   /** Layard trägt die OP-Maske aus dem Kondomautomat. */
   | "wearingMedMask"
   /** Der Kondomautomat hat bereits eine Maske ausgegeben. */
-  | "tookMedMaskFromAutomat";
+  | "tookMedMaskFromAutomat"
+  /** Der Kondomautomat hat bereits ein Kondom ausgegeben. */
+  | "tookCondomFromAutomat"
+  /** Der Kondomautomat hat bereits eine Schachtel Pfefferminzkaugummi ausgegeben. */
+  | "tookPeppermintFromAutomat";
 
 export interface InventoryItem {
   id: InventoryItemId;
