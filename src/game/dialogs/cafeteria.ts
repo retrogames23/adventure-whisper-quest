@@ -757,6 +757,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
         speaker: "VOSSBECK",
         text: "Ich verwende ausschließlich Paragraphen, die in Ihrem Notizbuch stehen sollten. Wenn nicht — ist das Ihr Versäumnis.",
         hiddenWhen: ["duelEndgameWon"],
+        next: "vAfter",
         choices: [
           {
             text: "[ Endduell beginnen ]",
@@ -782,7 +783,8 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       vAfter: {
         id: "vAfter",
         speaker: "VOSSBECK",
-        text: "Worag. Vorgang abgeschlossen. Ich notiere Sie für Folgetermine.",
+        text: "Herr Worag, Respekt. Sie kennen Ihre Paragraphen. Haben Sie eine Fallnummer? Nein? Dann bitte ich Sie, mich meine Arbeit machen zu lassen.",
+        subtext: "Er sagt es ohne Hohn — fast kollegial. Der Bleistift bleibt senkrecht in der Hand.",
         requires: ["duelEndgameWon"],
         end: true,
       },
