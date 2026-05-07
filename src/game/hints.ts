@@ -287,8 +287,8 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) => a.hasItem("tillaTransfer"),
     hints: [
       "Du musst zurück zu Frau Kowalk in der Kantine 3602. Sie weiß, wie es weitergeht.",
-      "Wenn Vossbeck gestempelt hat: Kowalk macht 4317-K direkt fertig — du musst nur das Gespräch mit ihr eröffnen. Wenn nicht: bring Bleistiftstummel (Bodos Tisch in 2612), einen Quittungsblanko (vom Block am Kantinentresen) und den Siegelabdruck (im Inventar Bleistift × Vollmacht 4317) zu Kowalk.",
-      "Sprich Kowalk an. Übergib die Quittung — und schick sie selbst über die Pneumatik-Rohrpost im selben Raum ab (Empfänger E70-K, Code 4317-K). Dann wartet die Antwort am Rohr.",
+      "Sprich Kowalk an und nimm die fertige Quittung 4317-K entgegen. Hast du Vossbeck im Endduell geschlagen, geht das direkt im Gespräch — sie zeichnet gegen.",
+      "Schick die Quittung selbst ab: klick die Pneumatik-Rohrpost an der Wand der Kantine an (oder zieh die Quittung aus dem Inventar darauf). Empfänger E70-K, Code 4317-K. Antwort kommt zurück ans Rohr.",
     ],
   },
 
