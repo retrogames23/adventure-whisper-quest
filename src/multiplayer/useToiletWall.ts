@@ -77,7 +77,6 @@ export function useToiletWall(active: boolean) {
     const { data: existing, error: qErr } = await supabase
       .from("toilet_graffiti_owners")
       .select("graffiti_id, created_at")
-      .eq("user_id", args.userId)
       .gte("created_at", since)
       .limit(1);
     if (qErr) return { ok: false, error: qErr.message };
