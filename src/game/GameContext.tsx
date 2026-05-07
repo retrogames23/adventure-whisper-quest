@@ -323,10 +323,35 @@ export function GameProvider({ children }: { children: ReactNode }) {
       hasKnowledge: (k) => knowledgeRef.current.has(k),
       addItem: (item) =>
         setInventory((prev) =>
-          prev.find((i) => i.id === item.id) ? prev : [...prev, item],
+          prev.find((i) => i.id === item.id)
+            ? prev.map((i) =>
+                i.id === item.id
+                  ? {
+                      ...i,
+                      count: (i.count ?? 1) + (item.count ?? 1),
+                    }
+                  : i,
+              )
+            : [...prev, item],
         ),
       hasItem: (id: InventoryItemId) =>
         inventoryRef.current.some((i) => i.id === id),
+      getItemCount: (id: InventoryItemId) => {
+        const it = inventoryRef.current.find((i) => i.id === id);
+        if (!it) return 0;
+        return it.count ?? 1;
+      },
+      removeItem: (id: InventoryItemId, n = 1) =>
+        setInventory((prev) => {
+          const it = prev.find((i) => i.id === id);
+          if (!it) return prev;
+          const cur = it.count ?? 1;
+          const next = cur - n;
+          if (next <= 0) return prev.filter((i) => i.id !== id);
+          return prev.map((i) =>
+            i.id === id ? { ...i, count: next } : i,
+          );
+        }),
       showText: (lines, onClose) => {
         textOverlayCloseRef.current = onClose ?? null;
         setTextOverlay(lines);
@@ -554,6 +579,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
         name: "E67-Handbuch (7. rev. Fassung)",
         description:
           "Eine geheftete Broschüre mit Eselsohren. Trägt den Stempel der Leitstelle E67. Acht Kapitel und ein Anhang. Wohlmeinend formuliert. Trotzdem: kompliziert.",
+      });
+    }
+    if (!inventoryRef.current.some((i) => i.id === "reichsmark")) {
+      api.addItem({
+        id: "reichsmark",
+        name: "Reichsmark",
+        count: 3,
+        description:
+          "Drei abgegriffene Münzen aus Aluminiumbronze. Reichswährung der zentralen Verwaltung. Reicht in der Kneipe für drei Knöpfe am Automaten — oder ein lauwarmes Bier.",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -468,6 +468,9 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   painRadio: PainRadioIcon,
   // Bodos vergessene grüne Thermoskanne (Tech-Knoten 5610).
   bodoThermos: BodoThermosIcon,
+  reichsmark: ReichsmarkIcon,
+  peppermint: PeppermintIcon,
+  condom: CondomIcon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */
@@ -662,6 +665,83 @@ function ItemIconImpl({ id, className, size = 24, title }: Props) {
     <Frame size={size} className={className} title={title}>
       <Render />
     </Frame>
+  );
+}
+
+/** Reichsmark — kleiner Münzstapel aus Aluminiumbronze. */
+function ReichsmarkIcon() {
+  const COIN_DK = "#7a4f1c";
+  const COIN_FG = "#d49a3a";
+  const COIN_HI = "#fce8b8";
+  return (
+    <>
+      {/* Untere Münze */}
+      <rect x="4" y="17" width="16" height="3" fill={COIN_DK} />
+      <rect x="5" y="18" width="14" height="2" fill={COIN_FG} />
+      <rect x="5" y="18" width="14" height="1" fill={COIN_HI} opacity="0.6" />
+      {/* Mittlere Münze */}
+      <rect x="4" y="13" width="16" height="3" fill={COIN_DK} />
+      <rect x="5" y="14" width="14" height="2" fill={COIN_FG} />
+      <rect x="5" y="14" width="14" height="1" fill={COIN_HI} opacity="0.6" />
+      {/* Obere Münze (mit Stern/Symbol) */}
+      <rect x="4" y="6" width="16" height="6" fill={COIN_DK} />
+      <rect x="5" y="7" width="14" height="4" fill={COIN_FG} />
+      <rect x="5" y="7" width="14" height="1" fill={COIN_HI} />
+      {/* RM-Symbol als zwei kleine Klötze */}
+      <rect x="9" y="8" width="2" height="2" fill={ICON_BG} />
+      <rect x="13" y="8" width="2" height="2" fill={ICON_BG} />
+      <rect x="11" y="9" width="2" height="1" fill={ICON_BG} />
+    </>
+  );
+}
+
+/** Pfefferminzkaugummi — Schachtel mit Streifenmuster. */
+function PeppermintIcon() {
+  const MINT = "#7fc26b";
+  const MINT_DK = "#1f3a1c";
+  return (
+    <>
+      {/* Schachtel */}
+      <rect x="4" y="6" width="16" height="13" fill={MINT_DK} />
+      <rect x="5" y="7" width="14" height="11" fill={MINT} />
+      {/* Folien-Highlight */}
+      <rect x="5" y="7" width="14" height="1" fill={ICON_HI} opacity="0.7" />
+      {/* Diagonale Streifen */}
+      <rect x="6" y="9" width="12" height="1" fill={ICON_HI} opacity="0.6" />
+      <rect x="6" y="12" width="12" height="1" fill={ICON_HI} opacity="0.6" />
+      <rect x="6" y="15" width="12" height="1" fill={ICON_HI} opacity="0.6" />
+      {/* Etikett mittig */}
+      <rect x="9" y="10" width="6" height="4" fill={ICON_HI} />
+      <rect x="10" y="11" width="4" height="1" fill={MINT_DK} />
+      <rect x="10" y="13" width="4" height="1" fill={MINT_DK} />
+    </>
+  );
+}
+
+/** Kondom — quadratisches Folienpäckchen mit aufgeprägtem Ring. */
+function CondomIcon() {
+  const FOIL = "#b89968";
+  const FOIL_DK = "#5a4220";
+  return (
+    <>
+      {/* Päckchen */}
+      <rect x="5" y="5" width="14" height="14" fill={FOIL_DK} />
+      <rect x="6" y="6" width="12" height="12" fill={FOIL} />
+      {/* Glanz */}
+      <rect x="6" y="6" width="12" height="1" fill={ICON_HI} opacity="0.7" />
+      <rect x="6" y="6" width="1" height="12" fill={ICON_HI} opacity="0.4" />
+      {/* Geriffelter oberer Rand */}
+      <rect x="6" y="8" width="2" height="1" fill={FOIL_DK} />
+      <rect x="9" y="8" width="2" height="1" fill={FOIL_DK} />
+      <rect x="12" y="8" width="2" height="1" fill={FOIL_DK} />
+      <rect x="15" y="8" width="2" height="1" fill={FOIL_DK} />
+      {/* Aufgeprägter Ring (Kondom-Silhouette) */}
+      <rect x="9" y="11" width="6" height="1" fill={FOIL_DK} />
+      <rect x="8" y="12" width="1" height="3" fill={FOIL_DK} />
+      <rect x="15" y="12" width="1" height="3" fill={FOIL_DK} />
+      <rect x="9" y="15" width="6" height="1" fill={FOIL_DK} />
+      <rect x="10" y="13" width="4" height="1" fill={FOIL_DK} opacity="0.5" />
+    </>
   );
 }
 

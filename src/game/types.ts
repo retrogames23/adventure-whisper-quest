@@ -57,7 +57,13 @@ export type InventoryItemId =
   // Tragbares Schmerz-Radio aus Layards Wohnung (Akt I)
   | "painRadio"
   // Bodos vergessene grüne Thermoskanne aus Tech-Knoten 5610
-  | "bodoThermos";
+  | "bodoThermos"
+  // Reichswährung — zählbar (count > 1).
+  | "reichsmark"
+  // Pfefferminzkaugummi aus dem Kondomautomaten („Zum stillen Funk").
+  | "peppermint"
+  // Kondom aus dem Kondomautomaten („Zum stillen Funk").
+  | "condom";
 
 export type KnowledgeFlag =
   | "responsibilityE67"
@@ -313,12 +319,23 @@ export type StoryFlag =
   /** Layard trägt die OP-Maske aus dem Kondomautomat. */
   | "wearingMedMask"
   /** Der Kondomautomat hat bereits eine Maske ausgegeben. */
-  | "tookMedMaskFromAutomat";
+  | "tookMedMaskFromAutomat"
+  /** Der Kondomautomat hat bereits ein Kondom ausgegeben. */
+  | "tookCondomFromAutomat"
+  /** Der Kondomautomat hat bereits eine Schachtel Pfefferminzkaugummi ausgegeben. */
+  | "tookPeppermintFromAutomat"
+  // Beiläufige NPC-Reaktionen auf Automatenware (rein narrativ).
+  | "showedHelkaPeppermint"
+  | "showedHelkaCondom"
+  | "showedEnnisPeppermint"
+  | "showedEnnisCondom";
 
 export interface InventoryItem {
   id: InventoryItemId;
   name: string;
   description: string;
+  /** Stückzahl (Default: 1). Wird im Inventar als kleines Badge gezeigt. */
+  count?: number;
 }
 
 export interface Hotspot {
@@ -500,6 +517,10 @@ export interface GameApi {
   hasKnowledge: (k: KnowledgeFlag) => boolean;
   addItem: (item: InventoryItem) => void;
   hasItem: (id: InventoryItemId) => boolean;
+  /** Anzahl eines Items im Inventar (0, wenn nicht vorhanden). */
+  getItemCount: (id: InventoryItemId) => number;
+  /** Zieht `n` Stück vom Item ab; entfernt es bei 0. No-op, wenn nicht vorhanden. */
+  removeItem: (id: InventoryItemId, n?: number) => void;
   showText: (lines: string[], onClose?: () => void) => void;
   startDialog: (id: string) => void;
   /**
