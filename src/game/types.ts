@@ -323,7 +323,12 @@ export type StoryFlag =
   /** Der Kondomautomat hat bereits ein Kondom ausgegeben. */
   | "tookCondomFromAutomat"
   /** Der Kondomautomat hat bereits eine Schachtel Pfefferminzkaugummi ausgegeben. */
-  | "tookPeppermintFromAutomat";
+  | "tookPeppermintFromAutomat"
+  // Beiläufige NPC-Reaktionen auf Automatenware (rein narrativ).
+  | "showedHelkaPeppermint"
+  | "showedHelkaCondom"
+  | "showedEnnisPeppermint"
+  | "showedEnnisCondom";
 
 export interface InventoryItem {
   id: InventoryItemId;
