@@ -252,13 +252,31 @@ export function DialogOverlay() {
           />
         </span>
         <div className="mb-2 flex items-center justify-between">
-          <span
-            className={`font-mono-crt text-sm uppercase tracking-[0.3em] ${
-              speakerColor[line.speaker] ?? "text-foreground"
-            }`}
-          >
-            {line.speaker}
-          </span>
+          {editing ? (
+            <select
+              value={line.speaker}
+              onChange={(e) => {
+                if (!dialogId) return;
+                setField(dialogId, line.id, {
+                  speaker: e.target.value as typeof line.speaker,
+                });
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-sm border border-amber-glow/60 bg-background/80 px-2 py-0.5 font-mono-crt text-xs uppercase tracking-[0.2em] text-amber-glow"
+            >
+              {SPEAKERS.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          ) : (
+            <span
+              className={`font-mono-crt text-sm uppercase tracking-[0.3em] ${
+                speakerColor[line.speaker] ?? "text-foreground"
+              }`}
+            >
+              {line.speaker}
+            </span>
+          )}
           {showFreeMode && persona && (
             <button
               type="button"
@@ -274,14 +292,124 @@ export function DialogOverlay() {
           )}
         </div>
 
-        <p className="font-display text-lg leading-relaxed text-foreground text-shadow-hard">
-          {line.text}
-        </p>
-
-        {radioActive && line.subtext && (
-          <p className="slow-fade-in mt-3 font-mono-crt text-base italic text-amber-glow amber-glow">
-            ◉ {line.subtext}
-          </p>
+        {editing ? (
+          <div onClick={(e) => e.stopPropagation()}>
+            <div className="mb-2 flex flex-wrap items-center gap-1 text-[10px] font-mono-crt text-amber-glow/80">
+              <span className="opacity-60">id:</span>
+              <span className="rounded-sm bg-amber-glow/10 px-1">{line.id}</span>
+              {line.next && (
+                <>
+                  <span className="opacity-60">→</span>
+                  <span className="rounded-sm bg-amber-glow/10 px-1">{line.next}</span>
+                </>
+              )}
+              {line.end && <span className="rounded-sm bg-amber-glow/10 px-1">end</span>}
+              <span className="ml-auto flex gap-1">
+                <button
+                  type="button"
+                  title="Override für diese Zeile zurücksetzen"
+                  onClick={() => {
+                    if (!dialogId) return;
+                    clearLineFields(dialogId, line.id);
+                  }}
+                  className="rounded-sm border border-amber-glow/40 px-1 hover:bg-amber-glow/10"
+                >
+                  ↶ Original
+                </button>
+                <button
+                  type="button"
+                  title="An Caret bzw. bei 1/2 splitten"
+                  onClick={() => handleSplit(0.5)}
+                  className="rounded-sm border border-amber-glow/40 px-1 hover:bg-amber-glow/10"
+                >
+                  ✂ 1/2
+                </button>
+                <button
+                  type="button"
+                  title="Bei 1/3 splitten"
+                  onClick={() => handleSplit(1 / 3)}
+                  className="rounded-sm border border-amber-glow/40 px-1 hover:bg-amber-glow/10"
+                >
+                  ✂ 1/3
+                </button>
+                <button
+                  type="button"
+                  title="Bei 2/3 splitten"
+                  onClick={() => handleSplit(2 / 3)}
+                  className="rounded-sm border border-amber-glow/40 px-1 hover:bg-amber-glow/10"
+                >
+                  ✂ 2/3
+                </button>
+                <button
+                  type="button"
+                  title={
+                    prevId
+                      ? `In Vorgängerzeile ${prevId} mergen`
+                      : "Kein eindeutiger Vorgänger ohne Choices"
+                  }
+                  disabled={!prevId}
+                  onClick={handleMerge}
+                  className="rounded-sm border border-amber-glow/40 px-1 hover:bg-amber-glow/10 disabled:opacity-40"
+                >
+                  ⨯ Merge ↑
+                </button>
+                <button
+                  type="button"
+                  title="Leere Zeile danach einfügen"
+                  disabled={!!(line.choices && line.choices.length > 0)}
+                  onClick={handleInsertAfter}
+                  className="rounded-sm border border-amber-glow/40 px-1 hover:bg-amber-glow/10 disabled:opacity-40"
+                >
+                  ＋ Zeile
+                </button>
+              </span>
+            </div>
+            <div
+              data-dlg-edit-text
+              contentEditable
+              suppressContentEditableWarning
+              onBlur={(e) => {
+                if (!dialogId) return;
+                const v = (e.currentTarget.textContent ?? "").trim();
+                if (v !== line.text) setField(dialogId, line.id, { text: v });
+              }}
+              onKeyDown={(e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+                  (e.target as HTMLElement).blur();
+                }
+              }}
+              className="rounded-sm border border-dashed border-amber-glow/40 px-2 py-1 font-display text-lg leading-relaxed text-foreground outline-none focus:border-amber-glow"
+            >
+              {line.text}
+            </div>
+            <div className="mt-2 text-[10px] uppercase tracking-widest text-amber-glow/60">
+              Subtext (Schmerz-Radio)
+            </div>
+            <div
+              contentEditable
+              suppressContentEditableWarning
+              onBlur={(e) => {
+                if (!dialogId) return;
+                const v = (e.currentTarget.textContent ?? "").trim();
+                if (v !== (line.subtext ?? ""))
+                  setField(dialogId, line.id, { subtext: v });
+              }}
+              className="min-h-[1.6em] rounded-sm border border-dashed border-amber-glow/30 px-2 py-1 font-mono-crt text-base italic text-amber-glow/80 outline-none focus:border-amber-glow"
+            >
+              {line.subtext ?? ""}
+            </div>
+          </div>
+        ) : (
+          <>
+            <p className="font-display text-lg leading-relaxed text-foreground text-shadow-hard">
+              {line.text}
+            </p>
+            {radioActive && line.subtext && (
+              <p className="slow-fade-in mt-3 font-mono-crt text-base italic text-amber-glow amber-glow">
+                ◉ {line.subtext}
+              </p>
+            )}
+          </>
         )}
 
         <div className="mt-5 flex flex-col gap-2">
@@ -291,6 +419,7 @@ export function DialogOverlay() {
                 key={i}
                 type="button"
                 onClick={() => {
+                  if (editing) return;
                   choice.action?.(api);
                   if (choice.next) advanceDialog(choice.next);
                   else advanceDialog();
@@ -300,13 +429,35 @@ export function DialogOverlay() {
                 <span className="text-amber-glow opacity-60 group-hover:opacity-100">
                   ▸
                 </span>
-                <span>{choice.text}</span>
+                {editing ? (
+                  <span
+                    contentEditable
+                    suppressContentEditableWarning
+                    onClick={(e) => e.stopPropagation()}
+                    onBlur={(e) => {
+                      if (!dialogId) return;
+                      const v = (e.currentTarget.textContent ?? "").trim();
+                      if (v !== choice.text)
+                        setField(dialogId, line.id, {
+                          choices: { [i]: { text: v } },
+                        });
+                    }}
+                    className="flex-1 outline-none"
+                  >
+                    {choice.text}
+                  </span>
+                ) : (
+                  <span>{choice.text}</span>
+                )}
               </button>
             ))
           ) : (
             <button
               type="button"
-              onClick={() => advanceDialog()}
+              onClick={() => {
+                if (editing) return;
+                advanceDialog();
+              }}
               className="self-end rounded-sm border border-amber-glow/40 px-3 py-1 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/10"
             >
               {line.end || !line.next ? "▣ Beenden" : "▸ Weiter"}
