@@ -484,14 +484,14 @@ export const insaDialogs: Record<string, DialogTree> = {
       r2: {
         id: "r2",
         speaker: "INSA",
-        text: "Worag. Sie haben noch nichts für mich. Ich höre es an Ihrer Stimme.",
+        text: "Worag. Vier-Drei-Eins-Sieben hängt noch. Ich sehe das hier auf dem Pult, ohne nachzuschauen.",
         subtext: "Kein Vorwurf. Eine Feststellung.",
         next: "r3",
       },
       r3: {
         id: "r3",
         speaker: "INSA",
-        text: "Korridor 56, Wartungstür 5610. Am Terminal »tap«. Read-only. Danach rufen Sie mich noch einmal an, dann bekommen Sie Ihren Code. Den Override habe ich Ihnen schon scharfgeschaltet.",
+        text: "Frau Kowalk, Kantine 3602, linker Tresen. Sobald der Bogen aus E70-K bei Ihnen aus dem Rohr fällt, ist Ihr Status sauber. Dann rufen Sie mich an — Code kommt ins Postfach.",
         next: "r4",
       },
       r4: {
