@@ -348,14 +348,13 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       // ─────────────────────────────────────────────────────────
       // Tür 5610 — Serverraum hinter Korridor 56.
-      // Sichtbar nur, wenn eine der drei Motivations-Spuren erfüllt ist:
+      // Sichtbar nur, wenn eine der Motivations-Spuren erfüllt ist:
       //   (a) Mira-Hint: tookFlyer
       //   (b) Schmerz-Radio aktiv (104,6)
       //   (c) Mindestens 3 Philippe-Sonden gelesen
-      //   (d) Insa hat Layard explizit dorthin geschickt (Pflicht-Pfad)
-      // Öffnet sich ohne Keypad — drei narrative Wege:
-      //   (1) Insa-Pflicht-Pfad → "serverRoom5610OverrideArmed"
-      //       (Insa schaltet die Magnetriegel aus der Leitstelle frei).
+      // Öffnet sich ohne Keypad — narrative Wege:
+      //   (1) Bodos Hausmeister-Reset (elevatorMaintCleared) hat den
+      //       Magnetriegel im selben Wartungs-Sammelvorgang mitfreigeschaltet.
       //   (2) Layard hat eine Wartungskarte (Item "wartungsnotiz5610",
       //       intern weiterhin so heißend; vergeben aus Bodo-/Mira-/
       //       Philippe-Spur).
@@ -372,7 +371,6 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         kind: "exit",
         visible: (api) => {
           if (api.hasFlag("serverRoom5610Open")) return true;
-          if (api.hasFlag("insaSentTo5610")) return true;
           const probeCount =
             (api.hasFlag("philippeProbeNote1") ? 1 : 0) +
             (api.hasFlag("philippeProbeNote2") ? 1 : 0) +
@@ -390,8 +388,9 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             api.goTo("serverRoom5610");
             return;
           }
-          // (1) Insa hat den Wartungs-Override scharfgeschaltet.
-          if (api.hasFlag("serverRoom5610OverrideArmed")) {
+          // (1) Bodos Wartungs-Reset hebt den Magnetriegel mit auf —
+          //     gleicher Sammelvorgang 4711.
+          if (api.hasFlag("elevatorMaintCleared")) {
             api.setFlag("serverRoom5610Open");
             api.setFlag("saw5610Door");
             api.showText(
@@ -399,7 +398,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
                 "Layard tritt an die Tür. Das blaue Wartungs-LED",
                 "schaltet auf Grün — von ganz alleine.",
                 "Ein dumpfes Klacken in der Wand: die Magnetriegel geben nach.",
-                "Insa hat Wort gehalten.",
+                "Der Hausmeister-Reset von vorhin hat hier mit aufgeräumt.",
                 "Hinter der Tür: kein Korridor. Ein Raum.",
               ],
               () => api.goTo("serverRoom5610"),
@@ -434,12 +433,12 @@ export const corridorsE67Scenes: Record<string, Scene> = {
                 ? "Hier ist das Brummen am lautesten. Das Signal kommt von hinter dieser Tür."
                 : "Kein Keypad — nur ein flacher Kartenleser und ein blaues",
               "Wartungs-LED, das ruhig blinkt. Ohne Wartungskarte",
-              "oder Freigabe der Leitstelle bleibt die Tür zu.",
+              "oder gelöste Wartungssperre bleibt die Tür zu.",
             ]);
           } else {
             api.showText([
               "Die Tür gibt nicht nach. Der Kartenleser blinkt blau.",
-              "Ohne Wartungskarte oder Freigabe der Leitstelle bleibt sie zu.",
+              "Ohne Wartungskarte oder gelöste Wartungssperre bleibt sie zu.",
             ]);
           }
         },
