@@ -204,55 +204,55 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
 
-  // 11) Insa anrufen → Wartungs-Override für Knoten 5610
+  // 11) Insa anrufen → Vorgangs-Status klären, Code anfragen
   {
     id: "act1.callInsaFor5610",
-    title: "Insa um Wartungs-Override bitten",
+    title: "Insa anrufen — Code für die Sektor-Tür",
     priority: 11,
     isActive: (a) =>
       a.hasFlag("sawEmptyOffice") &&
-      !a.hasFlag("insaSentTo5610") &&
-      !a.hasFlag("tappedNode5610") &&
-      !a.hasFlag("burnedNode5610"),
-    isResolved: (a) => a.hasFlag("insaSentTo5610"),
+      !a.hasFlag("insaGaveTransferTask") &&
+      !a.hasFlag("calledForCode"),
+    isResolved: (a) =>
+      a.hasFlag("insaGaveTransferTask") || a.hasFlag("calledForCode"),
     hints: [
       "Der Abschnittsverantwortliche fehlt — also gibt es jetzt nur noch eine Stelle, die deine Sache weiterbringt.",
       "Geh zurück in deine Wohnung 2611 und ruf von deinem Telefon aus die Leitstelle an.",
-      "Geh nach 2611, klick dein Telefon an und sprich mit Insa. Sie schickt dich an einen Wartungsknoten und schaltet dir den Magnetriegel der Tür 5610 frei.",
+      "Geh nach 2611, klick dein Telefon an und sprich mit Insa. Wähle „Ich brauche einen Code für die Sektor-Tür“ — sie wird dir sagen, was bei dir blockiert.",
     ],
   },
 
-  // 12) Knoten 5610 antippen (oder brennen)
+  // 12) Optional: Serverraum 5610 für Schmerz-Radio-Spurensucher
   {
     id: "act1.serverRoom5610",
-    title: "Wartungsknoten 5610 antippen",
-    priority: 12,
+    title: "Serverraum 5610 — Spur des Schmerz-Radios",
+    priority: 24,
     isActive: (a) =>
-      a.hasFlag("insaSentTo5610") &&
+      a.hasFlag("saw5610Door") &&
       !a.hasFlag("tappedNode5610") &&
       !a.hasFlag("burnedNode5610"),
     isResolved: (a) =>
       a.hasFlag("tappedNode5610") || a.hasFlag("burnedNode5610"),
     hints: [
-      "Insa hat dir einen Auftrag gegeben — und einen Riegel für dich freigeschaltet.",
-      "Tür 5610 liegt im Korridor 56. Der Magnetriegel öffnet sich jetzt ohne Karte.",
-      "Nimm den Aufzug bis Etage 5, geh in Korridor 56, betritt den Serverraum 5610 und tippe den Wartungsknoten an („tap“).",
+      "Optional: hinter Tür 5610 liegt die Quelle des Brummens auf 104,6.",
+      "Sobald die Wartungssperre 4711 gelöscht ist (Bodos Terminal), gibt der Magnetriegel auch hier nach.",
+      "Im Raum gibt es ein Wartungsterminal — »tap« schneidet den Datenstrom mit, ohne Spuren zu hinterlassen. Für die Story nicht zwingend.",
     ],
   },
 
-  // 13a) Insa-Auftrag zu Kowalk in die Kantine bringen
+  // 13a) Eigener Vorgang 4317 bei Kowalk klären
   {
     id: "act1.kowalkBrief",
-    title: "Insas Auftrag bei Kowalk abgeben",
+    title: "Eigenen Vorgang 4317 bei Kowalk klären",
     priority: 13,
     isActive: (a) =>
       a.hasFlag("insaGaveTransferTask") &&
       !a.hasFlag("gotTillaTransferInfo"),
     isResolved: (a) => a.hasFlag("gotTillaTransferInfo"),
     hints: [
-      "Insa hat dir einen Akten-Auftrag gegeben — »4317-K«. Bring die Sache zu jemandem, der die Akten der Kantine kennt.",
-      "Frau Kowalk steht hinter dem Tresen der Kantine 3602, im Korridor 36 (Etage 3). Sie weiß, was 4317-K bedeutet.",
-      "Geh in den Aufzug, fahr ins 3. OG, geh durch Korridor 36 in die Kantine 3602 (Tür 3602) und sprich Frau Kowalk an. Wähl die Option mit »Insas Auftrag — Quittung 4317-K für Tilla«.",
+      "Insa hat dir gesagt: an deiner Adresse hängt ein offener Vorgang 4317. Solange der nicht weg ist, gibt sie keinen Code raus.",
+      "Frau Kowalk steht hinter dem Tresen der Kantine 3602, im Korridor 36 (Etage 3). Sie kennt die Akte 4317.",
+      "Fahr ins 3. OG, geh in die Kantine 3602 und sprich Frau Kowalk an. Wähle »Vorgang 4317 — auf meiner Adresse hängt ein Block«.",
     ],
   },
   // 13b) Vossbeck soll Vorgang 4317 freigeben (oder Forgery-Pfad)
@@ -298,12 +298,11 @@ export const HINT_QUESTS: HintQuest[] = [
     title: "Tagescode bei Insa abholen",
     priority: 14,
     isActive: (a) =>
-      a.hasFlag("tappedNode5610") &&
       a.hasItem("tillaTransfer") &&
       !a.hasFlag("calledForCode"),
     isResolved: (a) => a.hasFlag("calledForCode"),
     hints: [
-      "Du hast getan, was Insa wollte. Sie hatte dir etwas versprochen — sie wartet auf deinen Anruf.",
+      "Dein Vorgang 4317 ist sauber raus. Der Block auf deinem Datensatz ist weg.",
       "Geh zurück in deine Wohnung 2611 und benutze dein Telefon.",
       "Klick in 2611 das Telefon an und ruf Insa zurück. Sie schickt dir dann den heutigen Sektor-Code in dein Postfach.",
     ],
