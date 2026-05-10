@@ -194,123 +194,107 @@ export const insaDialogs: Record<string, DialogTree> = {
       idCode1: {
         id: "idCode1",
         speaker: "INSA",
-        text: "Den Code. — Eine Sekunde, Herr Worag. Bevor ich den heute rausgebe, brauche ich noch etwas von Ihnen. Es gibt da eine Sache.",
-        subtext: "Kein Skript. Sie zögert kurz, bevor sie weiterspricht.",
+        text: "Den Code. — Eine Sekunde, Herr Worag. Ich schaue auf Ihre Vorgangsspur. — Es ist da eine Sache.",
+        subtext: "Tastenklacken. Sie liest etwas, das ihr nicht gefällt.",
         next: "idCode2",
       },
       idCode2: {
         id: "idCode2",
         speaker: "INSA",
-        text: "Den Verantwortlichen fürs Zentrale Netz kann ich Ihnen geben, falls noch etwas hängt. Sonst …",
+        text: "Den Verantwortlichen fürs Zentrale Netz kann ich Ihnen geben, falls noch etwas hängt. Aber egal was — ohne sauberen Status komme ich an Ihren Code nicht heran.",
         choices: [
           {
             text: "Verbinden Sie mich. Ich versuche es noch.",
             next: "idNet1",
           },
           {
-            text: "Lassen wir das. Geben Sie mir bitte direkt den Code.",
+            text: "Lassen wir das Netz. Was hängt bei mir?",
             // Engine resolved nach Sichtbarkeit:
-            //  - Getappt → idPflichtSkip (sichtbar, requires erfüllt) → idCode4
-            //  - Nicht getappt → idPflichtSkip hidden, Engine folgt
-            //    next-Pointer zu idPflichtCheck → idPflicht1..4.
+            //  - Vorgang erledigt (receivedTillaTransfer) → idPflichtSkip
+            //    sichtbar → idCode4 (Code-Ausgabe).
+            //  - Vorgang offen → idPflichtSkip hidden, Engine läuft über
+            //    idPflichtCheck → idPflicht1..4 (4317-Hinweis).
             next: "idPflichtSkip",
           },
         ],
       },
-      // Verzweigung: Hat Layard die Quelle der Sendung (radioOrigin) bereits
-      // verstanden? Dann gibt Insa den Code wie gehabt heraus. Wenn nicht,
-      // schickt sie ihn vorher zwingend zum Knoten 5610.
+      // Verzweigung: Ist Layards Stamm-Vorgang 4317 sauber abgeschlossen
+      // (receivedTillaTransfer)? Dann gibt Insa den Code heraus. Wenn nicht,
+      // weist sie auf die offene Akte hin und verweist auf Frau Kowalk.
       idPflichtCheck: {
         id: "idPflichtCheck",
         speaker: "SYSTEM",
-        text: "[ Insa zögert einen Moment, klickt durch ihre Maske. ]",
-        hiddenWhen: ["tappedNode5610"],
+        text: "[ Insa scrollt durch eine Liste, dreht den Bildschirm leicht weg. ]",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "idPflicht1",
       },
-      // Pflicht-Pfad — nur wenn Layard noch nicht 'tap' am Knoten 5610 gemacht hat.
+      // Hinweis-Pfad — nur wenn Vorgang 4317 noch offen ist.
       idPflicht1: {
         id: "idPflicht1",
         speaker: "INSA",
-        text: "Herr Worag — bevor ich Ihnen den Code gebe, brauche ich etwas von Ihnen. Es ist nicht ganz Standardprotokoll. Aber Sie waren heute selbst in 1534. Sie wissen, dass der Abschnittsverantwortliche E67 nicht da ist.",
-        subtext: "Sie sagt das nicht als Vorwurf. Eher: als geteilte Beobachtung.",
-        hiddenWhen: ["tappedNode5610"],
+        text: "Bei Ihnen ist ein Vorgang als offen markiert, Herr Worag. Stamm-Vorgang Vier-Drei-Eins-Sieben. An Ihrer Adresse mitverknüpft, weil 2613 und 2611 in einer Sammelakte hängen.",
+        subtext: "Sie sagt das ohne Schärfe. Es ist eine Standzeile aus ihrem Pult.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "idPflicht2",
       },
       idPflicht2: {
         id: "idPflicht2",
         speaker: "INSA",
-        text: "Seit Wochen läuft im Knoten 5610 — Korridor 56, Wartungstür hinter der „Technik“-Plakette — etwas, das in keinem Wartungsplan steht. Mehr Datenverkehr, als E67 erzeugen kann. Falsche Quell-Routen. Ich vermute eine Installation, die nicht genehmigt ist.",
-        subtext: "Sie hat das schon oft formuliert. Nur nie laut.",
-        hiddenWhen: ["tappedNode5610"],
+        text: "Solange das so bleibt, läuft Ihr Protokoll bei der Annahme nicht durch. Der Code für die Sektor-Tür ist bei mir aus dem gleichen Grund gesperrt — Vorgangsblock auf Ihrem Datensatz.",
+        subtext: "Sie sagt »gesperrt«, als wäre es ein Wetterbericht.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "idPflicht2b",
       },
       idPflicht2b: {
         id: "idPflicht2b",
         speaker: "INSA",
-        text: "Was Sie auf 104,6 hören, kommt von dort. Aus 5610. Die Antenne auf dem Dach E67 streut es bis nach E71 hinüber — deshalb hören es die Patienten dort auch, obwohl sie es offiziell gar nicht dürfen. Es gibt keine zweite Quelle. Wenn der Knoten still ist, ist 104,6 still.",
-        subtext: "Sie sagt das so präzise, als hätte sie es schon einmal in einen Bericht geschrieben, der nie gelesen wurde.",
-        hiddenWhen: ["tappedNode5610"],
+        text: "Ich habe Ihnen die Vorgangs-Notiz schon ins Terminal gelegt — kommt automatisch, sobald ein Block auftaucht. Da steht alles drin, was Sie wissen müssen, um es zu räumen.",
+        subtext: "»Kommt automatisch.« Sie betont es so, als wollte sie sagen: nicht von mir.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "idPflicht3",
       },
       idPflicht3: {
         id: "idPflicht3",
         speaker: "INSA",
-        text: "Ich habe einen Antrag auf Inspektion gestellt. Er liegt seit elf Tagen beim Sektorbeauftragten E67. Heute hätte er ihn unterschreiben sollen. Er ist nicht da. Und morgen ist er auch nicht da.",
-        subtext: "Sie hat bis 18:00 gewartet, bevor sie das eingestanden hat.",
-        hiddenWhen: ["tappedNode5610"],
+        text: "Praktisch: gehen Sie in die Kantine 3602, Etage 3. Frau Kowalk am linken Tresen kennt die Akte 4317. Sie weiß, was zu tun ist, damit der Block fällt.",
+        subtext: "Sie sagt »Kowalk« mit einem Hauch Respekt, der ihr selbst auffällt.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "idPflicht4",
       },
       idPflicht4: {
         id: "idPflicht4",
         speaker: "INSA",
-        text: "Sie sind ohnehin in E67 unterwegs. Gehen Sie zur Wartungstür 5610. Am Terminal tippen Sie »tap« — Read-only-Mitschnitt, nichts, was auffällt. Danach rufen Sie mich an. Erst dann kann ich Ihnen den Code geben — als Gegenleistung sozusagen. Falls die Tür nicht aufgeht: Ich gebe von hier den Wartungs-Override frei. Aber das wissen Sie nicht von mir.",
-        subtext: "Sie sagt »Gegenleistung«, als würde sie das Wort selbst zum ersten Mal verwenden.",
-        hiddenWhen: ["tappedNode5610"],
-        // Wenn getappt: hidden → Engine folgt next nach idCode4.
-        // Wenn nicht getappt: sichtbar mit Choice „Auf Wiederhören"
-        //   die den Dialog beendet (kein next auf der Choice).
+        text: "Sobald Frau Kowalk den Bogen für Sie ans Rohr gibt und die Antwort aus E70-K zurückkommt, ist Ihr Status sauber. Rufen Sie mich dann noch einmal an — ich gebe Ihnen den Code direkt. Auf Wiederhören, Herr Worag.",
+        subtext: "Kein Tonfall von Auftrag. Eher: jemand, der einen Bearbeitungsstand vorliest.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "idCode4",
         choices: [
           {
             text: "Verstanden. Auf Wiederhören.",
             action: (api) => {
-              api.setFlag("insaSentTo5610");
+              // Insa hat Layard auf Vorgang 4317 / Kowalk hingewiesen.
+              // Flag bleibt aus Legacy-Gründen `insaGaveTransferTask` —
+              // gated jetzt die Kowalk-Einstiegs-Choice in der Kantine.
+              api.setFlag("insaGaveTransferTask");
               api.setFlag("skippedExitReport");
-              // Insa schaltet den Wartungs-Override scharf — die Tür
-              // 5610 öffnet beim nächsten Versuch ohne Karte/Code.
-              api.setFlag("serverRoom5610OverrideArmed");
             },
           },
         ],
       },
-      // Wenn Layard die Quelle bereits verstanden hat, geht es nahtlos weiter
-      // zum bisherigen Code-Pfad.
+      // Wenn Vorgang 4317 erledigt ist, geht es nahtlos zum Code-Pfad.
       idPflichtSkip: {
         id: "idPflichtSkip",
         speaker: "SYSTEM",
-        text: "[ Insa wirft einen Blick auf etwas, das Layard nicht sieht — und nickt knapp. ]",
-        requires: ["tappedNode5610"],
-        // Engine-Strategie:
-        //  - Getappt → idPflichtSkip ist sichtbar → SYSTEM-Beat,
-        //    danach läuft die Engine via next durch idPflichtCheck
-        //    (hidden bei getappt) und idPflicht1..4 (alle hidden bei
-        //    getappt) bis zu idCode4 (sichtbar) — Code wird ausgegeben.
-        //  - Nicht getappt → idPflichtSkip ist hidden, Engine springt
-        //    weiter zu idPflichtCheck (sichtbar) → idPflicht1..4 zeigen
-        //    die Pflicht-Anweisungen, Choice beendet den Dialog.
+        text: "[ Insa schaut auf den Bildschirm, hebt eine Augenbraue. Nickt einmal. ]",
+        requires: ["receivedTillaTransfer"],
         next: "idPflichtCheck",
       },
       idCode4: {
         id: "idCode4",
         speaker: "INSA",
-        text: "[ … ] Gut. Ich vermerke es als „nicht gemeldet“. Den Code lege ich Ihnen trotzdem ins Terminal — Sie wissen schon: das Datum.",
-        subtext: "Sie zögert kurz. Dann tippt sie. Sie tut es trotzdem.",
-        // Code-Mail darf NUR ausgeliefert werden, wenn Layard tatsächlich
-        // am Knoten 5610 getappt hat. Sonst beendet die Engine den Dialog
-        // hier (resolveVisible findet keinen sichtbaren Folge-Schritt),
-        // und Insa hängt an genau der Stelle auf, an der sie eigentlich
-        // die Probe abwartet.
-        requires: ["tappedNode5610"],
+        text: "Vier-Drei-Eins-Sieben — sauber raus. Sehr ordentlich, Worag. Den Code lege ich Ihnen jetzt ins Terminal. Sie wissen schon: das Datum.",
+        subtext: "Eine Spur Anerkennung. Sie tippt schon, während sie es sagt.",
+        requires: ["receivedTillaTransfer"],
         next: "idCode5",
         choices: [
           {
@@ -336,21 +320,21 @@ export const insaDialogs: Record<string, DialogTree> = {
         speaker: "INSA",
         text: "Sie öffnen Ihr Terminal. Im Posteingang liegt eine Nachricht von der Leitstelle. Lesen Sie das Datum darin — und tippen Sie es ohne Punkte ein. Acht Ziffern. Nicht mehr, nicht weniger.",
         subtext: "Sie spricht langsam. Wie zu jemandem, der lange nichts gelesen hat.",
-        requires: ["tappedNode5610"],
+        requires: ["receivedTillaTransfer"],
         next: "idCode6",
       },
       idCode6: {
         id: "idCode6",
         speaker: "INSA",
         text: "Beispiel — wenn da steht 14.03.1985, dann tippen Sie 14031985. Verstanden, Herr Worag?",
-        requires: ["tappedNode5610"],
+        requires: ["receivedTillaTransfer"],
         next: "idCode7",
       },
       idCode7: {
         id: "idCode7",
         speaker: "SYSTEM",
         text: "[ Im Terminal liegt jetzt eine Nachricht. Datum: 06.11.1997. Code-Format: ohne Punkte. Acht Ziffern. ]",
-        requires: ["tappedNode5610"],
+        requires: ["receivedTillaTransfer"],
         end: true,
       },
     },
