@@ -364,8 +364,8 @@ export const insaDialogs: Record<string, DialogTree> = {
       x2alt: {
         id: "x2alt",
         speaker: "INSA",
-        text: "Worag. Die Probe ist durch. Sie haben sauber gearbeitet — keine Spuren im Wartungsprotokoll. Danke.",
-        subtext: "Sie sagt »danke«, als würde sie das Wort selbst sortieren müssen.",
+        text: "Worag. Vier-Drei-Eins-Sieben ist sauber raus. Sie haben sich da nicht beirren lassen. Das fällt auf.",
+        subtext: "Sie sagt »fällt auf«, als wäre es das Höchste, was sie zu vergeben hat.",
         hiddenWhen: ["troubleReported"],
         next: "x3",
       },
@@ -375,30 +375,29 @@ export const insaDialogs: Record<string, DialogTree> = {
         text: "Ich brauche jetzt einen Code für die Sektor-Tür.",
         next: "x4pflicht1",
       },
-      // Pflicht-Variante: solange Layard nicht 'tap' am Knoten 5610 ausgeführt
-      // hat, schickt Insa ihn dorthin. Sobald getappt, läuft x4 wie gehabt.
+      // Sicherheits-Fallback: sollte Layard hier landen, ohne dass der
+      // Vorgang sauber ist, weist Insa noch einmal auf 4317 hin. Im
+      // Standardfluss ist `receivedTillaTransfer` zu diesem Zeitpunkt
+      // gesetzt (Phone-Hotspot routet sonst nicht auf insa2).
       x4pflicht1: {
         id: "x4pflicht1",
         speaker: "INSA",
-        text: "Worag — bevor ich Ihnen den Code gebe: Ich brauche die Probe aus 5610. Sie wissen, warum — der Abschnittsverantwortliche, der mein Inspektionsformular unterschreiben müsste, ist heute nicht im Dienst. Korridor 56, Wartungstür. »tap« am Terminal, danach rufen Sie mich noch einmal an.",
-        subtext: "Sie spricht leiser als sonst. Das ist kein Standardprotokoll.",
-        hiddenWhen: ["tappedNode5610"],
+        text: "Worag — Ihr Vorgang Vier-Drei-Eins-Sieben hängt noch. Solange der Block auf Ihrem Datensatz steht, kann ich den Code nicht herausgeben.",
+        subtext: "Sachlich. Es ist keine Drohung, es ist eine Reihenfolge.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "x4pflicht2",
       },
       x4pflicht2: {
         id: "x4pflicht2",
         speaker: "INSA",
-        text: "Die Tür kennt Sie schon — und falls nicht, gebe ich von hier aus den Wartungs-Override frei. Geben Sie mir zwanzig Sekunden, dann sind die Riegel offen. Aber das wissen Sie nicht von mir.",
-        hiddenWhen: ["tappedNode5610"],
+        text: "Frau Kowalk in 3602 weiß, was zu tun ist. Sobald die Antwort aus E70-K bei Ihnen aus dem Rohr fällt, rufen Sie mich noch einmal an.",
+        hiddenWhen: ["receivedTillaTransfer"],
         next: "x4",
         choices: [
           {
             text: "Verstanden. Auf Wiederhören.",
             action: (api) => {
-              api.setFlag("insaSentTo5610");
-              // Insa schaltet den Wartungs-Override scharf — die Tür
-              // 5610 öffnet beim nächsten Versuch ohne Karte/Code.
-              api.setFlag("serverRoom5610OverrideArmed");
+              api.setFlag("insaGaveTransferTask");
             },
           },
         ],
@@ -406,9 +405,9 @@ export const insaDialogs: Record<string, DialogTree> = {
       x4: {
         id: "x4",
         speaker: "INSA",
-        text: "Ich habe den Code extra für Sie geändert. Direkt herausgeben darf ich ihn trotzdem nicht — er steht in der Mail, die ich Ihnen gerade ins Terminal lege. Sie wissen schon: das Datum.",
-        subtext: "Extra für ihn. Sie sagt es so beiläufig, als wäre es Teil des Standardprotokolls. Ist es nicht.",
-        requires: ["tappedNode5610"],
+        text: "Sie haben das wirklich durchgezogen, Worag. Den Code lege ich Ihnen jetzt ins Terminal. Sie wissen schon: das Datum.",
+        subtext: "Eine Spur Bewunderung, sauber unterdrückt.",
+        requires: ["receivedTillaTransfer"],
         next: "x5",
         choices: [
           {
