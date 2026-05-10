@@ -101,30 +101,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.setFlag("calledInsa2");
             api.startDialog("insa2a");
           } else if (
-            api.hasFlag("tappedNode5610") &&
+            api.hasFlag("receivedTillaTransfer") &&
             !api.hasFlag("calledForCode")
           ) {
-            // Layard war im Serverraum 5610 und hat »tap« ausgeführt.
-            // Jetzt ruft er Insa zurück → sie hält ihr Versprechen und
-            // legt ihm die Code-Mail (Datum 06.11.1997) ins Postfach.
-            // Pflicht: Layard muss die Tilla-Frage geklärt haben (Transferbogen
-            // aus der Rohrpost). Sonst bricht Insa ab.
-            if (!api.hasFlag("receivedTillaTransfer")) {
-              if (api.hasFlag("sentForgedQuittung")) {
-                // Fallback: Quittung ist raus, aber die Antwort wurde
-                // nie aktiv aus dem Rohr geholt. Bogen direkt nachreichen.
-                api.setFlag("receivedTillaTransfer");
-                api.addItem({
-                  id: "tillaTransfer",
-                  name: "Transferbogen E70-K → 70-2244",
-                  description:
-                    "Eingehende Rohrpost-Hülse, beantwortet eine Quittung 4317-K. Inhalt: ein Transferbogen — Patientin Tilla Kowalk, von E70-K verlegt an Heim Lothenau, neue Bewohnernummer 70-2244. Stempel »ÜBERFÜHRUNG STILL«. Datum 06.11.1997.",
-                });
-              } else {
-                api.startDialog("insaWaitingForTransfer");
-                return;
-              }
-            }
+            // Layards Vorgang 4317 ist sauber abgeschlossen — Transferbogen
+            // ist im Inventar. Insa hält Wort und legt den Code ins Postfach.
             api.setFlag("calledForCode");
             api.startDialog("insa2");
           } else if (
@@ -134,29 +115,29 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("reportedExit") &&
             !api.hasFlag("calledForCode")
           ) {
-            // Standardweg: Layard hat brav gemeldet → direkt zum Code.
-            if (!api.hasFlag("receivedTillaTransfer")) {
-              if (api.hasFlag("sentForgedQuittung")) {
-                api.setFlag("receivedTillaTransfer");
-                api.addItem({
-                  id: "tillaTransfer",
-                  name: "Transferbogen E70-K → 70-2244",
-                  description:
-                    "Eingehende Rohrpost-Hülse, beantwortet eine Quittung 4317-K. Inhalt: ein Transferbogen — Patientin Tilla Kowalk, von E70-K verlegt an Heim Lothenau, neue Bewohnernummer 70-2244. Stempel »ÜBERFÜHRUNG STILL«. Datum 06.11.1997.",
-                });
-              } else {
-                api.startDialog("insaWaitingForTransfer");
-                return;
-              }
+            // Standardweg: Stegmann ist abgearbeitet, aber der Vorgangs-
+            // Block hängt noch. Insa erinnert an die offene 4317.
+            if (api.hasFlag("sentForgedQuittung") && !api.hasFlag("receivedTillaTransfer")) {
+              // Fallback: Quittung ist raus, aber die Antwort wurde nie
+              // aktiv aus dem Rohr geholt. Bogen direkt nachreichen.
+              api.setFlag("receivedTillaTransfer");
+              api.addItem({
+                id: "tillaTransfer",
+                name: "Transferbogen E70-K → 70-2244",
+                description:
+                  "Eingehende Rohrpost-Hülse, beantwortet eine Quittung 4317-K. Inhalt: ein Transferbogen — Patientin Tilla Kowalk, von E70-K verlegt an Heim Lothenau, neue Bewohnernummer 70-2244. Stempel »ÜBERFÜHRUNG STILL«. Datum 06.11.1997.",
+              });
+              api.setFlag("calledForCode");
+              api.startDialog("insa2");
+            } else {
+              api.startDialog("insaWaitingForTransfer");
             }
-            api.setFlag("calledForCode");
-            api.startDialog("insa2");
           } else if (
-            api.hasFlag("insaSentTo5610") &&
-            !api.hasFlag("tappedNode5610")
+            api.hasFlag("insaGaveTransferTask") &&
+            !api.hasFlag("receivedTillaTransfer")
           ) {
-            // Insa hat den Auftrag schon erteilt, aber Layard war noch
-            // nicht am Knoten. Kurzer Reminder statt voller Vermittlung.
+            // Insa hat den Vorgangs-Hinweis schon gegeben, aber Layard
+            // war noch nicht (erfolgreich) bei Kowalk. Kurzer Reminder.
             api.startDialog("insaReminder5610");
           } else {
             // Alle anderen Fälle laufen über die Vermittlung Insa,
