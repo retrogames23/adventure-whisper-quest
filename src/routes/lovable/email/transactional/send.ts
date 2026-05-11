@@ -59,16 +59,23 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           return Response.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
+        // Reject anonymous users — they should never trigger transactional emails.
+        if ((user as { is_anonymous?: boolean }).is_anonymous) {
+          return Response.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
+        if (!user.email) {
+          return Response.json({ error: 'Account has no email' }, { status: 403 })
+        }
+
         // Parse request body
         let templateName: string
-        let recipientEmail: string
         let idempotencyKey: string
         let messageId: string
         let templateData: Record<string, any> = {}
         try {
           const body = await request.json()
           templateName = body.templateName || body.template_name
-          recipientEmail = body.recipientEmail || body.recipient_email
           messageId = crypto.randomUUID()
           idempotencyKey = body.idempotencyKey || body.idempotency_key || messageId
           if (body.templateData && typeof body.templateData === 'object') {
@@ -80,6 +87,11 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
             { status: 400 }
           )
         }
+
+        // SECURITY: recipient is forced to the authenticated user's own email.
+        // Caller-provided recipientEmail is intentionally ignored to prevent
+        // using this endpoint to spam arbitrary addresses.
+        const recipientEmail: string = user.email
 
         if (!templateName) {
           return Response.json(
@@ -101,9 +113,10 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           )
         }
 
-        // Resolve effective recipient: template-level `to` takes precedence over
-        // the caller-provided recipientEmail. This allows notification templates
-        // to always send to a fixed address (e.g., site owner from env var).
+        // Resolve effective recipient: template-level `to` takes precedence
+        // (e.g., owner-notification templates with a fixed address). Otherwise
+        // we send to the authenticated caller's own email — never an
+        // arbitrary, caller-supplied address.
         const effectiveRecipient = template.to || recipientEmail
 
         if (!effectiveRecipient) {
