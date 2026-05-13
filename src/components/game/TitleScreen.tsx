@@ -105,6 +105,8 @@ export function TitleScreen({ onStart }: Props) {
         className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         width={1920}
         height={1280}
+        fetchPriority="high"
+        decoding="async"
       />
       {/* Animated rain on top of the painted artwork. */}
       <RainOverlay />
