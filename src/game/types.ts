@@ -561,6 +561,8 @@ export interface GameApi {
   openRadio: () => void;
   openKeypad: (target?: KeypadTarget) => void;
   openTelevision: () => void;
+  /** Amiga-Workbench-Overlay (Gemeinschaftsraum E71) öffnen. */
+  openAmigaWorkbench: () => void;
   /** Quadranten-Almanach (Lese-Overlay) öffnen. */
   openAlmanach: () => void;
   /** Wartungsterminal hinter Tür 5610 (eigenes UI, kein CentralOS). */
