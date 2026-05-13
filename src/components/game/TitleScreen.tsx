@@ -136,9 +136,14 @@ export function TitleScreen({ onStart }: Props) {
         </p>
 
         <h1 className="mt-4 font-display uppercase tracking-[0.18em] text-foreground text-shadow-hard text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
-          WHISPER
-          <span className="mx-3 amber-glow text-amber-glow">·</span>
-          QUEST
+          <span aria-hidden="true">
+            WHISPER
+            <span className="mx-3 amber-glow text-amber-glow">·</span>
+            QUEST
+          </span>
+          <span className="sr-only">
+            WHISPER·QUEST – Ein Cozypunk-Point-&-Click-Adventure
+          </span>
         </h1>
 
         <div className="mt-3 font-mono-crt text-xl text-amber-glow amber-glow sm:text-2xl">
@@ -149,11 +154,10 @@ export function TitleScreen({ onStart }: Props) {
           Ein klassisches Cozypunk-Point-&amp;-Click-Adventure
         </p>
 
-        <div className="relative mt-8" aria-hidden="true" style={{ height: 0 }}>
+        <div className="relative mt-8" style={{ height: 0 }}>
           <button
             type="button"
             onClick={handleStartRequest}
-            aria-hidden="false"
             className="absolute left-1/2 -translate-x-1/2 translate-y-[180px] rounded-sm border border-amber-glow/70 bg-background/50 px-8 py-3 font-display text-base uppercase tracking-[0.4em] text-amber-glow backdrop-blur-sm transition hover:bg-amber-glow/15 amber-glow whitespace-nowrap"
           >
             ▸ Spiel beginnen
