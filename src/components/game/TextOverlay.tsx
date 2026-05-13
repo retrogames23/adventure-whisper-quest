@@ -139,7 +139,7 @@ export function TextOverlay() {
         </p>
         <div className="mt-3 flex items-center justify-between text-xs uppercase tracking-widest text-muted-foreground">
           <span>
-            {idx + 1} / {displayed.length}
+            {safeIdx + 1} / {displayed.length}
           </span>
           <span className="amber-glow">{isLast ? "▣ Schließen" : "▸ Weiter"}</span>
         </div>
