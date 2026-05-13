@@ -22,7 +22,8 @@ export type SceneId =
   | "leitstelleE67"
   | "pub"
   | "pubToilet"
-  | "pubVestibule";
+  | "pubVestibule"
+  | "commonRoomE71";
 
 export type InventoryItemId =
   | "protocol"
@@ -342,7 +343,20 @@ export type StoryFlag =
   /** Layard hat Insa in der Leitstelle E67 (Tür 4602) persönlich getroffen. */
   | "insaAct2BriefingDone"
   /** Layard hat von der Akte 1978 erfahren und sie eingesteckt. */
-  | "marteauTrailOpened";
+  | "marteauTrailOpened"
+  // ── E71 Gemeinschaftsraum (Tür 1530) — Home-Computer-Nerds & Amiga ──
+  /** Layard hat den Gemeinschaftsraum hinter Tür 1530 zum ersten Mal betreten. */
+  | "enteredCommonRoomE71"
+  /** Hat mit dem ersten Nerd (Detlef) gesprochen. */
+  | "metE71Nerd1"
+  /** Hat mit dem zweiten Nerd (Sigi) gesprochen. */
+  | "metE71Nerd2"
+  /** Hat mit dem dritten Nerd (Ruven) gesprochen. */
+  | "metE71Nerd3"
+  /** Layard hat das Quiz angefangen (mind. einmal). */
+  | "e71QuizStarted"
+  /** Layard hat das Quiz bestanden — der Amiga ist freigegeben. */
+  | "e71QuizPassed";
 
 export interface InventoryItem {
   id: InventoryItemId;
