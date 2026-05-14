@@ -755,8 +755,34 @@ function WindowFrame({
   onFocus: () => void;
   children: ReactNode;
 }) {
+  // Initialposition (ziehbar via Titelbar)
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const dragRef = useRef<{ startX: number; startY: number; baseX: number; baseY: number } | null>(null);
+
+  useEffect(() => {
+    function onMove(e: MouseEvent) {
+      const d = dragRef.current;
+      if (!d) return;
+      setPos({ x: d.baseX + (e.clientX - d.startX), y: d.baseY + (e.clientY - d.startY) });
+    }
+    function onUp() { dragRef.current = null; }
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
+  const startDrag = (e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    onFocus();
+    const cur = pos ?? { x: 0, y: 0 };
+    dragRef.current = { startX: e.clientX, startY: e.clientY, baseX: cur.x, baseY: cur.y };
+  };
+
   // FastWeb fills most of the screen; drawers are smaller
-  const style: React.CSSProperties = isFastWeb
+  const baseStyle: React.CSSProperties = isFastWeb
     ? { position: "absolute", top: 26, left: "3%", right: "3%", bottom: 12, zIndex: z }
     : {
         position: "absolute",
@@ -766,6 +792,9 @@ function WindowFrame({
         height: "min(320px, 60%)",
         zIndex: z,
       };
+  const style: React.CSSProperties = pos
+    ? { ...baseStyle, transform: `translate(${pos.x}px, ${pos.y}px)` }
+    : baseStyle;
 
   return (
     <div
@@ -775,19 +804,23 @@ function WindowFrame({
     >
       {/* WB-Titelbar: solides Blau, weißer Text, links Close, rechts Zoom + Depth */}
       <div
+        onMouseDown={startDrag}
         style={{
           display: "flex",
           alignItems: "stretch",
           height: 18,
           borderBottom: `1px solid ${WB_BLACK}`,
-          background: WB_BLUE,
+          background: TITLEBAR_STRIPES_ACTIVE,
           color: WB_WHITE,
+          cursor: "move",
+          userSelect: "none",
         }}
       >
         {/* Close-Gadget */}
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); onClose(); }}
+          onMouseDown={(e) => e.stopPropagation()}
           aria-label="Schließen"
           style={{
             width: 20, height: 18, background: WB_GREY, ...BEVEL_OUT,
@@ -801,21 +834,27 @@ function WindowFrame({
         <div
           style={{
             flex: 1, display: "flex", alignItems: "center",
-            paddingLeft: 8, paddingRight: 8, fontSize: 12,
+            paddingLeft: 4, paddingRight: 4, fontSize: 12,
             color: WB_WHITE, overflow: "hidden",
           }}
         >
-          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{title}</span>
+          {/* Title-Block: solider blauer Kasten über den Streifen (WB-typisch) */}
+          <span style={{
+            background: WB_BLUE, color: WB_WHITE,
+            padding: "0 8px", height: 14, lineHeight: "14px",
+            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+            display: "inline-block", maxWidth: "100%",
+          }}>{title}</span>
         </div>
         {/* Zoom-Gadget (kleines + großes Rechteck) */}
-        <div style={{ width: 20, height: 18, background: WB_GREY, ...BEVEL_OUT, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div onMouseDown={(e) => e.stopPropagation()} style={{ width: 20, height: 18, background: WB_GREY, ...BEVEL_OUT, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg width="14" height="10" viewBox="0 0 14 10" shapeRendering="crispEdges">
             <rect x="0" y="0" width="14" height="10" fill="none" stroke={WB_BLACK} strokeWidth="1" />
             <rect x="0" y="0" width="6" height="5" fill={WB_WHITE} stroke={WB_BLACK} strokeWidth="1" />
           </svg>
         </div>
         {/* Depth-Gadget (zwei überlappende Rechtecke) */}
-        <div style={{ width: 20, height: 18, background: WB_GREY, ...BEVEL_OUT, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div onMouseDown={(e) => e.stopPropagation()} style={{ width: 20, height: 18, background: WB_GREY, ...BEVEL_OUT, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg width="14" height="10" viewBox="0 0 14 10" shapeRendering="crispEdges">
             <rect x="3" y="0" width="11" height="7" fill={WB_GREY_LIGHT} stroke={WB_BLACK} strokeWidth="1" />
             <rect x="0" y="3" width="11" height="7" fill={WB_WHITE} stroke={WB_BLACK} strokeWidth="1" />
