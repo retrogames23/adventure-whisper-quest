@@ -259,7 +259,7 @@ function DesktopIcon({
   onOpen,
 }: {
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   onOpen: () => void;
 }) {
   return (
