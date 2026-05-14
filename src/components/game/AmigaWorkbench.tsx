@@ -610,11 +610,11 @@ export function AmigaWorkbench() {
 function DrawerView({ node, onOpen }: { node: FileNode & { kind: "drawer" }; onOpen: (n: FileNode) => void }) {
   const totalBytes = node.children.reduce((s, c) => s + (c.kind === "drawer" ? 0 : c.size), 0);
   return (
-    <div style={{ background: "#aaaaaa", height: "100%", display: "flex", flexDirection: "column", color: "#000" }}>
-      <div style={{ padding: "2px 8px", fontSize: 11, borderBottom: "1px solid #000", background: "#cccccc" }}>
-        {node.children.length} Einträge · {Math.round(totalBytes / 1024)} K verwendet · 880K frei
+    <div style={{ background: WB_GREY, height: "100%", display: "flex", flexDirection: "column", color: WB_BLACK, fontFamily: WB_FONT }}>
+      <div style={{ padding: "2px 8px", fontSize: 11, borderBottom: `1px solid ${WB_BLACK}`, background: WB_GREY_LIGHT }}>
+        {node.children.length} items · {Math.round(totalBytes / 1024)}K used · 880K free
       </div>
-      <div style={{ flex: 1, overflow: "auto", padding: 12, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))", gap: 12, alignContent: "start" }}>
+      <div style={{ flex: 1, overflow: "auto", padding: 14, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(86px, 1fr))", gap: 16, alignContent: "start" }}>
         {node.children.map((child) => (
           <FileIcon key={child.name} node={child} onOpen={() => onOpen(child)} />
         ))}
@@ -626,7 +626,7 @@ function DrawerView({ node, onOpen }: { node: FileNode & { kind: "drawer" }; onO
 function FileIcon({ node, onOpen }: { node: FileNode; onOpen: () => void }) {
   const icon =
     node.kind === "drawer" ? <DrawerIcon /> :
-    node.kind === "tool" ? <GlobeIcon /> :
+    node.kind === "tool" ? <ToolIcon /> :
     <DocIcon />;
   return (
     <button
@@ -640,13 +640,14 @@ function FileIcon({ node, onOpen }: { node: FileNode; onOpen: () => void }) {
         cursor: "pointer",
         textAlign: "center",
         touchAction: "manipulation",
-        WebkitTapHighlightColor: "rgba(0,0,255,0.2)",
+        WebkitTapHighlightColor: "rgba(0,0,0,0.2)",
+        fontFamily: WB_FONT,
       }}
     >
-      <div style={{ width: 48, height: 36, margin: "0 auto 2px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ width: 52, height: 40, margin: "0 auto 2px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {icon}
       </div>
-      <div style={{ background: "#000099", color: "#fff", fontSize: 10, padding: "0 4px", display: "inline-block", maxWidth: 80, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+      <div style={{ color: WB_BLACK, fontSize: 11, padding: "0 2px", display: "inline-block", maxWidth: 86, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
         {node.name}
       </div>
     </button>
