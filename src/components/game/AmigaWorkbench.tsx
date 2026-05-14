@@ -437,6 +437,58 @@ type WindowState =
 let WIN_ID = 0;
 const nextId = () => `w${++WIN_ID}`;
 
+// ============================================================
+// WORKBENCH 2.x DESIGN TOKENS
+// ============================================================
+
+// Klassische Workbench-2.x-Palette (4 Farben, „grayscheme")
+const WB_GREY = "#a0a0a0";        // Desktop / Fenster-Background
+const WB_GREY_LIGHT = "#cccccc";  // Bevel hell
+const WB_BLUE = "#5566aa";        // Akzent-Blau (Titelbar-Streifen)
+const WB_WHITE = "#ffffff";
+const WB_BLACK = "#000000";
+const WB_FONT = '"Courier New", "Topaz-8", monospace';
+
+// 3D-Bevel: oben/links hell, unten/rechts dunkel (raised)
+const BEVEL_OUT: React.CSSProperties = {
+  borderTop: `2px solid ${WB_WHITE}`,
+  borderLeft: `2px solid ${WB_WHITE}`,
+  borderRight: `2px solid ${WB_BLACK}`,
+  borderBottom: `2px solid ${WB_BLACK}`,
+};
+const BEVEL_IN: React.CSSProperties = {
+  borderTop: `2px solid ${WB_BLACK}`,
+  borderLeft: `2px solid ${WB_BLACK}`,
+  borderRight: `2px solid ${WB_WHITE}`,
+  borderBottom: `2px solid ${WB_WHITE}`,
+};
+
+// Titelbar-Streifen (typisch WB 2.x): horizontale dünne Linien
+const TITLEBAR_STRIPES =
+  `repeating-linear-gradient(to bottom, ${WB_BLUE} 0 1px, ${WB_GREY_LIGHT} 1px 2px)`;
+
+function ScreenTitleBar() {
+  return (
+    <div
+      style={{
+        background: WB_GREY_LIGHT,
+        borderBottom: `1px solid ${WB_BLACK}`,
+        padding: "1px 6px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: WB_BLACK,
+        fontSize: 12,
+        fontFamily: WB_FONT,
+        height: 18,
+      }}
+    >
+      <span>Amiga Workbench  982400 graphics mem  4003792 other mem</span>
+      <span style={{ width: 14, height: 12, background: WB_GREY, ...BEVEL_OUT, display: "inline-block" }} />
+    </div>
+  );
+}
+
 export function AmigaWorkbench() {
   const { amigaWorkbenchOpen, closeAmigaWorkbench } = useGame();
   const [windows, setWindows] = useState<WindowState[]>([]);
