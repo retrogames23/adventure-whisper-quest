@@ -306,39 +306,22 @@ export const e71NerdsDialogs: Record<string, DialogTree> = {
         id: "q_eval",
         speaker: "DETLEF",
         text: "Mal sehen.",
-        next: "q_eval_branch",
-      },
-      // Auswertung: wir verzweigen über requires/hiddenWhen-Lines, indem
-      // wir die Anzahl in einem Pseudo-Tree zählen. Statt einer richtigen
-      // Schwellenwert-Logik im Dialog-Schema bauen wir das im onStart der
-      // beiden möglichen Folgelines per action-Inspektion: einfacher ist
-      // ein onEnd-Hook, der zählt und passend weiterspringt. Da das
-      // Schema das nicht unterstützt, machen wir es über `action`:
-      q_eval_branch: {
-        id: "q_eval_branch",
-        speaker: "DETLEF",
-        text: "…",
-        action: (api) => {
-          const score =
-            (api.hasFlag("e71QuizQ1Right") ? 1 : 0) +
-            (api.hasFlag("e71QuizQ2Right") ? 1 : 0) +
-            (api.hasFlag("e71QuizQ3Right") ? 1 : 0) +
-            (api.hasFlag("e71QuizQ4Right") ? 1 : 0) +
-            (api.hasFlag("e71QuizQ5Right") ? 1 : 0);
-          if (score >= 3) {
-            api.setFlag("e71QuizPassed");
-          }
-        },
         choices: [
           {
-            text: "(weiter)",
+            text: "(Antwort hören)",
+            // Auswertung läuft über die Wahl-Aktion: zählt richtige Flags
+            // und setzt e71QuizPassed bei ≥3. Die Folgenline verzweigt
+            // dann über requires/hiddenWhen.
+            action: (api) => {
+              const score =
+                (api.hasFlag("e71QuizQ1Right") ? 1 : 0) +
+                (api.hasFlag("e71QuizQ2Right") ? 1 : 0) +
+                (api.hasFlag("e71QuizQ3Right") ? 1 : 0) +
+                (api.hasFlag("e71QuizQ4Right") ? 1 : 0) +
+                (api.hasFlag("e71QuizQ5Right") ? 1 : 0);
+              if (score >= 3) api.setFlag("e71QuizPassed");
+            },
             next: "q_pass",
-            requires: ["e71QuizPassed"],
-          },
-          {
-            text: "(weiter)",
-            next: "q_fail",
-            hiddenWhen: ["e71QuizPassed"],
           },
         ],
       },
@@ -346,6 +329,8 @@ export const e71NerdsDialogs: Record<string, DialogTree> = {
         id: "q_pass",
         speaker: "DETLEF",
         text: "Reicht. Setz dich. Linke Maustaste klickt, rechte Maustaste öffnet Menüs am oberen Bildschirmrand. Und Finger weg vom Diskettenfach.",
+        requires: ["e71QuizPassed"],
+        next: "q_fail",
         end: true,
       },
       q_fail: {
