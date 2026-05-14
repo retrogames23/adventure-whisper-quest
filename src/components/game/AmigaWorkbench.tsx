@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useGame } from "@/game/GameContext";
 import { CloseButton } from "./CloseButton";
 
