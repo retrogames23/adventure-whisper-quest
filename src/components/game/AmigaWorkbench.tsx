@@ -638,10 +638,7 @@ function DrawerView({ node, onOpen }: { node: FileNode & { kind: "drawer" }; onO
 }
 
 function FileIcon({ node, onOpen }: { node: FileNode; onOpen: () => void }) {
-  const icon =
-    node.kind === "drawer" ? <DrawerIcon /> :
-    node.kind === "tool" ? <ToolIcon /> :
-    <DocIcon />;
+  const icon = pickIcon(node);
   return (
     <button
       type="button"
