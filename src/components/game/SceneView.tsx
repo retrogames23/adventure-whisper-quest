@@ -343,6 +343,11 @@ export function SceneView() {
           enabled={scene === "cafeteriaE67"}
           variant="cafeteria"
         />
+        {/* Hintergrund-Sprechblasen der drei Nerds im E71-Gemeinschaftsraum */}
+        <FloatingChatter
+          enabled={scene === "commonRoomE71"}
+          variant="e71Nerds"
+        />
 
         {/* Amber vignette when radio is active */}
         {radioActive && <div className="amber-vignette" />}
