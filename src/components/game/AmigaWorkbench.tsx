@@ -17,7 +17,7 @@ import { CloseButton } from "./CloseButton";
 type FileNode =
   | { kind: "file"; name: string; size: number; content: ReactNode }
   | { kind: "drawer"; name: string; children: FileNode[] }
-  | { kind: "tool"; name: string; size: number; onOpen: "fastweb" };
+  | { kind: "tool"; name: string; size: number; onOpen: "fastweb" | "shell" };
 
 const README_TXT = (
   <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{`Workbench 2.0 — Schmerz-Edition (Build 39.106)
