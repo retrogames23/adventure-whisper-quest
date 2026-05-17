@@ -220,7 +220,7 @@ function findHost(query: string): NetHost | null {
  * weder das Lotti-Programm noch die Hausmeister-Wartungsbefehle, noch
  * Hinweise wie „nur 2611". Auf Bodos Konsole bleibt alles sichtbar.
  */
-function buildHelpLines(bodoMode: boolean): Line[] {
+function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
   const lines: Line[] = [
     { text: "VERFÜGBARE BEFEHLE:", kind: "system" },
     { text: "  help          — Diese Liste anzeigen", kind: "out" },
@@ -249,6 +249,11 @@ function buildHelpLines(bodoMode: boolean): Line[] {
       { text: "WARTUNG (nur Hausmeister):", kind: "system" },
       { text: "  maint list                — offene Wartungsanfragen anzeigen", kind: "out" },
       { text: "  maint cancel <id>         — Anfrage stornieren", kind: "out" },
+      { text: "", kind: "out" },
+    );
+  } else if (miraMode) {
+    lines.push(
+      { text: "  news          — Quadranten-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
     );
   } else {
