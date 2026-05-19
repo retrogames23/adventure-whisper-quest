@@ -754,13 +754,13 @@ const SYSTEM_DIR_WORAG: FsDir = {
       size: 290,
       date: "—",
       content: [
-        "# carrier.cfg — Trägerkonfiguration Quadrant E67",
+        "# carrier.cfg — Schmerz-Radio (Marteau-Bauart)",
         "frequency      = 104.600 MHz",
-        "modulation     = AM-RES (proprietär)",
+        "modulation     = AM-RES (Marteau-proprietär)",
         "duty_cycle     = 100%",
-        "user_shutdown  = DENY",
-        "leitstelle     = 001",
-        "feedback_loop  = ENABLED   # siehe HANDBUCH §14",
+        "user_shutdown  = DENY   # nachgerüstet, nicht ab Werk",
+        "leitstelle     = 001    # nachgerüstet, nicht ab Werk",
+        "feedback_loop  = ENABLED   # siehe BASTLER-HANDBUCH §14",
       ],
     },
     {
