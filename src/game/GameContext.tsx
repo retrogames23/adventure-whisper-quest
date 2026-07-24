@@ -709,7 +709,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
             !candidate.hiddenWhen ||
             !candidate.hiddenWhen.some((f) => flagsRef.current.has(f));
           if (reqOk && hideOk) return cursor;
-          if (candidate.end || !candidate.next) return null;
+          // Skip past this line even if it is marked `end: true` — `end`
+          // only means "close on advance when displayed", it must not stop
+          // the resolver from searching for the first visible line.
+          if (!candidate.next) return null;
           cursor = candidate.next;
         }
         return null;
