@@ -97,6 +97,30 @@ function resolveEndgame(api: GameApi): void {
  * `opp` bestimmt, welche Konter-Texte der Gegner verwendet.
  * `stutterLineId` / `counterLineId` sind die Folge-Lines.
  */
+/** Ziehe `n` zufällige Elemente aus einem Array — nicht-mutierend. */
+function sample<T>(arr: readonly T[], n: number): T[] {
+  const pool = [...arr];
+  const out: T[] = [];
+  const take = Math.min(n, pool.length);
+  for (let i = 0; i < take; i++) {
+    const idx = Math.floor(Math.random() * pool.length);
+    out.push(pool.splice(idx, 1)[0]!);
+  }
+  return out;
+}
+
+const FICTIONAL_POOL = [
+  "fa-hausflur",
+  "fa-anlage3",
+  "fa-sechs-wochen",
+  "fa-protokoll",
+  "fa-vorlauf",
+  "fa-akte",
+  "fa-rundschreiben",
+  "fa-tarif",
+  "fa-fussnote",
+] as const;
+
 function attackChoices(opp: "brust" | "vossbeck"): {
   choices: DialogChoice[];
   lines: Record<string, DialogLine>;
@@ -105,7 +129,8 @@ function attackChoices(opp: "brust" | "vossbeck"): {
   const choices: DialogChoice[] = [];
 
   // Linkische Eigen-Angriffe (Layard kennt sie immer; Gegner kontert sicher).
-  for (const id of ["fa-hausflur", "fa-anlage3", "fa-sechs-wochen", "fa-protokoll"]) {
+  // Vier von neun je Duell — sorgt für spürbare Varianz zwischen Versuchen.
+  for (const id of sample(FICTIONAL_POOL, 4)) {
     const atk = FICTIONAL_ATTACKS[id];
     if (!atk) continue;
     const respId = `${opp}Resp_${id}`;
