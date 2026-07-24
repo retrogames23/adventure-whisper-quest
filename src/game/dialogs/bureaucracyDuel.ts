@@ -328,7 +328,10 @@ function buildTrainingFall(
   return {
     id: treeId,
     start: "intro",
-    onStart: (api) => api.resetDuelHits(),
+    onStart: (api) => {
+      api.resetDuelHits();
+      api.clearFlag("duelJustWon");
+    },
     lines,
   };
 }
@@ -428,23 +431,17 @@ const duelTrainingResultBranching: DialogTree = {
       subtext:
         "»Beurkunden« mit dem leisen Zittern eines Mannes, der das Wort lange im Spiegel geübt hat.",
       requires: ["vossbeckSummoned"],
-      next: "checkWon2",
+      next: "checkWon",
+      end: true,
     },
-    checkWon2: {
-      id: "checkWon2",
+    checkWon: {
+      id: "checkWon",
       speaker: "BRUST",
       text: "Notiert. Weiter.",
-      requires: ["duelTrainingWon2"],
+      requires: ["duelJustWon"],
       hiddenWhen: ["vossbeckSummoned"],
-      next: "checkWon1",
-    },
-    checkWon1: {
-      id: "checkWon1",
-      speaker: "BRUST",
-      text: "Erste saubere Runde. Weiter.",
-      requires: ["duelTrainingWon1"],
-      hiddenWhen: ["vossbeckSummoned", "duelTrainingWon2"],
       next: "lost",
+      end: true,
     },
     lost: {
       id: "lost",
