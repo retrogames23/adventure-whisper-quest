@@ -42,6 +42,7 @@ function resolveTraining(api: GameApi, fallNum: 1 | 2 | 3): void {
   const hits = api.getDuelHits();
   api.resetDuelHits();
   if (hits >= 2) {
+    api.setFlag("duelJustWon");
     if (fallNum === 1) api.setFlag("duelTrainingWon1");
     if (fallNum === 2) api.setFlag("duelTrainingWon2");
     if (fallNum === 3) api.setFlag("duelTrainingWon3");
@@ -63,6 +64,7 @@ function resolveTraining(api: GameApi, fallNum: 1 | 2 | 3): void {
       }
     }
   } else {
+    api.clearFlag("duelJustWon");
     api.resetBrustWinStreak();
   }
 }
