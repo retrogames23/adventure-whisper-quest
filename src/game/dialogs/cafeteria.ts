@@ -1,4 +1,5 @@
 import type { DialogTree } from "../types";
+import { pickTrainingFallId } from "./bureaucracyDuel";
 
 export const cafeteriaDialogs: Record<string, DialogTree> = {
   cafeteriaKowalk: {
