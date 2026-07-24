@@ -253,6 +253,10 @@ export type StoryFlag =
   | "duelTrainingWon1"
   | "duelTrainingWon2"
   | "duelTrainingWon3"
+  // Transientes Ergebnis-Flag des zuletzt abgeschlossenen Trainingsfalls.
+  // Wird beim Start eines Falls gelöscht und bei einem Sieg gesetzt —
+  // ausschließlich für die Verzweigung im Ergebnis-Dialog.
+  | "duelJustWon"
   | "vossbeckSummoned"
   // Brust hat das Formblatt 17/V (echt) ausgehändigt — Layard hält es im
   // Inventar. Verhindert Doppel-Ausgabe bei Re-Win.
