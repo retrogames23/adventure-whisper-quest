@@ -748,17 +748,10 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
               api.setFlag("duelStarted");
             },
             nextDialog: (api) => {
-              if (api.hasFlag("duelTrainingNextC")) {
-                api.clearFlag("duelTrainingNextC");
-                return "cafeteriaTrainingC";
-              }
-              if (api.hasFlag("duelTrainingNextB")) {
-                api.clearFlag("duelTrainingNextB");
-                api.setFlag("duelTrainingNextC");
-                return "cafeteriaTrainingB";
-              }
-              api.setFlag("duelTrainingNextB");
-              return "cafeteriaTrainingA";
+              // Zufällige Auswahl aus dem erweiterten Pool an Fällen —
+              // aufeinanderfolgende Versuche wiederholen sich nicht.
+              void api;
+              return pickTrainingFallId();
             },
           },
           {
