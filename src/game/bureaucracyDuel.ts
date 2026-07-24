@@ -73,6 +73,46 @@ export const PHRASES: Record<string, Phrase> = {
     shortLabel: "Vorgesetzten-Drohung",
     text: "Das müsste ich erst meinem Vorgesetzten vorlegen.",
   },
+  "p-aktenzeichen": {
+    id: "p-aktenzeichen",
+    shortLabel: "Aktenzeichen fehlt",
+    text: "Ohne Aktenzeichen kann ich das gar nicht erst annehmen, Bewohner.",
+  },
+  "p-dienstweg": {
+    id: "p-dienstweg",
+    shortLabel: "Dienstweg",
+    text: "Der Dienstweg wäre — das über Sektor Vier, nicht über meinen Tresen.",
+  },
+  "p-vordruck": {
+    id: "p-vordruck",
+    shortLabel: "Falscher Vordruck",
+    text: "Sie verwenden den falschen Vordruck. So kann das nichts werden.",
+  },
+  "p-sprechzeit": {
+    id: "p-sprechzeit",
+    shortLabel: "Sprechzeit vorbei",
+    text: "Die Sprechzeit ist vorbei. Kommen Sie morgen. Vielleicht.",
+  },
+  "p-unterschrift": {
+    id: "p-unterschrift",
+    shortLabel: "Unterschrift fehlt",
+    text: "Ohne Zweitunterschrift ist das ein loses Blatt Papier.",
+  },
+  "p-datenschutz": {
+    id: "p-datenschutz",
+    shortLabel: "Datenschutz-Bluff",
+    text: "Aus Datenschutzgründen darf ich Ihnen dazu nichts sagen.",
+  },
+  "p-hausrecht": {
+    id: "p-hausrecht",
+    shortLabel: "Hausrecht",
+    text: "Vom Hausrecht her sind Sie hier eigentlich schon zu weit vorn.",
+  },
+  "p-quartalsende": {
+    id: "p-quartalsende",
+    shortLabel: "Quartalsende",
+    text: "Vor Quartalsende wird das ohnehin nichts, Bewohner.",
+  },
 
   // Endgame-Phrasen (Vossbeck) — kühler, distanzierter, derselbe Bautyp.
   "pE-tradition": {
@@ -144,6 +184,70 @@ export const COUNTERS: Record<string, Counter> = {
     beats: ["p-vorgesetzte", "pE-vorgesetzten-bluff"],
     learnHint:
       "Gegen jeden Vorgesetzten-Bluff. Niemand will den Vorgesetzten wirklich holen.",
+  },
+  "c-aktenzeichen": {
+    id: "c-aktenzeichen",
+    shortLabel: "„Vergeben Sie eins“",
+    text: "Vergeben Sie eins. Sie haben den Stempel dazu.",
+    beats: ["p-aktenzeichen"],
+    learnHint:
+      "Wer Aktenzeichen verlangt, kann selbst welche vergeben. Der Stempel liegt ja vor ihm.",
+  },
+  "c-dienstweg": {
+    id: "c-dienstweg",
+    shortLabel: "„Dann leiten Sie weiter“",
+    text: "Ausgezeichnet. Dann leiten Sie es weiter — auf dem Dienstweg.",
+    beats: ["p-dienstweg"],
+    learnHint:
+      "Wer auf den Dienstweg verweist, wird selbst zur ersten Station des Dienstwegs.",
+  },
+  "c-vordruck": {
+    id: "c-vordruck",
+    shortLabel: "„Nennen Sie den richtigen“",
+    text: "Aufschlussreich. Nennen Sie mir den richtigen — schriftlich.",
+    beats: ["p-vordruck"],
+    learnHint:
+      "Bringt die Beweislast zurück. Wer den falschen Vordruck erkennt, kennt auch den richtigen.",
+  },
+  "c-sprechzeit": {
+    id: "c-sprechzeit",
+    shortLabel: "„Dann eröffnen Sie sie“",
+    text: "Dann eröffnen Sie sie doch. Sie sitzen ja bereits.",
+    beats: ["p-sprechzeit"],
+    learnHint:
+      "Sprechzeit ist eine Frage der Sitzposition, nicht der Uhrzeit. Er sitzt — also ist Sprechzeit.",
+  },
+  "c-unterschrift": {
+    id: "c-unterschrift",
+    shortLabel: "„Zeichnen Sie gegen“",
+    text: "Wunderbar. Zeichnen Sie eben gegen — der Stift liegt vor Ihnen.",
+    beats: ["p-unterschrift"],
+    learnHint:
+      "Der Beamte HAT einen Stift und HAT das Recht. Verlangt er eine Zweitunterschrift, kann er sie selbst leisten.",
+  },
+  "c-datenschutz": {
+    id: "c-datenschutz",
+    shortLabel: "„Über mich selbst?“",
+    text: "Über mich selbst? Dann entbinde ich Sie hiermit ausdrücklich.",
+    beats: ["p-datenschutz"],
+    learnHint:
+      "Datenschutz-Bluffs kollabieren bei formeller Entbindung. Man muss nur laut genug entbinden.",
+  },
+  "c-hausrecht": {
+    id: "c-hausrecht",
+    shortLabel: "„Dann rufen Sie den Hausmeister“",
+    text: "Ausgezeichnet. Dann rufen Sie den Hausmeister — ich stehe dann daneben.",
+    beats: ["p-hausrecht"],
+    learnHint:
+      "Hausrecht ohne Hausmeister ist leeres Wort. Niemand ruft freiwillig den Hausmeister.",
+  },
+  "c-quartalsende": {
+    id: "c-quartalsende",
+    shortLabel: "„Nächstes Quartal“",
+    text: "Bestens. Dann datieren wir es aufs nächste Quartal — heute.",
+    beats: ["p-quartalsende"],
+    learnHint:
+      "Ein Vorgang, der aufs nächste Quartal datiert wird, IST ein Vorgang des nächsten Quartals. Kein Widerspruch möglich.",
   },
 };
 
@@ -248,6 +352,30 @@ export const FICTIONAL_ATTACKS: Record<string, AttackPhrase> = {
     text: "Ich hatte das mit drei Wochen Vorlauf angekündigt, beim letzten Mal.",
     source: "layard",
   },
+  "fa-akte": {
+    id: "fa-akte",
+    shortLabel: "„Steht in der Akte“",
+    text: "Das steht so in meiner Akte, Rückseite, unten links.",
+    source: "layard",
+  },
+  "fa-rundschreiben": {
+    id: "fa-rundschreiben",
+    shortLabel: "Rundschreiben",
+    text: "Laut Rundschreiben Nummer 12 vom Frühjahr fällt das in Ihre Zuständigkeit.",
+    source: "layard",
+  },
+  "fa-tarif": {
+    id: "fa-tarif",
+    shortLabel: "Tarifverweis",
+    text: "Nach Tarif 3a sind Sie da eigentlich in der Pflicht.",
+    source: "layard",
+  },
+  "fa-fussnote": {
+    id: "fa-fussnote",
+    shortLabel: "Fußnote",
+    text: "Bitte beachten Sie die Fußnote — Seite acht, ganz unten.",
+    source: "layard",
+  },
 };
 
 /**
@@ -262,6 +390,10 @@ export const BRUST_KNOWS_ATTACKS: ReadonlySet<string> = new Set<string>([
   "fa-sechs-wochen",
   "fa-protokoll",
   "fa-vorlauf",
+  "fa-akte",
+  "fa-rundschreiben",
+  "fa-tarif",
+  "fa-fussnote",
 ]);
 export const VOSSBECK_KNOWS_ATTACKS: ReadonlySet<string> = new Set<string>([
   "fa-bitte",
@@ -270,6 +402,10 @@ export const VOSSBECK_KNOWS_ATTACKS: ReadonlySet<string> = new Set<string>([
   "fa-sechs-wochen",
   "fa-protokoll",
   "fa-vorlauf",
+  "fa-akte",
+  "fa-rundschreiben",
+  "fa-tarif",
+  "fa-fussnote",
 ]);
 
 /** Konter-Replik, die der Gegner sagt, wenn er Layards Angriff abwehrt. */
@@ -312,6 +448,30 @@ export const ATTACK_COUNTER_LINES: Record<
       "Drei Wochen ohne Aushang sind null Wochen mit Aushang. Schwach.",
     vossbeck:
       "Vorlauf ohne Eintrag ist kein Vorlauf. Weiter.",
+  },
+  "fa-akte": {
+    brust:
+      "Rückseite unten links ist die Zone für Kaffeeflecken, Worag. Nicht für Vorgänge.",
+    vossbeck:
+      "Die Rückseite ist unbeschriftet vorgesehen. Sie behaupten eine Notiz. Weiter.",
+  },
+  "fa-rundschreiben": {
+    brust:
+      "Rundschreiben zwölf gab es nie. Elf, dreizehn — ja. Zwölf: nein.",
+    vossbeck:
+      "Nummer zwölf wurde übersprungen. Aus Aberglauben, wie ich annehme. Weiter.",
+  },
+  "fa-tarif": {
+    brust:
+      "Tarif 3a betrifft die Kantinenpreise. Nicht Sie, nicht mich, nicht heute.",
+    vossbeck:
+      "Tarif 3a ist Speiseplanmaterie. Sie sitzen im falschen Zimmer. Weiter.",
+  },
+  "fa-fussnote": {
+    brust:
+      "Auf Seite acht ist keine Fußnote, Worag. Nur Seitenzahl. Peinlich.",
+    vossbeck:
+      "Fußnoten sind in dieser Verordnung nicht vorgesehen. Weiter.",
   },
 };
 

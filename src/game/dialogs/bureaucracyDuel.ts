@@ -97,6 +97,30 @@ function resolveEndgame(api: GameApi): void {
  * `opp` bestimmt, welche Konter-Texte der Gegner verwendet.
  * `stutterLineId` / `counterLineId` sind die Folge-Lines.
  */
+/** Ziehe `n` zufällige Elemente aus einem Array — nicht-mutierend. */
+function sample<T>(arr: readonly T[], n: number): T[] {
+  const pool = [...arr];
+  const out: T[] = [];
+  const take = Math.min(n, pool.length);
+  for (let i = 0; i < take; i++) {
+    const idx = Math.floor(Math.random() * pool.length);
+    out.push(pool.splice(idx, 1)[0]!);
+  }
+  return out;
+}
+
+const FICTIONAL_POOL = [
+  "fa-hausflur",
+  "fa-anlage3",
+  "fa-sechs-wochen",
+  "fa-protokoll",
+  "fa-vorlauf",
+  "fa-akte",
+  "fa-rundschreiben",
+  "fa-tarif",
+  "fa-fussnote",
+] as const;
+
 function attackChoices(opp: "brust" | "vossbeck"): {
   choices: DialogChoice[];
   lines: Record<string, DialogLine>;
@@ -105,7 +129,8 @@ function attackChoices(opp: "brust" | "vossbeck"): {
   const choices: DialogChoice[] = [];
 
   // Linkische Eigen-Angriffe (Layard kennt sie immer; Gegner kontert sicher).
-  for (const id of ["fa-hausflur", "fa-anlage3", "fa-sechs-wochen", "fa-protokoll"]) {
+  // Vier von neun je Duell — sorgt für spürbare Varianz zwischen Versuchen.
+  for (const id of sample(FICTIONAL_POOL, 4)) {
     const atk = FICTIONAL_ATTACKS[id];
     if (!atk) continue;
     const respId = `${opp}Resp_${id}`;
@@ -376,6 +401,68 @@ const cafeteriaTrainingC = buildTrainingFall(
   "Trainingsfall Drei. Konstellation: Bewohner verlangt einen Stempel, den die Schicht nicht hat. Letzter Trainingsfall. Wenn Sie den sauber durchziehen, sind Sie für Vossbeck satisfaktionsfähig. Ich eröffne.",
 );
 
+// Weitere Varianten — werden von cafeteria.ts zufällig gezogen, sodass
+// aufeinanderfolgende Trainingsfälle sich deutlich unterscheiden.
+const cafeteriaTrainingD = buildTrainingFall(
+  "cafeteriaTrainingD",
+  1,
+  "p-aktenzeichen",
+  "c-aktenzeichen",
+  ["c-dienstweg", "c-vordruck", "c-sprechzeit"],
+  "p-dienstweg",
+  "c-dienstweg",
+  ["c-aktenzeichen", "c-unterschrift", "c-hausrecht"],
+  "Konstellation: Bewohner reicht Formular ein, dessen Nummer noch nicht vergeben wurde. Der Beamte verweist. Ich eröffne.",
+);
+
+const cafeteriaTrainingE = buildTrainingFall(
+  "cafeteriaTrainingE",
+  2,
+  "p-vordruck",
+  "c-vordruck",
+  ["c-quartalsende", "c-datenschutz", "c-sprechzeit"],
+  "p-unterschrift",
+  "c-unterschrift",
+  ["c-hausrecht", "c-vordruck", "c-aktenzeichen"],
+  "Konstellation: Bewohner erscheint zwei Minuten vor Feierabend. Beamter erwägt die Uhr. Ich eröffne.",
+);
+
+const cafeteriaTrainingF = buildTrainingFall(
+  "cafeteriaTrainingF",
+  3,
+  "p-datenschutz",
+  "c-datenschutz",
+  ["c-hausrecht", "c-sprechzeit", "c-quartalsende"],
+  "p-quartalsende",
+  "c-quartalsende",
+  ["c-dienstweg", "c-datenschutz", "c-vordruck"],
+  "Konstellation: Bewohner fragt nach eigenem Vorgang. Beamter beruft sich auf Vertraulichkeit gegenüber dem Bewohner. Ich eröffne.",
+);
+
+const cafeteriaTrainingG = buildTrainingFall(
+  "cafeteriaTrainingG",
+  1,
+  "p-sprechzeit",
+  "c-sprechzeit",
+  ["c-hausrecht", "c-quartalsende", "c-datenschutz"],
+  "p-hausrecht",
+  "c-hausrecht",
+  ["c-sprechzeit", "c-aktenzeichen", "c-dienstweg"],
+  "Konstellation: Bewohner steht drei Zentimeter zu weit vorn am Tresen. Beamter zieht die Grenze. Ich eröffne.",
+);
+
+const cafeteriaTrainingH = buildTrainingFall(
+  "cafeteriaTrainingH",
+  2,
+  "p-immer-so",
+  "c-immer-so",
+  ["c-aktenzeichen", "c-unterschrift", "c-dienstweg"],
+  "p-stapel",
+  "c-stapel",
+  ["c-vordruck", "c-datenschutz", "c-quartalsende"],
+  "Konstellation: Bewohner fragt nach dem Verbleib eines Antrags. Beamter blättert nicht. Ich eröffne.",
+);
+
 // ──────────────────────────────────────────────────────────────────
 // Ergebnis-Tree (Training)
 // ──────────────────────────────────────────────────────────────────
@@ -614,7 +701,46 @@ export const bureaucracyDuelDialogs: Record<string, DialogTree> = {
   cafeteriaTrainingA,
   cafeteriaTrainingB,
   cafeteriaTrainingC,
+  cafeteriaTrainingD,
+  cafeteriaTrainingE,
+  cafeteriaTrainingF,
+  cafeteriaTrainingG,
+  cafeteriaTrainingH,
   duelTrainingResult: duelTrainingResultBranching,
   vossbeckDuel,
   duelEndgameResult,
 };
+
+/**
+ * Zufällige Auswahl eines Trainingsfalls beim Klick auf »Beginnen«.
+ * Zwei aufeinanderfolgende Fälle werden nach Möglichkeit nicht dieselben —
+ * die letzte ID landet in `sessionStorage`, damit Rerolls fair sind.
+ */
+const TRAINING_IDS = [
+  "cafeteriaTrainingA",
+  "cafeteriaTrainingB",
+  "cafeteriaTrainingC",
+  "cafeteriaTrainingD",
+  "cafeteriaTrainingE",
+  "cafeteriaTrainingF",
+  "cafeteriaTrainingG",
+  "cafeteriaTrainingH",
+] as const;
+
+export function pickTrainingFallId(): string {
+  const key = "e67.lastTrainingId";
+  let last: string | null = null;
+  try {
+    last = typeof window !== "undefined" ? window.sessionStorage.getItem(key) : null;
+  } catch {
+    /* ignore */
+  }
+  const pool = TRAINING_IDS.filter((id) => id !== last);
+  const pick = pool[Math.floor(Math.random() * pool.length)]!;
+  try {
+    if (typeof window !== "undefined") window.sessionStorage.setItem(key, pick);
+  } catch {
+    /* ignore */
+  }
+  return pick;
+}
