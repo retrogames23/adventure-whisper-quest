@@ -344,7 +344,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kForge5: {
         id: "kForge5",
         speaker: "KOWALK",
-        text: "Erstens: einen Formblatt-Blanko. Brust hat einen Stapel in seiner Tresen-Schublade liegen — kommen Sie ran, wenn er kurz nicht hinschaut. Zweitens: einen Bleistiftstummel — irgendeinen weichen, alten. Bei Bodo in 2612 liegt einer.",
+        text: "Erstens: einen Blanko-Quittungsbogen Schicht B. Liegt gleich hier bei mir am Tresen, im Block — nehmen Sie sich einen, unauffällig. Papierqualität ist dieselbe wie beim Formblatt 17/V, das merkt Vossbeck nicht. Zweitens: einen Bleistiftstummel, weich, alt. Bei Bodo in 2612 liegt einer.",
         next: "kForge6",
       },
       kForge6: {
@@ -364,14 +364,14 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kForgeRecap: {
         id: "kForgeRecap",
         speaker: "KOWALK",
-        text: "Bleistiftstummel, Formblatt-Blanko aus Brusts Schublade, Kürzel-Abdruck von Philippes 4317. Bringen Sie mir die drei. Den Rest mache ich. — Mehr sage ich nicht, Worag.",
+        text: "Bleistiftstummel von Bodo, Blanko-Quittungsbogen von meinem Tresen hier, Kürzel-Abdruck von Philippes 4317. Bringen Sie mir die drei. Den Rest mache ich. — Mehr sage ich nicht, Worag.",
         end: true,
       },
       // ── Handover: Layard übergibt die drei Forgery-Zutaten ───────
       kForgeHandover1: {
         id: "kForgeHandover1",
         speaker: "SYSTEM",
-        text: "[ Layard schiebt drei Sachen über den Tresen: den Bleistiftstummel, einen frischen Formblatt-Blanko, das dünne Papier mit dem Kürzel-Abdruck. ]",
+        text: "[ Layard schiebt drei Sachen über den Tresen: den Bleistiftstummel, einen Blanko-Quittungsbogen Schicht B, das dünne Papier mit dem Kürzel-Abdruck. ]",
         next: "kForgeHandover2",
       },
       kForgeHandover2: {
