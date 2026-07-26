@@ -81,8 +81,9 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
           api.showText([
             "Vergilbtes Blatt, mit zwei Reißnägeln befestigt.",
             "„Resonanz-Hygiene · Pausen sind Teil der Behandlung.“",
-            "Darunter, kleiner: „Sieben-Tage-Regel · empfohlen ab Stufe 3.“",
-            "Jemand hat mit Bleistift dazugeschrieben: „empfohlen, nicht erzwungen.“",
+            "Darunter, klein: „Ruhezeiten · Lüftung · Belegungsdichte · Türsiegel-Praxis.“",
+            "Und ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
+            "Jemand hat mit Bleistift dazugeschrieben: „empfohlen, nicht erzwungen. Stufe 3 ist, was der Mandatsrat draus macht.“",
           ]),
       },
       {
