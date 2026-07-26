@@ -201,16 +201,19 @@ export function Ending() {
               <button
                 type="button"
                 onClick={() => {
-                  // Akt II startet: Ending-Screen schließen, Bridge-Cutscene
-                  // starten. Die Cutscene setzt die Akt-II-Flags und springt
-                  // Layard am Ende zurück in seine Wohnung.
+                  // Akt II startet direkt: Mira-State aus Akt I übernehmen,
+                  // Akt-II-Flags setzen und Layard zurück in die Wohnung
+                  // teleportieren. Die Bridge-Cutscene entfällt.
+                  const miraState = computeMiraEndState(api);
+                  persistMiraEndState(api, miraState);
                   if (!api.hasFlag("act2Started")) api.setFlag("act2Started");
+                  if (!api.hasFlag("radioOnPause")) api.setFlag("radioOnPause");
                   api.clearEnding();
-                  api.startCutscene("act2Bridge");
+                  api.goTo("apartment");
                 }}
                 className="mt-6 rounded-sm border border-amber-glow px-5 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/15 amber-glow"
               >
-                {ACT2_BRIDGE_UI_TEXT.continueButton}
+                {ENDING_UI_TEXT.continueButton}
               </button>
             </div>
             <div>
