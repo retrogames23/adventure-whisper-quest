@@ -952,6 +952,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
               : 0;
     brustWinStreakRef.current = restoredStreak;
     duelHitsRef.current = 0;
+    // MARV-Zustand aus dem Save wiederherstellen (Fallback: leer, damit
+    // alte Saves nicht plötzlich mit alten Cross-Account-Werten starten).
+    const restoredMarv: MarvSaveState = persisted.marvState
+      ? {
+          empathyScore: Math.max(0, Math.min(10, persisted.marvState.empathyScore ?? 0)),
+          unlocked: Boolean(persisted.marvState.unlocked),
+          oiled: Boolean(persisted.marvState.oiled),
+          messageCount: Math.max(0, persisted.marvState.messageCount ?? 0),
+        }
+      : INITIAL_MARV_STATE;
+    marvStateRef.current = restoredMarv;
+    setMarvStateInternal(restoredMarv);
     if (persisted.dsaCharacter) {
       const c = persisted.dsaCharacter;
       const migrated = {
