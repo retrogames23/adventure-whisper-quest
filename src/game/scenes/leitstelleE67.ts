@@ -19,7 +19,7 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
     background: leitstelleBg,
     title: "Leitstelle E67 — Disposition",
     intro:
-      "Hinter der Tür 4602 ein einzelnes Büro. Linoleum, Resopal, drei beige Tischapparate. Auf der Schrankwand hängende Registratur. Aus einer halb offenen Schublade rieseln vergilbte Karteireiter. Auf dem Tee-Tablett eine Kanne, die wirklich Tee enthält. Insa sitzt am Schreibtisch — kleiner als am Hörer.",
+      "Hinter der Tür 4602 ein einzelnes Büro. Linoleum, Resopal, zwei beige Tischapparate. Auf der Schrankwand hängende Registratur. Aus einer halb offenen Schublade rieseln vergilbte Karteireiter. Auf dem Tee-Tablett eine Kanne, die wirklich Tee enthält. Insa sitzt am Schreibtisch — kleiner als am Hörer.",
     hotspots: [
       {
         id: "insaInPerson",
