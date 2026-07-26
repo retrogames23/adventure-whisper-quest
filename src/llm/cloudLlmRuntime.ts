@@ -119,6 +119,7 @@ export function createCloudRuntime(npcId: string): LlmRuntime {
               resonance: ctx.resonance,
               activeFlags: ctx.activeFlags,
               playedDialogIds: ctx.playedDialogIds,
+              marvState: ctx.marvState,
             }
           : { seatedCount: ctx.seatedCount, myShift: ctx.myShift }
         : {};
