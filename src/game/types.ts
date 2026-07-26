@@ -80,7 +80,7 @@ export type InventoryItemId =
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "frequencyControl";
 
 /** Identifier einer narrativen Cutscene. */
-export type CutsceneId = "paramedics" | "act2Bridge" | "sectorThreshold";
+export type CutsceneId = "paramedics" | "sectorThreshold";
 
 export type StoryFlag =
   | "radioTunedTo1046"
@@ -328,10 +328,8 @@ export type StoryFlag =
   | "helkaHintHiddenFreqStep"
   | "mikaelHintHiddenFreqMood"
   // ── Akt II ──────────────────────────────────────────────────────
-  /** Akt II hat formell begonnen (nach „Weiterspielen“ aus dem Ending). */
+  /** Akt II hat formell begonnen (nach „Weiterspielen" aus dem Ending). */
   | "act2Started"
-  /** Akt-II-Bridge-Cutscene wurde komplett abgespielt. */
-  | "act2BridgeSeen"
   // Drei kanonische Mira-States für Akt II. Werden beim Übergang in
   // Akt II einmalig anhand der Akt-I-Flags berechnet und sind ab dort
   // die alleinige Wahrheitsquelle für Mira-Logik im zweiten Akt.
