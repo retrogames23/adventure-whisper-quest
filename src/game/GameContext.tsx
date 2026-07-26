@@ -242,7 +242,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [notizbuchOpen, setNotizbuchOpen] = useState(false);
   const [kantinenverordnungOpen, setKantinenverordnungOpen] = useState(false);
   const [learnedParagraphs, setLearnedParagraphs] = useState<Set<string>>(
-    () => new Set(),
+    () => new Set(STARTER_COUNTERS),
   );
   const learnedParagraphsRef = useRef(learnedParagraphs);
   learnedParagraphsRef.current = learnedParagraphs;
