@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      anon_cloud_usage: {
+        Row: {
+          anon_id: string
+          created_at: string
+          request_count: number
+          updated_at: string
+        }
+        Insert: {
+          anon_id: string
+          created_at?: string
+          request_count?: number
+          updated_at?: string
+        }
+        Update: {
+          anon_id?: string
+          created_at?: string
+          request_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
           amount_cents: number
@@ -859,6 +880,13 @@ export type Database = {
           message: Json
           msg_id: number
           read_ct: number
+        }[]
+      }
+      try_increment_anon_cloud_request_count: {
+        Args: { _anon_id: string; _hard_limit: number }
+        Returns: {
+          limit_reached: boolean
+          new_count: number
         }[]
       }
       try_increment_cloud_request_count: {
