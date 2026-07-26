@@ -29,7 +29,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         return [
           "Layard wacht ohne Wecker auf. Das Schmerz-Radio steht still.",
           "Sieben Tage Pause — Dr. Okwu hat darum gebeten, nicht es verordnet.",
-          "Auf dem Tisch: ein Zettel in Insas Handschrift. „Vorbeikommen, wenn Sie wach sind. Tür 4602.“",
+          "Auf dem Tisch: ein Zettel in Insas Handschrift. „Vorbeikommen, wenn Sie wach sind. Etage 4, Korridor 46, Tür 4602.“",
           mira,
         ].join(" ");
       }
