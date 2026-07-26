@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.try_increment_anon_cloud_request_count(text, integer) FROM anon, public;
+GRANT EXECUTE ON FUNCTION public.try_increment_anon_cloud_request_count(text, integer) TO service_role;
