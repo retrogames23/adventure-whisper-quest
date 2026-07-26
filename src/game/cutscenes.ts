@@ -178,8 +178,9 @@ export const ENDING_UI_TEXT = {
   actLabel: "AKT II — ENDE",
   subtitle: "Schmerz-Radio auf 104,6 — Fortsetzung folgt",
   restart: "▸ Neu beginnen",
+  continueButton: "▸ Akt II — Weiterspielen",
   coffee: "☕ Buy me a coffee",
-  /** Atmosphäre-Chatter, falls eine Nachricht im Abspann „zerhackt“ sein soll. */
+  /** Atmosphäre-Chatter, falls eine Nachricht im Abspann „zerhackt" sein soll. */
   garbledChatter: "» … «",
 } as const;
 
