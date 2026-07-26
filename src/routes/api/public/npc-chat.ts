@@ -70,6 +70,8 @@ const ALLOWED_NPCS = new Set(Object.keys(npcPersonas));
 
 const SOFT_LIMIT = 30;
 const HARD_LIMIT = 50;
+const ANON_HARD_LIMIT = 15;
+const ANON_SOFT_LIMIT = 10;
 
 function json(status: number, data: unknown): Response {
   return new Response(JSON.stringify(data), {
@@ -116,7 +118,8 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           return json(429, { error: "Rate limit exceeded" });
         }
 
-        // Auth ist Pflicht: anonyme Anfragen würden den Donation-Gate umgehen.
+        // Anon-Modus ist erlaubt: bis zu ANON_HARD_LIMIT Anfragen pro Anon-ID,
+        // danach ist Anmeldung nötig.
         const supabaseUrl = process.env.SUPABASE_URL;
         const supabasePub = process.env.SUPABASE_PUBLISHABLE_KEY;
         const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -125,60 +128,90 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         }
         const authHeader = request.headers.get("authorization") ?? "";
         const userToken = authHeader.replace(/^Bearer\s+/i, "");
-        if (!userToken) {
-          return json(401, { error: "Anmeldung erforderlich." });
-        }
-
-        const userClient = createClient(supabaseUrl, supabasePub, {
-          global: { headers: { Authorization: `Bearer ${userToken}` } },
-          auth: { persistSession: false, autoRefreshToken: false },
-        });
-        const { data: u, error: authErr } =
-          await userClient.auth.getUser(userToken);
-        const uid = u?.user?.id;
-        if (authErr || !uid) {
-          return json(401, { error: "Ungültiges Token." });
-        }
-
-        const admin = createClient(supabaseUrl, serviceKey, {
-          auth: { persistSession: false, autoRefreshToken: false },
-        });
-        // Atomic increment with conditional limit check — prevents TOCTOU
-        // races where concurrent requests could read the same count and all
-        // pass the gate.
-        const { data: incRows, error: incErr } = await admin.rpc(
-          "try_increment_cloud_request_count",
-          { _user_id: uid, _hard_limit: HARD_LIMIT },
-        );
-        if (incErr || !incRows || (Array.isArray(incRows) && incRows.length === 0)) {
-          return json(500, { error: "Profil nicht gefunden." });
-        }
-        const incRow = Array.isArray(incRows) ? incRows[0] : incRows;
-        const donationUnlocked = !!incRow.donation_unlocked;
-        if (incRow.limit_reached) {
-          return json(402, {
-            error:
-              "Cloud-Limit erreicht. Bitte unterstütze das Projekt, um weiter chatten zu können.",
-            code: "donation_required",
-            count: incRow.new_count,
-            limit: HARD_LIMIT,
+        let uid: string | null = null;
+        if (userToken) {
+          const userClient = createClient(supabaseUrl, supabasePub, {
+            global: { headers: { Authorization: `Bearer ${userToken}` } },
+            auth: { persistSession: false, autoRefreshToken: false },
           });
+          const { data: u, error: authErr } =
+            await userClient.auth.getUser(userToken);
+          if (authErr || !u?.user?.id) {
+            return json(401, { error: "Ungültiges Token." });
+          }
+          uid = u.user.id;
         }
-        const countAfter: number | null = donationUnlocked ? null : incRow.new_count;
 
+        // Body vorziehen, damit wir die anonId für den Gate haben.
         let body: unknown;
         try {
           body = await request.json();
         } catch {
           return json(400, { error: "Invalid JSON" });
         }
-
         const b = body as {
           npcId?: unknown;
           context?: unknown;
           history?: unknown;
           userMessage?: unknown;
+          anonId?: unknown;
         };
+        const anonIdRaw = typeof b.anonId === "string" ? b.anonId : "";
+        const anonId = /^[0-9a-zA-Z_-]{8,64}$/.test(anonIdRaw) ? anonIdRaw : null;
+        if (!uid && !anonId) {
+          return json(400, { error: "anonId oder Anmeldung erforderlich." });
+        }
+
+        const admin = createClient(supabaseUrl, serviceKey, {
+          auth: { persistSession: false, autoRefreshToken: false },
+        });
+        // Atomic increment (User oder Anon).
+        let donationUnlocked = false;
+        let countAfter: number | null = null;
+        let effectiveHardLimit = HARD_LIMIT;
+        let effectiveSoftLimit = SOFT_LIMIT;
+        if (uid) {
+          const { data: incRows, error: incErr } = await admin.rpc(
+            "try_increment_cloud_request_count",
+            { _user_id: uid, _hard_limit: HARD_LIMIT },
+          );
+          if (incErr || !incRows || (Array.isArray(incRows) && incRows.length === 0)) {
+            return json(500, { error: "Profil nicht gefunden." });
+          }
+          const incRow = Array.isArray(incRows) ? incRows[0] : incRows;
+          donationUnlocked = !!incRow.donation_unlocked;
+          if (incRow.limit_reached) {
+            return json(402, {
+              error:
+                "Cloud-Limit erreicht. Bitte unterstütze das Projekt, um weiter chatten zu können.",
+              code: "donation_required",
+              count: incRow.new_count,
+              limit: HARD_LIMIT,
+            });
+          }
+          countAfter = donationUnlocked ? null : incRow.new_count;
+        } else {
+          effectiveHardLimit = ANON_HARD_LIMIT;
+          effectiveSoftLimit = ANON_SOFT_LIMIT;
+          const { data: incRows, error: incErr } = await admin.rpc(
+            "try_increment_anon_cloud_request_count",
+            { _anon_id: anonId!, _hard_limit: ANON_HARD_LIMIT },
+          );
+          if (incErr || !incRows) {
+            return json(500, { error: "Kontingent-Zähler nicht erreichbar." });
+          }
+          const incRow = Array.isArray(incRows) ? incRows[0] : incRows;
+          if (incRow.limit_reached) {
+            return json(402, {
+              error:
+                "Kostenloses NPC-Kontingent erschöpft. Bitte melde dich an, um weiter zu chatten.",
+              code: "auth_required",
+              count: incRow.new_count,
+              limit: ANON_HARD_LIMIT,
+            });
+          }
+          countAfter = incRow.new_count;
+        }
 
         const npcId = typeof b.npcId === "string" ? b.npcId : "";
         if (!/^[a-z0-9_-]{1,40}$/.test(npcId) || !ALLOWED_NPCS.has(npcId)) {
@@ -197,7 +230,7 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           oiled: boolean;
           message_count: number;
         } = { empathy_score: 0, unlocked: false, oiled: false, message_count: 0 };
-        if (npcId === "marv9") {
+        if (npcId === "marv9" && uid) {
           const { data: ms } = await admin
             .from("marv_state")
             .select("empathy_score, unlocked, oiled, message_count")
@@ -209,6 +242,14 @@ export const Route = createFileRoute("/api/public/npc-chat")({
             unlocked: marvBefore.unlocked,
             oiled: marvBefore.oiled,
             messageCount: marvBefore.message_count,
+          });
+        } else if (npcId === "marv9") {
+          // Anon-Modus: kein persistenter State, neutrale Startwerte.
+          systemPrompt = buildMarvSystemPrompt({
+            empathyScore: 0,
+            unlocked: false,
+            oiled: false,
+            messageCount: 0,
           });
         } else
         if (npcId === "bram") {
@@ -283,7 +324,7 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         let memoryNote = "";
         let recentMessages: Array<{ role: "user" | "assistant"; content: string }> = [];
         let gossipFacts: string[] = [];
-        if (npcId !== "bram") try {
+        if (npcId !== "bram" && uid) try {
           const [memRes, gossipRes] = await Promise.all([
             admin
               .from("npc_memory")
@@ -450,7 +491,7 @@ export const Route = createFileRoute("/api/public/npc-chat")({
               justUnlocked: boolean;
             }
           | undefined;
-        if (npcId === "marv9") {
+        if (npcId === "marv9" && uid) {
           let delta = 0;
           try {
             const raterResp = await fetch(
@@ -561,8 +602,8 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         return json(200, {
           reply,
           count: countAfter,
-          limit: HARD_LIMIT,
-          softLimit: SOFT_LIMIT,
+          limit: effectiveHardLimit,
+          softLimit: effectiveSoftLimit,
           unlocked: donationUnlocked,
           marv: marvUpdate,
         });
