@@ -88,10 +88,10 @@ export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
     donorOnly: true,
   },
   {
-    id: "google/gemini-2.5-flash",
-    label: "Gemini 2.5 Flash",
+    id: "google/gemini-3.6-flash",
+    label: "Gemini 3.6 Flash",
     short: "Gemini",
-    hint: "Schnell, günstig, solides Deutsch.",
+    hint: "Neueste Flash-Generation — schnell, günstig, solides Deutsch.",
     donorOnly: true,
   },
 ];
@@ -168,7 +168,7 @@ const MODEL_LIMITS_MAP: Record<string, Partial<ModelLimits>> = {
     maxToolRounds: 3,
     useTools: true,
   },
-  "google/gemini-2.5-flash": {
+  "google/gemini-3.6-flash": {
     maxTokens: 700,
     historyWindow: 6,
     maxToolRounds: 3,
