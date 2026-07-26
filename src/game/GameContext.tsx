@@ -10,6 +10,7 @@ import {
 } from "react";
 import { getDialog } from "./dialogs/lookup";
 import { scenes } from "./scenes";
+import { STARTER_COUNTERS } from "./bureaucracyDuel";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/auth/AuthContext";
 import { markEssentialAssetsLoaded as notifyLoaderEssentialAssets } from "@/llm/webLlmLoader";
@@ -242,7 +243,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [notizbuchOpen, setNotizbuchOpen] = useState(false);
   const [kantinenverordnungOpen, setKantinenverordnungOpen] = useState(false);
   const [learnedParagraphs, setLearnedParagraphs] = useState<Set<string>>(
-    () => new Set(),
+    () => new Set(STARTER_COUNTERS),
   );
   const learnedParagraphsRef = useRef(learnedParagraphs);
   learnedParagraphsRef.current = learnedParagraphs;
@@ -401,7 +402,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
               flagsRef.current.has(f),
             );
           if (reqOk && hideOk) break;
-          if (candidate.end || !candidate.next) {
+          // Wichtig: `end: true` heißt nur „schließe beim Advance, wenn
+          // sichtbar" — beim Auflösen der Start-Zeile MUSS der Resolver
+          // weiter dem `next`-Faden folgen. Sonst bleibt ein verzweigter
+          // Result-Tree hängen (siehe duelTrainingResult).
+          if (!candidate.next) {
             cursor = undefined;
             break;
           }
@@ -894,6 +899,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setResonance(persisted.resonance);
     setEnding(persisted.ending);
     const restoredParagraphs = new Set(persisted.learnedParagraphs ?? []);
+    // Grundstock aus dem Phrasenbuch immer sicherstellen — auch für alte
+    // Spielstände, die vor Einführung der Starter-Konter angelegt wurden.
+    for (const id of STARTER_COUNTERS) restoredParagraphs.add(id);
     learnedParagraphsRef.current = restoredParagraphs;
     setLearnedParagraphs(restoredParagraphs);
     // Migration alter Spielstände: Vor der Persistenz des Zählers waren die

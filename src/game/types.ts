@@ -556,6 +556,13 @@ export interface DialogLine {
   subtext?: string;
   next?: string;
   choices?: DialogChoice[];
+  /**
+   * Dynamische Choice-Erzeugung — wird aufgerufen, sobald diese Zeile
+   * zum ersten Mal angezeigt wird. Ergebnis wird für die Dauer des
+   * Line-Besuchs eingefroren, damit Zufallsauswahl nicht neu würfelt.
+   * Wird zusammen mit `choices` gesetzt, gewinnt `choices`.
+   */
+  choicesFn?: (api: GameApi) => DialogChoice[];
   /** auto-end dialog */
   end?: boolean;
   /** Skip this line entirely if any required flag is missing (jumps to `next`). */

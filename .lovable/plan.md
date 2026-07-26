@@ -1,37 +1,63 @@
 ## Ziel
 
-Zwei kleine, chirurgische Eingriffe am Bürokratie-Duell:
+Bürokratie-Duell näher an Monkey-Island-Schwertmeister rücken: mehr Rundenzahl, mehr Lernbedarf, und der End-Dialog schließt sauber.
 
-1. **Weniger Meta, mehr Welt.** Brust und Kowalk erklären das Duell aktuell wie eine Spielanleitung („Trainingsfall … drei in Folge … Phrasenbuch … zwei Treffer mehr als Fehler: bestanden"). Das fällt aus der Rolle. Beide sollen nur noch andeuten, dass Vossbeck einen „vorbereiteten" Bewohner erwartet, und Brust das prüft — ohne Regelvokabular.
+## 1. Bug: End-Dialog lässt sich nicht schließen
 
-2. **Runde 2 sichtbar machen.** Wenn Layard eine Phrase gegen Brust wirft, steht das Ergebnis („Brust stottert" vs. „Brust kontert souverän") derzeit nur im `subtext` — der wird ausschließlich mit aktivem Schmerz-Radio angezeigt. Trainingsduelle laufen aber in der Kantine, meist ohne Radio → der Spieler sieht nur Brusts Konter-Text und kann nicht einordnen, ob er getroffen hat.
+Symptom im Screenshot: `r3HitResolve` zeigt „Sitzt. — Punkt Worag." mit `[ Trainingsfall abschließen ]`, aber Klick tut nichts.
 
-## Änderungen
+Vermutliche Ursache: Der Choice ruft `resolveTraining` in `action` und wechselt danach per `nextDialog: "duelTrainingResult"`. In `duelTrainingResult` steht die erste sichtbare Line (`checkWon3` oder `checkWon`) mit gleichzeitig `next: ...` UND `end: true`. Der Resolver interpretiert das inkonsistent — Line wird angezeigt, hat aber weder Choices noch sauberes Ende, dadurch bleibt der Overlay-State hängen (analog zum früheren `end: true`-Bug im r3MissResolve).
 
-### A) Erklärungen kürzen & entmetaisieren
+Fix:
+- `duelTrainingResultBranching`: `end: true` auf den Zwischenknoten (`checkWon3`, `checkWon`) entfernen und rein per `next` verketten. Nur die tatsächlichen End-Lines (`lost`, und ein neuer eigener End-Knoten nach `checkWon3` / `checkWon`) tragen `end: true` ohne `next`.
+- Konkret: `checkWon3` → `next: "won3End"`, neue Line `won3End` mit `end: true`. `checkWon` → `next: "won1End"`, neue Line `won1End` (Text „Notiert. Weiter.") mit `end: true`. `lost` bleibt.
+- Analog `duelEndgameResult` prüfen und säubern (dort ebenfalls `next` + `end: true` gemischt).
 
-`src/game/dialogs/cafeteria.ts`:
-- Kowalks lange „Trainingsfall/Phrasenbuch/drei in Folge"-Erklärungen (drei Stellen: `insaSentToKowalkForCode`-Zweig ab „Brust gibt das Formblatt nicht jedem…", der ausführliche 4317-Zweig, sowie der Wiederholungs-Zweig) auf 1–2 Sätze pro Zeile eindampfen. Kernaussage in Kowalks Ton: *„Herr Brust lässt Sie nicht unvorbereitet bei Vossbeck vorsprechen. Reden Sie mit ihm — er weiß, was gemeint ist."* Kein „Trainingsfall", kein „Phrasenbuch", keine Trefferzahl.
-- Brusts Duell-Intro (`cafeteriaBrust`-Zweig „Ich würde mit Ihnen einen Trainingsfall durchgehen." + Folgezeilen mit „zwei Treffer mehr als Fehler: bestanden / drei Fehler: für heute schließen wir") auf trockene Amtssprache reduzieren: *„Setzen Sie sich. Wir gehen einen Fall durch. Ich eröffne, Sie antworten."* Der Button bleibt „[ Beginnen ]".
-- Regel-Details (drei in Folge, Formblatt am Ende) NICHT wiederholen — Kowalk hat sie kurz angerissen, Brust bestätigt sie beiläufig nach dem ersten Sieg.
+## 2. Drei Konter-Runden pro Trainingsfall (statt zwei)
 
-`src/game/dialogs/bureaucracyDuel.ts`:
-- `r2Intro`-Text („Zweite Runde. Sie sind dran, Bewohner Worag. Schicken Sie eine Phrase.") ebenfalls entmetaisieren: *„Ihre Eröffnung, Bewohner Worag."*
-- `duelTrainingResultBranching`: `checkWon2` / `checkWon1` von „Zwei Trainingssiege auf Ihrem Konto" auf trockenes Amtsdeutsch: *„Notiert. Weiter."* / *„Erste saubere Runde. Weiter."*
+Aktuell: R1 Brust-Angriff · R2 Layard-Angriff · R3 Brust-Angriff → nur zwei Runden, in denen der Spieler konternd punkten kann.
 
-### B) Runde-2-Feedback sichtbar machen
+Neu: R1 Brust · R2 Brust · R3 Layard-Angriff · R4 Brust — vier Runden, drei davon Konter-Runden. Sieg ab ≥ 2 Konter-Treffern (Layard-Angriffs-Treffer zählen zusätzlich, sind aber nicht Pflicht).
 
-Das Problem ist strukturell: `subtext` ist im `DialogOverlay` an `radioActive` gebunden und dient explizit dem Schmerz-Radio-Kanal. Dort etwas zu ändern wäre invasiv. Stattdessen im Duell-Modul selbst arbeiten:
+Umsetzung:
+- `buildTrainingFall` bekommt zusätzlich `r2PhraseId`, `r2CorrectId`, `r2WrongIds`.
+- Neue Lines `r2Brust` / `r2Hit` / `r2Miss` analog zu R1, `next: "r3Intro"` (Layard-Angriff), von dort auf `r4Brust` (statt bisher `r3Brust`).
+- Alle acht Trainings-Fälle (A–H) bekommen eine zusätzliche Phrase + Konter-Trio.
+- End-Duell Vossbeck ebenfalls auf 3 Brust-Konter-Runden ausbauen (r1 + r2 + r4, r3 = Layards Eröffnung).
+- Sieg-Schwelle bleibt „≥ 2 Treffer" — bei drei Konter-Runden angenehmer erreichbar, aber nicht automatisch.
 
-`src/game/dialogs/bureaucracyDuel.ts`, Funktion `attackChoices`:
-- Bei jeder Konter-Line einen sichtbaren, kurzen Ergebnis-Marker in den `text` selbst einbauen — als Amtston, nicht als „✓/✗":
-  - Fehl-Konter (Brust/Vossbeck pariert souverän): Konter-Line beibehalten, aber zusätzlich eine knappe Nachbemerkung im selben Text-Feld, z. B. Brust: *„… — Punkt Brust."* / Vossbeck: *„… — Punkt Verwaltung."*
-  - Treffer (Bodo-/Helka-Special): analog *„… — Punkt Worag."*
-- Die `subtext`-Zeilen bleiben zusätzlich für Radio-Hörer erhalten (sie geben die stimmungsvolle Version), aber der Klartext-Marker steht garantiert im sichtbaren Haupttext.
-- Analog für Runde 1/3 (`r1Miss` / `r3MissResolve` / `r1Hit` / `r3HitResolve`): die Kowalk-„Sitzt."-Line wird um ein Wort ergänzt („Sitzt. — Punkt Worag."), Brusts Miss-Line endet mit „— Punkt Brust." Das ist die einzige Ergänzung, keine Umformulierung.
+## 3. Monkey-Island-Modus: Konter müssen erlernt werden
 
-## Nicht-Ziele
+Aktuell zeigt jede Runde 4 Choices (1 korrekt + 3 hart verdrahtete falsche). Der Spieler hat immer die richtige Antwort dabei.
 
-- Keine Änderung an Duell-Mechanik, Flags, Reihenfolge, Formblatt-Ausgabe, Vossbeck-Endduell-Struktur.
-- Kein Umbau von `DialogOverlay` oder der Subtext/Radio-Kopplung.
-- Keine neuen UI-Elemente (kein Tally-Widget, keine Trefferanzeige) — das Feedback bleibt rein textlich, im Amtston.
+Neu:
+- **Starter-Pool**: Layard startet mit einer kleinen Menge bekannter Konter (z. B. 4 von 14: `c-immer-so`, `c-nicht-zustaendig`, `c-termin`, `c-formsache`). Diese sind ab Spielstart in `learnedParagraphs` — Migration/Seed in `GameContext` (nur wenn Set leer und `duelTrainingWon1` etc. nicht gesetzt).
+- **Choice-Aufbau pro Runde**:
+  - Kandidaten = `learnedParagraphs ∩ COUNTERS`.
+  - Ist der korrekte Konter gelernt → Choices = korrekter Konter + bis zu 3 zufällige andere gelernte falsche Konter (bei zu wenigen gelernten Konter auffüllen mit „Layard schweigt / stammelt eine leere Phrase" — dummy-Choice `next: rNMiss`).
+  - Ist der korrekte Konter nicht gelernt → Choices = 3–4 zufällige gelernte (allesamt falsch) + optional Dummy „stammeln". Der Spieler verliert die Runde zwangsläufig, bekommt aber danach von Brust den korrekten Konter mit `[ ins Phrasenbuch übernehmen ]` präsentiert.
+- **Neue Lernquellen** außerhalb des Duells (kleine Dialog-Ergänzungen bei bestehenden NPCs, keine neuen Räume):
+  - Bodo lehrt 1–2 zusätzliche Konter im Aufenthaltsraum.
+  - Helka lehrt 1–2 zusätzliche Konter (Türschild-Familie).
+  - Kowalk gibt beim Aushändigen des Lappens einen „Grundlagenkonter" mit.
+  - Mikael/Insa je 1 optionaler Konter (Flavor).
+  - Rest (~4–5) bleibt exklusiv über „Fall verlieren → Übernehmen" lernbar — belohnt Wiederholung.
+- Effekt: Erste Duelle sind knapp verlierbar, Streak-3 ist erst erreichbar, wenn der Spieler das Phrasenbuch bewusst aufbaut.
+
+## 4. Sonstiges
+
+- Phrasenbuch-Overlay (`ParagraphenNotizbuchOverlay`) kurz prüfen, ob Starter-Konter sauber angezeigt werden (kein Code-Change erwartet, nur Sichtprüfung nach Umsetzung).
+- Kein Balancing-Change am End-Duell außer 3-Runden-Umbau.
+
+## Betroffene Dateien
+
+- `src/game/dialogs/bureaucracyDuel.ts` (Runden-Umbau, Choice-Builder mit `learnedParagraphs`, Result-Trees säubern)
+- `src/game/GameContext.tsx` (Starter-Pool seeden bei leerem Set)
+- `src/game/dialogs/bodo.ts`, `helka.ts`, `cafeteria.ts` (Kowalk), `mikael.ts`, `insa.ts` (optionale Lern-Einträge)
+- `src/game/bureaucracyDuel.ts` (nur Ergänzung falls neue Konter/Phrasen fehlen — bestehender Korpus reicht wahrscheinlich)
+
+## Technische Details
+
+- `attackChoices()` bleibt für Layards R3-Eröffnung; wird nur umbenannt (r2 → r3).
+- Neuer Helper `buildCounterChoices(api, correctId, missNext, hitNext)` liest `learnedParagraphs` zur Laufzeit (via `onEnter` oder besser: Choices dynamisch aus Dialog-Line-Callback bauen). Falls das aktuelle Dialog-System keine dynamischen Choices unterstützt, prüfen wir bei Umsetzung, ob `DialogLine` einen `choicesFn(api)`-Hook hat; sonst nachrüsten (kleiner Zusatz in `types.ts` + `DialogOverlay.tsx`).
+- Alle Änderungen bleiben i18n-taugliche ganze Sätze (bestehende Konvention).
