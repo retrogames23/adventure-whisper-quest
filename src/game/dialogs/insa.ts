@@ -497,7 +497,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       ar12: {
         id: "ar12",
         speaker: "INSA",
-        text: "Ich möchte einfach jemanden treffen, der eine Kapsel zwei Sektoren weit getragen hat, ohne sie unterwegs „zu verlieren“.",
+        text: "Ich möchte einfach jemanden treffen, der ein Protokoll zwei Sektoren weit getragen hat, ohne es unterwegs „zu verlieren“.",
         subtext: "Bitte. Sie hat noch nicht „bitte“ gesagt. Aber es ist einer.",
         next: "ar13",
       },
@@ -517,7 +517,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       ar15: {
         id: "ar15",
         speaker: "SYSTEM",
-        text: "[ Klick. Stille. Layard legt den Hörer zurück und hält die Hand einen Moment darauf. Die Datenkapsel liegt neben dem Telefon. Sie ist immer noch warm. ]",
+        text: "[ Klick. Stille. Layard legt den Hörer zurück und hält die Hand einen Moment darauf. Das Protokoll liegt neben dem Telefon. Es ist immer noch warm. ]",
         end: true,
       },
     },

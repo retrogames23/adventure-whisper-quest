@@ -102,7 +102,7 @@ export const PARAMEDICS_LINES: ParamedicsLine[][] = [
 export const PARAMEDICS_PROTOCOL_ITEM = {
   name: "Einsatzprotokoll (verschlüsselt)",
   description:
-    "Eine versiegelte Datenkapsel. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
+    "Ein versiegeltes Protokoll. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
 } as const;
 
 // ─── Ending ────────────────────────────────────────────────────────
@@ -138,7 +138,7 @@ export function buildEndingBaseFrames(npcCount: number): string[][] {
   return [
     [
       "Layard legt den Hörer zurück.",
-      "Auf dem Tisch: die Datenkapsel. Unverändert. Unzustellbar.",
+      "Auf dem Tisch: das Protokoll. Unverändert. Unzustellbar.",
       "Daneben: das Telefon. Schwarzer Bakelit. Warm vom Hörer.",
     ],
     [
@@ -154,22 +154,27 @@ export function buildEndingBaseFrames(npcCount: number): string[][] {
     [
       "Auf 104,6 — heute zum ersten Mal — kein Klopfen.",
       "Nur ein Rauschen. Vielleicht trägt es etwas. Vielleicht nicht.",
-      "Layard nimmt die Datenkapsel in die Hand.",
+      "Layard nimmt das Protokoll in die Hand.",
       "Sie ist leichter, als sie heute Morgen war.",
     ],
     [
-      "Später. Sanitätsstation E71, Korridor 15.",
-      "Dr. Adaeze Okwu legt die Kapsel zur Seite, ohne sie zu öffnen.",
-      "Sie sieht Layard an, länger als nötig.",
+      "Später. Sektor-Leitstelle E67, Korridor 46, Tür 4602.",
+      "Insa Bauerfeind nimmt das Protokoll persönlich entgegen.",
+      "Sie dreht es einmal in der Hand, legt es auf ihren Stapel — nicht darunter, darauf.",
     ],
     [
-      "„Sie haben heute zu viel gehört, Herr Layard. Zu viel auf einer Frequenz, die niemand offiziell hört.“",
-      "„Ich verordne Ihnen sieben Tage Resonanz-Pause. Kein 104,6. Kein Mithören. Keine Notizen ans Radio.“",
+      "„Ich werde das richtig zuweisen, Herr Worag. Das haben Sie nicht selbst zu tragen.“",
+      "Sie sieht ihn an, länger als nötig. „Sie haben heute zu viel gehört. Zu viel auf einer Frequenz, die niemand offiziell hört.“",
+      "„Ich schicke einen Vermerk an die Sanitätsstation. Gehen Sie nach Hause. Schlafen Sie.“",
     ],
     [
-      "„Das ist keine Bitte. Das ist eine ärztliche Anordnung, und sie steht ab heute in Ihrer Akte.“",
-      "Sie nickt kurz. „Schlafen Sie. In sieben Tagen sehen wir weiter.“",
-      "Layard nickt zurück. Er weiß nicht, ob er sich daran halten wird.",
+      "Am nächsten Morgen. Layards Apartment. Auf dem Tisch ein Vermerk der Sanitätsstation E71.",
+      "Kopfzeile: Dr. A. Okwu, Praxis 1532.",
+      "„Auf Vermerk der Leitstelle E67 (Bauerfeind, I.): sieben Tage Resonanz-Pause. Kein 104,6. Kein Mithören. Keine Notizen ans Radio.“",
+      "„Ärztliche Anordnung — vermerkt in Ihrer Akte.“",
+    ],
+    [
+      "Layard faltet den Vermerk einmal. Er weiß nicht, ob er sich daran halten wird.",
     ],
   ];
 }
@@ -177,13 +182,13 @@ export function buildEndingBaseFrames(npcCount: number): string[][] {
 /** Zusatz-Tafeln, falls Layard den Flyer („Wer hält das andere Ende?“) hat. */
 export const ENDING_FLYER_FRAMES: string[][] = [
   [
-    "Neben der Kapsel liegt ein gefaltetes Blatt.",
+    "Neben dem Protokoll liegt ein gefaltetes Blatt.",
     "Ein Mädchen auf einer Etage, deren Nummer er sich nicht gemerkt hat.",
     "„Wer hält das andere Ende?“ — Z.K.S.",
   ],
   [
     "Er zerreißt das Blatt nicht. Er faltet es kleiner.",
-    "Es passt jetzt unter die Kapsel.",
+    "Es passt jetzt unter das Protokoll.",
   ],
 ];
 

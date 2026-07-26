@@ -1,63 +1,56 @@
 ## Ziel
 
-Bürokratie-Duell näher an Monkey-Island-Schwertmeister rücken: mehr Rundenzahl, mehr Lernbedarf, und der End-Dialog schließt sauber.
+Zwei Erzähl-Inkonsistenzen im Übergang Akt I → Akt II beheben:
 
-## 1. Bug: End-Dialog lässt sich nicht schließen
+1. **Ein Objekt, ein Wort:** „Datenkapsel/Kapsel" komplett streichen, überall nur noch „Protokoll" (bzw. „versiegeltes Protokoll", wo Siegel/Physis wichtig sind). Icon bleibt visuell unverändert.
+2. **Empfänger korrigieren:** Insa nimmt das Protokoll persönlich entgegen (nicht Okwu). Okwu tritt im Ending gar nicht mehr in Person auf — die Resonanz-Pause wird schriftlich verhängt (Vermerk/Aushang), unabhängig davon, ob Layard ihre Praxis besucht hat oder nicht.
 
-Symptom im Screenshot: `r3HitResolve` zeigt „Sitzt. — Punkt Worag." mit `[ Trainingsfall abschließen ]`, aber Klick tut nichts.
+## A. Begriffsvereinheitlichung „Kapsel" → „Protokoll"
 
-Vermutliche Ursache: Der Choice ruft `resolveTraining` in `action` und wechselt danach per `nextDialog: "duelTrainingResult"`. In `duelTrainingResult` steht die erste sichtbare Line (`checkWon3` oder `checkWon`) mit gleichzeitig `next: ...` UND `end: true`. Der Resolver interpretiert das inkonsistent — Line wird angezeigt, hat aber weder Choices noch sauberes Ende, dadurch bleibt der Overlay-State hängen (analog zum früheren `end: true`-Bug im r3MissResolve).
+Reine Text-/Kommentar-Änderungen an folgenden Stellen:
 
-Fix:
-- `duelTrainingResultBranching`: `end: true` auf den Zwischenknoten (`checkWon3`, `checkWon`) entfernen und rein per `next` verketten. Nur die tatsächlichen End-Lines (`lost`, und ein neuer eigener End-Knoten nach `checkWon3` / `checkWon`) tragen `end: true` ohne `next`.
-- Konkret: `checkWon3` → `next: "won3End"`, neue Line `won3End` mit `end: true`. `checkWon` → `next: "won1End"`, neue Line `won1End` (Text „Notiert. Weiter.") mit `end: true`. `lost` bleibt.
-- Analog `duelEndgameResult` prüfen und säubern (dort ebenfalls `next` + `end: true` gemischt).
+- `src/game/cutscenes.ts` — Item-Beschreibung (Z. 105), Ending-Frames (Z. 141, 157, 162), Flyer-Frames (Z. 180, 186)
+- `src/game/combine.ts` — Z. 24, 144, 319, 337
+- `src/game/dialogs/insa.ts` — Z. 500, 520
+- `src/game/dialogs/mikael.ts` — Z. 56, 81, 107, 127
+- `src/game/scenes/leitstelleE67.ts` — Kommentar Z. 6
+- `src/components/game/ItemIcon.tsx` — Code-Kommentare Z. 55, 59 (SVG bleibt unverändert)
 
-## 2. Drei Konter-Runden pro Trainingsfall (statt zwei)
+Keine Änderungen an Item-IDs, Flags oder Persistenz. `PARAMEDICS_PROTOCOL_ITEM.name` bleibt „Einsatzprotokoll (verschlüsselt)".
 
-Aktuell: R1 Brust-Angriff · R2 Layard-Angriff · R3 Brust-Angriff → nur zwei Runden, in denen der Spieler konternd punkten kann.
+## B. Ending-Cutscene: Übergabe an Insa
 
-Neu: R1 Brust · R2 Brust · R3 Layard-Angriff · R4 Brust — vier Runden, drei davon Konter-Runden. Sieg ab ≥ 2 Konter-Treffern (Layard-Angriffs-Treffer zählen zusätzlich, sind aber nicht Pflicht).
+Aktueller Bruch: Insa sagt am Telefon „Bringen Sie es mir vorbei. Persönlich. Leitstelle E67, Tür 4602." — die Ending-Cutscene springt aber stattdessen in Okwus Praxis. Empfängerin muss Insa sein.
 
-Umsetzung:
-- `buildTrainingFall` bekommt zusätzlich `r2PhraseId`, `r2CorrectId`, `r2WrongIds`.
-- Neue Lines `r2Brust` / `r2Hit` / `r2Miss` analog zu R1, `next: "r3Intro"` (Layard-Angriff), von dort auf `r4Brust` (statt bisher `r3Brust`).
-- Alle acht Trainings-Fälle (A–H) bekommen eine zusätzliche Phrase + Konter-Trio.
-- End-Duell Vossbeck ebenfalls auf 3 Brust-Konter-Runden ausbauen (r1 + r2 + r4, r3 = Layards Eröffnung).
-- Sieg-Schwelle bleibt „≥ 2 Treffer" — bei drei Konter-Runden angenehmer erreichbar, aber nicht automatisch.
+Umbau in `buildEndingBaseFrames` (`src/game/cutscenes.ts`, Frames ab Z. 138):
 
-## 3. Monkey-Island-Modus: Konter müssen erlernt werden
+1. **Bleibt** (Z. 138–159): Hörer / Protokoll auf dem Tisch / Insas Satz im Kopf / Blick aus dem Fenster / Radio still / „Layard nimmt das Protokoll in die Hand."
+2. **Neu ersetzt Z. 160–173** (bisher Okwu-Praxis):
+   - Frame: *„Später. Sektor-Leitstelle E67, Korridor 46, Tür 4602."* Insa nimmt das Protokoll persönlich entgegen, dreht es einmal in der Hand, legt es auf ihren Stapel — nicht darunter, darauf.
+   - Kurzer Beat: Insa bestätigt, dass sie es „richtig zuweisen" wird. Sie sieht Layard an: er habe heute zu viel auf einer Frequenz gehört, die niemand offiziell hört. Sie werde einen Vermerk an die Sanitätsstation schicken.
 
-Aktuell zeigt jede Runde 4 Choices (1 korrekt + 3 hart verdrahtete falsche). Der Spieler hat immer die richtige Antwort dabei.
+Insa tritt hier als Sprecherin auf, aber ohne dass sie selbst die medizinische Anordnung ausspricht — sie leitet nur weiter.
 
-Neu:
-- **Starter-Pool**: Layard startet mit einer kleinen Menge bekannter Konter (z. B. 4 von 14: `c-immer-so`, `c-nicht-zustaendig`, `c-termin`, `c-formsache`). Diese sind ab Spielstart in `learnedParagraphs` — Migration/Seed in `GameContext` (nur wenn Set leer und `duelTrainingWon1` etc. nicht gesetzt).
-- **Choice-Aufbau pro Runde**:
-  - Kandidaten = `learnedParagraphs ∩ COUNTERS`.
-  - Ist der korrekte Konter gelernt → Choices = korrekter Konter + bis zu 3 zufällige andere gelernte falsche Konter (bei zu wenigen gelernten Konter auffüllen mit „Layard schweigt / stammelt eine leere Phrase" — dummy-Choice `next: rNMiss`).
-  - Ist der korrekte Konter nicht gelernt → Choices = 3–4 zufällige gelernte (allesamt falsch) + optional Dummy „stammeln". Der Spieler verliert die Runde zwangsläufig, bekommt aber danach von Brust den korrekten Konter mit `[ ins Phrasenbuch übernehmen ]` präsentiert.
-- **Neue Lernquellen** außerhalb des Duells (kleine Dialog-Ergänzungen bei bestehenden NPCs, keine neuen Räume):
-  - Bodo lehrt 1–2 zusätzliche Konter im Aufenthaltsraum.
-  - Helka lehrt 1–2 zusätzliche Konter (Türschild-Familie).
-  - Kowalk gibt beim Aushändigen des Lappens einen „Grundlagenkonter" mit.
-  - Mikael/Insa je 1 optionaler Konter (Flavor).
-  - Rest (~4–5) bleibt exklusiv über „Fall verlieren → Übernehmen" lernbar — belohnt Wiederholung.
-- Effekt: Erste Duelle sind knapp verlierbar, Streak-3 ist erst erreichbar, wenn der Spieler das Phrasenbuch bewusst aufbaut.
+## C. Resonanz-Pause: Okwu per Vermerk, ohne Begegnung
 
-## 4. Sonstiges
+Kein persönlicher Auftritt von Okwu im Ending. Stattdessen ein knapper Schluss-Frame, der unabhängig von `metOkwu` funktioniert:
 
-- Phrasenbuch-Overlay (`ParagraphenNotizbuchOverlay`) kurz prüfen, ob Starter-Konter sauber angezeigt werden (kein Code-Change erwartet, nur Sichtprüfung nach Umsetzung).
-- Kein Balancing-Change am End-Duell außer 3-Runden-Umbau.
+- Frame: *„Am nächsten Morgen. Layards Apartment."* Auf seinem Tisch liegt ein Vermerk der Sanitätsstation E71 — Kopfzeile mit Okwus Namen und Praxisnummer 1532.
+- Text auf dem Vermerk (im Frame in Auszügen zitiert):
+  - „Auf Vermerk der Leitstelle E67 (Bauerfeind, I.): sieben Tage Resonanz-Pause. Kein 104,6. Kein Mithören. Keine Notizen ans Radio."
+  - „Ärztliche Anordnung — vermerkt in Ihrer Akte. — Dr. A. Okwu, Sanitätsstation E71."
+- Abschluss-Beat: Layard faltet den Vermerk einmal. Er weiß nicht, ob er sich daran halten wird.
 
-## Betroffene Dateien
+Dadurch:
+- Erzählerisch motiviert für alle Spieler — auch die, die Okwu nie in Person begegnet sind.
+- Wer sie kannte, erkennt Namen und Praxis wieder; wer nicht, liest schlicht eine dienstliche Kopfzeile.
+- Die Resonanz-Pause bleibt eine **ärztliche Anordnung** — konsistent mit dem, was Insa in Akt II wieder aufgreift, und mit dem `RadioPauseGate`.
 
-- `src/game/dialogs/bureaucracyDuel.ts` (Runden-Umbau, Choice-Builder mit `learnedParagraphs`, Result-Trees säubern)
-- `src/game/GameContext.tsx` (Starter-Pool seeden bei leerem Set)
-- `src/game/dialogs/bodo.ts`, `helka.ts`, `cafeteria.ts` (Kowalk), `mikael.ts`, `insa.ts` (optionale Lern-Einträge)
-- `src/game/bureaucracyDuel.ts` (nur Ergänzung falls neue Konter/Phrasen fehlen — bestehender Korpus reicht wahrscheinlich)
+## D. Flyer-Frames
 
-## Technische Details
+`ENDING_FLYER_FRAMES` (Z. 178–188) verortet sich weiterhin am Tisch vor dem Aufbruch. Nur Wortwahl „Kapsel" → „Protokoll" anpassen; Reihenfolge unverändert.
 
-- `attackChoices()` bleibt für Layards R3-Eröffnung; wird nur umbenannt (r2 → r3).
-- Neuer Helper `buildCounterChoices(api, correctId, missNext, hitNext)` liest `learnedParagraphs` zur Laufzeit (via `onEnter` oder besser: Choices dynamisch aus Dialog-Line-Callback bauen). Falls das aktuelle Dialog-System keine dynamischen Choices unterstützt, prüfen wir bei Umsetzung, ob `DialogLine` einen `choicesFn(api)`-Hook hat; sonst nachrüsten (kleiner Zusatz in `types.ts` + `DialogOverlay.tsx`).
-- Alle Änderungen bleiben i18n-taugliche ganze Sätze (bestehende Konvention).
+## E. Nicht betroffen
+
+- Sanitäter-Cutscene (Beat 5), Okwus interaktive Dialoge (`okwu1`…) und die Praxis-Szene in `sectorAct1.ts` bleiben unverändert.
+- Keine neuen Flags, keine Migrations, keine API-Änderungen. Build-Check nach den Edits reicht als Verifikation.
