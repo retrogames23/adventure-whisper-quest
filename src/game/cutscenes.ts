@@ -184,6 +184,25 @@ export const ENDING_UI_TEXT = {
   garbledChatter: "» … «",
 } as const;
 
+// ─── Gemeinsame Cutscene-Beat-Typen ────────────────────────────────
+
+export type Act2BridgeBeatStyle =
+  /** Schwarzer Bildschirm mit zentriertem Text (wie Ending-Tafeln). */
+  | "black"
+  /** Schwarzer Bildschirm mit gedämpftem Phosphor-Glow. */
+  | "amber"
+  /** Schwarzer Bildschirm mit dünner weißer Linie. */
+  | "clinical";
+
+export interface Act2BridgeBeat {
+  /** Optionaler kleiner Header oben (Ort/Zeit), in CRT-Phosphor-Stil. */
+  header?: string;
+  /** Untertitel-/Erzähl-Zeilen für diesen Beat. */
+  lines: string[];
+  /** Visuelle Anmutung des Beats. */
+  style: Act2BridgeBeatStyle;
+}
+
 // ─── Resonanz-Pause-UI (ehemals Akt-II-Bridge-Cutscene) ─────────────
 //
 // Die Bridge-Cutscene wurde entfernt; die Resonanz-Pause-Texte leben
