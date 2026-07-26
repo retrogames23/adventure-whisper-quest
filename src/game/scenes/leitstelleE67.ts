@@ -55,15 +55,15 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
       },
       {
         id: "phones",
-        x: 7,
-        y: 69.3,
-        w: 38,
+        x: 25.4,
+        y: 66.9,
+        w: 23.8,
         h: 18,
-        label: "Drei Tischapparate",
+        label: "Zwei Tischapparate",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Drei beige Bakelit-Apparate. Zwei davon abgehoben und auf dem Tisch",
+            "Zwei beige Bakelit-Apparate. Beide abgehoben und auf dem Tisch",
             "liegend — Insas Trick, die Vermittlung kurz still zu stellen.",
             "Der dritte Apparat ist eingehängt. Insa sagt, er klingelt nie.",
             "Er ist die direkte Leitung in einen Raum, in dem niemand mehr sitzt.",
