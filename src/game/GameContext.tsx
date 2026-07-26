@@ -899,6 +899,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setResonance(persisted.resonance);
     setEnding(persisted.ending);
     const restoredParagraphs = new Set(persisted.learnedParagraphs ?? []);
+    // Grundstock aus dem Phrasenbuch immer sicherstellen — auch für alte
+    // Spielstände, die vor Einführung der Starter-Konter angelegt wurden.
+    for (const id of STARTER_COUNTERS) restoredParagraphs.add(id);
     learnedParagraphsRef.current = restoredParagraphs;
     setLearnedParagraphs(restoredParagraphs);
     // Migration alter Spielstände: Vor der Persistenz des Zählers waren die
