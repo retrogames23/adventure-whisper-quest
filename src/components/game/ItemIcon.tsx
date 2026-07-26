@@ -52,11 +52,11 @@ function Frame({
 
 /* ─── Einzelne Icons ─────────────────────────────────────── */
 
-/** Einsatzprotokoll — versiegelte Datenkapsel mit Etikett & Wachssiegel. */
+/** Einsatzprotokoll — versiegeltes Protokoll mit Etikett & Wachssiegel. */
 function ProtocolIcon() {
   return (
     <>
-      {/* Kapselkörper */}
+      {/* Protokoll-Körper */}
       <rect x="5" y="3" width="14" height="18" fill={ICON_DK} />
       <rect x="6" y="4" width="12" height="16" fill={ICON_FG} />
       <rect x="6" y="4" width="12" height="2" fill={ICON_HI} />
