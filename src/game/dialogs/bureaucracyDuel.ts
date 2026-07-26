@@ -1,22 +1,24 @@
 /**
  * Bürokratie-Duell — komplett in Dialog-Bäumen.
  *
- * Drei Trainingsfälle (A/B/C) gegen Brust + ein Endduell gegen Vossbeck.
- * Jeder Fall geht über drei Runden:
+ * Vier Runden pro Fall, davon drei Konter-Runden:
  *
- *   Runde 1 — Brust greift an, Layard kontert (Treffer oder Fehler →
- *             Brust zeigt korrekten Konter, Spieler kann ins
- *             Phrasenbuch übernehmen).
- *   Runde 2 — Layard greift an. Brust kontert souverän (fictional pool)
- *             oder stottert sichtbar (Bodo/Helka-Specials).
- *   Runde 3 — Brust greift an, wie Runde 1.
+ *   Runde 1 — Brust greift an, Layard kontert.
+ *   Runde 2 — Brust greift an, Layard kontert.
+ *   Runde 3 — Layard greift an (Layards Eröffnung, Bodo/Helka-Specials).
+ *   Runde 4 — Brust greift an, Layard kontert.
+ *
+ * Konter-Optionen werden pro Runde dynamisch aus dem Phrasenbuch
+ * (STARTER_COUNTERS ∪ gelernte Konter) gebaut — Monkey-Island-Prinzip:
+ * kennt Layard den passenden Konter nicht, kann er ihn nicht wählen und
+ * verliert die Runde zwangsläufig. Brust reicht ihm den korrekten Konter
+ * anschließend zum Übernehmen ins Phrasenbuch nach.
  *
  * Auswertung pro Fall: ≥ 2 Treffer für Layard → gewonnen, Streak +1.
  * Sonst verloren, Streak zurück auf 0. Drei in Folge → `vossbeckSummoned`.
  *
  * Endduell-Auswertung: ≥ 2 Treffer → `duelEndgameWon`. Sonst zählt der
- * `vossbeckAttempt1Lost` / `vossbeckAttempt2Lost`-Mechanismus weiter
- * (Brusts und Kowalks bestehende Wege).
+ * `vossbeckAttempt1Lost` / `vossbeckAttempt2Lost`-Mechanismus weiter.
  */
 
 import type { DialogChoice, DialogLine, DialogTree, GameApi } from "../types";
@@ -26,6 +28,7 @@ import {
   COUNTERS,
   FICTIONAL_ATTACKS,
   PHRASES,
+  STARTER_COUNTERS,
 } from "../bureaucracyDuel";
 
 // ──────────────────────────────────────────────────────────────────
