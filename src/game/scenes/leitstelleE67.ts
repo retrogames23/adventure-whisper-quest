@@ -55,10 +55,10 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
       },
       {
         id: "phones",
-        x: 22,
-        y: 66,
-        w: 48,
-        h: 20,
+        x: 25.4,
+        y: 66.9,
+        w: 40.2,
+        h: 18,
         label: "Drei Tischtelefone",
         kind: "look",
         onUse: (api) =>
@@ -71,9 +71,9 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
       },
       {
         id: "aushangResonanz",
-        x: 82.9,
-        y: 12,
-        w: 16.1,
+        x: 79.7,
+        y: 5.9,
+        w: 11.9,
         h: 30,
         label: "Aushang „Resonanz-Hygiene“",
         kind: "look",
