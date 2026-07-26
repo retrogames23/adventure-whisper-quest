@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { CloseButton } from "../CloseButton";
-import { ACT2_BRIDGE_UI_TEXT } from "@/game/cutscenes";
+import { RADIO_PAUSE_UI_TEXT } from "@/game/cutscenes";
 
 interface Props {
   onAbort: () => void;
@@ -17,7 +17,7 @@ function RadioPauseGateImpl({ onAbort, onContinue }: Props) {
           className="absolute right-3 top-3"
         />
         <div className="mb-4 space-y-2 pr-6">
-          {ACT2_BRIDGE_UI_TEXT.radioPauseWarning.map((line, i) => (
+          {RADIO_PAUSE_UI_TEXT.radioPauseWarning.map((line, i) => (
             <p
               key={i}
               className={
@@ -36,14 +36,14 @@ function RadioPauseGateImpl({ onAbort, onContinue }: Props) {
             onClick={onAbort}
             className="rounded-sm border border-amber-glow/60 px-4 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/10"
           >
-            {ACT2_BRIDGE_UI_TEXT.radioPauseAbort}
+            {RADIO_PAUSE_UI_TEXT.radioPauseAbort}
           </button>
           <button
             type="button"
             onClick={onContinue}
             className="rounded-sm border border-destructive/60 px-4 py-2 text-xs uppercase tracking-widest text-destructive hover:bg-destructive/10"
           >
-            {ACT2_BRIDGE_UI_TEXT.radioPauseContinue}
+            {RADIO_PAUSE_UI_TEXT.radioPauseContinue}
           </button>
         </div>
       </div>
