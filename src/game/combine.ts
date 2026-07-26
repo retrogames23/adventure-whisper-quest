@@ -21,7 +21,7 @@ type ItemReactionMap = Partial<Record<InventoryItemId, string[]>>;
 
 const PHILIPPE_REACTIONS: ItemReactionMap = {
   protocol: [
-    "Philippe schaut auf die Datenkapsel. Lange.",
+    "Philippe schaut auf das Protokoll. Lange.",
     "„Das ist nicht für mich. Das ist für jemanden, der da oben sitzt.“",
     "„Bringen Sie das weg, Layard. Bevor jemand fragt, warum Sie es hier zeigen.“",
   ],
@@ -141,7 +141,7 @@ const ENNIS_REACTIONS: ItemReactionMap = {
 
 const MIRA_REACTIONS: ItemReactionMap = {
   protocol: [
-    "Mira mustert die Kapsel. „Verschlüsselt, ja? Standardprotokoll.“",
+    "Mira mustert das Protokoll. „Verschlüsselt, ja? Standardprotokoll.“",
     "„Macht Sie auch nicht zum Helden.“",
   ],
   exitCode: [
@@ -316,7 +316,7 @@ const TERMINAL_REACTIONS: ItemReactionMap = {
     "Layard nimmt den Zettel wieder runter.",
   ],
   protocol: [
-    "Das Terminal hat keinen Schlitz für versiegelte Kapseln.",
+    "Das Terminal hat keinen Schlitz für versiegelte Protokolle.",
     "Layard erinnert sich: Rohrpost. Manche Dinge gehen noch immer den Weg.",
   ],
   mikaelLetter: [
@@ -334,7 +334,7 @@ const KEYPAD_REACTIONS: ItemReactionMap = {
 
 const PHONE_REACTIONS: ItemReactionMap = {
   protocol: [
-    "Man kann eine Datenkapsel nicht durch ein Telefonkabel schicken.",
+    "Man kann ein versiegeltes Protokoll nicht durch ein Telefonkabel schicken.",
     "Layard weiß das. Er versucht es trotzdem nicht.",
   ],
   mikaelLetter: [
