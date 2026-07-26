@@ -122,8 +122,8 @@ export const PHRASES: Record<string, Phrase> = {
   },
   "pE-stapel-hoheit": {
     id: "pE-stapel-hoheit",
-    shortLabel: "Vossbeck: Vertagung",
-    text: "Über Vollmacht 4317 wird heute nicht entschieden. Setzen Sie sich auf meinen Stapel.",
+    shortLabel: "Vossbeck: Sprechzeit",
+    text: "Meine Sprechzeit für Bewohnerangelegenheiten endet in vier Minuten, Bewohner.",
   },
   "pE-vorgesetzten-bluff": {
     id: "pE-vorgesetzten-bluff",
@@ -149,7 +149,7 @@ export const COUNTERS: Record<string, Counter> = {
     id: "c-stapel",
     shortLabel: "„Last des ganzen Hauses“",
     text: "Perfekt — dann trägt er wenigstens die Last des ganzen Hauses.",
-    beats: ["p-stapel", "pE-stapel-hoheit"],
+    beats: ["p-stapel"],
     learnHint:
       "Macht aus dem Stapel-Bluff einen Verdienst. Die Phrase wird zum Lob — der Gegner muss nicken.",
   },
@@ -213,7 +213,7 @@ export const COUNTERS: Record<string, Counter> = {
     id: "c-sprechzeit",
     shortLabel: "„Dann eröffnen Sie sie“",
     text: "Dann eröffnen Sie sie doch. Sie sitzen ja bereits.",
-    beats: ["p-sprechzeit"],
+    beats: ["p-sprechzeit", "pE-stapel-hoheit"],
     learnHint:
       "Sprechzeit ist eine Frage der Sitzposition, nicht der Uhrzeit. Er sitzt — also ist Sprechzeit.",
   },
