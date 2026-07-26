@@ -256,6 +256,22 @@ export function getCounter(id: string): Counter | undefined {
   return COUNTERS[id];
 }
 
+/**
+ * Konter, die Layard von Anfang an im Phrasenbuch hat — sein Grundstock
+ * aus zwei Jahrzehnten Aktenumlauf. Alle anderen Konter müssen im Spiel
+ * verdient werden (durch Lernen bei Bodo/Helka/Kowalk/Mikael/Insa oder
+ * indem Brust sie nach einem verlorenen Trainingsfall nachreicht).
+ *
+ * Bewusst KEIN Konter aus der Bodo/Helka-Familie („Vorgesetzten-Bluff",
+ * „Türschild") — diese bleiben Belohnungen für Sozialarbeit.
+ */
+export const STARTER_COUNTERS: ReadonlySet<string> = new Set<string>([
+  "c-immer-so",
+  "c-nicht-zustaendig",
+  "c-termin",
+  "c-formsache",
+]);
+
 /** Lookup für Phrasen. */
 export function getPhrase(id: string): Phrase | undefined {
   return PHRASES[id];
