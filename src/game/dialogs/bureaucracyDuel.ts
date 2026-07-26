@@ -151,7 +151,7 @@ function attackChoices(opp: "brust" | "vossbeck"): {
         opp === "brust"
           ? "Brust kontert, ohne den Kopf zu heben. Punkt für ihn."
           : "Vossbecks Bleistift bleibt senkrecht. Punkt für ihn.",
-      next: "r3Brust",
+      next: "r4Brust",
     };
   }
 
@@ -177,7 +177,7 @@ function attackChoices(opp: "brust" | "vossbeck"): {
         opp === "brust"
           ? "Bodo hatte recht. Brust stottert sichtbar. Treffer für Layard."
           : "Vossbeck stottert. Sehr kurz, sehr trocken — aber er stottert. Treffer.",
-      next: "r3Brust",
+      next: "r4Brust",
     };
   }
 
@@ -203,16 +203,59 @@ function attackChoices(opp: "brust" | "vossbeck"): {
         opp === "brust"
           ? "Helkas Klassiker zieht. Brust verliert kurz die Spur. Treffer."
           : "Vossbecks Antwort verliert die Schärfe. Treffer.",
-      next: "r3Brust",
+      next: "r4Brust",
     };
   }
 
   return { choices, lines };
 }
 
-// Hinweis: `next: "r3Brust"` ist innerhalb desselben Tree-Scopes der ID
-// nach `r3Brust` zu suchen. Da jeder Trainingsfall seine eigene `r3Brust`-
-// Line definiert, klappt das. Der Vossbeck-Tree hat ebenfalls `r3Brust`.
+// Hinweis: `next: "r4Brust"` verweist auf die vierte Runde des jeweiligen
+// Trees. Sowohl Trainings-Fälle als auch das Vossbeck-Endduell definieren
+// diese Line lokal.
+
+/**
+ * Baut die vier Konter-Optionen einer Brust/Vossbeck-Runde dynamisch
+ * aus dem Phrasenbuch (Starter-Konter + gelernte). Kennt Layard den
+ * korrekten Konter nicht, sind alle vier Auswahlen falsch — Runde
+ * verloren, Konter wird auf der Miss-Line nachgereicht.
+ */
+function makeCounterChoicesFn(
+  correctId: string,
+  hitNext: string,
+  missNext: string,
+): (api: GameApi) => DialogChoice[] {
+  return (api: GameApi) => {
+    const correct = COUNTERS[correctId];
+    if (!correct) return [];
+    const known = new Set<string>(STARTER_COUNTERS);
+    for (const id of Object.keys(COUNTERS)) {
+      if (api.hasParagraph(id)) known.add(id);
+    }
+    const wrongPool = Array.from(known).filter((id) => id !== correctId);
+    const wrong = sample(wrongPool, 3);
+    const choices: DialogChoice[] = [];
+    if (known.has(correctId)) {
+      choices.push({
+        text: correct.text,
+        action: (a) => a.bumpDuelHit(),
+        next: hitNext,
+      });
+    }
+    for (const id of wrong) {
+      const c = COUNTERS[id];
+      if (!c) continue;
+      choices.push({ text: c.text, next: missNext });
+    }
+    while (choices.length < 3) {
+      choices.push({
+        text: "[ Layard stammelt eine leere Höflichkeit. ]",
+        next: missNext,
+      });
+    }
+    return sample(choices, choices.length);
+  };
+}
 
 // ──────────────────────────────────────────────────────────────────
 // Trainingsfall-Generator
@@ -223,43 +266,19 @@ function buildTrainingFall(
   fallNum: 1 | 2 | 3,
   r1PhraseId: string,
   r1CorrectId: string,
-  r1WrongIds: string[],
-  r3PhraseId: string,
-  r3CorrectId: string,
-  r3WrongIds: string[],
+  r2PhraseId: string,
+  r2CorrectId: string,
+  r4PhraseId: string,
+  r4CorrectId: string,
   introText: string,
 ): DialogTree {
   const r1Phrase = PHRASES[r1PhraseId]!;
   const r1Correct = COUNTERS[r1CorrectId]!;
-  const r3Phrase = PHRASES[r3PhraseId]!;
-  const r3Correct = COUNTERS[r3CorrectId]!;
+  const r2Phrase = PHRASES[r2PhraseId]!;
+  const r2Correct = COUNTERS[r2CorrectId]!;
+  const r4Phrase = PHRASES[r4PhraseId]!;
+  const r4Correct = COUNTERS[r4CorrectId]!;
   const atk = attackChoices("brust");
-
-  // Konter-Optionen für eine Brust-Runde bauen. Vier Optionen, eine richtig.
-  const r1Choices: DialogChoice[] = [
-    {
-      text: r1Correct.text,
-      action: (a) => a.bumpDuelHit(),
-      next: "r1Hit",
-    },
-    ...r1WrongIds.map((id) => ({
-      text: COUNTERS[id]!.text,
-      next: "r1Miss",
-    })),
-  ];
-  const r3Choices: DialogChoice[] = [
-    {
-      text: r3Correct.text,
-      action: (a) => {
-        a.bumpDuelHit();
-      },
-      next: "r3HitResolve",
-    },
-    ...r3WrongIds.map((id) => ({
-      text: COUNTERS[id]!.text,
-      next: "r3MissResolve",
-    })),
-  ];
 
   const lines: Record<string, DialogLine> = {
     intro: {
@@ -275,7 +294,7 @@ function buildTrainingFall(
       id: "r1Brust",
       speaker: "BRUST",
       text: r1Phrase.text,
-      choices: r1Choices,
+      choicesFn: makeCounterChoicesFn(r1CorrectId, "r1Hit", "r1Miss"),
     },
     r1Hit: {
       id: "r1Hit",
@@ -283,7 +302,7 @@ function buildTrainingFall(
       text: "Sitzt. — Punkt Worag.",
       subtext:
         "Kaum hörbar, von der Theke her. Brust kneift kurz die Augen zusammen, schweigt aber.",
-      next: "r2Intro",
+      next: "r2Brust",
     },
     r1Miss: {
       id: "r1Miss",
@@ -294,32 +313,64 @@ function buildTrainingFall(
       choices: [
         {
           text: `[ »${r1Correct.shortLabel}« ins Phrasenbuch übernehmen ]`,
+          hiddenWhen: [],
           action: (a) => a.learnParagraph(r1Correct.id),
-          next: "r2Intro",
+          next: "r2Brust",
         },
         {
           text: "[ Übergehen ]",
-          next: "r2Intro",
+          next: "r2Brust",
         },
       ],
     },
-    // ── Runde 2 — Layard greift an ───────────────────────────────
-    r2Intro: {
-      id: "r2Intro",
+    // ── Runde 2 — Brust greift an ────────────────────────────────
+    r2Brust: {
+      id: "r2Brust",
+      speaker: "BRUST",
+      text: r2Phrase.text,
+      choicesFn: makeCounterChoicesFn(r2CorrectId, "r2Hit", "r2Miss"),
+    },
+    r2Hit: {
+      id: "r2Hit",
+      speaker: "KOWALK",
+      text: "Sitzt. — Punkt Worag.",
+      subtext: "Kowalk faltet den Lappen. Sehr sorgfältig.",
+      next: "r3Intro",
+    },
+    r2Miss: {
+      id: "r2Miss",
+      speaker: "BRUST",
+      text: `Falsche Antwort, Bewohner Worag. Korrekt wäre gewesen: »${r2Correct.text}«. — Punkt Brust.`,
+      subtext: "Brust legt den Bleistift kurz quer. Kowalk hebt den Blick.",
+      choices: [
+        {
+          text: `[ »${r2Correct.shortLabel}« ins Phrasenbuch übernehmen ]`,
+          action: (a) => a.learnParagraph(r2Correct.id),
+          next: "r3Intro",
+        },
+        {
+          text: "[ Übergehen ]",
+          next: "r3Intro",
+        },
+      ],
+    },
+    // ── Runde 3 — Layard greift an ───────────────────────────────
+    r3Intro: {
+      id: "r3Intro",
       speaker: "BRUST",
       text: "Ihre Eröffnung, Bewohner Worag.",
       choices: atk.choices,
     },
     ...atk.lines,
-    // ── Runde 3 — Brust greift an ────────────────────────────────
-    r3Brust: {
-      id: "r3Brust",
+    // ── Runde 4 — Brust greift an ────────────────────────────────
+    r4Brust: {
+      id: "r4Brust",
       speaker: "BRUST",
-      text: r3Phrase.text,
-      choices: r3Choices,
+      text: r4Phrase.text,
+      choicesFn: makeCounterChoicesFn(r4CorrectId, "r4HitResolve", "r4MissResolve"),
     },
-    r3HitResolve: {
-      id: "r3HitResolve",
+    r4HitResolve: {
+      id: "r4HitResolve",
       speaker: "KOWALK",
       text: "Sitzt. — Punkt Worag.",
       subtext: "Kowalk dreht den Lappen einmal um. Brust legt den Bleistift ab.",
@@ -331,15 +382,15 @@ function buildTrainingFall(
         },
       ],
     },
-    r3MissResolve: {
-      id: "r3MissResolve",
+    r4MissResolve: {
+      id: "r4MissResolve",
       speaker: "BRUST",
-      text: `Falsche Antwort, Bewohner Worag. Korrekt wäre gewesen: »${r3Correct.text}«. — Punkt Brust.`,
+      text: `Falsche Antwort, Bewohner Worag. Korrekt wäre gewesen: »${r4Correct.text}«. — Punkt Brust.`,
       choices: [
         {
-          text: `[ »${r3Correct.shortLabel}« ins Phrasenbuch übernehmen und Fall abschließen ]`,
+          text: `[ »${r4Correct.shortLabel}« ins Phrasenbuch übernehmen und Fall abschließen ]`,
           action: (a) => {
-            a.learnParagraph(r3Correct.id);
+            a.learnParagraph(r4Correct.id);
             resolveTraining(a, fallNum);
           },
           nextDialog: "duelTrainingResult",
