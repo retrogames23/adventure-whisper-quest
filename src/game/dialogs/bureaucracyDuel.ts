@@ -690,7 +690,7 @@ const vossbeckDuel: DialogTree = (() => {
         id: "r4Brust",
         speaker: "VOSSBECK",
         text: r4Phrase.text,
-        choicesFn: makeCounterChoicesFn("c-stapel", "r4HitResolve", "r4MissResolve"),
+        choicesFn: makeCounterChoicesFn("c-sprechzeit", "r4HitResolve", "r4MissResolve"),
       },
       r4HitResolve: {
         id: "r4HitResolve",
