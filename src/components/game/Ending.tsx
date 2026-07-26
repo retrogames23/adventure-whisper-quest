@@ -8,9 +8,12 @@ import {
   buildEndingBaseFrames,
   ENDING_FLYER_FRAMES,
   ENDING_UI_TEXT,
-  ACT2_BRIDGE_UI_TEXT,
 } from "@/game/cutscenes";
 import { getHintsUsedCount, HINTS_UI_TEXT } from "@/game/hints";
+import {
+  computeMiraEndState,
+  persistMiraEndState,
+} from "@/game/miraState";
 import { DonationModal } from "@/components/donation/DonationModal";
 import { useDevMode } from "@/dev/devMode";
 import { useEditActive } from "@/dev/dialogPatchState";
