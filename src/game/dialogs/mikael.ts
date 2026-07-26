@@ -53,7 +53,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr5: {
         id: "mr5",
         speaker: "LAYARD",
-        text: "Ja. Es ist eine versiegelte Datenkapsel. Soll ich sie hier ablegen?",
+        text: "Ja. Es ist ein versiegeltes Protokoll. Soll ich es hier ablegen?",
         next: "mr6",
       },
       mr6: {
@@ -78,7 +78,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr9: {
         id: "mr9",
         speaker: "MIKAEL",
-        text: "Jeder dieser Vorgänge hat Vorrang. Jeder. Wenn ich Ihre Kapsel jetzt annehme, liegt sie in zwei Wochen unter den anderen — und dann sind wir beide schuld, dass sie nicht bearbeitet wurde.",
+        text: "Jeder dieser Vorgänge hat Vorrang. Jeder. Wenn ich Ihr Protokoll jetzt annehme, liegt es in zwei Wochen unter den anderen — und dann sind wir beide schuld, dass es nicht bearbeitet wurde.",
         next: "mr10",
       },
       mr10: {
@@ -104,7 +104,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr12b: {
         id: "mr12b",
         speaker: "MIKAEL",
-        text: "Das ist nicht das erste Mal, dass jemand mit so einer Kapsel hier steht. In den Siebzigern hat einer namens Marteau aufgeschrieben, was Hörer wie Sie hören. Niemand wollte es lesen.",
+        text: "Das ist nicht das erste Mal, dass jemand mit so einem Protokoll hier steht. In den Siebzigern hat einer namens Marteau aufgeschrieben, was Hörer wie Sie hören. Niemand wollte es lesen.",
         subtext: "Er sagt es beiläufig, fast zu sich. Als sei der Name nicht für Layard bestimmt — aber er ist es doch.",
         next: "mr13",
       },
@@ -124,7 +124,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr15: {
         id: "mr15",
         speaker: "SYSTEM",
-        text: "[ Mikael nickt nur noch. Sein Blick ist schon wieder auf dem nächsten Stapel. Layard tritt einen Schritt zurück. Die Datenkapsel liegt unverändert in seiner Hand. ]",
+        text: "[ Mikael nickt nur noch. Sein Blick ist schon wieder auf dem nächsten Stapel. Layard tritt einen Schritt zurück. Das Protokoll liegt unverändert in seiner Hand. ]",
         end: true,
       },
     },
