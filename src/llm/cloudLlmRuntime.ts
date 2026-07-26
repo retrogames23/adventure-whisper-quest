@@ -157,6 +157,8 @@ export function createCloudRuntime(npcId: string): LlmRuntime {
         if (resp.status === 402) {
           if (code === "donation_required") {
             emitError({ code: "donation_required", message: err });
+          } else if (code === "auth_required") {
+            emitError({ code: "auth_required", message: err });
           }
           throw new Error(
             err || "Cloud-Limit erreicht. Bitte unterstützen, um weiter zu chatten.",
