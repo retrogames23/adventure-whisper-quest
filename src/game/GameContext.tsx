@@ -25,6 +25,20 @@ import type {
   StoryFlag,
 } from "./types";
 
+export interface MarvSaveState {
+  empathyScore: number;
+  unlocked: boolean;
+  oiled: boolean;
+  messageCount: number;
+}
+
+const INITIAL_MARV_STATE: MarvSaveState = {
+  empathyScore: 0,
+  unlocked: false,
+  oiled: false,
+  messageCount: 0,
+};
+
 interface GameState {
   scene: SceneId;
   flags: Set<StoryFlag>;
@@ -177,6 +191,8 @@ interface PersistedState {
   learnedParagraphs?: string[];
   /** Laufende Siegesserie bei Brust; ältere Saves hatten dieses Feld nicht. */
   brustWinStreak?: number;
+  /** MARV-9 Empathie-Zustand — hängt am Save, nicht am Account. */
+  marvState?: MarvSaveState;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
