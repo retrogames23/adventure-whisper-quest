@@ -10,6 +10,7 @@ import {
 } from "react";
 import { getDialog } from "./dialogs/lookup";
 import { scenes } from "./scenes";
+import { STARTER_COUNTERS } from "./bureaucracyDuel";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/auth/AuthContext";
 import { markEssentialAssetsLoaded as notifyLoaderEssentialAssets } from "@/llm/webLlmLoader";
