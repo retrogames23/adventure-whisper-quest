@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useGame } from "@/game/GameContext";
 import { getDialog } from "@/game/dialogs/lookup";
 import { useSettings } from "@/audio/SettingsContext";
@@ -28,6 +28,21 @@ export function DialogOverlay() {
 
   const tree = dialogId ? (getDialog(dialogId) ?? null) : null;
   const line = tree && dialogLineId ? tree.lines[dialogLineId] : null;
+
+  // `choicesFn` einmal pro Zeilenbesuch auswerten und einfrieren, damit
+  // eine Zufallsauswahl nicht bei jedem Re-Render neu würfelt.
+  const dynamicChoices = useMemo(() => {
+    if (!line) return null;
+    if (line.choices) return null;
+    if (!line.choicesFn) return null;
+    try {
+      return line.choicesFn(api);
+    } catch {
+      return null;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogId, dialogLineId]);
+  const effectiveChoices = line?.choices ?? dynamicChoices ?? undefined;
 
   // Dev-Rewind: kleine lokale History pro Dialog-Tree. Push bei jedem
   // Zeilenwechsel; bei „Schritt zurück" Pop & advanceDialog(prevId).
@@ -88,7 +103,7 @@ export function DialogOverlay() {
     if (editing) return;
     const hasChoices =
       (
-        line.choices?.filter((c) => {
+        effectiveChoices?.filter((c) => {
           if (c.requiresRadio && !radioActive) return false;
           if (c.requires && c.requires.some((f) => !api.hasFlag(f))) return false;
           if (c.hiddenWhen && c.hiddenWhen.some((f) => api.hasFlag(f))) return false;
@@ -104,12 +119,12 @@ export function DialogOverlay() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [line, radioActive, advanceDialog, editing]);
+  }, [line, radioActive, advanceDialog, editing, effectiveChoices]);
 
   if (!line || !tree) return null;
 
   const visibleChoices =
-    line.choices?.filter((c) => {
+    effectiveChoices?.filter((c) => {
       if (c.requiresRadio && !radioActive) return false;
       if (c.requires && c.requires.some((f) => !api.hasFlag(f))) return false;
       if (c.hiddenWhen && c.hiddenWhen.some((f) => api.hasFlag(f))) return false;
