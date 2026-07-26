@@ -81,15 +81,32 @@ export function createCloudRuntime(npcId: string): LlmRuntime {
         content: m.content,
       }));
 
-      // User-Token mitsenden, damit der Server den Counter pro Account führt.
+      // User-Token mitsenden (falls eingeloggt) — sonst Anon-ID
+      // aus dem localStorage, damit der Server das Kontingent zählen kann.
       const { getFreshAccessToken } = await import("@/auth/freshToken");
-      const token = await getFreshAccessToken();
+      const token = await getFreshAccessToken().catch(() => null);
+      let anonId: string | null = null;
       if (!token) {
-        emitError({
-          code: "auth_required",
-          message: "Bitte melde dich an, um den Cloud-Chat zu nutzen.",
-        });
-        throw new Error("Bitte melde dich an, um den Cloud-Chat zu nutzen.");
+        try {
+          anonId = window.localStorage.getItem("dsa.anonId");
+        } catch {
+          anonId = null;
+        }
+        if (!anonId) {
+          // Neue Anon-ID lokal erzeugen und speichern.
+          const rand = new Uint8Array(12);
+          crypto.getRandomValues(rand);
+          anonId =
+            "anon" +
+            Array.from(rand)
+              .map((b) => b.toString(16).padStart(2, "0"))
+              .join("");
+          try {
+            window.localStorage.setItem("dsa.anonId", anonId);
+          } catch {
+            /* ignore */
+          }
+        }
       }
 
       const ctx: LlmContext | undefined = opts?.context;
@@ -105,18 +122,20 @@ export function createCloudRuntime(npcId: string): LlmRuntime {
             }
           : { seatedCount: ctx.seatedCount, myShift: ctx.myShift }
         : {};
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) headers.Authorization = `Bearer ${token}`;
       const resp = await fetch("/api/public/npc-chat", {
         method: "POST",
         signal: opts?.signal,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify({
           npcId,
           context: ctxPayload,
           history: priorHistory,
           userMessage: last.content,
+          anonId: token ? undefined : anonId,
         }),
       });
 
