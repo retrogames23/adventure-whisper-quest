@@ -44,9 +44,9 @@ export function openRouterHeaders(apiKey: string): Record<string, string> {
 }
 
 /**
- * Auswählbare Master-Modelle für DSA. Nur Unterstützer*innen
+ * Auswählbare Master-Modelle für DSA. Modelle mit donorOnly=true
  * (donation_unlocked=true) dürfen vom Default abweichen — Standard-
- * spieler*innen bleiben zwingend auf AI_MODEL_DSA_MASTER.
+ * spieler*innen können alle nicht-donorOnly-Optionen wählen.
  *
  * Reihenfolge bestimmt die Anzeige im UI-Switcher.
  */
@@ -92,7 +92,7 @@ export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
     label: "Gemini 3.6 Flash",
     short: "Gemini",
     hint: "Neueste Flash-Generation — schnell, günstig, solides Deutsch.",
-    donorOnly: true,
+    donorOnly: false,
   },
 ];
 
