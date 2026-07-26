@@ -71,9 +71,9 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
       },
       {
         id: "aushangResonanz",
-        x: 82.9,
-        y: 12,
-        w: 16.1,
+        x: 79.7,
+        y: 5.9,
+        w: 11.9,
         h: 30,
         label: "Aushang „Resonanz-Hygiene“",
         kind: "look",
