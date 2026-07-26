@@ -14,6 +14,18 @@ export type LlmContext =
       resonance: number;
       activeFlags: string[];
       playedDialogIds: string[];
+      /**
+       * Optionaler MARV-Zustand aus dem Spielstand. Wird nur bei
+       * `npcId === "marv9"` genutzt; der Server nimmt diesen Wert als
+       * `marvBefore` und schreibt ihn nicht mehr in die DB — die
+       * Persistenz liegt beim Save-Slot.
+       */
+      marvState?: {
+        empathyScore: number;
+        unlocked: boolean;
+        oiled: boolean;
+        messageCount: number;
+      };
     }
   | {
       kind: "bram";
