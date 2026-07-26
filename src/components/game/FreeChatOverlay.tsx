@@ -387,6 +387,14 @@ Regeln: Erfinde KEINE Abenteuer-Ereignisse, die hier nicht stehen. Mach kein Mei
         resonance: game.resonance,
         activeFlags,
         playedDialogIds: persona.staticDialogIds.filter(() => true),
+        marvState: isMarv
+          ? {
+              empathyScore: game.marvState.empathyScore,
+              unlocked: game.marvState.unlocked,
+              oiled: game.marvState.oiled,
+              messageCount: game.marvState.messageCount,
+            }
+          : undefined,
       };
 
       let reply: string;
