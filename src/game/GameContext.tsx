@@ -25,6 +25,20 @@ import type {
   StoryFlag,
 } from "./types";
 
+export interface MarvSaveState {
+  empathyScore: number;
+  unlocked: boolean;
+  oiled: boolean;
+  messageCount: number;
+}
+
+const INITIAL_MARV_STATE: MarvSaveState = {
+  empathyScore: 0,
+  unlocked: false,
+  oiled: false,
+  messageCount: 0,
+};
+
 interface GameState {
   scene: SceneId;
   flags: Set<StoryFlag>;
@@ -124,6 +138,12 @@ interface GameContextValue extends GameState {
   closeKantinenverordnung: () => void;
   /** Set der gelernten Paragraphen-IDs (für Notizbuch-UI). */
   learnedParagraphs: ReadonlySet<string>;
+  /** MARV-9 Empathie-Zustand (Save-lokal, nicht Account-lokal). */
+  marvState: MarvSaveState;
+  /** Neuen Marv-Zustand persistieren (wird im Save mitgespeichert). */
+  updateMarvState: (next: MarvSaveState) => void;
+  /** Marv-Zustand auf Startwerte zurücksetzen. */
+  resetMarvState: () => void;
   /** Lobby-Schleusen-Eskalation (Fehlversuche, transient). */
   getLobbyGateAttempts: () => number;
   bumpLobbyGateAttempts: () => number;
@@ -177,6 +197,8 @@ interface PersistedState {
   learnedParagraphs?: string[];
   /** Laufende Siegesserie bei Brust; ältere Saves hatten dieses Feld nicht. */
   brustWinStreak?: number;
+  /** MARV-9 Empathie-Zustand — hängt am Save, nicht am Account. */
+  marvState?: MarvSaveState;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -249,6 +271,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
   learnedParagraphsRef.current = learnedParagraphs;
   const brustWinStreakRef = useRef(0);
   const duelHitsRef = useRef(0);
+  const [marvState, setMarvStateInternal] =
+    useState<MarvSaveState>(INITIAL_MARV_STATE);
+  const marvStateRef = useRef(marvState);
+  marvStateRef.current = marvState;
+  const updateMarvState = useCallback((next: MarvSaveState) => {
+    marvStateRef.current = next;
+    setMarvStateInternal(next);
+  }, []);
+  const resetMarvState = useCallback(() => {
+    marvStateRef.current = INITIAL_MARV_STATE;
+    setMarvStateInternal(INITIAL_MARV_STATE);
+  }, []);
   const [freeChatNpcId, setFreeChatNpcId] = useState<string | null>(null);
   const [isEssentialAssetsLoaded, setIsEssentialAssetsLoaded] = useState(false);
   // Eskalationszähler der Lobby-Schleuse (Fehlversuche), nicht persistiert.
@@ -854,6 +888,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dsaSessionId: dsaSessionIdRef.current,
         learnedParagraphs: Array.from(learnedParagraphsRef.current),
         brustWinStreak: brustWinStreakRef.current,
+        marvState: marvStateRef.current,
       };
       const summary: SaveSummary = {
         slot,
@@ -923,6 +958,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
               : 0;
     brustWinStreakRef.current = restoredStreak;
     duelHitsRef.current = 0;
+    // MARV-Zustand aus dem Save wiederherstellen (Fallback: leer, damit
+    // alte Saves nicht plötzlich mit alten Cross-Account-Werten starten).
+    const restoredMarv: MarvSaveState = persisted.marvState
+      ? {
+          empathyScore: Math.max(0, Math.min(10, persisted.marvState.empathyScore ?? 0)),
+          unlocked: Boolean(persisted.marvState.unlocked),
+          oiled: Boolean(persisted.marvState.oiled),
+          messageCount: Math.max(0, persisted.marvState.messageCount ?? 0),
+        }
+      : INITIAL_MARV_STATE;
+    marvStateRef.current = restoredMarv;
+    setMarvStateInternal(restoredMarv);
     if (persisted.dsaCharacter) {
       const c = persisted.dsaCharacter;
       const migrated = {
@@ -1041,6 +1088,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     learnedParagraphs,
     kantinenverordnungOpen,
     freeChatNpcId,
+    marvState,
+    updateMarvState,
+    resetMarvState,
       isEssentialAssetsLoaded,
       api,
       advanceDialog,
@@ -1089,6 +1139,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       learnedParagraphs,
       kantinenverordnungOpen,
       freeChatNpcId,
+      marvState,
+      updateMarvState,
+      resetMarvState,
       isEssentialAssetsLoaded,
       api,
       advanceDialog,

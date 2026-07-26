@@ -230,26 +230,35 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           oiled: boolean;
           message_count: number;
         } = { empathy_score: 0, unlocked: false, oiled: false, message_count: 0 };
-        if (npcId === "marv9" && uid) {
-          const { data: ms } = await admin
-            .from("marv_state")
-            .select("empathy_score, unlocked, oiled, message_count")
-            .eq("user_id", uid)
-            .maybeSingle();
-          if (ms) marvBefore = ms as typeof marvBefore;
+        if (npcId === "marv9") {
+          // MARV-State kommt jetzt aus dem Client-Spielstand
+          // (context.marvState) — nicht mehr aus der DB. Damit hängt
+          // der Empathie-Fortschritt am Save, nicht am Account.
+          const ms = ctxRaw.marvState as
+            | {
+                empathyScore?: unknown;
+                unlocked?: unknown;
+                oiled?: unknown;
+                messageCount?: unknown;
+              }
+            | undefined;
+          if (ms && typeof ms === "object") {
+            const clampInt = (n: unknown, lo: number, hi: number) =>
+              typeof n === "number" && Number.isFinite(n)
+                ? Math.max(lo, Math.min(hi, Math.floor(n)))
+                : 0;
+            marvBefore = {
+              empathy_score: clampInt(ms.empathyScore, 0, 10),
+              unlocked: Boolean(ms.unlocked),
+              oiled: Boolean(ms.oiled),
+              message_count: clampInt(ms.messageCount, 0, 100000),
+            };
+          }
           systemPrompt = buildMarvSystemPrompt({
             empathyScore: marvBefore.empathy_score,
             unlocked: marvBefore.unlocked,
             oiled: marvBefore.oiled,
             messageCount: marvBefore.message_count,
-          });
-        } else if (npcId === "marv9") {
-          // Anon-Modus: kein persistenter State, neutrale Startwerte.
-          systemPrompt = buildMarvSystemPrompt({
-            empathyScore: 0,
-            unlocked: false,
-            oiled: false,
-            messageCount: 0,
           });
         } else
         if (npcId === "bram") {
@@ -491,7 +500,7 @@ export const Route = createFileRoute("/api/public/npc-chat")({
               justUnlocked: boolean;
             }
           | undefined;
-        if (npcId === "marv9" && uid) {
+        if (npcId === "marv9") {
           let delta = 0;
           try {
             const raterResp = await fetch(
@@ -578,17 +587,8 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           const justUnlocked = !marvBefore.unlocked && newScore >= 3;
           const unlockedAfter = marvBefore.unlocked || newScore >= 3;
           const newCount = marvBefore.message_count + 1;
-          await admin.from("marv_state").upsert(
-            {
-              user_id: uid,
-              empathy_score: newScore,
-              unlocked: unlockedAfter,
-              oiled: marvBefore.oiled,
-              message_count: newCount,
-              updated_at: new Date().toISOString(),
-            },
-            { onConflict: "user_id" },
-          );
+          // Kein DB-Write mehr — der Client persistiert den neuen
+          // Marv-Zustand in den Save-Slot.
           marvUpdate = {
             empathyScore: newScore,
             unlocked: unlockedAfter,
