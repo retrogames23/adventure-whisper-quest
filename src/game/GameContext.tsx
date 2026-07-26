@@ -318,20 +318,23 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setScene(s);
         setCaption(null);
       },
-      setFlag: (f) =>
-        setFlags((prev) => {
-          if (prev.has(f)) return prev;
-          const n = new Set(prev);
-          n.add(f);
-          return n;
-        }),
-      clearFlag: (f) =>
-        setFlags((prev) => {
-          if (!prev.has(f)) return prev;
-          const n = new Set(prev);
-          n.delete(f);
-          return n;
-        }),
+      setFlag: (f) => {
+        if (flagsRef.current.has(f)) return;
+        const next = new Set(flagsRef.current);
+        next.add(f);
+        // Dialog-Aktionen können unmittelbar danach per `nextDialog` einen
+        // neuen Baum starten. Der Resolver muss das neue Flag schon in
+        // demselben Klick sehen, nicht erst nach Reacts nächstem Render.
+        flagsRef.current = next;
+        setFlags(next);
+      },
+      clearFlag: (f) => {
+        if (!flagsRef.current.has(f)) return;
+        const next = new Set(flagsRef.current);
+        next.delete(f);
+        flagsRef.current = next;
+        setFlags(next);
+      },
       hasFlag: (f) => flagsRef.current.has(f),
       setKnowledge: (k) =>
         setKnowledge((prev) => {
