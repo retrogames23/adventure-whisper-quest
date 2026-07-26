@@ -138,6 +138,12 @@ interface GameContextValue extends GameState {
   closeKantinenverordnung: () => void;
   /** Set der gelernten Paragraphen-IDs (für Notizbuch-UI). */
   learnedParagraphs: ReadonlySet<string>;
+  /** MARV-9 Empathie-Zustand (Save-lokal, nicht Account-lokal). */
+  marvState: MarvSaveState;
+  /** Neuen Marv-Zustand persistieren (wird im Save mitgespeichert). */
+  updateMarvState: (next: MarvSaveState) => void;
+  /** Marv-Zustand auf Startwerte zurücksetzen. */
+  resetMarvState: () => void;
   /** Lobby-Schleusen-Eskalation (Fehlversuche, transient). */
   getLobbyGateAttempts: () => number;
   bumpLobbyGateAttempts: () => number;
