@@ -235,7 +235,6 @@ function GameStage({
             <PubOverlay />
             <ToiletWallOverlay />
             <Ending />
-            <Act2BridgeCutscene />
             <SectorThresholdCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
             <Suspense fallback={null}>
