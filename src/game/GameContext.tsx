@@ -882,6 +882,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dsaSessionId: dsaSessionIdRef.current,
         learnedParagraphs: Array.from(learnedParagraphsRef.current),
         brustWinStreak: brustWinStreakRef.current,
+        marvState: marvStateRef.current,
       };
       const summary: SaveSummary = {
         slot,
