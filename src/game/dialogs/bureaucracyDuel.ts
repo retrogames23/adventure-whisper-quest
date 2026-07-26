@@ -597,7 +597,8 @@ const duelTrainingResultBranching: DialogTree = {
     checkWon: {
       id: "checkWon",
       speaker: "BRUST",
-      text: "Notiert. Weiter.",
+      text: "Trainingsfall bestanden, Bewohner Worag. Nicht sauber genug für Formblatt Siebzehn-V — dafür brauche ich drei saubere Konter in Folge. Aber notiert. Kommen Sie wieder, wenn Sie's ganz wollen.",
+      subtext: "Brust legt den Stempel zurück in die Halterung. Kein Formblatt heute.",
       requires: ["duelJustWon"],
       hiddenWhen: ["vossbeckSummoned"],
       next: "lost",
@@ -606,7 +607,7 @@ const duelTrainingResultBranching: DialogTree = {
     lost: {
       id: "lost",
       speaker: "BRUST",
-      text: "Trainingsfall verfehlt, Bewohner Worag. Zählung zurück auf null. Wenn Sie wollen, von vorn — beim nächsten Mal.",
+      text: "Trainingsfall verfehlt, Bewohner Worag. Zählung der drei sauberen Konter zurück auf null. Wenn Sie wollen, von vorn — beim nächsten Mal.",
       subtext: "Kowalk legt den Lappen ab. Schaut Layard kurz an. Sagt nichts.",
       end: true,
     },
