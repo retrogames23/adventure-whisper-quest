@@ -265,6 +265,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
   learnedParagraphsRef.current = learnedParagraphs;
   const brustWinStreakRef = useRef(0);
   const duelHitsRef = useRef(0);
+  const [marvState, setMarvStateInternal] =
+    useState<MarvSaveState>(INITIAL_MARV_STATE);
+  const marvStateRef = useRef(marvState);
+  marvStateRef.current = marvState;
+  const updateMarvState = useCallback((next: MarvSaveState) => {
+    marvStateRef.current = next;
+    setMarvStateInternal(next);
+  }, []);
+  const resetMarvState = useCallback(() => {
+    marvStateRef.current = INITIAL_MARV_STATE;
+    setMarvStateInternal(INITIAL_MARV_STATE);
+  }, []);
   const [freeChatNpcId, setFreeChatNpcId] = useState<string | null>(null);
   const [isEssentialAssetsLoaded, setIsEssentialAssetsLoaded] = useState(false);
   // Eskalationszähler der Lobby-Schleuse (Fehlversuche), nicht persistiert.
