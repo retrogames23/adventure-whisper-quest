@@ -401,7 +401,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
               flagsRef.current.has(f),
             );
           if (reqOk && hideOk) break;
-          if (candidate.end || !candidate.next) {
+          // Wichtig: `end: true` heißt nur „schließe beim Advance, wenn
+          // sichtbar" — beim Auflösen der Start-Zeile MUSS der Resolver
+          // weiter dem `next`-Faden folgen. Sonst bleibt ein verzweigter
+          // Result-Tree hängen (siehe duelTrainingResult).
+          if (!candidate.next) {
             cursor = undefined;
             break;
           }
