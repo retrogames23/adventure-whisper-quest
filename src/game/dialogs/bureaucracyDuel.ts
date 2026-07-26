@@ -572,7 +572,6 @@ const duelTrainingResultBranching: DialogTree = {
       subtext:
         "»Beurkunden« mit dem leisen Zittern eines Mannes, der das Wort lange im Spiegel geübt hat.",
       requires: ["vossbeckSummoned"],
-      next: "checkWon",
       end: true,
     },
     checkWon: {
@@ -581,7 +580,6 @@ const duelTrainingResultBranching: DialogTree = {
       text: "Notiert. Weiter.",
       requires: ["duelJustWon"],
       hiddenWhen: ["vossbeckSummoned"],
-      next: "lost",
       end: true,
     },
     lost: {
