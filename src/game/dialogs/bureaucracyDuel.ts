@@ -29,6 +29,7 @@ import {
   FICTIONAL_ATTACKS,
   PHRASES,
   STARTER_COUNTERS,
+  opponentCounters,
 } from "../bureaucracyDuel";
 
 // ──────────────────────────────────────────────────────────────────
@@ -137,10 +138,13 @@ function attackChoices(opp: "brust" | "vossbeck"): {
     const atk = FICTIONAL_ATTACKS[id];
     if (!atk) continue;
     const respId = `${opp}Resp_${id}`;
+    const knows = opponentCounters(opp, id);
     choices.push({
       text: atk.text,
+      action: knows ? undefined : (a) => a.bumpDuelHit(),
       next: respId,
     });
+    if (knows) {
     lines[respId] = {
       id: respId,
       speaker: opp === "brust" ? "BRUST" : "VOSSBECK",
@@ -153,6 +157,21 @@ function attackChoices(opp: "brust" | "vossbeck"): {
           : "Vossbecks Bleistift bleibt senkrecht. Punkt für ihn.",
       next: "r4Brust",
     };
+    } else {
+      lines[respId] = {
+        id: respId,
+        speaker: opp === "brust" ? "BRUST" : "VOSSBECK",
+        text:
+          opp === "brust"
+            ? "Also — das … einen Moment. (Brust blättert, findet nichts.) Das müsste ich … nachschlagen. — Punkt Worag."
+            : "(Vossbeck hält den Bleistift an.) Das ist … so nicht vorgesehen. Weiter. — Punkt Worag.",
+        subtext:
+          opp === "brust"
+            ? "Brust hat die Phrase nie gehört. Sichtbarer Aussetzer — Treffer für Layard."
+            : "Vossbeck kennt die Phrase nicht. Kurzer Riss in der Fassade — Treffer.",
+        next: "r4Brust",
+      };
+    }
   }
 
   // Bodo-Special — gelernt bei Bodo.

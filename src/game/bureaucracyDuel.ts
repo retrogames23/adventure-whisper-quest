@@ -401,24 +401,18 @@ export const FICTIONAL_ATTACKS: Record<string, AttackPhrase> = {
  */
 export const BRUST_KNOWS_ATTACKS: ReadonlySet<string> = new Set<string>([
   "fa-bitte",
-  "fa-hausflur",
   "fa-anlage3",
   "fa-sechs-wochen",
   "fa-protokoll",
-  "fa-vorlauf",
   "fa-akte",
-  "fa-rundschreiben",
   "fa-tarif",
-  "fa-fussnote",
 ]);
 export const VOSSBECK_KNOWS_ATTACKS: ReadonlySet<string> = new Set<string>([
   "fa-bitte",
   "fa-hausflur",
   "fa-anlage3",
-  "fa-sechs-wochen",
   "fa-protokoll",
   "fa-vorlauf",
-  "fa-akte",
   "fa-rundschreiben",
   "fa-tarif",
   "fa-fussnote",
