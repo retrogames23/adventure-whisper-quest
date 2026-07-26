@@ -143,7 +143,19 @@ function FreeChatInner({
   const persistedRef = useRef(false);
 
   const isMarv = npcId === "marv9";
-  const [marv, setMarv] = useState<MarvUpdate | null>(null);
+  // Marv-Zustand kommt aus dem aktuellen Spielstand (GameContext) —
+  // nicht mehr aus einer accountweiten DB-Tabelle. Damit startet jede
+  // neue Session bei 0/3 und Fortschritt hängt am Save-Slot.
+  const marv: MarvUpdate | null = isMarv
+    ? {
+        empathyScore: game.marvState.empathyScore,
+        unlocked: game.marvState.unlocked,
+        oiled: game.marvState.oiled,
+        messageCount: game.marvState.messageCount,
+        delta: 0,
+        justUnlocked: false,
+      }
+    : null;
 
   // === Tjark-spezifische Helden-Memory (Chronik + bekannte NSCs) ===
   // Tjark ist im Hauptspiel KEIN Meister, sondern Tischnachbar. Hier
@@ -187,7 +199,13 @@ function FreeChatInner({
   useEffect(() => {
     if (!isMarv) return;
     const off = onMarvUpdate((u) => {
-      setMarv(u);
+      // Neuen Zustand in den Spielstand persistieren.
+      game.updateMarvState({
+        empathyScore: u.empathyScore,
+        unlocked: u.unlocked,
+        oiled: u.oiled,
+        messageCount: u.messageCount,
+      });
       if (u.justUnlocked) {
         try { game.api.setFlag("marvUnlocked"); } catch { /* ignore */ }
       }
@@ -195,34 +213,14 @@ function FreeChatInner({
     return () => { off(); };
   }, [isMarv, game]);
 
-  // Initialen Marv-Zustand aus DB lesen, damit der Empathie-Balken
-  // bei Wiedereinstieg den richtigen Stand zeigt.
+  // Marv-Save-Init: Falls die Tür laut Spielstand offen ist, das
+  // Story-Flag mitziehen (für alte Saves ohne `marvUnlocked`-Flag).
   useEffect(() => {
-    if (!isMarv || !userId) return;
-    let cancelled = false;
-    (async () => {
-      const { data } = await supabase
-        .from("marv_state")
-        .select("empathy_score, unlocked, oiled, message_count")
-        .eq("user_id", userId)
-        .maybeSingle();
-      if (cancelled || !data) return;
-      setMarv({
-        empathyScore: data.empathy_score,
-        unlocked: data.unlocked,
-        oiled: data.oiled,
-        messageCount: data.message_count,
-        delta: 0,
-        justUnlocked: false,
-      });
-      // Wenn die Tür laut DB schon offen ist, Flag im Spielstand setzen,
-      // falls der lokale Save älter ist und das Flag fehlt.
-      if (data.unlocked) {
-        try { game.api.setFlag("marvUnlocked"); } catch { /* ignore */ }
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [isMarv, userId, game]);
+    if (!isMarv) return;
+    if (game.marvState.unlocked) {
+      try { game.api.setFlag("marvUnlocked"); } catch { /* ignore */ }
+    }
+  }, [isMarv, game]);
 
   async function persistMemory() {
     if (persistedRef.current) return;
