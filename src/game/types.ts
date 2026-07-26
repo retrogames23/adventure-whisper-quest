@@ -80,7 +80,7 @@ export type InventoryItemId =
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "frequencyControl";
 
 /** Identifier einer narrativen Cutscene. */
-export type CutsceneId = "paramedics" | "act2Bridge" | "sectorThreshold";
+export type CutsceneId = "paramedics" | "sectorThreshold";
 
 export type StoryFlag =
   | "radioTunedTo1046"
