@@ -424,10 +424,10 @@ const cafeteriaTrainingA = buildTrainingFall(
   1,
   "p-immer-so",
   "c-immer-so",
-  ["c-stapel", "c-termin", "c-formsache"],
+  "p-stapel",
+  "c-stapel",
   "p-nicht-zustaendig",
   "c-nicht-zustaendig",
-  ["c-vorgesetzte", "c-immer-so", "c-formsache"],
   "Trainingsfall Eins. Konstellation: Bewohner verlangt eine B3 ohne Termin. Bewohner argumentiert mit Hausordnung. Ich eröffne — Sie kontern.",
 );
 
@@ -436,10 +436,10 @@ const cafeteriaTrainingB = buildTrainingFall(
   2,
   "p-stapel",
   "c-stapel",
-  ["c-immer-so", "c-nicht-zustaendig", "c-termin"],
+  "p-formsache",
+  "c-formsache",
   "p-termin",
   "c-termin",
-  ["c-formsache", "c-vorgesetzte", "c-stapel"],
   "Trainingsfall Zwei. Konstellation: Bewohner fordert Akteneinsicht. Beamter weicht aus. Ich eröffne.",
 );
 
@@ -448,10 +448,10 @@ const cafeteriaTrainingC = buildTrainingFall(
   3,
   "p-formsache",
   "c-formsache",
-  ["c-immer-so", "c-stapel", "c-nicht-zustaendig"],
+  "p-immer-so",
+  "c-immer-so",
   "p-vorgesetzte",
   "c-vorgesetzte",
-  ["c-termin", "c-formsache", "c-immer-so"],
   "Trainingsfall Drei. Konstellation: Bewohner verlangt einen Stempel, den die Schicht nicht hat. Letzter Trainingsfall. Wenn Sie den sauber durchziehen, sind Sie für Vossbeck satisfaktionsfähig. Ich eröffne.",
 );
 
@@ -462,10 +462,10 @@ const cafeteriaTrainingD = buildTrainingFall(
   1,
   "p-aktenzeichen",
   "c-aktenzeichen",
-  ["c-dienstweg", "c-vordruck", "c-sprechzeit"],
+  "p-vordruck",
+  "c-vordruck",
   "p-dienstweg",
   "c-dienstweg",
-  ["c-aktenzeichen", "c-unterschrift", "c-hausrecht"],
   "Konstellation: Bewohner reicht Formular ein, dessen Nummer noch nicht vergeben wurde. Der Beamte verweist. Ich eröffne.",
 );
 
@@ -474,10 +474,10 @@ const cafeteriaTrainingE = buildTrainingFall(
   2,
   "p-vordruck",
   "c-vordruck",
-  ["c-quartalsende", "c-datenschutz", "c-sprechzeit"],
+  "p-sprechzeit",
+  "c-sprechzeit",
   "p-unterschrift",
   "c-unterschrift",
-  ["c-hausrecht", "c-vordruck", "c-aktenzeichen"],
   "Konstellation: Bewohner erscheint zwei Minuten vor Feierabend. Beamter erwägt die Uhr. Ich eröffne.",
 );
 
@@ -486,10 +486,10 @@ const cafeteriaTrainingF = buildTrainingFall(
   3,
   "p-datenschutz",
   "c-datenschutz",
-  ["c-hausrecht", "c-sprechzeit", "c-quartalsende"],
+  "p-hausrecht",
+  "c-hausrecht",
   "p-quartalsende",
   "c-quartalsende",
-  ["c-dienstweg", "c-datenschutz", "c-vordruck"],
   "Konstellation: Bewohner fragt nach eigenem Vorgang. Beamter beruft sich auf Vertraulichkeit gegenüber dem Bewohner. Ich eröffne.",
 );
 
@@ -498,10 +498,10 @@ const cafeteriaTrainingG = buildTrainingFall(
   1,
   "p-sprechzeit",
   "c-sprechzeit",
-  ["c-hausrecht", "c-quartalsende", "c-datenschutz"],
+  "p-unterschrift",
+  "c-unterschrift",
   "p-hausrecht",
   "c-hausrecht",
-  ["c-sprechzeit", "c-aktenzeichen", "c-dienstweg"],
   "Konstellation: Bewohner steht drei Zentimeter zu weit vorn am Tresen. Beamter zieht die Grenze. Ich eröffne.",
 );
 
@@ -510,10 +510,10 @@ const cafeteriaTrainingH = buildTrainingFall(
   2,
   "p-immer-so",
   "c-immer-so",
-  ["c-aktenzeichen", "c-unterschrift", "c-dienstweg"],
+  "p-dienstweg",
+  "c-dienstweg",
   "p-stapel",
   "c-stapel",
-  ["c-vordruck", "c-datenschutz", "c-quartalsende"],
   "Konstellation: Bewohner fragt nach dem Verbleib eines Antrags. Beamter blättert nicht. Ich eröffne.",
 );
 
