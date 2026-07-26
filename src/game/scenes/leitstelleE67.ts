@@ -70,22 +70,6 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
           ]),
       },
       {
-        id: "teeTablett",
-        x: 70,
-        y: 72,
-        w: 18,
-        h: 16,
-        label: "Tee-Tablett",
-        kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "Eine Emaille-Kanne, daneben ein Wasserkocher mit rotem Schalter.",
-            "Es duftet nach echtem Schwarztee — ein Geruch, der in E67 sonst",
-            "nirgends vorkommt.",
-            "Insa hat einen zweiten Becher bereitgestellt, ohne zu fragen.",
-          ]),
-      },
-      {
         id: "aushangResonanz",
         x: 82.9,
         y: 12,
