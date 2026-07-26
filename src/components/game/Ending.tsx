@@ -194,13 +194,6 @@ export function Ending() {
             <div className="pt-2 font-mono-crt text-[11px] uppercase tracking-[0.3em] text-amber-glow/70">
               {HINTS_UI_TEXT.hintsUsedSummary(hintsUsed)}
             </div>
-            <button
-              type="button"
-              onClick={() => window.location.reload()}
-              className="mt-6 rounded-sm border border-amber-glow/50 px-4 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/10"
-            >
-              {ENDING_UI_TEXT.restart}
-            </button>
             <div>
               <button
                 type="button"
@@ -212,7 +205,7 @@ export function Ending() {
                   api.clearEnding();
                   api.startCutscene("act2Bridge");
                 }}
-                className="mt-3 rounded-sm border border-amber-glow px-5 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/15 amber-glow"
+                className="mt-6 rounded-sm border border-amber-glow px-5 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/15 amber-glow"
               >
                 {ACT2_BRIDGE_UI_TEXT.continueButton}
               </button>
