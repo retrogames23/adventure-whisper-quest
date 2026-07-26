@@ -157,6 +157,20 @@ export function buildEndingBaseFrames(npcCount: number): string[][] {
       "Layard nimmt die Datenkapsel in die Hand.",
       "Sie ist leichter, als sie heute Morgen war.",
     ],
+    [
+      "Später. Sanitätsstation E71, Korridor 15.",
+      "Dr. Adaeze Okwu legt die Kapsel zur Seite, ohne sie zu öffnen.",
+      "Sie sieht Layard an, länger als nötig.",
+    ],
+    [
+      "„Sie haben heute zu viel gehört, Herr Layard. Zu viel auf einer Frequenz, die niemand offiziell hört.“",
+      "„Ich verordne Ihnen sieben Tage Resonanz-Pause. Kein 104,6. Kein Mithören. Keine Notizen ans Radio.“",
+    ],
+    [
+      "„Das ist keine Bitte. Das ist eine ärztliche Anordnung, und sie steht ab heute in Ihrer Akte.“",
+      "Sie nickt kurz. „Schlafen Sie. In sieben Tagen sehen wir weiter.“",
+      "Layard nickt zurück. Er weiß nicht, ob er sich daran halten wird.",
+    ],
   ];
 }
 
