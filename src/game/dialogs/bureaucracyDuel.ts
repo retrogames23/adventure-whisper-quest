@@ -604,31 +604,9 @@ void duelTrainingResult;
 
 const vossbeckDuel: DialogTree = (() => {
   const r1Phrase = PHRASES["pE-tradition"]!;
-  const r1Correct = COUNTERS["c-immer-so"]!;
-  const r3Phrase = PHRASES["pE-stapel-hoheit"]!;
-  const r3Correct = COUNTERS["c-stapel"]!;
+  const r2Phrase = PHRASES["pE-vorgesetzten-bluff"]!;
+  const r4Phrase = PHRASES["pE-stapel-hoheit"]!;
   const atk = attackChoices("vossbeck");
-
-  const r1Choices: DialogChoice[] = [
-    {
-      text: r1Correct.text,
-      action: (a) => a.bumpDuelHit(),
-      next: "r1Hit",
-    },
-    { text: COUNTERS["c-stapel"]!.text, next: "r1Miss" },
-    { text: COUNTERS["c-termin"]!.text, next: "r1Miss" },
-    { text: COUNTERS["c-vorgesetzte"]!.text, next: "r1Miss" },
-  ];
-  const r3Choices: DialogChoice[] = [
-    {
-      text: r3Correct.text,
-      action: (a) => a.bumpDuelHit(),
-      next: "r3HitResolve",
-    },
-    { text: COUNTERS["c-formsache"]!.text, next: "r3MissResolve" },
-    { text: COUNTERS["c-nicht-zustaendig"]!.text, next: "r3MissResolve" },
-    { text: COUNTERS["c-immer-so"]!.text, next: "r3MissResolve" },
-  ];
 
   return {
     id: "vossbeckDuel",
@@ -638,7 +616,7 @@ const vossbeckDuel: DialogTree = (() => {
       intro: {
         id: "intro",
         speaker: "VOSSBECK",
-        text: "Drei Runden, Bewohner Worag. Ich verwende ausschließlich Phrasen aus dem Verfahren — gegen die Brust Sie geübt haben sollte. Beginn.",
+        text: "Vier Runden, Bewohner Worag. Drei aus dem Verfahren, eine aus Ihrer Feder. Beginn.",
         subtext: "Vossbeck setzt den Bleistift senkrecht. Schaut zum ersten Mal nicht in die Akte.",
         next: "r1Brust",
       },
@@ -646,37 +624,56 @@ const vossbeckDuel: DialogTree = (() => {
         id: "r1Brust",
         speaker: "VOSSBECK",
         text: r1Phrase.text,
-        choices: r1Choices,
+        choicesFn: makeCounterChoicesFn("c-immer-so", "r1Hit", "r1Miss"),
       },
       r1Hit: {
         id: "r1Hit",
         speaker: "VOSSBECK",
         text: "Notiert. — Punkt Worag.",
         subtext: "Sehr trocken. Aber er senkt den Bleistift einen Millimeter.",
-        next: "r2Intro",
+        next: "r2Brust",
       },
       r1Miss: {
         id: "r1Miss",
         speaker: "VOSSBECK",
         text: "Schwach, Bewohner Worag. Ich hatte mit mehr gerechnet. — Punkt Verwaltung.",
         subtext: "Kein Konter wird nachgereicht. Vossbeck lehrt nicht. Brust hätte das tun sollen.",
-        next: "r2Intro",
+        next: "r2Brust",
       },
-      r2Intro: {
-        id: "r2Intro",
+      r2Brust: {
+        id: "r2Brust",
+        speaker: "VOSSBECK",
+        text: r2Phrase.text,
+        choicesFn: makeCounterChoicesFn("c-vorgesetzte", "r2Hit", "r2Miss"),
+      },
+      r2Hit: {
+        id: "r2Hit",
+        speaker: "VOSSBECK",
+        text: "Notiert. — Punkt Worag.",
+        subtext: "Der Bleistift bewegt sich zum zweiten Mal.",
+        next: "r3Intro",
+      },
+      r2Miss: {
+        id: "r2Miss",
+        speaker: "VOSSBECK",
+        text: "Zu schwach, Bewohner Worag. — Punkt Verwaltung.",
+        next: "r3Intro",
+      },
+      r3Intro: {
+        id: "r3Intro",
         speaker: "VOSSBECK",
         text: "Ihre Eröffnung.",
         choices: atk.choices,
       },
       ...atk.lines,
-      r3Brust: {
-        id: "r3Brust",
+      r4Brust: {
+        id: "r4Brust",
         speaker: "VOSSBECK",
-        text: r3Phrase.text,
-        choices: r3Choices,
+        text: r4Phrase.text,
+        choicesFn: makeCounterChoicesFn("c-stapel", "r4HitResolve", "r4MissResolve"),
       },
-      r3HitResolve: {
-        id: "r3HitResolve",
+      r4HitResolve: {
+        id: "r4HitResolve",
         speaker: "VOSSBECK",
         text: "Notiert. — Punkt Worag.",
         choices: [
@@ -687,8 +684,8 @@ const vossbeckDuel: DialogTree = (() => {
           },
         ],
       },
-      r3MissResolve: {
-        id: "r3MissResolve",
+      r4MissResolve: {
+        id: "r4MissResolve",
         speaker: "VOSSBECK",
         text: "Schwach, Bewohner Worag. — Punkt Verwaltung.",
         choices: [
