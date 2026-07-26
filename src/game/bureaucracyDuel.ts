@@ -81,7 +81,7 @@ export const PHRASES: Record<string, Phrase> = {
   "p-dienstweg": {
     id: "p-dienstweg",
     shortLabel: "Dienstweg",
-    text: "Der Dienstweg wäre — das über Sektor Vier, nicht über meinen Tresen.",
+    text: "Der Dienstweg führt über Sektor Vier, nicht über meinen Tresen.",
   },
   "p-vordruck": {
     id: "p-vordruck",
