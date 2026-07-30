@@ -1,56 +1,63 @@
 ## Ziel
 
-Zwei Erzähl-Inkonsistenzen im Übergang Akt I → Akt II beheben:
+Ein neues Pflichträtsel in Akt I: Über eine Kellerebene (Aufzug-Knopf „K“) steuert Layard die Heizung einer Wohneinheit hoch, bis die Bewohnerin — Mira — ihre Wohnung verlässt. Erst dann kommt er an den Antennen-Draht, den er für die Verstärker-Antenne braucht.
 
-1. **Ein Objekt, ein Wort:** „Datenkapsel/Kapsel" komplett streichen, überall nur noch „Protokoll" (bzw. „versiegeltes Protokoll", wo Siegel/Physis wichtig sind). Icon bleibt visuell unverändert.
-2. **Empfänger korrigieren:** Insa nimmt das Protokoll persönlich entgegen (nicht Okwu). Okwu tritt im Ending gar nicht mehr in Person auf — die Resonanz-Pause wird schriftlich verhängt (Vermerk/Aushang), unabhängig davon, ob Layard ihre Praxis besucht hat oder nicht.
+## Warum es zwingend ist
 
-## A. Begriffsvereinheitlichung „Kapsel" → „Protokoll"
+Die Verstärker-Antenne entsteht aus `tuningCrystal` + `antennaWire`. Der Kristall ist im Spiel erhältlich, der **Antennen-Draht bisher nirgends** — die Kombination ist damit aktuell tote Mechanik. Der Draht wird zur Belohnung des Heizungsrätsels: Er liegt in Miras Kabelkiste unter dem Schreibtisch. Solange sie im Raum sitzt, lässt sie Layard nicht an ihre Sachen.
 
-Reine Text-/Kommentar-Änderungen an folgenden Stellen:
+## Ablauf
 
-- `src/game/cutscenes.ts` — Item-Beschreibung (Z. 105), Ending-Frames (Z. 141, 157, 162), Flyer-Frames (Z. 180, 186)
-- `src/game/combine.ts` — Z. 24, 144, 319, 337
-- `src/game/dialogs/insa.ts` — Z. 500, 520
-- `src/game/dialogs/mikael.ts` — Z. 56, 81, 107, 127
-- `src/game/scenes/leitstelleE67.ts` — Kommentar Z. 6
-- `src/components/game/ItemIcon.tsx` — Code-Kommentare Z. 55, 59 (SVG bleibt unverändert)
+```text
+Mira-Dialog: "Manchmal spinnt die Heizung, dann
+gehe ich eine Runde Luft schnappen."
+        │
+Aufzug → Knopf K (Keller, immer sichtbar)
+        │
+Heizungskonsole: Ventil-Hebel je Steigstrang
++ Wahlrad Etage/Einheit → 4601 auf Stufe max
+        │
+Korridor 46: Miras Tür steht offen, sie ist weg
+        │
+Wohnung 4601: Kabelkiste → Antennen-Draht
+        │
++ Bernstein-Resonator → Verstärker-Antenne (bestehend)
+```
 
-Keine Änderungen an Item-IDs, Flags oder Persistenz. `PARAMEDICS_PROTOCOL_ITEM.name` bleibt „Einsatzprotokoll (verschlüsselt)".
+## Keller-Szene
 
-## B. Ending-Cutscene: Übergabe an Insa
+Neue Szene `basementE67` (`SceneId` erweitern), eingehängt in `src/game/scenes/`:
 
-Aktueller Bruch: Insa sagt am Telefon „Bringen Sie es mir vorbei. Persönlich. Leitstelle E67, Tür 4602." — die Ending-Cutscene springt aber stattdessen in Okwus Praxis. Empfängerin muss Insa sein.
+- Aufzug `elevator`: neuer Knopf `btnK` unter Etage 1, Label „Keller — Versorgung / Heizzentrale“, `rideElevator(api, "basementE67")`. Etagen-Indikator-Text um „K“ ergänzen.
+- Raum: Rohrleitungen, Kondenswasser, Handbuch an der Wand. Hotspots: Heizkonsole (Rätsel), Wartungsaushang (Hinweistext zur Bedienlogik), Rohre (Flavour), Aufzug zurück.
+- Bild: neues Asset im Stil der bestehenden Szenen (Amber/Beton, 16:9), generiert.
 
-Umbau in `buildEndingBaseFrames` (`src/game/cutscenes.ts`, Frames ab Z. 138):
+## Die Konsole (Overlay)
 
-1. **Bleibt** (Z. 138–159): Hörer / Protokoll auf dem Tisch / Insas Satz im Kopf / Blick aus dem Fenster / Radio still / „Layard nimmt das Protokoll in die Hand."
-2. **Neu ersetzt Z. 160–173** (bisher Okwu-Praxis):
-   - Frame: *„Später. Sektor-Leitstelle E67, Korridor 46, Tür 4602."* Insa nimmt das Protokoll persönlich entgegen, dreht es einmal in der Hand, legt es auf ihren Stapel — nicht darunter, darauf.
-   - Kurzer Beat: Insa bestätigt, dass sie es „richtig zuweisen" wird. Sie sieht Layard an: er habe heute zu viel auf einer Frequenz gehört, die niemand offiziell hört. Sie werde einen Vermerk an die Sanitätsstation schicken.
+Neues Overlay `HeatingConsoleOverlay.tsx` analog zu `Keypad`/`PneumaticTubeOverlay`, geöffnet über eine neue `GameApi`-Aktion:
 
-Insa tritt hier als Sprecherin auf, aber ohne dass sie selbst die medizinische Anordnung ausspricht — sie leitet nur weiter.
+- Drei Kippschalter = Steigstränge **A / B / C** (Strang B versorgt Korridor 46).
+- Wahlrad **Einheit** (4601 / 4602 / 4603) und Hebel **Vorlauf** (Stufe 0–5).
+- Auslöseregel: Strang B + Einheit 4601 + Stufe 5 → Flag `mira4601Overheated`, Bestätigungstext („Irgendwo über Layard beginnt ein Rohr zu ticken.“).
+- Falsche Kombination gibt sprechendes Feedback (falscher Strang: „In 46 bleibt es kalt.“; zu niedrige Stufe: „Lauwarm. Niemand steht dafür auf.“) — kein Fail-State, beliebig oft bedienbar.
+- Zurückdrehen setzt das Flag nicht zurück; einmal draußen bleibt Mira eine Weile draußen (kein Timer, damit kein Zeitdruck-Fail).
 
-## C. Resonanz-Pause: Okwu per Vermerk, ohne Begegnung
+## Hinweis-Kette
 
-Kein persönlicher Auftritt von Okwu im Ending. Stattdessen ein knapper Schluss-Frame, der unabhängig von `metOkwu` funktioniert:
+- **Mira-Dialog** (`src/game/dialogs/mira.ts`): neue Zeile in ihrem Zimmer-Smalltalk — „Manchmal spinnt die Heizung, dann gehe ich eine Runde Luft schnappen.“ Setzt `knowsMiraHeating`.
+- **Bodo** (Hausmeister): auf Nachfrage die Bedienlogik — Strang B = Korridor 46 —, falls der Spieler an der Konsole hängen bleibt.
+- **Aushang im Keller**: Strangplan als Fallback, damit das Rätsel auch ohne Bodo lösbar ist.
+- `src/game/hints.ts`: Hint-Stufen für „Draht fehlt“ → „Mira sitzt im Weg“ → „Keller, Strang B, 4601“.
 
-- Frame: *„Am nächsten Morgen. Layards Apartment."* Auf seinem Tisch liegt ein Vermerk der Sanitätsstation E71 — Kopfzeile mit Okwus Namen und Praxisnummer 1532.
-- Text auf dem Vermerk (im Frame in Auszügen zitiert):
-  - „Auf Vermerk der Leitstelle E67 (Bauerfeind, I.): sieben Tage Resonanz-Pause. Kein 104,6. Kein Mithören. Keine Notizen ans Radio."
-  - „Ärztliche Anordnung — vermerkt in Ihrer Akte. — Dr. A. Okwu, Sanitätsstation E71."
-- Abschluss-Beat: Layard faltet den Vermerk einmal. Er weiß nicht, ob er sich daran halten wird.
+## Folgen in bestehenden Szenen
 
-Dadurch:
-- Erzählerisch motiviert für alle Spieler — auch die, die Okwu nie in Person begegnet sind.
-- Wer sie kannte, erkennt Namen und Praxis wieder; wer nicht, liest schlicht eine dienstliche Kopfzeile.
-- Die Resonanz-Pause bleibt eine **ärztliche Anordnung** — konsistent mit dem, was Insa in Akt II wieder aufgreift, und mit dem `RadioPauseGate`.
+- `communalE67.ts` / `aptMira4601`: bei `mira4601Overheated` ist der `miraInRoom`-Hotspot ausgeblendet, Intro-Text beschreibt den leeren, überheizten Raum; neuer Hotspot **Kabelkiste** gibt `antennaWire` (einmalig).
+- `corridorsE67.ts`, Korridor 46: Mira-Sprite ausgeblendet, `door4601Enter` ohne Anwesenheits-Sperre, kurzer Look-Text zur offenen Tür.
+- Mira taucht währenddessen sichtbar als Sprite auf der Passage / im Gemeinschaftsraum auf, damit klar ist, wo sie ist; dort kurzer Kommentar-Dialog („Da drin kocht es. Ich warte, bis es sich abregt.“).
 
-## D. Flyer-Frames
+## Technische Punkte
 
-`ENDING_FLYER_FRAMES` (Z. 178–188) verortet sich weiterhin am Tisch vor dem Aufbruch. Nur Wortwahl „Kapsel" → „Protokoll" anpassen; Reihenfolge unverändert.
-
-## E. Nicht betroffen
-
-- Sanitäter-Cutscene (Beat 5), Okwus interaktive Dialoge (`okwu1`…) und die Praxis-Szene in `sectorAct1.ts` bleiben unverändert.
-- Keine neuen Flags, keine Migrations, keine API-Änderungen. Build-Check nach den Edits reicht als Verifikation.
+- Neue Flags: `knowsMiraHeating`, `mira4601Overheated`, `tookAntennaWire`; Overlay-State (`heatingConsoleOpen`) in `GameContext` inkl. `PersistedState`, damit Spielstände korrekt laden.
+- `antennaWire` existiert bereits als `InventoryItemId` und hat eine Kombination — keine Änderung an `combine.ts` nötig; ggf. Icon in `ItemIcon.tsx` ergänzen.
+- Keine Backend-/Datenbank-Änderungen.
+- Verifikation: Build-Check plus ein Playwright-Durchlauf Aufzug → Keller → Konsole → 4601.
