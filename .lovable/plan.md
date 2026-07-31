@@ -1,63 +1,61 @@
 ## Ziel
 
-Ein neues Pflichträtsel in Akt I: Über eine Kellerebene (Aufzug-Knopf „K“) steuert Layard die Heizung einer Wohneinheit hoch, bis die Bewohnerin — Mira — ihre Wohnung verlässt. Erst dann kommt er an den Antennen-Draht, den er für die Verstärker-Antenne braucht.
+Alles aus dem Code entfernen, was im Spiel nie vergeben oder nie gesetzt wird — also toter Ballast, der beim Lesen des Codes den Eindruck erweckt, es gäbe Inhalte, die real unerreichbar sind.
 
-## Warum es zwingend ist
+## Befund (im Code geprüft)
 
-Die Verstärker-Antenne entsteht aus `tuningCrystal` + `antennaWire`. Der Kristall ist im Spiel erhältlich, der **Antennen-Draht bisher nirgends** — die Kombination ist damit aktuell tote Mechanik. Der Draht wird zur Belohnung des Heizungsrätsels: Er liegt in Miras Kabelkiste unter dem Schreibtisch. Solange sie im Raum sitzt, lässt sie Layard nicht an ihre Sachen.
+### 1. Items ohne jede Quelle
 
-## Ablauf
+Kein einziges `addItem` im gesamten Projekt:
+
+| Item | Referenzen, die dadurch tot sind |
+| --- | --- |
+| `exitCode` | Kombi-Kommentare in `combine.ts`, Sonderfall `keypadCall`, `Keypad.tsx:39`, Icon |
+| `b3sample` | Kombi-Kommentare, Paar `b3sample+tuningCrystal`, Icon |
+| `mikaelLetter` | Kombi-Kommentare, Paar `mikaelLetter+flyer`, Icon |
+| `tuningCrystal` | Icon, `RadioPanel.tsx:112`, Wartungs-Funk 5610, Paare mit `flyer`, `b3sample`, `antennaWire` |
+
+### 2. Flags, die nie gesetzt werden
+
+- Nur in `types.ts` deklariert, sonst nirgends: `serverRoom5610OverrideArmed`, `insaSentTo5610`, `duelWon`, `duelLost`, `duelTrainingNextB`, `duelTrainingNextC`.
+- Gesetzt: nie — aber sie **sperren erreichbare Inhalte**: `kowalkHintedBodoHelka` (blockiert je eine Dialogoption bei Bodo und Helka), `heardMikaelTruth` (blockiert zwei Einträge in Worags Dateisystem).
+
+## Wichtige Konsequenz — eine Entscheidung nötig
+
+`tuningCrystal` ist die Wurzel einer ganzen Inhaltskette. Weil es ihn nicht gibt, ist auch alles Nachgelagerte unerreichbar, obwohl es sauber implementiert ist:
 
 ```text
-Mira-Dialog: "Manchmal spinnt die Heizung, dann
-gehe ich eine Runde Luft schnappen."
-        │
-Aufzug → Knopf K (Keller, immer sichtbar)
-        │
-Heizungskonsole: Ventil-Hebel je Steigstrang
-+ Wahlrad Etage/Einheit → 4601 auf Stufe max
-        │
-Korridor 46: Miras Tür steht offen, sie ist weg
-        │
-Wohnung 4601: Kabelkiste → Antennen-Draht
-        │
-+ Bernstein-Resonator → Verstärker-Antenne (bestehend)
+tuningCrystal (fehlt)
+   └─ Feintuning 102,7 am Wartungsfunk 5610
+        └─ hiddenFrequencyFound → antennaWire + wartungsDiktat
+             └─ + tuningCrystal → amplifierAntenna
+                  └─ Resonanz-Duell im RadioPanel → miraSentAnger
+                       └─ miraTerminalUnlocked → Miras Terminal, Manifest,
+                          miraAfterAmplifier, miraState "friendly",
+                          Hint act1.hiddenFrequency
 ```
 
-## Keller-Szene
+Ein reines „Löschen aller toten Enden" würde diesen kompletten Strang mitreißen — inklusive Miras Terminal-Zugang und ihres freundlichen Endzustands.
 
-Neue Szene `basementE67` (`SceneId` erweitern), eingehängt in `src/game/scenes/`:
+Deshalb zwei getrennte Schritte im Plan:
 
-- Aufzug `elevator`: neuer Knopf `btnK` unter Etage 1, Label „Keller — Versorgung / Heizzentrale“, `rideElevator(api, "basementE67")`. Etagen-Indikator-Text um „K“ ergänzen.
-- Raum: Rohrleitungen, Kondenswasser, Handbuch an der Wand. Hotspots: Heizkonsole (Rätsel), Wartungsaushang (Hinweistext zur Bedienlogik), Rohre (Flavour), Aufzug zurück.
-- Bild: neues Asset im Stil der bestehenden Szenen (Amber/Beton, 16:9), generiert.
+## A. Ersatzlos löschen (unstrittig tot)
 
-## Die Konsole (Overlay)
+- `types.ts`: `exitCode`, `b3sample`, `mikaelLetter` aus `InventoryItemId`; `serverRoom5610OverrideArmed`, `insaSentTo5610`, `duelWon`, `duelLost`, `duelTrainingNextB`, `duelTrainingNextC` aus `StoryFlag`.
+- `combine.ts`: alle Kommentar-/Reaktionszeilen zu diesen drei Items, die Paare `mikaelLetter+flyer`, `protocol+exitCode`, `b3sample+tuningCrystal` sowie der `keypadCall`-Sonderfall für `exitCode`.
+- `Keypad.tsx`: `exitCode`-Zweig entfernen (das Keypad funktioniert weiterhin über die Code-Eingabe).
+- `ItemIcon.tsx`: Icon-Einträge und die zugehörigen, dann ungenutzten SVG-Komponenten.
 
-Neues Overlay `HeatingConsoleOverlay.tsx` analog zu `Keypad`/`PneumaticTubeOverlay`, geöffnet über eine neue `GameApi`-Aktion:
+## B. Gesperrte, aber gute Inhalte entsperren statt löschen
 
-- Drei Kippschalter = Steigstränge **A / B / C** (Strang B versorgt Korridor 46).
-- Wahlrad **Einheit** (4601 / 4602 / 4603) und Hebel **Vorlauf** (Stufe 0–5).
-- Auslöseregel: Strang B + Einheit 4601 + Stufe 5 → Flag `mira4601Overheated`, Bestätigungstext („Irgendwo über Layard beginnt ein Rohr zu ticken.“).
-- Falsche Kombination gibt sprechendes Feedback (falscher Strang: „In 46 bleibt es kalt.“; zu niedrige Stufe: „Lauwarm. Niemand steht dafür auf.“) — kein Fail-State, beliebig oft bedienbar.
-- Zurückdrehen setzt das Flag nicht zurück; einmal draußen bleibt Mira eine Weile draußen (kein Timer, damit kein Zeitdruck-Fail).
+- `kowalkHintedBodoHelka`: Flag in Kowalks Cafeteria-Dialog setzen, wo sie ohnehin auf Bodo und Helka verweist — die beiden vorhandenen Dialogoptionen werden damit erreichbar.
+- `heardMikaelTruth`: Flag im Mikael-bezogenen Dialogpunkt setzen, an dem Layard die Wahrheit erfährt — die zwei Worag-Dateien werden lesbar.
+- `tuningCrystal`: eine Quelle im Spiel ergänzen (Vorschlag: Bernstein-Resonator im Tech-Knoten 5610 bzw. in Bodos Werkzeugbestand, trust-unabhängig auffindbar). Damit wird der gesamte Radio-/Antennen-/Mira-Strang erstmals spielbar.
 
-## Hinweis-Kette
-
-- **Mira-Dialog** (`src/game/dialogs/mira.ts`): neue Zeile in ihrem Zimmer-Smalltalk — „Manchmal spinnt die Heizung, dann gehe ich eine Runde Luft schnappen.“ Setzt `knowsMiraHeating`.
-- **Bodo** (Hausmeister): auf Nachfrage die Bedienlogik — Strang B = Korridor 46 —, falls der Spieler an der Konsole hängen bleibt.
-- **Aushang im Keller**: Strangplan als Fallback, damit das Rätsel auch ohne Bodo lösbar ist.
-- `src/game/hints.ts`: Hint-Stufen für „Draht fehlt“ → „Mira sitzt im Weg“ → „Keller, Strang B, 4601“.
-
-## Folgen in bestehenden Szenen
-
-- `communalE67.ts` / `aptMira4601`: bei `mira4601Overheated` ist der `miraInRoom`-Hotspot ausgeblendet, Intro-Text beschreibt den leeren, überheizten Raum; neuer Hotspot **Kabelkiste** gibt `antennaWire` (einmalig).
-- `corridorsE67.ts`, Korridor 46: Mira-Sprite ausgeblendet, `door4601Enter` ohne Anwesenheits-Sperre, kurzer Look-Text zur offenen Tür.
-- Mira taucht währenddessen sichtbar als Sprite auf der Passage / im Gemeinschaftsraum auf, damit klar ist, wo sie ist; dort kurzer Kommentar-Dialog („Da drin kocht es. Ich warte, bis es sich abregt.“).
+Alternative, falls die Kette nicht gewünscht ist: Strang komplett entfernen (`tuningCrystal`, `antennaWire`, `amplifierAntenna`, `wartungsDiktat`, Flags `hiddenFrequencyFound`, `sawWartungsFunk5610`, `miraSentAnger`, das Resonanz-Duell im `RadioPanel`, Hint `act1.hiddenFrequency`) — inklusive Ersatzweg für `miraTerminalUnlocked`, sonst entsteht ein Dead End bei Miras Terminal.
 
 ## Technische Punkte
 
-- Neue Flags: `knowsMiraHeating`, `mira4601Overheated`, `tookAntennaWire`; Overlay-State (`heatingConsoleOpen`) in `GameContext` inkl. `PersistedState`, damit Spielstände korrekt laden.
-- `antennaWire` existiert bereits als `InventoryItemId` und hat eine Kombination — keine Änderung an `combine.ts` nötig; ggf. Icon in `ItemIcon.tsx` ergänzen.
-- Keine Backend-/Datenbank-Änderungen.
-- Verifikation: Build-Check plus ein Playwright-Durchlauf Aufzug → Keller → Konsole → 4601.
+- Keine Persistenz-Migration nötig: entfernte Flags/Items in alten Spielständen werden beim Laden schlicht ignoriert; ich prüfe die Lade-Logik in `GameContext.tsx` darauf, dass unbekannte IDs nicht zum Absturz führen.
+- Keine Backend-Änderungen.
+- Verifikation: Typecheck (`tsgo`) plus `scripts/quest-check.mjs` und `scripts/hints-check.mjs`, danach ein kurzer Playwright-Durchlauf über Inventar und Keypad.
