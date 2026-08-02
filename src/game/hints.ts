@@ -450,6 +450,18 @@ export const HINT_QUESTS: HintQuest[] = [
 
   // ── Optional: Mira (Vertrauenspfad) ──────────────────────────────
   {
+    id: "act1.phoneRepair",
+    title: "Das Telefon ist tot",
+    priority: 18,
+    isActive: (a) => a.hasFlag("phoneBroken"),
+    isResolved: (a) => a.hasFlag("phoneRepaired"),
+    hints: [
+      "Kein Freizeichen, nur Sirren. Ohne Anschluss erreichst du Insa nicht — und ohne Insa geht es nicht weiter.",
+      "Der Aufkleber am Apparat sagt es: Störungen an Wohnungsapparaten laufen nicht über die Leitstelle, sondern über die Wartung des eigenen Korridors.",
+      "Korridor 46, Schicht A, Tür 4601 — das ist Mira. Sie ist Anwärterin der Sektor-Wartung und muss dienstlich ran. Klopf an 4601 und melde die Störung, danach funktioniert der Apparat wieder.",
+    ],
+  },
+  {
     id: "act1.miraTrust",
     title: "Miras Vertrauen gewinnen (optional)",
     priority: 60,
