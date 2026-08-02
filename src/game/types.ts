@@ -27,7 +27,6 @@ export type SceneId =
 
 export type InventoryItemId =
   | "protocol"
-  | "tuningCrystal"
   | "flyer"
   | "wartungsnotiz5610"
   | "residentId"
@@ -50,8 +49,6 @@ export type InventoryItemId =
   | "formblatt17V"
   | "formblatt17VForged"
   // Schmerz-Radio-Erweiterung (Akt I)
-  | "antennaWire"
-  | "amplifierAntenna"
   | "wartungsDiktat"
   // Bürokratie-Duell — gesammelte Verwaltungs-Paragraphen
   | "paragraphenNotizbuch"
