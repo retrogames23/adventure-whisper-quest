@@ -310,6 +310,16 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         // gelieferten Freitext mehr, der ins LLM wandert.
         const ctxRaw = (b.context ?? {}) as Record<string, unknown>;
         let systemPrompt: string;
+        let marvUpdate:
+          | {
+              empathyScore: number;
+              unlocked: boolean;
+              oiled: boolean;
+              messageCount: number;
+              delta: number;
+              justUnlocked: boolean;
+            }
+          | undefined;
         // MARV-State (nur für npcId === "marv9" befüllt). Wir laden ihn früh,
         // weil der System-Prompt seinen Kontext braucht.
         let marvBefore: {
@@ -342,9 +352,24 @@ export const Route = createFileRoute("/api/public/npc-chat")({
               message_count: clampInt(ms.messageCount, 0, 100000),
             };
           }
+          // Empathie zuerst bewerten — MARVs Antwort soll zum neuen
+          // Türzustand passen (vorher hinkte sie eine Nachricht hinterher).
+          const delta = await rateMarvEmpathy(userMessage);
+          const newScore = Math.min(10, marvBefore.empathy_score + delta);
+          const justUnlocked = !marvBefore.unlocked && newScore >= 3;
+          const unlockedAfter = marvBefore.unlocked || newScore >= 3;
+          marvUpdate = {
+            empathyScore: newScore,
+            unlocked: unlockedAfter,
+            oiled: marvBefore.oiled,
+            messageCount: marvBefore.message_count + 1,
+            delta,
+            justUnlocked,
+          };
           systemPrompt = buildMarvSystemPrompt({
-            empathyScore: marvBefore.empathy_score,
-            unlocked: marvBefore.unlocked,
+            empathyScore: newScore,
+            unlocked: unlockedAfter,
+            justUnlocked,
             oiled: marvBefore.oiled,
             messageCount: marvBefore.message_count,
           });
