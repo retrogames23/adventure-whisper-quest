@@ -676,7 +676,11 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             // Trainingsfall — fiktive Kantinenfälle, lehrt Konter fürs Phrasenbuch.
             // Bleibt verfügbar, bis Layard das Endduell gewonnen hat.
             text: "Ich würde mit Ihnen einen Trainingsfall durchgehen.",
-            next: "bDuelOffer",
+            action: (api) => {
+              api.setFlag("duelOffered");
+              api.setFlag("duelStarted");
+            },
+            nextDialog: () => pickTrainingFallId(),
             // Erst sichtbar, sobald Layard weiß, warum er im Behörden-Ton
             // schlagfertig werden muss (Vossbeck-Pfad über Kowalk/Brust erfahren).
             requires: ["knowsVossbeckPath"],
