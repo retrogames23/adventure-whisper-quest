@@ -17,7 +17,7 @@ import {
 import { useDevStep } from "@/dev/devPlaybackState";
 
 export function DialogOverlay() {
-  const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat } =
+  const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat, scene } =
     useGame();
   const { ttsEnabled } = useSettings();
   const isCoarsePointer = useCoarsePointer();
@@ -300,7 +300,13 @@ export function DialogOverlay() {
 
   return (
     <div
-      className={`absolute inset-0 z-40 flex items-end ${justifyClass} bg-black/80 px-4 pb-6 ${
+      className={`absolute inset-0 z-40 flex items-end ${justifyClass} px-4 pb-6 ${
+        // Fensternische: Bild bleibt sichtbar, nur der untere Bereich wird
+        // für die Lesbarkeit der Bubble abgedunkelt.
+        scene === "windowNiche"
+          ? "bg-gradient-to-t from-black/85 via-black/40 to-transparent"
+          : "bg-black/80"
+      } ${
         canAdvance ? "cursor-pointer" : ""
       }`}
       onClick={handleAdvance}
