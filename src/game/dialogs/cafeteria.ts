@@ -121,7 +121,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kCode2: {
         id: "kCode2",
         speaker: "KOWALK",
-        text: "Vossbeck nimmt keinen Bewohner an, der ohne Formblatt 17/V auf Vorsprache kommt. Türschild lesen, fertig. Und die Formblätter hat ausschließlich Herr Brust — am rechten Tresen, drei Schritte weiter.",
+        text: "Vossbeck nimmt keinen Bewohner an, der ohne Formblatt 17/V zur Vorsprache kommt. Türschild lesen, fertig. Und die Formblätter hat ausschließlich Herr Brust — am rechten Tresen, drei Schritte weiter.",
         next: "kCode3",
       },
       kCode3: {
