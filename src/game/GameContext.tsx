@@ -584,7 +584,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setDialogLineId(null);
         setCutscene(id);
       },
-      getMiraFloors: () => miraFloorsRef.current ?? [4],
+      getMiraFloors: () => {
+        // Solange das Telefon kaputt ist und Mira in Wohnung 4601
+        // anzutreffen ist, erscheint sie nicht mehr zufällig auf Korridoren.
+        if (
+          flagsRef.current.has("phoneBroken") &&
+          !flagsRef.current.has("phoneRepaired")
+        ) {
+          return [];
+        }
+        return miraFloorsRef.current ?? [4];
+      },
       getPhilippeFloor: () => philippeFloorRef.current ?? 5,
       openDsaCreator: () => {
         setRadioOpen(false);
