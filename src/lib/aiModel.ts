@@ -64,10 +64,10 @@ export interface DsaMasterModelOption {
 
 export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
   {
-    id: AI_MODEL_DSA_MASTER, // anthropic/claude-3.5-haiku
-    label: "Claude 3.5 Haiku (Standard)",
+    id: AI_MODEL_DSA_MASTER, // anthropic/claude-haiku-4.5
+    label: "Claude Haiku 4.5 (Standard)",
     short: "Haiku",
-    hint: "Atmosphärisch, sehr gutes Deutsch, schnell — die Voreinstellung.",
+    hint: "Schnell, gutes Deutsch, solide Tool-Calls — die Voreinstellung.",
     donorOnly: false,
   },
   {
