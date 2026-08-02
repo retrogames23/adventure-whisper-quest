@@ -34,6 +34,88 @@ const ipMin = new Map<string, number[]>();
 const ipHour = new Map<string, number[]>();
 
 /**
+ * Bewertet die Empathie der letzten Spieler-Nachricht (MARV-9).
+ * Wird VOR der Hauptantwort aufgerufen, damit MARV in derselben Antwort
+ * schon weiß, ob die Tür jetzt aufgeht.
+ */
+async function rateMarvEmpathy(userMessage: string): Promise<number> {
+  const lovableApiKey = process.env['LOVABLE_API_KEY'];
+  if (!lovableApiKey) return 0;
+  try {
+    const raterResp = await fetch(
+      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${lovableApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: AI_MODEL_LIGHT,
+          messages: [
+            { role: "system", content: MARV_EMPATHY_RATER_PROMPT },
+            {
+              role: "user",
+              content: `Letzte Spieler-Nachricht an MARV-9:\n"""${userMessage}"""`,
+            },
+          ],
+          temperature: 0,
+          max_tokens: 80,
+          tools: [
+            {
+              type: "function",
+              function: {
+                name: "rate_empathy",
+                description:
+                  "Bewertet Empathie der letzten Spieler-Nachricht.",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    delta: {
+                      type: "integer",
+                      minimum: 0,
+                      maximum: 2,
+                      description: "Empathie-Delta (0 bis +2).",
+                    },
+                  },
+                  required: ["delta"],
+                  additionalProperties: false,
+                },
+              },
+            },
+          ],
+          tool_choice: {
+            type: "function",
+            function: { name: "rate_empathy" },
+          },
+          stream: false,
+        }),
+      },
+    );
+    if (!raterResp.ok) return 0;
+    const rData = (await raterResp.json()) as {
+      choices?: Array<{
+        message?: {
+          tool_calls?: Array<{
+            function?: { name?: string; arguments?: string };
+          }>;
+        };
+      }>;
+    };
+    const argStr =
+      rData.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments ?? "";
+    if (!argStr) return 0;
+    const parsed = JSON.parse(argStr) as { delta?: unknown };
+    if (typeof parsed.delta !== "number") return 0;
+    // Fortschritt ist monoton: die Anzeige darf nie zurückfallen.
+    return Math.max(0, Math.min(2, Math.round(parsed.delta)));
+  } catch (e) {
+    console.warn("marv rater failed", e);
+    return 0;
+  }
+}
+
+/**
  * Sanitize free-text fields before interpolating into the LLM system
  * prompt. Strips control chars / brackets and neutralizes common prompt
  * injection phrases (same battery as dsa-master.ts).
