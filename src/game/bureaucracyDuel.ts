@@ -228,14 +228,6 @@ export const COUNTERS: Record<string, Counter> = {
     learnHint:
       "Datenschutz-Bluffs kollabieren bei formeller Entbindung. Man muss nur laut genug entbinden.",
   },
-  "c-hausrecht": {
-    id: "c-hausrecht",
-    shortLabel: "„Dann rufen Sie den Hausmeister“",
-    text: "Ausgezeichnet. Dann rufen Sie den Hausmeister — ich stehe dann daneben.",
-    beats: ["p-hausrecht"],
-    learnHint:
-      "Hausrecht ohne Hausmeister ist leeres Wort. Niemand ruft freiwillig den Hausmeister.",
-  },
   "c-quartalsende": {
     id: "c-quartalsende",
     shortLabel: "„Nächstes Quartal“",
