@@ -7,7 +7,7 @@ export const windowNicheScenes: Record<string, Scene> = {
     background: windowNicheBg,
     title: "Fensternische — Ostseite E71",
     intro:
-      "Der Gehweg macht einen Knick. Eine Betonwand, ein Fenster, eine Rollade, die fast ganz unten ist. Aus dem Schlitz darunter: eine Hand. Zwischen zwei Fingern eine Zigarette. Auf der Fensterbank ein kleiner Friedhof aus Kippen.",
+      "Der Gehweg macht einen Knick. Eine Betonwand, ein Fenster, ein Rollo, das fast ganz unten ist. Aus dem Schlitz darunter: eine Hand. Zwischen zwei Fingern eine Zigarette. Auf der Fensterbank ein kleiner Friedhof aus Kippen.",
     hotspots: [
       {
         id: "ralfHand",
@@ -40,7 +40,7 @@ export const windowNicheScenes: Record<string, Scene> = {
         y: 8,
         w: 38,
         h: 42,
-        label: "Rollade",
+        label: "Rollo",
         kind: "look",
         onUse: (api) =>
           api.showText([
