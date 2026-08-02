@@ -936,7 +936,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bps1: {
         id: "bps1",
         speaker: "LAYARD",
-        text: "Wegen des Telefons —",
+        text: "Noch mal wegen des Telefons: Ihr Apparat, ein Anruf, mehr nicht.",
         next: "bps2",
       },
       bps2: {
