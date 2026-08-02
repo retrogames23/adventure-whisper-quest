@@ -71,7 +71,7 @@ export type InventoryItemId =
   // Akt II — die alte Akte, die Insa Layard persönlich überreicht.
   | "akte1978Sertl";
 
-export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "frequencyControl";
+export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 
 /** Identifier einer narrativen Cutscene. */
 export type CutsceneId = "paramedics" | "sectorThreshold";
@@ -280,6 +280,13 @@ export type StoryFlag =
   // Mira — Vertrauenspfad
   | "readMiraManifest"
   | "radioMutedAtLeast60s"
+  // Mira — Beleg-Sammlung „Resonanz-Hygiene"
+  | "sawResonanzAushang"
+  | "belegAushangAufzug"
+  | "belegAushangKorridor46"
+  | "belegAushangLeitstelle"
+  | "miraAskedEvidence"
+  | "miraEvidenceDelivered"
   | "miraTrustEarned"
   | "miraTrustWithheld"
   | "miraAtHomeMet"
@@ -306,10 +313,6 @@ export type StoryFlag =
   // Hidden Frequency 102,7 — Wartungs-Funkgerät im Serverraum 5610
   | "sawWartungsFunk5610"
   | "hiddenFrequencyFound"
-  // Mira-Verstärker-Antenne (Resonanz-Duell)
-  | "miraAskedAmplifier"
-  | "miraHasAmplifier"
-  | "miraSentAnger"
   | "miraTerminalUnlocked"
   // Lose Wartungs-Hinweise von NPCs (für Hidden Frequency)
   | "bodoHintHiddenFreqBand"
