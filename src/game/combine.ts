@@ -317,9 +317,12 @@ export function combineItem(
     // Tonfärbung — das Ölen allein öffnet die Tür aber NICHT.
     if (
       itemId === "oilCan" &&
-      ctx.targetId === "marvSpeak" &&
-      !ctx.api.hasFlag("marvOiled")
+      ctx.targetId === "marvSpeak"
     ) {
+      if (ctx.api.hasFlag("marvOiled")) {
+        ctx.api.showText(["Layard: „Das habe ich schon getan.“"]);
+        return;
+      }
       ctx.api.setFlag("marvOiled");
       // Lokalen MARV-Zustand sofort setzen — der Server-Sync unten ist
       // nur Best-Effort und für anonyme Spieler gar nicht möglich.

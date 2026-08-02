@@ -555,7 +555,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
       markMarvOiled: () => {
         const cur = marvStateRef.current;
         if (cur.oiled) return;
-        updateMarvState({ ...cur, oiled: true });
+        // Ölen zählt einmalig als echte Zuwendung: +1 Resonanz.
+        const empathyScore = Math.min(10, cur.empathyScore + 1);
+        updateMarvState({
+          ...cur,
+          oiled: true,
+          empathyScore,
+          unlocked: cur.unlocked || empathyScore >= 3,
+        });
       },
       setEnding: () => setEnding(true),
       clearEnding: () => setEnding(false),
