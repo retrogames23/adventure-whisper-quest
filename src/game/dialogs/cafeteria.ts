@@ -728,8 +728,12 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "Gut. Fangen wir an.",
-            next: "bDuelOffer",
-            action: (api) => api.setFlag("knowsVossbeckPath"),
+            action: (api) => {
+              api.setFlag("knowsVossbeckPath");
+              api.setFlag("duelOffered");
+              api.setFlag("duelStarted");
+            },
+            nextDialog: () => pickTrainingFallId(),
           },
           {
             text: "Verstanden.",
