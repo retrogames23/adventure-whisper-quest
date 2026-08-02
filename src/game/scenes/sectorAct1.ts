@@ -65,11 +65,9 @@ export const sectorAct1Scenes: Record<string, Scene> = {
           // Layard kennt den Code aus der Terminal-Nachricht — er tippt ihn
           // selbst ein, statt den Spieler das Keypad bedienen zu lassen.
           api.setFlag("sectorDoorOpen");
-          api.showText([
-            "„Die Nachricht im Terminal hat das Datum 6.11.1997, entsprechend",
-            "lautet der Tür-Code ‚06111997‘.“",
-            "Layard tippt die acht Ziffern. Die LED springt von Rot auf Grün.",
-            "Ein Klacken in der Tür — die Verriegelung gibt nach.",
+                    api.showText([
+            "„Die Nachricht im Terminal hat das Datum 6.11.1997, entsprechend lautet der Tür-Code ‚06111997‘."",
+            "Layard tippt die acht Ziffern. Die LED springt von Rot auf Grün. Ein Klacken in der Tür — die Verriegelung gibt nach.",
           ]);
         },
       },
