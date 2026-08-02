@@ -23,7 +23,8 @@ export type SceneId =
   | "pub"
   | "pubToilet"
   | "pubVestibule"
-  | "commonRoomE71";
+  | "commonRoomE71"
+  | "windowNiche";
 
 export type InventoryItemId =
   | "protocol"
@@ -562,7 +563,8 @@ export interface DialogLine {
     | "MARV"
     | "DETLEF"
     | "SIGI"
-    | "RUVEN";
+    | "RUVEN"
+    | "RALF";
   text: string;
   /** subtext appears only when Schmerz-Radio active */
   subtext?: string;
