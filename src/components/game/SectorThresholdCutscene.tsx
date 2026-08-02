@@ -50,6 +50,11 @@ export function SectorThresholdCutscene() {
   const [lineIdx, setLineIdx] = useState(-1);
   const [visible, setVisible] = useState(true);
   const finishedRef = useRef(false);
+  // Läuft gerade ein Crossfade zum nächsten Beat? Schützt vor
+  // Mehrfach-Klicks, die sonst mehrere Beat-Sprünge aufstauen und
+  // beatIdx über das Ende hinausschieben.
+  const transitioningRef = useRef(false);
+  const transitionTimerRef = useRef<number | null>(null);
   // Markiert, dass die Cutscene zu Ende geführt wurde und der
   // City-Forgets-Track jetzt noch in „passage" ausläuft. Verlässt der
   // Spieler diesen Raum, wird der Override sofort gelöscht.
@@ -83,7 +88,36 @@ export function SectorThresholdCutscene() {
     setLineIdx(-1);
     setVisible(true);
     finishedRef.current = false;
+    transitioningRef.current = false;
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = null;
+    }
   }, [active]);
+
+  // Sicherheitsnetz: beim Unmount laufenden Crossfade-Timer beräumen.
+  useEffect(
+    () => () => {
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = null;
+      }
+    },
+    [],
+  );
+
+  const startBeatTransition = () => {
+    if (transitioningRef.current) return;
+    transitioningRef.current = true;
+    setVisible(false);
+    transitionTimerRef.current = window.setTimeout(() => {
+      transitionTimerRef.current = null;
+      setBeatIdx((b) => Math.min(b + 1, beats.length - 1));
+      setLineIdx(-1);
+      setVisible(true);
+      transitioningRef.current = false;
+    }, CROSSFADE_MS / 2);
+  };
 
   const finish = () => {
     if (finishedRef.current) return;
@@ -100,10 +134,11 @@ export function SectorThresholdCutscene() {
 
   // Manuelles Vorrücken: nächste Untertitel-Zeile oder nächster Beat.
   const advance = () => {
+    if (finishedRef.current || transitioningRef.current) return;
     const beat = beats[beatIdx];
     if (!beat) return;
     if (lineIdx < beat.lines.length - 1) {
-      setLineIdx((i) => i + 1);
+      setLineIdx((i) => Math.min(i + 1, beat.lines.length - 1));
       return;
     }
     // letzte Zeile dieses Beats — auf nächsten Beat wechseln (mit Crossfade).
@@ -111,12 +146,7 @@ export function SectorThresholdCutscene() {
       finish();
       return;
     }
-    setVisible(false);
-    window.setTimeout(() => {
-      setBeatIdx((b) => b + 1);
-      setLineIdx(-1);
-      setVisible(true);
-    }, CROSSFADE_MS / 2);
+    startBeatTransition();
   };
 
   // Auto-Advance: nach Lead-In erste Zeile zeigen, danach Zeile für Zeile
@@ -124,6 +154,7 @@ export function SectorThresholdCutscene() {
   useEffect(() => {
     if (!active) return;
     if (paused) return;
+    if (transitioningRef.current) return;
     const beat = beats[beatIdx];
     if (!beat) return;
 
@@ -139,14 +170,7 @@ export function SectorThresholdCutscene() {
       if (lineIdx < beat.lines.length - 1) {
         setLineIdx((i) => i + 1);
       } else if (beatIdx < beats.length - 1) {
-        setVisible(false);
-        const t2 = window.setTimeout(() => {
-          setBeatIdx((b) => b + 1);
-          setLineIdx(-1);
-          setVisible(true);
-        }, CROSSFADE_MS / 2);
-        // Cleanup über äußeres Cleanup mit erfasst.
-        return () => window.clearTimeout(t2);
+        startBeatTransition();
       } else {
         finish();
       }
@@ -197,11 +221,13 @@ export function SectorThresholdCutscene() {
 
   if (!active) return null;
 
-  const beat = beats[beatIdx];
-  const image = BEAT_IMAGES[beatIdx] ?? BEAT_IMAGES[BEAT_IMAGES.length - 1];
-  const cam = BEAT_CAMERA[beatIdx] ?? BEAT_CAMERA[BEAT_CAMERA.length - 1];
-  const currentLine = lineIdx >= 0 ? beat.lines[lineIdx] : null;
-  const beatKey = `beat-${beatIdx}`;
+  const safeBeatIdx = Math.max(0, Math.min(beatIdx, beats.length - 1));
+  const beat = beats[safeBeatIdx];
+  if (!beat) return null;
+  const image = BEAT_IMAGES[safeBeatIdx] ?? BEAT_IMAGES[BEAT_IMAGES.length - 1];
+  const cam = BEAT_CAMERA[safeBeatIdx] ?? BEAT_CAMERA[BEAT_CAMERA.length - 1];
+  const currentLine = lineIdx >= 0 ? (beat.lines[lineIdx] ?? null) : null;
+  const beatKey = `beat-${safeBeatIdx}`;
 
   // Gesamt-Beat-Dauer für Ken-Burns-Spring.
   const beatDurationSec = Math.max(
