@@ -201,4 +201,73 @@ export const ennisDialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ── Kaputtes Telefon: Bitte um Ennis' Anschluss ───────────────────
+  ennisPhoneRefusal: {
+    id: "ennisPhoneRefusal",
+    start: "ep1",
+    lines: {
+      ep1: {
+        id: "ep1",
+        speaker: "LAYARD",
+        text: "Kalb — mein Telefon ist ausgefallen. Ein einziger Anruf über Ihren Anschluss, dann bin ich weg.",
+        next: "ep2",
+      },
+      ep2: {
+        id: "ep2",
+        speaker: "SYSTEM",
+        text: "[ Die Tür 2614 öffnet sich genau so weit, dass ein Auge und eine Schulter hineinpassen. ]",
+        next: "ep3",
+      },
+      ep3: {
+        id: "ep3",
+        speaker: "ENNIS",
+        text: "Über meinen Anschluss. Sie hören sich selbst zu, oder? — Ein Anschluss ist einem Bürger zugeordnet. Der Bürger bin ich. Wenn Sie darüber wählen, wähle auf dem Papier ich.",
+        next: "ep4",
+      },
+      ep4: {
+        id: "ep4",
+        speaker: "LAYARD",
+        text: "Und wenn ich sage, dass ich es war?",
+        next: "ep5",
+      },
+      ep5: {
+        id: "ep5",
+        speaker: "ENNIS",
+        text: "Dann sagen Sie das. Der Streifen sagt was anderes. Und der Streifen hat noch nie Urlaub gehabt.",
+        subtext: "Er tippt zweimal gegen den Türrahmen. Wie ein Mensch, der eine Regel klopft, an die er sich klammert.",
+        next: "ep6",
+      },
+      ep6: {
+        id: "ep6",
+        speaker: "ENNIS",
+        text: "Außerdem: Schichtruhe. Ich habe Nacht. Wer bei mir telefoniert, weckt mich, und wer mich weckt, kostet die Logistik eine Stunde. Nein, Worag.",
+        next: "ep7",
+      },
+      ep7: {
+        id: "ep7",
+        speaker: "ENNIS",
+        text: "Melden Sie es dort, wo es hingehört. Es gibt für alles eine Zuständigkeit. Das ist kein Ärgernis, das ist der einzige Grund, warum hier nichts zusammenbricht.",
+        end: true,
+      },
+    },
+  },
+  ennisPhoneRefusalShort: {
+    id: "ennisPhoneRefusalShort",
+    start: "eps1",
+    lines: {
+      eps1: {
+        id: "eps1",
+        speaker: "LAYARD",
+        text: "Nur ein Anruf, Kalb.",
+        next: "eps2",
+      },
+      eps2: {
+        id: "eps2",
+        speaker: "ENNIS",
+        text: "Nur ein Nein, Worag. Zuständigkeit ist keine Laune.",
+        end: true,
+      },
+    },
+  },
 };

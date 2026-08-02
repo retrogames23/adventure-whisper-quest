@@ -263,4 +263,78 @@ export const helkaDialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ── Kaputtes Telefon: Bitte um Helkas Apparat ─────────────────────
+  helkaPhoneRefusal: {
+    id: "helkaPhoneRefusal",
+    start: "hp1",
+    lines: {
+      hp1: {
+        id: "hp1",
+        speaker: "LAYARD",
+        text: "Frau Vint — mein Telefon ist tot. Darf ich einmal Ihres benutzen?",
+        next: "hp2",
+      },
+      hp2: {
+        id: "hp2",
+        speaker: "HELKA",
+        text: "Nein.",
+        subtext: "Kein Zögern. Die Tür bleibt auf dem gleichen Spalt.",
+        next: "hp3",
+      },
+      hp3: {
+        id: "hp3",
+        speaker: "LAYARD",
+        text: "Darf ich fragen, warum?",
+        next: "hp4",
+      },
+      hp4: {
+        id: "hp4",
+        speaker: "HELKA",
+        text: "Weil hier keins ist. Der Apparat hängt noch an der Wand, aber die Leitung ist seit — ich sage mal: seit es ruhiger geworden ist. Ich habe es nie gemeldet.",
+        next: "hp5",
+      },
+      hp5: {
+        id: "hp5",
+        speaker: "LAYARD",
+        text: "Sie haben ein totes Telefon und melden es nicht?",
+        next: "hp6",
+      },
+      hp6: {
+        id: "hp6",
+        speaker: "HELKA",
+        text: "Ein totes Telefon klingelt nicht. Ein Telefon, das nicht klingelt, bringt niemanden an meine Tür. Rechnen Sie selbst.",
+        next: "hp7",
+      },
+      hp7: {
+        id: "hp7",
+        speaker: "HELKA",
+        text: "Wenn Sie reden wollen, reden Sie hier. Wenn Sie wählen wollen, lassen Sie Ihres richten. Korridor 46 hat eine Wartung. Tür 4601, die Junge. Die kommt wenigstens noch, wenn man klopft.",
+        choices: [
+          {
+            text: "[ Notiert: 4601, Korridor 46 ]",
+            action: (api) => api.setFlag("knowsMiraIsWartung"),
+          },
+        ],
+      },
+    },
+  },
+  helkaPhoneRefusalShort: {
+    id: "helkaPhoneRefusalShort",
+    start: "hps1",
+    lines: {
+      hps1: {
+        id: "hps1",
+        speaker: "LAYARD",
+        text: "Und wirklich kein Telefon?",
+        next: "hps2",
+      },
+      hps2: {
+        id: "hps2",
+        speaker: "HELKA",
+        text: "Wirklich keins. 4601, Worag. Gute Nacht.",
+        end: true,
+      },
+    },
+  },
 };

@@ -922,4 +922,78 @@ export const philippeDialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ── Kaputtes Telefon: Bitte um Philippes Wandapparat ──────────────
+  philippePhoneRefusal: {
+    id: "philippePhoneRefusal",
+    start: "pp1",
+    lines: {
+      pp1: {
+        id: "pp1",
+        speaker: "LAYARD",
+        text: "Philippe, mein Apparat ist tot. Darf ich einmal Ihren Wandapparat benutzen?",
+        next: "pp2",
+      },
+      pp2: {
+        id: "pp2",
+        speaker: "SYSTEM",
+        text: "[ Philippe sieht zum Telefon, dann zur Tür, dann wieder zu Layard. Die Reihenfolge sagt schon alles. ]",
+        next: "pp3",
+      },
+      pp3: {
+        id: "pp3",
+        speaker: "PHILIPPE",
+        text: "Ich würde gern ja sagen. Ich sage aber nein, und ich sage Ihnen auch, warum.",
+        next: "pp4",
+      },
+      pp4: {
+        id: "pp4",
+        speaker: "PHILIPPE",
+        text: "Der Apparat hier hat eine Zweckbindung. Er ist mir zugeteilt, nicht überlassen. Als ich das letzte Mal für jemand anderen gewählt habe, kam vierzehn Tage später ein Blatt: Hinweis auf zweckfremde Nutzung. Kein Verfahren, nur ein Hinweis.",
+        next: "pp5",
+      },
+      pp5: {
+        id: "pp5",
+        speaker: "LAYARD",
+        text: "Ein Hinweis ist doch nichts.",
+        next: "pp6",
+      },
+      pp6: {
+        id: "pp6",
+        speaker: "PHILIPPE",
+        text: "Ein Hinweis ist der Anfang von etwas, das später keinen Anfang mehr braucht. — Und ehrlich, Layard: heute habe ich schon genug in Formularen gestanden.",
+        subtext: "Er meint 2615. Er sagt es nicht.",
+        next: "pp7",
+      },
+      pp7: {
+        id: "pp7",
+        speaker: "PHILIPPE",
+        text: "Lassen Sie ihn reparieren. Wohnungsapparate laufen über die Korridor-Wartung, nicht über die Leitstelle. Für 46 ist die Anwärterin zuständig, Tür 4601. Die junge Frau mit dem Koffer.",
+        choices: [
+          {
+            text: "[ Notiert: 4601, Korridor 46 ]",
+            action: (api) => api.setFlag("knowsMiraIsWartung"),
+          },
+        ],
+      },
+    },
+  },
+  philippePhoneRefusalShort: {
+    id: "philippePhoneRefusalShort",
+    start: "pps1",
+    lines: {
+      pps1: {
+        id: "pps1",
+        speaker: "LAYARD",
+        text: "Das Telefon —",
+        next: "pps2",
+      },
+      pps2: {
+        id: "pps2",
+        speaker: "PHILIPPE",
+        text: "Meins bleibt meins, Layard. Nicht aus Geiz. Aus Erfahrung. Gehen Sie zu 4601.",
+        end: true,
+      },
+    },
+  },
 };
