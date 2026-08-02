@@ -658,7 +658,11 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           {
             // Kowalk hat Layard hergeschickt — Brust kennt den Pfad.
             text: "Frau Kowalk hat mich geschickt. Trainingsfall.",
-            next: "bDuelOffer",
+            action: (api) => {
+              api.setFlag("duelOffered");
+              api.setFlag("duelStarted");
+            },
+            nextDialog: () => pickTrainingFallId(),
             requires: ["knowsVossbeckPath"],
             hiddenWhen: ["duelStarted", "vossbeckSummoned", "gotB3Ration"],
           },
