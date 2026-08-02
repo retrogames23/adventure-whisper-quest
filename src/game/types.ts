@@ -4,6 +4,7 @@ export type SceneId =
   | "sectorDoor"
   | "e71Lobby"
   | "elevatorE71"
+  | "cinemaE71"
   | "corridor15"
   | "room1534"
   | "room1532"

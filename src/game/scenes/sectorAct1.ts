@@ -261,7 +261,6 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       "Eine Kabine aus gebürstetem Stahl. Rechts an der Wand ein Bedienfeld: fünf Etagen und ein Keller. Über der Tür ein rotes Segment-Display, das leise flackert.",
     hotspots: [
       ...[
-        { id: "e71Btn5", y: 25.0, label: "Etage 5" },
         { id: "e71Btn4", y: 32.8, label: "Etage 4" },
         { id: "e71Btn3", y: 42.0, label: "Etage 3" },
         { id: "e71Btn2", y: 51.2, label: "Etage 2" },
@@ -278,6 +277,17 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         onUse: (api: any) =>
           api.showText(["Auf dem Display steht: nicht berechtigt."]),
       })),
+      {
+        id: "e71Btn5",
+        x: 85.6,
+        y: 25.0,
+        w: 8.4,
+        h: 6.2,
+        label: "Etage 5 — Lichtspielsaal",
+        kind: "exit",
+        exitDir: "up",
+        onUse: (api) => api.goTo("cinemaE71"),
+      },
       {
         id: "e71ElevatorOut",
         x: 30,
