@@ -72,7 +72,7 @@ export const windowNicheScenes: Record<string, Scene> = {
         h: 55,
         label: "Zurück zum Verbindungsgang",
         kind: "exit",
-        exitDir: "left",
+        exitDir: "right",
         onUse: (api) => api.goTo("passage"),
       },
     ],
