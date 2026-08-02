@@ -336,6 +336,9 @@ function ParamedicsReportIcon() {
 
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
+  belegAushangAufzug: AushangIcon,
+  belegAushangKorridor46: AushangIcon,
+  belegAushangGemeinschaftsraum: AushangIcon,
   flyer: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
   residentId: ResidentIdIcon,
