@@ -1,61 +1,96 @@
+# Mira wird Pflichtstation in Akt I
+
 ## Ziel
 
-Alles aus dem Code entfernen, was im Spiel nie vergeben oder nie gesetzt wird — also toter Ballast, der beim Lesen des Codes den Eindruck erweckt, es gäbe Inhalte, die real unerreichbar sind.
+Mira ist derzeit komplett optional: Sie steht in Korridor 46, ihr Vertrauenspfad,
+ihr Zimmer 4601 und die Verstärker-Antenne hängen an Flags, die man nie berühren
+muss. Der Plan hängt sie mit ihrer kanonischen Rolle — **Bewohnervertretung E67,
+Schicht A, Trockensiegel-Hüterin** (LORE.md §8) — als zwingende Station in die
+bestehende Akt-I-Kette, ohne neue Geografie, ohne Umbau des Bürokratie-Duells und
+ohne neue Sackgasse.
 
-## Befund (im Code geprüft)
+## Der Angelpunkt: das Trockensiegel
 
-### 1. Items ohne jede Quelle
-
-Kein einziges `addItem` im gesamten Projekt:
-
-| Item | Referenzen, die dadurch tot sind |
-| --- | --- |
-| `exitCode` | Kombi-Kommentare in `combine.ts`, Sonderfall `keypadCall`, `Keypad.tsx:39`, Icon |
-| `b3sample` | Kombi-Kommentare, Paar `b3sample+tuningCrystal`, Icon |
-| `mikaelLetter` | Kombi-Kommentare, Paar `mikaelLetter+flyer`, Icon |
-| `tuningCrystal` | Icon, `RadioPanel.tsx:112`, Wartungs-Funk 5610, Paare mit `flyer`, `b3sample`, `antennaWire` |
-
-### 2. Flags, die nie gesetzt werden
-
-- Nur in `types.ts` deklariert, sonst nirgends: `serverRoom5610OverrideArmed`, `insaSentTo5610`, `duelWon`, `duelLost`, `duelTrainingNextB`, `duelTrainingNextC`.
-- Gesetzt: nie — aber sie **sperren erreichbare Inhalte**: `kowalkHintedBodoHelka` (blockiert je eine Dialogoption bei Bodo und Helka), `heardMikaelTruth` (blockiert zwei Einträge in Worags Dateisystem).
-
-## Wichtige Konsequenz — eine Entscheidung nötig
-
-`tuningCrystal` ist die Wurzel einer ganzen Inhaltskette. Weil es ihn nicht gibt, ist auch alles Nachgelagerte unerreichbar, obwohl es sauber implementiert ist:
+Formblatt 17/V ist ein Bewohner-Antrag. Vossbeck nimmt es nur an, wenn die
+Bewohnervertretung mit ihrem **Trockensiegel** bestätigt, dass der Antragsteller
+tatsächlich in E67 wohnt und in dieser Sache für sich selbst spricht. Das Siegel
+liegt bei Schicht A — bei Mira. Damit steckt Mira genau zwischen Brust und
+Vossbeck, an einer Stelle, die der Spieler ohnehin passieren muss.
 
 ```text
-tuningCrystal (fehlt)
-   └─ Feintuning 102,7 am Wartungsfunk 5610
-        └─ hiddenFrequencyFound → antennaWire + wartungsDiktat
-             └─ + tuningCrystal → amplifierAntenna
-                  └─ Resonanz-Duell im RadioPanel → miraSentAnger
-                       └─ miraTerminalUnlocked → Miras Terminal, Manifest,
-                          miraAfterAmplifier, miraState "friendly",
-                          Hint act1.hiddenFrequency
+Insa (Telefon) -> Kowalk (3602) -> Brust: Formblatt 17/V
+                                       |
+                                       v
+                    MIRA (Korridor 46) : Trockensiegel  <-- neu, zwingend
+                                       |
+                                       v
+                    Vossbeck (3603): Endduell -> Tagescode -> Sektor-Tür
 ```
 
-Ein reines „Löschen aller toten Enden" würde diesen kompletten Strang mitreißen — inklusive Miras Terminal-Zugang und ihres freundlichen Endzustands.
+Der Fälschungs-Pfad über Kowalk bleibt erhalten: Auch das gefälschte Formblatt
+braucht das Siegel — Kowalk kann Papier beschaffen, aber kein Bewohnersiegel.
+So bleibt genau ein Nadelöhr.
 
-Deshalb zwei getrennte Schritte im Plan:
+## Ablauf der neuen Pflichtszene
 
-## A. Ersatzlos löschen (unstrittig tot)
+1. **Hinweis:** Kowalk nennt beim Vossbeck-Briefing die dritte Bedingung —
+   „ohne Trockensiegel der Vertretung ist das Blatt ein Blatt". Brust wiederholt
+   es trocken bei der Übergabe. Insa nennt am Telefon Etage 4, Korridor 46.
+2. **Begegnung:** Mira ist während dieses Abschnitts verlässlich auf Etage 4
+   (sie wird für dieses Fenster dort fixiert, statt zufällig zu wandern).
+3. **Miras Preis:** Sie siegelt nicht auf Zuruf. Sie verlangt eine Minute
+   Funkstille — Radio *aus*, nicht leise, im Gang, vor ihren Augen. Das nutzt die
+   bereits existierende Mechanik (`radioMutedAtLeast60s`) und ist immer lösbar.
+4. **Drei Tonlagen, ein Ergebnis:**
+   - *warm* — Stille ausgehalten **und** Manifest gelesen (optionaler Telnet-Pfad):
+     sie siegelt, redet Klartext über Schacht 56 und lädt ihn in die 4601 ein.
+   - *neutral* — nur Stille ausgehalten: sie siegelt, bleibt knapp, nennt die 4601.
+   - *kalt* — verweigert oder abgebrochen: sie siegelt trotzdem, weil die
+     Vertretung ein Siegel nicht verweigern darf, und schreibt ihn ab.
+   In allen drei Fällen geht es weiter. Der Unterschied ist Ton, Zugang zu 4601
+   und der Mira-Endstate für Akt II.
+5. **Vossbeck** weist ein ungesiegeltes Formblatt ab, mit eigener Ablehnungszeile
+   statt stiller Nichtreaktion.
 
-- `types.ts`: `exitCode`, `b3sample`, `mikaelLetter` aus `InventoryItemId`; `serverRoom5610OverrideArmed`, `insaSentTo5610`, `duelWon`, `duelLost`, `duelTrainingNextB`, `duelTrainingNextC` aus `StoryFlag`.
-- `combine.ts`: alle Kommentar-/Reaktionszeilen zu diesen drei Items, die Paare `mikaelLetter+flyer`, `protocol+exitCode`, `b3sample+tuningCrystal` sowie der `keypadCall`-Sonderfall für `exitCode`.
-- `Keypad.tsx`: `exitCode`-Zweig entfernen (das Keypad funktioniert weiterhin über die Code-Eingabe).
-- `ItemIcon.tsx`: Icon-Einträge und die zugehörigen, dann ungenutzten SVG-Komponenten.
+## Was das nebenbei repariert
 
-## B. Gesperrte, aber gute Inhalte entsperren statt löschen
+- **Sackgasse 4601:** Bisher öffnet sich Miras Tür nur bei gewonnener
+  Vertrauensprobe; wer sie verliert, ist dauerhaft ausgesperrt. Künftig öffnet
+  das Siegel-Gespräch die Tür (warm/neutral), und der kalte Ausgang sperrt nur
+  optionale Inhalte.
+- **Toter Verstärker-Strang:** Die Verstärker-Antenne bleibt optional, wird aber
+  erstmals abschließbar — Bernstein-Resonator und Antennen-Draht bekommen je eine
+  echte Fundstelle im Wartungsbereich (Serverraum 5610 bzw. über Bodo), passend
+  zu Miras eigener Ansage im Dialog. Damit ist der „friendly"-Endstate erreichbar.
+- **Mira-Endstate:** `neutral` heißt künftig „hat gesiegelt, nicht mehr" statt
+  „nie getroffen" — Akt II bekommt eine verlässliche Basis.
 
-- `kowalkHintedBodoHelka`: Flag in Kowalks Cafeteria-Dialog setzen, wo sie ohnehin auf Bodo und Helka verweist — die beiden vorhandenen Dialogoptionen werden damit erreichbar.
-- `heardMikaelTruth`: Flag im Mikael-bezogenen Dialogpunkt setzen, an dem Layard die Wahrheit erfährt — die zwei Worag-Dateien werden lesbar.
-- `tuningCrystal`: eine Quelle im Spiel ergänzen (Vorschlag: Bernstein-Resonator im Tech-Knoten 5610 bzw. in Bodos Werkzeugbestand, trust-unabhängig auffindbar). Damit wird der gesamte Radio-/Antennen-/Mira-Strang erstmals spielbar.
+## Lore-Konsistenz
 
-Alternative, falls die Kette nicht gewünscht ist: Strang komplett entfernen (`tuningCrystal`, `antennaWire`, `amplifierAntenna`, `wartungsDiktat`, Flags `hiddenFrequencyFound`, `sawWartungsFunk5610`, `miraSentAnger`, das Resonanz-Duell im `RadioPanel`, Hint `act1.hiddenFrequency`) — inklusive Ersatzweg für `miraTerminalUnlocked`, sonst entsteht ein Dead End bei Miras Terminal.
+- Trockensiegel und Bewohnervertretung Schicht A stehen bereits in LORE.md §8;
+  der Plan macht daraus eine spielbare Amtshandlung und ergänzt in LORE.md einen
+  kurzen Absatz, was das Siegel bedeutet und wer es führt.
+- Miras Verdacht gegen die Verwaltung bleibt ausdrücklich **Vermutung**
+  (LORE.md §7), motiviert durch den Tod ihres Vaters im Schacht 56 (1992).
+  Keine Bestätigung, keine staatliche Resonanz-Infrastruktur.
+- Kein Bruch der Tabu-Liste, Tonfall bleibt höflich-bürokratisch.
 
-## Technische Punkte
+## Technische Umsetzung
 
-- Keine Persistenz-Migration nötig: entfernte Flags/Items in alten Spielständen werden beim Laden schlicht ignoriert; ich prüfe die Lade-Logik in `GameContext.tsx` darauf, dass unbekannte IDs nicht zum Absturz führen.
-- Keine Backend-Änderungen.
-- Verifikation: Typecheck (`tsgo`) plus `scripts/quest-check.mjs` und `scripts/hints-check.mjs`, danach ein kurzer Playwright-Durchlauf über Inventar und Keypad.
+- `src/game/types.ts`: Flag `formblatt17VSealed`, Flags `miraSealWarm` /
+  `miraSealCold`, `kowalkMentionedSeal`.
+- `src/game/dialogs/mira.ts`: neuer Dialog `miraSealRequest` mit den drei
+  Ausgängen; `miraTrustProbe` wird zum optionalen Vertiefungs-Ast statt Türwächter.
+- `src/game/scenes/corridorsE67.ts`: Hotspot-Routing auf den Siegel-Dialog,
+  `door4601Enter` von `miraTrustEarned` auf „gesiegelt und nicht kalt" umstellen;
+  Mira während des Siegel-Fensters fest auf Etage 4.
+- `src/game/dialogs/cafeteria.ts` (Kowalk/Brust) und `insa.ts`: Siegel-Hinweis.
+- `src/game/scenes/kantinenverwaltung3603.ts` / `bureaucracyDuel.ts`:
+  Vossbeck prüft zusätzlich das Siegel und lehnt sonst begründet ab.
+- `src/game/miraState.ts`: `computeMiraEndState` um die Siegel-Ausgänge erweitern.
+- `src/game/hints.ts`: neue Pflicht-Quest „Trockensiegel der Bewohnervertretung"
+  zwischen `act1.stamp4317` und `act1.callInsaForCode`; Mira-Vertrauens-Quest als
+  optional umformulieren.
+- Fundstellen für `tuningCrystal` und `antennaWire` im Wartungsbereich/5610.
+- `LORE.md` und `mem/features/` um den Siegel-Abschnitt ergänzen; danach
+  `quest-check` und `hints-check` laufen lassen.
