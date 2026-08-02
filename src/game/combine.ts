@@ -338,12 +338,8 @@ export function combineItem(
         } catch { /* ignore */ }
       })();
       lines = [
-        "Layard tritt einen halben Schritt näher an die Lautsprecher-",
-        "Maske, hebt den schmalen Schnabel des Ölkännchens und tropft",
-        "zwei winzige Tropfen in den Spalt, wo der Servo-Kiefer sitzt.",
-        "Es klickt leise. Dann ein Geräusch, das fast wie ein Atemzug",
-        "klingt.",
-        "MARV-9 (sehr leise): „… oh.“",
+        "Layard tritt einen halben Schritt näher an die Lautsprecher-Maske, hebt den schmalen Schnabel des Ölkännchens und tropft zwei winzige Tropfen in den Spalt, wo der Servo-Kiefer sitzt.",
+        "Es klickt leise. Dann ein Geräusch, das fast wie ein Atemzug klingt. MARV-9 (sehr leise): „… oh.“",
       ];
       ctx.api.showText(lines);
       return;
