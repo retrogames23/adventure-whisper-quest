@@ -34,9 +34,6 @@ export function Keypad() {
     openFlag: "sectorDoorOpen",
     onUnlock: (a) => {
       a.setFlag("sectorDoorOpen");
-      // Code wurde direkt eingegeben — der Zettel wird nicht mehr gebraucht
-      // und verschwindet aus dem Inventar (falls Layard ihn vorher hatte).
-      if (a.hasItem("exitCode")) a.removeItem("exitCode");
     },
   };
 

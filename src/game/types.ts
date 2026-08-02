@@ -27,10 +27,7 @@ export type SceneId =
 
 export type InventoryItemId =
   | "protocol"
-  | "exitCode"
-  | "b3sample"
   | "tuningCrystal"
-  | "mikaelLetter"
   | "flyer"
   | "wartungsnotiz5610"
   | "residentId"
@@ -188,7 +185,6 @@ export type StoryFlag =
   // Insa hat aus der Leitstelle den Wartungs-Override scharfgeschaltet,
   // d.h. die Magnetriegel der Tür 5610 öffnen sich beim nächsten Versuch
   // ohne Karte/Code (Pflicht-Pfad).
-  | "serverRoom5610OverrideArmed"
   | "tappedNode5610"
   | "burnedNode5610"
   // Folgen aus burn. Beendet das Spiel NICHT — wirkt nur narrativ.
@@ -201,7 +197,6 @@ export type StoryFlag =
   | "burnedAndDodged"
   // Insa hat Layard zwingend zu Knoten 5610 geschickt (Pflicht-Pfad
   // für den Sektor-Code).
-  | "insaSentTo5610"
   // Insa-Rückruf nach burn ist gelaufen (verhindert Endlos-Trigger).
   | "insaCallbackBurnDone"
   // Dr. Adaeze Okwu (E71, Korridor 15) — progressive Dialog-Schichten
@@ -245,10 +240,6 @@ export type StoryFlag =
   // Bürokratie-Duell (Akt I, Brust-Tresen) — alternativer dritter Lösungsweg
   | "duelOffered"
   | "duelStarted"
-  | "duelWon"
-  | "duelLost"
-  | "duelTrainingNextB"
-  | "duelTrainingNextC"
   // Bürokratie-Duell — Mehrstufiges Lernsystem (Vossbeck-Endgegner)
   | "duelTrainingWon1"
   | "duelTrainingWon2"

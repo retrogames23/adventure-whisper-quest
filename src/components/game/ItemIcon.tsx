@@ -72,51 +72,6 @@ function ProtocolIcon() {
   );
 }
 
-/** Ausgangscode — Notiz mit Ziffern. */
-function ExitCodeIcon() {
-  return (
-    <>
-      {/* Notizzettel */}
-      <rect x="4" y="5" width="16" height="14" fill={ICON_DK} />
-      <rect x="5" y="6" width="14" height="12" fill={ICON_HI} />
-      {/* Eselsohr */}
-      <rect x="17" y="6" width="2" height="2" fill={ICON_DK} />
-      {/* Ziffern */}
-      <rect x="7" y="9" width="2" height="2" fill={ICON_BG} />
-      <rect x="10" y="9" width="2" height="2" fill={ICON_BG} />
-      <rect x="13" y="9" width="2" height="2" fill={ICON_BG} />
-      <rect x="16" y="9" width="2" height="2" fill={ICON_BG} />
-      <rect x="7" y="13" width="2" height="2" fill={ICON_BG} />
-      <rect x="10" y="13" width="2" height="2" fill={ICON_BG} />
-      <rect x="13" y="13" width="2" height="2" fill={ICON_BG} />
-      <rect x="16" y="13" width="2" height="2" fill={ICON_BG} />
-    </>
-  );
-}
-
-/** B3-Probe — Becher / Reagenzglas mit Flüssigkeit. */
-function B3SampleIcon() {
-  return (
-    <>
-      {/* Stopfen */}
-      <rect x="9" y="2" width="6" height="2" fill={ICON_DK} />
-      <rect x="10" y="3" width="4" height="1" fill={ICON_HI} />
-      {/* Glas */}
-      <rect x="8" y="4" width="8" height="17" fill={ICON_FG} opacity="0.25" />
-      <rect x="8" y="4" width="1" height="17" fill={ICON_FG} />
-      <rect x="15" y="4" width="1" height="17" fill={ICON_FG} />
-      <rect x="8" y="20" width="8" height="1" fill={ICON_FG} />
-      <rect x="9" y="21" width="6" height="1" fill={ICON_FG} />
-      {/* Flüssigkeit */}
-      <rect x="9" y="13" width="6" height="7" fill="#74c47a" />
-      <rect x="9" y="13" width="6" height="1" fill={ICON_HI} opacity="0.6" />
-      {/* Bläschen */}
-      <rect x="11" y="15" width="1" height="1" fill={ICON_HI} />
-      <rect x="13" y="17" width="1" height="1" fill={ICON_HI} />
-    </>
-  );
-}
-
 /** Bernstein-Kristall — geschliffener Quarz. */
 function TuningCrystalIcon() {
   return (
@@ -140,36 +95,6 @@ function TuningCrystalIcon() {
       <rect x="13" y="9" width="1" height="4" fill={ICON_HI} opacity="0.7" />
       {/* Facet line */}
       <rect x="7" y="12" width="10" height="1" fill={ICON_DK} opacity="0.5" />
-    </>
-  );
-}
-
-/** Brief an Insa — versiegelter Umschlag. */
-function MikaelLetterIcon() {
-  return (
-    <>
-      <rect x="3" y="6" width="18" height="13" fill={ICON_DK} />
-      <rect x="4" y="7" width="16" height="11" fill={ICON_HI} />
-      {/* Falten */}
-      <polygon points="4,7 12,14 20,7" fill="none" />
-      <rect x="4" y="7" width="1" height="1" fill={ICON_DK} />
-      <rect x="5" y="8" width="1" height="1" fill={ICON_DK} />
-      <rect x="6" y="9" width="1" height="1" fill={ICON_DK} />
-      <rect x="7" y="10" width="1" height="1" fill={ICON_DK} />
-      <rect x="8" y="11" width="1" height="1" fill={ICON_DK} />
-      <rect x="9" y="12" width="1" height="1" fill={ICON_DK} />
-      <rect x="10" y="13" width="1" height="1" fill={ICON_DK} />
-      <rect x="11" y="14" width="2" height="1" fill={ICON_DK} />
-      <rect x="13" y="13" width="1" height="1" fill={ICON_DK} />
-      <rect x="14" y="12" width="1" height="1" fill={ICON_DK} />
-      <rect x="15" y="11" width="1" height="1" fill={ICON_DK} />
-      <rect x="16" y="10" width="1" height="1" fill={ICON_DK} />
-      <rect x="17" y="9" width="1" height="1" fill={ICON_DK} />
-      <rect x="18" y="8" width="1" height="1" fill={ICON_DK} />
-      <rect x="19" y="7" width="1" height="1" fill={ICON_DK} />
-      {/* Wachssiegel */}
-      <rect x="10" y="14" width="4" height="3" fill="#b3331a" />
-      <rect x="11" y="15" width="2" height="1" fill={ICON_HI} />
     </>
   );
 }
@@ -438,10 +363,7 @@ function ParamedicsReportIcon() {
 
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
-  exitCode: ExitCodeIcon,
-  b3sample: B3SampleIcon,
   tuningCrystal: TuningCrystalIcon,
-  mikaelLetter: MikaelLetterIcon,
   flyer: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
   residentId: ResidentIdIcon,
