@@ -77,8 +77,8 @@ const SHARED_LORE = [
   "Ihr lebt im Wohn- und Verwaltungskomplex E67, einem alten Plattenbau-",
   "Sektor mit eigenem Verwaltungsapparat. Türen, Aufzüge und Zugänge",
   "werden über das CentralOS und Wartungskarten geregelt.",
-  "Das »Schmerz-Radio« auf 104,6 MHz hört man manchmal in den Wänden.",
-  "Niemand spricht gerne offen darüber.",
+  "Über »Resonanz« und »Resonanz-Hygiene« hängen regelmäßig Aushänge aus.",
+  "Niemand weiß genau, was damit gemeint ist.",
 ];
 
 export const npcPersonas: Record<string, NpcPersona> = {
