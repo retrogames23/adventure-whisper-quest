@@ -1,35 +1,100 @@
-import type { DialogChoice, GameApi, DialogTree } from "../types";
-
-/** Themenliste des Hubs. Bereits gehörte Themen bleiben wählbar, werden
- *  aber als gehört markiert. */
-function buildTopics(api: GameApi): DialogChoice[] {
-  const mark = (label: string, flag: Parameters<GameApi["hasFlag"]>[0]) =>
-    api.hasFlag(flag) ? `${label} (schon gehört)` : label;
-  const choices: DialogChoice[] = [
-    { text: mark("Warum sind E67 und E71 überhaupt getrennt?", "ralfToldSektoren"), next: "tSektoren", action: (a) => a.setFlag("ralfToldSektoren") },
-    { text: mark("Was ist das Mandatsgebiet eigentlich?", "ralfToldMandat"), next: "tMandat", action: (a) => a.setFlag("ralfToldMandat") },
-    { text: mark("Resonanz-Hygiene — woher kommt das?", "ralfToldResonanz"), next: "tResonanz", action: (a) => a.setFlag("ralfToldResonanz") },
-    { text: mark("Erzählen Sie mir was über die Leute hier.", "ralfToldBewohner"), next: "tBewohner", action: (a) => a.setFlag("ralfToldBewohner") },
-    { text: mark("Es gab mal Zeitungsartikel über E67.", "ralfToldZeitungen"), next: "tZeitungen", action: (a) => a.setFlag("ralfToldZeitungen") },
-  ];
-  if (api.hasFlag("metMira")) {
-    choices.push({
-      text: mark("Was halten Sie von Miras Theorien?", "ralfToldMira"),
-      next: "tMira",
-      action: (a) => a.setFlag("ralfToldMira"),
-    });
-  }
-  choices.push({ text: mark("Und Sie? Was machen Sie den ganzen Tag?", "ralfToldSelbst"), next: "tSelbst", action: (a) => a.setFlag("ralfToldSelbst") });
-  choices.push({ text: "[ Weitergehen ]", next: "bye" });
-  return choices;
-}
+import type { DialogChoice, GameApi, DialogLine, DialogTree } from "../types";
 
 /**
  * Ralf am Fenster — E71-Bewohner hinter einem fast geschlossenen Rollo.
- * Reiner Welt-Erklärer, keine Rätselfunktion. Hub-Struktur: Layard fragt,
- * Ralf antwortet, danach zurück ins Themenmenü.
+ *
+ * Kein Themen-Automat: Die Bekanntschaft wächst über drei Stufen.
+ *  1. `ralfIntro`  — Erstkontakt, Smalltalk, Ralf fragt zuerst.
+ *  2. `ralfTalk`   — man kennt sich; leichte Themen, Ralf fragt zurück.
+ *  3. `ralfDeep`   — Vertrauen; die schweren Themen, er duzt Layard.
+ * Welcher Baum startet, entscheidet die Szene (siehe windowNiche.ts).
  */
+
+/** Leichte Themen (Stufe 2 und 3). */
+function lightTopics(api: GameApi): DialogChoice[] {
+  const out: DialogChoice[] = [];
+  if (!api.hasFlag("ralfToldSektoren"))
+    out.push({ text: "Warum sind E67 und E71 überhaupt getrennt?", next: "tSektoren", action: (a) => a.setFlag("ralfToldSektoren") });
+  if (!api.hasFlag("ralfToldMandat"))
+    out.push({ text: "Was ist das Mandatsgebiet eigentlich?", next: "tMandat", action: (a) => a.setFlag("ralfToldMandat") });
+  if (!api.hasFlag("ralfToldBewohner"))
+    out.push({ text: "Erzählen Sie mir was über die Leute hier.", next: "tBewohner", action: (a) => a.setFlag("ralfToldBewohner") });
+  if (!api.hasFlag("ralfToldRollo"))
+    out.push({ text: "Und Sie stehen wirklich den ganzen Tag hier?", next: "tRollo", action: (a) => a.setFlag("ralfToldRollo") });
+  return out;
+}
+
+/** Schwere Themen — erst mit Vertrauen (Stufe 3). */
+function deepTopics(api: GameApi): DialogChoice[] {
+  const out: DialogChoice[] = [];
+  if (!api.hasFlag("ralfToldResonanz"))
+    out.push({ text: "Resonanz-Hygiene — woher kommt das?", next: "tResonanz", action: (a) => a.setFlag("ralfToldResonanz") });
+  if (!api.hasFlag("ralfToldZeitungen"))
+    out.push({ text: "Es gab mal Zeitungsartikel über E67.", next: "tZeitungen", action: (a) => a.setFlag("ralfToldZeitungen") });
+  if (!api.hasFlag("ralfToldSelbst"))
+    out.push({ text: "Was hast du eigentlich mal gemacht, Ralf?", next: "tSelbst", action: (a) => a.setFlag("ralfToldSelbst") });
+  if (api.hasFlag("metMira") && !api.hasFlag("ralfToldMira"))
+    out.push({ text: "Was hältst du von Miras Theorien?", next: "tMira", action: (a) => a.setFlag("ralfToldMira") });
+  return out;
+}
+
+function stage2Choices(api: GameApi): DialogChoice[] {
+  const topics = lightTopics(api);
+  if (topics.length === 0) topics.push({ text: "Erzählen Sie noch mal von früher.", next: "tLeer" });
+  topics.push({ text: "[ Weitergehen ]", next: "bye" });
+  return topics;
+}
+
+function stage3Choices(api: GameApi): DialogChoice[] {
+  const topics = [...deepTopics(api), ...lightTopics(api)];
+  if (topics.length === 0) topics.push({ text: "Nichts Bestimmtes. Nur kurz stehen bleiben.", next: "tLeer" });
+  topics.push({ text: "[ Weitergehen ]", next: "bye" });
+  return topics;
+}
+
+/** Themenzeilen, die in Stufe 2 und 3 identisch sind. */
+function lightTopicLines(hubIds: string[]): Record<string, DialogLine> {
+  const back = (i: number) => hubIds[i % hubIds.length]!;
+  return {
+    tSektoren: {
+      id: "tSektoren",
+      speaker: "RALF",
+      text: "E67 und E71 waren mal ein Haus mit zwei Aufgängen. Dann kam die Sektor-Reform. Man hat nichts abgerissen und nichts gebaut — man hat Zuständigkeiten gezogen. Eine Tür, ein Keypad, ein anderer Briefkopf. Seitdem ist E71 die Medizin und E67 das, was übrig war.",
+      subtext: "„Getrennt“ heißt hier nie räumlich. Es heißt: verschiedene Formulare.",
+      next: "afterTopic",
+    },
+    tMandat: {
+      id: "tMandat",
+      speaker: "RALF",
+      text: "Das Mandatsgebiet ist keine Stadt und kein Staat, es ist eine Übergangslösung, die geblieben ist. Der Mandatsrat sollte drei Jahre verwalten, bis geklärt ist, wer zuständig ist. Das war vor deutlich mehr als drei Jahren.",
+      subtext: "Nichts ist so dauerhaft wie ein Provisorium mit Briefkopf.",
+      next: "afterTopic",
+    },
+    tBewohner: {
+      id: "tBewohner",
+      speaker: "RALF",
+      text: "Wen wollen Sie hören? Bodo hält den Bau zusammen und tut so, als wäre das Hausmeisterei. Insa in der Leitstelle weiß mehr, als sie weitergeben darf, und das frisst sie. Vossbeck hat sich in die Sprechzeit zurückgezogen wie andere in den Wald. Frau Okwu in 1532 hört zu, ohne zu notieren — glaube ich jedenfalls.",
+      subtext: "Er zählt sie auf wie Inventar. Ohne Häme, ohne Wärme.",
+      next: "afterTopic",
+    },
+    tRollo: {
+      id: "tRollo",
+      speaker: "RALF",
+      text: "Nicht den ganzen Tag. Nur den Teil davon, in dem ich rauche. Das ist inzwischen ein großer Teil. Drinnen ist es untersagt, draußen bin ich nicht gemeldet — also ist der Schlitz mein Kompromiss mit der Hausordnung.",
+      subtext: "Er sagt „Kompromiss“, als hätte er ihn selbst ausgehandelt.",
+      next: back(0),
+    },
+    tLeer: {
+      id: "tLeer",
+      speaker: "RALF",
+      text: "Dann stehen wir eben. Das kann ich gut. Der Rauch geht heute waagerecht, das heißt: kein Wind, kein Wetter, nichts, worüber man sich einigen müsste.",
+      next: back(1),
+    },
+  };
+}
+
 export const ralfDialogs: Record<string, DialogTree> = {
+  // ── Stufe 1: Erstkontakt ────────────────────────────────────────
   ralfIntro: {
     id: "ralfIntro",
     start: "r1",
@@ -41,12 +106,7 @@ export const ralfDialogs: Record<string, DialogTree> = {
         text: "[ Die Hand im Rolloschlitz bewegt sich nicht. Der Zigarettenkegel wird kurz heller. Dann Rauch, langsam, waagerecht. ]",
         next: "r2",
       },
-      r2: {
-        id: "r2",
-        speaker: "LAYARD",
-        text: "Entschuldigung. Ich wollte nicht stören.",
-        next: "r3",
-      },
+      r2: { id: "r2", speaker: "LAYARD", text: "Entschuldigung. Ich wollte nicht stören.", next: "r3" },
       r3: {
         id: "r3",
         speaker: "RALF",
@@ -54,72 +114,125 @@ export const ralfDialogs: Record<string, DialogTree> = {
         subtext: "Die Stimme ist ruhig, tief, sehr geübt im Leisesprechen.",
         next: "r4",
       },
-      r4: {
-        id: "r4",
-        speaker: "LAYARD",
-        text: "Warum machen Sie das Rollo nicht hoch?",
-        next: "r5",
-      },
+      r4: { id: "r4", speaker: "LAYARD", text: "Ich hatte nicht damit gerechnet, dass die Hand redet.", next: "r5" },
       r5: {
         id: "r5",
         speaker: "RALF",
-        text: "Weil unten ein Schlitz reicht. Ralf. Wohne hier, seit E71 noch keine Nummer hatte. Rauchen darf man drinnen nicht, draußen bin ich nicht gemeldet. Also so.",
-        subtext: "Er sagt das ohne Bitterkeit. Eher wie eine Wetterlage.",
-        next: "hub",
+        text: "Ralf. Ich wohne hier, seit E71 noch keine Nummer hatte. Und Sie sind neu — man hört das am Schritt. Vierte Etage, oder?",
+        subtext: "Keine Neugier. Eher die Routine von jemandem, der Geräusche sortiert.",
+        next: "rQ1",
       },
-      hub: { id: "hub", speaker: "RALF", text: "Fragen Sie ruhig. Ich habe Zeit und eine halbe Schachtel.", choicesFn: buildTopics },
+      rQ1: {
+        id: "rQ1",
+        speaker: "RALF",
+        text: "Also: Was verschlägt einen um diese Zeit in einen Verbindungsgang, in dem es nichts gibt?",
+        choices: [
+          { text: "„Worag. Ich wohne in 4602. Ich konnte nicht schlafen.“", next: "rA1", action: (a) => a.setFlag("ralfKnowsLayardTired") },
+          { text: "„Ich schaue mich um. Beruflich fällt mir das schwer.“", next: "rA2", action: (a) => a.setFlag("ralfKnowsLayardWriter") },
+          { text: "„Nichts. Ich gehe gleich weiter.“", next: "rA3" },
+        ],
+      },
+      rA1: {
+        id: "rA1",
+        speaker: "RALF",
+        text: "Worag. Gut. Schlaflos ist hier keine Diagnose, sondern eine Uhrzeit. Willkommen im Klub der Leute, die den Bau nachts hören.",
+        subtext: "Die Zigarette wird kurz heller.",
+        next: "rEnd",
+      },
+      rA2: {
+        id: "rA2",
+        speaker: "RALF",
+        text: "Umsehen. Das sagen die, die eigentlich etwas suchen. Nicht schlimm — ich habe das auch jahrelang so genannt.",
+        subtext: "Kein Vorwurf. Fast Anerkennung.",
+        next: "rEnd",
+      },
+      rA3: {
+        id: "rA3",
+        speaker: "RALF",
+        text: "Sie sind stehen geblieben. Wer nichts will, geht weiter. Aber gut, lassen wir das.",
+        subtext: "Er wirkt kein bisschen beleidigt. Nur präzise.",
+        next: "rEnd",
+      },
+      rEnd: {
+        id: "rEnd",
+        speaker: "RALF",
+        text: "Ich stehe hier ohnehin. Kommen Sie wieder vorbei, wenn Sie Zeit haben. Ich habe nichts anderes als Zeit und eine halbe Schachtel.",
+        subtext: "Die Hand hebt sich zwei Zentimeter. Das ist offenbar sein Winken.",
+        end: true,
+      },
+    },
+    onEnd: (api) => api.setFlag("ralfStage2"),
+  },
 
-      // ── Themen ────────────────────────────────────────────────────
-      tSektoren: {
-        id: "tSektoren",
+  // ── Stufe 2: Man kennt sich ─────────────────────────────────────
+  ralfTalk: {
+    id: "ralfTalk",
+    start: "hi",
+    npcId: "ralf",
+    lines: {
+      hi: {
+        id: "hi",
         speaker: "RALF",
-        text: "E67 und E71 waren mal ein Haus mit zwei Aufgängen. Dann kam die Sektor-Reform. Man hat nichts abgerissen und nichts gebaut — man hat Zuständigkeiten gezogen. Eine Tür, ein Keypad, ein anderer Briefkopf. Seitdem ist E71 die Medizin und E67 das, was übrig war.",
-        subtext: "„Getrennt“ heißt hier nie räumlich. Es heißt: verschiedene Formulare.",
-        next: "hubBack",
+        text: "Der Schritt kommt mir bekannt vor. Worag aus 4602.",
+        subtext: "Er hat sich den Schritt gemerkt. Nicht den Namen zuerst.",
+        next: "hubA",
       },
-      tMandat: {
-        id: "tMandat",
+      hubA: { id: "hubA", speaker: "RALF", text: "Fragen Sie ruhig. Die Schachtel hält noch.", choicesFn: stage2Choices },
+      hubB: { id: "hubB", speaker: "RALF", text: "Er drückt die Kippe auf der Bank aus, sortiert sie in die Reihe. „Weiter.“", choicesFn: stage2Choices },
+      hubC: { id: "hubC", speaker: "RALF", text: "Ein Husten, kurz, geübt. Dann: „Noch was?“", choicesFn: stage2Choices },
+      ...lightTopicLines(["hubB", "hubC"]),
+
+      // Ralf dreht das Gespräch um — zwei Gegenfragen öffnen Stufe 3.
+      afterTopic: {
+        id: "afterTopic",
         speaker: "RALF",
-        text: "Das Mandatsgebiet ist keine Stadt und kein Staat, es ist eine Übergangslösung, die geblieben ist. Der Mandatsrat sollte drei Jahre verwalten, bis geklärt ist, wer zuständig ist. Das war vor deutlich mehr als drei Jahren. Geklärt wurde nie etwas, deshalb ist er noch da.",
-        subtext: "Nichts ist so dauerhaft wie ein Provisorium mit Briefkopf.",
-        next: "hubBack",
+        text: "So. Genug von mir und dem Haus. Was machen Sie eigentlich, wenn Sie nicht nachts in Gängen stehen?",
+        hiddenWhen: ["ralfAskedWork"],
+        next: "afterTopic2",
+        choices: [
+          { text: "„Ich verwalte Vorgänge. Schmerzensgeldakten.“", next: "qWorkA", action: (a) => a.setFlag("ralfAskedWork") },
+          { text: "„Früher habe ich geschrieben. Jetzt ordne ich Papier.“", next: "qWorkB", action: (a) => { a.setFlag("ralfAskedWork"); a.setFlag("ralfKnowsLayardWriter"); } },
+        ],
       },
-      tResonanz: {
-        id: "tResonanz",
+      afterTopic2: {
+        id: "afterTopic2",
         speaker: "RALF",
-        text: "Resonanz war ursprünglich ein bau-akustischer Begriff. Hellhörige Wände, Beschwerden, Messprotokolle. Irgendwann hat jemand gemerkt, dass sich damit auch alles andere erfassen lässt, was zwischen den Wänden zu laut wird. Streit. Trauer. Meinungen. Resonanz-Hygiene heißt heute: leise sein und es freiwillig nennen.",
-        subtext: "Ein Wort, das sich gedehnt hat, bis alles hineinpasste.",
-        next: "hubBack",
+        text: "Und schlafen Sie? Ich frage nicht aus Höflichkeit. Wer hier nachts wach ist, hat meistens einen Grund.",
+        hiddenWhen: ["ralfAskedNight"],
+        next: "hubA",
+        choices: [
+          { text: "„Schlecht. Es ist zu leise geworden.“", next: "qNightA", action: (a) => { a.setFlag("ralfAskedNight"); a.setFlag("ralfStage3"); a.setFlag("ralfKnowsLayardTired"); } },
+          { text: "„Ich schlafe. Ich träume nur das Falsche.“", next: "qNightB", action: (a) => { a.setFlag("ralfAskedNight"); a.setFlag("ralfStage3"); } },
+        ],
       },
-      tBewohner: {
-        id: "tBewohner",
+      qWorkA: {
+        id: "qWorkA",
         speaker: "RALF",
-        text: "Wen wollen Sie hören? Bodo hält den Bau zusammen und tut so, als wäre das Hausmeisterei. Insa in der Leitstelle weiß mehr, als sie weitergeben darf, und das frisst sie. Vossbeck hat sich in die Sprechzeit zurückgezogen wie andere in den Wald. Frau Okwu in 1532 ist die einzige hier, die zuhört, ohne zu notieren — glaube ich jedenfalls. Und Stegmann in 1534 hat vor Jahren aufgehört, seine Stapel zu zählen.",
-        subtext: "Er zählt sie auf wie Inventar. Ohne Häme, ohne Wärme.",
-        next: "hubBack",
+        text: "Schmerzensgeld. Da beziffert also jemand, was ein kaputtes Jahr kostet. Ich habe früher Akten sortiert — das ist derselbe Beruf, nur ohne Betrag.",
+        subtext: "Zum ersten Mal klingt Interesse durch.",
+        next: "hubB",
       },
-      tZeitungen: {
-        id: "tZeitungen",
+      qWorkB: {
+        id: "qWorkB",
         speaker: "RALF",
-        text: "Über E67 stand mal einiges gedruckt. Serie über die Belegungspraxis, ein Foto vom Innenhof, ein sehr höflicher Kommentar über „strukturelle Härten“. Nach der dritten Folge wurde die Serie eingestellt — nicht verboten, nur nicht fortgesetzt. Die Redaktion sitzt heute in E70 und schreibt über Kantinenverordnungen.",
-        subtext: "Nichts wird hier verboten. Es hört nur auf.",
-        next: "hubBack",
+        text: "Geschrieben. Dann sind wir zwei Leute, die aufgehört haben. Ich mit dem Sammeln, Sie mit dem Erzählen. Das erklärt einiges an Ihrem Schritt.",
+        subtext: "Die Zigarette bleibt lange still.",
+        next: "hubB",
       },
-      tSelbst: {
-        id: "tSelbst",
+      qNightA: {
+        id: "qNightA",
         speaker: "RALF",
-        text: "Ich habe das alles mal gesammelt. Ordner, Ausschnitte, Datumsstempel. Dann habe ich gemerkt, dass Sammeln eine Beschäftigung ist und keine Handlung. Jetzt lese ich, rauche und rede mit Leuten, die stehen bleiben. Das ist weniger, aber es ist ehrlicher.",
-        subtext: "Er hat sich eingerichtet. Er weiß das und beschönigt es nicht.",
-        next: "hubBack",
+        text: "Zu leise. Ja. Es hat mal geknarrt und gestritten hier. Heute hört man nur Lüftung. Man gewöhnt sich nicht daran, man wird nur müder.",
+        subtext: "Er redet jetzt langsamer. Es klingt wie der Anfang von Vertrauen.",
+        next: "hubC",
       },
-      tMira: {
-        id: "tMira",
+      qNightB: {
+        id: "qNightB",
         speaker: "RALF",
-        text: "Layard, du weißt, es gibt keine absoluten Wahrheiten. Aber was Mira sieht, ist noch weitgehend ungetrübt von Erfahrungen. Ich sage dir: Das eigentlich Erschreckende ist, dass für all das hier gar keine Verschwörung verantwortlich ist. Einfach sehr viele Menschen, die alle für sich die Verantwortung scheuen.",
-        subtext: "Zum ersten Mal duzt er ihn. Es klingt nicht vertraulich, sondern müde.",
-        next: "hubBack",
+        text: "Das Falsche träumen. Ich kenne das. Bei mir sind es Ordner, die nicht aufhören. Gut — Sie können also länger stehen bleiben. Dann können wir auch anders reden.",
+        subtext: "Er klingt, als hätte er eine Entscheidung getroffen.",
+        next: "hubC",
       },
-      hubBack: { id: "hubBack", speaker: "RALF", text: "Noch was?", choicesFn: buildTopics },
       bye: {
         id: "bye",
         speaker: "RALF",
@@ -128,5 +241,66 @@ export const ralfDialogs: Record<string, DialogTree> = {
       },
     },
   },
-};
 
+  // ── Stufe 3: Vertrauen ──────────────────────────────────────────
+  ralfDeep: {
+    id: "ralfDeep",
+    start: "hi",
+    npcId: "ralf",
+    lines: {
+      hi: {
+        id: "hi",
+        speaker: "RALF",
+        text: "Da bist du wieder. — Ja, ich duze dich jetzt. Wer zweimal nachts freiwillig hier steht, kann sich das Siezen sparen.",
+        subtext: "Die Hand dreht sich kurz, Handfläche nach oben. Fast eine Geste.",
+        next: "hubA",
+      },
+      hubA: { id: "hubA", speaker: "RALF", text: "Frag. Heute halte ich auch die unangenehmen Sachen aus.", choicesFn: stage3Choices },
+      hubB: { id: "hubB", speaker: "RALF", text: "Er zündet die nächste an der alten an. „Weiter.“", choicesFn: stage3Choices },
+      hubC: { id: "hubC", speaker: "RALF", text: "Eine Pause, länger als nötig. Dann: „Und sonst?“", choicesFn: stage3Choices },
+      ...lightTopicLines(["hubB", "hubC"]),
+      afterTopic: { id: "afterTopic", speaker: "RALF", text: "Ein Nicken hinter dem Blech, vermutlich.", next: "hubB" },
+      tResonanz: {
+        id: "tResonanz",
+        speaker: "RALF",
+        text: "Resonanz war ein bau-akustischer Begriff. Hellhörige Wände, Beschwerden, Messprotokolle. Irgendwann hat jemand gemerkt, dass sich damit auch alles andere erfassen lässt, was zwischen Wänden zu laut wird. Streit. Trauer. Meinungen. Resonanz-Hygiene heißt heute: leise sein und es freiwillig nennen.",
+        subtext: "Ein Wort, das sich gedehnt hat, bis alles hineinpasste.",
+        next: "hubC",
+      },
+      tZeitungen: {
+        id: "tZeitungen",
+        speaker: "RALF",
+        text: "Über E67 stand mal einiges gedruckt. Serie über die Belegungspraxis, ein Foto vom Innenhof, ein sehr höflicher Kommentar über „strukturelle Härten“. Nach der dritten Folge wurde die Serie eingestellt — nicht verboten, nur nicht fortgesetzt. Die Redaktion sitzt heute in E70 und schreibt über Kantinenverordnungen.",
+        subtext: "Nichts wird hier verboten. Es hört nur auf.",
+        next: "tZeitungen2",
+      },
+      tZeitungen2: {
+        id: "tZeitungen2",
+        speaker: "RALF",
+        text: "Ich habe die drei Folgen noch. Frag mich nicht, ob ich sie dir gebe — ich gebe nichts weiter. Ich erzähle nur.",
+        subtext: "Das ist keine Ausrede. Das ist eine Grenze.",
+        next: "hubB",
+      },
+      tSelbst: {
+        id: "tSelbst",
+        speaker: "RALF",
+        text: "Archivar. Registratur, Datumsstempel, Aktenzeichen. Privat habe ich dasselbe gemacht, nur über dieses Haus: Ordner, Ausschnitte, Vermerke. Dann habe ich gemerkt, dass Sammeln eine Beschäftigung ist und keine Handlung. Jetzt lese ich, rauche und rede mit Leuten, die stehen bleiben.",
+        subtext: "Er hat sich eingerichtet. Er weiß das und beschönigt es nicht.",
+        next: "hubC",
+      },
+      tMira: {
+        id: "tMira",
+        speaker: "RALF",
+        text: "Layard, du weißt, es gibt keine absoluten Wahrheiten. Aber was Mira sieht, ist noch weitgehend ungetrübt von Erfahrungen. Und ich sage dir: Das eigentlich Erschreckende ist, dass für all das hier gar keine Verschwörung verantwortlich ist. Einfach sehr viele Menschen, die alle für sich die Verantwortung scheuen.",
+        subtext: "Es klingt nicht vertraulich, sondern müde.",
+        next: "hubB",
+      },
+      bye: {
+        id: "bye",
+        speaker: "RALF",
+        text: "Geh schlafen, wenn du kannst. Und wenn nicht: Der Schlitz ist offen. Länger als alles andere in diesem Haus.",
+        end: true,
+      },
+    },
+  },
+};
