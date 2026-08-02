@@ -773,37 +773,6 @@ export const miraDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  miraAtHomeIntroLegacy: {
-    id: "miraAtHomeIntro",
-    npcId: "mira",
-    start: "mah1",
-    lines: {
-      mah1: {
-        id: "mah1",
-        speaker: "SYSTEM",
-        text: "[ Die Tür war angelehnt. Mira sitzt im Schneidersitz auf dem Bett, ein offenes Schulbuch im Schoß, daneben ein Stapel sortierter Aushänge. ]",
-        next: "mah2",
-      },
-      mah2: {
-        id: "mah2",
-        speaker: "MIRA",
-        text: "Du hast tatsächlich nicht geklopft. Das ist die erste Bewährung.",
-        subtext: "Sie lächelt halb. Es wirkt geübt — als hätte sie den Satz aufgespart.",
-        next: "mah3",
-      },
-      mah3: {
-        id: "mah3",
-        speaker: "MIRA",
-        text: "Setz dich, wenn du willst. Oder steh. Ist eh ein bisschen klein hier. — Frag, was du fragen wolltest.",
-        choices: [
-          {
-            text: "[ Bleiben und reden ]",
-            action: (api) => api.setFlag("miraAtHomeMet"),
-          },
-        ],
-      },
-    },
-  },
   // ── Beleg-Sammlung (ersetzt die frühere Verstärker-Quest) ──────────
   miraEvidenceAsk: {
     id: "miraEvidenceAsk",
