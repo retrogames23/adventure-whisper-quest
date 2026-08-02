@@ -362,15 +362,6 @@ export function combineItem(
       lines = ITEM_PAIRS[pairKey(itemId, otherId)];
     }
   } else {
-    // Spezialfall: Code-Zettel auf das Keypad gezogen → Tür öffnet sich
-    // direkt, ohne Umweg über das Tastenpad-Overlay.
-    if (ctx.targetId === "keypadCall" && itemId === "exitCode") {
-      if (!ctx.api.hasFlag("sectorDoorOpen")) {
-        ctx.api.setFlag("sectorDoorOpen");
-      }
-      // Code ist eingegeben — der Zettel wird nicht mehr gebraucht.
-      ctx.api.removeItem("exitCode");
-    }
     // Spezialfall: Thermoskanne auf Bodo gezogen → Übergabe-Dialog
     // (entfernt das Item, setzt `gaveBodoThermos`). Vor dem Fallback,
     // sonst greift „Layard hat keine Idee" und das Item bleibt liegen.
