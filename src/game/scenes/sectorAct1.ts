@@ -1,6 +1,7 @@
 import sectorBg from "@/assets/scene-sector-door.jpg";
 import e71LobbyBg from "@/assets/scene-e71-lobby.jpg";
 import corridor15Bg from "@/assets/scene-corridor-15.jpg";
+import elevatorE71Bg from "@/assets/scene-elevator-e71.jpg";
 import room1534Bg from "@/assets/scene-room-1534.jpg";
 import room1532Bg from "@/assets/scene-room-1532.jpg";
 import type { Scene } from "../types";
@@ -238,6 +239,54 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         kind: "exit",
         requires: ["metReceptionist"],
         onUse: (api) => api.goTo("corridor15"),
+      },
+      {
+        id: "e71ElevatorDoor",
+        // Schmale Tür rechts hinter dem Tresen — Aufzug des Sektors.
+        x: 66.6,
+        y: 34,
+        w: 4.4,
+        h: 28,
+        label: "Aufzug",
+        kind: "exit",
+        onUse: (api) => api.goTo("elevatorE71"),
+      },
+    ],
+  },
+  elevatorE71: {
+    id: "elevatorE71",
+    background: elevatorE71Bg,
+    title: "Aufzug — Sektor E71",
+    intro:
+      "Eine Kabine aus gebürstetem Stahl. Rechts an der Wand ein Bedienfeld: fünf Etagen und ein Keller. Über der Tür ein rotes Segment-Display, das leise flackert.",
+    hotspots: [
+      ...[
+        { id: "e71Btn5", y: 25.0, label: "Etage 5" },
+        { id: "e71Btn4", y: 32.8, label: "Etage 4" },
+        { id: "e71Btn3", y: 42.0, label: "Etage 3" },
+        { id: "e71Btn2", y: 51.2, label: "Etage 2" },
+        { id: "e71Btn1", y: 60.2, label: "Etage 1" },
+        { id: "e71BtnK", y: 69.0, label: "Keller" },
+      ].map((b) => ({
+        id: b.id,
+        x: 85.6,
+        y: b.y,
+        w: 8.4,
+        h: 6.2,
+        label: b.label,
+        kind: "use" as const,
+        onUse: (api: any) =>
+          api.showText(["Auf dem Display steht: nicht berechtigt."]),
+      })),
+      {
+        id: "e71ElevatorOut",
+        x: 30,
+        y: 15,
+        w: 40,
+        h: 78,
+        label: "Zurück zum Empfang",
+        kind: "exit",
+        onUse: (api) => api.goTo("e71Lobby"),
       },
     ],
   },
