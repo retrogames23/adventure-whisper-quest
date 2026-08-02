@@ -206,13 +206,7 @@ function pairKey(a: InventoryItemId, b: InventoryItemId): string {
   return [a, b].sort().join("|");
 }
 
-const ITEM_PAIRS: Record<string, string[]> = {
-  [pairKey("tuningCrystal", "flyer")]: [
-    "Layard legt den Bernstein-Kristall auf das Flugblatt.",
-    "Die Buchstaben werden nicht klarer. Aber er liest sie zum ersten Mal,",
-    "ohne kurz wegschauen zu wollen.",
-  ],
-};
+const ITEM_PAIRS: Record<string, string[]> = {};
 
 // ─── Layards Standard-Sprüche ────────────────────────────────
 
@@ -287,33 +281,6 @@ export function combineItem(
           return;
         }
       }
-      // ── Schmerz-Radio-Erweiterung: Verstärker-Antenne bauen.
-      //    Bernstein-Kristall + Antennen-Draht → Verstärker-Antenne.
-      //    Beide Bauteile bleiben in Layards Tasche (er braucht den
-      //    Kristall noch, der Draht ist Teil der Antenne — narrativ
-      //    abstrahiert).
-      if (pair === pairKey("tuningCrystal", "antennaWire")) {
-        if (!ctx.api.hasItem("amplifierAntenna")) {
-          ctx.api.addItem({
-            id: "amplifierAntenna",
-            name: "Verstärker-Antenne (improvisiert)",
-            description:
-              "Eine kleine, gewickelte Spule — Antennen-Draht um den Bernstein-Resonator gelegt. Sieht selbstgebastelt aus. Soll Miras Sender so weit verstärken, dass er das alte Trauer-Band überschreibt.",
-          });
-          ctx.api.showText([
-            "Layard wickelt den Antennen-Draht eng um den Bernstein-Resonator.",
-            "Eine kleine, häßliche Spule entsteht. Sie summt, wenn er sie näher",
-            "ans Schmerz-Radio hält.",
-            "„Mira müsste damit was anfangen können.“",
-          ]);
-        } else {
-          ctx.api.showText([
-            "Eine Verstärker-Antenne hat Layard bereits.",
-            "Eine zweite würde dasselbe tun.",
-          ]);
-        }
-        return;
-      }
       lines = ITEM_PAIRS[pairKey(itemId, otherId)];
     }
   } else {
@@ -343,23 +310,6 @@ export function combineItem(
       }
       ctx.api.openPneumaticTube();
       return;
-    }
-    // Spezialfall: Verstärker-Antenne an Mira (in jeder Mira-Szene).
-    // Setzt das Flag, das das Resonanz-Duell im Schmerz-Radio scharf
-    // schaltet. Item bleibt im Inventar — narrativ ist die Antenne
-    // jetzt an Miras Sender; Layards Notiz davon bleibt.
-    const miraHotspots = new Set([
-      "miraSpot36",
-      "miraSpot46",
-      "miraSpot56",
-      "miraInRoom",
-    ]);
-    if (
-      itemId === "amplifierAntenna" &&
-      miraHotspots.has(ctx.targetId) &&
-      !ctx.api.hasFlag("miraHasAmplifier")
-    ) {
-      ctx.api.setFlag("miraHasAmplifier");
     }
     // Ölkännchen → MARV-9. Ölt den Servo-Kiefer, setzt ein Flag und
     // wandert anschließend aus dem Inventar (verbraucht). Der Server
