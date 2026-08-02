@@ -321,6 +321,9 @@ export function combineItem(
       !ctx.api.hasFlag("marvOiled")
     ) {
       ctx.api.setFlag("marvOiled");
+      // Lokalen MARV-Zustand sofort setzen — der Server-Sync unten ist
+      // nur Best-Effort und für anonyme Spieler gar nicht möglich.
+      ctx.api.markMarvOiled();
       // Server-State synchronisieren, damit MARVs Tonfärbung beim
       // nächsten Free-Mode-Talk passt. Best-Effort, fire-and-forget.
       void (async () => {
