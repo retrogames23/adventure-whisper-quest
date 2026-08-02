@@ -519,9 +519,9 @@ const cafeteriaTrainingG = buildTrainingFall(
   "c-sprechzeit",
   "p-unterschrift",
   "c-unterschrift",
-  "p-hausrecht",
-  "c-hausrecht",
-  "Konstellation: Bewohner steht drei Zentimeter zu weit vorn am Tresen. Beamter zieht die Grenze. Ich eröffne.",
+  "p-vorgesetzte",
+  "c-vorgesetzte",
+  "Konstellation: Bewohner steht drei Zentimeter zu weit vorn am Tresen. Beamter zieht Grenze, verweist auf Vorgesetzten und fehlende Unterschrift. Ich eröffne.",
 );
 
 const cafeteriaTrainingH = buildTrainingFall(
