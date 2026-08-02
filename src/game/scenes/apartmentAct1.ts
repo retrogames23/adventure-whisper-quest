@@ -102,8 +102,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       },
       {
         id: "phoneApt",
-        x: 76.1,
-        y: 32.6,
+        x: 70.7,
+        y: 32,
         w: 6.7,
         h: 22,
         label: "Telefon",
