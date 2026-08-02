@@ -666,6 +666,13 @@ export interface GameApi {
   bumpDuelHit: () => number;
   getDuelHits: () => number;
   resetDuelHits: () => void;
+  /**
+   * Markiert MARV-9 als geölt — sofort lokal im Spielstand, damit die
+   * wärmere Tonfärbung schon beim nächsten Free-Mode-Talk greift und
+   * nicht erst nach einer Server-Antwort (bzw. gar nicht, wenn der
+   * Spieler anonym ohne Account spielt).
+   */
+  markMarvOiled: () => void;
   isRadioActive: () => boolean;
   setEnding: () => void;
   /** Ending-Overlay wieder schließen (z. B. beim Akt-II-Einstieg). */
