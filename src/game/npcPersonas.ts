@@ -714,4 +714,6 @@ export const dialogSummaries: Record<string, string> = {
     "Tjark hat Layard die DSA-Runde im Gemeinschaftsraum erklärt.",
   tjarkSmalltalk:
     "Smalltalk mit Tjark über die Spielgruppe und seine Pläne für die Kampagne.",
+  ralfIntro:
+    "Layard hat mit Ralf durch den Rolladenschlitz geredet — über Sektoren, Mandatsrat, Resonanz und die Leute im Komplex.",
 };
