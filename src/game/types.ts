@@ -85,6 +85,8 @@ export type CutsceneId = "paramedics" | "sectorThreshold";
 
 export type StoryFlag =
   | "radioTunedTo1046"
+  /** Der Lehrfilm im Lichtspielsaal 5 wurde bereits einmal automatisch abgespielt. */
+  | "cinemaFilmSeen"
   /** Layard hat das Schmerz-Radio vom Tisch eingesteckt (jetzt im Inventar). */
   | "tookPainRadio"
   | "doorbellRang"

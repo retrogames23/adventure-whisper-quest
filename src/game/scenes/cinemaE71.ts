@@ -1,4 +1,5 @@
 import cinemaBg from "@/assets/scene-cinema-e71.jpg";
+import filmAsset from "@/assets/lehrfilm-mandatsgebiet.mp4.asset.json";
 import type { Scene } from "../types";
 
 /**
@@ -6,7 +7,13 @@ import type { Scene } from "../types";
  * Die Leinwand ist bewusst leer: Filme werden später ergänzt
  * (siehe CINEMA_FILMS — solange die Liste leer ist, läuft kein Programm).
  */
-export const CINEMA_FILMS: { id: string; title: string; url: string }[] = [];
+export const CINEMA_FILMS: { id: string; title: string; url: string }[] = [
+  {
+    id: "lehrfilm-mandatsgebiet",
+    title: "Mandatsgebiet Mitteleuropa — Lehrfilm für Erwachsene",
+    url: filmAsset.url,
+  },
+];
 
 export const cinemaE71Scenes: Record<string, Scene> = {
   cinemaE71: {
@@ -33,7 +40,9 @@ export const cinemaE71Scenes: Record<string, Scene> = {
             ]);
             return;
           }
-          api.showText(["Das Licht wird schwächer. Der Projektor fängt an zu laufen."]);
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new Event("cinema:play"));
+          }
         },
       },
       {
@@ -79,7 +88,8 @@ export const cinemaE71Scenes: Record<string, Scene> = {
             "Ein Programmaushang hinter mattem Glas.",
             "„Lichtspielsaal 5 — Vorführungen nach Bedarfsmeldung.",
             "Bedarf ist zu melden. Meldungen werden geprüft.“",
-            "Das Feld für den Titel ist leer.",
+            "Im Feld für den Titel, mit Schreibmaschine:",
+            "„Mandatsgebiet Mitteleuropa — Lehrfilm für Erwachsene“.",
           ]),
       },
       {
