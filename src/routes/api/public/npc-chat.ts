@@ -90,9 +90,9 @@ export const Route = createFileRoute("/api/public/npc-chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey = process.env.LOVABLE_API_KEY;
+        const apiKey = process.env.OPENROUTER_API_KEY;
         if (!apiKey) {
-          return json(500, { error: "AI Gateway nicht konfiguriert." });
+          return json(500, { error: "OpenRouter nicht konfiguriert." });
         }
 
         // Origin-Guard (gleich wie /api/tts)
