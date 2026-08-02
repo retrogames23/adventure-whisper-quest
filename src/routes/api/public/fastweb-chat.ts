@@ -1,4 +1,8 @@
-import { AI_MODEL_MAIN } from "@/lib/aiModel";
+import {
+  AI_MODEL_MAIN,
+  OPENROUTER_CHAT_URL,
+  openRouterHeaders,
+} from "@/lib/aiModel";
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import {
@@ -10,8 +14,8 @@ import { buildFastWebSystemPrompt } from "@/game/fastWebChat/promptBuilder";
 /**
  * FastWeb-Chatroom — generiert eine einzelne neue Chat-Zeile von einer
  * der erlaubten Personas, basierend auf der bisherigen Historie. Nutzt
- * den Lovable AI Gateway server-seitig. Auth + Donation-Gate analog
- * /api/public/npc-chat.
+ * OpenRouter mit Claude Haiku 4.5 server-seitig. Auth + Donation-Gate
+ * analog /api/public/npc-chat.
  */
 
 const HARD_LIMIT = 50;
