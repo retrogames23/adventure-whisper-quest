@@ -972,7 +972,10 @@ export const philippeDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Notiert: 4601, Korridor 46 ]",
-            action: (api) => api.setFlag("knowsMiraIsWartung"),
+            action: (api) => {
+              api.setFlag("knowsMiraIsWartung");
+              api.setFlag("askedPhilippePhone");
+            },
           },
         ],
       },
