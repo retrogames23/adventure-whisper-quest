@@ -131,7 +131,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                     "Nur ein feines Sirren, als läge die Leitung an etwas an, das atmet.",
                     "Er drückt die Gabel. Wählt. Sirren.",
                     "Am Gehäuse klebt ein vergilbter Aufkleber: „Störungen an Wohnungsapparaten NICHT über die Leitstelle. Zuständig: Etagenwartung des eigenen Korridors.“",
-                    "Darunter, mit Kugelschreiber ergänzt: „Korridor 46, Schicht A — 4601.“",
                   ]
                 : [
                     "Sirren. Sonst nichts. ",
