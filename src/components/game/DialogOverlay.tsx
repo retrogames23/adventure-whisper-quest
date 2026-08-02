@@ -17,7 +17,7 @@ import {
 import { useDevStep } from "@/dev/devPlaybackState";
 
 export function DialogOverlay() {
-  const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat } =
+  const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat, scene } =
     useGame();
   const { ttsEnabled } = useSettings();
   const isCoarsePointer = useCoarsePointer();
