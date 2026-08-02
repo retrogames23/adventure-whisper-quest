@@ -39,6 +39,10 @@ export type InventoryItemId =
   | "siegelAbdruck"
   | "aushang71Original"
   | "quittungBlankoB"
+  // Aushang-Belege für Miras Vertrauens-Strang
+  | "belegAushangAufzug"
+  | "belegAushangKorridor46"
+  | "belegAushangGemeinschaftsraum"
   | "quittungForged4317"
   | "tillaTransfer"
   | "miraDoorNote"
