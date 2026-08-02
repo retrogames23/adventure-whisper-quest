@@ -151,8 +151,9 @@ const MODEL_LIMITS_MAP: Record<string, Partial<ModelLimits>> = {
     maxToolRounds: 3,
     useTools: true,
   },
-  // Default-Modell — bleibt großzügig.
-  "anthropic/claude-3.5-haiku": {
+  // Default-Modell — 200K Kontext, 64K Output, schnell und günstig.
+  // Großzügiges Limit für atmosphärische Meister-Antworten.
+  "anthropic/claude-haiku-4.5": {
     maxTokens: 950,
     historyWindow: 10,
     maxToolRounds: 4,
