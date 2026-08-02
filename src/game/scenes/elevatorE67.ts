@@ -284,6 +284,19 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         exitDir: "down",
         onUse: (api) => api.goTo("pubVestibule"),
       },
+      {
+        // Der Gehweg läuft nach rechts weiter — dort sitzt Ralf hinter
+        // seiner Rollade. Rein narrativer Ort, kein Rätsel.
+        id: "toWindowNiche",
+        x: 88,
+        y: 30,
+        w: 11.5,
+        h: 62,
+        label: "Weiter nach rechts →",
+        kind: "exit",
+        exitDir: "right",
+        onUse: (api) => api.goTo("windowNiche"),
+      },
     ],
   },
 };
