@@ -1,4 +1,9 @@
-import { AI_MODEL_MAIN, AI_MODEL_LIGHT } from "@/lib/aiModel";
+import {
+  AI_MODEL_MAIN,
+  AI_MODEL_LIGHT,
+  OPENROUTER_CHAT_URL,
+  openRouterHeaders,
+} from "@/lib/aiModel";
 import { createFileRoute } from "@tanstack/react-router";
 import { npcPersonas } from "@/game/npcPersonas";
 import { buildSystemPrompt } from "@/game/promptBuilder";
@@ -9,7 +14,8 @@ import { createClient } from "@supabase/supabase-js";
 
 /**
  * Free-Mode NPC Chat — Cloud-Fallback, wenn der Browser kein WebGPU
- * hat. Nutzt den Lovable AI Gateway. LOVABLE_API_KEY bleibt server-only.
+ * hat. Nutzt OpenRouter mit Claude Haiku 4.5. OPENROUTER_API_KEY
+ * bleibt server-only.
  *
  * Schutz:
  *  - Origin-Guard (Lovable / localhost)
