@@ -502,13 +502,17 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           | undefined;
         if (npcId === "marv9") {
           let delta = 0;
+          const lovableApiKey = process.env.LOVABLE_API_KEY;
           try {
+            if (!lovableApiKey) {
+              throw new Error("LOVABLE_API_KEY fehlt — Rater übersprungen.");
+            }
             const raterResp = await fetch(
               "https://ai.gateway.lovable.dev/v1/chat/completions",
               {
                 method: "POST",
                 headers: {
-                  Authorization: `Bearer ${apiKey}`,
+                  Authorization: `Bearer ${lovableApiKey}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
