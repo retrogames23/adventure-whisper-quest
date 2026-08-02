@@ -39,11 +39,12 @@ const VOSSBECK_WEAK_FLAGS: StoryFlag[] = [
   "lobbyClearedDay",
   "insaSentToKowalkForCode",
   // Pflicht-Rätsel „kaputtes Telefon" (Mira / Etagenwartung)
+  // `phoneBroken`/`reportedPhoneFault` bewusst NICHT setzen: Layard muss
+  // den toten Apparat erst selbst abheben, sonst spricht er Nachbarn auf
+  // ein Telefon an, über das im Spiel noch nie die Rede war.
   "metMira",
   "miraAtHomeMet",
   "knowsMiraIsWartung",
-  "phoneBroken",
-  "reportedPhoneFault",
   // Knoten 5610
   "saw5610Door",
   "serverRoom5610Open",

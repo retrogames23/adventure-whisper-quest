@@ -985,7 +985,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
       pps1: {
         id: "pps1",
         speaker: "LAYARD",
-        text: "Das Telefon —",
+        text: "Es geht noch mal um das Telefon, Philippe.",
         next: "pps2",
       },
       pps2: {
