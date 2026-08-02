@@ -1,4 +1,8 @@
-import { AI_MODEL_MAIN } from "@/lib/aiModel";
+import {
+  AI_MODEL_MAIN,
+  OPENROUTER_CHAT_URL,
+  openRouterHeaders,
+} from "@/lib/aiModel";
 import { createFileRoute } from "@tanstack/react-router";
 import { npcPersonas } from "@/game/npcPersonas";
 import { createClient } from "@supabase/supabase-js";
@@ -11,6 +15,8 @@ import { createClient } from "@supabase/supabase-js";
  *    ist") und speichert die letzten ~10 Nachrichten als Frischspeicher.
  *  - Optional: extrahiert 0–2 Flurfunk-Fakten, die der NPC anderen
  *    Bewohnern aus E67 erzählen würde.
+ *
+ * Läuft über OpenRouter mit Claude Haiku 4.5 (OPENROUTER_API_KEY).
  *
  * Auth: User-Token Pflicht. RLS schützt die Tabellen, hier nutzen wir
  * den Service-Client, weil wir bewusst beide Tabellen schreiben.
