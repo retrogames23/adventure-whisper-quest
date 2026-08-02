@@ -29,7 +29,6 @@ function tryPhoneRefusal(
     api.startDialog(shortDialogId);
     return true;
   }
-  api.setFlag(askedFlag);
   api.startDialog(dialogId);
   return true;
 }
