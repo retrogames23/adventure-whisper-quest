@@ -248,7 +248,12 @@ export const ennisDialogs: Record<string, DialogTree> = {
         id: "ep7",
         speaker: "ENNIS",
         text: "Melden Sie es dort, wo es hingehört. Es gibt für alles eine Zuständigkeit. Das ist kein Ärgernis, das ist der einzige Grund, warum hier nichts zusammenbricht.",
-        end: true,
+        choices: [
+          {
+            text: "[ Verstanden ]",
+            action: (api) => api.setFlag("askedEnnisPhone"),
+          },
+        ],
       },
     },
   },
