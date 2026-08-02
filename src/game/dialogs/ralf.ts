@@ -1,4 +1,27 @@
-import type { DialogTree } from "../types";
+import type { DialogChoice, GameApi, DialogTree } from "../types";
+
+/** Themenliste des Hubs. Bereits gehörte Themen bleiben wählbar, werden
+ *  aber als gehört markiert. */
+function buildTopics(api: GameApi): DialogChoice[] {
+  const mark = (label: string, flag: Parameters<GameApi["hasFlag"]>[0]) =>
+    api.hasFlag(flag) ? `${label} (schon gehört)` : label;
+  const choices: DialogChoice[] = [
+    { text: mark("Warum sind E67 und E71 überhaupt getrennt?", "ralfToldSektoren"), next: "tSektoren" },
+    { text: mark("Was ist das Mandatsgebiet eigentlich?", "ralfToldMandat"), next: "tMandat" },
+    { text: mark("Resonanz-Hygiene — woher kommt das?", "ralfToldResonanz"), next: "tResonanz" },
+    { text: mark("Erzählen Sie mir was über die Leute hier.", "ralfToldBewohner"), next: "tBewohner" },
+    { text: mark("Es gab mal Zeitungsartikel über E67.", "ralfToldZeitungen"), next: "tZeitungen" },
+  ];
+  if (api.hasFlag("metMira")) {
+    choices.push({
+      text: mark("Was halten Sie von Miras Theorien?", "ralfToldMira"),
+      next: "tMira",
+    });
+  }
+  choices.push({ text: mark("Und Sie? Was machen Sie den ganzen Tag?", "ralfToldSelbst"), next: "tSelbst" });
+  choices.push({ text: "[ Weitergehen ]", next: "bye" });
+  return choices;
+}
 
 /**
  * Ralf am Fenster — E71-Bewohner hinter einer fast geschlossenen Rollade.
@@ -114,6 +137,3 @@ export const ralfDialogs: Record<string, DialogTree> = {
   },
 };
 
-function buildTopics(): Array<{ text: string; next?: string }> {
-  return [];
-}
