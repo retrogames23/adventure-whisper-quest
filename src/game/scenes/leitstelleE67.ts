@@ -79,13 +79,13 @@ export const leitstelleE67Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) => {
           api.setFlag("sawResonanzAushang");
-          api.setFlag("belegAushangLeitstelle");
           api.showText([
             "Vergilbtes Blatt, mit zwei Reißnägeln befestigt.",
-            "„Resonanz-Hygiene · Pausen sind Teil der Behandlung.“",
-            "Darunter, klein: „Ruhezeiten · Lüftung · Belegungsdichte · Türsiegel-Praxis.“",
+            "„Resonanz-Hygiene · Ruhezeiten · Lüftung · Belegungsdichte · Türsiegel-Praxis.“",
             "Und ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
-            "Jemand hat mit Bleistift dazugeschrieben: „empfohlen, nicht erzwungen. Stufe 3 ist, was der Mandatsrat draus macht.“",
+            "Layard überlegt kurz, das Blatt abzunehmen — Insa sitzt zwei Meter weiter,",
+            "den Rücken halb zur Wand, und hört alles. Ein Aushang, der aus ihrem Büro",
+            "verschwindet, ist ihr Vorgang. Er lässt die Hand sinken.",
           ]);
         },
       },
