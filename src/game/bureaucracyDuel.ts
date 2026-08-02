@@ -103,11 +103,6 @@ export const PHRASES: Record<string, Phrase> = {
     shortLabel: "Datenschutz-Bluff",
     text: "Aus Datenschutzgründen darf ich Ihnen dazu nichts sagen.",
   },
-  "p-hausrecht": {
-    id: "p-hausrecht",
-    shortLabel: "Hausrecht",
-    text: "Vom Hausrecht her sind Sie hier eigentlich schon zu weit vorn.",
-  },
   "p-quartalsende": {
     id: "p-quartalsende",
     shortLabel: "Quartalsende",
