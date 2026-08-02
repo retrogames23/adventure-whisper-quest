@@ -742,37 +742,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           },
         ],
       },
-      bDuelOffer: {
-        id: "bDuelOffer",
-        speaker: "BRUST",
-        text: "Erfundene Konstellation aus dem Kantinenbetrieb. Ich eröffne, Sie antworten.",
-        next: "bDuelOffer2",
-      },
-      bDuelOffer2: {
-        id: "bDuelOffer2",
-        speaker: "BRUST",
-        text: "Wer hier besteht, ist für Vossbeck vorsprachefähig. Ich darf das beurkunden.",
-        subtext: "»Beurkunden« sagt er, als wäre es ein Ehrentitel.",
-        choices: [
-          {
-            text: "[ Beginnen ]",
-            action: (api) => {
-              api.setFlag("duelOffered");
-              api.setFlag("duelStarted");
-            },
-            nextDialog: (api) => {
-              // Zufällige Auswahl aus dem erweiterten Pool an Fällen —
-              // aufeinanderfolgende Versuche wiederholen sich nicht.
-              void api;
-              return pickTrainingFallId();
-            },
-          },
-          {
-            text: "Lieber nicht. Ich überlege es mir.",
-            next: "b0",
-          },
-        ],
-      },
       bVossbeckHint: {
         id: "bVossbeckHint",
         speaker: "BRUST",
