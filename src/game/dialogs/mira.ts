@@ -795,7 +795,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       me3: {
         id: "me3",
         speaker: "MIRA",
-        text: "Drei Stück reichen: das Schwarze Brett in der Eingangshalle E67, das Plakat im Korridor 46 und der Aushang in der Leitstelle E67. Lies sie. Wirklich lesen, nicht angucken. Dann komm zurück und sag mir, was drin steht.",
+        text: "Drei Stück reichen: das Schwarze Brett in der Eingangshalle E67, das Plakat im Korridor 46 und der Aushang im Gemeinschaftsraum. Lies sie. Wirklich lesen, nicht angucken. Dann komm zurück und sag mir, was drin steht.",
         next: "me4",
       },
       me4: {
@@ -829,7 +829,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mw1: {
         id: "mw1",
         speaker: "MIRA",
-        text: "Drei Fundstellen, Worag: das Schwarze Brett in der Eingangshalle, das Plakat im Korridor 46, der Aushang in der Leitstelle E67. Lies sie und komm wieder. Ich kann die Eingabe nicht abschicken, solange sie auf nichts verweist.",
+        text: "Drei Fundstellen, Worag: das Schwarze Brett in der Eingangshalle, das Plakat im Korridor 46, der Aushang im Gemeinschaftsraum. Lies sie und komm wieder. Ich kann die Eingabe nicht abschicken, solange sie auf nichts verweist.",
         end: true,
       },
     },
@@ -881,7 +881,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       md2: {
         id: "md2",
         speaker: "MIRA",
-        text: "Sag die Reihenfolge. — Eingangshalle: „Pflichtinformation“. Korridor: „bei anhaltender Überlastung“. Leitstelle: „Pausen sind Teil der Behandlung“. Drei Verwaltungen, drei Bedeutungen, ein Wort.",
+        text: "Sag die Reihenfolge. — Eingangshalle: „Pflichtinformation“. Korridor: „bei anhaltender Überlastung“. Gemeinschaftsraum: „Pausen sind Teil der Behandlung“. Drei Verwaltungen, drei Bedeutungen, ein Wort.",
         subtext: "Sie schreibt mit. Schnell, ohne aufzusehen.",
         next: "md3",
       },

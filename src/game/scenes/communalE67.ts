@@ -1,4 +1,5 @@
 import commonRoomBg from "@/assets/scene-common-room.jpg";
+import commonRoomNoPosterBg from "@/assets/scene-common-room-noposter.jpg";
 import cafeteriaBg from "@/assets/scene-cafeteria-e67.jpg";
 import cafeteriaGreenBg from "@/assets/scene-cafeteria-e67-green.jpg";
 import aptMira4601Bg from "@/assets/scene-apt-mira-4601.jpg";
@@ -7,12 +8,43 @@ import type { Scene } from "../types";
 export const communalE67Scenes: Record<string, Scene> = {
   commonRoomE67: {
     id: "commonRoomE67",
-    background: commonRoomBg,
+    background: (api) =>
+      api.hasFlag("belegAushangGemeinschaftsraum")
+        ? commonRoomNoPosterBg
+        : commonRoomBg,
     title: "Gemeinschaftsraum — Erdgeschoss, E67",
     intro:
       "Warmes Lampenlicht über einem viel zu großen Tisch. Würfel, ein aufgeschlagenes Regelwerk, ein Plan auf Karopapier. Drei Jugendliche schauen auf, als die Tür aufgeht.",
     // NPCs sind direkt ins Hintergrundbild gemalt (keine Sprites).
     hotspots: [
+      {
+        id: "aushangCommonRoom",
+        // Aushang „Resonanz-Hygiene“ rechts an der Holzwand.
+        x: 89.5,
+        y: 4.5,
+        w: 10.5,
+        h: 33.5,
+        label: "Aushang „Resonanz-Hygiene“",
+        kind: "look",
+        onUse: (api) => {
+          if (api.hasFlag("belegAushangGemeinschaftsraum")) {
+            api.showText([
+              "Helleres Rechteck auf der Holzwand, zwei Papierecken unter den Nadeln.",
+              "Das Blatt steckt zusammengefaltet in Layards Tasche.",
+            ]);
+            return;
+          }
+          api.setFlag("sawResonanzAushang");
+          api.setFlag("belegAushangGemeinschaftsraum");
+          api.showText([
+            "Ein durchgestrichenes Piktogramm: jemand, der gegen eine Wand hämmert.",
+            "„Resonanz-Hygiene · Pausen sind Teil der Behandlung.“",
+            "Darunter, klein: „Belegungsdichte · Ruhezeiten · Nutzung nur mit Eintrag.“",
+            "Ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
+            "Die drei am Tisch würfeln weiter. Layard löst die Nadeln und faltet das Blatt ein.",
+          ]);
+        },
+      },
       {
         id: "tableSeat",
         // Der freie Stuhl links im Vordergrund (mit Lehne).
@@ -299,7 +331,7 @@ export const communalE67Scenes: Record<string, Scene> = {
             const belege = [
               "belegAushangAufzug",
               "belegAushangKorridor46",
-              "belegAushangLeitstelle",
+              "belegAushangGemeinschaftsraum",
             ].filter((f) => api.hasFlag(f as never)).length;
             if (belege === 3) {
               api.startDialog("miraEvidenceDeliver");

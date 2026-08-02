@@ -284,7 +284,7 @@ export type StoryFlag =
   | "sawResonanzAushang"
   | "belegAushangAufzug"
   | "belegAushangKorridor46"
-  | "belegAushangLeitstelle"
+  | "belegAushangGemeinschaftsraum"
   | "miraAskedEvidence"
   | "miraEvidenceDelivered"
   | "miraTrustEarned"
