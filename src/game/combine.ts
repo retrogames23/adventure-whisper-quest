@@ -25,11 +25,6 @@ const PHILIPPE_REACTIONS: ItemReactionMap = {
     "„Das ist nicht für mich. Das ist für jemanden, der da oben sitzt.“",
     "„Bringen Sie das weg, Layard. Bevor jemand fragt, warum Sie es hier zeigen.“",
   ],
-  tuningCrystal: [
-    "Philippe legt den Kopf schief. „Das ist nicht aus dem Verzeichnis.“",
-    "Er hebt den Kristall ans Licht und gibt ihn schnell zurück.",
-    "„Stecken Sie das weg. Ich habe es nicht gesehen.“",
-  ],
   flyer: [
     "Philippe liest. Bewegt die Lippen mit. Wird sehr still.",
     "„Z.K.S. — das hab’ ich seit der Schulzeit nicht mehr gehört.“",
@@ -41,10 +36,6 @@ const HELKA_REACTIONS: ItemReactionMap = {
   protocol: [
     "Helkas Stimme hinter der Tür: „Ein Protokoll? Mit Siegel?“",
     "„Heben Sie das gut auf. Solche Dinge kommen immer zweimal zur Sprache.“",
-  ],
-  tuningCrystal: [
-    "„Was ist DAS?“ Helkas Stimme wird leiser.",
-    "„Nehmen Sie das nicht in den Korridor. Hier hört einer immer mit.“",
   ],
   flyer: [
     "Helka schweigt lange. Dann, kaum hörbar:",
@@ -59,11 +50,6 @@ const BODO_REACTIONS: ItemReactionMap = {
     "„Ich hab’ vor zwölf Jahren aufgehört, Siegel zu lesen.“",
     "„Bringen Sie das weg, wo es hingehört.“",
   ],
-  tuningCrystal: [
-    "Bodo lehnt sich vor. Seine Augen werden zum ersten Mal scharf.",
-    "„Wer hat Ihnen das gegeben? — Schon gut. Will ich nicht wissen.“",
-    "„Aber: Wenn Sie damit drehen, drehen Sie nur einmal. Hören Sie?“",
-  ],
   flyer: [
     "Bodo liest, einmal, zweimal. Faltet das Blatt nicht.",
     "„Z.K.S. — ich dachte, die hätt’ es gar nicht mehr gegeben.“",
@@ -75,10 +61,6 @@ const ENNIS_REACTIONS: ItemReactionMap = {
   protocol: [
     "Hinter der Tür: ein leises Pfeifen. „Versiegelt? Klar versiegelt.“",
     "„Die versiegeln alles, wenn’s ihnen unangenehm wird.“",
-  ],
-  tuningCrystal: [
-    "„Oh.“ Ennis macht eine Pause. „Sie haben ZUGRIFF.“",
-    "„Worag. Versprechen Sie mir eines: nicht im Korridor benutzen.“",
   ],
   flyer: [
     "Ennis öffnet die Tür auf einen Spalt. Greift das Blatt. Liest.",
@@ -93,21 +75,9 @@ const MIRA_REACTIONS: ItemReactionMap = {
     "Mira mustert das Protokoll. „Verschlüsselt, ja? Standardprotokoll.“",
     "„Macht Sie auch nicht zum Helden.“",
   ],
-  tuningCrystal: [
-    "Mira nimmt den Kristall in die Hand. Bewegt ihn gegen das Licht.",
-    "„Sie wissen, dass Sie damit irgendwann auffallen werden, Worag.“",
-    "„Halten Sie es trotzdem. Wir brauchen Leute, die auffallen.“",
-  ],
   flyer: [
     "Mira lächelt. Zum ersten Mal richtig.",
     "„Sie haben es behalten. Gut.“",
-  ],
-  amplifierAntenna: [
-    "Mira nimmt die häßliche Spule, dreht sie einmal in der Hand.",
-    "„Du hast es wirklich gebaut.“",
-    "Sie hängt sie an den Draht, der aus dem Fenster führt.",
-    "„Geh ein Stück weg, dreh dein Schmerz-Radio auf 104,0 und halt die",
-    "Frequenz dort. Ich drücke von unten.“",
   ],
 };
 
@@ -116,10 +86,6 @@ const MIKAEL_REACTIONS: ItemReactionMap = {
     "Mikael wendet den Kopf, langsam. „Ein Protokoll. Wofür dachten Sie,",
     " ist es geschrieben worden?“",
     "„Damit jemand wie ich es liest. Und nichts daraus folgt.“",
-  ],
-  tuningCrystal: [
-    "Mikael lächelt schwach. „Sie haben einen davon. Gut.“",
-    "„Drehen Sie damit, wenn Sie wissen, wofür.“",
   ],
   flyer: [
     "Mikael lacht. Es ist ein trockenes, glückliches Geräusch.",
@@ -130,7 +96,6 @@ const MIKAEL_REACTIONS: ItemReactionMap = {
 
 const KOWALK_REACTIONS: ItemReactionMap = {
   protocol: ["Kowalk: „Das ist nicht meine Theke, Worag.“"],
-  tuningCrystal: ["Kowalk: „Hübsch. Nicht essbar.“"],
   flyer: [
     "Kowalk: „Die haben uns auch welche unter der Tür durchgeschoben.",
     " Brust hat sie weggeworfen. Ich nicht.“",
@@ -158,9 +123,6 @@ const KOWALK_REACTIONS: ItemReactionMap = {
 const BRUST_REACTIONS: ItemReactionMap = {
   protocol: [
     "Brust: „Formular ist korrekt ausgefüllt. Bitte an zuständiger Stelle abgeben.“",
-  ],
-  tuningCrystal: [
-    "Brust: „Das ist kein Bewohnergegenstand. Bitte beim Fundbüro abgeben.“",
   ],
   flyer: [
     "Brust: „Nicht-genehmigte Druckerzeugnisse. Bitte umgehend entsorgen.“",
@@ -205,13 +167,6 @@ const NPC_REACTIONS: Record<string, ItemReactionMap> = {
 // ─── Spezielle Hotspot-Reaktionen (Geräte) ────────────────────
 
 const RADIO_REACTIONS: ItemReactionMap = {
-  tuningCrystal: [
-    "Layard hält den Bernstein-Kristall an die Skala des Schmerz-Radios.",
-    "Die Nadel zuckt. Sie zeigt auf eine Zahl, die nicht aufgedruckt ist —",
-    "knapp jenseits der 104,6.",
-    "Eine Sekunde lang ist das Brummen klar und nah. Dann ist es wieder weg.",
-    "Layard legt den Kristall zurück in die Tasche. Noch nicht. Aber bald.",
-  ],
   flyer: [
     "„Lauscht ihr?“ — Layard hält das Flugblatt an den Lautsprecher.",
     "Das Brummen ändert sich nicht. Die Worte schon.",
@@ -251,13 +206,7 @@ function pairKey(a: InventoryItemId, b: InventoryItemId): string {
   return [a, b].sort().join("|");
 }
 
-const ITEM_PAIRS: Record<string, string[]> = {
-  [pairKey("tuningCrystal", "flyer")]: [
-    "Layard legt den Bernstein-Kristall auf das Flugblatt.",
-    "Die Buchstaben werden nicht klarer. Aber er liest sie zum ersten Mal,",
-    "ohne kurz wegschauen zu wollen.",
-  ],
-};
+const ITEM_PAIRS: Record<string, string[]> = {};
 
 // ─── Layards Standard-Sprüche ────────────────────────────────
 
@@ -332,33 +281,6 @@ export function combineItem(
           return;
         }
       }
-      // ── Schmerz-Radio-Erweiterung: Verstärker-Antenne bauen.
-      //    Bernstein-Kristall + Antennen-Draht → Verstärker-Antenne.
-      //    Beide Bauteile bleiben in Layards Tasche (er braucht den
-      //    Kristall noch, der Draht ist Teil der Antenne — narrativ
-      //    abstrahiert).
-      if (pair === pairKey("tuningCrystal", "antennaWire")) {
-        if (!ctx.api.hasItem("amplifierAntenna")) {
-          ctx.api.addItem({
-            id: "amplifierAntenna",
-            name: "Verstärker-Antenne (improvisiert)",
-            description:
-              "Eine kleine, gewickelte Spule — Antennen-Draht um den Bernstein-Resonator gelegt. Sieht selbstgebastelt aus. Soll Miras Sender so weit verstärken, dass er das alte Trauer-Band überschreibt.",
-          });
-          ctx.api.showText([
-            "Layard wickelt den Antennen-Draht eng um den Bernstein-Resonator.",
-            "Eine kleine, häßliche Spule entsteht. Sie summt, wenn er sie näher",
-            "ans Schmerz-Radio hält.",
-            "„Mira müsste damit was anfangen können.“",
-          ]);
-        } else {
-          ctx.api.showText([
-            "Eine Verstärker-Antenne hat Layard bereits.",
-            "Eine zweite würde dasselbe tun.",
-          ]);
-        }
-        return;
-      }
       lines = ITEM_PAIRS[pairKey(itemId, otherId)];
     }
   } else {
@@ -388,23 +310,6 @@ export function combineItem(
       }
       ctx.api.openPneumaticTube();
       return;
-    }
-    // Spezialfall: Verstärker-Antenne an Mira (in jeder Mira-Szene).
-    // Setzt das Flag, das das Resonanz-Duell im Schmerz-Radio scharf
-    // schaltet. Item bleibt im Inventar — narrativ ist die Antenne
-    // jetzt an Miras Sender; Layards Notiz davon bleibt.
-    const miraHotspots = new Set([
-      "miraSpot36",
-      "miraSpot46",
-      "miraSpot56",
-      "miraInRoom",
-    ]);
-    if (
-      itemId === "amplifierAntenna" &&
-      miraHotspots.has(ctx.targetId) &&
-      !ctx.api.hasFlag("miraHasAmplifier")
-    ) {
-      ctx.api.setFlag("miraHasAmplifier");
     }
     // Ölkännchen → MARV-9. Ölt den Servo-Kiefer, setzt ein Flag und
     // wandert anschließend aus dem Inventar (verbraucht). Der Server

@@ -163,12 +163,16 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         h: 11.8,
         label: "Schwarzes Brett",
         kind: "look",
-        onUse: (api) =>
+        onUse: (api) => {
+          api.setFlag("sawResonanzAushang");
+          api.setFlag("belegAushangAufzug");
           api.showText([
-            "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Bewohner.“",
+            "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Bewohner:",
+            "Belegungsdichte, Lüftung, Türsiegel-Praxis. Verstöße werden erfasst.“",
             "Aushang: „Quadrant E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
             "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
-          ]),
+          ]);
+        },
       },
       {
         id: "lobbyElevator",

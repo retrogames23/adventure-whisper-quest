@@ -185,13 +185,16 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         h: 40,
         label: "Plakat „Resonanz-Hygiene“",
         kind: "look",
-        onUse: (api) =>
+        onUse: (api) => {
+          api.setFlag("sawResonanzAushang");
+          api.setFlag("belegAushangKorridor46");
           api.showText([
             "„RUHE IST TEIL DER STATIK.“",
             "Darunter, kleiner: „Belegungsdichte einhalten. Türen leise. Ruhezeiten 22–06.“",
             "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
             "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
-          ]),
+          ]);
+        },
       },
       {
         id: "door4601Look",
@@ -535,20 +538,10 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             ]);
             return;
           }
-          if (!api.hasItem("tuningCrystal")) {
-            api.showText([
-              "Ein alter Kassetten-Funk mit handgekritzelter Skala.",
-              "Der Drehknopf ist abgebrochen — wer den hier benutzen wollte,",
-              "musste auf einer anderen Frequenz feintunen können.",
-              "Ohne ein passendes Werkzeug bleibt das Ding stumm.",
-            ]);
-            return;
-          }
           api.showText([
             "Ein alter Kassetten-Funk. Auf einer vergilbten Klebefläche steht:",
             "»TRÄGER LIEGT NEBEN DER SKALA. NICHT AUF EINEM PRESET.«",
-            "Layard erinnert sich an den Bernstein-Kristall in seiner Tasche.",
-            "Wenn er das Schmerz-Radio öffnet und exakt die richtige Frequenz",
+            "Wenn Layard das Schmerz-Radio öffnet und exakt die richtige Frequenz",
             "trifft, wird das Funkgerät vielleicht antworten.",
           ]);
         },

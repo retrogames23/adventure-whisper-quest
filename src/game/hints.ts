@@ -472,20 +472,20 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) => a.hasFlag("hiddenFrequencyFound"),
     hints: [
       "Das alte Wartungs-Funkgerät im Serverraum 5610 reagiert nicht auf eine Frequenz, die auf der Skala steht. Du brauchst Vorwissen aus mehreren Quellen.",
-      "Bodo (2612) weiß, in welchem Bereich der Wartungs-Träger liegt. Helka (2610) kennt die genaue Stelle. Mikael (E71) bestätigt, wie sie klingt. Außerdem brauchst du den Bernstein-Resonator zum Feintunen.",
+      "Bodo (2612) weiß, in welchem Bereich der Wartungs-Träger liegt. Helka (2610) kennt die genaue Stelle. Mikael (E71) bestätigt, wie sie klingt.",
       "Sprich Bodo und Helka beim Smalltalk auf Trägersignale/Frequenzen an, geh zurück in den Serverraum 5610, öffne dort dein Schmerz-Radio und stelle die Frequenz exakt auf 102,7 MHz.",
     ],
   },
   {
-    id: "act1.miraAmplifier",
-    title: "Miras Verstärker-Antenne (optional)",
+    id: "act1.miraEvidence",
+    title: "Miras Aushang-Belege (optional)",
     priority: 71,
-    isActive: (a) => a.hasFlag("miraAskedAmplifier"),
-    isResolved: (a) => a.hasFlag("miraSentAnger"),
+    isActive: (a) => a.hasFlag("miraAskedEvidence"),
+    isResolved: (a) => a.hasFlag("miraEvidenceDelivered"),
     hints: [
-      "Mira will Wut auf das Trauer-Band drücken. Allein schafft ihr Sender das nicht — sie braucht eine Verstärker-Antenne, und du hast bereits ein zentrales Bauteil dafür.",
-      "Du brauchst zwei Sachen: deinen Bernstein-Resonator (Tuning-Kristall) und ein Stück Antennen-Draht. Den Draht findest du hinter dem alten Wartungs-Funk im Serverraum 5610 — wenn du dort die richtige Frequenz triffst.",
-      "Kombiniere im Inventar Tuning-Kristall + Antennen-Draht zur Verstärker-Antenne, gib sie Mira in 4601, öffne dann dein Schmerz-Radio bei ihr und halte die Frequenz mindestens fünf Sekunden bei 104,0 MHz (±0,1).",
+      "Mira behauptet, „Resonanz-Hygiene“ bedeute in jedem Aushang etwas anderes. Sie will das belegt haben, nicht behauptet.",
+      "Es gibt drei Aushänge zu Resonanz-Hygiene: im Aufzug E67, im Korridor 46 und in der Leitstelle E67. Lies alle drei aufmerksam.",
+      "Wenn du alle drei Aushänge gelesen hast, sprich Mira in 4601 noch einmal an — dann trägst du ihr die Widersprüche vor.",
     ],
   },
 ];

@@ -53,7 +53,7 @@ export const SECTOR_CHATTER: ChatterMessage[] = [
   { from: "tina.4712", to: "lotte.4711", text: "kein kaffee mehr. nur B-getränk." },
   { from: "lotte.4711", to: "tina.4712", text: "dann komm trotzdem." },
   { from: "tina.4712", to: "lotte.4711", text: "ich komme." },
-  { from: "mira.5601", to: "philippe.2613", text: "104,6 läuft wieder gerichtet. ihr im 26 spürt das nicht?" },
+  { from: "mira.5601", to: "philippe.2613", text: "im 26er hängt der hygiene-aushang in der alten fassung. bei uns steht was anderes drauf. warum?" },
   { from: "philippe.2613", to: "mira.5601", text: "wir spüren es. wir sagen nur nichts." },
   { from: "leitstelle.001", to: "worag.2611", text: "wartungsfenster gateway: keine ausgehenden gespräche." },
   { from: "worag.2611", to: "leitstelle.001", text: "verstanden." },

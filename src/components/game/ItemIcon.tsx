@@ -73,33 +73,6 @@ function ProtocolIcon() {
 }
 
 /** Bernstein-Kristall — geschliffener Quarz. */
-function TuningCrystalIcon() {
-  return (
-    <>
-      {/* Outer hex */}
-      <rect x="11" y="2" width="2" height="1" fill={ICON_DK} />
-      <rect x="9" y="3" width="6" height="1" fill={ICON_DK} />
-      <rect x="7" y="4" width="10" height="2" fill={ICON_DK} />
-      <rect x="6" y="6" width="12" height="12" fill={ICON_DK} />
-      <rect x="7" y="18" width="10" height="2" fill={ICON_DK} />
-      <rect x="9" y="20" width="6" height="1" fill={ICON_DK} />
-      <rect x="11" y="21" width="2" height="1" fill={ICON_DK} />
-      {/* Inner amber */}
-      <rect x="10" y="4" width="4" height="1" fill={ICON_FG} />
-      <rect x="8" y="5" width="8" height="1" fill={ICON_FG} />
-      <rect x="7" y="6" width="10" height="12" fill={ICON_FG} />
-      <rect x="8" y="18" width="8" height="1" fill={ICON_FG} />
-      <rect x="10" y="19" width="4" height="1" fill={ICON_FG} />
-      {/* Highlights */}
-      <rect x="9" y="6" width="2" height="6" fill={ICON_HI} opacity="0.85" />
-      <rect x="13" y="9" width="1" height="4" fill={ICON_HI} opacity="0.7" />
-      {/* Facet line */}
-      <rect x="7" y="12" width="10" height="1" fill={ICON_DK} opacity="0.5" />
-    </>
-  );
-}
-
-/** Flugblatt — gefaltetes Papier mit fettem Aufdruck. */
 function FlyerIcon() {
   return (
     <>
@@ -363,7 +336,6 @@ function ParamedicsReportIcon() {
 
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
-  tuningCrystal: TuningCrystalIcon,
   flyer: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
   residentId: ResidentIdIcon,
@@ -384,8 +356,6 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   formblatt17VForged: QuittungForgedIcon,
   miraDoorNote: FlyerIcon,
   // Schmerz-Radio-Erweiterung — vorerst aus dem bestehenden Bestand.
-  antennaWire: TuningCrystalIcon,
-  amplifierAntenna: TuningCrystalIcon,
   wartungsDiktat: WartungsnotizIcon,
   // Bürokratie-Duell — Layards Sammlung gelernter Paragraphen.
   paragraphenNotizbuch: ParagraphenNotizbuchIcon,
