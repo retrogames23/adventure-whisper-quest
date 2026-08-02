@@ -920,8 +920,12 @@ export const bodoDialogs: Record<string, DialogTree> = {
         id: "bp10",
         speaker: "BODO",
         text: "Korridor 46, Schicht A. Tür 4601. Das Mädchen mit dem Werkzeugkoffer — Anwärterin. Die muss ran, ob sie will oder nicht. Das ist ihr Papierkram, nicht meiner.",
-        action: (api) => api.setFlag("knowsMiraIsWartung"),
-        end: true,
+        choices: [
+          {
+            text: "[ Notiert: 4601, Korridor 46 ]",
+            action: (api) => api.setFlag("knowsMiraIsWartung"),
+          },
+        ],
       },
     },
   },
