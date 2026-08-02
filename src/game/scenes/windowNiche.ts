@@ -32,7 +32,14 @@ export const windowNicheScenes: Record<string, Scene> = {
         label: "Ralf",
         kind: "talk",
         requires: ["metRalf"],
-        onUse: (api) => api.startDialog("ralfIntro"),
+        onUse: (api) =>
+          api.startDialog(
+            api.hasFlag("ralfStage3")
+              ? "ralfDeep"
+              : api.hasFlag("ralfStage2")
+                ? "ralfTalk"
+                : "ralfIntro",
+          ),
       },
       {
         id: "shutter",
