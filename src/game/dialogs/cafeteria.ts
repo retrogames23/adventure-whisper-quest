@@ -658,7 +658,11 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           {
             // Kowalk hat Layard hergeschickt — Brust kennt den Pfad.
             text: "Frau Kowalk hat mich geschickt. Trainingsfall.",
-            next: "bDuelOffer",
+            action: (api) => {
+              api.setFlag("duelOffered");
+              api.setFlag("duelStarted");
+            },
+            nextDialog: () => pickTrainingFallId(),
             requires: ["knowsVossbeckPath"],
             hiddenWhen: ["duelStarted", "vossbeckSummoned", "gotB3Ration"],
           },
@@ -672,7 +676,11 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             // Trainingsfall — fiktive Kantinenfälle, lehrt Konter fürs Phrasenbuch.
             // Bleibt verfügbar, bis Layard das Endduell gewonnen hat.
             text: "Ich würde mit Ihnen einen Trainingsfall durchgehen.",
-            next: "bDuelOffer",
+            action: (api) => {
+              api.setFlag("duelOffered");
+              api.setFlag("duelStarted");
+            },
+            nextDialog: () => pickTrainingFallId(),
             // Erst sichtbar, sobald Layard weiß, warum er im Behörden-Ton
             // schlagfertig werden muss (Vossbeck-Pfad über Kowalk/Brust erfahren).
             requires: ["knowsVossbeckPath"],
@@ -720,44 +728,17 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "Gut. Fangen wir an.",
-            next: "bDuelOffer",
-            action: (api) => api.setFlag("knowsVossbeckPath"),
+            action: (api) => {
+              api.setFlag("knowsVossbeckPath");
+              api.setFlag("duelOffered");
+              api.setFlag("duelStarted");
+            },
+            nextDialog: () => pickTrainingFallId(),
           },
           {
             text: "Verstanden.",
             next: "b0",
             action: (api) => api.setFlag("knowsVossbeckPath"),
-          },
-        ],
-      },
-      bDuelOffer: {
-        id: "bDuelOffer",
-        speaker: "BRUST",
-        text: "Erfundene Konstellation aus dem Kantinenbetrieb. Ich eröffne, Sie antworten.",
-        next: "bDuelOffer2",
-      },
-      bDuelOffer2: {
-        id: "bDuelOffer2",
-        speaker: "BRUST",
-        text: "Wer hier besteht, ist für Vossbeck vorsprachefähig. Ich darf das beurkunden.",
-        subtext: "»Beurkunden« sagt er, als wäre es ein Ehrentitel.",
-        choices: [
-          {
-            text: "[ Beginnen ]",
-            action: (api) => {
-              api.setFlag("duelOffered");
-              api.setFlag("duelStarted");
-            },
-            nextDialog: (api) => {
-              // Zufällige Auswahl aus dem erweiterten Pool an Fällen —
-              // aufeinanderfolgende Versuche wiederholen sich nicht.
-              void api;
-              return pickTrainingFallId();
-            },
-          },
-          {
-            text: "Lieber nicht. Ich überlege es mir.",
-            next: "b0",
           },
         ],
       },
