@@ -194,7 +194,7 @@ function VorzimmerPage() {
                     key={slot}
                     to="/dsa/$slot"
                     params={{ slot: String(slot) }}
-                    search={{ returnTo: `/dsa/gruppe/${roomId}` }}
+                    search={{ returnTo: `/dsa/gruppe/${roomId}`, view: undefined }}
                     className="rounded border border-dashed border-[#3a2c1a] bg-[#241a0e] p-3 text-left text-sm hover:bg-[#3a2c1a]"
                   >
                     <div className="text-[10px] uppercase opacity-60">Slot {slot}</div>

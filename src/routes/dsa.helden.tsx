@@ -126,7 +126,11 @@ function DsaHeroManager() {
   }
 
   function goToSlot(slot: SlotIndex) {
-    navigate({ to: "/dsa/$slot", params: { slot: String(slot) } });
+    navigate({
+      to: "/dsa/$slot",
+      params: { slot: String(slot) },
+      search: { returnTo: "/dsa/helden", view: undefined },
+    });
   }
 
   const donorLocked = !donation.unlocked;
