@@ -240,6 +240,44 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         requires: ["metReceptionist"],
         onUse: (api) => api.goTo("corridor15"),
       },
+      {
+        id: "e71ElevatorDoor",
+        // Schmale Tür rechts hinter dem Tresen — Aufzug des Sektors.
+        x: 66.6,
+        y: 34,
+        w: 4.4,
+        h: 28,
+        label: "Aufzug",
+        kind: "exit",
+        onUse: (api) => api.goTo("elevatorE71"),
+      },
+    ],
+  },
+  elevatorE71Placeholder: {
+    id: "elevatorE71",
+    background: elevatorE71Bg,
+    title: "Aufzug — Sektor E71",
+    intro:
+      "Platzhalter",
+    hotspots: [],
+  },
+  __removed: {
+    id: "e71Lobby",
+    background: e71LobbyBg,
+    title: "",
+    intro: "",
+    hotspots: [
+      {
+        id: "toCorridor15x",
+        x: 40.4,
+        y: 37.8,
+        w: 14.1,
+        h: 31,
+        label: "Tür → Korridor 15",
+        kind: "exit",
+        requires: ["metReceptionist"],
+        onUse: (api) => api.goTo("corridor15"),
+      },
     ],
   },
   elevatorE71: {
