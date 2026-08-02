@@ -339,18 +339,28 @@ export const Route = createFileRoute("/api/public/npc-chat")({
         let memoryNote = "";
         let recentMessages: Array<{ role: "user" | "assistant"; content: string }> = [];
         let gossipFacts: string[] = [];
-        if (npcId !== "bram" && uid) try {
+        // Gedächtnis ist an den laufenden Spieldurchgang gebunden. Ohne
+        // Run-ID (alte Clients) wird kein Gedächtnis geladen — lieber
+        // vergesslich als Erinnerungen aus einem fremden Spielstand.
+        const runIdRaw = (ctxRaw as { runId?: unknown }).runId;
+        const runId =
+          typeof runIdRaw === "string" && runIdRaw.length > 0 && runIdRaw.length <= 64
+            ? runIdRaw
+            : null;
+        if (npcId !== "bram" && uid && runId) try {
           const [memRes, gossipRes] = await Promise.all([
             admin
               .from("npc_memory")
               .select("note, recent_messages")
               .eq("user_id", uid)
               .eq("npc_id", npcId)
+              .eq("run_id", runId)
               .maybeSingle(),
             admin
               .from("npc_gossip")
               .select("fact, source_npc_id")
               .eq("user_id", uid)
+              .eq("run_id", runId)
               .contains("subjects", [npcId])
               .order("created_at", { ascending: false })
               .limit(8),

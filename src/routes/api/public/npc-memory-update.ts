@@ -85,12 +85,21 @@ export const Route = createFileRoute("/api/public/npc-memory-update")({
         const b = body as {
           npcId?: unknown;
           sessionMessages?: unknown;
+          runId?: unknown;
         };
 
         const npcId = typeof b.npcId === "string" ? b.npcId : "";
         if (!ALLOWED_NPCS.has(npcId)) {
           return json(400, { error: "Invalid npcId" });
         }
+
+        // Erinnerungen hängen am laufenden Spieldurchgang. Ohne Run-ID
+        // wird nichts geschrieben.
+        const runId =
+          typeof b.runId === "string" && b.runId.length > 0 && b.runId.length <= 64
+            ? b.runId
+            : null;
+        if (!runId) return json(200, { ok: true, skipped: true });
 
         const raw = Array.isArray(b.sessionMessages) ? b.sessionMessages : [];
         if (raw.length < 2 || raw.length > 80) {
@@ -125,6 +134,7 @@ export const Route = createFileRoute("/api/public/npc-memory-update")({
           .select("note")
           .eq("user_id", uid)
           .eq("npc_id", npcId)
+          .eq("run_id", runId)
           .maybeSingle();
         const previousNote = existing?.note ?? "";
 
@@ -274,11 +284,12 @@ export const Route = createFileRoute("/api/public/npc-memory-update")({
               {
                 user_id: uid,
                 npc_id: npcId,
+                run_id: runId,
                 note,
                 recent_messages: recent,
                 updated_at: new Date().toISOString(),
               },
-              { onConflict: "user_id,npc_id" },
+              { onConflict: "user_id,npc_id,run_id" },
             );
         }
 
@@ -289,6 +300,7 @@ export const Route = createFileRoute("/api/public/npc-memory-update")({
           source_npc_id: string;
           subjects: string[];
           fact: string;
+          run_id: string;
         }> = [];
         for (const g of parsed.gossip ?? []) {
           const fact = (g?.fact ?? "").trim();
@@ -300,6 +312,7 @@ export const Route = createFileRoute("/api/public/npc-memory-update")({
             source_npc_id: npcId,
             subjects,
             fact,
+            run_id: runId,
           });
         }
         if (gossipRows.length > 0) {

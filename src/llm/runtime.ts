@@ -15,6 +15,12 @@ export type LlmContext =
       activeFlags: string[];
       playedDialogIds: string[];
       /**
+       * ID des laufenden Spieldurchgangs (Save-Slot bzw. frischer Start).
+       * Das NSC-Langzeitgedächtnis ist darauf beschränkt — ein neues Spiel
+       * beginnt ohne Erinnerungen früherer Spielstände.
+       */
+      runId?: string;
+      /**
        * Optionaler MARV-Zustand aus dem Spielstand. Wird nur bei
        * `npcId === "marv9"` genutzt; der Server nimmt diesen Wert als
        * `marvBefore` und schreibt ihn nicht mehr in die DB — die

@@ -604,6 +604,7 @@ export type Database = {
           created_at: string
           fact: string
           id: string
+          run_id: string
           source_npc_id: string
           subjects: string[]
           user_id: string
@@ -612,6 +613,7 @@ export type Database = {
           created_at?: string
           fact: string
           id?: string
+          run_id?: string
           source_npc_id: string
           subjects?: string[]
           user_id: string
@@ -620,6 +622,7 @@ export type Database = {
           created_at?: string
           fact?: string
           id?: string
+          run_id?: string
           source_npc_id?: string
           subjects?: string[]
           user_id?: string
@@ -633,6 +636,7 @@ export type Database = {
           note: string
           npc_id: string
           recent_messages: Json
+          run_id: string
           updated_at: string
           user_id: string
         }
@@ -642,6 +646,7 @@ export type Database = {
           note?: string
           npc_id: string
           recent_messages?: Json
+          run_id?: string
           updated_at?: string
           user_id: string
         }
@@ -651,6 +656,7 @@ export type Database = {
           note?: string
           npc_id?: string
           recent_messages?: Json
+          run_id?: string
           updated_at?: string
           user_id?: string
         }
