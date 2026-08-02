@@ -363,7 +363,6 @@ function ParamedicsReportIcon() {
 
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
-  tuningCrystal: TuningCrystalIcon,
   flyer: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
   residentId: ResidentIdIcon,
@@ -384,8 +383,6 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   formblatt17VForged: QuittungForgedIcon,
   miraDoorNote: FlyerIcon,
   // Schmerz-Radio-Erweiterung — vorerst aus dem bestehenden Bestand.
-  antennaWire: TuningCrystalIcon,
-  amplifierAntenna: TuningCrystalIcon,
   wartungsDiktat: WartungsnotizIcon,
   // Bürokratie-Duell — Layards Sammlung gelernter Paragraphen.
   paragraphenNotizbuch: ParagraphenNotizbuchIcon,

@@ -290,17 +290,24 @@ export const communalE67Scenes: Record<string, Scene> = {
             api.startDialog("miraAtHomeIntro");
             return;
           }
-          if (api.hasFlag("miraSentAnger")) {
-            api.startDialog("miraAfterAmplifier");
+          if (api.hasFlag("miraEvidenceDelivered")) {
+            api.startDialog("miraAfterEvidence");
             return;
           }
-          if (api.hasFlag("miraAskedAmplifier")) {
-            // Wiederholtes Nachfragen, solange Layard noch keine Antenne
-            // gebaut/übergeben hat.
-            api.startDialog("miraAmplifierWait");
+          if (api.hasFlag("miraAskedEvidence")) {
+            // Layard sammelt noch Aushang-Belege.
+            if (
+              api.hasFlag("belegAushangAufzug") &&
+              api.hasFlag("belegAushangKorridor46") &&
+              api.hasFlag("belegAushangLeitstelle")
+            ) {
+              api.startDialog("miraEvidenceDeliver");
+              return;
+            }
+            api.startDialog("miraEvidenceWait");
             return;
           }
-          api.startDialog("miraAmplifierAsk");
+          api.startDialog("miraEvidenceAsk");
         },
       },
       {

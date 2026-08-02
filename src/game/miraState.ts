@@ -3,8 +3,8 @@ import type { GameApi } from "./types";
 /**
  * Drei kanonische Mira-States für Akt II.
  *
- * - friendly:  Layard hat Mira den Verstärker geliefert und mit ihr
- *              gemeinsam auf 104,0 gesendet.
+ * - friendly:  Layard hat Mira die drei widersprüchlichen Aushang-Belege
+ *              gebracht.
  * - skeptical: Layard hat Mira aktiv abgewiesen oder die Vertrauensprobe
  *              verloren (miraSystemic ODER miraTrustWithheld).
  * - neutral:   Alles dazwischen — inkl. „nie mit Mira gesprochen".
@@ -13,7 +13,7 @@ export type MiraEndState = "friendly" | "neutral" | "skeptical";
 
 /** Berechnet (ohne zu speichern) den Mira-State aus den aktuellen Akt-I-Flags. */
 export function computeMiraEndState(api: GameApi): MiraEndState {
-  if (api.hasFlag("miraSentAnger")) return "friendly";
+  if (api.hasFlag("miraEvidenceDelivered")) return "friendly";
   if (api.hasFlag("miraSystemic") || api.hasFlag("miraTrustWithheld")) {
     return "skeptical";
   }
