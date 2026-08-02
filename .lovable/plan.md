@@ -1,98 +1,76 @@
-# Mira wird Pflichtstation in Akt I — eigenständiges Telefon-Rätsel
+# Mira sauber neu aufsetzen
 
-## Kurs-Korrektur
+## Ziel
 
-Der vorherige Plan hing Mira als Siegel-Gate in die Formblatt-/Vossbeck-Kette.
-Das überfrachtet ein Rätsel, das schon aus Kowalk, Brust, Duell und Vossbeck
-besteht. Stattdessen bekommt Mira ein **eigenständiges Rätsel** an einer
-anderen, ohnehin zwingenden Stelle der Akt-I-Kette: dem Telefon in der Wohnung.
+Mira weiß nichts vom Schmerz-Radio und nichts von 104,6. Ihre These ist
+sprachlich, nicht technisch: Die Verwaltung benutzt den unscharfen Begriff
+**„Resonanz-Hygiene"** als Instrument sozialer Kontrolle — was niemand genau
+definiert, kann jederzeit gegen jeden angewendet werden. Der Auslöser bleibt
+der unaufgeklärte Tod ihres Vaters Ilan (Schacht 56, 1992); Onkel Roald bleibt
+ihre Bezugsperson und Z.K.S.-Kontakt.
 
-## Der Angelpunkt: das tote Telefon
+Tonlage: **skeptisch und kritisch, nicht paranoid.** Smart, jung, reißt sich
+selbst mit — und rudert hörbar zurück, sobald man ihr widerspricht oder etwas
+belegt. Jede große These bekommt im selben Dialog eine Selbstkorrektur-Zeile.
 
-Der Anruf bei Insa (Wohnung, `phoneApt` → `insa2a`) ist Pflicht: ohne ihn gibt
-es kein Briefing, keinen Vossbeck-Pfad, keinen Tagescode. Genau dieser Anruf
-schlägt künftig beim ersten Versuch fehl.
+## Was sich inhaltlich ändert
 
-```text
-Rückkehr aus Etage 3 (leeres Büro) + Protokoll
-        |
-        v
-Telefon abheben -> tot. Ein Knacken, dann Stille.        <-- neu
-        |
-        v
-Hausmeister/Bodo/Aushang: Wandapparate sind Hausinstallation,
-Werkzeug liegt bei der Bewohnervertretung, Schicht A.
-        |
-        v
-MIRA (Korridor 46): Prüfhörer + Vierkant der Vertretung   <-- neu, zwingend
-        |
-        v
-Telefon repariert -> Anruf bei Insa -> bestehende Kette unverändert
-```
+**Neue Kernthese (ersetzt „die Frequenz ist eine Leine"):**
+„Resonanz-Hygiene" steht nirgends exakt definiert. Der Begriff taucht auf
+Aushängen, Merkblättern und Formularen auf, jedes Mal etwas anders. Miras
+Vermutung: Genau die Unschärfe ist der Zweck — sie erlaubt, jedes Verhalten
+nachträglich als Verstoß zu deklarieren. Im Bericht zum Tod ihres Vaters stand
+„menschliches Versagen": dasselbe Muster, anderes Wort.
 
-Vossbeck, Brust, Kowalk und das Bürokratie-Duell bleiben **unangetastet**.
+**Z.K.S. bleibt „Zentrum.Käfig.Stille"** — Terminal und Passwort unverändert.
+„Stille" wird umgedeutet und positiv besetzt: Miras Ziel ist ein **„Tag der
+Stille"** = ein Tag ohne Verlautbarungen, Aushänge und Durchsagen der
+Verwaltung. Nicht ein Tag ohne Radio.
 
-## Das auslösende Ereignis
+**Vertrauensprobe** verlangt künftig einen **Beleg**: Layard bringt einen
+Aushang bzw. ein Merkblatt mit dem Wort „Resonanz-Hygiene" (Leitstellen-Aushang
+E67) plus gelesenes Manifest. Die „eine Minute Radio aus"-Bedingung entfällt.
 
-Beim Ausstieg aus dem Aufzug auf Etage 4 (Rückweg von Etage 3) gibt es einen
-kurzen Spannungseinbruch: Licht flackert, die Notklingel im Schacht schlägt an.
-Lore-konform als **Resonanzspitze** eingeordnet — der Hausanschluss der
-Etage 46 ist danach auf einer Ader tot. Das Ereignis ist nicht optional, es
-läuft beim Betreten der Wohnung als kurzer Textbeat.
-
-## Miras Preis
-
-Mira ist Bewohnervertretung Schicht A und führt den Werkzeugsatz der
-Hausinstallation (Prüfhörer, Vierkantschlüssel, Klemmleiste). Sie gibt ihn
-nicht heraus — sie kommt mit, und sie stellt eine Bedingung:
-
-- **Bedingung:** eine Minute Funkstille im Gang, Radio *aus*, vor ihren Augen.
-  Nutzt die vorhandene Mechanik (`radioMutedAtLeast60s`), ist immer erfüllbar.
-- **warm** — Stille ausgehalten und nachgefragt: sie repariert, redet über
-  Schacht 56 und lädt Layard in die 4601 ein.
-- **neutral** — nur Stille ausgehalten: sie repariert, bleibt knapp, nennt 4601.
-- **kalt** — Radio bleibt an oder Layard drängelt: sie repariert trotzdem
-  (Hausinstallation ist Pflicht der Vertretung), notiert ihn aber als Vorgang
-  und schreibt ihn ab.
-
-In allen drei Fällen funktioniert das Telefon danach. Kein Dead End, nur Ton,
-Zugang zu 4601 und Mira-Endstate für Akt II unterscheiden sich.
-
-## Was das nebenbei repariert
-
-- **Sackgasse 4601:** Tür hängt bisher allein an der gewonnenen
-  Vertrauensprobe. Künftig öffnet der Reparatur-Ausgang (warm/neutral) die Tür;
-  nur der kalte Ausgang sperrt optionale Inhalte.
-- **Mira-Endstate:** `neutral` heißt künftig „hat geholfen, nicht mehr" statt
-  „nie getroffen".
-- **Toter Verstärker-Strang:** Bernstein-Resonator und Antennen-Draht bekommen
-  je eine echte Fundstelle (Wartungsschrank / über Bodo), passend zu Miras
-  Ansage. Damit ist der `friendly`-Endstate erstmals erreichbar. Optional.
-
-## Lore-Konsistenz
-
-- Bewohnervertretung Schicht A steht bereits in LORE.md §8; der Plan macht
-  daraus eine spielbare Zuständigkeit (Hausinstallation) statt einer neuen Rolle.
-- Die Störung wird als Resonanzspitze *vermutet*, nicht bestätigt — Miras
-  Verdacht gegen die Verwaltung bleibt Vermutung (LORE.md §7).
-- Tonfall bleibt höflich-bürokratisch, keine Verletzung der Tabu-Liste.
+**Verstärker-Quest wird ersetzt** durch eine **Beleg-Sammlung**: Mira braucht
+drei Fundstellen des Begriffs aus verschiedenen Stellen des Sektors, um der
+Bewohnervertretung eine Eingabe vorzulegen. Liefert Layard sie, endet Akt I mit
+demselben End-State „friendly" wie bisher.
 
 ## Technische Umsetzung
 
-- `src/game/types.ts`: Flags `phoneDead`, `phoneFixed`, `knowsMiraHasTool`,
-  `miraHelpWarm`, `miraHelpCold`.
-- `src/game/scenes/apartmentAct1.ts`: `phoneApt` prüft `phoneDead` vor allen
-  bestehenden Zweigen und zeigt den Defekt-Text; Textbeat beim Betreten setzt
-  `phoneDead` (einmalig, an `protocolReceived` + `sawEmptyOffice` gekoppelt).
-- `src/game/dialogs/mira.ts`: neuer Dialog `miraPhoneRepair` mit den drei
-  Ausgängen; `miraTrustProbe` wird optionaler Vertiefungs-Ast statt Türwächter.
-- `src/game/scenes/corridorsE67.ts`: Hotspot-Routing auf den Reparatur-Dialog,
-  Mira während dieses Fensters fest auf Etage 4; `door4601Enter` von
-  `miraTrustEarned` auf „repariert und nicht kalt" umstellen.
-- Hinweisquellen: Aushang im Korridor 46 und ein Satz bei Bodo, dass die
-  Vertretung Schicht A das Werkzeug führt (setzt `knowsMiraHasTool`).
-- `src/game/miraState.ts`: `computeMiraEndState` um die Reparatur-Ausgänge.
-- `src/game/hints.ts`: neue Pflicht-Quest „Das Telefon ist tot" vor
-  `act1.callInsaForCode`; Mira-Vertrauens-Quest als optional umformulieren.
-- `LORE.md` / `mem/features/` um den Abschnitt Hausinstallation ergänzen,
-  danach `quest-check` und `hints-check` laufen lassen.
+**Texte umschreiben (kein Radio, kein 104,6, neue Tonlage):**
+- `src/game/dialogs/mira.ts` — alle Trees: `miraIntro`, `miraReturn`,
+  `miraAfter`, `miraTrustProbe`, `miraAtHomeIntro`. Jede These bekommt eine
+  Widerspruchs-Option für den Spieler („Das ist einfach ein Verwaltungswort")
+  und eine Mira-Antwort, die den Einwand ernst nimmt.
+- Flyer-Item und Manifest-Text neu: Fokus auf Begriffs-Unschärfe.
+- `src/game/npcPersonas.ts` (mira): `secrets`, `personality`, `storyAwareness`
+  auf die neue These umstellen; Regel ergänzen, dass Mira das Schmerz-Radio
+  nicht kennt und nie über Frequenzen spekuliert.
+- `src/game/netHosts.ts`, Host `mira.zks`: `manifest.txt` neu (Punkte 1 und 4),
+  `frequenzen.txt` entfernen, `logbuch.txt`/`verteiler.txt` bereinigen.
+- `src/game/filesystemMira.ts`: Zeile „alle radios aus" ersetzen.
+- `src/game/sectorChatter.ts`: Miras Zeile über 104,6 ersetzen.
+
+**Verstärker-Kette ersetzen:**
+- `miraAmplifierAsk` / `miraAmplifierWait` / `miraAfterAmplifier` inhaltlich zur
+  Beleg-Quest umbauen (drei Fundstellen statt Draht und Bernstein).
+- `tuningCrystal`, `antennaWire`, `amplifierAntenna` samt Kombination in
+  `src/game/combine.ts`, Icons in `ItemIcon.tsx` und Typen in `types.ts`
+  entfernen; Sonderfälle in `RadioPanel.tsx` und `corridorsE67.ts` abräumen.
+- Flag `miraSentAnger` durch `miraEvidenceDelivered` ersetzen; Verwendungen in
+  `miraState.ts`, `hints.ts`, `communalE67.ts`, `RadioPanel.tsx` nachziehen.
+- `radioMutedAtLeast60s` aus Miras Bedingungen entfernen (Flag und Radio-Logik
+  selbst bleiben unangetastet); neues Flag `broughtResonanzAushang`.
+
+**Verdrahtung:**
+- `src/game/scenes/corridorsE67.ts`: Bedingungen der Vertrauensprobe anpassen.
+- `src/game/scenes/leitstelleE67.ts`: Aushang „Resonanz-Hygiene" als
+  mitnehmbaren Beleg ausgeben.
+- `src/game/hints.ts`: Mira-Hints auf die Beleg-Quest umschreiben.
+
+## Nicht Teil dieses Schritts
+
+Das Pflicht-Rätsel (kaputtes Telefon, Miras Werkzeug) bleibt dem bereits
+besprochenen Folgeschritt vorbehalten — dieser Plan setzt nur den Charakter
+sauber auf, damit das Rätsel darauf aufbauen kann.
