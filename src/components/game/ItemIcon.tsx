@@ -144,36 +144,6 @@ function TuningCrystalIcon() {
   );
 }
 
-/** Brief an Insa — versiegelter Umschlag. */
-function MikaelLetterIcon() {
-  return (
-    <>
-      <rect x="3" y="6" width="18" height="13" fill={ICON_DK} />
-      <rect x="4" y="7" width="16" height="11" fill={ICON_HI} />
-      {/* Falten */}
-      <polygon points="4,7 12,14 20,7" fill="none" />
-      <rect x="4" y="7" width="1" height="1" fill={ICON_DK} />
-      <rect x="5" y="8" width="1" height="1" fill={ICON_DK} />
-      <rect x="6" y="9" width="1" height="1" fill={ICON_DK} />
-      <rect x="7" y="10" width="1" height="1" fill={ICON_DK} />
-      <rect x="8" y="11" width="1" height="1" fill={ICON_DK} />
-      <rect x="9" y="12" width="1" height="1" fill={ICON_DK} />
-      <rect x="10" y="13" width="1" height="1" fill={ICON_DK} />
-      <rect x="11" y="14" width="2" height="1" fill={ICON_DK} />
-      <rect x="13" y="13" width="1" height="1" fill={ICON_DK} />
-      <rect x="14" y="12" width="1" height="1" fill={ICON_DK} />
-      <rect x="15" y="11" width="1" height="1" fill={ICON_DK} />
-      <rect x="16" y="10" width="1" height="1" fill={ICON_DK} />
-      <rect x="17" y="9" width="1" height="1" fill={ICON_DK} />
-      <rect x="18" y="8" width="1" height="1" fill={ICON_DK} />
-      <rect x="19" y="7" width="1" height="1" fill={ICON_DK} />
-      {/* Wachssiegel */}
-      <rect x="10" y="14" width="4" height="3" fill="#b3331a" />
-      <rect x="11" y="15" width="2" height="1" fill={ICON_HI} />
-    </>
-  );
-}
-
 /** Flugblatt — gefaltetes Papier mit fettem Aufdruck. */
 function FlyerIcon() {
   return (
