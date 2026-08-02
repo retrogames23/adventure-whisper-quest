@@ -23,6 +23,7 @@ import {
 } from "@/game/filesystemMira";
 import { NET_HOSTS, type NetHost } from "@/game/netHosts";
 import type { StoryFlag } from "@/game/types";
+import { applyVossbeckWeakCheat } from "@/game/cheats";
 import {
   adventureCommand,
   adventureStart,
@@ -560,6 +561,29 @@ export function Terminal() {
         return;
       }
       // Sonst durchfallen lassen — wird unten als unbekannter Befehl behandelt.
+    }
+
+    // ── Undokumentierter Cheat »vossbeckweak« ─────────────
+    // Springt direkt an die Stelle nach dem gewonnenen Bürokratie-
+    // Endduell: alle Pflicht-Flags gesetzt, optionale offen, Layard
+    // steht danach an der Sektor-Tür.
+    if (raw.toLowerCase() === "vossbeckweak") {
+      if (!localBodoMode && !remoteMode) {
+        playBeep(0.5 * sfxVolume);
+        setLines((prev) => [
+          ...prev,
+          { text: `layard@centralos:~$ ${raw}`, kind: "in" },
+          { text: ">> [DEBUG] Vorgangsstand wird geladen …", kind: "system" },
+          { text: ">> Endduell 17/V: gewonnen. Tagescode hinterlegt.", kind: "out" },
+          { text: "", kind: "out" },
+        ]);
+        setInput("");
+        setTimeout(() => {
+          applyVossbeckWeakCheat(api);
+          closeTerminal();
+        }, 400);
+        return;
+      }
     }
 
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
