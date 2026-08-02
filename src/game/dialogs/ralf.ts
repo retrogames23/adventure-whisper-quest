@@ -25,7 +25,7 @@ function buildTopics(api: GameApi): DialogChoice[] {
 }
 
 /**
- * Ralf am Fenster — E71-Bewohner hinter einer fast geschlossenen Rollade.
+ * Ralf am Fenster — E71-Bewohner hinter einem fast geschlossenen Rollo.
  * Reiner Welt-Erklärer, keine Rätselfunktion. Hub-Struktur: Layard fragt,
  * Ralf antwortet, danach zurück ins Themenmenü.
  */
@@ -38,7 +38,7 @@ export const ralfDialogs: Record<string, DialogTree> = {
       r1: {
         id: "r1",
         speaker: "SYSTEM",
-        text: "[ Die Hand im Rolladenschlitz bewegt sich nicht. Der Zigarettenkegel wird kurz heller. Dann Rauch, langsam, waagerecht. ]",
+        text: "[ Die Hand im Rolloschlitz bewegt sich nicht. Der Zigarettenkegel wird kurz heller. Dann Rauch, langsam, waagerecht. ]",
         next: "r2",
       },
       r2: {
@@ -57,7 +57,7 @@ export const ralfDialogs: Record<string, DialogTree> = {
       r4: {
         id: "r4",
         speaker: "LAYARD",
-        text: "Warum machen Sie die Rollade nicht hoch?",
+        text: "Warum machen Sie das Rollo nicht hoch?",
         next: "r5",
       },
       r5: {
