@@ -286,7 +286,7 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       },
       {
         // Der Gehweg läuft nach rechts weiter — dort sitzt Ralf hinter
-        // seiner Rollade. Rein narrativer Ort, kein Rätsel.
+        // seinem Rollo. Rein narrativer Ort, kein Rätsel.
         id: "toWindowNiche",
         x: 54.2,
         y: 24.5,

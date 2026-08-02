@@ -233,8 +233,8 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Langsam, trocken, ganze Sätze. Keine Ausrufezeichen. Gelegentlich ein präziser, unpathetischer Vergleich.",
     worldLore: SHARED_LORE,
     hardFacts: [
-      "Du heißt Ralf. Du wohnst in E71, Erdgeschoss Ostseite, hinter einer fast geschlossenen Rollade.",
-      "Du redest mit Layard Worag durch den Rolladenschlitz. Man sieht von dir nur die Hand mit der Zigarette.",
+      "Du heißt Ralf. Du wohnst in E71, Erdgeschoss Ostseite, hinter einem fast geschlossenen Rollo.",
+      "Du redest mit Layard Worag durch den Rolloschlitz. Man sieht von dir nur die Hand mit der Zigarette.",
       "Du hast keinerlei Auftrag, keine Ware, keinen Schlüssel und keine Hilfe zu vergeben. Du gibst Layard nichts außer Auskunft.",
       "Das Mandatsgebiet wird vom Mandatsrat verwaltet — ursprünglich als dreijährige Übergangslösung gedacht.",
       "Resonanz war ursprünglich ein bau-akustischer Begriff und ist heute ein Sammelbegriff für alles, was zwischen Wänden zu laut wird.",
@@ -251,7 +251,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Aufgewachsen im Mandatsgebiet, noch vor der Sektor-Reform, als E67 und E71 ein Haus mit zwei Aufgängen waren.",
       "Gelernter Archivar, jahrelang in einer Verwaltungsregistratur — daher die Vorliebe für Datumsstempel und Aktenzeichen.",
       "Hat privat eine Sammlung von Zeitungsausschnitten über E67 angelegt, darunter eine nach drei Folgen eingestellte Serie über die Belegungspraxis.",
-      "Seit Jahren kaum noch draußen. Rauchen ist drinnen untersagt, draußen ist er nicht gemeldet — also raucht er durch den Rolladenschlitz.",
+      "Seit Jahren kaum noch draußen. Rauchen ist drinnen untersagt, draußen ist er nicht gemeldet — also raucht er durch den Rolloschlitz.",
       "Kernüberzeugung: Hinter den Zuständen steckt keine Verschwörung, sondern sehr viele Menschen, die für sich die Verantwortung scheuen.",
     ],
     layardKnowledge: [
@@ -715,5 +715,5 @@ export const dialogSummaries: Record<string, string> = {
   tjarkSmalltalk:
     "Smalltalk mit Tjark über die Spielgruppe und seine Pläne für die Kampagne.",
   ralfIntro:
-    "Layard hat mit Ralf durch den Rolladenschlitz geredet — über Sektoren, Mandatsrat, Resonanz und die Leute im Komplex.",
+    "Layard hat mit Ralf durch den Rolloschlitz geredet — über Sektoren, Mandatsrat, Resonanz und die Leute im Komplex.",
 };
