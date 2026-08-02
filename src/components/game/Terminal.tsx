@@ -587,6 +587,7 @@ export function Terminal() {
     }
 
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
+    // (siehe oben: Cheats werden vorher abgefangen)
     if (advState) {
       playBeep(0.3 * sfxVolume);
       const echo: Line = { text: `> ${input}`, kind: "in" };
