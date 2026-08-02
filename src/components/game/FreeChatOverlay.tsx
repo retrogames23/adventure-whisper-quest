@@ -242,6 +242,7 @@ function FreeChatInner({
         },
         body: JSON.stringify({
           npcId,
+          runId: game.api.getDsaSessionId(),
           sessionMessages: session.map((m) => ({
             role: m.role,
             content: m.content,
