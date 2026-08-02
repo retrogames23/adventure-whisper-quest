@@ -252,60 +252,54 @@ export const Route = createFileRoute("/api/public/fastweb-chat")({
 
         let upstream: Response;
         try {
-          upstream = await fetch(
-            "https://ai.gateway.lovable.dev/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                model: AI_MODEL_MAIN,
-                messages: [
-                  { role: "system", content: guard },
-                  { role: "system", content: systemPrompt },
-                  { role: "user", content: userPrompt },
-                ],
-                temperature: 0.85,
-                max_tokens: 240,
-                tools: [
-                  {
-                    type: "function",
-                    function: {
-                      name: "post_line",
-                      description:
-                        "Postet eine neue Chat-Zeile von einer der erlaubten Personas.",
-                      parameters: {
-                        type: "object",
-                        properties: {
-                          persona: {
-                            type: "string",
-                            enum: allowedPersonas,
-                            description: "Welche Persona spricht.",
-                          },
-                          text: {
-                            type: "string",
-                            minLength: 1,
-                            maxLength: 200,
-                            description:
-                              "Die Chat-Zeile selbst, ohne Namens-Präfix.",
-                          },
+          upstream = await fetch(OPENROUTER_CHAT_URL, {
+            method: "POST",
+            headers: openRouterHeaders(apiKey),
+            body: JSON.stringify({
+              model: AI_MODEL_MAIN,
+              messages: [
+                { role: "system", content: guard },
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt },
+              ],
+              temperature: 0.85,
+              max_tokens: 240,
+              tools: [
+                {
+                  type: "function",
+                  function: {
+                    name: "post_line",
+                    description:
+                      "Postet eine neue Chat-Zeile von einer der erlaubten Personas.",
+                    parameters: {
+                      type: "object",
+                      properties: {
+                        persona: {
+                          type: "string",
+                          enum: allowedPersonas,
+                          description: "Welche Persona spricht.",
                         },
-                        required: ["persona", "text"],
-                        additionalProperties: false,
+                        text: {
+                          type: "string",
+                          minLength: 1,
+                          maxLength: 200,
+                          description:
+                            "Die Chat-Zeile selbst, ohne Namens-Präfix.",
+                        },
                       },
+                      required: ["persona", "text"],
+                      additionalProperties: false,
                     },
                   },
-                ],
-                tool_choice: {
-                  type: "function",
-                  function: { name: "post_line" },
                 },
-                stream: false,
-              }),
-            },
-          );
+              ],
+              tool_choice: {
+                type: "function",
+                function: { name: "post_line" },
+              },
+              stream: false,
+            }),
+          });
         } catch (e) {
           console.error("fastweb-chat fetch failed", e);
           return json(502, { error: "Upstream nicht erreichbar." });
