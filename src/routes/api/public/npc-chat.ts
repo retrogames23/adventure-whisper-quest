@@ -73,9 +73,10 @@ async function rateMarvEmpathy(userMessage: string): Promise<number> {
                   properties: {
                     delta: {
                       type: "integer",
-                      minimum: 0,
+                      minimum: -1,
                       maximum: 2,
-                      description: "Empathie-Delta (0 bis +2).",
+                      description:
+                        "Empathie-Delta (-1 bis +2). -1 NUR bei klar negativer Interaktion.",
                     },
                   },
                   required: ["delta"],
@@ -107,8 +108,8 @@ async function rateMarvEmpathy(userMessage: string): Promise<number> {
     if (!argStr) return 0;
     const parsed = JSON.parse(argStr) as { delta?: unknown };
     if (typeof parsed.delta !== "number") return 0;
-    // Fortschritt ist monoton: die Anzeige darf nie zurückfallen.
-    return Math.max(0, Math.min(2, Math.round(parsed.delta)));
+    // -1 ist erlaubt, aber nur bei klar negativer Interaktion (Prompt-Regel).
+    return Math.max(-1, Math.min(2, Math.round(parsed.delta)));
   } catch (e) {
     console.warn("marv rater failed", e);
     return 0;
@@ -360,7 +361,10 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           // Empathie zuerst bewerten — MARVs Antwort soll zum neuen
           // Türzustand passen (vorher hinkte sie eine Nachricht hinterher).
           const delta = await rateMarvEmpathy(userMessage);
-          const newScore = Math.min(10, marvBefore.empathy_score + delta);
+          const newScore = Math.max(
+            0,
+            Math.min(10, marvBefore.empathy_score + delta),
+          );
           const justUnlocked = !marvBefore.unlocked && newScore >= 3;
           const unlockedAfter = marvBefore.unlocked || newScore >= 3;
           marvUpdate = {
