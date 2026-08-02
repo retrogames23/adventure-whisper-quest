@@ -334,6 +334,26 @@ function ParamedicsReportIcon() {
   );
 }
 
+/** Aushang „Resonanz-Hygiene“ — gefaltetes Plakat mit Reißnagel. */
+function AushangIcon() {
+  return (
+    <>
+      <rect x="4" y="3" width="16" height="18" fill={ICON_DK} />
+      <rect x="5" y="4" width="14" height="16" fill={ICON_HI} />
+      {/* Reißnagel oben */}
+      <rect x="11" y="2" width="2" height="2" fill="#b3331a" />
+      {/* Überschrift */}
+      <rect x="7" y="7" width="10" height="2" fill={ICON_BG} />
+      {/* Textzeilen */}
+      <rect x="7" y="11" width="10" height="1" fill={ICON_BG} opacity="0.7" />
+      <rect x="7" y="13" width="8" height="1" fill={ICON_BG} opacity="0.7" />
+      <rect x="7" y="15" width="9" height="1" fill={ICON_BG} opacity="0.6" />
+      {/* Faltkante */}
+      <rect x="12" y="4" width="1" height="16" fill={ICON_DK} opacity="0.5" />
+    </>
+  );
+}
+
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
   belegAushangAufzug: AushangIcon,
