@@ -23,7 +23,7 @@ import {
 } from "@/game/filesystemMira";
 import { NET_HOSTS, type NetHost } from "@/game/netHosts";
 import type { StoryFlag } from "@/game/types";
-import { applyVossbeckWeakCheat } from "@/game/cheats";
+import { applyVossbeckWeakCheat, applyEndeAkt1Cheat } from "@/game/cheats";
 import {
   adventureCommand,
   adventureStart,
@@ -586,7 +586,31 @@ export function Terminal() {
       }
     }
 
+    // ── Undokumentierter Cheat »endeakt1« ─────────────────
+    // Springt direkt hinter den Besuch bei Mikael Stegmann: er hat das
+    // Protokoll nicht entgegengenommen. Pflicht-Flags gesetzt, optionale
+    // offen. Layard steht auf Korridor 15 vor Zimmer 1534.
+    if (raw.toLowerCase() === "endeakt1") {
+      if (!localBodoMode && !remoteMode) {
+        playBeep(0.5 * sfxVolume);
+        setLines((prev) => [
+          ...prev,
+          { text: `layard@centralos:~$ ${raw}`, kind: "in" },
+          { text: ">> [DEBUG] Vorgangsstand wird geladen …", kind: "system" },
+          { text: ">> Sektor E71 / 1534: Annahme verweigert.", kind: "out" },
+          { text: "", kind: "out" },
+        ]);
+        setInput("");
+        setTimeout(() => {
+          applyEndeAkt1Cheat(api);
+          closeTerminal();
+        }, 400);
+        return;
+      }
+    }
+
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
+    // (siehe oben: Cheats werden vorher abgefangen)
     if (advState) {
       playBeep(0.3 * sfxVolume);
       const echo: Line = { text: `> ${input}`, kind: "in" };

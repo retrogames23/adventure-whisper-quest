@@ -76,3 +76,32 @@ export function applyVossbeckWeakCheat(api: GameApi): void {
   api.resetDuelHits();
   api.goTo("sectorDoor");
 }
+
+/**
+ * »endeakt1« — Spielstand direkt nach dem Besuch bei Mikael Stegmann:
+ * Layard war in Zimmer 1534, Stegmann hat das Protokoll NICHT
+ * entgegengenommen. Alle dafür zwingend nötigen Flags sind gesetzt,
+ * alle optionalen Nebenstränge (Mira-Vertrauen, Ralf, MARV, Okwu,
+ * Gemeinschaftsraum, Burn-Route, Insa-Rückruf, Ende) bleiben offen.
+ * Layard steht danach auf der Etage mit Korridor 15 (Zimmer 1534).
+ */
+const ENDE_AKT1_FLAGS: StoryFlag[] = [
+  ...VOSSBECK_WEAK_FLAGS,
+  // Sektor-Tür geöffnet, Schwelle überschritten
+  "sectorDoorOpen",
+  "sectorThresholdSeen",
+  // Sektor E71: Empfang, Korridor, Zimmer 1534
+  "enteredE71",
+  "metReceptionist",
+  "foundRoom1534",
+  "metMikael",
+  "heardMikaelTruth",
+  "mikaelRejectedProtocol",
+];
+
+export function applyEndeAkt1Cheat(api: GameApi): void {
+  ENDE_AKT1_FLAGS.forEach((f) => api.setFlag(f));
+  api.clearFlag("duelJustWon");
+  api.resetDuelHits();
+  api.goTo("corridor15");
+}
