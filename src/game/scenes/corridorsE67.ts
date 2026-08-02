@@ -204,7 +204,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         h: 79.6,
         label: "Tür 4601",
         kind: "look",
-        hiddenWhen: ["miraTrustEarned"],
+        hiddenWhen: ["miraTrustEarned", "phoneBroken"],
         onUse: (api) =>
           api.showText([
             "Tür 4601. Kein Schild. Verkratzter Lack.",
@@ -219,8 +219,16 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         h: 75.9,
         label: "Tür 4601 — Mira",
         kind: "exit",
-        requires: ["miraTrustEarned"],
-        onUse: (api) => api.goTo("aptMira4601"),
+        visible: (api) =>
+          api.hasFlag("miraTrustEarned") ||
+          (api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired")),
+        onUse: (api) => {
+          if (api.hasFlag("phoneBroken") && !api.hasFlag("miraRepairDone")) {
+            api.startDialog("miraFaultReport");
+            return;
+          }
+          api.goTo("aptMira4601");
+        },
       },
       {
         id: "door4602Look",
