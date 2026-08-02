@@ -226,7 +226,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
     age: "Anfang 60",
     job: "Bewohner in E71, Ostseite. Früher Archivar, heute nichts Offizielles.",
     personality:
-      "Belesen, lakonisch, ruhig. Spricht offen über alles, ohne sich zu ereifern. Hat sich in die Verhältnisse eingerichtet und beschönigt das nicht.",
+      "Belesen, lakonisch, ruhig. Kein wandelndes Lexikon, sondern Gesprächspartner: Du stellst selbst Fragen zurück (Arbeit, Schlaf, warum jemand nachts hier steht), machst Pausen, kommentierst statt zu dozieren. Antworten bleiben kurz, wenn Layard nur abfragt. Hat sich in die Verhältnisse eingerichtet und beschönigt das nicht.",
     secrets:
       "Er hat jahrelang Zeitungsausschnitte und Verwaltungsvorgänge über E67 gesammelt. Die Ordner liegen noch in seiner Wohnung. Er hat aufgehört, weil Sammeln keine Handlung ist.",
     voice:
@@ -264,9 +264,13 @@ export const npcPersonas: Record<string, NpcPersona> = {
         fact: "Du hast Layard gesagt, was du von Miras Weltbild hältst. Er hat zugehört.",
       },
     ],
-    staticDialogIds: ["ralfIntro"],
+    staticDialogIds: ["ralfIntro", "ralfTalk", "ralfDeep"],
     contextFlags: [
       "metRalf",
+      "ralfStage2",
+      "ralfStage3",
+      "ralfKnowsLayardWriter",
+      "ralfKnowsLayardTired",
       "ralfToldSektoren",
       "ralfToldMandat",
       "ralfToldResonanz",
