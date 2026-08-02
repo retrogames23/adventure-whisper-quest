@@ -1,6 +1,7 @@
 import corridor36Bg from "@/assets/scene-corridor-36.jpg";
 import corridor36PhilippeBg from "@/assets/scene-corridor-36-philippe.jpg";
 import corridor46Bg from "@/assets/scene-corridor-46.jpg";
+import corridor46NoPosterBg from "@/assets/scene-corridor-46-noposter.jpg";
 import corridor56Bg from "@/assets/scene-corridor-56.jpg";
 import serverRoom5610Bg from "@/assets/scene-server-room-5610.jpg";
 import miraSprite from "@/assets/npc-mira.png";
@@ -107,7 +108,8 @@ export const corridorsE67Scenes: Record<string, Scene> = {
   },
   corridor46: {
     id: "corridor46",
-    background: corridor46Bg,
+    background: (api) =>
+      api.hasFlag("belegAushangKorridor46") ? corridor46NoPosterBg : corridor46Bg,
     title: "Korridor 46 — Wohnetage",
     intro:
       "Wie zuhause, nur eine Etage höher. Ein Plakat „RESONANZ-HYGIENE“ blättert ab.",
@@ -186,6 +188,13 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         label: "Plakat „Resonanz-Hygiene“",
         kind: "look",
         onUse: (api) => {
+          if (api.hasFlag("belegAushangKorridor46")) {
+            api.showText([
+              "Nur noch ein helleres Rechteck an der Wand und vier Papierecken",
+              "unter den Reißnägeln. Das Plakat steckt zusammengefaltet in Layards Tasche.",
+            ]);
+            return;
+          }
           api.setFlag("sawResonanzAushang");
           api.setFlag("belegAushangKorridor46");
           api.showText([
@@ -193,6 +202,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             "Darunter, kleiner: „Belegungsdichte einhalten. Türen leise. Ruhezeiten 22–06.“",
             "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
             "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
+            "Niemand im Korridor. Layard löst die Reißnägel und faltet das Blatt ein.",
           ]);
         },
       },

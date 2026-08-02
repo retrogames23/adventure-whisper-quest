@@ -1,5 +1,6 @@
 import elevatorBg from "@/assets/scene-elevator.jpg";
 import floor1LobbyBg from "@/assets/scene-floor1-lobby.jpg";
+import floor1LobbyNoPosterBg from "@/assets/scene-floor1-lobby-noposter.jpg";
 import passageBg from "@/assets/scene-passage.jpg";
 import philippeSprite from "@/assets/npc-philippe.png";
 import type { Scene } from "../types";
@@ -91,7 +92,8 @@ export const elevatorE67Scenes: Record<string, Scene> = {
   },
   floor1Lobby: {
     id: "floor1Lobby",
-    background: floor1LobbyBg,
+    background: (api) =>
+      api.hasFlag("belegAushangAufzug") ? floor1LobbyNoPosterBg : floor1LobbyBg,
     title: "Lobby — Etage 1, E67",
     intro:
       "Ein leerer Empfangstresen. Eine Anzeigetafel. Hinten links: der Aufzug. Rechts: die schwere Sektor-Tür.",
@@ -164,6 +166,13 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         label: "Schwarzes Brett",
         kind: "look",
         onUse: (api) => {
+          if (api.hasFlag("belegAushangAufzug")) {
+            api.showText([
+              "Leerer Kork. Ein paar Reißnägel, eine abgerissene Papierecke.",
+              "Der Aushang zur Resonanz-Hygiene liegt zusammengefaltet in Layards Tasche.",
+            ]);
+            return;
+          }
           api.setFlag("sawResonanzAushang");
           api.setFlag("belegAushangAufzug");
           api.showText([
@@ -171,6 +180,7 @@ export const elevatorE67Scenes: Record<string, Scene> = {
             "Belegungsdichte, Lüftung, Türsiegel-Praxis. Verstöße werden erfasst.“",
             "Aushang: „Quadrant E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
             "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
+            "Kein Mensch am Tresen. Layard nimmt das erste Blatt vom Brett.",
           ]);
         },
       },
