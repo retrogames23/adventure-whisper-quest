@@ -854,4 +854,94 @@ export const bodoDialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ── Kaputtes Telefon: Bitte um Bodos Apparat ──────────────────────
+  bodoPhoneRefusal: {
+    id: "bodoPhoneRefusal",
+    start: "bp1",
+    lines: {
+      bp1: {
+        id: "bp1",
+        speaker: "LAYARD",
+        text: "Bodo, mein Apparat ist tot. Kein Freizeichen, nur Sirren. Darf ich einmal Ihres benutzen?",
+        next: "bp2",
+      },
+      bp2: {
+        id: "bp2",
+        speaker: "BODO",
+        text: "Sirren. Klar. Kalte Spule oder Klemme locker, eins von beiden.",
+        subtext: "Er sagt es beiläufig, wie jemand, der das Geräusch schon tausendmal gehört hat.",
+        next: "bp3",
+      },
+      bp3: {
+        id: "bp3",
+        speaker: "LAYARD",
+        text: "Dann wissen Sie ja, dass es dringend ist.",
+        next: "bp4",
+      },
+      bp4: {
+        id: "bp4",
+        speaker: "BODO",
+        text: "Weiß ich. Trotzdem nein. — Wenn Sie über meinen Anschluss die Leitstelle anrufen, steht mein Anschluss in einem Verwaltungsakt. Und dann steht auch ich drin.",
+        next: "bp5",
+      },
+      bp5: {
+        id: "bp5",
+        speaker: "LAYARD",
+        text: "Es ist ein Anruf.",
+        next: "bp6",
+      },
+      bp6: {
+        id: "bp6",
+        speaker: "BODO",
+        text: "Es ist nie ein Anruf. Es ist eine Verbindungsnotiz, eine Rückfrage, eine Bestätigung, und irgendwann eine Anhörung, in der man wissen will, warum bei mir jemand telefoniert hat, der nicht bei mir wohnt.",
+        subtext: "Er hebt die Tasse, trinkt nicht.",
+        next: "bp7",
+      },
+      bp7: {
+        id: "bp7",
+        speaker: "BODO",
+        text: "Tut mir leid, Worag. Ich habe einfach keine Lust auf den Papierkram.",
+        next: "bp8",
+      },
+      bp8: {
+        id: "bp8",
+        speaker: "LAYARD",
+        text: "Und was mache ich stattdessen?",
+        next: "bp9",
+      },
+      bp9: {
+        id: "bp9",
+        speaker: "BODO",
+        text: "Sie melden die Störung da, wo sie hingehört. Nicht bei der Leitstelle — an Wohnungsapparaten darf nur die Wartung des eigenen Korridors ran.",
+        next: "bp10",
+      },
+      bp10: {
+        id: "bp10",
+        speaker: "BODO",
+        text: "Korridor 46, Schicht A. Tür 4601. Das Mädchen mit dem Werkzeugkoffer — Anwärterin. Die muss ran, ob sie will oder nicht. Das ist ihr Papierkram, nicht meiner.",
+        action: (api) => api.setFlag("knowsMiraIsWartung"),
+        end: true,
+      },
+    },
+  },
+  bodoPhoneRefusalShort: {
+    id: "bodoPhoneRefusalShort",
+    start: "bps1",
+    lines: {
+      bps1: {
+        id: "bps1",
+        speaker: "LAYARD",
+        text: "Wegen des Telefons —",
+        next: "bps2",
+      },
+      bps2: {
+        id: "bps2",
+        speaker: "BODO",
+        text: "4601. Korridor 46. Immer noch. — Und immer noch keine Lust auf den Papierkram.",
+        subtext: "Die Katze hebt kurz den Kopf und legt ihn wieder ab.",
+        end: true,
+      },
+    },
+  },
 };
