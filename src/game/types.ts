@@ -23,7 +23,8 @@ export type SceneId =
   | "pub"
   | "pubToilet"
   | "pubVestibule"
-  | "commonRoomE71";
+  | "commonRoomE71"
+  | "windowNiche";
 
 export type InventoryItemId =
   | "protocol"
@@ -304,6 +305,15 @@ export type StoryFlag =
   | "askedPhilippePhone"
   | "askedEnnisPhone"
   | "askedHelkaPhone"
+  // Ralf am Fenster (Verbindungsgang → Fensternische)
+  | "metRalf"
+  | "ralfToldSektoren"
+  | "ralfToldMandat"
+  | "ralfToldResonanz"
+  | "ralfToldBewohner"
+  | "ralfToldZeitungen"
+  | "ralfToldSelbst"
+  | "ralfToldMira"
   // Akt-I-Pflichträtsel „Quittung 4317"
   | "noticedTransferCode"
   | "tookPencilStub"
@@ -553,7 +563,8 @@ export interface DialogLine {
     | "MARV"
     | "DETLEF"
     | "SIGI"
-    | "RUVEN";
+    | "RUVEN"
+    | "RALF";
   text: string;
   /** subtext appears only when Schmerz-Radio active */
   subtext?: string;

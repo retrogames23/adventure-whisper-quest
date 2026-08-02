@@ -8,6 +8,7 @@ import { commonRoomE71Scenes } from "./commonRoomE71";
 import { kantinenverwaltung3603Scenes } from "./kantinenverwaltung3603";
 import { leitstelleE67Scenes } from "./leitstelleE67";
 import { pubScenes } from "./pub";
+import { windowNicheScenes } from "./windowNiche";
 
 export const scenes: Record<string, Scene> = {
   ...apartmentAct1Scenes,
@@ -19,4 +20,5 @@ export const scenes: Record<string, Scene> = {
   ...kantinenverwaltung3603Scenes,
   ...leitstelleE67Scenes,
   ...pubScenes,
+  ...windowNicheScenes,
 };
