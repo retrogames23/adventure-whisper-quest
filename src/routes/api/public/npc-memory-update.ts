@@ -173,68 +173,62 @@ export const Route = createFileRoute("/api/public/npc-memory-update")({
 
         let upstream: Response;
         try {
-          upstream = await fetch(
-            "https://ai.gateway.lovable.dev/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                model: AI_MODEL_MAIN,
-                messages: [
-                  { role: "system", content: sysPrompt },
-                  {
-                    role: "user",
-                    content:
-                      "Erstelle die aktualisierte Notiz und ggf. Flurfunk-Einträge.",
-                  },
-                ],
-                tools: [
-                  {
-                    type: "function",
-                    function: {
-                      name: "save_memory",
-                      description:
-                        "Speichert die fortgeschriebene Notiz und optionale Flurfunk-Fakten.",
-                      parameters: {
-                        type: "object",
-                        properties: {
-                          note: { type: "string", maxLength: NOTE_MAX_CHARS },
-                          gossip: {
-                            type: "array",
-                            maxItems: 2,
-                            items: {
-                              type: "object",
-                              properties: {
-                                fact: { type: "string", maxLength: 240 },
-                                subjects: {
-                                  type: "array",
-                                  items: { type: "string" },
-                                  maxItems: 8,
-                                },
+          upstream = await fetch(OPENROUTER_CHAT_URL, {
+            method: "POST",
+            headers: openRouterHeaders(apiKey),
+            body: JSON.stringify({
+              model: AI_MODEL_MAIN,
+              messages: [
+                { role: "system", content: sysPrompt },
+                {
+                  role: "user",
+                  content:
+                    "Erstelle die aktualisierte Notiz und ggf. Flurfunk-Einträge.",
+                },
+              ],
+              tools: [
+                {
+                  type: "function",
+                  function: {
+                    name: "save_memory",
+                    description:
+                      "Speichert die fortgeschriebene Notiz und optionale Flurfunk-Fakten.",
+                    parameters: {
+                      type: "object",
+                      properties: {
+                        note: { type: "string", maxLength: NOTE_MAX_CHARS },
+                        gossip: {
+                          type: "array",
+                          maxItems: 2,
+                          items: {
+                            type: "object",
+                            properties: {
+                              fact: { type: "string", maxLength: 240 },
+                              subjects: {
+                                type: "array",
+                                items: { type: "string" },
+                                maxItems: 8,
                               },
-                              required: ["fact", "subjects"],
-                              additionalProperties: false,
                             },
+                            required: ["fact", "subjects"],
+                            additionalProperties: false,
                           },
                         },
-                        required: ["note", "gossip"],
-                        additionalProperties: false,
                       },
+                      required: ["note", "gossip"],
+                      additionalProperties: false,
                     },
                   },
-                ],
-                tool_choice: {
-                  type: "function",
-                  function: { name: "save_memory" },
                 },
-                temperature: 0.4,
-                max_tokens: 1200,
-              }),
-            },
-          );
+              ],
+              tool_choice: {
+                type: "function",
+                function: { name: "save_memory" },
+              },
+              temperature: 0.4,
+              max_tokens: 1200,
+            }),
+          });
         } catch (e) {
           console.error("npc-memory-update fetch failed", e);
           return json(502, { error: "Upstream nicht erreichbar." });
