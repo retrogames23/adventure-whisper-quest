@@ -505,11 +505,11 @@ const cafeteriaTrainingF = buildTrainingFall(
   3,
   "p-datenschutz",
   "c-datenschutz",
-  "p-hausrecht",
-  "c-hausrecht",
+  "p-termin",
+  "c-termin",
   "p-quartalsende",
   "c-quartalsende",
-  "Konstellation: Bewohner fragt nach eigenem Vorgang. Beamter beruft sich auf Vertraulichkeit gegenüber dem Bewohner. Ich eröffne.",
+  "Konstellation: Bewohner fragt nach eigenem Vorgang. Beamter beruft sich auf Vertraulichkeit, Quartalsende und Terminzwang. Ich eröffne.",
 );
 
 const cafeteriaTrainingG = buildTrainingFall(
