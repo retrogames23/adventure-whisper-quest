@@ -795,7 +795,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       me3: {
         id: "me3",
         speaker: "MIRA",
-        text: "Drei Stück reichen: der Aushang im Aufzug, das Plakat im Korridor 46 und der Aushang in der Leitstelle E67. Lies sie. Wirklich lesen, nicht angucken. Dann komm zurück und sag mir, was drin steht.",
+        text: "Drei Stück reichen: das Schwarze Brett in der Eingangshalle E67, das Plakat im Korridor 46 und der Aushang in der Leitstelle E67. Lies sie. Wirklich lesen, nicht angucken. Dann komm zurück und sag mir, was drin steht.",
         next: "me4",
       },
       me4: {
@@ -881,7 +881,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       md2: {
         id: "md2",
         speaker: "MIRA",
-        text: "Sag die Reihenfolge. — Aufzug: „Pflichtinformation“. Korridor: „bei anhaltender Überlastung“. Leitstelle: „Pausen sind Teil der Behandlung“. Drei Verwaltungen, drei Bedeutungen, ein Wort.",
+        text: "Sag die Reihenfolge. — Eingangshalle: „Pflichtinformation“. Korridor: „bei anhaltender Überlastung“. Leitstelle: „Pausen sind Teil der Behandlung“. Drei Verwaltungen, drei Bedeutungen, ein Wort.",
         subtext: "Sie schreibt mit. Schnell, ohne aufzusehen.",
         next: "md3",
       },
