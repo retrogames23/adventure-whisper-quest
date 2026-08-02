@@ -114,10 +114,12 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         requires: ["sawEmptyOffice", "protocolReceived"],
         hiddenWhen: ["calledInsaAfterE71"],
         onUse: (api) => {
-          // Pflicht-Rätsel: Nach der Rückkehr aus E71 ist die Leitung tot.
+          // Pflicht-Rätsel: Sobald Layard mit Stegmann telefoniert hat
+          // (spätestens nach der Rückkehr aus E71), ist die Leitung tot.
           // Reparieren kann nur die Etagenwartung — Mira in 4601.
           if (
-            api.hasFlag("mikaelRejectedProtocol") &&
+            (api.hasFlag("calledStegmann") ||
+              api.hasFlag("mikaelRejectedProtocol")) &&
             !api.hasFlag("phoneRepaired")
           ) {
             const first = !api.hasFlag("phoneBroken");
