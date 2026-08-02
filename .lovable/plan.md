@@ -1,96 +1,98 @@
-# Mira wird Pflichtstation in Akt I
+# Mira wird Pflichtstation in Akt I — eigenständiges Telefon-Rätsel
 
-## Ziel
+## Kurs-Korrektur
 
-Mira ist derzeit komplett optional: Sie steht in Korridor 46, ihr Vertrauenspfad,
-ihr Zimmer 4601 und die Verstärker-Antenne hängen an Flags, die man nie berühren
-muss. Der Plan hängt sie mit ihrer kanonischen Rolle — **Bewohnervertretung E67,
-Schicht A, Trockensiegel-Hüterin** (LORE.md §8) — als zwingende Station in die
-bestehende Akt-I-Kette, ohne neue Geografie, ohne Umbau des Bürokratie-Duells und
-ohne neue Sackgasse.
+Der vorherige Plan hing Mira als Siegel-Gate in die Formblatt-/Vossbeck-Kette.
+Das überfrachtet ein Rätsel, das schon aus Kowalk, Brust, Duell und Vossbeck
+besteht. Stattdessen bekommt Mira ein **eigenständiges Rätsel** an einer
+anderen, ohnehin zwingenden Stelle der Akt-I-Kette: dem Telefon in der Wohnung.
 
-## Der Angelpunkt: das Trockensiegel
+## Der Angelpunkt: das tote Telefon
 
-Formblatt 17/V ist ein Bewohner-Antrag. Vossbeck nimmt es nur an, wenn die
-Bewohnervertretung mit ihrem **Trockensiegel** bestätigt, dass der Antragsteller
-tatsächlich in E67 wohnt und in dieser Sache für sich selbst spricht. Das Siegel
-liegt bei Schicht A — bei Mira. Damit steckt Mira genau zwischen Brust und
-Vossbeck, an einer Stelle, die der Spieler ohnehin passieren muss.
+Der Anruf bei Insa (Wohnung, `phoneApt` → `insa2a`) ist Pflicht: ohne ihn gibt
+es kein Briefing, keinen Vossbeck-Pfad, keinen Tagescode. Genau dieser Anruf
+schlägt künftig beim ersten Versuch fehl.
 
 ```text
-Insa (Telefon) -> Kowalk (3602) -> Brust: Formblatt 17/V
-                                       |
-                                       v
-                    MIRA (Korridor 46) : Trockensiegel  <-- neu, zwingend
-                                       |
-                                       v
-                    Vossbeck (3603): Endduell -> Tagescode -> Sektor-Tür
+Rückkehr aus Etage 3 (leeres Büro) + Protokoll
+        |
+        v
+Telefon abheben -> tot. Ein Knacken, dann Stille.        <-- neu
+        |
+        v
+Hausmeister/Bodo/Aushang: Wandapparate sind Hausinstallation,
+Werkzeug liegt bei der Bewohnervertretung, Schicht A.
+        |
+        v
+MIRA (Korridor 46): Prüfhörer + Vierkant der Vertretung   <-- neu, zwingend
+        |
+        v
+Telefon repariert -> Anruf bei Insa -> bestehende Kette unverändert
 ```
 
-Der Fälschungs-Pfad über Kowalk bleibt erhalten: Auch das gefälschte Formblatt
-braucht das Siegel — Kowalk kann Papier beschaffen, aber kein Bewohnersiegel.
-So bleibt genau ein Nadelöhr.
+Vossbeck, Brust, Kowalk und das Bürokratie-Duell bleiben **unangetastet**.
 
-## Ablauf der neuen Pflichtszene
+## Das auslösende Ereignis
 
-1. **Hinweis:** Kowalk nennt beim Vossbeck-Briefing die dritte Bedingung —
-   „ohne Trockensiegel der Vertretung ist das Blatt ein Blatt". Brust wiederholt
-   es trocken bei der Übergabe. Insa nennt am Telefon Etage 4, Korridor 46.
-2. **Begegnung:** Mira ist während dieses Abschnitts verlässlich auf Etage 4
-   (sie wird für dieses Fenster dort fixiert, statt zufällig zu wandern).
-3. **Miras Preis:** Sie siegelt nicht auf Zuruf. Sie verlangt eine Minute
-   Funkstille — Radio *aus*, nicht leise, im Gang, vor ihren Augen. Das nutzt die
-   bereits existierende Mechanik (`radioMutedAtLeast60s`) und ist immer lösbar.
-4. **Drei Tonlagen, ein Ergebnis:**
-   - *warm* — Stille ausgehalten **und** Manifest gelesen (optionaler Telnet-Pfad):
-     sie siegelt, redet Klartext über Schacht 56 und lädt ihn in die 4601 ein.
-   - *neutral* — nur Stille ausgehalten: sie siegelt, bleibt knapp, nennt die 4601.
-   - *kalt* — verweigert oder abgebrochen: sie siegelt trotzdem, weil die
-     Vertretung ein Siegel nicht verweigern darf, und schreibt ihn ab.
-   In allen drei Fällen geht es weiter. Der Unterschied ist Ton, Zugang zu 4601
-   und der Mira-Endstate für Akt II.
-5. **Vossbeck** weist ein ungesiegeltes Formblatt ab, mit eigener Ablehnungszeile
-   statt stiller Nichtreaktion.
+Beim Ausstieg aus dem Aufzug auf Etage 4 (Rückweg von Etage 3) gibt es einen
+kurzen Spannungseinbruch: Licht flackert, die Notklingel im Schacht schlägt an.
+Lore-konform als **Resonanzspitze** eingeordnet — der Hausanschluss der
+Etage 46 ist danach auf einer Ader tot. Das Ereignis ist nicht optional, es
+läuft beim Betreten der Wohnung als kurzer Textbeat.
+
+## Miras Preis
+
+Mira ist Bewohnervertretung Schicht A und führt den Werkzeugsatz der
+Hausinstallation (Prüfhörer, Vierkantschlüssel, Klemmleiste). Sie gibt ihn
+nicht heraus — sie kommt mit, und sie stellt eine Bedingung:
+
+- **Bedingung:** eine Minute Funkstille im Gang, Radio *aus*, vor ihren Augen.
+  Nutzt die vorhandene Mechanik (`radioMutedAtLeast60s`), ist immer erfüllbar.
+- **warm** — Stille ausgehalten und nachgefragt: sie repariert, redet über
+  Schacht 56 und lädt Layard in die 4601 ein.
+- **neutral** — nur Stille ausgehalten: sie repariert, bleibt knapp, nennt 4601.
+- **kalt** — Radio bleibt an oder Layard drängelt: sie repariert trotzdem
+  (Hausinstallation ist Pflicht der Vertretung), notiert ihn aber als Vorgang
+  und schreibt ihn ab.
+
+In allen drei Fällen funktioniert das Telefon danach. Kein Dead End, nur Ton,
+Zugang zu 4601 und Mira-Endstate für Akt II unterscheiden sich.
 
 ## Was das nebenbei repariert
 
-- **Sackgasse 4601:** Bisher öffnet sich Miras Tür nur bei gewonnener
-  Vertrauensprobe; wer sie verliert, ist dauerhaft ausgesperrt. Künftig öffnet
-  das Siegel-Gespräch die Tür (warm/neutral), und der kalte Ausgang sperrt nur
-  optionale Inhalte.
-- **Toter Verstärker-Strang:** Die Verstärker-Antenne bleibt optional, wird aber
-  erstmals abschließbar — Bernstein-Resonator und Antennen-Draht bekommen je eine
-  echte Fundstelle im Wartungsbereich (Serverraum 5610 bzw. über Bodo), passend
-  zu Miras eigener Ansage im Dialog. Damit ist der „friendly"-Endstate erreichbar.
-- **Mira-Endstate:** `neutral` heißt künftig „hat gesiegelt, nicht mehr" statt
-  „nie getroffen" — Akt II bekommt eine verlässliche Basis.
+- **Sackgasse 4601:** Tür hängt bisher allein an der gewonnenen
+  Vertrauensprobe. Künftig öffnet der Reparatur-Ausgang (warm/neutral) die Tür;
+  nur der kalte Ausgang sperrt optionale Inhalte.
+- **Mira-Endstate:** `neutral` heißt künftig „hat geholfen, nicht mehr" statt
+  „nie getroffen".
+- **Toter Verstärker-Strang:** Bernstein-Resonator und Antennen-Draht bekommen
+  je eine echte Fundstelle (Wartungsschrank / über Bodo), passend zu Miras
+  Ansage. Damit ist der `friendly`-Endstate erstmals erreichbar. Optional.
 
 ## Lore-Konsistenz
 
-- Trockensiegel und Bewohnervertretung Schicht A stehen bereits in LORE.md §8;
-  der Plan macht daraus eine spielbare Amtshandlung und ergänzt in LORE.md einen
-  kurzen Absatz, was das Siegel bedeutet und wer es führt.
-- Miras Verdacht gegen die Verwaltung bleibt ausdrücklich **Vermutung**
-  (LORE.md §7), motiviert durch den Tod ihres Vaters im Schacht 56 (1992).
-  Keine Bestätigung, keine staatliche Resonanz-Infrastruktur.
-- Kein Bruch der Tabu-Liste, Tonfall bleibt höflich-bürokratisch.
+- Bewohnervertretung Schicht A steht bereits in LORE.md §8; der Plan macht
+  daraus eine spielbare Zuständigkeit (Hausinstallation) statt einer neuen Rolle.
+- Die Störung wird als Resonanzspitze *vermutet*, nicht bestätigt — Miras
+  Verdacht gegen die Verwaltung bleibt Vermutung (LORE.md §7).
+- Tonfall bleibt höflich-bürokratisch, keine Verletzung der Tabu-Liste.
 
 ## Technische Umsetzung
 
-- `src/game/types.ts`: Flag `formblatt17VSealed`, Flags `miraSealWarm` /
-  `miraSealCold`, `kowalkMentionedSeal`.
-- `src/game/dialogs/mira.ts`: neuer Dialog `miraSealRequest` mit den drei
-  Ausgängen; `miraTrustProbe` wird zum optionalen Vertiefungs-Ast statt Türwächter.
-- `src/game/scenes/corridorsE67.ts`: Hotspot-Routing auf den Siegel-Dialog,
-  `door4601Enter` von `miraTrustEarned` auf „gesiegelt und nicht kalt" umstellen;
-  Mira während des Siegel-Fensters fest auf Etage 4.
-- `src/game/dialogs/cafeteria.ts` (Kowalk/Brust) und `insa.ts`: Siegel-Hinweis.
-- `src/game/scenes/kantinenverwaltung3603.ts` / `bureaucracyDuel.ts`:
-  Vossbeck prüft zusätzlich das Siegel und lehnt sonst begründet ab.
-- `src/game/miraState.ts`: `computeMiraEndState` um die Siegel-Ausgänge erweitern.
-- `src/game/hints.ts`: neue Pflicht-Quest „Trockensiegel der Bewohnervertretung"
-  zwischen `act1.stamp4317` und `act1.callInsaForCode`; Mira-Vertrauens-Quest als
-  optional umformulieren.
-- Fundstellen für `tuningCrystal` und `antennaWire` im Wartungsbereich/5610.
-- `LORE.md` und `mem/features/` um den Siegel-Abschnitt ergänzen; danach
-  `quest-check` und `hints-check` laufen lassen.
+- `src/game/types.ts`: Flags `phoneDead`, `phoneFixed`, `knowsMiraHasTool`,
+  `miraHelpWarm`, `miraHelpCold`.
+- `src/game/scenes/apartmentAct1.ts`: `phoneApt` prüft `phoneDead` vor allen
+  bestehenden Zweigen und zeigt den Defekt-Text; Textbeat beim Betreten setzt
+  `phoneDead` (einmalig, an `protocolReceived` + `sawEmptyOffice` gekoppelt).
+- `src/game/dialogs/mira.ts`: neuer Dialog `miraPhoneRepair` mit den drei
+  Ausgängen; `miraTrustProbe` wird optionaler Vertiefungs-Ast statt Türwächter.
+- `src/game/scenes/corridorsE67.ts`: Hotspot-Routing auf den Reparatur-Dialog,
+  Mira während dieses Fensters fest auf Etage 4; `door4601Enter` von
+  `miraTrustEarned` auf „repariert und nicht kalt" umstellen.
+- Hinweisquellen: Aushang im Korridor 46 und ein Satz bei Bodo, dass die
+  Vertretung Schicht A das Werkzeug führt (setzt `knowsMiraHasTool`).
+- `src/game/miraState.ts`: `computeMiraEndState` um die Reparatur-Ausgänge.
+- `src/game/hints.ts`: neue Pflicht-Quest „Das Telefon ist tot" vor
+  `act1.callInsaForCode`; Mira-Vertrauens-Quest als optional umformulieren.
+- `LORE.md` / `mem/features/` um den Abschnitt Hausinstallation ergänzen,
+  danach `quest-check` und `hints-check` laufen lassen.
