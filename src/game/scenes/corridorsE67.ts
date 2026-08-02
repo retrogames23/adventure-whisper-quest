@@ -185,13 +185,16 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         h: 40,
         label: "Plakat „Resonanz-Hygiene“",
         kind: "look",
-        onUse: (api) =>
+        onUse: (api) => {
+          api.setFlag("sawResonanzAushang");
+          api.setFlag("belegAushangKorridor46");
           api.showText([
             "„RUHE IST TEIL DER STATIK.“",
             "Darunter, kleiner: „Belegungsdichte einhalten. Türen leise. Ruhezeiten 22–06.“",
             "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
             "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
-          ]),
+          ]);
+        },
       },
       {
         id: "door4601Look",
