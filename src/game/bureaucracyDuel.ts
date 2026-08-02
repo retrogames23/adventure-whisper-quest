@@ -103,11 +103,6 @@ export const PHRASES: Record<string, Phrase> = {
     shortLabel: "Datenschutz-Bluff",
     text: "Aus Datenschutzgründen darf ich Ihnen dazu nichts sagen.",
   },
-  "p-hausrecht": {
-    id: "p-hausrecht",
-    shortLabel: "Hausrecht",
-    text: "Vom Hausrecht her sind Sie hier eigentlich schon zu weit vorn.",
-  },
   "p-quartalsende": {
     id: "p-quartalsende",
     shortLabel: "Quartalsende",
@@ -232,14 +227,6 @@ export const COUNTERS: Record<string, Counter> = {
     beats: ["p-datenschutz"],
     learnHint:
       "Datenschutz-Bluffs kollabieren bei formeller Entbindung. Man muss nur laut genug entbinden.",
-  },
-  "c-hausrecht": {
-    id: "c-hausrecht",
-    shortLabel: "„Dann rufen Sie den Hausmeister“",
-    text: "Ausgezeichnet. Dann rufen Sie den Hausmeister — ich stehe dann daneben.",
-    beats: ["p-hausrecht"],
-    learnHint:
-      "Hausrecht ohne Hausmeister ist leeres Wort. Niemand ruft freiwillig den Hausmeister.",
   },
   "c-quartalsende": {
     id: "c-quartalsende",
