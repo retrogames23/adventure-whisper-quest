@@ -44,8 +44,6 @@ const VOSSBECK_WEAK_FLAGS: StoryFlag[] = [
   "knowsMiraIsWartung",
   "phoneBroken",
   "reportedPhoneFault",
-  "miraRepairDone",
-  "phoneRepaired",
   // Knoten 5610
   "saw5610Door",
   "serverRoom5610Open",
