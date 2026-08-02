@@ -28,4 +28,5 @@ export const dialogs: Record<string, DialogTree> = {
   ...vossbeckAct2Dialogs,
   ...miscDialogs,
   ...e71NerdsDialogs,
+  ...ralfDialogs,
 };
