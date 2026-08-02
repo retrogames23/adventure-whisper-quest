@@ -496,7 +496,7 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) => a.hasFlag("miraEvidenceDelivered"),
     hints: [
       "Mira behauptet, „Resonanz-Hygiene“ bedeute in jedem Aushang etwas anderes. Sie will das belegt haben, nicht behauptet.",
-      "Es gibt drei Aushänge zu Resonanz-Hygiene: am Schwarzen Brett in der Eingangshalle E67, im Korridor 46 und in der Leitstelle E67. Lies alle drei aufmerksam.",
+      "Es gibt drei Aushänge zu Resonanz-Hygiene: am Schwarzen Brett in der Eingangshalle E67, im Korridor 46 und im Gemeinschaftsraum im Erdgeschoss. Lies alle drei aufmerksam.",
       "Wenn du alle drei Aushänge gelesen hast, sprich Mira in 4601 noch einmal an — dann trägst du ihr die Widersprüche vor.",
     ],
   },
