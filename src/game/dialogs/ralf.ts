@@ -6,19 +6,20 @@ function buildTopics(api: GameApi): DialogChoice[] {
   const mark = (label: string, flag: Parameters<GameApi["hasFlag"]>[0]) =>
     api.hasFlag(flag) ? `${label} (schon gehört)` : label;
   const choices: DialogChoice[] = [
-    { text: mark("Warum sind E67 und E71 überhaupt getrennt?", "ralfToldSektoren"), next: "tSektoren" },
-    { text: mark("Was ist das Mandatsgebiet eigentlich?", "ralfToldMandat"), next: "tMandat" },
-    { text: mark("Resonanz-Hygiene — woher kommt das?", "ralfToldResonanz"), next: "tResonanz" },
-    { text: mark("Erzählen Sie mir was über die Leute hier.", "ralfToldBewohner"), next: "tBewohner" },
-    { text: mark("Es gab mal Zeitungsartikel über E67.", "ralfToldZeitungen"), next: "tZeitungen" },
+    { text: mark("Warum sind E67 und E71 überhaupt getrennt?", "ralfToldSektoren"), next: "tSektoren", action: (a) => a.setFlag("ralfToldSektoren") },
+    { text: mark("Was ist das Mandatsgebiet eigentlich?", "ralfToldMandat"), next: "tMandat", action: (a) => a.setFlag("ralfToldMandat") },
+    { text: mark("Resonanz-Hygiene — woher kommt das?", "ralfToldResonanz"), next: "tResonanz", action: (a) => a.setFlag("ralfToldResonanz") },
+    { text: mark("Erzählen Sie mir was über die Leute hier.", "ralfToldBewohner"), next: "tBewohner", action: (a) => a.setFlag("ralfToldBewohner") },
+    { text: mark("Es gab mal Zeitungsartikel über E67.", "ralfToldZeitungen"), next: "tZeitungen", action: (a) => a.setFlag("ralfToldZeitungen") },
   ];
   if (api.hasFlag("metMira")) {
     choices.push({
       text: mark("Was halten Sie von Miras Theorien?", "ralfToldMira"),
       next: "tMira",
+      action: (a) => a.setFlag("ralfToldMira"),
     });
   }
-  choices.push({ text: mark("Und Sie? Was machen Sie den ganzen Tag?", "ralfToldSelbst"), next: "tSelbst" });
+  choices.push({ text: mark("Und Sie? Was machen Sie den ganzen Tag?", "ralfToldSelbst"), next: "tSelbst", action: (a) => a.setFlag("ralfToldSelbst") });
   choices.push({ text: "[ Weitergehen ]", next: "bye" });
   return choices;
 }
@@ -64,7 +65,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Weil unten ein Schlitz reicht. Ralf. Wohne hier, seit E71 noch keine Nummer hatte. Rauchen darf man drinnen nicht, draußen bin ich nicht gemeldet. Also so.",
         subtext: "Er sagt das ohne Bitterkeit. Eher wie eine Wetterlage.",
-        action: (api) => api.setFlag("metRalf"),
         next: "hub",
       },
       hub: { id: "hub", speaker: "RALF", text: "Fragen Sie ruhig. Ich habe Zeit und eine halbe Schachtel.", choicesFn: buildTopics },
@@ -75,7 +75,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "E67 und E71 waren mal ein Haus mit zwei Aufgängen. Dann kam die Sektor-Reform. Man hat nichts abgerissen und nichts gebaut — man hat Zuständigkeiten gezogen. Eine Tür, ein Keypad, ein anderer Briefkopf. Seitdem ist E71 die Medizin und E67 das, was übrig war.",
         subtext: "„Getrennt“ heißt hier nie räumlich. Es heißt: verschiedene Formulare.",
-        action: (api) => api.setFlag("ralfToldSektoren"),
         next: "hubBack",
       },
       tMandat: {
@@ -83,7 +82,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Das Mandatsgebiet ist keine Stadt und kein Staat, es ist eine Übergangslösung, die geblieben ist. Der Mandatsrat sollte drei Jahre verwalten, bis geklärt ist, wer zuständig ist. Das war vor deutlich mehr als drei Jahren. Geklärt wurde nie etwas, deshalb ist er noch da.",
         subtext: "Nichts ist so dauerhaft wie ein Provisorium mit Briefkopf.",
-        action: (api) => api.setFlag("ralfToldMandat"),
         next: "hubBack",
       },
       tResonanz: {
@@ -91,7 +89,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Resonanz war ursprünglich ein bau-akustischer Begriff. Hellhörige Wände, Beschwerden, Messprotokolle. Irgendwann hat jemand gemerkt, dass sich damit auch alles andere erfassen lässt, was zwischen den Wänden zu laut wird. Streit. Trauer. Meinungen. Resonanz-Hygiene heißt heute: leise sein und es freiwillig nennen.",
         subtext: "Ein Wort, das sich gedehnt hat, bis alles hineinpasste.",
-        action: (api) => api.setFlag("ralfToldResonanz"),
         next: "hubBack",
       },
       tBewohner: {
@@ -99,7 +96,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Wen wollen Sie hören? Bodo hält den Bau zusammen und tut so, als wäre das Hausmeisterei. Insa in der Leitstelle weiß mehr, als sie weitergeben darf, und das frisst sie. Vossbeck hat sich in die Sprechzeit zurückgezogen wie andere in den Wald. Frau Okwu in 1532 ist die einzige hier, die zuhört, ohne zu notieren — glaube ich jedenfalls. Und Stegmann in 1534 hat vor Jahren aufgehört, seine Stapel zu zählen.",
         subtext: "Er zählt sie auf wie Inventar. Ohne Häme, ohne Wärme.",
-        action: (api) => api.setFlag("ralfToldBewohner"),
         next: "hubBack",
       },
       tZeitungen: {
@@ -107,7 +103,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Über E67 stand mal einiges gedruckt. Serie über die Belegungspraxis, ein Foto vom Innenhof, ein sehr höflicher Kommentar über „strukturelle Härten“. Nach der dritten Folge wurde die Serie eingestellt — nicht verboten, nur nicht fortgesetzt. Die Redaktion sitzt heute in E70 und schreibt über Kantinenverordnungen.",
         subtext: "Nichts wird hier verboten. Es hört nur auf.",
-        action: (api) => api.setFlag("ralfToldZeitungen"),
         next: "hubBack",
       },
       tSelbst: {
@@ -115,7 +110,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Ich habe das alles mal gesammelt. Ordner, Ausschnitte, Datumsstempel. Dann habe ich gemerkt, dass Sammeln eine Beschäftigung ist und keine Handlung. Jetzt lese ich, rauche und rede mit Leuten, die stehen bleiben. Das ist weniger, aber es ist ehrlicher.",
         subtext: "Er hat sich eingerichtet. Er weiß das und beschönigt es nicht.",
-        action: (api) => api.setFlag("ralfToldSelbst"),
         next: "hubBack",
       },
       tMira: {
@@ -123,7 +117,6 @@ export const ralfDialogs: Record<string, DialogTree> = {
         speaker: "RALF",
         text: "Layard, du weißt, es gibt keine absoluten Wahrheiten. Aber was Mira sieht, ist noch weitgehend ungetrübt von Erfahrungen. Ich sage dir: Das eigentlich Erschreckende ist, dass für all das hier gar keine Verschwörung verantwortlich ist. Einfach sehr viele Menschen, die alle für sich die Verantwortung scheuen.",
         subtext: "Zum ersten Mal duzt er ihn. Es klingt nicht vertraulich, sondern müde.",
-        action: (api) => api.setFlag("ralfToldMira"),
         next: "hubBack",
       },
       hubBack: { id: "hubBack", speaker: "RALF", text: "Noch was?", choicesFn: buildTopics },
