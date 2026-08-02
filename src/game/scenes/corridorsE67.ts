@@ -400,6 +400,16 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         kind: "exit",
         visible: (api) => {
           if (api.hasFlag("serverRoom5610Open")) return true;
+          // Wer Bodos Wartungskarte (oder seinen Auftrag) hat, sieht die Tür
+          // immer — sonst wäre die Karte ein totes Item und das Ölkännchen
+          // unerreichbar.
+          if (
+            api.hasItem("wartungsnotiz5610") ||
+            api.hasFlag("bodoGaveWartungskarte") ||
+            api.hasFlag("elevatorMaintCleared") ||
+            api.hasFlag("saw5610Door")
+          )
+            return true;
           const probeCount =
             (api.hasFlag("philippeProbeNote1") ? 1 : 0) +
             (api.hasFlag("philippeProbeNote2") ? 1 : 0) +
