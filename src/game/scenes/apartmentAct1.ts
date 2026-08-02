@@ -135,8 +135,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                     "Darunter, mit Kugelschreiber ergänzt: „Korridor 46, Schicht A — 4601.“",
                   ]
                 : [
-                    "Sirren. Sonst nichts.",
-                    "Korridor 46, Schicht A. 4601.",
+                    "Sirren. Sonst nichts. ",
                   ],
             );
             return;
