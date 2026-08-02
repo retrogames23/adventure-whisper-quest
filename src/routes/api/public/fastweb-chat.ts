@@ -1,4 +1,8 @@
-import { AI_MODEL_MAIN } from "@/lib/aiModel";
+import {
+  AI_MODEL_MAIN,
+  OPENROUTER_CHAT_URL,
+  openRouterHeaders,
+} from "@/lib/aiModel";
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import {
@@ -10,8 +14,8 @@ import { buildFastWebSystemPrompt } from "@/game/fastWebChat/promptBuilder";
 /**
  * FastWeb-Chatroom — generiert eine einzelne neue Chat-Zeile von einer
  * der erlaubten Personas, basierend auf der bisherigen Historie. Nutzt
- * den Lovable AI Gateway server-seitig. Auth + Donation-Gate analog
- * /api/public/npc-chat.
+ * OpenRouter mit Claude Haiku 4.5 server-seitig. Auth + Donation-Gate
+ * analog /api/public/npc-chat.
  */
 
 const HARD_LIMIT = 50;
@@ -77,8 +81,8 @@ export const Route = createFileRoute("/api/public/fastweb-chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey = process.env.LOVABLE_API_KEY;
-        if (!apiKey) return json(500, { error: "AI Gateway nicht konfiguriert." });
+        const apiKey = process.env.OPENROUTER_API_KEY;
+        if (!apiKey) return json(500, { error: "OpenRouter nicht konfiguriert." });
 
         // Origin-Guard (gleich wie /api/public/npc-chat)
         const origin = request.headers.get("origin");
@@ -248,60 +252,54 @@ export const Route = createFileRoute("/api/public/fastweb-chat")({
 
         let upstream: Response;
         try {
-          upstream = await fetch(
-            "https://ai.gateway.lovable.dev/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                model: AI_MODEL_MAIN,
-                messages: [
-                  { role: "system", content: guard },
-                  { role: "system", content: systemPrompt },
-                  { role: "user", content: userPrompt },
-                ],
-                temperature: 0.85,
-                max_tokens: 240,
-                tools: [
-                  {
-                    type: "function",
-                    function: {
-                      name: "post_line",
-                      description:
-                        "Postet eine neue Chat-Zeile von einer der erlaubten Personas.",
-                      parameters: {
-                        type: "object",
-                        properties: {
-                          persona: {
-                            type: "string",
-                            enum: allowedPersonas,
-                            description: "Welche Persona spricht.",
-                          },
-                          text: {
-                            type: "string",
-                            minLength: 1,
-                            maxLength: 200,
-                            description:
-                              "Die Chat-Zeile selbst, ohne Namens-Präfix.",
-                          },
+          upstream = await fetch(OPENROUTER_CHAT_URL, {
+            method: "POST",
+            headers: openRouterHeaders(apiKey),
+            body: JSON.stringify({
+              model: AI_MODEL_MAIN,
+              messages: [
+                { role: "system", content: guard },
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt },
+              ],
+              temperature: 0.85,
+              max_tokens: 240,
+              tools: [
+                {
+                  type: "function",
+                  function: {
+                    name: "post_line",
+                    description:
+                      "Postet eine neue Chat-Zeile von einer der erlaubten Personas.",
+                    parameters: {
+                      type: "object",
+                      properties: {
+                        persona: {
+                          type: "string",
+                          enum: allowedPersonas,
+                          description: "Welche Persona spricht.",
                         },
-                        required: ["persona", "text"],
-                        additionalProperties: false,
+                        text: {
+                          type: "string",
+                          minLength: 1,
+                          maxLength: 200,
+                          description:
+                            "Die Chat-Zeile selbst, ohne Namens-Präfix.",
+                        },
                       },
+                      required: ["persona", "text"],
+                      additionalProperties: false,
                     },
                   },
-                ],
-                tool_choice: {
-                  type: "function",
-                  function: { name: "post_line" },
                 },
-                stream: false,
-              }),
-            },
-          );
+              ],
+              tool_choice: {
+                type: "function",
+                function: { name: "post_line" },
+              },
+              stream: false,
+            }),
+          });
         } catch (e) {
           console.error("fastweb-chat fetch failed", e);
           return json(502, { error: "Upstream nicht erreichbar." });

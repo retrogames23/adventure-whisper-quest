@@ -1,4 +1,9 @@
-import { AI_MODEL_MAIN, AI_MODEL_LIGHT } from "@/lib/aiModel";
+import {
+  AI_MODEL_MAIN,
+  AI_MODEL_LIGHT,
+  OPENROUTER_CHAT_URL,
+  openRouterHeaders,
+} from "@/lib/aiModel";
 import { createFileRoute } from "@tanstack/react-router";
 import { npcPersonas } from "@/game/npcPersonas";
 import { buildSystemPrompt } from "@/game/promptBuilder";
@@ -9,7 +14,8 @@ import { createClient } from "@supabase/supabase-js";
 
 /**
  * Free-Mode NPC Chat — Cloud-Fallback, wenn der Browser kein WebGPU
- * hat. Nutzt den Lovable AI Gateway. LOVABLE_API_KEY bleibt server-only.
+ * hat. Nutzt OpenRouter mit Claude Haiku 4.5. OPENROUTER_API_KEY
+ * bleibt server-only.
  *
  * Schutz:
  *  - Origin-Guard (Lovable / localhost)
@@ -84,9 +90,9 @@ export const Route = createFileRoute("/api/public/npc-chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey = process.env.LOVABLE_API_KEY;
+        const apiKey = process.env.OPENROUTER_API_KEY;
         if (!apiKey) {
-          return json(500, { error: "AI Gateway nicht konfiguriert." });
+          return json(500, { error: "OpenRouter nicht konfiguriert." });
         }
 
         // Origin-Guard (gleich wie /api/tts)
@@ -446,23 +452,17 @@ export const Route = createFileRoute("/api/public/npc-chat")({
 
         let upstream: Response;
         try {
-          upstream = await fetch(
-            "https://ai.gateway.lovable.dev/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                model: AI_MODEL_MAIN,
-                messages,
-                temperature: 0.6,
-                max_tokens: 600,
-                stream: false,
-              }),
-            },
-          );
+          upstream = await fetch(OPENROUTER_CHAT_URL, {
+            method: "POST",
+            headers: openRouterHeaders(apiKey),
+            body: JSON.stringify({
+              model: AI_MODEL_MAIN,
+              messages,
+              temperature: 0.6,
+              max_tokens: 600,
+              stream: false,
+            }),
+          });
         } catch (e) {
           console.error("npc-chat fetch failed", e);
           return json(502, { error: "Upstream nicht erreichbar." });
@@ -502,13 +502,17 @@ export const Route = createFileRoute("/api/public/npc-chat")({
           | undefined;
         if (npcId === "marv9") {
           let delta = 0;
+          const lovableApiKey = process.env.LOVABLE_API_KEY;
           try {
+            if (!lovableApiKey) {
+              throw new Error("LOVABLE_API_KEY fehlt — Rater übersprungen.");
+            }
             const raterResp = await fetch(
               "https://ai.gateway.lovable.dev/v1/chat/completions",
               {
                 method: "POST",
                 headers: {
-                  Authorization: `Bearer ${apiKey}`,
+                  Authorization: `Bearer ${lovableApiKey}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({

@@ -1,34 +1,38 @@
 /**
- * Zentrale Modell-Wahl für Lovable AI Gateway.
+ * Zentrale Modell-Wahl. Haupt-Modell und DSA-Meister laufen über
+ * OpenRouter (Anthropic), Hintergrund-Aufgaben über den Lovable AI
+ * Gateway (Google), weil Anthropic-Modelle dort nicht verfügbar sind.
  *
- * Wenn Lovable AI ein neues, besseres Modell freigibt, hier EINE Zeile
+ * Wenn ein neues, besseres Modell freigegeben wird, hier EINE Zeile
  * tauschen — Free Chat, DSA-Solo, DSA-Gruppe, NPC-Chat etc. ziehen
  * automatisch nach.
  *
- * Auswahlkriterien (Stand: Juni 2026):
+ * Auswahlkriterien (Stand: Aug 2026):
  * - schnell genug für Live-Chat (Spieler tippen, Meister antwortet)
- * - günstig im Credit-Verbrauch (viele Nachrichten pro Session)
+ * - günstig im Token-Verbrauch (viele Nachrichten pro Session)
  * - gutes, realistisches Rollenspiel-Gefühl (Aventurien-Flair,
  *   konsistente NSCs, saubere Regel-Marker)
  */
 
-/** Haupt-Modell für Meister/NSC-Antworten, Free Chat, DSA. */
-export const AI_MODEL_MAIN = "google/gemini-3.6-flash";
+/** Haupt-Modell für Meister/NSC-Antworten, Free Chat, DSA.
+ *  Läuft über OpenRouter (OPENROUTER_API_KEY). */
+export const AI_MODEL_MAIN = "anthropic/claude-haiku-4.5";
 
 /**
- * Leichteres Modell für Hintergrund-Aufgaben (z. B. Memory-Update,
- * Klassifikation, kurze Zusammenfassungen) — soll nur Credits sparen,
- * nie sichtbar mit Spielern reden.
+ * Leichteres Modell für Hintergrund-Aufgaben (z. B. MARV-Empathie-
+ * Rater, Klassifikation, kurze Zusammenfassungen) — soll nur Credits
+ * sparen, nie sichtbar mit Spielern reden. Läuft über Lovable AI
+ * Gateway, weil Anthropic-Modelle dort nicht verfügbar sind.
  */
 export const AI_MODEL_LIGHT = "google/gemini-2.5-flash-lite";
 
 /**
- * DSA-Meister läuft über OpenRouter mit Anthropic Claude 3.5 Sonnet.
+ * DSA-Meister läuft über OpenRouter mit Anthropic Claude Haiku 4.5.
  * API-Key liegt in der Umgebungsvariable OPENROUTER_API_KEY.
  */
 export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 export const OPENROUTER_CHAT_URL = `${OPENROUTER_BASE_URL}/chat/completions`;
-export const AI_MODEL_DSA_MASTER = "anthropic/claude-3.5-haiku";
+export const AI_MODEL_DSA_MASTER = "anthropic/claude-haiku-4.5";
 
 /** App-Identifikation für OpenRouter-Ranking-Header (optional aber empfohlen). */
 const OPENROUTER_APP_URL = "https://schmerz-radio.com";
@@ -60,10 +64,10 @@ export interface DsaMasterModelOption {
 
 export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
   {
-    id: AI_MODEL_DSA_MASTER, // anthropic/claude-3.5-haiku
-    label: "Claude 3.5 Haiku (Standard)",
+    id: AI_MODEL_DSA_MASTER, // anthropic/claude-haiku-4.5
+    label: "Claude Haiku 4.5 (Standard)",
     short: "Haiku",
-    hint: "Atmosphärisch, sehr gutes Deutsch, schnell — die Voreinstellung.",
+    hint: "Schnell, gutes Deutsch, solide Tool-Calls — die Voreinstellung.",
     donorOnly: false,
   },
   {
@@ -147,8 +151,9 @@ const MODEL_LIMITS_MAP: Record<string, Partial<ModelLimits>> = {
     maxToolRounds: 3,
     useTools: true,
   },
-  // Default-Modell — bleibt großzügig.
-  "anthropic/claude-3.5-haiku": {
+  // Default-Modell — 200K Kontext, 64K Output, schnell und günstig.
+  // Großzügiges Limit für atmosphärische Meister-Antworten.
+  "anthropic/claude-haiku-4.5": {
     maxTokens: 950,
     historyWindow: 10,
     maxToolRounds: 4,
