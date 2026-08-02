@@ -452,23 +452,17 @@ export const Route = createFileRoute("/api/public/npc-chat")({
 
         let upstream: Response;
         try {
-          upstream = await fetch(
-            "https://ai.gateway.lovable.dev/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                model: AI_MODEL_MAIN,
-                messages,
-                temperature: 0.6,
-                max_tokens: 600,
-                stream: false,
-              }),
-            },
-          );
+          upstream = await fetch(OPENROUTER_CHAT_URL, {
+            method: "POST",
+            headers: openRouterHeaders(apiKey),
+            body: JSON.stringify({
+              model: AI_MODEL_MAIN,
+              messages,
+              temperature: 0.6,
+              max_tokens: 600,
+              stream: false,
+            }),
+          });
         } catch (e) {
           console.error("npc-chat fetch failed", e);
           return json(502, { error: "Upstream nicht erreichbar." });
