@@ -612,6 +612,167 @@ export const miraDialogs: Record<string, DialogTree> = {
       },
     },
   },
+  // ── Pflicht-Rätsel: kaputtes Telefon ──────────────────────────────
+  miraFaultReport: {
+    id: "miraFaultReport",
+    npcId: "mira",
+    start: "mfr1",
+    lines: {
+      mfr1: {
+        id: "mfr1",
+        speaker: "SYSTEM",
+        text: "[ Layard klopft. Zweimal. Es dauert. Dann geht die Tür einen Spalt auf. ]",
+        next: "mfr2",
+      },
+      mfr2: {
+        id: "mfr2",
+        speaker: "MIRA",
+        text: "Geklopft. Na gut. Was ist?",
+        choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            next: "mfr3",
+          },
+          {
+            text: "Mein Telefon ist tot. Und angeblich kannst nur du das reparieren.",
+            next: "mfr3",
+          },
+        ],
+      },
+      mfr3: {
+        id: "mfr3",
+        speaker: "MIRA",
+        text: "Schicht A, Korridor 46. Ja. Steht auf einem Aushang, den außer mir keiner liest. — Ich bin Anwärterin, kein Techniker. Aber ich habe den Prüfstecker. Die einzige Zange auf der Etage, die noch was taugt.",
+        subtext: "Sie sagt es ohne Stolz. Eher wie eine Tatsache, die sie ärgert.",
+        next: "mfr4",
+      },
+      mfr4: {
+        id: "mfr4",
+        speaker: "MIRA",
+        text: "Dienstvorgang. Ich muss. Also los, bevor ich's mir überlege.",
+        hiddenWhen: ["miraTrustEarned"],
+        choices: [
+          {
+            text: "[ Mira mitnehmen ]",
+            action: (api) => {
+              api.setFlag("knowsMiraIsWartung");
+              api.startDialog("miraRepairScene");
+            },
+          },
+        ],
+      },
+      mfr4b: {
+        id: "mfr4b",
+        speaker: "MIRA",
+        text: "Du hättest auch einfach fragen können, statt den Dienstweg zu zitieren. — Warte, ich hole den Gürtel.",
+        requires: ["miraTrustEarned"],
+        choices: [
+          {
+            text: "[ Mira mitnehmen ]",
+            action: (api) => {
+              api.setFlag("knowsMiraIsWartung");
+              api.startDialog("miraRepairScene");
+            },
+          },
+        ],
+      },
+    },
+  },
+  miraRepairScene: {
+    id: "miraRepairScene",
+    npcId: "mira",
+    start: "mrs1",
+    lines: {
+      mrs1: {
+        id: "mrs1",
+        speaker: "SYSTEM",
+        text: "[ Layards Wohnung. Mira schraubt die Anschlussdose auf, ohne den Raum anzusehen. Ein Werkzeuggürtel, zwei Nummern zu groß. ]",
+        next: "mrs2",
+      },
+      mrs2: {
+        id: "mrs2",
+        speaker: "MIRA",
+        text: "Da. Ader durchgescheuert, an der Klemme. Das passiert, wenn jemand die Leitung mal quer durch den Schacht gezogen hat und danach niemand mehr zuständig war.",
+        next: "mrs3",
+      },
+      mrs3: {
+        id: "mrs3",
+        speaker: "MIRA",
+        text: "Weißt du, wie das im Meldebogen heißt? „Resonanzbedingte Beeinträchtigung der Hausleitung.“ — Es ist ein Draht. Ein durchgescheuerter Draht.",
+        subtext: "Sie hält den Kupferrest hoch wie ein Beweisstück.",
+        next: "mrs4",
+      },
+      mrs4: {
+        id: "mrs4",
+        speaker: "MIRA",
+        text: "Und? Sagst du jetzt, ich soll nicht so viel hineinlesen?",
+        choices: [
+          { text: "Nein. Sag weiter.", next: "mrs5" },
+          { text: "Es ist trotzdem nur ein Draht.", next: "mrs5b" },
+        ],
+      },
+      mrs5: {
+        id: "mrs5",
+        speaker: "MIRA",
+        text: "Wenn ein Wort für alles herhalten kann, prüft am Ende keiner mehr, was wirklich kaputt war. — Kann sein, dass ich das zu groß denke. Kommt vor.",
+        next: "mrs6",
+      },
+      mrs5b: {
+        id: "mrs5b",
+        speaker: "MIRA",
+        text: "Ja. Genau das ist mein Punkt. Es ist ein Draht — und im Bogen steht ein Wort, das nach Zustand klingt. Ich behaupte nichts. Ich finde es nur bemerkenswert.",
+        next: "mrs6",
+      },
+      mrs6: {
+        id: "mrs6",
+        speaker: "SYSTEM",
+        text: "[ Sie klemmt neu, dreht die Dose zu, hebt ab. Ein Freizeichen, dünn, aber da. ]",
+        hiddenWhen: ["miraTrustEarned"],
+        choices: [
+          {
+            text: "[ Danke sagen ]",
+            action: (api) => {
+              api.setFlag("miraRepairDone");
+              api.setFlag("phoneRepaired");
+              api.showText([
+                "„Geht wieder“, sagt Mira. „Meldebogen schreibe ich nicht. Dann bleibt es ein Draht.“",
+                "Sie ist schon an der Tür, bevor Layard antworten kann.",
+              ]);
+            },
+          },
+        ],
+      },
+      mrs6b: {
+        id: "mrs6b",
+        speaker: "SYSTEM",
+        text: "[ Sie klemmt neu, dreht die Dose zu, hebt ab. Ein Freizeichen, dünn, aber da. ]",
+        requires: ["miraTrustEarned"],
+        next: "mrs7b",
+      },
+      mrs7b: {
+        id: "mrs7b",
+        speaker: "MIRA",
+        text: "Mein Vater hat solche Klemmen gesetzt. Unten, in 56. Als er nicht mehr hochkam, stand im Bericht „menschliches Versagen“. Zwei Wörter für einen Mann.",
+        subtext: "Sie sagt es beiläufig. Das ist das Schlimmste daran.",
+        next: "mrs8b",
+      },
+      mrs8b: {
+        id: "mrs8b",
+        speaker: "MIRA",
+        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst.",
+        requires: ["miraTrustEarned"],
+        choices: [
+          {
+            text: "[ Danke sagen ]",
+            action: (api) => {
+              api.setFlag("miraRepairDone");
+              api.setFlag("phoneRepaired");
+            },
+          },
+        ],
+      },
+    },
+  },
   // ── Beleg-Sammlung (ersetzt die frühere Verstärker-Quest) ──────────
   miraEvidenceAsk: {
     id: "miraEvidenceAsk",

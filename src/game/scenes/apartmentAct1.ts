@@ -88,6 +88,31 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         requires: ["sawEmptyOffice", "protocolReceived"],
         hiddenWhen: ["calledInsaAfterE71"],
         onUse: (api) => {
+          // Pflicht-Rätsel: Nach der Rückkehr aus E71 ist die Leitung tot.
+          // Reparieren kann nur die Etagenwartung — Mira in 4601.
+          if (
+            api.hasFlag("mikaelRejectedProtocol") &&
+            !api.hasFlag("phoneRepaired")
+          ) {
+            const first = !api.hasFlag("phoneBroken");
+            api.setFlag("phoneBroken");
+            api.setFlag("reportedPhoneFault");
+            api.showText(
+              first
+                ? [
+                    "Layard hebt ab. Kein Freizeichen.",
+                    "Nur ein feines Sirren, als läge die Leitung an etwas an, das atmet.",
+                    "Er drückt die Gabel. Wählt. Sirren.",
+                    "Am Gehäuse klebt ein vergilbter Aufkleber: „Störungen an Wohnungsapparaten NICHT über die Leitstelle. Zuständig: Etagenwartung des eigenen Korridors.“",
+                    "Darunter, mit Kugelschreiber ergänzt: „Korridor 46, Schicht A — 4601.“",
+                  ]
+                : [
+                    "Sirren. Sonst nichts.",
+                    "Korridor 46, Schicht A. 4601.",
+                  ],
+            );
+            return;
+          }
           // Höchste Priorität: Layard ist aus E71 zurück und hat das
           // abgelehnte Protokoll noch in der Tasche → Insa anrufen.
           if (
