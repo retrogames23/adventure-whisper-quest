@@ -9,16 +9,12 @@ import {
 import { CloseButton } from "./CloseButton";
 import {
   BURNED_NOISE_BAND,
-  DUEL_HOLD_MS,
-  DUEL_TARGET_FREQ,
-  DUEL_TOLERANCE,
   HIDDEN_TARGET_FREQ,
   RADIO_EXT_TEXT,
   bandFor,
 } from "@/game/radio/bands";
 import { Waveform } from "./radio/Waveform";
 import { ResonanceMeter } from "./radio/ResonanceMeter";
-import { DuelHoldBar } from "./radio/DuelHoldBar";
 import { RadioPauseGate } from "./radio/RadioPauseGate";
 
 const SNAP_FREQS = [100.5, 102.3, 103.8, 104.6, 105.7] as const;
@@ -56,60 +52,11 @@ export function RadioPanel() {
     if (!radioOpen) setPauseAck(false);
   }, [radioOpen]);
 
-  // ── Resonanz-Duell (Mira-Verstärker) ────────────────────────────
-  const [duelHoldMs, setDuelHoldMs] = useState(0);
-  const duelActive =
-    radioOpen &&
-    flags.has("miraHasAmplifier") &&
-    !flags.has("miraSentAnger") &&
-    (scene === "aptMira4601" || scene === "corridor46");
-  const duelInWindow =
-    duelActive &&
-    Math.abs(freq - DUEL_TARGET_FREQ) <= DUEL_TOLERANCE &&
-    volume >= 0.6;
-
-  useEffect(() => {
-    if (!duelActive) {
-      if (duelHoldMs !== 0) setDuelHoldMs(0);
-      return;
-    }
-    const id = setInterval(() => {
-      setDuelHoldMs((prev) => {
-        const next = duelInWindow ? prev + 200 : Math.max(0, prev - 300);
-        return Math.min(DUEL_HOLD_MS, next);
-      });
-    }, 200);
-    return () => clearInterval(id);
-  }, [duelActive, duelInWindow, duelHoldMs]);
-
-  useEffect(() => {
-    if (!duelActive) return;
-    if (duelHoldMs < DUEL_HOLD_MS) return;
-    if (flags.has("miraSentAnger")) return;
-    api.setFlag("miraSentAnger");
-    api.setFlag("miraTerminalUnlocked");
-    setRadioActive(false);
-    closeRadio();
-    api.showText(RADIO_EXT_TEXT.duelSuccess);
-  }, [duelActive, duelHoldMs, flags, api, setRadioActive, closeRadio]);
-
-  const duelIntroSeenRef = useRef(false);
-  useEffect(() => {
-    if (!duelActive) {
-      duelIntroSeenRef.current = false;
-      return;
-    }
-    if (duelIntroSeenRef.current) return;
-    duelIntroSeenRef.current = true;
-    api.showText(RADIO_EXT_TEXT.duelIntro);
-  }, [duelActive, api]);
-
   // ── Hidden Frequency 102,7 — Wartungs-Funkgerät 5610 ────────────
   useEffect(() => {
     if (!radioOpen) return;
     if (scene !== "serverRoom5610") return;
     if (flags.has("hiddenFrequencyFound")) return;
-    if (!api.hasItem("tuningCrystal")) return;
     if (!flags.has("sawWartungsFunk5610")) return;
     if (Math.abs(freq - HIDDEN_TARGET_FREQ) > 0.05) return;
     const t = setTimeout(() => {
@@ -117,16 +64,10 @@ export function RadioPanel() {
       setRadioActive(false);
       closeRadio();
       api.addItem({
-        id: "antennaWire",
-        name: "Antennen-Draht (Spule)",
-        description:
-          "Eine kleine Spule isolierter Kupferdraht aus dem Schubfach des alten Wartungs-Funks. Genug, um eine improvisierte Antenne zu bauen.",
-      });
-      api.addItem({
         id: "wartungsDiktat",
         name: "Wartungs-Diktat (Krummbein)",
         description:
-          "Ein Notizfetzen, der aus dem Funk fiel: »Kristall + Draht = Verstärker. Wer das Band kippen will, sendet damit, nicht dagegen.«",
+          "Ein Notizfetzen, der aus dem Funk fiel: »102,7 ist kein Band. Es ist ein Rest. Wer hier zuhört, hört die Wartung von 1989.«",
       });
       api.showText(RADIO_EXT_TEXT.hiddenFreqIntro);
     }, 900);
@@ -420,9 +361,6 @@ export function RadioPanel() {
 
         <ResonanceMeter resonance={resonance} />
 
-        {duelActive && (
-          <DuelHoldBar duelHoldMs={duelHoldMs} duelInWindow={duelInWindow} />
-        )}
       </div>
     </div>
   );
