@@ -6,7 +6,33 @@ import apt2613Bg from "@/assets/scene-apt-2613.jpg";
 import apt2612BgEmpty from "@/assets/scene-apt-2612.jpg";
 import apt2612BgBodo from "@/assets/scene-apt-2612-bodo.jpg";
 import pencilStubSprite from "@/assets/sprite-pencil-stub.png";
-import type { Scene } from "../types";
+import type { GameApi, Scene } from "../types";
+
+/**
+ * Kaputtes Telefon (Akt-I-Pflichträtsel): Solange Layards Apparat tot ist,
+ * fragt er bei jedem erreichbaren Nachbarn nach dessen Telefon. Alle lehnen
+ * ab — mehrere verweisen auf die Korridor-Wartung (Mira, 4601).
+ * Gibt true zurück, wenn ein Absage-Dialog gestartet wurde.
+ */
+function tryPhoneRefusal(
+  api: GameApi,
+  askedFlag:
+    | "askedBodoPhone"
+    | "askedPhilippePhone"
+    | "askedEnnisPhone"
+    | "askedHelkaPhone",
+  dialogId: string,
+  shortDialogId: string,
+): boolean {
+  if (!api.hasFlag("phoneBroken") || api.hasFlag("phoneRepaired")) return false;
+  if (api.hasFlag(askedFlag)) {
+    api.startDialog(shortDialogId);
+    return true;
+  }
+  api.setFlag(askedFlag);
+  api.startDialog(dialogId);
+  return true;
+}
 
 export const apartmentAct1Scenes: Record<string, Scene> = {
   apartment: {
@@ -266,6 +292,17 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         // betritt (dann werden die Warte-Flags zurückgesetzt).
         hiddenWhen: ["paramedicsArrived", "wait2613Step1"],
         onUse: (api) => {
+          if (
+            api.hasFlag("calledLeitstelle") &&
+            tryPhoneRefusal(
+              api,
+              "askedPhilippePhone",
+              "philippePhoneRefusal",
+              "philippePhoneRefusalShort",
+            )
+          ) {
+            return;
+          }
           if (!api.hasFlag("calledLeitstelle")) {
             api.setFlag("talkedPhilippe2613");
             api.startDialog("philippeIn2613");
@@ -286,6 +323,17 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         kind: "talk",
         requires: ["paramedicsArrived"],
         onUse: (api) => {
+          // Kaputtes Telefon: die Bitte um den Apparat geht allem voraus.
+          if (
+            tryPhoneRefusal(
+              api,
+              "askedPhilippePhone",
+              "philippePhoneRefusal",
+              "philippePhoneRefusalShort",
+            )
+          ) {
+            return;
+          }
           // Höchste Priorität: Layard hat die B3-Ration für Philippe und
           // hat sie noch nicht übergeben.
           if (
@@ -518,6 +566,17 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           return !away1 && !away2;
         },
         onUse: (api) => {
+          if (
+            api.hasFlag("metBodo") &&
+            tryPhoneRefusal(
+              api,
+              "askedBodoPhone",
+              "bodoPhoneRefusal",
+              "bodoPhoneRefusalShort",
+            )
+          ) {
+            return;
+          }
           if (!api.hasFlag("metBodo")) {
             api.setFlag("metBodo");
             api.startDialog("bodoIntro");
@@ -845,6 +904,17 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         label: "Tür 2610 (Helka Vint)",
         kind: "talk",
         onUse: (api) => {
+          if (
+            api.hasFlag("metHelka") &&
+            tryPhoneRefusal(
+              api,
+              "askedHelkaPhone",
+              "helkaPhoneRefusal",
+              "helkaPhoneRefusalShort",
+            )
+          ) {
+            return;
+          }
           if (!api.hasFlag("metHelka")) {
             api.setFlag("metHelka");
             api.startDialog("helkaAtDoor");
@@ -889,6 +959,17 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         label: "Tür 2614 (Ennis Korr)",
         kind: "talk",
         onUse: (api) => {
+          if (
+            api.hasFlag("metEnnis") &&
+            tryPhoneRefusal(
+              api,
+              "askedEnnisPhone",
+              "ennisPhoneRefusal",
+              "ennisPhoneRefusalShort",
+            )
+          ) {
+            return;
+          }
           if (!api.hasFlag("metEnnis")) {
             api.setFlag("metEnnis");
             api.startDialog("ennisAtDoor");
