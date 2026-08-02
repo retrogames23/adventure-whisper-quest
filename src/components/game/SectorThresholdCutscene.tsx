@@ -314,14 +314,6 @@ export function SectorThresholdCutscene() {
               transition={{ duration: 0.28, ease: "easeOut" }}
               className="mx-auto flex max-w-3xl flex-col gap-2"
             >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.08, duration: 0.22 }}
-                className="font-mono-crt text-xs uppercase tracking-[0.3em] text-amber-glow/60"
-              >
-                —
-              </motion.div>
               <div className="font-mono-crt text-base italic text-amber-glow/85 sm:text-lg">
                 {currentLine}
               </div>
