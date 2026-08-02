@@ -552,6 +552,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       resetDuelHits: () => {
         duelHitsRef.current = 0;
       },
+      markMarvOiled: () => {
+        const cur = marvStateRef.current;
+        if (cur.oiled) return;
+        updateMarvState({ ...cur, oiled: true });
+      },
       setEnding: () => setEnding(true),
       clearEnding: () => setEnding(false),
       playBurnSequence: () => {
