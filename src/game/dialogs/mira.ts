@@ -795,7 +795,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       me3: {
         id: "me3",
         speaker: "MIRA",
-        text: "Drei Stück reichen: der Aushang im Aufzug, das Plakat im Korridor 46 und der Aushang in der Leitstelle E67. Lies sie. Wirklich lesen, nicht angucken. Dann komm zurück und sag mir, was drin steht.",
+        text: "Drei Stück reichen: das Schwarze Brett in der Eingangshalle E67, das Plakat im Korridor 46 und der Aushang in der Leitstelle E67. Lies sie. Wirklich lesen, nicht angucken. Dann komm zurück und sag mir, was drin steht.",
         next: "me4",
       },
       me4: {
@@ -829,7 +829,40 @@ export const miraDialogs: Record<string, DialogTree> = {
       mw1: {
         id: "mw1",
         speaker: "MIRA",
-        text: "Drei Fundstellen, Worag: Aufzug, Korridor 46, Leitstelle E67. Lies sie und komm wieder. Ich kann die Eingabe nicht abschicken, solange sie auf nichts verweist.",
+        text: "Drei Fundstellen, Worag: das Schwarze Brett in der Eingangshalle, das Plakat im Korridor 46, der Aushang in der Leitstelle E67. Lies sie und komm wieder. Ich kann die Eingabe nicht abschicken, solange sie auf nichts verweist.",
+        end: true,
+      },
+    },
+  },
+  miraEvidenceWaitOne: {
+    id: "miraEvidenceWaitOne",
+    npcId: "mira",
+    start: "mw11",
+    lines: {
+      mw11: {
+        id: "mw11",
+        speaker: "MIRA",
+        text: "Eine hast du. Ich seh's — du zitierst schon die Formulierung, statt sie zu umschreiben. Zwei fehlen noch.",
+        subtext: "Sie hält den Stift bereit, schreibt aber nichts auf.",
+        end: true,
+      },
+    },
+  },
+  miraEvidenceWaitTwo: {
+    id: "miraEvidenceWaitTwo",
+    npcId: "mira",
+    start: "mw21",
+    lines: {
+      mw21: {
+        id: "mw21",
+        speaker: "MIRA",
+        text: "Zwei von drei. Und? Steht in beiden dasselbe?",
+        next: "mw22",
+      },
+      mw22: {
+        id: "mw22",
+        speaker: "MIRA",
+        text: "Eben. Genau deshalb brauche ich die dritte — mit zwei Fassungen heißt es „Missverständnis“, mit drei heißt es Praxis.",
         end: true,
       },
     },
@@ -848,7 +881,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       md2: {
         id: "md2",
         speaker: "MIRA",
-        text: "Sag die Reihenfolge. — Aufzug: „Pflichtinformation“. Korridor: „bei anhaltender Überlastung“. Leitstelle: „Pausen sind Teil der Behandlung“. Drei Verwaltungen, drei Bedeutungen, ein Wort.",
+        text: "Sag die Reihenfolge. — Eingangshalle: „Pflichtinformation“. Korridor: „bei anhaltender Überlastung“. Leitstelle: „Pausen sind Teil der Behandlung“. Drei Verwaltungen, drei Bedeutungen, ein Wort.",
         subtext: "Sie schreibt mit. Schnell, ohne aufzusehen.",
         next: "md3",
       },

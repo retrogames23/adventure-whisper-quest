@@ -296,15 +296,22 @@ export const communalE67Scenes: Record<string, Scene> = {
           }
           if (api.hasFlag("miraAskedEvidence")) {
             // Layard sammelt noch Aushang-Belege.
-            if (
-              api.hasFlag("belegAushangAufzug") &&
-              api.hasFlag("belegAushangKorridor46") &&
-              api.hasFlag("belegAushangLeitstelle")
-            ) {
+            const belege = [
+              "belegAushangAufzug",
+              "belegAushangKorridor46",
+              "belegAushangLeitstelle",
+            ].filter((f) => api.hasFlag(f as never)).length;
+            if (belege === 3) {
               api.startDialog("miraEvidenceDeliver");
               return;
             }
-            api.startDialog("miraEvidenceWait");
+            api.startDialog(
+              belege === 2
+                ? "miraEvidenceWaitTwo"
+                : belege === 1
+                  ? "miraEvidenceWaitOne"
+                  : "miraEvidenceWait",
+            );
             return;
           }
           api.startDialog("miraEvidenceAsk");
