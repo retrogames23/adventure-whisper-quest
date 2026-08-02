@@ -37,6 +37,7 @@ import { DialogEditOverlay } from "@/dev/DialogEditOverlay";
 import { DevPlaybackPanel } from "@/dev/DevPlaybackPanel";
 import { useDevMode } from "@/dev/devMode";
 import { ToiletWallOverlay } from "./ToiletWallOverlay";
+import { CinemaProjection } from "./CinemaProjection";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useGame } from "@/game/GameContext";
 import { DonationGate } from "@/components/donation/DonationGate";
@@ -234,6 +235,7 @@ function GameStage({
             <KantinenverordnungOverlay />
             <PubOverlay />
             <ToiletWallOverlay />
+            <CinemaProjection />
             <Ending />
             <SectorThresholdCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
