@@ -23,7 +23,7 @@ import {
 } from "@/game/filesystemMira";
 import { NET_HOSTS, type NetHost } from "@/game/netHosts";
 import type { StoryFlag } from "@/game/types";
-import { applyVossbeckWeakCheat } from "@/game/cheats";
+import { applyVossbeckWeakCheat, applyEndeAkt1Cheat } from "@/game/cheats";
 import {
   adventureCommand,
   adventureStart,
