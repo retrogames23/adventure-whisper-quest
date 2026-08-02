@@ -630,7 +630,7 @@ export const miraDialogs: Record<string, DialogTree> = {
         text: "Geklopft. Na gut. Was ist?",
         choices: [
           {
-            text: "Störung. Wohnungsapparat 4617. Etagenwartung, Schicht A — das bist du.",
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
             next: "mfr3",
           },
           {
@@ -686,7 +686,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs1: {
         id: "mrs1",
         speaker: "SYSTEM",
-        text: "[ 4617. Mira schraubt die Anschlussdose auf, ohne den Raum anzusehen. Ein Werkzeuggürtel, zwei Nummern zu groß. ]",
+        text: "[ Layards Wohnung. Mira schraubt die Anschlussdose auf, ohne den Raum anzusehen. Ein Werkzeuggürtel, zwei Nummern zu groß. ]",
         next: "mrs2",
       },
       mrs2: {
