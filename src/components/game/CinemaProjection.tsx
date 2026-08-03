@@ -3,6 +3,7 @@ import { useGame } from "@/game/GameContext";
 import filmAsset from "@/assets/lehrfilm-mandatsgebiet.mp4.asset.json";
 import filmAssetMobile from "@/assets/lehrfilm-mandatsgebiet-mobile.mp4.asset.json";
 import { useQA } from "@/dev/overlayQAState";
+import { useMusic } from "@/audio/MusicPlayer";
 
 /**
  * Lichtspielsaal 5 (Etage 5, Sektor E71).
@@ -13,6 +14,7 @@ import { useQA } from "@/dev/overlayQAState";
 export function CinemaProjection() {
   const { scene, flags, api } = useGame();
   const qa = useQA();
+  const music = useMusic();
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   // Kleine Geräte bekommen die 480p-Fassung (~4,5 MB statt 12 MB).
@@ -51,6 +53,14 @@ export function CinemaProjection() {
     window.addEventListener("cinema:play", onReplay);
     return () => window.removeEventListener("cinema:play", onReplay);
   }, []);
+
+  // Während der Vorführung wird die Hintergrundmusik stummgeschaltet,
+  // damit der Filmton hörbar ist (besonders auf Mobilgeräten).
+  useEffect(() => {
+    if (!playing) return;
+    music.setDuck(0);
+    return () => music.setDuck(1);
+  }, [playing, music]);
 
   if (!inScene || !playing) return null;
 
