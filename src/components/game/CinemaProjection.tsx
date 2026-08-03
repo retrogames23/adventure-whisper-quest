@@ -54,8 +54,10 @@ export function CinemaProjection() {
         src={filmAsset.url}
         autoPlay
         playsInline
+        preload="auto"
         onEnded={() => setPlaying(false)}
-        className="h-full w-full object-cover opacity-95 mix-blend-screen"
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
+        className="h-full w-full object-cover opacity-95"
       />
       <button
         type="button"
