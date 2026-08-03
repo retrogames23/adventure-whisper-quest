@@ -41,17 +41,21 @@ export function CinemaProjection() {
 
   if (!inScene || !playing) return null;
 
+  // Der Film läuft direkt auf der Leinwand des Hintergrundbildes.
+  // Koordinaten in % der Bildfläche (siehe scene-cinema-e71.jpg).
   return (
-    <div className="absolute inset-0 z-40 flex items-center justify-center bg-black">
+    <div
+      className="pointer-events-auto absolute z-20"
+      style={{ left: "30.9%", top: "13.8%", width: "43.8%", height: "32.1%" }}
+    >
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video
         ref={videoRef}
         src={filmAsset.url}
         autoPlay
         playsInline
-        controls
         onEnded={() => setPlaying(false)}
-        className="max-h-full max-w-full"
+        className="h-full w-full object-cover opacity-95 mix-blend-screen"
       />
       <button
         type="button"
@@ -59,9 +63,9 @@ export function CinemaProjection() {
           videoRef.current?.pause();
           setPlaying(false);
         }}
-        className="absolute right-3 top-3 rounded-sm border border-amber-glow/50 bg-background/85 px-3 py-2 font-mono-crt text-xs uppercase tracking-widest text-amber-glow shadow-lg hover:bg-amber-glow/15"
+        className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-sm border border-amber-glow/40 bg-background/80 px-3 py-1 font-mono-crt text-[10px] uppercase tracking-widest text-amber-glow hover:bg-amber-glow/15"
       >
-        Vorführung verlassen
+        Vorführung beenden
       </button>
     </div>
   );

@@ -9,6 +9,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { NpcLayer } from "./scene/NpcLayer";
 import { DecalLayer } from "./scene/DecalLayer";
 import { HotspotLayer } from "./scene/HotspotLayer";
+import { CinemaProjection } from "./CinemaProjection";
 import { useEditActive } from "@/dev/dialogPatchState";
 import {
   applyTextPatch,
@@ -326,6 +327,9 @@ export function SceneView() {
           flags={flags}
           applyOverride={applyOverride}
         />
+
+        {/* Lichtspielsaal 5: Film läuft auf der Leinwand */}
+        <CinemaProjection />
 
         {/* Hotspots */}
         <HotspotLayer
