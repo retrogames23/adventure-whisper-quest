@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import filmAsset from "@/assets/lehrfilm-mandatsgebiet.mp4.asset.json";
+import filmAssetMobile from "@/assets/lehrfilm-mandatsgebiet-mobile.mp4.asset.json";
 import { useQA } from "@/dev/overlayQAState";
 
 /**
@@ -14,6 +15,18 @@ export function CinemaProjection() {
   const qa = useQA();
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  // Kleine Geräte bekommen die 480p-Fassung (~4,5 MB statt 12 MB).
+  const [useMobileCut, setUseMobileCut] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia(
+      "(max-width: 900px), (pointer: coarse) and (max-width: 1200px)",
+    );
+    const update = () => setUseMobileCut(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
   const inScene = scene === "cinemaE71";
   const seen = flags.has("cinemaFilmSeen");
 
@@ -51,7 +64,7 @@ export function CinemaProjection() {
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video
         ref={videoRef}
-        src={filmAsset.url}
+        src={useMobileCut ? filmAssetMobile.url : filmAsset.url}
         autoPlay
         playsInline
         preload="auto"
