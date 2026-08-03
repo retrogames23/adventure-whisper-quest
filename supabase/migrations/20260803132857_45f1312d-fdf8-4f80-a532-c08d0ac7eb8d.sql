@@ -1,0 +1,2 @@
+ALTER PUBLICATION supabase_realtime DROP TABLE public.dsa_group_rooms;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.dsa_group_rooms (id, host_user_id, name, setting, wish_brief, include_npc_companions, max_players, status, session_id, current_image_tag, summary, turn_idx, collect_started_at, ap_awarded, created_at, updated_at);
