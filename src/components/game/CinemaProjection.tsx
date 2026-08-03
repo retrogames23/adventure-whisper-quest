@@ -17,6 +17,9 @@ export function CinemaProjection() {
   const music = useMusic();
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  // Wenn der Browser Autoplay mit Ton verweigert, läuft der Film stumm an
+  // und der Zuschauer bekommt einen „Ton einschalten"-Knopf.
+  const [needsSoundTap, setNeedsSoundTap] = useState(false);
   // Kleine Geräte bekommen die 480p-Fassung (~4,5 MB statt 12 MB).
   const [useMobileCut, setUseMobileCut] = useState(false);
   useEffect(() => {
@@ -62,6 +65,26 @@ export function CinemaProjection() {
     return () => music.setDuck(1);
   }, [playing, music]);
 
+  // Wiedergabe aktiv anstoßen: erst mit Ton, bei Ablehnung stumm + Hinweis.
+  useEffect(() => {
+    if (!playing) return;
+    setNeedsSoundTap(false);
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = false;
+    v.volume = 1;
+    let cancelled = false;
+    v.play().catch(() => {
+      if (cancelled) return;
+      v.muted = true;
+      setNeedsSoundTap(true);
+      void v.play().catch(() => {});
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [playing]);
+
   if (!inScene || !playing) return null;
 
   // Der Film läuft direkt auf der Leinwand des Hintergrundbildes.
@@ -82,6 +105,22 @@ export function CinemaProjection() {
         style={{ willChange: "transform", transform: "translateZ(0)" }}
         className="h-full w-full object-cover opacity-95"
       />
+      {needsSoundTap && (
+        <button
+          type="button"
+          onClick={() => {
+            const v = videoRef.current;
+            if (!v) return;
+            v.muted = false;
+            v.volume = 1;
+            void v.play().catch(() => {});
+            setNeedsSoundTap(false);
+          }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-sm border border-amber-glow/60 bg-background/85 px-4 py-2 font-mono-crt text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/20"
+        >
+          Ton einschalten
+        </button>
+      )}
       <button
         type="button"
         onClick={() => {
