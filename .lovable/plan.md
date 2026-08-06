@@ -46,7 +46,17 @@ Verbindung. Sie merkt es.
 Neue Szene, erreichbar über eine Wartungstür/Treppe in der Lobby E67 (kein
 sechster Aufzugknopf — das Bedienfeld-Asset hat fünf). Die Tür ist verschlossen;
 den Vierkantschlüssel gibt es bei Bodo (2612), der als ehemaliger Funktechniker
-einen hat und ihn gegen ein kurzes Gespräch ausleiht.
+einen hat. Er rückt ihn aber **erst heraus, wenn Layard ihm seine grüne
+Thermoskanne aus dem Tech-Knoten 5610 zurückgebracht hat** (`gaveBodoThermos`).
+Vorher weicht er aus („Erst mal das, was Sie mir schon versprochen haben.").
+Damit hängt der Heizungspfad an einer Nebenquest, die es bereits gibt und die
+jederzeit nachholbar ist — kein neuer Blocker, keine Sackgasse.
+
+**Optik:** Der Keller orientiert sich an der Bildvorlage — verwaschenes
+Giftgrün über altem Orange, abgeplatzter Lack, Rost an den Kanten, ein
+gepanzerter Schlauch quer über einen Blechkasten, geriffelte Alu-Drehknöpfe,
+Betonboden, Holzpaletten. Kein Retro-Charme, sondern übermalte
+Betriebstechnik.
 
 Inhalt, damit der Ort nicht nur Rätsel-Hebel ist:
 - **Heizungssteuerung**: sechs Steigstränge, Drehregler, handbeschriftetes
