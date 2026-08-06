@@ -365,6 +365,21 @@ export const communalE67Scenes: Record<string, Scene> = {
         label: "Miras Terminal (FuckTheSystemOS)",
         kind: "use",
         onUse: (api) => {
+          if (
+            !api.hasFlag("miraTerminalUnlocked") &&
+            api.hasFlag("miraFlatOpen")
+          ) {
+            // Heizungspfad: Mira steht im Korridor, die Tür ist angelehnt.
+            api.setFlag("miraTerminalTrespass");
+            api.showText([
+              "Der Login-Prompt blinkt. Niemand hat Layard hierher gebeten.",
+              "Er setzt sich trotzdem. Die Sitzung läuft noch — sie ist nur",
+              "kurz raus, weil ihre Wohnung glüht.",
+              "[ Layard benutzt Miras Maschine ohne Erlaubnis. ]",
+            ]);
+            api.openTerminal({ mira: true });
+            return;
+          }
           if (!api.hasFlag("miraTerminalUnlocked")) {
             api.showText([
               "Das Terminal summt. Der Login-Prompt blinkt.",

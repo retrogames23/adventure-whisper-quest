@@ -734,7 +734,7 @@ export const NET_HOSTS: NetHost[] = [
         "(zusammengeschrieben. ohne umlaut. ohne punkt.)",
       ],
     },
-    dynamicFiles: (hasFlag) =>
+    dynamicFiles: (hasFlag): Record<string, string[]> =>
       hasFlag("miraTerminalTrespass")
         ? {
             "logbuch_heute.txt": [
