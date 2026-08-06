@@ -734,8 +734,10 @@ export const miraDialogs: Record<string, DialogTree> = {
             action: (api) => {
               api.setFlag("miraRepairDone");
               api.setFlag("phoneRepaired");
+              api.setFlag("port2611Locked");
               api.showText([
                 "„Geht wieder“, sagt Mira. „Meldebogen schreibe ich nicht. Dann bleibt es ein Draht.“",
+                "„Eins noch: Ich musste den Hausanschluss auf die Wartung ummelden. Der Apparat geht, der Datenport von 2611 bleibt bis zur Abnahme gesperrt. Prüfsperre. Post kommt bei dir keine mehr an.“",
                 "Sie ist schon an der Tür, bevor Layard antworten kann.",
               ]);
             },
@@ -759,7 +761,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs8b: {
         id: "mrs8b",
         speaker: "MIRA",
-        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst.",
+        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Nur der Datenport bleibt zu: Ich musste den Anschluss auf die Wartung ummelden, das ist eine Prüfsperre. Post kriegst du am Terminal keine mehr, bis das jemand abnimmt.",
         requires: ["miraTrustEarned"],
         choices: [
           {
@@ -767,6 +769,7 @@ export const miraDialogs: Record<string, DialogTree> = {
             action: (api) => {
               api.setFlag("miraRepairDone");
               api.setFlag("phoneRepaired");
+              api.setFlag("port2611Locked");
             },
           },
         ],
