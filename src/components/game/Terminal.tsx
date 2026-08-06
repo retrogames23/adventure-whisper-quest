@@ -1462,6 +1462,9 @@ export function Terminal() {
           if (host.host === "philippe.e67") {
             api.setFlag("hackedPhilippe");
           }
+          if (host.host === "leitstelle.e67" && flags.has("calledForCode")) {
+            api.setFlag("readTagescodeViaMira");
+          }
         } else {
           newLines.push(
             { text: `Versuche ${host.host} (${host.ip})…`, kind: "out" },
