@@ -70,6 +70,8 @@ export type InventoryItemId =
   | "painRadio"
   // Bodos vergessene grüne Thermoskanne aus Tech-Knoten 5610
   | "bodoThermos"
+  // Vierkantschlüssel für die Wartungstür zum Keller E67 (von Bodo)
+  | "vierkantschluessel"
   // Reichswährung — zählbar (count > 1).
   | "reichsmark"
   // Pfefferminzkaugummi aus dem Kondomautomaten („Zum stillen Funk").
