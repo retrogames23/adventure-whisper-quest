@@ -17,6 +17,11 @@ export function computeMiraEndState(api: GameApi): MiraEndState {
   if (api.hasFlag("miraSystemic") || api.hasFlag("miraTrustWithheld")) {
     return "skeptical";
   }
+  // Heizungspfad: unerlaubter Zugriff auf ihre Maschine. Wer ihn zugibt,
+  // bleibt neutral; wer leugnet (oder sie nie wieder anspricht), nicht.
+  if (api.hasFlag("miraTerminalTrespass") && !api.hasFlag("miraTrespassAdmitted")) {
+    return "skeptical";
+  }
   return "neutral";
 }
 
