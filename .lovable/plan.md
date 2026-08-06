@@ -1,4 +1,3 @@
-# Telefon-Rätsel: Leitung stirbt zuverlässig nach dem Stegmann-Anruf
 # Miras Terminal wird Pflicht — plus Keller E67 mit Heizungssteuerung
 
 ## 1. Wofür Layard das Terminal zwingend braucht
