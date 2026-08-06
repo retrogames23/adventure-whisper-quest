@@ -324,6 +324,9 @@ export const communalE67Scenes: Record<string, Scene> = {
         h: 45,
         label: "Mira",
         kind: "talk",
+        // Heizungspfad: Mira steht im Korridor, nicht in der Wohnung.
+        visible: (api) =>
+          !api.hasFlag("miraFlatOpen") || api.hasFlag("miraConfrontedTrespass"),
         onUse: (api) => {
           if (!api.hasFlag("miraAtHomeMet")) {
             api.startDialog("miraAtHomeIntro");

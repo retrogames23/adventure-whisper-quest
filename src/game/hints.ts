@@ -287,8 +287,43 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) => a.hasFlag("calledForCode"),
     hints: [
       "Du hast das Formblatt. Jetzt zählt nur noch das eine Gespräch — bei Vossbeck nebenan in 3603.",
-      "Vossbeck führt das Endduell: drei Runden, zwei Treffer. Bei Sieg legt er den Tagescode direkt in dein Terminal-Postfach.",
-      "Geh in Tür 3603 (Kantinenverwaltung), gib das Formblatt 17/V ab und schlag Vossbeck im Endduell. Der Code liegt anschließend in deinem CentralOS-Postfach.",
+      "Vossbeck führt das Endduell: drei Runden, zwei Treffer. Bei Sieg wird der Tagescode verschickt.",
+      "Geh in Tür 3603 (Kantinenverwaltung), gib das Formblatt 17/V ab und schlag Vossbeck im Endduell. Danach ist der Code unterwegs — wo er landet, ist eine andere Frage.",
+    ],
+  },
+
+  // 14b) Prüfsperre 2611 — der Code kommt nicht an
+  {
+    id: "act1.pruefsperre2611",
+    title: "Der Tagescode kommt nicht an",
+    priority: 14,
+    isActive: (a) =>
+      a.hasFlag("calledForCode") &&
+      a.hasFlag("port2611Locked") &&
+      !a.hasFlag("readTagescodeViaMira"),
+    isResolved: (a) => a.hasFlag("readTagescodeViaMira"),
+    hints: [
+      "Der Code ist raus — nur nicht bei dir. Seit Mira den Anschluss auf die Wartung umgemeldet hat, liegt dein Datenport unter Prüfsperre.",
+      "Die Nachricht bleibt im Verteiler der Leitstelle (leitstelle.e67). Dein eigenes Terminal kommt da nicht ran — eine Maschine im Haus schon: Miras, sie hängt am Wartungsnetz und fragt niemanden nach einem Passwort.",
+      "Verschaff dir Zugang zu Miras Rechner in 4601 — entweder über ihr Vertrauen (drei Aushang-Belege) oder über den Keller. Dort dann: 'telnet leitstelle.e67' und 'cat verteiler_tagescodes.txt'.",
+    ],
+  },
+
+  // 14c) Heizungspfad — Keller E67
+  {
+    id: "act1.kellerHeizung",
+    title: "In Miras Wohnung kommen (Keller)",
+    priority: 14,
+    isActive: (a) =>
+      a.hasFlag("port2611Locked") &&
+      !a.hasFlag("readTagescodeViaMira") &&
+      !a.hasFlag("miraTerminalUnlocked"),
+    isResolved: (a) =>
+      a.hasFlag("readTagescodeViaMira") || a.hasFlag("miraFlatOpen"),
+    hints: [
+      "Mira lässt dich nicht an ihre Maschine. Aber sie sitzt auch nicht in der Wohnung, wenn es darin nicht auszuhalten ist.",
+      "Unter der Lobby E67 liegt die Heizungszentrale. Die Wartungstür neben dem Empfangstresen braucht einen Vierkantschlüssel — Bodo in 2612 hat einen, rückt ihn aber erst raus, wenn du ihm seine grüne Thermoskanne aus 5610 zurückgebracht hast.",
+      "Thermoskanne zu Bodo bringen, Vierkantschlüssel holen, Wartungstür in der Lobby öffnen, im Keller Steigstrang 46 (vierter Regler) aufdrehen. Mira geht in den Korridor, die Tür 4601 bleibt offen — dann an ihr Terminal.",
     ],
   },
 
@@ -304,8 +339,8 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) => a.hasFlag("sectorDoorOpen"),
     hints: [
       "Du hast jetzt alles, was die Schleuse von dir verlangt: dich selbst und einen Code.",
-      "Geh durch die Lobby zur Sektor-Schleuse E67 → E71. Den Code findest du im Postfach deines CentralOS-Terminals in 2611 (Mail von Insa). Achtung: Zwischen dir und der Lobby liegt tagsüber die Lobby-Schleuse — siehe eigener Tipp.",
-      "Lies die Mail von Insa in deinem Terminal, geh zur Sektor-Schleuse, leg deinen (schon vorhandenen) Bewohner-Ausweis in den Kartenschlitz und tippe den 8-stelligen Tagescode am Keypad ein.",
+      "Geh durch die Lobby zur Sektor-Schleuse E67 → E71. Den Code musst du vorher gelesen haben — bei gesperrtem Datenport liegt er im Verteiler der Leitstelle. Achtung: Zwischen dir und der Lobby liegt tagsüber die Lobby-Schleuse — siehe eigener Tipp.",
+      "Besorg dir den Code (Postfach im Terminal bzw. Verteiler der Leitstelle über Miras Maschine), geh zur Sektor-Schleuse, leg deinen Bewohner-Ausweis in den Kartenschlitz — Layard tippt die acht Ziffern selbst.",
     ],
   },
 
