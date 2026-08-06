@@ -585,6 +585,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setCutscene(id);
       },
       getMiraFloors: () => {
+        // Heizungspfad: Strang 46 steht auf Anschlag — Mira hält es in
+        // ihrer Wohnung nicht aus und steht im Korridor 46.
+        if (
+          flagsRef.current.has("heatingStrang46Raised") &&
+          flagsRef.current.has("miraFlatOpen")
+        ) {
+          return [4];
+        }
         // Solange das Telefon kaputt ist und Mira in Wohnung 4601
         // anzutreffen ist, erscheint sie nicht mehr zufällig auf Korridoren.
         if (

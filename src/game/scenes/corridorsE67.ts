@@ -162,6 +162,16 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         visible: (api) => api.getMiraFloors().includes(4),
         onUse: (api) => {
           if (
+            api.hasFlag("miraTerminalTrespass") &&
+            !api.hasFlag("miraConfrontedTrespass")
+          ) {
+            api.startDialog("miraTrespassConfront");
+          } else if (
+            api.hasFlag("miraFlatOpen") &&
+            !api.hasFlag("miraTerminalTrespass")
+          ) {
+            api.startDialog("miraOutInHeat");
+          } else if (
             api.hasFlag("tookFlyer") &&
             !api.hasFlag("miraTrustEarned") &&
             !api.hasFlag("miraTrustWithheld")
@@ -238,6 +248,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         kind: "exit",
         visible: (api) =>
           api.hasFlag("miraTrustEarned") ||
+          api.hasFlag("miraFlatOpen") ||
           (api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired")),
         onUse: (api) => {
           if (api.hasFlag("phoneBroken") && !api.hasFlag("miraRepairDone")) {
