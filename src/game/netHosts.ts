@@ -39,7 +39,46 @@ export const NET_HOSTS: NetHost[] = [
     ip: "10.67.0.2",
     host: "leitstelle.e67",
     desc: "Leitstelle 001 — I. Bauerfeind",
-    password: null,
+    // Dienstpasswort. Layard kennt es nicht und bekommt es auch nicht —
+    // erreichbar ist der Host nur über Miras Root-Tunnel (mira.zks).
+    password: "DISPO-001-E67",
+    motd: [
+      "── leitstelle.e67 — CentralOS v2.1 (Disposition) ─",
+      "Amtlicher Verteiler. Zugriff protokolliert.",
+      "Tippe 'ls', 'cat <datei>' oder 'exit'.",
+    ],
+    files: {
+      "schichtplan.txt": [
+        "── Schichtplan E67, Woche 45 ─────────────────",
+        "  Mo–Fr  Disposition 001  Bauerfeind, I.",
+        "  Sa     Vertretung       — (offen)",
+        "  So     Vertretung       — (offen)",
+        "",
+        "Anmerkung: Vertretung E71/1534 bis auf Weiteres",
+        "kommissarisch. Zuständigkeit ungeklärt.",
+      ],
+    },
+    dynamicFiles: (hasFlag) => ({
+      "verteiler_tagescodes.txt": hasFlag("calledForCode")
+        ? [
+            "── Verteiler: Tagescodes Schleusen E67 ───────",
+            "Datum: 06.11.1997",
+            "",
+            "  Schleuse E67/E71 (Sektor-Tür)   Tagescode: 06111997",
+            "  Hinweis: Code auf Anforderung geändert (Kowalk/Vossbeck,",
+            "  Vorgang 17/V). Acht Ziffern, ohne Punkte.",
+            "",
+            "  Zustellung an worag.2611: FEHLGESCHLAGEN",
+            "  Grund: Datenport 2611 — Prüfsperre (Wartung Korridor 46).",
+            "  Nachricht verbleibt im Verteiler.",
+          ]
+        : [
+            "── Verteiler: Tagescodes Schleusen E67 ───────",
+            "Datum: 06.11.1997",
+            "",
+            "  (keine offenen Vorgänge)",
+          ],
+    }),
   },
   {
     ip: "10.67.26.11",
@@ -695,5 +734,16 @@ export const NET_HOSTS: NetHost[] = [
         "(zusammengeschrieben. ohne umlaut. ohne punkt.)",
       ],
     },
+    dynamicFiles: (hasFlag) =>
+      hasFlag("miraTerminalTrespass")
+        ? {
+            "logbuch_heute.txt": [
+              "tag 34  jemand war an dieser maschine, während ich im flur stand.",
+              "        die heizung war es nicht von allein. das weiß ich.",
+              "        verbindung: leitstelle.e67, 11 minuten.",
+              "        ich lasse den eintrag stehen. er soll ihn finden.",
+            ],
+          }
+        : {},
   },
 ];
