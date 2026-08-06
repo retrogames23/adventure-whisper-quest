@@ -167,21 +167,6 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         },
       },
       {
-        id: "lobbyDeskUnused",
-        x: 18.5,
-        y: 50,
-        w: 16.5,
-        h: 30,
-        label: "Klemmbrett",
-        kind: "look",
-        hiddenWhen: ["metBodo"],
-        onUse: (api) =>
-          api.showText([
-            "Niemand hinter dem Tresen. Eine Kaffeetasse, halb voll, kalt.",
-            "Auf einem Klemmbrett: Schichtplan. Heutige Schicht: durchgestrichen.",
-          ]),
-      },
-      {
         id: "televisionE67",
         // Wand-Teleempfänger über dem Tresen.
         x: 25.25,
