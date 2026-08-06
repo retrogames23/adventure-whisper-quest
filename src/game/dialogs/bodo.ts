@@ -855,6 +855,100 @@ export const bodoDialogs: Record<string, DialogTree> = {
     },
   },
 
+  // ── Kellerschlüssel: Bodo rückt den Vierkant heraus ───────────────
+  //    Nur nach zurückgebrachter Thermoskanne (`gaveBodoThermos`).
+  bodoKellerKey: {
+    id: "bodoKellerKey",
+    start: "bkk1",
+    onEnd: (api) => {
+      api.setFlag("gotKellerKey");
+      api.setFlag("knowsStrang46");
+      api.addItem({
+        id: "vierkantschluessel",
+        name: "Vierkantschlüssel",
+        description:
+          "Kurzer Stahlgriff mit quadratischer Nuss. Öffnet die Wartungstür neben dem Empfangstresen in der Lobby E67. Bodo hat ihn seit '89 nicht abgegeben.",
+      });
+    },
+    lines: {
+      bkk1: {
+        id: "bkk1",
+        speaker: "LAYARD",
+        text: "Bodo — kommt man hier eigentlich in den Keller? An die Betriebstechnik.",
+        next: "bkk2",
+      },
+      bkk2: {
+        id: "bkk2",
+        speaker: "BODO",
+        text: "Kommt man. Wenn man einen Vierkant hat. Und einen Grund.",
+        subtext: "Er sieht Layard an, als würde er beides gleichzeitig prüfen.",
+        choices: [
+          { text: "Mein Anschluss ist gesperrt. Ich brauche einen anderen Weg.", next: "bkk3" },
+          { text: "Nur mal sehen, wie das Haus warm wird.", next: "bkk3b" },
+        ],
+      },
+      bkk3: {
+        id: "bkk3",
+        speaker: "BODO",
+        text: "Prüfsperre. Ja. Die kennen wir. Da unten liegt der Anschluss nicht, aber egal — Sie kriegen den Schlüssel.",
+        next: "bkk4",
+      },
+      bkk3b: {
+        id: "bkk3b",
+        speaker: "BODO",
+        text: "Warm wird es da unten von ganz allein. — Ach, nehmen Sie ihn. Wer Kannen zurückbringt, klaut keine Rohre.",
+        next: "bkk4",
+      },
+      bkk4: {
+        id: "bkk4",
+        speaker: "BODO",
+        text: "Der hier. Seit '89 nicht abgegeben, hat auch keiner verlangt. Tür neben dem Tresen, Blech, kein Schild, das noch stimmt.",
+        subtext: "Er angelt den Schlüssel aus einer Blechdose neben dem Sessel.",
+        next: "bkk5",
+      },
+      bkk5: {
+        id: "bkk5",
+        speaker: "BODO",
+        text: "Unten steht die Heizung. Sechs Stränge, sechs Knöpfe. Vierter von links ist Korridor 46 — steht auch im Buch, falls Sie's nicht glauben.",
+        next: "bkk6",
+      },
+      bkk6: {
+        id: "bkk6",
+        speaker: "BODO",
+        text: "Und drehen Sie mir da nichts fest, was nachher jemand losdrehen muss. Ich sag nur: der Kasten ist älter als Sie.",
+        subtext: "[ Vierkantschlüssel erhalten. ]",
+        end: true,
+      },
+    },
+  },
+  // Absage: Bodo weiß, was er noch zugute hat.
+  bodoKellerKeyRefusal: {
+    id: "bodoKellerKeyRefusal",
+    start: "bkr1",
+    onEnd: (api) => api.setFlag("askedBodoKellerKey"),
+    lines: {
+      bkr1: {
+        id: "bkr1",
+        speaker: "LAYARD",
+        text: "Bodo — kommt man hier in den Keller? An die Betriebstechnik.",
+        next: "bkr2",
+      },
+      bkr2: {
+        id: "bkr2",
+        speaker: "BODO",
+        text: "Erst mal das, was Sie mir schon versprochen haben. Meine Kanne steht seit Wochen irgendwo in 5610 und wird nicht wärmer.",
+        subtext: "Er sagt es freundlich. Und trotzdem ist es ein Nein.",
+        next: "bkr3",
+      },
+      bkr3: {
+        id: "bkr3",
+        speaker: "BODO",
+        text: "Bringen Sie die zurück, dann reden wir über Schlüssel. So läuft das hier — nicht wegen der Kanne. Wegen der Reihenfolge.",
+        end: true,
+      },
+    },
+  },
+
   // ── Kaputtes Telefon: Bitte um Bodos Apparat ──────────────────────
   bodoPhoneRefusal: {
     id: "bodoPhoneRefusal",
