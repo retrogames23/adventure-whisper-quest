@@ -98,12 +98,13 @@ Inhalt, damit der Ort nicht nur Rätsel-Hebel ist:
   im Mira-Modus setzt ein erfolgreiches `telnet leitstelle.e67` das Flag
   `readTagescodeViaMira`.
 - `src/game/scenes/kellerE67.ts` (neu) + Registrierung in `scenes/index.ts`:
-  Hintergrundbild im Stil der bestehenden Szenen, Hotspots Heizungssteuerung,
-  Wartungsbuch, Rohrpost, Ausgang.
+  neues Hintergrundbild (Farbwelt und Materialien nach der Bildvorlage),
+  Hotspots Heizungssteuerung, Wartungsbuch, Rohrpost, Ausgang.
 - `src/game/scenes/elevatorE67.ts` (`floor1Lobby`): Wartungstür zum Keller,
   gesperrt ohne `vierkantschluessel`.
 - `src/game/dialogs/bodo.ts`: Zweig, der den Schlüssel aushändigt und Strang 46
-  benennt (`knowsStrang46`).
+  benennt (`knowsStrang46`) — nur bei `gaveBodoThermos`, sonst eine Absage-Zeile,
+  die auf die Thermoskanne verweist.
 - `src/game/scenes/corridorsE67.ts`: `door4601Enter` zusätzlich sichtbar bei
   `miraFlatOpen`; Mira steht bei `heatingStrang46Raised` im Korridor (über
   `getMiraFloors`).
