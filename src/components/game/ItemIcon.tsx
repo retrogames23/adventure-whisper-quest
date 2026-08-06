@@ -354,6 +354,23 @@ function AushangIcon() {
   );
 }
 
+/** Vierkantschlüssel — kurzer Stahlgriff mit quadratischer Nuss. */
+function VierkantschluesselIcon() {
+  return (
+    <>
+      {/* Griffbügel */}
+      <rect x="5" y="4" width="14" height="3" fill={ICON_DK} />
+      <rect x="6" y="5" width="12" height="1" fill={ICON_HI} opacity="0.6" />
+      {/* Schaft */}
+      <rect x="11" y="7" width="3" height="10" fill={ICON_DK} />
+      <rect x="12" y="8" width="1" height="8" fill={ICON_HI} opacity="0.5" />
+      {/* Vierkant-Nuss */}
+      <rect x="9" y="17" width="7" height="5" fill={ICON_DK} />
+      <rect x="11" y="19" width="3" height="3" fill={ICON_BG} />
+    </>
+  );
+}
+
 const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   protocol: ProtocolIcon,
   belegAushangAufzug: AushangIcon,
@@ -392,6 +409,8 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   painRadio: PainRadioIcon,
   // Bodos vergessene grüne Thermoskanne (Tech-Knoten 5610).
   bodoThermos: BodoThermosIcon,
+  // Vierkantschlüssel für die Kellertür E67.
+  vierkantschluessel: VierkantschluesselIcon,
   reichsmark: ReichsmarkIcon,
   peppermint: PeppermintIcon,
   condom: CondomIcon,

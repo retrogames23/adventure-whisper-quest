@@ -969,6 +969,20 @@ export function Terminal() {
         },
         { text: "  GATEWAY E67/E71   [ MANUELLER CODE ERFORDERLICH ]", kind: "out" },
       );
+    } else if (
+      (cmd === "inbox" || head === "read") &&
+      !bodoMode &&
+      !miraMode &&
+      !remoteMode &&
+      flags.has("port2611Locked")
+    ) {
+      newLines.push(
+        { text: ">> POSTFACH NICHT VERFÜGBAR", kind: "system" },
+        { text: "  Datenport 2611: PRÜFSPERRE (Wartung Korridor 46).", kind: "out" },
+        { text: "  Eingehende Nachrichten verbleiben im Verteiler der", kind: "out" },
+        { text: "  zuständigen Leitstelle, bis die Abnahme erfolgt ist.", kind: "out" },
+        { text: "  Freigabe: nicht terminiert.", kind: "out" },
+      );
     } else if (cmd === "inbox") {
       const showExitMail =
         flags.has("calledInsa2") &&
@@ -1447,6 +1461,9 @@ export function Terminal() {
           }
           if (host.host === "philippe.e67") {
             api.setFlag("hackedPhilippe");
+          }
+          if (host.host === "leitstelle.e67" && flags.has("calledForCode")) {
+            api.setFlag("readTagescodeViaMira");
           }
         } else {
           newLines.push(

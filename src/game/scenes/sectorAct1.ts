@@ -63,6 +63,19 @@ export const sectorAct1Scenes: Record<string, Scene> = {
             ]);
             return;
           }
+          if (
+            api.hasFlag("port2611Locked") &&
+            !api.hasFlag("readTagescodeViaMira")
+          ) {
+            api.showText([
+              "Das Keypad blinkt rot.",
+              "Der Code wurde verschickt — angekommen ist er nicht. Layards Datenport",
+              "in 2611 liegt seit der Reparatur unter Prüfsperre; die Nachricht bleibt",
+              "im Verteiler der Leitstelle liegen.",
+              "[ Layard braucht eine andere Maschine, um an diesen Verteiler zu kommen. ]",
+            ]);
+            return;
+          }
           // Layard kennt den Code aus der Terminal-Nachricht — er tippt ihn
           // selbst ein, statt den Spieler das Keypad bedienen zu lassen.
           api.setFlag("sectorDoorOpen");

@@ -593,6 +593,19 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           ) {
             api.startDialog("bodoReturnThermos");
           } else if (
+            // Kellerschlüssel: erst nach zurückgebrachter Thermoskanne.
+            api.hasFlag("port2611Locked") &&
+            !api.hasFlag("gotKellerKey") &&
+            api.hasFlag("gaveBodoThermos")
+          ) {
+            api.startDialog("bodoKellerKey");
+          } else if (
+            api.hasFlag("port2611Locked") &&
+            !api.hasFlag("gotKellerKey") &&
+            !api.hasFlag("askedBodoKellerKey")
+          ) {
+            api.startDialog("bodoKellerKeyRefusal");
+          } else if (
             // Akt-I-Pflichträtsel: Layard hat den Blanko-Quittungsbogen UND
             // den Trockensiegel-Abdruck — er kann Bodo überreden, das Ding
             // als „Wartungs-Schicht-B-Quittung" gegenzuzeichnen.

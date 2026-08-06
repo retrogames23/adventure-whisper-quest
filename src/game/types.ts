@@ -22,6 +22,7 @@ export type SceneId =
   | "aptMira4601"
   | "kantinenverwaltung3603"
   | "leitstelleE67"
+  | "kellerE67"
   | "pub"
   | "pubToilet"
   | "pubVestibule"
@@ -69,6 +70,8 @@ export type InventoryItemId =
   | "painRadio"
   // Bodos vergessene grüne Thermoskanne aus Tech-Knoten 5610
   | "bodoThermos"
+  // Vierkantschlüssel für die Wartungstür zum Keller E67 (von Bodo)
+  | "vierkantschluessel"
   // Reichswährung — zählbar (count > 1).
   | "reichsmark"
   // Pfefferminzkaugummi aus dem Kondomautomaten („Zum stillen Funk").
@@ -309,6 +312,27 @@ export type StoryFlag =
   | "askedPhilippePhone"
   | "askedEnnisPhone"
   | "askedHelkaPhone"
+  // Akt-I-Pflichträtsel „Prüfsperre 2611" (Miras Terminal wird Pflicht)
+  /** Datenport 2611 ist nach der Telefonreparatur gesperrt — kein Postfach. */
+  | "port2611Locked"
+  /** Bodo hat den Vierkantschlüssel für die Kellertür herausgerückt. */
+  | "gotKellerKey"
+  /** Layard hat Bodo schon einmal nach dem Kellerschlüssel gefragt. */
+  | "askedBodoKellerKey"
+  /** Layard weiß, dass Steigstrang 46 zu Korridor 46 gehört. */
+  | "knowsStrang46"
+  /** Steigstrang 46 ist im Keller hochgedreht. */
+  | "heatingStrang46Raised"
+  /** Mira hat ihre Wohnung wegen der Hitze verlassen, Tür steht offen. */
+  | "miraFlatOpen"
+  /** Layard hat Miras Maschine ohne Erlaubnis benutzt. */
+  | "miraTerminalTrespass"
+  /** Layard hat den Tagescode im Verteiler der Leitstelle gelesen. */
+  | "readTagescodeViaMira"
+  /** Mira hat den unerlaubten Zugriff angesprochen. */
+  | "miraConfrontedTrespass"
+  /** Layard hat den unerlaubten Zugriff zugegeben. */
+  | "miraTrespassAdmitted"
   // Ralf am Fenster (Verbindungsgang → Fensternische)
   | "metRalf"
   | "ralfToldSektoren"

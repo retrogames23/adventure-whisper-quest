@@ -734,8 +734,10 @@ export const miraDialogs: Record<string, DialogTree> = {
             action: (api) => {
               api.setFlag("miraRepairDone");
               api.setFlag("phoneRepaired");
+              api.setFlag("port2611Locked");
               api.showText([
                 "„Geht wieder“, sagt Mira. „Meldebogen schreibe ich nicht. Dann bleibt es ein Draht.“",
+                "„Eins noch: Ich musste den Hausanschluss auf die Wartung ummelden. Der Apparat geht, der Datenport von 2611 bleibt bis zur Abnahme gesperrt. Prüfsperre. Post kommt bei dir keine mehr an.“",
                 "Sie ist schon an der Tür, bevor Layard antworten kann.",
               ]);
             },
@@ -759,7 +761,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs8b: {
         id: "mrs8b",
         speaker: "MIRA",
-        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst.",
+        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Nur der Datenport bleibt zu: Ich musste den Anschluss auf die Wartung ummelden, das ist eine Prüfsperre. Post kriegst du am Terminal keine mehr, bis das jemand abnimmt.",
         requires: ["miraTrustEarned"],
         choices: [
           {
@@ -767,6 +769,7 @@ export const miraDialogs: Record<string, DialogTree> = {
             action: (api) => {
               api.setFlag("miraRepairDone");
               api.setFlag("phoneRepaired");
+              api.setFlag("port2611Locked");
             },
           },
         ],
@@ -917,6 +920,72 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Das Terminal ist offen. Schau dich um, lies, was du willst. Ich passe nicht auf. Wenn du was kaputt machst, ist es eh nicht meins.",
         end: true,
+      },
+    },
+  },
+  // ── Heizungspfad: Mira steht im Korridor, weil 4601 unerträglich ist ──
+  miraOutInHeat: {
+    id: "miraOutInHeat",
+    npcId: "mira",
+    start: "moh1",
+    lines: {
+      moh1: {
+        id: "moh1",
+        speaker: "MIRA",
+        text: "Frag nicht. Bei mir drin sind's gefühlt vierzig Grad. Der Strang macht das manchmal — seit Jahren macht er das nie, und heute macht er es.",
+        subtext: "Sie steht mit dem Rücken an der kühlen Wand, Tür angelehnt.",
+        next: "moh2",
+      },
+      moh2: {
+        id: "moh2",
+        speaker: "MIRA",
+        text: "Ich warte, bis es abkühlt. Melden bringt nichts, für Betriebstechnik ist niemand zuständig, den man erreichen kann. Kennst du ja.",
+        end: true,
+      },
+    },
+  },
+  // ── Nach unerlaubtem Zugriff: Mira spricht es an ─────────────────────
+  miraTrespassConfront: {
+    id: "miraTrespassConfront",
+    npcId: "mira",
+    start: "mtc1",
+    lines: {
+      mtc1: {
+        id: "mtc1",
+        speaker: "MIRA",
+        text: "Meine Maschine schreibt mit. Nicht aus Misstrauen — aus Gewohnheit. Elf Minuten auf leitstelle.e67, während ich hier an der Wand stand.",
+        subtext: "Sie sieht ihn nicht an. Das ist schlimmer, als wenn sie es täte.",
+        choices: [
+          { text: "Ich war das. Ich brauchte den Code.", next: "mtc2" },
+          { text: "Das war ich nicht.", next: "mtc3" },
+        ],
+      },
+      mtc2: {
+        id: "mtc2",
+        speaker: "MIRA",
+        text: "Gut. Nicht in Ordnung, aber gut. — Wenn du gefragt hättest, hätte ich vielleicht ja gesagt. Jetzt weiß ich es eben so.",
+        subtext: "Sie zuckt mit einer Schulter. Es ist keine Vergebung, aber auch kein Ende.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => {
+              api.setFlag("miraConfrontedTrespass");
+              api.setFlag("miraTrespassAdmitted");
+            },
+          },
+        ],
+      },
+      mtc3: {
+        id: "mtc3",
+        speaker: "MIRA",
+        text: "Der Strang geht seit vier Jahren nicht von allein hoch. Aber schön, dann war es niemand. Davon gibt es hier ja viele.",
+        subtext: "Sie schiebt sich von der Wand ab und geht zurück in die Hitze.",
+        choices: [
+          {
+            text: "[ Beenden ]",
+            action: (api) => api.setFlag("miraConfrontedTrespass"),
+          },
+        ],
       },
     },
   },
