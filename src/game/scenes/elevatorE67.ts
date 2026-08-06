@@ -147,6 +147,41 @@ export const elevatorE67Scenes: Record<string, Scene> = {
           ]),
       },
       {
+        id: "kellerDoor",
+        x: 5.5,
+        y: 34,
+        w: 8.5,
+        h: 42,
+        label: "Wartungstür — Treppe abwärts",
+        kind: "exit",
+        onUse: (api) => {
+          if (api.hasItem("vierkantschluessel")) {
+            api.goTo("kellerE67");
+            return;
+          }
+          api.showText([
+            "Eine schmale Stahltür neben dem Tresen. Schild: „Betriebstechnik —",
+            "Zutritt nur Wartung“. Kein Schloss, nur ein Vierkant.",
+            "Ohne den passenden Schlüssel bewegt sich hier nichts.",
+          ]);
+        },
+      },
+      {
+        id: "lobbyDeskUnused",
+        x: 18.5,
+        y: 50,
+        w: 16.5,
+        h: 30,
+        label: "Klemmbrett",
+        kind: "look",
+        hiddenWhen: ["metBodo"],
+        onUse: (api) =>
+          api.showText([
+            "Niemand hinter dem Tresen. Eine Kaffeetasse, halb voll, kalt.",
+            "Auf einem Klemmbrett: Schichtplan. Heutige Schicht: durchgestrichen.",
+          ]),
+      },
+      {
         id: "televisionE67",
         // Wand-Teleempfänger über dem Tresen.
         x: 25.25,
