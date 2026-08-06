@@ -22,6 +22,7 @@ export type SceneId =
   | "aptMira4601"
   | "kantinenverwaltung3603"
   | "leitstelleE67"
+  | "kellerE67"
   | "pub"
   | "pubToilet"
   | "pubVestibule"
