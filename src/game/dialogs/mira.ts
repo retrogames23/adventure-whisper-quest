@@ -633,33 +633,51 @@ export const miraDialogs: Record<string, DialogTree> = {
       },
     },
   },
+  // ── Hub in 4601: übliche Themen + zusätzlich die Störungsmeldung ───
+  miraAtHomeHub: {
+    id: "miraAtHomeHub",
+    npcId: "mira",
+    start: "mhub1",
+    lines: {
+      mhub1: {
+        id: "mhub1",
+        speaker: "SYSTEM",
+        text: "[ Layard klopft. Es dauert. Dann geht die Tür auf. Mira tritt einen Schritt zurück und lässt ihn herein. ]",
+        hiddenWhen: ["miraTrustEarned"],
+        next: "mhub2",
+      },
+      mhub1b: {
+        id: "mhub1b",
+        speaker: "SYSTEM",
+        text: "[ Die Tür ist angelehnt. Mira sitzt auf dem Bett, ein Stapel sortierter Aushänge neben sich. ]",
+        requires: ["miraTrustEarned"],
+        next: "mhub2",
+      },
+      mhub2: {
+        id: "mhub2",
+        speaker: "MIRA",
+        text: "Du bist es. — Also, was ist?",
+        choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            hiddenWhen: ["miraRepairDone"],
+          },
+          {
+            text: "[ Reden ]",
+            nextDialog: (api) => miraNormalDialogId(api),
+          },
+          { text: "[ Später ]" },
+        ],
+      },
+    },
+  },
   // ── Pflicht-Rätsel: kaputtes Telefon ──────────────────────────────
   miraFaultReport: {
     id: "miraFaultReport",
     npcId: "mira",
-    start: "mfr1",
+    start: "mfr3",
     lines: {
-      mfr1: {
-        id: "mfr1",
-        speaker: "SYSTEM",
-        text: "[ Layard klopft. Zweimal. Es dauert. Dann geht die Tür einen Spalt auf. ]",
-        next: "mfr2",
-      },
-      mfr2: {
-        id: "mfr2",
-        speaker: "MIRA",
-        text: "Geklopft. Na gut. Was ist?",
-        choices: [
-          {
-            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
-            next: "mfr3",
-          },
-          {
-            text: "Mein Telefon ist tot. Und angeblich kannst nur du das reparieren.",
-            next: "mfr3",
-          },
-        ],
-      },
       mfr3: {
         id: "mfr3",
         speaker: "MIRA",
