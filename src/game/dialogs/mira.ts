@@ -651,13 +651,14 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Dienstvorgang. Ich muss. Also los, bevor ich's mir überlege.",
         hiddenWhen: ["miraTrustEarned"],
+        next: "mfr4b",
         choices: [
           {
             text: "[ Mira mitnehmen ]",
+            nextDialog: "miraRepairScene",
             action: (api) => {
               api.setFlag("knowsMiraIsWartung");
               api.goTo("apartment");
-              api.startDialog("miraRepairScene");
             },
           },
         ],
@@ -670,10 +671,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Mira mitnehmen ]",
+            nextDialog: "miraRepairScene",
             action: (api) => {
               api.setFlag("knowsMiraIsWartung");
               api.goTo("apartment");
-              api.startDialog("miraRepairScene");
             },
           },
         ],
