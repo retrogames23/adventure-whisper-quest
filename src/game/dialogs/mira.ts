@@ -1,4 +1,25 @@
-import type { DialogTree } from "../types";
+import type { DialogTree, GameApi } from "../types";
+
+/**
+ * Welches „übliche" Mira-Gespräch steht gerade an? Dieselbe Logik, die auch
+ * bei Zufallsbegegnungen greift — je nachdem, was schon gelaufen ist.
+ */
+export function miraNormalDialogId(api: GameApi): string {
+  if (!api.hasFlag("miraAtHomeMet")) return "miraAtHomeIntro";
+  if (api.hasFlag("miraEvidenceDelivered")) return "miraAfterEvidence";
+  if (api.hasFlag("miraAskedEvidence")) {
+    const belege = [
+      "belegAushangAufzug",
+      "belegAushangKorridor46",
+      "belegAushangGemeinschaftsraum",
+    ].filter((f) => api.hasFlag(f as never)).length;
+    if (belege === 3) return "miraEvidenceDeliver";
+    if (belege === 2) return "miraEvidenceWaitTwo";
+    if (belege === 1) return "miraEvidenceWaitOne";
+    return "miraEvidenceWait";
+  }
+  return "miraEvidenceAsk";
+}
 
 /**
  * Mira — skeptisch, nicht paranoid.
