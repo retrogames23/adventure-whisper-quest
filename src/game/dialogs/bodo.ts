@@ -387,7 +387,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
         text: "Wenn Sie eh hier sitzen, Worag — tun Sie mir einen Gefallen. 5610, Tech-Knoten Korridor 56. Ich war gestern dran und hab' meine Thermoskanne stehenlassen. Grüne, mit Delle. Holen Sie die nur raus, wenn Sie sowieso an 5610 vorbeikommen.",
         subtext: "Er sagt es beiläufig. Wie etwas, das er sich nicht abringen muss.",
         next: "bc10d",
-      }
+      },
       bc10d: {
         id: "bc10d",
         speaker: "BODO",
