@@ -654,10 +654,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Mira mitnehmen ]",
+            nextDialog: "miraRepairScene",
             action: (api) => {
               api.setFlag("knowsMiraIsWartung");
               api.goTo("apartment");
-              api.startDialog("miraRepairScene");
             },
           },
         ],
@@ -670,10 +670,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Mira mitnehmen ]",
+            nextDialog: "miraRepairScene",
             action: (api) => {
               api.setFlag("knowsMiraIsWartung");
               api.goTo("apartment");
-              api.startDialog("miraRepairScene");
             },
           },
         ],
