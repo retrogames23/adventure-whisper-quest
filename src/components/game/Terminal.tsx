@@ -978,10 +978,13 @@ export function Terminal() {
     ) {
       newLines.push(
         { text: ">> POSTFACH NICHT VERFÜGBAR", kind: "system" },
-        { text: "  Datenport 2611: PRÜFSPERRE (Wartung Korridor 46).", kind: "out" },
-        { text: "  Eingehende Nachrichten verbleiben im Verteiler der", kind: "out" },
-        { text: "  zuständigen Leitstelle, bis die Abnahme erfolgt ist.", kind: "out" },
-        { text: "  Freigabe: nicht terminiert.", kind: "out" },
+        {
+          text: "  Datenport 2611 auf Leitstellen-Knoten umgemeldet",
+          kind: "out",
+        },
+        { text: "  (Wartung Korridor 46).", kind: "out" },
+        { text: "  Zustellung erfolgt an: leitstelle.e67", kind: "out" },
+        { text: "  Lokaler Abruf: nicht moeglich.", kind: "out" },
       );
     } else if (cmd === "inbox") {
       const showExitMail =

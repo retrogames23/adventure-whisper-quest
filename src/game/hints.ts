@@ -292,7 +292,7 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
 
-  // 14b) Prüfsperre 2611 — der Code kommt nicht an
+  // 14b) Umschaltung 2611 — der Code kommt nicht an
   {
     id: "act1.pruefsperre2611",
     title: "Der Tagescode kommt nicht an",
@@ -303,7 +303,7 @@ export const HINT_QUESTS: HintQuest[] = [
       !a.hasFlag("readTagescodeViaMira"),
     isResolved: (a) => a.hasFlag("readTagescodeViaMira"),
     hints: [
-      "Der Code ist raus — nur nicht bei dir. Seit Mira den Anschluss auf die Wartung umgemeldet hat, liegt dein Datenport unter Prüfsperre.",
+      "Der Code ist raus — nur nicht bei dir. Seit Mira den Apparat repariert hat, hängen Telefon und Datenport von 2611 am Leitstellen-Knoten. Deine Post läuft dort auf.",
       "Die Nachricht bleibt im Verteiler der Leitstelle (leitstelle.e67). Dein eigenes Terminal kommt da nicht ran — eine Maschine im Haus schon: Miras, sie hängt am Wartungsnetz und fragt niemanden nach einem Passwort.",
       "Verschaff dir Zugang zu Miras Rechner in 4601 — entweder über ihr Vertrauen (drei Aushang-Belege) oder über den Keller. Dort dann: 'telnet leitstelle.e67' und 'cat verteiler_tagescodes.txt'.",
     ],
@@ -483,19 +483,19 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
 
-  // ── Optional: Mira (Vertrauenspfad) ──────────────────────────────
   {
     id: "act1.phoneRepair",
     title: "Das Telefon ist tot",
-    priority: 18,
+    priority: 13,
     isActive: (a) => a.hasFlag("phoneBroken"),
     isResolved: (a) => a.hasFlag("phoneRepaired"),
     hints: [
-      "Kein Freizeichen, nur Sirren. Ohne Anschluss erreichst du Insa nicht — und ohne Insa geht es nicht weiter.",
+      "Kein Freizeichen, nur Sirren. Ohne Anschluss erreichst du die Leitstelle nicht — und ohne die geht es nicht weiter.",
       "Der Aufkleber am Apparat sagt es: Störungen an Wohnungsapparaten laufen nicht über die Leitstelle, sondern über die Wartung des eigenen Korridors.",
       "Korridor 46, Schicht A, Tür 4601 — das ist Mira. Sie ist Anwärterin der Sektor-Wartung und muss dienstlich ran. Klopf an 4601 und melde die Störung, danach funktioniert der Apparat wieder.",
     ],
   },
+  // ── Optional: Mira (Vertrauenspfad) ──────────────────────────────
   {
     id: "act1.miraTrust",
     title: "Miras Vertrauen gewinnen (optional)",

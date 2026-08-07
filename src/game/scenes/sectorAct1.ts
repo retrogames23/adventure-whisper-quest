@@ -69,10 +69,10 @@ export const sectorAct1Scenes: Record<string, Scene> = {
           ) {
             api.showText([
               "Das Keypad blinkt rot.",
-              "Der Code wurde verschickt — angekommen ist er nicht. Layards Datenport",
-              "in 2611 liegt unter Prüfsperre; die Wartung von Korridor 46 hat den",
-              "Hausanschluss auf sich umgemeldet. Die Nachricht bleibt im Verteiler",
-              "der Leitstelle liegen.",
+              "Der Code wurde verschickt — angekommen ist er nicht. Seit der",
+              "Reparatur hängen Apparat und Datenport von 2611 am Leitstellen-",
+              "Knoten. Die Nachricht liegt deshalb im Verteiler der Leitstelle",
+              "(leitstelle.e67) und nicht in Layards Postfach.",
               "[ Layard braucht eine andere Maschine, um an diesen Verteiler zu kommen. ]",
             ]);
             return;
