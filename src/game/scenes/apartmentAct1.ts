@@ -121,6 +121,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             const first = !api.hasFlag("phoneBroken");
             api.setFlag("phoneBroken");
             api.setFlag("reportedPhoneFault");
+            // Der Aufkleber ist der Wegweiser: Er nennt Dienstweg,
+            // Zuständigkeit UND Tür. Damit weiß der Spieler, dass Mira
+            // (4601) ran muss — auch ohne vorheriges Gespräch.
+            api.setFlag("knowsMiraIsWartung");
             api.showText(
               first
                 ? [
@@ -128,9 +132,12 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                     "Nur ein feines Sirren, als läge die Leitung an etwas an, das atmet.",
                     "Er drückt die Gabel. Wählt. Sirren.",
                     "Am Gehäuse klebt ein vergilbter Aufkleber: „Störungen an Wohnungsapparaten NICHT über die Leitstelle. Zuständig: Etagenwartung des eigenen Korridors.“",
+                    "Darunter, mit Kugelschreiber nachgetragen: „Schicht A, Korridor 46 — Anwärterin, Tür 4601.“",
+                    "Layard kennt die Tür. Dahinter wohnt das Mädchen mit dem Werkzeuggürtel.",
                   ]
                 : [
-                    "Sirren. Sonst nichts. ",
+                    "Sirren. Sonst nichts.",
+                    "Bleibt der Aufkleber: Etagenwartung, Schicht A, Tür 4601.",
                   ],
             );
             return;
