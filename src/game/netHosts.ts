@@ -68,9 +68,9 @@ export const NET_HOSTS: NetHost[] = [
             "  Hinweis: Code auf Anforderung geändert (Kowalk/Vossbeck,",
             "  Vorgang 17/V). Acht Ziffern, ohne Punkte.",
             "",
-            "  Zustellung an worag.2611: FEHLGESCHLAGEN",
-            "  Grund: Datenport 2611 — Prüfsperre (Wartung Korridor 46).",
-            "  Nachricht verbleibt im Verteiler.",
+            "  Zustellung an worag.2611: NICHT ERFOLGT",
+            "  Grund: Datenport 2611 auf Leitstellen-Knoten umgemeldet",
+            "  (Wartung Korridor 46). Nachricht verbleibt im Verteiler.",
           ]
         : [
             "── Verteiler: Tagescodes Schleusen E67 ───────",
