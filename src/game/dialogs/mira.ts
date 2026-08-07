@@ -689,7 +689,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs1: {
         id: "mrs1",
         speaker: "SYSTEM",
-        text: "[ Korridor 46, Treppe, Korridor 26. Mira geht zwei Schritte vor Layard, Werkzeuggürtel, zwei Nummern zu groß. Sie klopft an die eigene Wohnungstür, aus Gewohnheit, obwohl es Layards ist. ]",
+        text: "[ Korridor 46, Treppe, Korridor 26. Mira geht zwei Schritte vor Layard, Werkzeuggürtel, zwei Nummern zu groß. Vor 2611 bleibt sie stehen und klopft an — aus Gewohnheit, obwohl Layard den Schlüssel schon in der Hand hat. ]",
         next: "mrs1b",
       },
       mrs1b: {
