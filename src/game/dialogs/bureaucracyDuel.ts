@@ -83,6 +83,10 @@ function resolveEndgame(api: GameApi): void {
     if (!api.hasFlag("vossbeckGaveCode")) {
       api.setFlag("vossbeckGaveCode");
       api.setFlag("calledForCode");
+      // Der Code geht korrekt raus — nur Layards Datenport in 2611 liegt
+      // wegen der Wartung in Korridor 46 unter Prüfsperre. Die Nachricht
+      // bleibt im Verteiler der Leitstelle liegen (Pflichtweg über Mira).
+      api.setFlag("port2611Locked");
     }
   } else {
     // Drei Versuche bei Vossbeck zugelassen — siehe vossbeckAttempt*Lost.
