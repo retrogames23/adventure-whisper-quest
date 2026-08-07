@@ -113,14 +113,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         requires: ["sawEmptyOffice", "protocolReceived"],
         hiddenWhen: ["calledInsaAfterE71"],
         onUse: (api) => {
-          // Pflicht-Rätsel: Sobald Layard mit Stegmann telefoniert hat
-          // (spätestens nach der Rückkehr aus E71), ist die Leitung tot.
-          // Reparieren kann nur die Etagenwartung — Mira in 4601.
-          if (
-            (api.hasFlag("calledStegmann") ||
-              api.hasFlag("mikaelRejectedProtocol")) &&
-            !api.hasFlag("phoneRepaired")
-          ) {
+          // Pflicht-Rätsel: Der Apparat ist tot, sobald Layard ihn zum
+          // ersten Mal benutzen will. Reparieren kann nur die
+          // Etagenwartung — Mira in 4601. Erst danach laufen Anrufe
+          // (und damit der ganze Code-Strang über Insa/Vossbeck).
+          if (!api.hasFlag("phoneRepaired")) {
             const first = !api.hasFlag("phoneBroken");
             api.setFlag("phoneBroken");
             api.setFlag("reportedPhoneFault");
