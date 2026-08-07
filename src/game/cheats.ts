@@ -104,3 +104,38 @@ export function applyEndeAkt1Cheat(api: GameApi): void {
   api.resetDuelHits();
   api.goTo("corridor15");
 }
+
+/**
+ * »broken« — Spielstand genau an der Stelle, an der Layards Apparat
+ * stirbt: Prolog + Aufzug + leeres Büro sind erledigt, das Telefon ist
+ * kaputt (`phoneBroken`), die Störung aber noch nicht gemeldet. Layard
+ * steht in seiner Wohnung und muss zu Mira (Korridor 46, Tür 4601).
+ */
+const PHONE_BROKEN_FLAGS: StoryFlag[] = [
+  "readHandbook",
+  "examinedResidentId",
+  "doorbellRang",
+  "metPhilippe",
+  "metPhilippeBefore",
+  "knockingHeard",
+  "talkedPhilippe2613",
+  "calledLeitstelle",
+  "paramedicsArrived",
+  "paramedicsCutsceneSeen",
+  "doorBrokenOpen",
+  "protocolReceived",
+  "metBodo",
+  "elevatorMaintBlocked",
+  "elevatorMaintSeen",
+  "elevatorMaintCleared",
+  "elevatorTaken",
+  "sawEmptyOffice",
+  "rangEmptyOfficeBell",
+  // Der Apparat ist tot — Meldung an die Wartung steht noch aus.
+  "phoneBroken",
+];
+
+export function applyPhoneBrokenCheat(api: GameApi): void {
+  PHONE_BROKEN_FLAGS.forEach((f) => api.setFlag(f));
+  api.goTo("apartment");
+}

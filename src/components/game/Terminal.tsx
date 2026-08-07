@@ -23,7 +23,7 @@ import {
 } from "@/game/filesystemMira";
 import { NET_HOSTS, type NetHost } from "@/game/netHosts";
 import type { StoryFlag } from "@/game/types";
-import { applyVossbeckWeakCheat, applyEndeAkt1Cheat } from "@/game/cheats";
+import { applyVossbeckWeakCheat, applyEndeAkt1Cheat, applyPhoneBrokenCheat } from "@/game/cheats";
 import {
   adventureCommand,
   adventureStart,
@@ -580,6 +580,27 @@ export function Terminal() {
         setInput("");
         setTimeout(() => {
           applyVossbeckWeakCheat(api);
+          closeTerminal();
+        }, 400);
+        return;
+      }
+    }
+
+    // ── Undokumentierter Cheat »broken« ───────────────────
+    // Springt direkt an die Stelle, an der Layards Apparat tot ist.
+    if (raw.toLowerCase() === "broken") {
+      if (!localBodoMode && !remoteMode) {
+        playBeep(0.5 * sfxVolume);
+        setLines((prev) => [
+          ...prev,
+          { text: `layard@centralos:~$ ${raw}`, kind: "in" },
+          { text: ">> [DEBUG] Vorgangsstand wird geladen …", kind: "system" },
+          { text: ">> Anschluss 2611: kein Amt. Störung nicht gemeldet.", kind: "out" },
+          { text: "", kind: "out" },
+        ]);
+        setInput("");
+        setTimeout(() => {
+          applyPhoneBrokenCheat(api);
           closeTerminal();
         }, 400);
         return;
