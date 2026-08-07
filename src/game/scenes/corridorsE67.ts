@@ -250,13 +250,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
           api.hasFlag("miraTrustEarned") ||
           api.hasFlag("miraFlatOpen") ||
           (api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired")),
-        onUse: (api) => {
-          if (api.hasFlag("phoneBroken") && !api.hasFlag("miraRepairDone")) {
-            api.startDialog("miraFaultReport");
-            return;
-          }
-          api.goTo("aptMira4601");
-        },
+        onUse: (api) => api.goTo("aptMira4601"),
       },
       {
         id: "door4602Look",
