@@ -292,7 +292,7 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
 
-  // 14b) Prüfsperre 2611 — der Code kommt nicht an
+  // 14b) Umschaltung 2611 — der Code kommt nicht an
   {
     id: "act1.pruefsperre2611",
     title: "Der Tagescode kommt nicht an",
@@ -303,7 +303,7 @@ export const HINT_QUESTS: HintQuest[] = [
       !a.hasFlag("readTagescodeViaMira"),
     isResolved: (a) => a.hasFlag("readTagescodeViaMira"),
     hints: [
-      "Der Code ist raus — nur nicht bei dir. Seit Mira den Anschluss auf die Wartung umgemeldet hat, liegt dein Datenport unter Prüfsperre.",
+      "Der Code ist raus — nur nicht bei dir. Seit Mira den Apparat repariert hat, hängen Telefon und Datenport von 2611 am Leitstellen-Knoten. Deine Post läuft dort auf.",
       "Die Nachricht bleibt im Verteiler der Leitstelle (leitstelle.e67). Dein eigenes Terminal kommt da nicht ran — eine Maschine im Haus schon: Miras, sie hängt am Wartungsnetz und fragt niemanden nach einem Passwort.",
       "Verschaff dir Zugang zu Miras Rechner in 4601 — entweder über ihr Vertrauen (drei Aushang-Belege) oder über den Keller. Dort dann: 'telnet leitstelle.e67' und 'cat verteiler_tagescodes.txt'.",
     ],
