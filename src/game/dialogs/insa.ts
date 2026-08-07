@@ -537,6 +537,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       if (api.hasFlag("sawEmptyOffice")) {
         api.setFlag("calledInsa2");
         api.setFlag("calledForCode");
+        api.setFlag("port2611Locked");
       }
     },
     lines: {
