@@ -328,6 +328,10 @@ export const communalE67Scenes: Record<string, Scene> = {
         visible: (api) =>
           !api.hasFlag("miraFlatOpen") || api.hasFlag("miraConfrontedTrespass"),
         onUse: (api) => {
+          if (api.hasFlag("phoneBroken") && !api.hasFlag("miraRepairDone")) {
+            api.startDialog("miraAtHomeHub");
+            return;
+          }
           if (!api.hasFlag("miraAtHomeMet")) {
             api.startDialog("miraAtHomeIntro");
             return;
