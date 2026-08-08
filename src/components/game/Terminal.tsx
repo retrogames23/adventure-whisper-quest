@@ -2101,7 +2101,15 @@ export function Terminal() {
                   ? "text-sepia caret-sepia placeholder:text-sepia-dim/60"
                   : "text-phosphor caret-phosphor placeholder:text-phosphor-dim/60"
             }`}
-            placeholder={scriptedRunning ? "… Ausgabe läuft …" : "Befehl eingeben …"}
+            placeholder={
+              auskunftBusy
+                ? "… Anfrage wird bearbeitet …"
+                : auskunftOn
+                  ? "Anfrage an die Verwaltung … ('exit' beendet)"
+                  : scriptedRunning
+                    ? "… Ausgabe läuft …"
+                    : "Befehl eingeben …"
+            }
             spellCheck={false}
             autoComplete="off"
           />
