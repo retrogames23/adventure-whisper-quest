@@ -512,10 +512,19 @@ export function Terminal() {
   }, [terminalOpen]);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (!scrollRef.current) return;
+    // Während auskunft auf eine LLM-Antwort wartet, soll die
+    // "Anfrage wird bearbeitet …"-Zeile oben im sichtbaren Bereich
+    // bleiben, statt bis ganz nach unten zu springen.
+    if (auskunftBusy && auskunftBusyIndex !== null) {
+      const busyEl = scrollRef.current.children[auskunftBusyIndex] as HTMLElement | undefined;
+      if (busyEl) {
+        scrollRef.current.scrollTop = Math.max(0, busyEl.offsetTop - 8);
+        return;
+      }
     }
-  }, [lines]);
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [lines, auskunftBusy, auskunftBusyIndex]);
 
   // Sicherheitsnetz: Beim Unmount des Terminals einen evtl. noch
   // laufenden News-Ticker-Loop sauber abräumen.
