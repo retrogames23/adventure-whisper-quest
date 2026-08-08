@@ -246,11 +246,17 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         h: 75.9,
         label: "Tür 4601 — Mira",
         kind: "exit",
-        visible: (api) =>
-          api.hasFlag("miraTrustEarned") ||
-          api.hasFlag("miraFlatOpen") ||
-          (api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired")),
-        onUse: (api) => api.goTo("aptMira4601"),
+        onUse: (api) => {
+          if (
+            api.hasFlag("miraTrustEarned") ||
+            api.hasFlag("miraFlatOpen") ||
+            (api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired"))
+          ) {
+            api.goTo("aptMira4601");
+            return;
+          }
+          api.startDialog("miraDoorBlock");
+        },
       },
       {
         id: "door4602Look",
