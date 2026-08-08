@@ -301,6 +301,11 @@ export function Terminal() {
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const [lottiState, setLottiState] = useState<LottiState | null>(null);
   const [newsState, setNewsState] = useState<NewsState | null>(null);
+  // auskunft.bin — amtliches Auskunftssystem. Läuft als Sub-Modus:
+  // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
+  const [auskunftOn, setAuskunftOn] = useState(false);
+  const [auskunftBusy, setAuskunftBusy] = useState(false);
+  const auskunftHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
   // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
   // bei jeder Eingabe sauber gestoppt.
