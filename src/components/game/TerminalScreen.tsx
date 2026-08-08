@@ -28,8 +28,9 @@ export const TerminalScreen = memo(function TerminalScreen({
       {lines.map((l, i) => (
         <div
           key={i}
+          data-kind={l.kind}
           className={
-            l.kind === "system"
+            l.kind === "system" || l.kind === "busy"
               ? miraMode
                 ? "text-destructive"
                 : bodoMode
