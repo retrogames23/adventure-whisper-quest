@@ -33,6 +33,31 @@ function miraHubChoices(api: GameApi): DialogChoice[] {
       hiddenWhen: ["miraRepairDone"],
     },
   ];
+  // Flugblatt-Strang: überall verfügbar, solange Layard es nicht hat.
+  if (!api.hasFlag("tookFlyer")) {
+    choices.push({
+      text: "Was heißt „Resonanz-Hygiene“ eigentlich — wörtlich?",
+      nextDialog: "miraReturn",
+    });
+  }
+  // Vertrauensprobe, sobald das Blatt in Layards Tasche liegt.
+  if (
+    api.hasFlag("tookFlyer") &&
+    !api.hasFlag("miraTrustEarned") &&
+    !api.hasFlag("miraTrustWithheld")
+  ) {
+    choices.push({
+      text: "Ich habe dein Blatt gelesen. Was jetzt?",
+      nextDialog: "miraTrustProbe",
+    });
+  }
+  // Hinweis auf 5610 — nur solange Layard die Tür nicht kennt.
+  if (api.hasFlag("tookFlyer") && !api.hasFlag("saw5610Door")) {
+    choices.push({
+      text: "Gibt es einen Ort, an dem die alten Fassungen liegen?",
+      nextDialog: "miraAfter",
+    });
+  }
   const normalId = miraNormalDialogId(api);
   const openers: Record<string, string> = {
     miraAtHomeIntro: "Nichts Bestimmtes. Ich bleibe kurz.",
@@ -56,6 +81,42 @@ function miraHubChoices(api: GameApi): DialogChoice[] {
   }
   choices.push({ text: "[ Später ]" });
   return choices;
+}
+
+/**
+ * Einziger Einstiegspunkt für Mira — Flur wie Wohnung. Gleiche Person,
+ * gleicher Zustand, gleiche Optionen; nur die Erstbegegnung ist ortsabhängig.
+ */
+export function startMiraEncounter(
+  api: GameApi,
+  opts?: { atHome?: boolean },
+): void {
+  const atHome = opts?.atHome ?? false;
+  if (
+    api.hasFlag("miraTerminalTrespass") &&
+    !api.hasFlag("miraConfrontedTrespass")
+  ) {
+    api.startDialog("miraTrespassConfront");
+    return;
+  }
+  if (
+    !atHome &&
+    api.hasFlag("miraFlatOpen") &&
+    !api.hasFlag("miraTerminalTrespass")
+  ) {
+    api.startDialog("miraOutInHeat");
+    return;
+  }
+  if (!api.hasFlag("metMira")) {
+    api.setFlag("metMira");
+    api.startDialog(atHome ? "miraAtHomeIntro" : "miraIntro");
+    return;
+  }
+  if (api.hasFlag("miraSystemic")) {
+    api.startDialog("miraSystemicGreeting");
+    return;
+  }
+  api.startDialog("miraAtHomeHub");
 }
 
 /**
