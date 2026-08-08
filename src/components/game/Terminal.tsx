@@ -268,6 +268,8 @@ function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
     );
   }
   lines.push(
+    { text: "  auskunft      — Amtliches Auskunftssystem (Verwaltung)", kind: "out" },
+    { text: "", kind: "out" },
     { text: "TAB-VERVOLLSTÄNDIGUNG:", kind: "system" },
     { text: "  <Tab>         — Aktuelles Wort vervollständigen", kind: "out" },
     { text: "                  (Befehle, Verzeichnisse, Dateinamen)", kind: "out" },
