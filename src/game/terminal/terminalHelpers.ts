@@ -3,7 +3,7 @@ import type { StoryFlag } from "@/game/types";
 
 export interface Line {
   text: string;
-  kind?: "in" | "out" | "system";
+  kind?: "in" | "out" | "system" | "busy";
 }
 
 /** Aktuelle CentralOS-Versionsbezeichnung, abhängig vom Update-Flag.
