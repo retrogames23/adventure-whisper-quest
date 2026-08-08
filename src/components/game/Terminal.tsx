@@ -77,6 +77,9 @@ const COMMANDS = [
   "./lotti",
   "news",
   "./news",
+  "auskunft",
+  "./auskunft.bin",
+  "auskunft.bin",
   "net",
   "telnet",
   "sysupdate",
@@ -265,6 +268,8 @@ function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
     );
   }
   lines.push(
+    { text: "  auskunft      — Amtliches Auskunftssystem (Verwaltung)", kind: "out" },
+    { text: "", kind: "out" },
     { text: "TAB-VERVOLLSTÄNDIGUNG:", kind: "system" },
     { text: "  <Tab>         — Aktuelles Wort vervollständigen", kind: "out" },
     { text: "                  (Befehle, Verzeichnisse, Dateinamen)", kind: "out" },
@@ -296,6 +301,11 @@ export function Terminal() {
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const [lottiState, setLottiState] = useState<LottiState | null>(null);
   const [newsState, setNewsState] = useState<NewsState | null>(null);
+  // auskunft.bin — amtliches Auskunftssystem. Läuft als Sub-Modus:
+  // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
+  const [auskunftOn, setAuskunftOn] = useState(false);
+  const [auskunftBusy, setAuskunftBusy] = useState(false);
+  const auskunftHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
   // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
   // bei jeder Eingabe sauber gestoppt.
@@ -403,6 +413,10 @@ export function Terminal() {
       setSuperuser(false);
       // News-Programm (samt eventuell laufendem Ticker) zurücksetzen.
       setNewsState(null);
+      // Auskunftsvorgang zurücksetzen.
+      setAuskunftOn(false);
+      setAuskunftBusy(false);
+      auskunftHistoryRef.current = [];
       if (newsTickerTimerRef.current) {
         clearInterval(newsTickerTimerRef.current);
         newsTickerTimerRef.current = null;
@@ -628,6 +642,73 @@ export function Terminal() {
         }, 400);
         return;
       }
+    }
+
+    // ── Sub-Modus: auskunft.bin läuft ──────────────────────
+    if (auskunftOn) {
+      if (auskunftBusy) return;
+      const echo: Line = { text: `auskunft> ${input}`, kind: "in" };
+      setInput("");
+      const low = raw.toLowerCase();
+      if (low === "exit" || low === "quit" || low === "ende") {
+        setAuskunftOn(false);
+        auskunftHistoryRef.current = [];
+        setLines((prev) => [
+          ...prev,
+          echo,
+          { text: ">> Auskunftsvorgang beendet. Kein Aktenzeichen vergeben.", kind: "system" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
+      playBeep(0.3 * sfxVolume);
+      setAuskunftBusy(true);
+      setLines((prev) => [
+        ...prev,
+        echo,
+        { text: ">> Anfrage wird bearbeitet …", kind: "system" },
+      ]);
+      const history = auskunftHistoryRef.current.slice(-8);
+      void (async () => {
+        try {
+          const resp = await fetch("/api/public/auskunft", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: raw, history }),
+          });
+          const data = (await resp.json()) as { answer?: string; error?: string };
+          if (!resp.ok || !data.answer) {
+            setLines((prev) => [
+              ...prev,
+              {
+                text: `>> AUSKUNFT NICHT MÖGLICH: ${data.error ?? "Dienst gestört."}`,
+                kind: "system",
+              },
+              { text: "", kind: "out" },
+            ]);
+            return;
+          }
+          auskunftHistoryRef.current = [
+            ...history,
+            { role: "user" as const, content: raw },
+            { role: "assistant" as const, content: data.answer },
+          ].slice(-8);
+          const out: Line[] = data.answer
+            .split("\n")
+            .map((t) => ({ text: t, kind: "out" }) as Line);
+          setLines((prev) => [...prev, ...out, { text: "", kind: "out" }]);
+        } catch {
+          setLines((prev) => [
+            ...prev,
+            { text: ">> AUSKUNFT NICHT MÖGLICH: Leitung gestört.", kind: "system" },
+            { text: "", kind: "out" },
+          ]);
+        } finally {
+          setAuskunftBusy(false);
+          setTimeout(() => inputRef.current?.focus(), 30);
+        }
+      })();
+      return;
     }
 
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
@@ -944,6 +1025,24 @@ export function Terminal() {
           ...lottiStart(fresh).map((t) => ({ text: t, kind: "out" } as Line)),
         );
       }
+    } else if (
+      cmd === "auskunft" ||
+      cmd === "./auskunft.bin" ||
+      cmd === "auskunft.bin"
+    ) {
+      setAuskunftOn(true);
+      auskunftHistoryRef.current = [];
+      newLines.push(
+        { text: "── AUSKUNFT.BIN v1.4 ─────────────────────────", kind: "system" },
+        { text: "   Amtliches Auskunftssystem des Mandatsgebiets", kind: "system" },
+        { text: "   Verwaltungsstand: 06.11.1997, 06:00 Uhr", kind: "system" },
+        { text: "", kind: "out" },
+        { text: "Auskünfte sind unverbindlich. Rechtsansprüche", kind: "out" },
+        { text: "entstehen ausschließlich aus dem Aktenvorgang.", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Stellen Sie Ihre Anfrage. 'exit' beendet den Vorgang.", kind: "system" },
+        { text: "", kind: "out" },
+      );
     } else if (cmd === "news" || cmd === "./news" || cmd === "news.bin") {
       const fresh = newNewsState();
       setNewsState(fresh);
@@ -1871,7 +1970,9 @@ export function Terminal() {
                   : "text-phosphor phosphor-glow"
             }`}
           >
-            {advState
+            {auskunftOn
+              ? "auskunft>"
+              : advState
               ? "adventure>"
               : lottiState
                 ? "lotti>"
@@ -1882,7 +1983,7 @@ export function Terminal() {
           <input
             ref={inputRef}
             value={input}
-            disabled={scriptedRunning}
+            disabled={scriptedRunning || auskunftBusy}
             onChange={(e) => {
               if (e.target.value.length > input.length) {
                 playKeypress(0.3 * sfxVolume);
@@ -2000,7 +2101,15 @@ export function Terminal() {
                   ? "text-sepia caret-sepia placeholder:text-sepia-dim/60"
                   : "text-phosphor caret-phosphor placeholder:text-phosphor-dim/60"
             }`}
-            placeholder={scriptedRunning ? "… Ausgabe läuft …" : "Befehl eingeben …"}
+            placeholder={
+              auskunftBusy
+                ? "… Anfrage wird bearbeitet …"
+                : auskunftOn
+                  ? "Anfrage an die Verwaltung … ('exit' beendet)"
+                  : scriptedRunning
+                    ? "… Ausgabe läuft …"
+                    : "Befehl eingeben …"
+            }
             spellCheck={false}
             autoComplete="off"
           />
