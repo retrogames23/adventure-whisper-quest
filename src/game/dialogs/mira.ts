@@ -679,39 +679,25 @@ export const miraDialogs: Record<string, DialogTree> = {
             },
           ];
           const normalId = miraNormalDialogId(api);
-          switch (normalId) {
-            case "miraAtHomeIntro":
-              choices.push({
-                text: "[ Bleiben und reden ]",
-                action: (api) => api.setFlag("miraAtHomeMet"),
-              });
-              break;
-            case "miraEvidenceAsk":
-              choices.push(
-                {
-                  text: "Verstanden — ich schau mir die drei an.",
-                  action: (api) => api.setFlag("miraAskedEvidence"),
-                },
-                {
-                  text: "Klingt nach mehr Ärger, als ich heute brauche.",
-                  action: (api) => api.setFlag("miraAskedEvidence"),
-                }
-              );
-              break;
-            case "miraEvidenceDeliver":
-              choices.push({
-                text: "[ Beenden ]",
-                action: (api) => {
-                  api.setFlag("miraEvidenceDelivered");
-                  api.setFlag("miraTerminalUnlocked");
-                },
-              });
-              break;
-            default:
-              choices.push({
-                text: "[ Weiter ]",
-                nextDialog: normalId,
-              });
+          const openers: Record<string, string> = {
+            miraAtHomeIntro: "Nichts Bestimmtes. Ich bleibe kurz.",
+            miraEvidenceAsk: "Woran arbeitest du gerade?",
+            miraEvidenceWait: "Wegen der Aushänge — was genau suchst du?",
+            miraEvidenceWaitOne: "Wegen der Aushänge. Ich bin dran.",
+            miraEvidenceWaitTwo: "Wegen der Aushänge. Zwei habe ich.",
+            miraEvidenceDeliver: "Ich habe die drei Aushänge.",
+            miraAfterEvidence: "Alles ruhig bei dir?",
+          };
+          if (normalId === "miraAtHomeIntro") {
+            choices.push({
+              text: openers["miraAtHomeIntro"]!,
+              action: (api) => api.setFlag("miraAtHomeMet"),
+            });
+          } else {
+            choices.push({
+              text: openers[normalId] ?? "Wie läuft's?",
+              nextDialog: normalId,
+            });
           }
           choices.push({ text: "[ Später ]" });
           return choices;
