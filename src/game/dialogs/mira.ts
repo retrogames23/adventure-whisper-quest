@@ -650,22 +650,8 @@ export const miraDialogs: Record<string, DialogTree> = {
   miraAtHomeHub: {
     id: "miraAtHomeHub",
     npcId: "mira",
-    start: "mhub1",
+    start: "mhub2",
     lines: {
-      mhub1: {
-        id: "mhub1",
-        speaker: "SYSTEM",
-        text: "[ Layard klopft. Es dauert. Dann geht die Tür auf. Mira tritt einen Schritt zurück und lässt ihn herein. ]",
-        hiddenWhen: ["miraTrustEarned"],
-        next: "mhub2",
-      },
-      mhub1b: {
-        id: "mhub1b",
-        speaker: "SYSTEM",
-        text: "[ Die Tür ist angelehnt. Mira sitzt auf dem Bett, ein Stapel sortierter Aushänge neben sich. ]",
-        requires: ["miraTrustEarned"],
-        next: "mhub2",
-      },
       mhub2: {
         id: "mhub2",
         speaker: "MIRA",
