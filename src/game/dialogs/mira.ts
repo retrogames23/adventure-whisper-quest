@@ -22,6 +22,43 @@ export function miraNormalDialogId(api: GameApi): string {
 }
 
 /**
+ * Gemeinsame Auswahl im 4601-Hub: Störungsmeldung + thematischer Einstieg
+ * in den jeweiligen Normaldialog + Abbruch.
+ */
+function miraHubChoices(api: GameApi): DialogChoice[] {
+  const choices: DialogChoice[] = [
+    {
+      text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+      nextDialog: "miraFaultReport",
+      hiddenWhen: ["miraRepairDone"],
+    },
+  ];
+  const normalId = miraNormalDialogId(api);
+  const openers: Record<string, string> = {
+    miraAtHomeIntro: "Nichts Bestimmtes. Ich bleibe kurz.",
+    miraEvidenceAsk: "Woran arbeitest du gerade?",
+    miraEvidenceWait: "Wegen der Aushänge — was genau suchst du?",
+    miraEvidenceWaitOne: "Wegen der Aushänge. Ich bin dran.",
+    miraEvidenceWaitTwo: "Wegen der Aushänge. Zwei habe ich.",
+    miraEvidenceDeliver: "Ich habe die drei Aushänge.",
+    miraAfterEvidence: "Alles ruhig bei dir?",
+  };
+  if (normalId === "miraAtHomeIntro") {
+    choices.push({
+      text: openers["miraAtHomeIntro"]!,
+      action: (api) => api.setFlag("miraAtHomeMet"),
+    });
+  } else {
+    choices.push({
+      text: openers[normalId] ?? "Wie läuft's?",
+      nextDialog: normalId,
+    });
+  }
+  choices.push({ text: "[ Später ]" });
+  return choices;
+}
+
+/**
  * Mira — skeptisch, nicht paranoid.
  *
  * Ihre These ist sprachlich, nicht technisch: „Resonanz-Hygiene" ist nirgends
