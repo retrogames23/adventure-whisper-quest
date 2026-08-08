@@ -1021,6 +1021,24 @@ export function Terminal() {
           ...lottiStart(fresh).map((t) => ({ text: t, kind: "out" } as Line)),
         );
       }
+    } else if (
+      cmd === "auskunft" ||
+      cmd === "./auskunft.bin" ||
+      cmd === "auskunft.bin"
+    ) {
+      setAuskunftOn(true);
+      auskunftHistoryRef.current = [];
+      newLines.push(
+        { text: "── AUSKUNFT.BIN v1.4 ─────────────────────────", kind: "system" },
+        { text: "   Amtliches Auskunftssystem des Mandatsgebiets", kind: "system" },
+        { text: "   Verwaltungsstand: 06.11.1997, 06:00 Uhr", kind: "system" },
+        { text: "", kind: "out" },
+        { text: "Auskünfte sind unverbindlich. Rechtsansprüche", kind: "out" },
+        { text: "entstehen ausschließlich aus dem Aktenvorgang.", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Stellen Sie Ihre Anfrage. 'exit' beendet den Vorgang.", kind: "system" },
+        { text: "", kind: "out" },
+      );
     } else if (cmd === "news" || cmd === "./news" || cmd === "news.bin") {
       const fresh = newNewsState();
       setNewsState(fresh);
