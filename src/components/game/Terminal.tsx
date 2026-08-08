@@ -664,6 +664,7 @@ export function Terminal() {
       const low = raw.toLowerCase();
       if (low === "exit" || low === "quit" || low === "ende") {
         setAuskunftOn(false);
+        setAuskunftBusyIndex(null);
         auskunftHistoryRef.current = [];
         setLines((prev) => [
           ...prev,
@@ -675,10 +676,13 @@ export function Terminal() {
       }
       playBeep(0.3 * sfxVolume);
       setAuskunftBusy(true);
+      // "Anfrage wird bearbeitet …" wird an Index lines.length + 1 gehängt
+      // (echo liegt davor auf lines.length).
+      setAuskunftBusyIndex(lines.length + 1);
       setLines((prev) => [
         ...prev,
         echo,
-        { text: ">> Anfrage wird bearbeitet …", kind: "system" },
+        { text: ">> Anfrage wird bearbeitet …", kind: "busy" },
       ]);
       const history = auskunftHistoryRef.current.slice(-8);
       void (async () => {
@@ -689,6 +693,7 @@ export function Terminal() {
             body: JSON.stringify({ question: raw, history }),
           });
           const data = (await resp.json()) as { answer?: string; error?: string };
+          setAuskunftBusyIndex(null);
           if (!resp.ok || !data.answer) {
             setLines((prev) => [
               ...prev,
@@ -710,6 +715,7 @@ export function Terminal() {
             .map((t) => ({ text: t, kind: "out" }) as Line);
           setLines((prev) => [...prev, ...out, { text: "", kind: "out" }]);
         } catch {
+          setAuskunftBusyIndex(null);
           setLines((prev) => [
             ...prev,
             { text: ">> AUSKUNFT NICHT MÖGLICH: Leitung gestört.", kind: "system" },
