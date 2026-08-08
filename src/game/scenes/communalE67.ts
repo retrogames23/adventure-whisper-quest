@@ -388,11 +388,7 @@ export const communalE67Scenes: Record<string, Scene> = {
             return;
           }
           if (!api.hasFlag("miraTerminalUnlocked")) {
-            api.showText([
-              "Das Terminal summt. Der Login-Prompt blinkt.",
-              "Mira hat noch nicht gesagt, dass Layard hier reinschauen darf.",
-              "Solange das Trauer-Band steht, lässt sie ihn nicht ran.",
-            ]);
+            api.startDialog("miraDoorBlock");
             return;
           }
           api.openTerminal({ mira: true });
