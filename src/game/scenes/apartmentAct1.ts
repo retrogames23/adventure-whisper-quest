@@ -101,10 +101,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       },
       {
         id: "phoneApt",
-        x: 75.4,
-        y: 33.7,
+        x: 70.7,
+        y: 33.8,
         w: 7.2,
         h: 18.1,
+
         label: "Telefon",
         kind: "use",
         // Only available after Layard saw the empty office on floor 3
