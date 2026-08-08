@@ -1504,8 +1504,24 @@ export function Terminal() {
         { text: "   23 root        2.1  1.8  /usr/bin/carrier-daemon --keepalive", kind: "out" },
         { text: "   41 leitstelle  0.3  0.5  /opt/leitstelle-tools/trace --ping", kind: "out" },
         { text: "   88 root        0.1  0.2  /usr/bin/centralos --rotate-logs", kind: "out" },
-        { text: "  142 layard      0.0  0.1  -sh", kind: "out" },
-        { text: "  143 layard      0.5  0.3  /home/layard/adventure.bin (idle)", kind: "out" },
+      );
+      if (miraMode) {
+        newLines.push(
+          { text: "  142 root        0.0  0.1  -sh", kind: "out" },
+          { text: "  143 root        0.4  0.6  /opt/wartung/portscan --slow", kind: "out" },
+        );
+      } else if (bodoMode) {
+        newLines.push(
+          { text: "  142 bodo        0.0  0.1  -sh", kind: "out" },
+          { text: "  143 bodo        0.2  0.2  /usr/bin/pneumatik-log --tail", kind: "out" },
+        );
+      } else {
+        newLines.push(
+          { text: "  142 layard      0.0  0.1  -sh", kind: "out" },
+          { text: "  143 layard      0.5  0.3  /home/layard/adventure.bin (idle)", kind: "out" },
+        );
+      }
+      newLines.push(
         { text: "  201 root        0.0  0.1  [resonance-feedback]", kind: "out" },
         { text: "  ???   ?           ?    ?  [???]", kind: "out" },
       );
