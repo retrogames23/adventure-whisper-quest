@@ -5,6 +5,7 @@ import corridor46NoPosterBg from "@/assets/scene-corridor-46-noposter.jpg";
 import corridor56Bg from "@/assets/scene-corridor-56.jpg";
 import serverRoom5610Bg from "@/assets/scene-server-room-5610.jpg";
 import miraSprite from "@/assets/npc-mira.png";
+import { startMiraEncounter } from "../dialogs/mira";
 import philippeSprite from "@/assets/npc-philippe.png";
 import oilCanSprite from "@/assets/item-oil-can-scene.png";
 import bodoThermosSprite from "@/assets/sprite-bodo-thermos.png";
@@ -160,33 +161,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         label: "Junge Frau an der Wand",
         kind: "talk",
         visible: (api) => api.getMiraFloors().includes(4),
-        onUse: (api) => {
-          if (
-            api.hasFlag("miraTerminalTrespass") &&
-            !api.hasFlag("miraConfrontedTrespass")
-          ) {
-            api.startDialog("miraTrespassConfront");
-          } else if (
-            api.hasFlag("miraFlatOpen") &&
-            !api.hasFlag("miraTerminalTrespass")
-          ) {
-            api.startDialog("miraOutInHeat");
-          } else if (
-            api.hasFlag("tookFlyer") &&
-            !api.hasFlag("miraTrustEarned") &&
-            !api.hasFlag("miraTrustWithheld")
-          ) {
-            api.startDialog("miraTrustProbe");
-          } else if (api.hasFlag("tookFlyer")) {
-            api.startDialog("miraAfter");
-          } else if (api.hasFlag("miraSystemic")) {
-            api.startDialog("miraSystemicGreeting");
-          } else if (api.hasFlag("metMira")) {
-            api.startDialog("miraReturn");
-          } else {
-            api.setFlag("metMira");
-            api.startDialog("miraIntro");
-          }
+        onUse: (api) => startMiraEncounter(api),
         },
       },
       {
