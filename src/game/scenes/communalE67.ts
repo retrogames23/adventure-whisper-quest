@@ -331,7 +331,6 @@ export const communalE67Scenes: Record<string, Scene> = {
         visible: (api) =>
           !api.hasFlag("miraFlatOpen") || api.hasFlag("miraConfrontedTrespass"),
         onUse: (api) => startMiraEncounter(api, { atHome: true }),
-        },
       },
       {
         id: "miraTerminal",
