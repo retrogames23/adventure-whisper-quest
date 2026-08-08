@@ -399,17 +399,17 @@ export const communalE67Scenes: Record<string, Scene> = {
         },
       },
       {
-        id: "miraPosterLeine",
+        id: "miraPosterResonanz",
         x: 22.9,
         y: 15.1,
         w: 50.3,
         h: 24,
-        label: "Plakat „RESONANZHYGIENE — DEINE LEINE“",
+        label: "Plakat „RESONANZHYGIENE“",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Stenciled, schwarz, schief geklebt. Darunter, klein:",
-            "»eine leine ist erst dann eine, wenn man sie spürt.«",
+            "Stenciled, schwarz, schief geklebt. Ein Wort quer über die Wand.",
+            "Darunter, klein: »Pausen sind Teil der Behandlung.«",
             "Und ganz unten: Z.K.S.",
           ]),
       },
