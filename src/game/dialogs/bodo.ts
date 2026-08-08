@@ -470,13 +470,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bx1: {
         id: "bx1",
         speaker: "SYSTEM",
-        text: "[ Bodo schiebt sich durch die Tür. Tasche unter dem Arm, B3 darin. Lotti hebt den Kopf — und Bodo bleibt im Türrahmen stehen. ]",
-        next: "bx2",
-      },
-      bx2: {
-        id: "bx2",
-        speaker: "SYSTEM",
-        text: "Bodo schaut zum Terminal. Schaut wieder zurück. Sein Gesicht wird sehr still.",
+        text: "[ Bodo schiebt sich durch die Tür. Tasche unter dem Arm, B3 darin. Lotti hebt den Kopf — und Bodo bleibt im Türrahmen stehen. ] Bodo schaut zum Terminal. Schaut wieder zurück. Sein Gesicht wird sehr still.",
         next: "bx3",
       },
       bx3: {
@@ -539,13 +533,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bm1: {
         id: "bm1",
         speaker: "SYSTEM",
-        text: "[ Bodo schiebt sich durch die Tür. Tasche unter dem Arm, B3 darin. Lotti hebt den Kopf — und Bodo bleibt im Türrahmen stehen. ]",
-        next: "bm2",
-      },
-      bm2: {
-        id: "bm2",
-        speaker: "SYSTEM",
-        text: "Bodo schaut zum Terminal. Bildschirm steht — fast — wie er ihn verlassen hat. Eine Zeile zu viel im Verlauf.",
+        text: "[ Bodo schiebt sich durch die Tür. Tasche unter dem Arm, B3 darin. Lotti hebt den Kopf — und Bodo bleibt im Türrahmen stehen. ] Bodo schaut zum Terminal. Bildschirm steht — fast — wie er ihn verlassen hat. Eine Zeile zu viel im Verlauf.",
         next: "bm3",
       },
       bm3: {

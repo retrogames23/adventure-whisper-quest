@@ -175,25 +175,13 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kHyg1: {
         id: "kHyg1",
         speaker: "KOWALK",
-        text: "Brust ist neu. Brust glaubt, was im neuesten Aushang steht. Ich halte mich an das, was funktioniert. Manchmal überschneidet sich das. Manchmal nicht.",
-        next: "kHyg2",
-      },
-      kHyg2: {
-        id: "kHyg2",
-        speaker: "KOWALK",
-        text: "Wir streiten nicht über Hygiene, Worag. Wir streiten darüber, wer nachher schuld ist.",
+        text: "Brust ist neu. Brust glaubt, was im neuesten Aushang steht. Ich halte mich an das, was funktioniert. Manchmal überschneidet sich das. Manchmal nicht. Wir streiten nicht über Hygiene, Worag. Wir streiten darüber, wer nachher schuld ist.",
         next: "k0",
       },
       kDaughter1: {
         id: "kDaughter1",
         speaker: "KOWALK",
-        text: "Tilla. Ja. War zwei Jahre bei Resonanz-Hygiene. Ist letztes Frühjahr ohne Erklärung gegangen.",
-        next: "kDaughter2",
-      },
-      kDaughter2: {
-        id: "kDaughter2",
-        speaker: "KOWALK",
-        text: "Sie isst seitdem keine B2. Nur noch B3. Sagt, sie braucht was, das schmeckt. Klingt blöd, ich weiß.",
+        text: "Tilla. Ja. War zwei Jahre bei Resonanz-Hygiene. Ist letztes Frühjahr ohne Erklärung gegangen. Sie isst seitdem keine B2. Nur noch B3. Sagt, sie braucht was, das schmeckt. Klingt blöd, ich weiß.",
         next: "kDaughter3",
       },
       kDaughter3: {
@@ -574,13 +562,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kSideB1: {
         id: "kSideB1",
         speaker: "BRUST",
-        text: "Das … das ist die alte Ausgabe. Die ist offiziell …",
-        next: "kSideB2",
-      },
-      kSideB2: {
-        id: "kSideB2",
-        speaker: "BRUST",
-        text: "… nicht widerrufen. Korrekt. Punkt sieben Eins ist nicht widerrufen. Nur überlagert.",
+        text: "Das … das ist die alte Ausgabe. Die ist offiziell … … nicht widerrufen. Korrekt. Punkt sieben Eins ist nicht widerrufen. Nur überlagert.",
         next: "kSideB3",
       },
       kSideB3: {
@@ -764,13 +746,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       bTube1: {
         id: "bTube1",
         speaker: "BRUST",
-        text: "Pneumatik nach E70. Quittungen, Schichtprotokolle, Anträge. Eingehende Sendungen sehr selten.",
-        next: "bTube2",
-      },
-      bTube2: {
-        id: "bTube2",
-        speaker: "BRUST",
-        text: "Heute morgen drei Sendungen ausgegangen. Eingehend: keine. Das Licht oben blinkt seit gestern. Frau Kowalk sagt, das blinkt manchmal einfach.",
+        text: "Pneumatik nach E70. Quittungen, Schichtprotokolle, Anträge. Eingehende Sendungen sehr selten. Heute morgen drei Sendungen ausgegangen. Eingehend: keine. Das Licht oben blinkt seit gestern. Frau Kowalk sagt, das blinkt manchmal einfach.",
         next: "b0",
       },
       bBye: {

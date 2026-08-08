@@ -79,13 +79,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ru6: {
         id: "ru6",
         speaker: "RECEPTION",
-        text: "Ich notiere das nach. Halten Sie Ihren Ausweis bereit, falls jemand fragt.",
-        next: "ru7",
-      },
-      ru7: {
-        id: "ru7",
-        speaker: "RECEPTION",
-        text: "Korridor 15. Den langen Gang ganz nach hinten. Die Tür am Ende, rotes Licht. Herr Stegmann hat heute viel auf dem Tisch — fassen Sie sich kurz.",
+        text: "Ich notiere das nach. Halten Sie Ihren Ausweis bereit, falls jemand fragt. Korridor 15. Den langen Gang ganz nach hinten. Die Tür am Ende, rotes Licht. Herr Stegmann hat heute viel auf dem Tisch — fassen Sie sich kurz.",
         next: "ru8",
       },
       ru8: {

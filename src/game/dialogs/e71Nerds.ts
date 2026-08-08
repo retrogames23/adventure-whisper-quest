@@ -139,13 +139,7 @@ export const e71NerdsDialogs: Record<string, DialogTree> = {
       sHdd1: {
         id: "sHdd1",
         speaker: "SIGI",
-        text: "Wir haben keine. Ein Freund von Ruven schon, in seinem A2000. 20 Megabyte. Hat ihn drei Monatslöhne gekostet, schwarz, durch Hamburg.",
-        next: "sHdd2",
-      },
-      sHdd2: {
-        id: "sHdd2",
-        speaker: "SIGI",
-        text: "20 Megabyte — das sind 23 Disketten in einem Kasten, der nicht klappert. Stell dir das mal vor.",
+        text: "Wir haben keine. Ein Freund von Ruven schon, in seinem A2000. 20 Megabyte. Hat ihn drei Monatslöhne gekostet, schwarz, durch Hamburg. 20 Megabyte — das sind 23 Disketten in einem Kasten, der nicht klappert. Stell dir das mal vor.",
         next: "s0",
       },
       sBye: {
