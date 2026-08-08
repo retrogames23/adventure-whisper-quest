@@ -260,6 +260,7 @@ export const communalE67Scenes: Record<string, Scene> = {
               "Im Rohr klackt es. Eine Hülse landet im Auffangkorb.",
               "Aufkleber: »EINGANG · QUITTUNG 4317-K · BEANTWORTET«.",
               "Drinnen: ein Transferbogen. Eine Bewohnernummer. Ein Heim.",
+              "",
               "Tilla.",
               "[ Transferbogen 70-2244 eingesteckt. ]",
             ]);

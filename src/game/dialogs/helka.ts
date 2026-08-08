@@ -240,13 +240,7 @@ export const helkaDialogs: Record<string, DialogTree> = {
       hf3: {
         id: "hf3",
         speaker: "HELKA",
-        text: "Z.K.S. Das hat schon mal jemand versucht. 1989. Wortgleich, fast. Nehmen Sie es wieder mit, Herr Worag.",
-        next: "hf4",
-      },
-      hf4: {
-        id: "hf4",
-        speaker: "HELKA",
-        text: "Und werfen Sie es nicht in meinen Briefschlitz. Ich sortiere alles, was reinkommt. Auch das, was ich nicht sortieren möchte.",
+        text: "Z.K.S. Das hat schon mal jemand versucht. 1989. Wortgleich, fast. Nehmen Sie es wieder mit, Herr Worag. Und werfen Sie es nicht in meinen Briefschlitz. Ich sortiere alles, was reinkommt. Auch das, was ich nicht sortieren möchte.",
         next: "hf5",
       },
       hf5: {

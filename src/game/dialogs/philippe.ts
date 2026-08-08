@@ -103,13 +103,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
       q1: {
         id: "q1",
         speaker: "PHILIPPE",
-        text: "Es dauert schon mehrere Stunden an. Ich habe die Block-Verwaltung über das Terminal informiert.",
-        next: "q2",
-      },
-      q2: {
-        id: "q2",
-        speaker: "PHILIPPE",
-        text: "Status: „in Bearbeitung“. Seit heute Morgen. Das ist alles, was ich bekomme.",
+        text: "Es dauert schon mehrere Stunden an. Ich habe die Block-Verwaltung über das Terminal informiert. Status: „in Bearbeitung“. Seit heute Morgen. Das ist alles, was ich bekomme.",
         next: "q3",
       },
       q3: {

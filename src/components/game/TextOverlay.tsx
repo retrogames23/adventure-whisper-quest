@@ -16,6 +16,45 @@ import {
 } from "@/dev/textPatchState";
 import { usePaused, useDevStep } from "@/dev/devPlaybackState";
 
+/**
+ * Fasst die Einzelzeilen eines `showText`-Blocks zu Seiten zusammen,
+ * damit ein zusammenhängender Absatz nur einen Klick kostet.
+ *
+ * Regeln:
+ * - Eine leere Zeile ("") erzwingt einen Seitenwechsel — so bleiben
+ *   dramaturgisch gesetzte Einzel-Beats erhalten.
+ * - Budget pro Seite: Zeilenzahl und Zeichen, auf Mobile enger.
+ */
+export function buildTextPages(lines: string[], compact = false): string[][] {
+  const maxLines = compact ? 4 : 6;
+  const maxChars = compact ? 260 : 450;
+  const pages: string[][] = [];
+  let cur: string[] = [];
+  let chars = 0;
+  const flush = () => {
+    if (cur.length) pages.push(cur);
+    cur = [];
+    chars = 0;
+  };
+  for (const raw of lines) {
+    const line = raw ?? "";
+    if (line.trim() === "") {
+      flush();
+      continue;
+    }
+    if (
+      cur.length > 0 &&
+      (cur.length >= maxLines || chars + line.length > maxChars)
+    ) {
+      flush();
+    }
+    cur.push(line);
+    chars += line.length;
+  }
+  flush();
+  return pages.length ? pages : [[""]];
+}
+
 export function TextOverlay() {
   const { textOverlay, closeText } = useGame();
   const [idx, setIdx] = useState(0);
@@ -25,6 +64,23 @@ export function TextOverlay() {
   const editing = dev && editActive;
   const pausedRaw = usePaused();
   const paused = dev && pausedRaw;
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const sync = () => setCompact(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  // Anzahl der Seiten (nicht Zeilen) bestimmt das Weiterklicken.
+  const patchedLines = textOverlay ? applyTextPatch(textOverlay) : null;
+  const pages =
+    patchedLines && !editing ? buildTextPages(patchedLines, compact) : null;
+  const stepCount = editing
+    ? (patchedLines?.length ?? 0)
+    : (pages?.length ?? 0);
 
   useEffect(() => {
     setIdx(0);
@@ -34,34 +90,36 @@ export function TextOverlay() {
     if (!textOverlay) return;
     if (editing) return; // im Edit-Modus nicht automatisch weiterspringen
     if (paused) return; // Dev-Pause friert auch das Auto-Advance ein
-    const isLast = idx >= textOverlay.length - 1;
+    const isLast = idx >= stepCount - 1;
     const t = setTimeout(() => {
       if (isLast) closeText();
       else setIdx((i) => i + 1);
     }, 20000);
     return () => clearTimeout(t);
-  }, [textOverlay, idx, closeText, editing, paused]);
+  }, [textOverlay, idx, closeText, editing, paused, stepCount]);
 
   // Dev: Schritt zurück / vor über das Wiedergabe-Panel.
   useDevStep((dir) => {
     if (!textOverlay) return;
     if (dir === -1) setIdx((i) => Math.max(0, i - 1));
     else {
-      const isLast = idx >= textOverlay.length - 1;
+      const isLast = idx >= stepCount - 1;
       if (isLast) closeText();
       else setIdx((i) => i + 1);
     }
   });
 
-  if (!textOverlay) return null;
-  const displayed = applyTextPatch(textOverlay);
+  if (!textOverlay || !patchedLines) return null;
+  const displayed = patchedLines;
   // idx wird per Effect zurückgesetzt, wenn sich `textOverlay` ändert —
   // beim ersten Render mit neuem Overlay kann idx aber noch zu groß sein.
   // Wir clampen, damit `current` nie undefined ist und die Edit-Textarea
   // nicht auf `undefined.length` crasht.
-  const safeIdx = Math.min(idx, displayed.length - 1);
+  const total = Math.max(1, stepCount);
+  const safeIdx = Math.min(idx, total - 1);
   const current = displayed[safeIdx] ?? "";
-  const isLast = safeIdx >= displayed.length - 1;
+  const currentPage = pages ? (pages[safeIdx] ?? []) : [];
+  const isLast = safeIdx >= total - 1;
   const patched = !!getTextPatch(textOverlay);
 
   const advance = () => {
@@ -182,11 +240,16 @@ export function TextOverlay() {
         aria-label="Weiter"
       >
         <p className="font-display text-lg leading-relaxed text-foreground text-shadow-hard sm:text-xl">
-          {current}
+          {currentPage.map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {line}
+            </span>
+          ))}
         </p>
         <div className="mt-3 flex items-center justify-between text-xs uppercase tracking-widest text-muted-foreground">
           <span>
-            {safeIdx + 1} / {displayed.length}
+            {safeIdx + 1} / {total}
           </span>
           <span className="amber-glow">{isLast ? "▣ Schließen" : "▸ Weiter"}</span>
         </div>
