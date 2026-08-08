@@ -305,6 +305,9 @@ export function Terminal() {
   // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
   const [auskunftOn, setAuskunftOn] = useState(false);
   const [auskunftBusy, setAuskunftBusy] = useState(false);
+  // Index der "Anfrage wird bearbeitet …"-Zeile im Terminal-Output,
+  // damit diese Zeile während der Wartezeit oben im sichtbaren Bereich bleibt.
+  const [auskunftBusyIndex, setAuskunftBusyIndex] = useState<number | null>(null);
   const auskunftHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
   // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
