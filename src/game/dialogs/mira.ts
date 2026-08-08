@@ -687,44 +687,29 @@ export const miraDialogs: Record<string, DialogTree> = {
   miraAtHomeHub: {
     id: "miraAtHomeHub",
     npcId: "mira",
-    start: "mhub2",
+    start: "mhubKnown",
     lines: {
-      mhub2: {
-        id: "mhub2",
+      // Bekannt: Mira kann Layard beim Namen/Anblick begrüßen.
+      mhubKnown: {
+        id: "mhubKnown",
         speaker: "MIRA",
         text: "Du bist es. — Also, was ist?",
-        choicesFn: (api): DialogChoice[] => {
-          const choices: DialogChoice[] = [
-            {
-              text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
-              nextDialog: "miraFaultReport",
-              hiddenWhen: ["miraRepairDone"],
-            },
-          ];
-          const normalId = miraNormalDialogId(api);
-          const openers: Record<string, string> = {
-            miraAtHomeIntro: "Nichts Bestimmtes. Ich bleibe kurz.",
-            miraEvidenceAsk: "Woran arbeitest du gerade?",
-            miraEvidenceWait: "Wegen der Aushänge — was genau suchst du?",
-            miraEvidenceWaitOne: "Wegen der Aushänge. Ich bin dran.",
-            miraEvidenceWaitTwo: "Wegen der Aushänge. Zwei habe ich.",
-            miraEvidenceDeliver: "Ich habe die drei Aushänge.",
-            miraAfterEvidence: "Alles ruhig bei dir?",
-          };
-          if (normalId === "miraAtHomeIntro") {
-            choices.push({
-              text: openers["miraAtHomeIntro"]!,
-              action: (api) => api.setFlag("miraAtHomeMet"),
-            });
-          } else {
-            choices.push({
-              text: openers[normalId] ?? "Wie läuft's?",
-              nextDialog: normalId,
-            });
-          }
-          choices.push({ text: "[ Später ]" });
-          return choices;
-        },
+        requires: ["miraAtHomeMet"],
+        next: "mhubChoices",
+      },
+      // Erstbesuch in 4601: neutral, keine vertraute Anrede.
+      mhubFirst: {
+        id: "mhubFirst",
+        speaker: "MIRA",
+        text: "Setz dich. Oder steh. — Was willst du?",
+        hiddenWhen: ["miraAtHomeMet"],
+        next: "mhubChoices",
+      },
+      mhubChoices: {
+        id: "mhubChoices",
+        speaker: "SYSTEM",
+        text: "[ Mira wartet. ]",
+        choicesFn: miraHubChoices,
       },
     },
   },
