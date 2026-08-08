@@ -29,6 +29,7 @@ import { Route as ApiPublicFastwebChatRouteImport } from './routes/api/public/fa
 import { Route as ApiPublicDsaMasterRouteImport } from './routes/api/public/dsa-master'
 import { Route as ApiPublicDsaGroupRouteImport } from './routes/api/public/dsa-group'
 import { Route as ApiPublicDonationCheckoutRouteImport } from './routes/api/public/donation-checkout'
+import { Route as ApiPublicAuskunftRouteImport } from './routes/api/public/auskunft'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -137,6 +138,11 @@ const ApiPublicDonationCheckoutRoute =
     path: '/api/public/donation-checkout',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicAuskunftRoute = ApiPublicAuskunftRouteImport.update({
+  id: '/api/public/auskunft',
+  path: '/api/public/auskunft',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/dsa/helden': typeof DsaHeldenRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/dsa/': typeof DsaIndexRoute
+  '/api/public/auskunft': typeof ApiPublicAuskunftRoute
   '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/dsa-group': typeof ApiPublicDsaGroupRoute
   '/api/public/dsa-master': typeof ApiPublicDsaMasterRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByTo {
   '/dsa/helden': typeof DsaHeldenRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/dsa': typeof DsaIndexRoute
+  '/api/public/auskunft': typeof ApiPublicAuskunftRoute
   '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/dsa-group': typeof ApiPublicDsaGroupRoute
   '/api/public/dsa-master': typeof ApiPublicDsaMasterRoute
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/dsa/helden': typeof DsaHeldenRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/dsa/': typeof DsaIndexRoute
+  '/api/public/auskunft': typeof ApiPublicAuskunftRoute
   '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/dsa-group': typeof ApiPublicDsaGroupRoute
   '/api/public/dsa-master': typeof ApiPublicDsaMasterRoute
@@ -261,6 +270,7 @@ export interface FileRouteTypes {
     | '/dsa/helden'
     | '/email/unsubscribe'
     | '/dsa/'
+    | '/api/public/auskunft'
     | '/api/public/donation-checkout'
     | '/api/public/dsa-group'
     | '/api/public/dsa-master'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/dsa/helden'
     | '/email/unsubscribe'
     | '/dsa'
+    | '/api/public/auskunft'
     | '/api/public/donation-checkout'
     | '/api/public/dsa-group'
     | '/api/public/dsa-master'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/dsa/helden'
     | '/email/unsubscribe'
     | '/dsa/'
+    | '/api/public/auskunft'
     | '/api/public/donation-checkout'
     | '/api/public/dsa-group'
     | '/api/public/dsa-master'
@@ -338,6 +350,7 @@ export interface RootRouteChildren {
   UnsubscribeRoute: typeof UnsubscribeRoute
   ApiTtsRoute: typeof ApiTtsRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
+  ApiPublicAuskunftRoute: typeof ApiPublicAuskunftRoute
   ApiPublicDonationCheckoutRoute: typeof ApiPublicDonationCheckoutRoute
   ApiPublicDsaGroupRoute: typeof ApiPublicDsaGroupRoute
   ApiPublicDsaMasterRoute: typeof ApiPublicDsaMasterRoute
@@ -495,6 +508,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDonationCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/auskunft': {
+      id: '/api/public/auskunft'
+      path: '/api/public/auskunft'
+      fullPath: '/api/public/auskunft'
+      preLoaderRoute: typeof ApiPublicAuskunftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -580,6 +600,7 @@ const rootRouteChildren: RootRouteChildren = {
   UnsubscribeRoute: UnsubscribeRoute,
   ApiTtsRoute: ApiTtsRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
+  ApiPublicAuskunftRoute: ApiPublicAuskunftRoute,
   ApiPublicDonationCheckoutRoute: ApiPublicDonationCheckoutRoute,
   ApiPublicDsaGroupRoute: ApiPublicDsaGroupRoute,
   ApiPublicDsaMasterRoute: ApiPublicDsaMasterRoute,
