@@ -602,6 +602,19 @@ export const miraDialogs: Record<string, DialogTree> = {
       },
     },
   },
+  miraDoorBlock: {
+    id: "miraDoorBlock",
+    npcId: "mira",
+    start: "mdb1",
+    lines: {
+      mdb1: {
+        id: "mdb1",
+        speaker: "MIRA",
+        text: "Finger weg, Layard.",
+        end: true,
+      },
+    },
+  },
   miraAtHomeIntro: {
     id: "miraAtHomeIntro",
     npcId: "mira",
