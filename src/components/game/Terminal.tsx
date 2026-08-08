@@ -305,6 +305,9 @@ export function Terminal() {
   // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
   const [auskunftOn, setAuskunftOn] = useState(false);
   const [auskunftBusy, setAuskunftBusy] = useState(false);
+  // Index der "Anfrage wird bearbeitet …"-Zeile im Terminal-Output,
+  // damit diese Zeile während der Wartezeit oben im sichtbaren Bereich bleibt.
+  const [auskunftBusyIndex, setAuskunftBusyIndex] = useState<number | null>(null);
   const auskunftHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
   // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
@@ -509,10 +512,19 @@ export function Terminal() {
   }, [terminalOpen]);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (!scrollRef.current) return;
+    // Während auskunft auf eine LLM-Antwort wartet, soll die
+    // "Anfrage wird bearbeitet …"-Zeile oben im sichtbaren Bereich
+    // bleiben, statt bis ganz nach unten zu springen.
+    if (auskunftBusy && auskunftBusyIndex !== null) {
+      const busyEl = scrollRef.current.children[auskunftBusyIndex] as HTMLElement | undefined;
+      if (busyEl) {
+        scrollRef.current.scrollTop = Math.max(0, busyEl.offsetTop - 8);
+        return;
+      }
     }
-  }, [lines]);
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [lines, auskunftBusy, auskunftBusyIndex]);
 
   // Sicherheitsnetz: Beim Unmount des Terminals einen evtl. noch
   // laufenden News-Ticker-Loop sauber abräumen.
@@ -652,6 +664,7 @@ export function Terminal() {
       const low = raw.toLowerCase();
       if (low === "exit" || low === "quit" || low === "ende") {
         setAuskunftOn(false);
+        setAuskunftBusyIndex(null);
         auskunftHistoryRef.current = [];
         setLines((prev) => [
           ...prev,
@@ -663,10 +676,13 @@ export function Terminal() {
       }
       playBeep(0.3 * sfxVolume);
       setAuskunftBusy(true);
+      // "Anfrage wird bearbeitet …" wird an Index lines.length + 1 gehängt
+      // (echo liegt davor auf lines.length).
+      setAuskunftBusyIndex(lines.length + 1);
       setLines((prev) => [
         ...prev,
         echo,
-        { text: ">> Anfrage wird bearbeitet …", kind: "system" },
+        { text: ">> Anfrage wird bearbeitet …", kind: "busy" },
       ]);
       const history = auskunftHistoryRef.current.slice(-8);
       void (async () => {
@@ -677,6 +693,7 @@ export function Terminal() {
             body: JSON.stringify({ question: raw, history }),
           });
           const data = (await resp.json()) as { answer?: string; error?: string };
+          setAuskunftBusyIndex(null);
           if (!resp.ok || !data.answer) {
             setLines((prev) => [
               ...prev,
@@ -698,6 +715,7 @@ export function Terminal() {
             .map((t) => ({ text: t, kind: "out" }) as Line);
           setLines((prev) => [...prev, ...out, { text: "", kind: "out" }]);
         } catch {
+          setAuskunftBusyIndex(null);
           setLines((prev) => [
             ...prev,
             { text: ">> AUSKUNFT NICHT MÖGLICH: Leitung gestört.", kind: "system" },
