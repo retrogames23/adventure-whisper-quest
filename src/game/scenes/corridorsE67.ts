@@ -162,7 +162,6 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         kind: "talk",
         visible: (api) => api.getMiraFloors().includes(4),
         onUse: (api) => startMiraEncounter(api),
-        },
       },
       {
         id: "poster46",
