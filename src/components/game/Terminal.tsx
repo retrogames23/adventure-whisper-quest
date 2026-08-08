@@ -1970,7 +1970,9 @@ export function Terminal() {
                   : "text-phosphor phosphor-glow"
             }`}
           >
-            {advState
+            {auskunftOn
+              ? "auskunft>"
+              : advState
               ? "adventure>"
               : lottiState
                 ? "lotti>"
@@ -1981,7 +1983,7 @@ export function Terminal() {
           <input
             ref={inputRef}
             value={input}
-            disabled={scriptedRunning}
+            disabled={scriptedRunning || auskunftBusy}
             onChange={(e) => {
               if (e.target.value.length > input.length) {
                 playKeypress(0.3 * sfxVolume);
