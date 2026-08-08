@@ -413,6 +413,10 @@ export function Terminal() {
       setSuperuser(false);
       // News-Programm (samt eventuell laufendem Ticker) zurücksetzen.
       setNewsState(null);
+      // Auskunftsvorgang zurücksetzen.
+      setAuskunftOn(false);
+      setAuskunftBusy(false);
+      auskunftHistoryRef.current = [];
       if (newsTickerTimerRef.current) {
         clearInterval(newsTickerTimerRef.current);
         newsTickerTimerRef.current = null;
