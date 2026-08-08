@@ -5,7 +5,8 @@ import type { DialogChoice, DialogTree, GameApi } from "../types";
  * bei Zufallsbegegnungen greift — je nachdem, was schon gelaufen ist.
  */
 export function miraNormalDialogId(api: GameApi): string {
-  if (!api.hasFlag("miraAtHomeMet")) return "miraAtHomeIntro";
+  if (!api.hasFlag("miraAtHomeMet") && !api.hasFlag("metMira"))
+    return "miraAtHomeIntro";
   if (api.hasFlag("miraEvidenceDelivered")) return "miraAfterEvidence";
   if (api.hasFlag("miraAskedEvidence")) {
     const belege = [
@@ -738,7 +739,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Bleiben und reden ]",
-            action: (api) => api.setFlag("miraAtHomeMet"),
+            action: (api) => {
+              api.setFlag("miraAtHomeMet");
+              api.setFlag("metMira");
+            },
           },
         ],
       },
@@ -755,7 +759,7 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mhubKnown",
         speaker: "MIRA",
         text: "Du bist es. — Also, was ist?",
-        requires: ["miraAtHomeMet"],
+        requires: ["metMira"],
         next: "mhubChoices",
       },
       // Erstbesuch in 4601: neutral, keine vertraute Anrede.
@@ -763,7 +767,7 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mhubFirst",
         speaker: "MIRA",
         text: "Setz dich. Oder steh. — Was willst du?",
-        hiddenWhen: ["miraAtHomeMet"],
+        hiddenWhen: ["metMira"],
         next: "mhubChoices",
       },
       mhubChoices: {
