@@ -5,7 +5,8 @@ import type { DialogChoice, DialogTree, GameApi } from "../types";
  * bei Zufallsbegegnungen greift — je nachdem, was schon gelaufen ist.
  */
 export function miraNormalDialogId(api: GameApi): string {
-  if (!api.hasFlag("miraAtHomeMet")) return "miraAtHomeIntro";
+  if (!api.hasFlag("miraAtHomeMet") && !api.hasFlag("metMira"))
+    return "miraAtHomeIntro";
   if (api.hasFlag("miraEvidenceDelivered")) return "miraAfterEvidence";
   if (api.hasFlag("miraAskedEvidence")) {
     const belege = [
@@ -33,6 +34,31 @@ function miraHubChoices(api: GameApi): DialogChoice[] {
       hiddenWhen: ["miraRepairDone"],
     },
   ];
+  // Flugblatt-Strang: überall verfügbar, solange Layard es nicht hat.
+  if (!api.hasFlag("tookFlyer")) {
+    choices.push({
+      text: "Was heißt „Resonanz-Hygiene“ eigentlich — wörtlich?",
+      nextDialog: "miraReturn",
+    });
+  }
+  // Vertrauensprobe, sobald das Blatt in Layards Tasche liegt.
+  if (
+    api.hasFlag("tookFlyer") &&
+    !api.hasFlag("miraTrustEarned") &&
+    !api.hasFlag("miraTrustWithheld")
+  ) {
+    choices.push({
+      text: "Ich habe dein Blatt gelesen. Was jetzt?",
+      nextDialog: "miraTrustProbe",
+    });
+  }
+  // Hinweis auf 5610 — nur solange Layard die Tür nicht kennt.
+  if (api.hasFlag("tookFlyer") && !api.hasFlag("saw5610Door")) {
+    choices.push({
+      text: "Gibt es einen Ort, an dem die alten Fassungen liegen?",
+      nextDialog: "miraAfter",
+    });
+  }
   const normalId = miraNormalDialogId(api);
   const openers: Record<string, string> = {
     miraAtHomeIntro: "Nichts Bestimmtes. Ich bleibe kurz.",
@@ -56,6 +82,42 @@ function miraHubChoices(api: GameApi): DialogChoice[] {
   }
   choices.push({ text: "[ Später ]" });
   return choices;
+}
+
+/**
+ * Einziger Einstiegspunkt für Mira — Flur wie Wohnung. Gleiche Person,
+ * gleicher Zustand, gleiche Optionen; nur die Erstbegegnung ist ortsabhängig.
+ */
+export function startMiraEncounter(
+  api: GameApi,
+  opts?: { atHome?: boolean },
+): void {
+  const atHome = opts?.atHome ?? false;
+  if (
+    api.hasFlag("miraTerminalTrespass") &&
+    !api.hasFlag("miraConfrontedTrespass")
+  ) {
+    api.startDialog("miraTrespassConfront");
+    return;
+  }
+  if (
+    !atHome &&
+    api.hasFlag("miraFlatOpen") &&
+    !api.hasFlag("miraTerminalTrespass")
+  ) {
+    api.startDialog("miraOutInHeat");
+    return;
+  }
+  if (!api.hasFlag("metMira")) {
+    api.setFlag("metMira");
+    api.startDialog(atHome ? "miraAtHomeIntro" : "miraIntro");
+    return;
+  }
+  if (api.hasFlag("miraSystemic")) {
+    api.startDialog("miraSystemicGreeting");
+    return;
+  }
+  api.startDialog("miraAtHomeHub");
 }
 
 /**
@@ -677,7 +739,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Bleiben und reden ]",
-            action: (api) => api.setFlag("miraAtHomeMet"),
+            action: (api) => {
+              api.setFlag("miraAtHomeMet");
+              api.setFlag("metMira");
+            },
           },
         ],
       },
@@ -694,7 +759,7 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mhubKnown",
         speaker: "MIRA",
         text: "Du bist es. — Also, was ist?",
-        requires: ["miraAtHomeMet"],
+        requires: ["metMira"],
         next: "mhubChoices",
       },
       // Erstbesuch in 4601: neutral, keine vertraute Anrede.
@@ -702,7 +767,7 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mhubFirst",
         speaker: "MIRA",
         text: "Setz dich. Oder steh. — Was willst du?",
-        hiddenWhen: ["miraAtHomeMet"],
+        hiddenWhen: ["metMira"],
         next: "mhubChoices",
       },
       mhubChoices: {

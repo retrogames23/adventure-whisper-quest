@@ -5,6 +5,8 @@ import cafeteriaGreenBg from "@/assets/scene-cafeteria-e67-green.jpg";
 import aptMira4601Bg from "@/assets/scene-apt-mira-4601.jpg";
 import type { Scene } from "../types";
 
+import { startMiraEncounter } from "../dialogs/mira";
+
 export const communalE67Scenes: Record<string, Scene> = {
   commonRoomE67: {
     id: "commonRoomE67",
@@ -328,41 +330,7 @@ export const communalE67Scenes: Record<string, Scene> = {
         // Heizungspfad: Mira steht im Korridor, nicht in der Wohnung.
         visible: (api) =>
           !api.hasFlag("miraFlatOpen") || api.hasFlag("miraConfrontedTrespass"),
-        onUse: (api) => {
-          if (api.hasFlag("phoneBroken") && !api.hasFlag("miraRepairDone")) {
-            api.startDialog("miraAtHomeHub");
-            return;
-          }
-          if (!api.hasFlag("miraAtHomeMet")) {
-            api.startDialog("miraAtHomeIntro");
-            return;
-          }
-          if (api.hasFlag("miraEvidenceDelivered")) {
-            api.startDialog("miraAfterEvidence");
-            return;
-          }
-          if (api.hasFlag("miraAskedEvidence")) {
-            // Layard sammelt noch Aushang-Belege.
-            const belege = [
-              "belegAushangAufzug",
-              "belegAushangKorridor46",
-              "belegAushangGemeinschaftsraum",
-            ].filter((f) => api.hasFlag(f as never)).length;
-            if (belege === 3) {
-              api.startDialog("miraEvidenceDeliver");
-              return;
-            }
-            api.startDialog(
-              belege === 2
-                ? "miraEvidenceWaitTwo"
-                : belege === 1
-                  ? "miraEvidenceWaitOne"
-                  : "miraEvidenceWait",
-            );
-            return;
-          }
-          api.startDialog("miraEvidenceAsk");
-        },
+        onUse: (api) => startMiraEncounter(api, { atHome: true }),
       },
       {
         id: "miraTerminal",
