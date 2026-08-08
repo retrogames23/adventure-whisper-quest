@@ -1,4 +1,4 @@
-import type { DialogTree, GameApi } from "../types";
+import type { DialogChoice, DialogTree, GameApi } from "../types";
 
 /**
  * Welches „übliche" Mira-Gespräch steht gerade an? Dieselbe Logik, die auch
