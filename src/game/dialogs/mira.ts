@@ -1,4 +1,4 @@
-import type { DialogTree, GameApi } from "../types";
+import type { DialogChoice, DialogTree, GameApi } from "../types";
 
 /**
  * Welches „übliche" Mira-Gespräch steht gerade an? Dieselbe Logik, die auch
@@ -670,18 +670,52 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mhub2",
         speaker: "MIRA",
         text: "Du bist es. — Also, was ist?",
-        choices: [
-          {
-            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
-            nextDialog: "miraFaultReport",
-            hiddenWhen: ["miraRepairDone"],
-          },
-          {
-            text: "[ Reden ]",
-            nextDialog: (api) => miraNormalDialogId(api),
-          },
-          { text: "[ Später ]" },
-        ],
+        choicesFn: (api): DialogChoice[] => {
+          const choices: DialogChoice[] = [
+            {
+              text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+              nextDialog: "miraFaultReport",
+              hiddenWhen: ["miraRepairDone"],
+            },
+          ];
+          const normalId = miraNormalDialogId(api);
+          switch (normalId) {
+            case "miraAtHomeIntro":
+              choices.push({
+                text: "[ Bleiben und reden ]",
+                action: (api) => api.setFlag("miraAtHomeMet"),
+              });
+              break;
+            case "miraEvidenceAsk":
+              choices.push(
+                {
+                  text: "Verstanden — ich schau mir die drei an.",
+                  action: (api) => api.setFlag("miraAskedEvidence"),
+                },
+                {
+                  text: "Klingt nach mehr Ärger, als ich heute brauche.",
+                  action: (api) => api.setFlag("miraAskedEvidence"),
+                }
+              );
+              break;
+            case "miraEvidenceDeliver":
+              choices.push({
+                text: "[ Beenden ]",
+                action: (api) => {
+                  api.setFlag("miraEvidenceDelivered");
+                  api.setFlag("miraTerminalUnlocked");
+                },
+              });
+              break;
+            default:
+              choices.push({
+                text: "[ Weiter ]",
+                nextDialog: normalId,
+              });
+          }
+          choices.push({ text: "[ Später ]" });
+          return choices;
+        },
       },
     },
   },
