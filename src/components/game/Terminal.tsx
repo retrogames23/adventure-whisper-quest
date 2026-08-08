@@ -640,6 +640,73 @@ export function Terminal() {
       }
     }
 
+    // ── Sub-Modus: auskunft.bin läuft ──────────────────────
+    if (auskunftOn) {
+      if (auskunftBusy) return;
+      const echo: Line = { text: `auskunft> ${input}`, kind: "in" };
+      setInput("");
+      const low = raw.toLowerCase();
+      if (low === "exit" || low === "quit" || low === "ende") {
+        setAuskunftOn(false);
+        auskunftHistoryRef.current = [];
+        setLines((prev) => [
+          ...prev,
+          echo,
+          { text: ">> Auskunftsvorgang beendet. Kein Aktenzeichen vergeben.", kind: "system" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
+      playBeep(0.3 * sfxVolume);
+      setAuskunftBusy(true);
+      setLines((prev) => [
+        ...prev,
+        echo,
+        { text: ">> Anfrage wird bearbeitet …", kind: "system" },
+      ]);
+      const history = auskunftHistoryRef.current.slice(-8);
+      void (async () => {
+        try {
+          const resp = await fetch("/api/public/auskunft", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: raw, history }),
+          });
+          const data = (await resp.json()) as { answer?: string; error?: string };
+          if (!resp.ok || !data.answer) {
+            setLines((prev) => [
+              ...prev,
+              {
+                text: `>> AUSKUNFT NICHT MÖGLICH: ${data.error ?? "Dienst gestört."}`,
+                kind: "system",
+              },
+              { text: "", kind: "out" },
+            ]);
+            return;
+          }
+          auskunftHistoryRef.current = [
+            ...history,
+            { role: "user" as const, content: raw },
+            { role: "assistant" as const, content: data.answer },
+          ].slice(-8);
+          const out: Line[] = data.answer
+            .split("\n")
+            .map((t) => ({ text: t, kind: "out" }) as Line);
+          setLines((prev) => [...prev, ...out, { text: "", kind: "out" }]);
+        } catch {
+          setLines((prev) => [
+            ...prev,
+            { text: ">> AUSKUNFT NICHT MÖGLICH: Leitung gestört.", kind: "system" },
+            { text: "", kind: "out" },
+          ]);
+        } finally {
+          setAuskunftBusy(false);
+          setTimeout(() => inputRef.current?.focus(), 30);
+        }
+      })();
+      return;
+    }
+
     // ── Sub-Modus: adventure.bin läuft ─────────────────────
     // (siehe oben: Cheats werden vorher abgefangen)
     if (advState) {
