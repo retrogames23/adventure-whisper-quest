@@ -471,15 +471,16 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
   {
-    id: "act2.akte1978",
-    title: "Akte 1978 — Marteaus verschwundenes Gutachten",
+    id: "act2.rechercheauftrag",
+    title: "Akt II — Vor-Ort-Recherche: Schreiben abholen",
     priority: 21,
-    isActive: (a) => a.hasFlag("marteauTrailOpened"),
-    isResolved: () => false,
+    isActive: (a) =>
+      a.hasFlag("act2MailReceived") && !a.hasFlag("act2LetterPickedUp"),
+    isResolved: (a) => a.hasFlag("act2LetterPickedUp"),
     hints: [
-      "Insa hat dir eine alte Mappe in die Hand gedrückt. Der Inhalt fehlt — er liegt im Archiv 5710.",
-      "Layards eigenes Ziel für Akt II: herausfinden, was Marteau 1978 über N. Sertl geschrieben hat. 5710 ist nicht ohne Vollmacht zu öffnen.",
-      "Mehr Wege ergeben sich erst, wenn du in Akt II weitergespielt hast — die Akte ist dein roter Faden, kein einzelner Klick.",
+      "Im Postfach liegt ein neuer Rechercheauftrag. Lies ihn am Terminal: »inbox«, dann »read 020«.",
+      "Die Abteilung schickt dich zum ersten Mal raus. Das offizielle Schreiben liegt zur Abholung bereit — nicht bei der Leitstelle, sondern bei der Kantinenverwaltung.",
+      "Zimmer 3603, Vossbeck. Sprich ihn an; er händigt dir das Schreiben aus. Danach geht es damit nach E71.",
     ],
   },
 
