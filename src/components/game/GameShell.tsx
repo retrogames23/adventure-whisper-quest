@@ -1,5 +1,11 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { GameProvider } from "@/game/GameContext";
+import {
+  HISTORY_CHAPTERS,
+  HISTORY_SUBTITLE,
+  HISTORY_TITLE,
+  HISTORY_UI_TEXT,
+} from "@/game/kuerzesteGeschichte";
 import { InventoryDragProvider } from "@/game/InventoryDragContext";
 import { SettingsProvider } from "@/audio/SettingsContext";
 import { MusicPlayer } from "@/audio/MusicPlayer";

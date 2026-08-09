@@ -42,4 +42,30 @@ export const miscDialogs: Record<string, DialogTree> = {
       },
     },
   },
+  bookshelfPick: {
+    id: "bookshelfPick",
+    start: "bp1",
+    lines: {
+      bp1: {
+        id: "bp1",
+        speaker: "SYSTEM",
+        text: "[ Zwei Bücher stehen nebeneinander im Regal. ]",
+        choices: [
+          {
+            text: "Sektoren-Almanach 1997",
+            action: (api) => api.openAlmanach(),
+          },
+          {
+            text: "Die kürzeste Geschichte der Menschheit",
+            action: (api) => {
+              api.setFlag("openedHistoryBook");
+              api.openHistoryBook();
+            },
+          },
+          { text: "Regal in Ruhe lassen." },
+        ],
+        end: true,
+      },
+    },
+  },
 };
