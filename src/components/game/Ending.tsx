@@ -207,7 +207,6 @@ export function Ending() {
                   const miraState = computeMiraEndState(api);
                   persistMiraEndState(api, miraState);
                   if (!api.hasFlag("act2Started")) api.setFlag("act2Started");
-                  if (!api.hasFlag("radioOnPause")) api.setFlag("radioOnPause");
                   api.clearEnding();
                   api.goTo("apartment");
                 }}
