@@ -9,6 +9,8 @@ import type { CutsceneId, SceneId } from "@/game/types";
 const cutscenes: { id: CutsceneId; title: string }[] = [
   { id: "paramedics", title: "Cutscene · Sanitäter brechen 2615 auf" },
   { id: "sectorThreshold", title: "Cutscene · Schleuse E67 → Passage" },
+  { id: "miraRepair", title: "Cutscene · Mira repariert das Telefon" },
+  { id: "act2Assignment", title: "Cutscene · Akt II — Rechercheauftrag" },
 ];
 
 /**
