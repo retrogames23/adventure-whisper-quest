@@ -42,8 +42,7 @@ export const FREIHEIT_TXT: string[] = [
   "Jahre lang damit verbracht, Signale durch Kupfer",
   "und Glasfaser zu jagen. Ich weiß, wie ein System",
   "aussieht, das auf Effizienz getrimmt ist. Doch",
-  "jetzt, im sogenannten Vorruhestand in Quadrant",
-  "E67, beobachte ich ein anderes System: das",
+  "jetzt, im sogenannten Vorruhestand in Gebäude E67,"
   "menschliche. Und ich frage mich, ob wir nicht",
   "längst alle in einer Feedback-Schleife gefangen",
   "sind, die wir fälschlicherweise „Leben“ nennen.",
