@@ -661,12 +661,25 @@ export function Terminal() {
     // ── Sub-Modus: auskunft.bin läuft ──────────────────────
     if (auskunftOn) {
       if (auskunftBusy) return;
-      const echo: Line = { text: `auskunft> ${input}`, kind: "in" };
+      const prompt = auskunftStation ? "amt>" : "auskunft>";
+      const echo: Line = { text: `${prompt} ${input}`, kind: "in" };
       setInput("");
       const low = raw.toLowerCase();
+      if (auskunftStation && (low === "zurück" || low === "zurueck" || low === "back")) {
+        setAuskunftStation(null);
+        auskunftHistoryRef.current = [];
+        setLines((prev) => [
+          ...prev,
+          echo,
+          { text: ">> Verbindung getrennt. Zurück bei auskunft.bin.", kind: "system" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
       if (low === "exit" || low === "quit" || low === "ende") {
         setAuskunftOn(false);
         setAuskunftBusyIndex(null);
+        setAuskunftStation(null);
         auskunftHistoryRef.current = [];
         setLines((prev) => [
           ...prev,
@@ -692,7 +705,7 @@ export function Terminal() {
           const resp = await fetch("/api/public/auskunft", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question: raw, history }),
+            body: JSON.stringify({ question: raw, history, station: auskunftStation }),
           });
           const data = (await resp.json()) as { answer?: string; error?: string };
           setAuskunftBusyIndex(null);
@@ -707,15 +720,37 @@ export function Terminal() {
             ]);
             return;
           }
+          // Durchstell-Marker der LLM abfangen und in eine Amtswarnung wandeln.
+          const transfer = data.answer.match(/^\s*\[DURCHSTELLEN:\s*(.+?)\s*\]\s*$/m);
+          const answerText = transfer
+            ? data.answer.replace(transfer[0], "").trimEnd()
+            : data.answer;
           auskunftHistoryRef.current = [
             ...history,
             { role: "user" as const, content: raw },
-            { role: "assistant" as const, content: data.answer },
+            { role: "assistant" as const, content: answerText },
           ].slice(-8);
-          const out: Line[] = data.answer
+          const out: Line[] = answerText
             .split("\n")
             .map((t) => ({ text: t, kind: "out" }) as Line);
-          setLines((prev) => [...prev, ...out, { text: "", kind: "out" }]);
+          if (transfer && !auskunftStation) {
+            const stelle = transfer[1].slice(0, 80);
+            setAuskunftStation(stelle);
+            auskunftHistoryRef.current = [];
+            setLines((prev) => [
+              ...prev,
+              ...out,
+              { text: "", kind: "out" },
+              {
+                text: `>> Achtung! auskunft.bin stellt jetzt durch zu ${stelle} — der Bürger hat ausdrücklich versichert, dass es dringend ist und das erforderliche Formblatt innerhalb einer angemessenen Frist nachreichen wird.`,
+                kind: "system",
+              },
+              { text: ">> Verbindung wird aufgebaut … [ 'zurück' trennt die Leitung ]", kind: "system" },
+              { text: "", kind: "out" },
+            ]);
+          } else {
+            setLines((prev) => [...prev, ...out, { text: "", kind: "out" }]);
+          }
         } catch {
           setAuskunftBusyIndex(null);
           setLines((prev) => [
