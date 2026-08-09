@@ -1,24 +1,17 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
- * Mobile-Stage: skaliert die Desktop-App (virtuelle 1024×640-Bühne) so,
- * dass sie ins Mobil-Viewport passt. Auf Desktop (>= 768px Breite) wird
- * der Wrapper transparent (`display: contents`-artig) — die Kinder
- * rendern unverändert.
+ * Mobile-Stage: skaliert die Desktop-App (virtuelle 1280×720-Bühne) so,
+ * dass sie das gesamte iPhone-/Mobil-Viewport ausfüllt. Auf Desktop
+ * (>= 768px Breite) wird der Wrapper transparent — die Kinder rendern
+ * unverändert.
  *
- * Im Hochformat auf Mobil zeigen wir einen Hinweis-Banner, der dazu
- * auffordert, das Gerät querzuhalten (mit "Trotzdem spielen"-Option).
+ * Im Hochformat auf Mobil wird die Bühne um 90° gedreht und so
+ * gestreckt, dass keine schwarzen Balken mehr sichtbar sind.
  */
-// Virtuelle Bühne im 16:9-Format, damit die SceneView (ebenfalls 16:9)
-// auf Mobil die komplette Breite ausnutzt und nicht auf einen 4:3-Kern
-// zusammenschnurrt. Höhe bleibt 640, Breite wird entsprechend breiter.
 const STAGE_W = 1280;
 const STAGE_H = 720;
 const MOBILE_BREAKPOINT = 768;
-// Im gedrehten Hochformat darf die Bühne breiter werden als 16:9, damit
-// TopBar/Inventory + 16:9-Szene den vollen Viewport füllen statt
-// oben/unten dicke schwarze Streifen zu lassen.
-const STAGE_H_PORTRAIT_MAX = 1100;
 
 /**
  * `uprightOnPortrait`: Wenn true, wird im Hochformat NICHT gedreht — die
@@ -42,33 +35,26 @@ export function MobileStage({
 
   useEffect(() => {
     const compute = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      // 100dvw/dvh berücksichtigen die tatsächliche sichtbare Fläche inkl.
+      // dynamischer Browser-UI (Adressleiste etc.) und füllen das Display
+      // auf iPhones vollständig aus.
+      const w = document.documentElement.clientWidth;
+      const h = document.documentElement.clientHeight;
       const isMobile = w < MOBILE_BREAKPOINT;
       setEnabled(isMobile);
       if (isMobile) {
         const isPortrait = h > w;
         if (isPortrait && !uprightOnPortrait) {
-          // Bühne um 90° drehen → Höhe wird zur "Breite" für die Skalierung.
-          // Bühnen-Höhe (nach Rotation = sichtbare Viewport-Breite) so
-          // wählen, dass beide Achsen identisch skalieren → kein toter
-          // Platz oben/unten.
-          // Bühnen-Höhe so wählen, dass scale auf beiden Achsen identisch
-          // ist → keine schwarzen Balken oben/unten. Untergrenze entfernt,
-          // damit schmale Hochformate (iPhone) den vollen Viewport füllen.
-          const desiredStageH = Math.min(
-            STAGE_H_PORTRAIT_MAX,
-            (w * STAGE_W) / h,
-          );
+          // Bühne um 90° drehen. Die Bühnen-Höhe wird so gewählt, dass
+          // nach der Rotation beide Achsen exakt den Viewport ausfüllen
+          // (keine schwarzen Balken mehr).
+          const desiredStageH = (w * STAGE_W) / h;
           setRotate(true);
           setPassthrough(false);
           setStageH(desiredStageH);
           setScale(Math.min(h / STAGE_W, w / desiredStageH));
         } else if (isPortrait && uprightOnPortrait) {
           // Aufrecht im Hochformat (Konsole offen): Pass-Through-Modus.
-          // Wir verzichten auf die fixe 1024×640-Bühne und lassen die
-          // Konsolen-Overlays den echten Viewport voll ausfüllen
-          // (mehr Platz für Text + Tastatur, größere Schrift mobil).
           setRotate(false);
           setPassthrough(true);
           setStageH(STAGE_H);
@@ -84,9 +70,12 @@ export function MobileStage({
     compute();
     window.addEventListener("resize", compute);
     window.addEventListener("orientationchange", compute);
+    // iOS Safari ändert die sichtbare Höhe beim Scrollen; hier neu berechnen.
+    window.addEventListener("scroll", compute, { passive: true });
     return () => {
       window.removeEventListener("resize", compute);
       window.removeEventListener("orientationchange", compute);
+      window.removeEventListener("scroll", compute);
     };
   }, [uprightOnPortrait]);
 
