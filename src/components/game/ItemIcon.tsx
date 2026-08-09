@@ -414,9 +414,9 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   reichsmark: ReichsmarkIcon,
   peppermint: PeppermintIcon,
   condom: CondomIcon,
-  // Akt II — die alte Akte 1978 (Sertl/Marteau). Vorerst geliehenes
+  // Akt II — offizielles Schreiben zur Vor-Ort-Recherche. Vorerst geliehenes
   // Akten-Icon (Aushang-Stil, vergilbtes Papier).
-  akte1978Sertl: Aushang71Icon,
+  rechercheSchreiben: Aushang71Icon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */

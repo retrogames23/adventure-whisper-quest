@@ -10,6 +10,60 @@ import type { DialogTree } from "../types";
  * stiften und den Spielwelt-State spürbar machen.
  */
 export const vossbeckAct2Dialogs: Record<string, DialogTree> = {
+  // ── Akt II · Ausgabe des Legitimationsschreibens ──────────────────
+  vossbeckAct2Letter: {
+    id: "vossbeckAct2Letter",
+    start: "l0",
+    onEnd: (api) => {
+      if (!api.hasFlag("act2LetterPickedUp")) {
+        api.setFlag("act2LetterPickedUp");
+        api.addItem({
+          id: "rechercheSchreiben",
+          name: "Legitimationsschreiben (28/1194)",
+          description:
+            "Ein Bogen mit Kopfzeile der Abteilung Informationsbeschaffung, Sektor 28. „Der Inhaber ist befugt, im Rahmen des Rechercheauftrags 28/1194 Anwohner, ärztliches Personal und sonstige sachkundige Personen zu befragen.“ Unten ein Stempel und Vossbecks sehr akkurate Paraphe.",
+        });
+      }
+    },
+    lines: {
+      l0: {
+        id: "l0",
+        speaker: "VOSSBECK",
+        text: "Worag. 28/1194. — Ja. Liegt hier.",
+        subtext: "Er zieht einen Bogen aus einer Schachtel, die er nicht ansehen muss.",
+        next: "l1",
+      },
+      l1: {
+        id: "l1",
+        speaker: "VOSSBECK",
+        text: "Ihre Abteilung schickt jemanden vor Ort. Das habe ich in elf Jahren zweimal gesehen. Beide Male stand am Ende ein Vermerk, den niemand lesen wollte.",
+        choices: [
+          { text: "Was steht in dem Schreiben genau?", next: "l2" },
+          { text: "Ich mache nur, was im Auftrag steht.", next: "l3" },
+        ],
+      },
+      l2: {
+        id: "l2",
+        speaker: "VOSSBECK",
+        text: "Dass Sie fragen dürfen. Nicht, dass jemand antworten muss. Der Unterschied ist im Alltag beträchtlich.",
+        next: "l4",
+      },
+      l3: {
+        id: "l3",
+        speaker: "VOSSBECK",
+        text: "Das sagen sie alle am ersten Tag.",
+        subtext: "Es klingt beinahe wohlwollend.",
+        next: "l4",
+      },
+      l4: {
+        id: "l4",
+        speaker: "VOSSBECK",
+        text: "Paraphe, Stempel, Datum. — Zeigen Sie es vor, bevor Sie fragen, nicht danach. Und tragen Sie es innen, es regnet.",
+        subtext: "Er schiebt den Bogen über den Tisch und greift wieder zum Bleistift.",
+        end: true,
+      },
+    },
+  },
   // ── friendly: Mira ist auf Layards Seite, Vossbeck weiß es ────────
   vossbeckAct2Friendly: {
     id: "vossbeckAct2Friendly",

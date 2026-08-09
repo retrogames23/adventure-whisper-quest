@@ -78,13 +78,13 @@ export type InventoryItemId =
   | "peppermint"
   // Kondom aus dem Kondomautomaten („Zum stillen Funk").
   | "condom"
-  // Akt II — die alte Akte, die Insa Layard persönlich überreicht.
-  | "akte1978Sertl";
+  // Akt II — offizielles Schreiben zur Vor-Ort-Recherche (Vossbeck).
+  | "rechercheSchreiben";
 
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 
 /** Identifier einer narrativen Cutscene. */
-export type CutsceneId = "paramedics" | "sectorThreshold";
+export type CutsceneId = "paramedics" | "sectorThreshold" | "act2Assignment";
 
 export type StoryFlag =
   | "radioTunedTo1046"
@@ -282,7 +282,7 @@ export type StoryFlag =
   /** Layard war bei Vossbeck, bevor er wusste, was er von ihm will — Kowalk-Callback. */
   | "triedVossbeckEarly"
   // Pflicht-Verzahnung Akt I: Tilla-Quittung 4317-K hängt am Stamm 4317.
-  | "needsMarteauAuthForTilla"
+  | "needsStammAuthForTilla"
   // Endduell-Versuche bei Vossbeck (drei zugelassen).
   | "vossbeckAttempt1Lost"
   | "vossbeckAttempt2Lost"
@@ -366,9 +366,9 @@ export type StoryFlag =
   // Insa hat den Tilla-Transferauftrag erteilt (Quittung 4317-K).
   | "insaGaveTransferTask"
   // Kowalk hat Layard erklärt, was 4317-K bedeutet — und nebenbei
-  // den Aktenzusammenhang zu Marteau (Philippe) offenbart.
+  // den Aktenzusammenhang zu Philippe (Stamm 4317) offenbart.
   | "gotTillaTransferInfo"
-  | "learnedMarteauPhilippeLink"
+  | "learnedStammPhilippeLink"
   // ── Schmerz-Radio-Erweiterung (Akt I) ──────────────────────────────
   // Hidden Frequency 102,7 — Wartungs-Funkgerät im Serverraum 5610
   | "sawWartungsFunk5610"
@@ -387,10 +387,10 @@ export type StoryFlag =
   | "miraEndFriendly"
   | "miraEndNeutral"
   | "miraEndSkeptical"
-  /** Dr. Okwu hat eine weiche Resonanz-Pause für das Schmerz-Radio verhängt. */
-  | "radioOnPause"
-  /** Layard hat während der Pause das Radio trotzdem eingeschaltet. */
-  | "cheatedRadioOnPause"
+  /** Die Akt-II-Auftragsmail (Vor-Ort-Recherche) ist eingegangen. */
+  | "act2MailReceived"
+  /** Layard hat das offizielle Schreiben bei Vossbeck abgeholt. */
+  | "act2LetterPickedUp"
   // ── MARV-9 (Robo-Türsteher Kneipe) ─────────────────────────────
   /** Layard hat MARV-9 zum ersten Mal vor der Kneipentür angesprochen. */
   | "metMarv"
@@ -422,8 +422,6 @@ export type StoryFlag =
   // ── Akt II · Leitstelle (erste persönliche Begegnung mit Insa) ──
   /** Layard hat Insa in der Leitstelle E67 (Tür 4602) persönlich getroffen. */
   | "insaAct2BriefingDone"
-  /** Layard hat von der Akte 1978 erfahren und sie eingesteckt. */
-  | "marteauTrailOpened"
   // ── E71 Gemeinschaftsraum (Tür 1530) — Home-Computer-Nerds & Amiga ──
   /** Layard hat den Gemeinschaftsraum hinter Tür 1530 zum ersten Mal betreten. */
   | "enteredCommonRoomE71"

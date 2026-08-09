@@ -207,9 +207,10 @@ export function Ending() {
                   const miraState = computeMiraEndState(api);
                   persistMiraEndState(api, miraState);
                   if (!api.hasFlag("act2Started")) api.setFlag("act2Started");
-                  if (!api.hasFlag("radioOnPause")) api.setFlag("radioOnPause");
                   api.clearEnding();
                   api.goTo("apartment");
+                  // Auftakt Akt II: die Dienstmail mit dem Rechercheauftrag.
+                  api.startCutscene("act2Assignment");
                 }}
                 className="mt-6 rounded-sm border border-amber-glow px-5 py-2 text-xs uppercase tracking-widest text-amber-glow hover:bg-amber-glow/15 amber-glow"
               >

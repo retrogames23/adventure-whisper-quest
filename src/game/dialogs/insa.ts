@@ -705,126 +705,72 @@ export const insaDialogs: Record<string, DialogTree> = {
     start: "ip1",
     onEnd: (api) => {
       api.setFlag("insaAct2BriefingDone");
-      api.setFlag("marteauTrailOpened");
-      if (!api.hasItem("akte1978Sertl")) {
-        api.addItem({
-          id: "akte1978Sertl",
-          name: "Akte 1978 · N. Sertl",
-          description:
-            "Eine dünne, vergilbte Mappe. Aufdruck: »Resonanz-Überlastung 1978 · Gebäude E12 · Hörer N. Sertl · Gutachten: C. Marteau«. Die Mappe enthält nur einen Aktendeckel — der Inhalt fehlt. Insa sagt: liegt im Archiv 5710. Wenn er noch da ist.",
-        });
-      }
+      api.removeItem("protocol");
     },
     lines: {
       ip1: {
         id: "ip1",
         speaker: "SYSTEM",
-        text: "[ Layard ist wiedergekommen, wie sie ihn gebeten hat. Insa schiebt einen zweiten Becher über den Tisch. Drei Apparate. Zwei davon abgehoben. Sie sieht ihn an — keine Vermittlungs-Stimme jetzt. ]",
+        text: "[ Layard ist gekommen, wie sie ihn gebeten hat. Drei Apparate, einer abgehoben. Insa schiebt einen zweiten Becher über den Tisch und wartet, bis er sitzt. ]",
         next: "ip2",
       },
       ip2: {
         id: "ip2",
         speaker: "INSA",
-        text: "Worag. Sie sind gekommen. Gut.",
-        subtext: "Sie sagt es, als wäre das nicht selbstverständlich gewesen.",
+        text: "Worag. Sie sind gekommen. Gut. — Dann legen Sie es hin.",
+        subtext: "Sie sagt es ohne Nachdruck, als wäre es das Selbstverständlichste der Welt.",
         next: "ip3",
       },
       ip3: {
         id: "ip3",
-        speaker: "INSA",
-        text: "Adaeze hat mir gesagt, dass Sie sieben Tage pausieren sollen. Ich frage nicht nach.",
-        subtext: "Sie sagt das, damit er weiß, dass sie es weiß — nicht, damit er antwortet.",
+        speaker: "SYSTEM",
+        text: "[ Layard legt das Einsatzprotokoll auf den Tisch. Insa dreht es einmal, liest das Etikett, legt es auf ihren Stapel. Nicht darunter. Darauf. ]",
         next: "ip4",
       },
       ip4: {
         id: "ip4",
-        speaker: "INSA",
-        text: "Sie haben mir gestern nichts gefragt. Heute haben Sie eine Stunde, bevor das Pult mich zurückruft. Warum sind Sie hier?",
-        choices: [
-          {
-            text: "Mikael hat einen Namen erwähnt. Marteau.",
-            next: "ip5",
-          },
-          {
-            text: "Okwu hat Sertl gesagt. 1978. Und dann nicht weitergeredet.",
-            next: "ip5",
-          },
-          {
-            text: "Sie haben gesagt, Sie hätten etwas, das nicht ans Telefon gehört.",
-            next: "ip5",
-          },
-        ],
+        speaker: "LAYARD",
+        text: "Stegmann hat es nicht angenommen.",
+        next: "ip5",
       },
       ip5: {
         id: "ip5",
         speaker: "INSA",
-        text: "Gut. Dann muss ich Ihnen weniger erklären, als ich befürchtet habe.",
-        next: "ip6",
+        text: "Ich weiß. Das ist nicht Ihr Fehler und nicht Ihre Zuständigkeit. Ich weise es richtig zu.",
+        subtext: "Es klingt nicht nach Trost. Es klingt nach einem Vorgang, der endlich in der richtigen Hand liegt.",
+        choices: [
+          {
+            text: "Was passiert jetzt damit?",
+            next: "ip6",
+          },
+          {
+            text: "Ich hätte es auch einfach liegen lassen können.",
+            next: "ip6b",
+          },
+          {
+            text: "Danke. Dann bin ich fertig.",
+            next: "ip7",
+          },
+        ],
       },
       ip6: {
         id: "ip6",
-        speaker: "SYSTEM",
-        text: "[ Sie öffnet eine Schublade ohne Beschriftung. Holt eine dünne, vergilbte Mappe heraus. Schiebt sie über den Tisch. ]",
+        speaker: "INSA",
+        text: "Es bekommt eine Nummer, eine Frist und einen Namen, der nicht Ihrer ist. Mehr passiert nicht. Das ist keine Enttäuschung — das ist der Sinn der Sache.",
+        next: "ip7",
+      },
+      ip6b: {
+        id: "ip6b",
+        speaker: "INSA",
+        text: "Hätten Sie. Haben Sie aber nicht. — Ich schreibe das nirgends hin, aber ich merke es mir.",
+        subtext: "Der erste Satz heute, der nicht nach Vermittlung klingt.",
         next: "ip7",
       },
       ip7: {
         id: "ip7",
         speaker: "INSA",
-        text: "1978. Gebäude E12. Hörer Nikolaus Sertl — vielleicht auch Nora, in den Akten steht nur N. Resonanz-Überlastung. Gutachten von einem externen Berater: C. Marteau.",
-        subtext: "Sertl. Marteau. Zwei Namen, die heute schon einmal gefallen sind. Jetzt liegen sie zusammen auf demselben Aktendeckel.",
-        next: "ip8",
-      },
-      ip8: {
-        id: "ip8",
-        speaker: "INSA",
-        text: "Vor zwanzig Jahren hat schon einmal jemand das gehört, was Sie heute hören. Marteau hat aufgeschrieben, was er davon hielt. Das Gutachten ist verschwunden.",
-        next: "ip9",
-      },
-      ip9: {
-        id: "ip9",
-        speaker: "INSA",
-        text: "Im Archiv 5710 steht nur der Aktendeckel im Regal. Den Inhalt hat jemand mitgenommen. Nirgends notiert, wer. Niemand vermisst ihn — außer mir, und jetzt vielleicht Ihnen.",
-        subtext: "»Vielleicht Ihnen.« — Sie wirft ihm einen langen, ruhigen Blick zu.",
-        next: "ip10friendly",
-      },
-      // Mira-State-Splitter — eine Zeile, der Rest läuft identisch.
-      ip10friendly: {
-        id: "ip10friendly",
-        speaker: "INSA",
-        text: "Ihre Bekannte aus dem 4. — die kennt vielleicht den Weg in 5710, ohne dass jemand einen Stempel sieht. Falls Sie noch mit ihr reden.",
-        requires: ["miraEndFriendly"],
-        next: "ip11",
-      },
-      ip10skeptical: {
-        id: "ip10skeptical",
-        speaker: "INSA",
-        text: "Sie werden 5710 nicht über mich öffnen. Ich kenne nur einen, der das kann. Sie mögen ihn nicht. Er Sie auch nicht.",
-        requires: ["miraEndSkeptical"],
-        next: "ip11",
-      },
-      ip11: {
-        id: "ip11",
-        speaker: "LAYARD",
-        text: "Warum geben Sie mir das?",
-        next: "ip12",
-      },
-      ip12: {
-        id: "ip12",
-        speaker: "INSA",
-        text: "Weil ich Ihnen keinen Auftrag geben kann, Herr Worag. Ich gebe Ihnen die Genehmigung, etwas zu suchen, was offiziell niemand verloren hat.",
-        subtext: "Sie sagt »Genehmigung«, als hätte sie das Wort gerade erfunden.",
-        next: "ip13",
-      },
-      ip13: {
-        id: "ip13",
-        speaker: "INSA",
-        text: "Den Tee schaffen Sie nicht mehr — er ist zu heiß und Sie zu nervös. Trinken Sie ihn drüben. Und sagen Sie mir, wenn Sie etwas finden. Auch wenn Sie nichts finden.",
-        next: "ip14",
-      },
-      ip14: {
-        id: "ip14",
-        speaker: "SYSTEM",
-        text: "[ Layard nimmt die Mappe. Sie ist leichter, als er gedacht hat. ]",
+        text: "Trinken Sie den Tee drüben aus, Worag. Sie sehen aus, als hätten Sie einen langen Tag gehabt. Und morgen ist auch noch einer.",
+        subtext: "Sie greift schon nach dem abgehobenen Hörer. Der Rest des Sektors wartet.",
         end: true,
       },
     },
@@ -836,15 +782,11 @@ export const insaDialogs: Record<string, DialogTree> = {
       ipa1: {
         id: "ipa1",
         speaker: "INSA",
-        text: "Worag. Sie haben die Mappe. Wenn Sie nichts Neues haben, lassen Sie mich an die drei Hörer hier — es klingelt sonst gleich.",
+        text: "Worag. Das Protokoll liegt, wo es hingehört. Wenn Sie nichts Neues haben, lassen Sie mich an die drei Hörer — es klingelt sonst gleich.",
         subtext: "Sie meint es nicht unfreundlich. Aber sie meint es.",
         choices: [
           {
             text: "Eine Frage noch. — Warum bin ich so, wie ich bin?",
-            next: "ipaQ",
-          },
-          {
-            text: "Warum ist das hier ein Krankheitsbild — und keine Frage?",
             next: "ipaQ",
           },
           {
@@ -856,14 +798,14 @@ export const insaDialogs: Record<string, DialogTree> = {
       ipaQ: {
         id: "ipaQ",
         speaker: "INSA",
-        text: "Die Antwort steht nicht bei mir. Sie steht — vielleicht — in dem, was im Aktendeckel nicht mehr drinliegt. Bringen Sie mir, was Sie finden. Dann reden wir darüber.",
+        text: "Darauf habe ich keine Antwort, die auf ein Formblatt passt. Und andere habe ich hier nicht.",
         subtext: "Es ist keine Ausflucht. Sie meint genau das.",
         next: "ipa2",
       },
       ipa2: {
         id: "ipa2",
         speaker: "INSA",
-        text: "Die Mappe haben Sie. Den Rest finden nur Sie. Auf Wiederhören.",
+        text: "Gehen Sie nach Hause. Auf Wiederhören, Worag.",
         end: true,
       },
     },

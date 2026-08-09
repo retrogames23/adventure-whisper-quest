@@ -15,7 +15,6 @@ import {
 } from "@/game/radio/bands";
 import { Waveform } from "./radio/Waveform";
 import { ResonanceMeter } from "./radio/ResonanceMeter";
-import { RadioPauseGate } from "./radio/RadioPauseGate";
 
 const SNAP_FREQS = [100.5, 102.3, 103.8, 104.6, 105.7] as const;
 
@@ -39,18 +38,6 @@ export function RadioPanel() {
   const droneStopRef = useRef<(() => void) | null>(null);
   const lastFreqRef = useRef(freq);
   const [tick, setTick] = useState(0);
-
-  // ── Akt-II-Resonanz-Pause (Dr. Okwu, weich) ─────────────────────
-  const [pauseAck, setPauseAck] = useState(false);
-  const showPauseGate =
-    radioOpen &&
-    flags.has("radioOnPause") &&
-    !flags.has("cheatedRadioOnPause") &&
-    !pauseAck;
-
-  useEffect(() => {
-    if (!radioOpen) setPauseAck(false);
-  }, [radioOpen]);
 
   // ── Hidden Frequency 102,7 — Wartungs-Funkgerät 5610 ────────────
   useEffect(() => {
@@ -231,13 +218,6 @@ export function RadioPanel() {
     closeRadio();
   }, [setRadioActive, closeRadio]);
 
-  const handlePauseContinue = useCallback(() => {
-    if (!flags.has("cheatedRadioOnPause")) {
-      api.setFlag("cheatedRadioOnPause");
-    }
-    setPauseAck(true);
-  }, [api, flags]);
-
   const handleFreqChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFreq(parseFloat(e.target.value));
@@ -260,15 +240,6 @@ export function RadioPanel() {
   const overloading = resonance >= 85 && onAngel;
 
   if (!radioOpen) return null;
-
-  if (showPauseGate) {
-    return (
-      <RadioPauseGate
-        onAbort={handleClose}
-        onContinue={handlePauseContinue}
-      />
-    );
-  }
 
   return (
     <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/80 px-4">

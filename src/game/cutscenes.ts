@@ -164,17 +164,11 @@ export function buildEndingBaseFrames(npcCount: number): string[][] {
     ],
     [
       "„Ich werde das richtig zuweisen, Herr Worag. Das haben Sie nicht selbst zu tragen.“",
-      "Sie sieht ihn an, länger als nötig. „Sie haben heute zu viel gehört. Zu viel auf einer Frequenz, die niemand offiziell hört.“",
-      "„Ich schicke einen Vermerk an die Sanitätsstation. Gehen Sie nach Hause. Schlafen Sie.“",
+      "Sie sieht ihn an, länger als nötig. „Gehen Sie nach Hause, Worag. Schlafen Sie.“",
     ],
     [
-      "Am nächsten Morgen. Layards Apartment. Auf dem Tisch ein Vermerk der Sanitätsstation E71.",
-      "Kopfzeile: Dr. A. Okwu, Praxis 1532.",
-      "„Auf Vermerk der Leitstelle E67 (Bauerfeind, I.): sieben Tage Resonanz-Pause. Kein 104,6. Kein Mithören. Keine Notizen ans Radio.“",
-      "„Ärztliche Anordnung — vermerkt in Ihrer Akte.“",
-    ],
-    [
-      "Layard faltet den Vermerk einmal. Er weiß nicht, ob er sich daran halten wird.",
+      "Layard geht. Der Korridor ist leer, das Licht ist das gleiche wie heute Morgen.",
+      "Zum ersten Mal seit langem trägt er nichts mehr in der Tasche, das jemandem gehört.",
     ],
   ];
 }
@@ -222,23 +216,61 @@ export interface Act2BridgeBeat {
   style: Act2BridgeBeatStyle;
 }
 
-// ─── Resonanz-Pause-UI (ehemals Akt-II-Bridge-Cutscene) ─────────────
-//
-// Die Bridge-Cutscene wurde entfernt; die Resonanz-Pause-Texte leben
-// weiter im Radio-Panel, wenn Layard während der Pause 104,6 einschalten
-// möchte.
+// ─── Akt II · Auftragsmail (Vor-Ort-Recherche) ──────────────────────
 
-/** Statische UI-Texte für die Resonanz-Pause im Radio-Panel. */
-export const RADIO_PAUSE_UI_TEXT = {
-  /** Warnhinweis im Radio-Panel, wenn Layard während der Pause einschaltet. */
-  radioPauseWarning: [
-    ">> RESONANZ-PAUSE — DR. OKWU",
-    "Sieben Tage. Kein 104,6, kein Trauer-Band.",
-    "Sie hat es nicht aufgeschrieben. Sie hat darum gebeten.",
-    "Wenn Layard jetzt drehen will — niemand hält ihn ab.",
-  ],
-  radioPauseContinue: "Trotzdem einschalten",
-  radioPauseAbort: "Lieber lassen",
+/**
+ * Tafeln der Cutscene am Morgen nach der Protokoll-Übergabe: Layard
+ * schaltet das Terminal ein und findet den ersten Auftrag seiner
+ * Laufbahn, der ihn aus dem Gebäude schickt.
+ */
+export const ACT2_ASSIGNMENT_BEATS: Act2BridgeBeat[] = [
+  {
+    header: "E67 · Wohnung 2611 · Morgen",
+    style: "black",
+    lines: [
+      "Layard wacht ohne Wecker auf. Auf dem Tisch liegt nichts mehr, was jemandem gehört.",
+      "Er kocht Wasser, setzt sich vor das Terminal und tut, was er seit elf Jahren jeden Morgen tut: Postfach.",
+    ],
+  },
+  {
+    header: "Abteilung Informationsbeschaffung · Dienstpost",
+    style: "clinical",
+    lines: [
+      "Betreff: Rechercheauftrag 28/1194 — Häufung Resonanz-Überlastungen, Sektor 28",
+      "„Für den genannten Sektor liegt eine statistisch auffällige Häufung ärztlich festgestellter Resonanz-Überlastungen vor.“",
+      "„Sie werden mit der Aufklärung der Ursachen beauftragt.“",
+    ],
+  },
+  {
+    style: "amber",
+    lines: [
+      "Layard liest den nächsten Absatz zweimal.",
+      "„Abweichend von der üblichen Verfahrensweise ist eine Auswertung von Akten- und Zeitungsbeständen nicht ausreichend.“",
+      "„Die Erhebung ist vor Ort durchzuführen. Befragen Sie Anwohner, ärztliches Personal und sonstige sachkundige Personen.“",
+      "„Erster Erhebungsort: Gebäude E71.“",
+      "Elf Jahre lang hat ihn niemand gebeten, mit jemandem zu reden.",
+    ],
+  },
+  {
+    style: "clinical",
+    lines: [
+      "„Das erforderliche Legitimationsschreiben liegt zur Abholung bereit: Kantinenverwaltung, Zimmer 3603.“",
+      "„Ohne dieses Schreiben ist keine Befragung zulässig.“",
+      "„Frist: unverzüglich. — Abteilung Informationsbeschaffung, Sektor 28.“",
+    ],
+  },
+  {
+    style: "black",
+    lines: [
+      "Layard bleibt sitzen, bis der Bildschirm dunkel wird.",
+      "Dann zieht er den Mantel an.",
+    ],
+  },
+];
+
+/** Statische UI-Texte der Akt-II-Auftragscutscene. */
+export const ACT2_ASSIGNMENT_UI_TEXT = {
+  skipHint: "Esc / Enter überspringt · Klick · weiter",
 } as const;
 
 // ─── Sektor-Schwelle-Cutscene (Klick auf entriegelte Schleuse) ───────

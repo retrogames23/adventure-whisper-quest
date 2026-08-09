@@ -40,10 +40,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       api.hasFlag("tookPainRadio") ? apartmentNoRadioBg : apartmentBg,
     title: "Wohnung 2611 — Gebäude E67",
     intro: (api) => {
-      // Akt II — nach der Bridge-Cutscene wacht Layard hier wieder auf.
-      // Die Akt-I-Eröffnung passt nicht mehr: das Radio ist auf Pause,
-      // und Insa hat ihn eingeladen.
-      if (api.hasFlag("act2Started") && !api.hasFlag("insaAct2BriefingDone")) {
+      // Akt II — am Morgen nach der Protokoll-Übergabe. Der Auftrag kommt
+      // per Dienstmail; das Schreiben liegt bei Vossbeck (3603).
+      if (api.hasFlag("act2Started")) {
         const friendly = api.hasFlag("miraEndFriendly");
         const skeptical = api.hasFlag("miraEndSkeptical");
         const mira = friendly
@@ -51,10 +50,17 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           : skeptical
             ? "Auf dem Boden vor seiner Tür: ein behördlicher Aushang. Räumung 4601. Layard liest ihn nicht noch einmal."
             : "Im Korridor draußen: Schritte, die nicht stehen bleiben.";
+        if (!api.hasFlag("act2LetterPickedUp")) {
+          return [
+            "Layard wacht ohne Wecker auf. Auf dem Tisch liegt nichts mehr, was jemandem gehört.",
+            "Im Dienstpostfach: Rechercheauftrag 28/1194. Erhebung vor Ort, Gebäude E71.",
+            "Das Legitimationsschreiben liegt in der Kantinenverwaltung, Zimmer 3603, zur Abholung bereit.",
+            mira,
+          ].join(" ");
+        }
         return [
-          "Layard wacht ohne Wecker auf. Das Schmerz-Radio steht still.",
-          "Sieben Tage Pause — Dr. Okwu hat darum gebeten, nicht es verordnet.",
-          "Auf dem Tisch: ein Zettel in Insas Handschrift. „Vorbeikommen, wenn Sie wach sind. Etage 4, Korridor 46, Tür 4602.“",
+          "Layards Wohnung. Auf dem Tisch das offizielle Schreiben, daneben ein leerer Becher.",
+          "Erhebungsort E71. Befragung zulässig.",
           mira,
         ].join(" ");
       }
