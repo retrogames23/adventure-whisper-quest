@@ -21,6 +21,7 @@ import imgMittelalter from "@/assets/history/mittelalter.jpg";
 import imgAufklaerung from "@/assets/history/aufklaerung.jpg";
 import imgIndustrie from "@/assets/history/industrie.jpg";
 import imgJahrhundert from "@/assets/history/jahrhundert.jpg";
+import imgZwischenkrieg from "@/assets/history/zwischenkrieg.jpg";
 import imgModerne from "@/assets/history/moderne.jpg";
 
 export type HistoryChapter = HandbookChapter;
@@ -194,26 +195,44 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
     id: "jahrhundert",
     image: imgJahrhundert,
     imageCaption: "Tafel X — Westfront, 1916",
-    shortTitle: "Das Jahrhundert",
-    title: "1914 bis 1920: Der Bruch",
+    shortTitle: "Der Große Krieg",
+    title: "1914–1923: Das Ende des langen Jahrhunderts",
     body: [
-      "Der **Erste Weltkrieg** (1914–1918) beendet das lange 19. Jahrhundert. Vier Reiche verschwinden, zwei Ideologien treten an ihre Stelle, und die europäische Selbstgewissheit ist dahin.",
-      "In Russland stürzt 1917 zuerst der Zar, dann die provisorische Regierung. Die Bolschewiki übernehmen; es folgt ein Bürgerkrieg, der Millionen kostet.",
-      "1918/19 tötet die **Influenza-Pandemie** weltweit mehr Menschen als der Krieg.",
-      "Was danach kommt, kennen Sie aus Band 4 dieser Reihe. Wir fassen es hier nur in den Linien zusammen, die für Ihren Alltag im Mandatsgebiet erklären, warum die Dinge sind, wie sie sind.",
+      "Der **Große Krieg** (1914–1918) beginnt als Bündnisautomatik und endet als Materialschlacht. Vier Jahre Schützengraben, Maschinengewehr, Artillerie und Giftgas kosten rund neun Millionen Soldaten das Leben. Die Front bewegt sich jahrelang um Kilometer.",
+      "Der Krieg zerstört vier Reiche: das deutsche Kaiserreich, Österreich-Ungarn, das Osmanische Reich und das Zarenreich. In Russland stürzt 1917 zuerst der Zar, dann die provisorische Regierung; die Bolschewiki übernehmen, es folgt ein Bürgerkrieg, der weitere Millionen kostet und das Land ausblutet.",
+      "1918/19 tötet die **Influenza-Pandemie** weltweit mehr Menschen als der Krieg — nach vorsichtigen Schätzungen zwischen 25 und 50 Millionen. Sie trifft besonders junge Erwachsene und wird in der Erinnerung dennoch vom Krieg verdeckt.",
+      "Die Friedensverträge von 1919/20 ziehen in Mittel- und Osteuropa neue Grenzen nach dem Prinzip der Nationalität, das sich in gemischt besiedelten Gebieten nicht anwenden lässt. Reparationen, Gebietsverluste und Schuldzuweisung erzeugen Streit statt Ordnung. 1923 vernichtet eine **Hyperinflation** in Mitteleuropa binnen Monaten die Ersparnisse ganzer Mittelschichten.",
+      "- **Mythos:** „Der Krieg brach unvermittelt aus.“ — Nein. Rüstungswettlauf, Mobilmachungspläne und feste Bündnisse machten die Eskalation seit Jahren wahrscheinlich; das Attentat von Sarajevo war der Anlass, nicht die Ursache.",
+      "> 1918 endeten die Kämpfe. Die Fragen, um die gekämpft worden war, endeten nicht.",
+    ],
+  },
+  {
+    id: "zwischenkrieg",
+    image: imgZwischenkrieg,
+    imageCaption: "Tafel XI — Arbeitsamt und geschlossene Bank, um 1931",
+    shortTitle: "Zwischenkriegszeit",
+    title: "Krise und Konsolidierung",
+    body: [
+      "Die zwanziger Jahre bringen eine kurze Erholung: stabilisierte Währungen, amerikanische Kredite, Radio, Kino, Automobil. Sie ruht auf schmalem Grund.",
+      "**1929** bricht die Weltwirtschaftskrise aus. Der Zusammenbruch der Börsen zieht Banken, Kredite und Fabriken mit sich; in den Industrieländern verliert bis zu ein Drittel der Arbeitsfähigen die Beschäftigung. Regierungen reagieren zunächst mit Sparhaushalten und Schutzzöllen und verschärfen damit, was sie bekämpfen wollen.",
+      "In Mitteleuropa gewinnen darauf **autoritäre Bewegungen** Zulauf, die Ordnung gegen Freiheit versprechen. Parlamente werden entmachtet, Notverordnungen zur Regel, Minderheiten zum Feindbild. Die Jahrzehnte, die folgen, kosten den Kontinent seine Städte, seine Bevölkerung und seine Selbstverwaltung.",
+      "Einen eigenen Weg geht die **Sowjetunion**. Nach 1921 setzt sich dort die Linie der **Neuen Ökonomischen Politik** durch — und wird, anders als viele erwarteten, nicht wieder zurückgenommen. **Nikolai Bucharin** wird zur prägenden Figur einer Politik des langsamen Wachstums: Bauern behalten ihre Höfe, Handel und Kleingewerbe bleiben zugelassen, Industrialisierung geschieht über Jahrzehnte statt über Fünfjahrespläne mit Zwang. Das Ergebnis ist ein Staat, der ärmer bleibt als erhofft, aber wirtschaftlich stetiger und außenpolitisch berechenbarer als seine Nachbarn.",
+      "- **Mythos:** „Die Krise kam über Nacht.“ — Nein. Überschuldete Landwirtschaft, überhitzte Spekulation und ein starres Goldwährungssystem hatten sie über Jahre vorbereitet.",
     ],
   },
   {
     id: "moderne",
     image: imgModerne,
-    imageCaption: "Tafel XI — Aufbau der Quadranten, um 1950",
-    shortTitle: "Ab 1920",
-    title: "Ab 1920: Die Ordnung, in der wir leben",
+    imageCaption: "Tafel XII — Aufbau der Quadranten, um 1950",
+    shortTitle: "Das Mandat",
+    title: "1946–1997: Verwaltung als Epoche",
     body: [
-      "In der Sowjetunion setzt sich nach 1921 die Linie der **Neuen Ökonomischen Politik** durch und wird — anders als von vielen erwartet — nicht wieder zurückgenommen. **Nikolai Bucharin** wird zur prägenden Figur einer Politik des langsamen Wachstums statt der erzwungenen Umwälzung. Das Ergebnis ist ein Staat, der wirtschaftlich stabiler und außenpolitisch berechenbarer bleibt als seine Nachbarn.",
-      "Mitteleuropa geht aus den Krisen und Kriegen der ersten Jahrhunderthälfte **erschöpft** hervor. 1946 tritt an die Stelle der alten Nationalstaaten eine gemeinsame Verwaltung der vier Schutzmächte — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —: der **Mandatsrat**. Sein Auftrag lautet Wiederaufbau; seine Praxis wird Verstetigung.",
-      "1948 bis 1953 entstehen in den Trümmerfeldern die ersten **Quadranten**, von Anfang an nach einheitlichem geometrischem Raster. Wer heute durch einen Sektor geht, geht über Pläne aus jenen Jahren.",
-      "Die zweite Jahrhunderthälfte bringt dem Mandatsgebiet keinen Wohlstandssprung, aber etwas, das die Verwaltung höher schätzt: **Berechenbarkeit**. Wohnraum wird zugeteilt, Arbeit zugewiesen, Versorgung geregelt, Lautstärke normiert. Die **Sektor-Reform 1996** fasst die Quadranten zu Sektoren zusammen und gilt als vorläufiger Abschluss dieser Entwicklung.",
+      "Mitteleuropa geht aus den Krisen und Kriegen der ersten Jahrhunderthälfte **erschöpft** hervor: zerstörte Städte, entwurzelte Bevölkerungen, Verwaltungen ohne Akten, Währungen ohne Wert. Die Nationalstaaten, die den Zusammenbruch verursacht hatten, gelten als ungeeignet, ihn zu beheben.",
+      "**1946** tritt an ihre Stelle eine gemeinsame Verwaltung der vier Schutzmächte — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —: der **Mandatsrat**. Sein Auftrag lautet Wiederaufbau. Seine Praxis wird Verstetigung: Was als Übergangsordnung gedacht war, erwies sich als die einzige Ordnung, auf die sich alle vier einigen konnten.",
+      "1948 bis 1953 entstehen in den Trümmerfeldern die ersten **Quadranten** — Gebäudegruppen nach einheitlichem geometrischem Raster, ausgelegt auf schnelle Errichtung, geringen Materialverbrauch und leichte Erfassung. Wer heute durch einen Sektor geht, geht über Pläne aus jenen Jahren.",
+      "Die zweite Jahrhunderthälfte bringt keinen Wohlstandssprung, aber etwas, das die Verwaltung höher schätzt: **Berechenbarkeit**. Wohnraum wird zugeteilt, Arbeit zugewiesen, Versorgung geregelt, Lautstärke normiert. Hungersnöte und Massenarbeitslosigkeit gibt es seither nicht mehr; Auswahl, Umzug und Wechsel dafür kaum noch. Beides gehört zusammen.",
+      "Die **Sektor-Reform 1996** fasst die Quadranten zu Sektoren zusammen und gilt als vorläufiger Abschluss dieser Entwicklung.",
+      "- **Mythos:** „Das Raster wurde aus Prinzip gewählt.“ — Nein. Es wurde aus Zementmangel gewählt. Das Prinzip kam später dazu.",
       "> Ob dies das Ende der Geschichte ist, wird in Band 5 erörtert. Band 5 ist seit 1991 in Vorbereitung.",
       "Condorcets Satz von den Menschen, die keinen anderen Herrn anerkennen als ihre Vernunft, steht seit zweihundert Jahren im Raum. Er ist nicht widerlegt. Er ist nur noch nicht eingelöst.",
     ],
