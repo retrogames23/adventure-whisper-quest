@@ -201,6 +201,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                 "Ein dickes, in graues Leinen gebundenes Buch. „Kantinenverordnung — Sammelausgabe“. Aushänge, Hausordnung, Schicht- und Vollmachtsklauseln, eng beschrieben. Auf dem Vorsatzblatt, in winziger Handschrift: »Wer das ganz liest, hat schon verloren.«",
             });
           }
+          const pick = () => api.startDialog("bookshelfPick");
           if (!api.hasFlag("openedAlmanach")) {
             api.setFlag("openedAlmanach");
             api.showText(
@@ -208,13 +209,13 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                 "Auf dem Wandregal: ein paar Aktenordner, ein leerer Vinyl-Schuber,",
                 "die graue „Kantinenverordnung — Sammelausgabe“ (Layard zieht sie heraus, steckt sie ein),",
                 "und — ganz links — der „Sektoren-Almanach 1997“.",
-                "Bewohner-Ausgabe, zerlesen. Layard schlägt ihn auf.",
+                "Daneben, schmaler und abgegriffener: „Die kürzeste Geschichte der Menschheit“, Mandats-Schulbuchreihe, Band 3.",
               ],
-              // Almanach erst öffnen, wenn der Spieler den Text durchgeklickt hat.
-              () => api.openAlmanach(),
+              // Auswahl erst zeigen, wenn der Spieler den Text durchgeklickt hat.
+              pick,
             );
           } else {
-            api.openAlmanach();
+            pick();
           }
         },
       },
