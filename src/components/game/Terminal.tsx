@@ -308,6 +308,8 @@ export function Terminal() {
   // Index der "Anfrage wird bearbeitet …"-Zeile im Terminal-Output,
   // damit diese Zeile während der Wartezeit oben im sichtbaren Bereich bleibt.
   const [auskunftBusyIndex, setAuskunftBusyIndex] = useState<number | null>(null);
+  // Wenn auskunft.bin wegen Dringlichkeit durchgestellt hat: Name der Stelle.
+  const [auskunftStation, setAuskunftStation] = useState<string | null>(null);
   const auskunftHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   // Ticker-Loop: schaltet den NewsState im Sekundentakt eine Meldung weiter,
   // solange `view === "ticker"`. Wird beim Verlassen, beim Schließen oder
