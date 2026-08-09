@@ -247,10 +247,12 @@ stehen weiterhin in `src/game/npcPersonas.ts`.
 
 - **Layard Worag** — Spielerfigur. Wohnt in E67-2611. Empfindet zu wenig.
   Hört Schmerz-Radio.
-  - **Beruf heute:** kleiner Sachbearbeiter im Sektoramt (Sektor 28).
-    Stempel, Formulare, Transferbögen — er kennt das Räderwerk, in dem er
-    selbst ein Rad ist. Erklärt, warum er 4317-K, Kowalk-Briefe und
-    Wartungssperren ohne Murren liest.
+  - **Beruf heute:** Verwaltungsangestellter, **Abteilung
+    Informationsbeschaffung** (Sektor 28). Sein Alltag: alte Akten,
+    Zeitungsarchive und Registraturbestände durchforsten, damit die
+    Verwaltung über Anträge entscheiden kann. Recherche vom Schreibtisch
+    aus, Vermerk am Ende, nie vor Ort. Erklärt, warum er 4317-K,
+    Kowalk-Briefe und Wartungssperren ohne Murren liest.
   - **Früher:** Autor. Zwei dünne Bände in den späten 80ern bei einem
     Mandats-Kleinverlag — niedrige Auflage, höfliche Rezensionen, dann
     Stille. Schreibt heute kaum noch; gelegentlich Notizen, die er nicht
@@ -297,6 +299,12 @@ vorgetragene Härte, Verwaltung als Tragödie und Geborgenheit zugleich.
 
 - **2026-05-01** — Erstfassung. Divergenzpunkt 1924 (Bucharin), Schmerz-Radio
   als private Bastler-Technologie, Mandatsgebiet Mitteleuropa.
-- **2026-06-07** — Layards Biografie präzisiert: Hauptberuf Sachbearbeiter
-  im Sektoramt, früher Autor (zwei Bände in den späten 80ern). Ersetzt
-  die alte Einzeilen-Angabe »Autor im Gebäude E67«.
+- **2026-06-07** — Layards Biografie präzisiert: Hauptberuf
+  Verwaltungsangestellter in der Abteilung Informationsbeschaffung,
+  früher Autor (zwei Bände in den späten 80ern). Ersetzt die alte
+  Einzeilen-Angabe »Autor im Gebäude E67«.
+- **2026-08-10** — Akt-I/II-Retcon: Resonanz-Pause und der
+  Marteau/Sertl-Erfinder-Strang entfallen ersatzlos. Herkunft des
+  Schmerz-Radios: unbekannte Bastler-Szene. Akt II beginnt mit dem
+  Rechercheauftrag 28/1194 (Häufung von Resonanz-Überlastungen,
+  Erhebung vor Ort in E71, Legitimationsschreiben bei Vossbeck/3603).
