@@ -2026,7 +2026,9 @@ export function Terminal() {
             }`}
           >
             {auskunftOn
-              ? "auskunft>"
+              ? auskunftStation
+                ? "amt>"
+                : "auskunft>"
               : advState
               ? "adventure>"
               : lottiState
