@@ -476,13 +476,13 @@
 }
 
 /* ===== Mobile-Stage =====
-   Auf < 768px wird die App in einer fixen 1024×640-Bühne gerendert
-   und per CSS-transform skaliert. Der Host muss dann tatsächliche
-   Pixelgrößen haben, nicht 100vh/100vw. */
+   Auf < 768px füllt die App die gesamte Bildschirmfläche aus. Der
+   Host innerhalb der skalierten Bühne nutzt 100% der Bühnengröße,
+   damit keine schwarzen Balken mehr sichtbar sind. */
 @media (max-width: 767px) {
   .mobile-stage-host {
-    height: 640px !important;
-    width: 1024px !important;
+    height: 100% !important;
+    width: 100% !important;
   }
   [data-mobile-passthrough="true"] .mobile-stage-host {
     height: 100dvh !important;
