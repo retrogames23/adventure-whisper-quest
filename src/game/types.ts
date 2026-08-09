@@ -94,6 +94,7 @@ export type StoryFlag =
   | "tookPainRadio"
   | "doorbellRang"
   | "openedAlmanach"
+  | "openedHistoryBook"
   | "tookKantinenverordnung"
   | "metPhilippe"
   | "metPhilippeBefore"
@@ -665,6 +666,8 @@ export interface GameApi {
   openAmigaWorkbench: () => void;
   /** Sektoren-Almanach (Lese-Overlay) öffnen. */
   openAlmanach: () => void;
+  /** „Die kürzeste Geschichte der Menschheit“ (Lese-Overlay) öffnen. */
+  openHistoryBook: () => void;
   /** Wartungsterminal hinter Tür 5610 (eigenes UI, kein CentralOS). */
   openNode5610: () => void;
   /** Pneumatik-Rohrpost-Overlay in der Kantine 3602. */

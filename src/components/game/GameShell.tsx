@@ -55,6 +55,9 @@ const DsaAdventureScene = lazy(() =>
 const HandbookOverlay = lazy(() =>
   import("./HandbookOverlay").then((m) => ({ default: m.HandbookOverlay })),
 );
+const BookOverlay = lazy(() =>
+  import("./BookOverlay").then((m) => ({ default: m.BookOverlay })),
+);
 const AlmanachOverlay = lazy(() =>
   import("./AlmanachOverlay").then((m) => ({ default: m.AlmanachOverlay })),
 );
@@ -158,6 +161,8 @@ function GameStage({
     closeHandbook,
     almanachOpen,
     closeAlmanach,
+    historyBookOpen,
+    closeHistoryBook,
     idCardOpen,
     closeIdCard,
   } = useGame();
@@ -246,6 +251,16 @@ function GameStage({
               )}
               {almanachOpen && (
                 <AlmanachOverlay open={almanachOpen} onClose={closeAlmanach} />
+              )}
+              {historyBookOpen && (
+                <BookOverlay
+                  open={historyBookOpen}
+                  onClose={closeHistoryBook}
+                  title={HISTORY_TITLE}
+                  subtitle={HISTORY_SUBTITLE}
+                  chapters={HISTORY_CHAPTERS}
+                  uiText={HISTORY_UI_TEXT}
+                />
               )}
               {helpOpen !== false && (
                 <HelpOverlay

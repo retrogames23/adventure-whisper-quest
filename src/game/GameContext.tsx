@@ -81,6 +81,8 @@ interface GameState {
   handbookOpen: boolean;
   /** Sektoren-Almanach-Lese-Overlay sichtbar. */
   almanachOpen: boolean;
+  /** „Die kürzeste Geschichte der Menschheit“ (Lese-Overlay) sichtbar. */
+  historyBookOpen: boolean;
   /** Bewohner-Ausweis-Lese-Overlay sichtbar. */
   idCardOpen: boolean;
   /** Lobby-Schleuse-Overlay sichtbar (Tagesmodus, vor Erstbetreten). */
@@ -127,6 +129,8 @@ interface GameContextValue extends GameState {
   /** Sektoren-Almanach Overlay. */
   openAlmanach: () => void;
   closeAlmanach: () => void;
+  openHistoryBook: () => void;
+  closeHistoryBook: () => void;
   openIdCard: () => void;
   closeIdCard: () => void;
   /** Lobby-Schleuse manuell öffnen / schließen. */
@@ -260,6 +264,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   dsaBeatRef.current = dsaBeat;
   const [handbookOpen, setHandbookOpen] = useState(false);
   const [almanachOpen, setAlmanachOpen] = useState(false);
+  const [historyBookOpen, setHistoryBookOpen] = useState(false);
   const [idCardOpen, setIdCardOpen] = useState(false);
   const [lobbyGateOpen, setLobbyGateOpen] = useState(false);
   const [notizbuchOpen, setNotizbuchOpen] = useState(false);
@@ -473,6 +478,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setRadioOpen(false);
         setTerminalOpen(false);
         setAlmanachOpen(true);
+      },
+      openHistoryBook: () => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        setHistoryBookOpen(true);
       },
       openKeypad: () => {
         setKeypadOpen(true);
@@ -862,6 +872,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       closeHandbook: () => setHandbookOpen(false),
       openAlmanach: () => setAlmanachOpen(true),
       closeAlmanach: () => setAlmanachOpen(false),
+      openHistoryBook: () => setHistoryBookOpen(true),
+      closeHistoryBook: () => setHistoryBookOpen(false),
       openIdCard: () => setIdCardOpen(true),
       closeIdCard: () => setIdCardOpen(false),
       openLobbyGate: () => setLobbyGateOpen(true),
@@ -1112,6 +1124,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     dsaSheetOpen,
     handbookOpen,
     almanachOpen,
+    historyBookOpen,
     idCardOpen,
     lobbyGateOpen,
     notizbuchOpen,
@@ -1163,6 +1176,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       dsaSheetOpen,
       handbookOpen,
       almanachOpen,
+      historyBookOpen,
       idCardOpen,
       lobbyGateOpen,
       notizbuchOpen,
