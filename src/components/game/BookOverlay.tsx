@@ -154,7 +154,7 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
                   style={{ filter: "sepia(0.15) contrast(1.02)" }}
                 />
                 {chapter.imageCaption && (
-                  <figcaption className="mt-1 font-mono-crt text-[10px] uppercase tracking-widest text-[#8a6a2a]">
+                  <figcaption className="mt-1 font-mono-crt text-[13px] uppercase tracking-widest text-[#8a6a2a] sm:text-[10px]">
                     {chapter.imageCaption}
                   </figcaption>
                 )}
@@ -245,7 +245,7 @@ function ChapterPager({
 function ChapterBody({ chapter }: { chapter: HandbookChapter }) {
   const blocks = groupBlocks(chapter.body);
   return (
-    <div className="space-y-3 text-[17px] leading-relaxed text-[#2a1c0a] sm:text-[15px]">
+    <div className="space-y-3 text-[20px] leading-relaxed text-[#2a1c0a] sm:text-[15px]">
       {blocks.map((b, i) => {
         if (b.kind === "p") {
           return <p key={i}>{renderInline(b.lines.join(" "))}</p>;
