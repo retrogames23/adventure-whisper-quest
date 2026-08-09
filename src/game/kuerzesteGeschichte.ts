@@ -225,7 +225,7 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
     image: imgModerne,
     imageCaption: "Tafel XII — Aufbau der Quadranten, um 1950",
     shortTitle: "Das Mandat",
-    title: "1946–1997: Verwaltung als Epoche",
+    title: "1946–1997: Die Epoche der stabilen Verwaltung",
     body: [
       "Mitteleuropa geht aus den Krisen und Kriegen der ersten Jahrhunderthälfte **erschöpft** hervor: zerstörte Städte, entwurzelte Bevölkerungen, Verwaltungen ohne Akten, Währungen ohne Wert. Die Nationalstaaten, die den Zusammenbruch verursacht hatten, gelten als ungeeignet, ihn zu beheben.",
       "**1946** tritt an ihre Stelle eine gemeinsame Verwaltung der vier Schutzmächte — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —: der **Mandatsrat**. Sein Auftrag lautet Wiederaufbau. Seine Praxis wird Verstetigung: Was als Übergangsordnung gedacht war, erwies sich als die einzige Ordnung, auf die sich alle vier einigen konnten.",
