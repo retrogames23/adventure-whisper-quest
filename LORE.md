@@ -8,7 +8,7 @@ begründet sein; andere Inhalte sind nachzuziehen.
 nicht aggressiv, nicht heroisch. Verwaltung als Klang. „Cozypunk".
 
 **Spielzeit:** November 1997.
-**Spielort:** Sektor 28, Quadrant E67, im *Mandatsgebiet Mitteleuropa*.
+**Spielort:** Sektor 28, Quadrant 67, Gebäude E67, im *Mandatsgebiet Mitteleuropa*.
 
 ---
 
@@ -115,7 +115,7 @@ Konkrete Folgen:
 ### 1990–1997 — Die Gegenwart der Welt
 - Die globale Lage ist ruhig, langweilig, leicht bedrückend. Weniger Krieg,
   aber auch weniger Aufbruch.
-- Der **Quadranten-Verwaltungsraum** (Mandatsgebiet, Skandinavien, Teile
+- Der **Sektoren-Verwaltungsraum** (Mandatsgebiet, Skandinavien, Teile
   Osteuropas, Teile der UdSSR) ist besonders stark normiert.
 - Das Mandatsgebiet selbst ist der **bürokratische Extremfall**, weil es nie
   ein souveräner Nationalstaat war: hier ist die Verwaltung nicht nur
@@ -130,7 +130,7 @@ Konkrete Folgen:
 - **Block A — Mandatsraum & Quadranten-Konvention:** Mitteleuropa
   (Mandatsgebiet), Skandinavien, Tschechoslowakei (existiert weiter), Polen,
   Ungarn, Teile der westlichen UdSSR. Stark normiert, ZENTRAL.NETZ, CENTRALOS,
-  Quadranten-Adressen.
+  Sektor-Adressen.
 - **Block B — Reformsozialistische Föderation (UdSSR + Verbündete):**
   Autoritärer Einparteienstaat mit gemischter Wirtschaft. Hat Teile der
   Quadranten-Konvention übernommen. Kulturell näher an Mitteleuropa als an
@@ -149,7 +149,7 @@ Konkrete Folgen:
 staatliche Radio und kennt die USA aus drei Filmen, die er nie zu Ende
 gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
 
-## 4. Mandatsgebiet Mitteleuropa und das Quadrantensystem
+## 4. Mandatsgebiet Mitteleuropa und das Sektor-Quadranten-System
 
 - Das Mandatsgebiet wurde 1946 als befristete Vier-Mächte-Verwaltung
   eingerichtet, 1986 in einen lockeren Staatenbund umgewandelt und ist seither
@@ -158,10 +158,11 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
   Stempeln tauchen weiterhin französische, russische und englische Lehnwörter
   auf (Erbe der vier Mandatsmächte). Das erklärt den eigentümlichen
   Behörden-Klang.
-- Adressierung: **Sektor / Quadrant / Etage / Wohnung.** Beispiel:
-  *Sektor 28, Quadrant E67, Etage 26, Wohnung 11* → kurz: **2611, E67**.
-- Die Quadranten sind geometrisch durchnummerierte Großwohnquartiere nach
-  einheitlichem Standard. E67 ist einer von schätzungsweise 700 im Sektor 28.
+- Adressierung: **Sektor / Quadrant / Gebäude / Etage / Wohnung.** Beispiel:
+  *Sektor 28, Quadrant 67, Gebäude E, Etage 26, Wohnung 11* → kurz: **2611, E67**.
+- Ein **Sektor** ist die große Verwaltungseinheit (Sektor 28 umfasst rund 700 Quadranten).
+- Ein **Quadrant** ist eine Gebäudegruppe nach einheitlichem Raster (Quadrant 67 besteht aus den Blöcken A–D und dem Ergänzungsbau E67).
+- Ein **Gebäude** wie **E67** ist ein konkreter Wohn- und Verwaltungskomplex; **E71** ist ein benachbartes Gebäude im selben Sektor.
 - Die **Leitstelle** ist die zentrale telefonische Anlaufstelle eines Sektors.
   Notrufnummer **001**. Die alte Nummer 002 wurde 1996 abgeschafft.
 
@@ -177,7 +178,7 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
   die Rohrpost-Knoten.
 - **Schichten** A/B/C im Verwaltungsapparat. Layards Generation kennt nichts
   anderes.
-- **Bewohnervertretung** auf Quadrantenebene mit eigenen Trockensiegeln. Eher
+- **Bewohnervertretung** auf Gebäudeebene mit eigenen Trockensiegeln. Eher
   Verwaltungs- als politisches Gremium.
 
 ## 6. Tech-Stand 1997
@@ -235,7 +236,7 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
 - **Rohrpost-Modellnetze:** Privatpersonen bauen in alten Kellern
   Miniatur-Rohrpoststrecken nach. Eigene Vereinszeitschriften.
 - **Sektor-Funk:** Amateurfunk auf für die Verwaltung freigegebenen
-  Frequenzbändern, oft mit selbstgebauten Antennen auf den Quadrantendächern.
+  Frequenzbändern, oft mit selbstgebauten Antennen auf den Gebäudedächern.
 - **Aktenvereine:** Sammler historischer Formulare. Echte Subkultur,
   besonders im Mandatsgebiet.
 
@@ -246,7 +247,7 @@ stehen weiterhin in `src/game/npcPersonas.ts`.
 
 - **Layard Worag** — Spielerfigur. Wohnt in E67-2611. Empfindet zu wenig.
   Hört Schmerz-Radio.
-  - **Beruf heute:** kleiner Sachbearbeiter im Quadrantenamt (Sektor 28).
+  - **Beruf heute:** kleiner Sachbearbeiter im Sektoramt (Sektor 28).
     Stempel, Formulare, Transferbögen — er kennt das Räderwerk, in dem er
     selbst ein Rad ist. Erklärt, warum er 4317-K, Kowalk-Briefe und
     Wartungssperren ohne Murren liest.
@@ -297,5 +298,5 @@ vorgetragene Härte, Verwaltung als Tragödie und Geborgenheit zugleich.
 - **2026-05-01** — Erstfassung. Divergenzpunkt 1924 (Bucharin), Schmerz-Radio
   als private Bastler-Technologie, Mandatsgebiet Mitteleuropa.
 - **2026-06-07** — Layards Biografie präzisiert: Hauptberuf Sachbearbeiter
-  im Quadrantenamt, früher Autor (zwei Bände in den späten 80ern). Ersetzt
-  die alte Einzeilen-Angabe »Autor im Quadranten E67«.
+  im Sektoramt, früher Autor (zwei Bände in den späten 80ern). Ersetzt
+  die alte Einzeilen-Angabe »Autor im Gebäude E67«.

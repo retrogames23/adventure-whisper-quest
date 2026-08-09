@@ -73,7 +73,7 @@ const HOME_WORAG: FsDir = {
           content: [
             "── Eintrag, 12. September 1986 ─────────────────",
             "",
-            "Heute wurde ich zugewiesen. Quadrant E67, Zimmer 2611.",
+            "Heute wurde ich zugewiesen. Gebäude E67, Zimmer 2611.",
             "Sie haben mir gesagt, das sei vorübergehend. Drei Monate,",
             "vielleicht ein halbes Jahr, bis sich die Lage »stabilisiert«.",
             "",
@@ -457,7 +457,7 @@ const HOME_WORAG: FsDir = {
             "",
             "Auslöser sind drei Vorfälle der vergangenen",
             "Wochen, bei denen »fremde Personen« — vermutlich",
-            "aus dem unsanierten Sektor E71 — durch die",
+            "aus dem unsanierten Gebäude E71 — durch die",
             "Korridore von E67 gestreift sein sollen. Verletzt",
             "wurde niemand. »Aber das Gefühl«, so eine",
             "Sprecherin der Initiative »Sicheres E67«, »ist",
@@ -927,7 +927,7 @@ export const FILESYSTEM_WORAG: FsDir = {
           size: 90,
           date: "—",
           content: [
-            "CentralOS v2.3 — Quadrant E67",
+            "CentralOS v2.3 — Gebäude E67",
             "Login: \\u   TTY: \\l",
           ],
         },
@@ -1172,7 +1172,7 @@ export const FILESYSTEM_WORAG: FsDir = {
                 "v2.2  03/1995  Resonanz-Feedback stabilisiert.",
                 "v2.1  06/1994  Leitstelle 001 als Standardroute.",
                 "v2.0  09/1991  Carrier-Daemon eingeführt.",
-                "v1.4  05/1988  Erstauslieferung Sektor E67.",
+                "v1.4  05/1988  Erstauslieferung Gebäude E67.",
               ],
             },
             {

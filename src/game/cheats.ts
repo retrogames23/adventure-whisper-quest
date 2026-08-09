@@ -89,7 +89,7 @@ const ENDE_AKT1_FLAGS: StoryFlag[] = [
   // Sektor-Tür geöffnet, Schwelle überschritten
   "sectorDoorOpen",
   "sectorThresholdSeen",
-  // Sektor E71: Empfang, Korridor, Zimmer 1534
+  // Gebäude E71: Empfang, Korridor, Zimmer 1534
   "enteredE71",
   "metReceptionist",
   "foundRoom1534",

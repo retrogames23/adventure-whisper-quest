@@ -1,5 +1,5 @@
 /**
- * Netzwerk-Hosts im Sektor E67 (und benachbarten Sektoren), erreichbar
+ * Netzwerk-Hosts im Gebäude E67 (und benachbarten Sektoren), erreichbar
  * über das `telnet`-Kommando im Terminal. Enthält Zugangsdaten, MOTD-
  * Banner und das jeweilige (statische bzw. story-flag-abhängige)
  * Mini-Filesystem pro Host.

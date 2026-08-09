@@ -138,7 +138,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
   e71Lobby: {
     id: "e71Lobby",
     background: e71LobbyBg,
-    title: "Sektor E71 — Empfang",
+    title: "Gebäude E71 — Empfang",
     intro:
       "Der Aufzug schließt hinter Layard. Andere Luft. Kühler. Sauberer. Eine Frau hinter einem Tresen sieht auf.",
     decals: [
@@ -270,7 +270,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
   elevatorE71: {
     id: "elevatorE71",
     background: elevatorE71Bg,
-    title: "Aufzug — Sektor E71",
+    title: "Aufzug — Gebäude E71",
     intro:
       "Eine Kabine aus gebürstetem Stahl. Rechts an der Wand ein Bedienfeld: fünf Etagen und ein Keller. Über der Tür ein rotes Segment-Display, das leise flackert.",
     hotspots: [
@@ -317,7 +317,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
   corridor15: {
     id: "corridor15",
     background: corridor15Bg,
-    title: "Korridor 15 — Sektor E71",
+    title: "Korridor 15 — Gebäude E71",
     intro:
       "Spiegelblanker Linoleum. Eine Neonröhre flackert. Rechts an der Wand: eine Tür, schräg überklebt mit gelbem Siegelband. Am Ende des Korridors, in der Fluchtachse: eine Tür mit einem matten roten Status-Licht. Zimmer 1534. Halbrechts, schmal eingelassen: Tür 1530, einen Spalt offen — von drinnen Stimmen, jung, durcheinander.",
     hotspots: [
@@ -354,7 +354,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
             "Darauf, in Maschinenschrift:",
             "„Quarantäne — Resonanz-Überlastung — bis auf Widerruf“.",
             "Layard hat denselben Zettel heute schon einmal gesehen. Vor seiner eigenen Wand.",
-            "Wie viele Türen hier wohl so aussehen. Wie viele in E67. Wie viele in den anderen Quadranten.",
+            "Wie viele Türen hier wohl so aussehen. Wie viele in E67. Wie viele in den anderen Gebäuden.",
             "Resonanz-Überlastung. Der übliche Sammelbegriff der Sektorärztin — offiziell bau-akustisch, faktisch für alles, was zwischen den Wänden zu laut wird: Streit, Trauer, Krankmeldungen, ein Nachbar, der nicht mehr schläft. Was genau dahintersteckt, steht auf keinem der Zettel.",
             "Layard kennt niemanden, der quarantänisiert wurde. Er kennt aber auch keinen, der es nicht wäre, wenn man genau hinsähe.",
             "Vielleicht ist das hier kein Einzelfall. Vielleicht laufen Hunderte von diesen Türen still durch das System — gemeldet, abgehakt, versiegelt, vergessen. Eine Epidemie, die niemand so nennt, weil niemand sie zählt.",
@@ -506,7 +506,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
     background: room1532Bg,
     title: "Zimmer 1532 — Praxis Dr. Okwu",
     intro:
-      "Ein wohnliches Sprechzimmer. Bücherregale voller Aktenordner mit Quadrantenetiketten, ein bernsteinfarbener Terminalbildschirm, eine Lederliege mit einem zusammengelegten Kissen. Hinter dem Schreibtisch sitzt eine schwarze Ärztin Anfang fünfzig in weißem Kittel, eine dampfende Tasse Tee in der Hand. Sie blickt auf, lächelt freundlich.",
+      "Ein wohnliches Sprechzimmer. Bücherregale voller Aktenordner mit Gebäudeetiketten, ein bernsteinfarbener Terminalbildschirm, eine Lederliege mit einem zusammengelegten Kissen. Hinter dem Schreibtisch sitzt eine schwarze Ärztin Anfang fünfzig in weißem Kittel, eine dampfende Tasse Tee in der Hand. Sie blickt auf, lächelt freundlich.",
     hotspots: [
       {
         id: "okwuTalk",
@@ -561,7 +561,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Reihen von Aktenordnern, sauber nach Quadranten beschriftet:",
+            "Reihen von Aktenordnern, sauber nach Gebäuden beschriftet:",
             "E68 — Logistik. E69 — Wohnen. E70 — Verwaltung. E71 — Medizin.",
             "Auf einem oberen Brett, etwas verstaubt, ein einzelner Ordner: E67. Dünn. Sehr dünn.",
           ]),

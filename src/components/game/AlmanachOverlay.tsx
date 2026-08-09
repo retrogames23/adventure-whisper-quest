@@ -14,7 +14,7 @@ interface Props {
 }
 
 /**
- * Buchähnliches Lese-Overlay für den Quadranten-Almanach.
+ * Buchähnliches Lese-Overlay für den Sektoren-Almanach.
  *  - Linke Spalte: Inhaltsverzeichnis (Kapitelnavigation).
  *  - Rechte Spalte: scrollbarer Inhalt des aktuellen Kapitels.
  *  - Klick außerhalb oder ESC schließt.

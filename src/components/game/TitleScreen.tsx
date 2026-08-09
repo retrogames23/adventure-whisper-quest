@@ -137,7 +137,7 @@ export function TitleScreen({ onStart }: Props) {
       {/* Title + tagline pinned in the upper third (where the artwork has sky). */}
       <div className="relative z-10 mt-[8vh] max-w-3xl">
         <p className="font-mono-crt text-xs uppercase tracking-[0.5em] text-amber-glow/70">
-          Quadrant E67 · Akt I
+          Gebäude E67 · Akt I
         </p>
 
         <h1 className="mt-4 font-display uppercase tracking-[0.18em] text-foreground text-shadow-hard text-4xl sm:text-6xl md:text-7xl lg:text-8xl">

@@ -176,7 +176,7 @@ export function RadioPanel() {
               api.showText(
                 [
                   "*KLINGEL-KLINGEL*",
-                  "Es klingelt an der Tür. Layard beendet die Übertragung, indem er beide Hände ruckartig von der Metallstange entfernt. Wer könnte das sein? Normalerweise klingelt niemand bei Layard, zumindest nicht unangekündigt. Die Post wird in der Postbox ausgeliefert, mit der alle E-Quadranten vor vier Jahren ausgestattet wurden. ",
+                  "Es klingelt an der Tür. Layard beendet die Übertragung, indem er beide Hände ruckartig von der Metallstange entfernt. Wer könnte das sein? Normalerweise klingelt niemand bei Layard, zumindest nicht unangekündigt. Die Post wird in der Postbox ausgeliefert, mit der alle E-Gebäude vor vier Jahren ausgestattet wurden. ",
                 ],
                 () => {
                   api.setFlag("metPhilippe");

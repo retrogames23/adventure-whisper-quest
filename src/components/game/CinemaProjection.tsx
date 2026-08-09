@@ -6,7 +6,7 @@ import { useQA } from "@/dev/overlayQAState";
 import { useMusic } from "@/audio/MusicPlayer";
 
 /**
- * Lichtspielsaal 5 (Etage 5, Sektor E71).
+ * Lichtspielsaal 5 (Etage 5, Gebäude E71).
  * Beim ersten Betreten läuft der Lehrfilm „Mandatsgebiet Mitteleuropa"
  * einmal automatisch. Danach lässt er sich nur noch über die Leinwand
  * erneut starten (Flag `cinemaFilmSeen`).

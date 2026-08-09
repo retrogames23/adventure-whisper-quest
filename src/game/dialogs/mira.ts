@@ -180,7 +180,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mi4: {
         id: "mi4",
         speaker: "MIRA",
-        text: "Andere Etagen ansehen. — Weißt du, wie selten das jemand macht? Die meisten bleiben in ihrem Quadranten, bis sie transferiert werden. Du nicht.",
+        text: "Andere Etagen ansehen. — Weißt du, wie selten das jemand macht? Die meisten bleiben in ihrem Gebäude, bis sie transferiert werden. Du nicht.",
         subtext: "Sie wartet auf deine Reaktion.",
         hiddenWhen: ["sawEmptyOffice"],
         next: "mi4b",

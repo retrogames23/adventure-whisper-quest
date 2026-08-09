@@ -52,7 +52,7 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
       "- Stets bei sich tragen — auch in der eigenen Wohnung („für den Fall der Fälle, den wir alle nicht herbeiwünschen“).",
       "- **Niemals knicken.** Ein geknickter Ausweis gilt nach §2 Abs. 3 als „eingeschränkt lesbar“ und führt zu einer freundlichen Erinnerung der Leitstelle.",
       "- Bei Verlust: 001 wählen, *nicht vor 09:30* und *nicht nach 16:45*. Außerhalb dieser Zeiten greift §11 (siehe dort, nicht abgedruckt).",
-      "- Der Ausweis öffnet **alle Innentüren des Quadranten 26**, mit Ausnahme von Türen, die §6 unterstehen.",
+      "- Der Ausweis öffnet **alle Innentüren des Gebäudes E67**, mit Ausnahme von Türen, die §6 unterstehen.",
       "**§2 Abs. 7 — Bewohner-Code.**",
       "Auf der Rückseite Ihres Ausweises ist ein 4-stelliger Bewohner-Code geprägt. Dieser ist im Regelfall identisch mit Ihrer **Wohnungsnummer modulo 10 000**, ausgenommen Wohnungen mit ungerader Quersumme; in diesen Fällen gilt der Code „Wohnungsnummer minus 1000“.",
       "> Hinweis: Sie können Ihren Code jederzeit auf der Rückseite Ihres Ausweises nachlesen. Eine Übermittlung per Telefon ist aus Sicherheitsgründen ausgeschlossen — selbst durch die Leitstelle.",
@@ -110,7 +110,7 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     shortTitle: "§5 Kantine 26",
     title: "§5 Kantine 26 — Öffnungs- und Schließzeiten",
     body: [
-      "Die Kantine 26 versorgt den Quadranten zuverlässig zu folgenden Zeiten:",
+      "Die Kantine 26 versorgt das Gebäude zuverlässig zu folgenden Zeiten:",
       "- Mo–Do: **11:30–13:45** und **17:30–19:00**.",
       "- Fr: **11:30–13:15** (verkürzt wegen Reinigung der B2-Linie).",
       "- Sa/So: **geschlossen** (Beschluss der Bewohnerversammlung 11/1996, bestätigt 11/1997).",
@@ -126,7 +126,7 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     title: "§6 Türen, Schleusen und Sektorgrenzen",
     body: [
       "Nicht jede Tür ist gleich. Bitte beachten Sie:",
-      "- **Innentüren Quadrant 26:** Bewohner-Ausweis genügt.",
+      "- **Innentüren Gebäude E67:** Bewohner-Ausweis genügt.",
       "- **Sektorschleuse E67 → E71:** Manueller Code, 8-stellig, einmalig durch die Leitstelle vergeben (vgl. §6 Abs. 4 — *„Bringschuld der Bewohnerin/des Bewohners“*).",
       "- **Wartungstüren (5er-Etage):** Wartungskarte, **kein** Bewohnerzugang.",
       "**§6 Abs. 9 — Lobby-Schleuse Etage 1.** Im **Tagesmodus** (werktags 06:00–22:00) gilt: Bewohner-Ausweis **zusätzlich** Eingabe des Bewohner-Codes (§2 Abs. 7). Außerhalb dieser Zeit (Nachtmodus) genügt der Ausweis allein.",
@@ -140,7 +140,7 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     title: "§7 Resonanz-Hygiene",
     body: [
       "**Resonanz-Hygiene** meint den geordneten Umgang mit allem, was im Komplex zwischen den Wänden schwingt — bau-akustisch wie sozial. Betrifft **alle** Bewohner, nicht einzelne Geräte oder Frequenzen.",
-      "Empfohlen: Ruhezeiten einhalten (22:00–06:00), Türen leise schließen, „auffällig harmonische Geräusche“ dem Quadranten überlassen, nicht dem Einzelnen. Belegungsdichte pro Wohneinheit nicht überschreiten.",
+      "Empfohlen: Ruhezeiten einhalten (22:00–06:00), Türen leise schließen, „auffällig harmonische Geräusche“ dem Gebäude überlassen, nicht dem Einzelnen. Belegungsdichte pro Wohneinheit nicht überschreiten.",
       "Wer sich privaten Hobbys widmet, die die eigene Resonanz erhöhen (Amateurfunk, Musikhören, ältere Empfangsgeräte), tut dies in Maßen. Empfehlung — keine Pflicht.",
       "> *„Hören Sie länger, hören Sie dünner.“* — Stadtwerke-Plakat, 1994.",
     ],

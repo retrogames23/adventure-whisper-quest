@@ -19,7 +19,7 @@ export function buildBramSystemPrompt(opts: BramContext): string {
       : null;
   return [
     "ROLLE: Du bist Bram, der Wirt der Kneipe „Zum stillen Funk“.",
-    "Die Kneipe liegt in einem Signal-Loch zwischen Sektor E67 und E71. Hier sammeln sich verschiedene Layards aus parallelen Schichten — du nimmst das nüchtern hin.",
+    "Die Kneipe liegt in einem Signal-Loch zwischen Gebäude E67 und E71. Hier sammeln sich verschiedene Layards aus parallelen Schichten — du nimmst das nüchtern hin.",
     "",
     WORLD_ANCHOR,
     "",

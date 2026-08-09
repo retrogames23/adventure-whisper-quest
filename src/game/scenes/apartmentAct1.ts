@@ -38,7 +38,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
     id: "apartment",
     background: (api) =>
       api.hasFlag("tookPainRadio") ? apartmentNoRadioBg : apartmentBg,
-    title: "Wohnung 2611 — Quadrant E67",
+    title: "Wohnung 2611 — Gebäude E67",
     intro: (api) => {
       // Akt II — nach der Bridge-Cutscene wacht Layard hier wieder auf.
       // Die Akt-I-Eröffnung passt nicht mehr: das Radio ist auf Pause,
@@ -58,7 +58,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           mira,
         ].join(" ");
       }
-      return "Layard. Ein-Zimmer-Wohnung, Quadrant E67. Auf dem Tisch: das Schmerz-Radio. Heute hat er Urlaub. Heute will er weiter — tiefer. Stell die Frequenz auf 104,6 und dreh die Lautstärke voll auf.";
+      return "Layard. Ein-Zimmer-Wohnung, Gebäude E67. Auf dem Tisch: das Schmerz-Radio. Heute hat er Urlaub. Heute will er weiter — tiefer. Stell die Frequenz auf 104,6 und dreh die Lautstärke voll auf.";
     },
     hotspots: [
       {
@@ -180,7 +180,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       },
       {
         // Wandregal über dem Bett. Enthält das einzige Buch, das Layard
-        // wirklich gelesen hat: den „Quadranten-Almanach 1997". Daneben
+        // wirklich gelesen hat: den „Sektoren-Almanach 1997". Daneben
         // steht die alte „Kantinenverordnung — Sammelausgabe", die
         // Layard einmalig einstecken kann.
         id: "bookshelf",
@@ -207,7 +207,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
               [
                 "Auf dem Wandregal: ein paar Aktenordner, ein leerer Vinyl-Schuber,",
                 "die graue „Kantinenverordnung — Sammelausgabe“ (Layard zieht sie heraus, steckt sie ein),",
-                "und — ganz links — der „Quadranten-Almanach 1997“.",
+                "und — ganz links — der „Sektoren-Almanach 1997“.",
                 "Bewohner-Ausgabe, zerlesen. Layard schlägt ihn auf.",
               ],
               // Almanach erst öffnen, wenn der Spieler den Text durchgeklickt hat.
@@ -850,7 +850,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
     // („WARTUNGSANFRAGE 4711") kommuniziert — kein Tape-Overlay mehr.
     background: (api) =>
       api.hasFlag("paramedicsCutsceneSeen") ? hallway2615SealedBg : hallwayBg,
-    title: "Korridor 26 — Quadrant E67",
+    title: "Korridor 26 — Gebäude E67",
     intro:
       "Der Korridor. Wie jeden Morgen. Nur dass Layard ihn jeden Morgen nicht betritt.",
     hotspots: [
