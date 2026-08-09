@@ -866,7 +866,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs6: {
         id: "mrs6",
         speaker: "SYSTEM",
-        text: "[ Sie klemmt neu, dreht die Dose zu, hebt ab. Ein Freizeichen, dünn, aber da. ]",
+        text: "[ Sie prüft die Leitung ein zweites Mal, dann steckt sie den Prüfstecker zurück in den Gürtel. ]",
         hiddenWhen: ["miraTrustEarned"],
         choices: [
           {
@@ -887,7 +887,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs6b: {
         id: "mrs6b",
         speaker: "SYSTEM",
-        text: "[ Sie klemmt neu, dreht die Dose zu, hebt ab. Ein Freizeichen, dünn, aber da. ]",
+        text: "[ Sie prüft die Leitung ein zweites Mal, dann steckt sie den Prüfstecker zurück in den Gürtel. ]",
         requires: ["miraTrustEarned"],
         next: "mrs7b",
       },
