@@ -148,6 +148,8 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
 
             <ChapterPager
               chapter={chapter}
+              chapters={chapters}
+              uiText={uiText}
               onPick={(id) => setChapterId(id)}
             />
           </div>
@@ -172,9 +174,13 @@ function Divider() {
 
 function ChapterPager({
   chapter,
+  chapters,
+  uiText,
   onPick,
 }: {
   chapter: HandbookChapter;
+  chapters: HandbookChapter[];
+  uiText: BookUiText;
   onPick: (id: string) => void;
 }) {
   const idx = chapters.findIndex((c) => c.id === chapter.id);
