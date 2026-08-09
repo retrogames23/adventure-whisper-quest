@@ -58,7 +58,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           mira,
         ].join(" ");
       }
-      return "Layard. Ein-Zimmer-Wohnung, Gebäude E67. Auf dem Tisch: das Schmerz-Radio. Heute hat er Urlaub. Heute will er weiter — tiefer. Stell die Frequenz auf 104,6 und dreh die Lautstärke voll auf.";
+      return "Layard. Ein-Zimmer-Wohnung, Gebäude E67. Auf dem Tisch:  das Schmerz-Radio. Heute hat er Urlaub. Heute will er weiter — tiefer. Stell die Frequenz auf 104,6 und dreh die Lautstärke voll auf.";
     },
     hotspots: [
       {
@@ -137,8 +137,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                     "Layard kennt die Tür. Dahinter wohnt das Mädchen mit dem Werkzeuggürtel.",
                   ]
                 : [
-                    "Sirren. Sonst nichts.",
-                    "Bleibt der Aufkleber: Etagenwartung, Schicht A, Tür 4601.",
+                    "Sirren. Sonst nichts. Bleibt der Aufkleber: Etagenwartung, Schicht A, Tür 4601.",
                   ],
             );
             return;
@@ -206,9 +205,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.setFlag("openedAlmanach");
             api.showText(
               [
-                "Auf dem Wandregal: ein paar Aktenordner, ein leerer Vinyl-Schuber,",
-                "die graue „Kantinenverordnung — Sammelausgabe“ (Layard zieht sie heraus, steckt sie ein),",
-                "und — ganz links — der „Sektoren-Almanach 1997“.",
+                "Auf dem Wandregal: ein paar Aktenordner, ein leerer Vinyl-Schuber, die graue „Kantinenverordnung — Sammelausgabe“ (Layard zieht sie heraus, steckt sie ein), und — ganz links — der „Sektoren-Almanach 1997“.",
                 "Daneben, schmaler und abgegriffener: „Die kürzeste Geschichte der Menschheit“, Mandats-Schulbuchreihe, Band 3.",
               ],
               // Auswahl erst zeigen, wenn der Spieler den Text durchgeklickt hat.
@@ -780,10 +777,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             ]);
           } else if (api.hasFlag("knowsLotti")) {
             api.showText([
-              "Bodo schüttelt den Kopf, ohne aufzuschauen.",
-              "„Solange ich hier sitze, sitzen Sie nicht hier. Ende.“",
-              "„Wenn ich mal weg bin, dann vielleicht. Aber dafür müssten Sie mich",
-              " erst mal weg kriegen.“",
+              "Bodo schüttelt den Kopf, ohne aufzuschauen. „Solange ich hier sitze, sitzen Sie nicht hier. Ende.“ „Wenn ich mal weg bin, dann vielleicht. Aber dafür müssten Sie mich erst mal weg kriegen.“",
             ]);
           } else {
             api.showText([
