@@ -27,6 +27,15 @@ export const kantinenverwaltung3603Scenes: Record<string, Scene> = {
         label: "Oberinspektor Vossbeck",
         kind: "talk",
         onUse: (api) => {
+          // Akt II: Zuerst das Legitimationsschreiben zum Rechercheauftrag —
+          // das geht allen anderen Anliegen vor.
+          if (
+            api.hasFlag("act2MailReceived") &&
+            !api.hasFlag("act2LetterPickedUp")
+          ) {
+            api.startDialog("vossbeckAct2Letter");
+            return;
+          }
           const hasForm =
             api.hasItem("formblatt17V") || api.hasItem("formblatt17VForged");
           if (!hasForm) {
