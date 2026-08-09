@@ -4,7 +4,11 @@ import {
   OPENROUTER_CHAT_URL,
   openRouterHeaders,
 } from "@/lib/aiModel";
-import { AUSKUNFT_SYSTEM_PROMPT } from "@/game/auskunftPrompt";
+import {
+  AUSKUNFT_SYSTEM_PROMPT,
+  AUSKUNFT_TRANSFER_RULES,
+  stationSystemPrompt,
+} from "@/game/auskunftPrompt";
 
 /**
  * `auskunft.bin` — amtliches Auskunftssystem im Terminal.
@@ -101,9 +105,13 @@ export const Route = createFileRoute("/api/public/auskunft")({
         } catch {
           return json(400, { error: "Invalid JSON" });
         }
-        const b = body as { question?: unknown; history?: unknown };
+        const b = body as { question?: unknown; history?: unknown; station?: unknown };
         const question = sanitize(b.question, 600);
         if (question.length < 1) return json(400, { error: "Leere Anfrage." });
+        const station = sanitize(b.station, 80);
+        const systemPrompt = station
+          ? stationSystemPrompt(station)
+          : AUSKUNFT_SYSTEM_PROMPT + AUSKUNFT_TRANSFER_RULES;
 
         const history = Array.isArray(b.history)
           ? b.history
@@ -123,7 +131,7 @@ export const Route = createFileRoute("/api/public/auskunft")({
             body: JSON.stringify({
               model: AI_MODEL_MAIN,
               messages: [
-                { role: "system", content: AUSKUNFT_SYSTEM_PROMPT },
+                { role: "system", content: systemPrompt },
                 ...history,
                 { role: "user", content: question },
               ],
