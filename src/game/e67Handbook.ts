@@ -23,6 +23,10 @@ export interface HandbookChapter {
    *   Folge ist die Kopfzeile.
    */
   body: string[];
+  /** Optionale Kapitel-Illustration (Tafel), wird über dem Text gezeigt. */
+  image?: string;
+  /** Bildunterschrift zur Illustration. */
+  imageCaption?: string;
 }
 
 export const HANDBOOK_TITLE =
