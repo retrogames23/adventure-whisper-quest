@@ -12,7 +12,7 @@ export const commonRoomE71Scenes: Record<string, Scene> = {
   commonRoomE71: {
     id: "commonRoomE71",
     background: commonRoomE71Bg,
-    title: "Gemeinschaftsraum 1530 — Sektor E71",
+    title: "Gemeinschaftsraum 1530 — Gebäude E71",
     intro:
       "Anders als drüben in E67. Echtes Sofa, eine Pflanze, im Regal Disketten in beschrifteten Ordnern. Auf einem Tisch in der Mitte: ein beigefarbener Computer mit dickem CRT — der Bildschirm leuchtet workbench-blau. Drei Jugendliche zwischen 16 und 22 sitzen drumherum, reden quer durcheinander.",
     hotspots: [

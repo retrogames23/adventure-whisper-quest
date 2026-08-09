@@ -19,7 +19,7 @@ export const cinemaE71Scenes: Record<string, Scene> = {
   cinemaE71: {
     id: "cinemaE71",
     background: cinemaBg,
-    title: "Lichtspielsaal 5 — Sektor E71",
+    title: "Lichtspielsaal 5 — Gebäude E71",
     intro:
       "Reihen roter Klappsitze, alle leer. Vorn eine große, gealterte Leinwand. Hinten surrt ein Projektor, ohne etwas zu zeigen. Die Luft riecht nach warmem Staub und altem Zelluloid.",
     hotspots: [

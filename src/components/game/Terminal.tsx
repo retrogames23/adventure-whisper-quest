@@ -248,7 +248,7 @@ function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
   if (bodoMode) {
     lines.push(
       { text: "  lotti         — Fütterungskalender (Eigenbau, für Lotti)", kind: "out" },
-      { text: "  news          — Quadranten-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
+      { text: "  news          — Sektoren-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
       { text: "WARTUNG (nur Hausmeister):", kind: "system" },
       { text: "  maint list                — offene Wartungsanfragen anzeigen", kind: "out" },
@@ -257,13 +257,13 @@ function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
     );
   } else if (miraMode) {
     lines.push(
-      { text: "  news          — Quadranten-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
+      { text: "  news          — Sektoren-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
     );
   } else {
     lines.push(
       { text: "  adventure     — »Ein Tag draußen« (Textadventure)", kind: "out" },
-      { text: "  news          — Quadranten-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
+      { text: "  news          — Sektoren-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
     );
   }
@@ -496,7 +496,7 @@ export function Terminal() {
       } else {
         setLines([
           {
-            text: `>> CENTRALOS v${osVersion(flags.has("centralOsUpdated"))} — Terminal Quadrant E67`,
+            text: `>> CENTRALOS v${osVersion(flags.has("centralOsUpdated"))} — Terminal Gebäude E67`,
             kind: "system",
           },
           { text: ">> Benutzer: WORAG, L. (Zimmer 2611)", kind: "system" },
@@ -644,7 +644,7 @@ export function Terminal() {
           ...prev,
           { text: `layard@centralos:~$ ${raw}`, kind: "in" },
           { text: ">> [DEBUG] Vorgangsstand wird geladen …", kind: "system" },
-          { text: ">> Sektor E71 / 1534: Annahme verweigert.", kind: "out" },
+          { text: ">> Gebäude E71 / 1534: Annahme verweigert.", kind: "out" },
           { text: "", kind: "out" },
         ]);
         setInput("");
@@ -772,7 +772,7 @@ export function Terminal() {
       return;
     }
 
-    // ── Sub-Modus: news läuft (Quadranten-Bote) ────────────
+    // ── Sub-Modus: news läuft (Sektoren-Bote) ────────────
     if (newsState) {
       playBeep(0.3 * sfxVolume);
       const echo: Line = { text: `news> ${input}`, kind: "in" };

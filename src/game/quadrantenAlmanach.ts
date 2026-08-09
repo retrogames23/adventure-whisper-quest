@@ -1,5 +1,5 @@
 /**
- * Inhalt des "Quadranten-Almanach 1997, Bewohner-Ausgabe".
+ * Inhalt des "Sektoren-Almanach 1997, Bewohner-Ausgabe".
  *
  * Im Spiel auffindbar im Bücherregal von Layards Wohnung. In-Game-Pendant
  * zur Repo-Wahrheitsquelle `LORE.md`: enthält **nur**, was eine Figur
@@ -15,13 +15,13 @@ import type { HandbookChapter } from "./e67Handbook";
 export type AlmanachChapter = HandbookChapter;
 
 export const ALMANACH_TITLE =
-  "Quadranten-Almanach 1997 — Bewohner-Ausgabe";
+  "Sektoren-Almanach 1997 — Bewohner-Ausgabe";
 
 export const ALMANACH_SUBTITLE =
-  "Mandatsgebiet Mitteleuropa · 18. fortlaufend revidierte Auflage · zur freien Entnahme im Quadranten";
+  "Mandatsgebiet Mitteleuropa · 18. fortlaufend revidierte Auflage · zur freien Entnahme im Gebäude";
 
 export const ALMANACH_UI_TEXT = {
-  ariaLabel: "Quadranten-Almanach",
+  ariaLabel: "Sektoren-Almanach",
   closeLabel: "Almanach schließen",
   contents: "Inhalt",
   chaptersUnit: (n: number) => `${n} Kapitel`,
@@ -39,7 +39,7 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     title: "Vorwort der Konvention",
     body: [
       "Der vorliegende Almanach erscheint seit 1972 in jährlich revidierter Auflage. Er versteht sich als **freundliche Orientierungshilfe** für Bewohner des Mandatsgebiets Mitteleuropa und der angeschlossenen Konventionsstaaten.",
-      "Er ersetzt **nicht** das *Bewohner-Kompendium* (24 Bände, 1991, vergriffen) und auch nicht das **E67-Handbuch** Ihres Quadranten. Er beantwortet Fragen, die das Handbuch *nicht stellt*: woher die Welt kommt, in der Sie wohnen, und warum sie heute so geordnet ist.",
+      "Er ersetzt **nicht** das *Bewohner-Kompendium* (24 Bände, 1991, vergriffen) und auch nicht das **E67-Handbuch** Ihres Gebäudes. Er beantwortet Fragen, die das Handbuch *nicht stellt*: woher die Welt kommt, in der Sie wohnen, und warum sie heute so geordnet ist.",
       "> Lesen Sie ihn in einer Sitzung — oder, was wir empfehlen, in vielen kleinen. Der Almanach hat Geduld.",
       "*„Wir sind nicht überall zuständig. Wir sind nur überall.“*",
       "— Geleitwort der Quadranten-Konvention, 7. revidierte Fassung",
@@ -50,10 +50,10 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     shortTitle: "Herkunft des Mandats",
     title: "Wie das Mandatsgebiet entstanden ist",
     body: [
-      "Mitteleuropa hat eine lange, oft umständliche Geschichte. Der Almanach beschränkt sich auf die Linien, die **bis heute spürbar** sind, wenn Sie morgens Ihren Quadranten verlassen.",
+      "Mitteleuropa hat eine lange, oft umständliche Geschichte. Der Almanach beschränkt sich auf die Linien, die **bis heute spürbar** sind, wenn Sie morgens Ihr Gebäude verlassen.",
       "Aus den Kriegen der ersten Jahrhunderthälfte ging Mitteleuropa **erschöpft** hervor. An die Stelle der alten Nationalstaaten trat 1946 eine **gemeinsame Verwaltung der vier Schutzmächte** — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —, der **Mandatsrat**. Sein Auftrag war zunächst der Wiederaufbau, dann die Verstetigung.",
       "In den Jahren 1948 bis 1953 wurden die ersten **Quadranten** in den Trümmerfeldern errichtet, von Anfang an nach einem gemeinsamen geometrischen Raster. Wer heute durch einen Sektor geht, geht über Pläne, die in jenen Jahren gezeichnet wurden.",
-      "Es ist eine Eigenart des Mandatsgebiets, dass es **kein Nationalstaat** ist und nie einer geworden ist. Das wirkt für Reisende ungewohnt; für Bewohner ist es selbstverständlich. Mehr dazu im Kapitel *„Wo Sie wohnen“*.",
+      "Es ist eine Eigenart des Mandatsgebiets, dass es **kein Nationalstaat** ist und nie einer geworden ist. Das wirkt für Reisende ungewohnt; für Bewohner ist es selbstverständlich. Mehr dazu im Kapitel *„Wo Sie wohnen“.*",
     ],
   },
   {
@@ -76,7 +76,7 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     body: [
       "Im Frühjahr 1971 unterzeichneten Vertreter von rund dreißig Staaten in Bern ein technokratisches Abkommen, das die Welt nicht in Aufregung versetzte und sie gerade deshalb veränderte: die **Quadranten-Konvention**.",
       "Die Konvention vereinheitlichte Verwaltungsstrukturen über alle bisherigen Grenzen hinweg:",
-      "- Adressen werden **Koordinaten** (Sektor / Quadrant / Etage / Wohnung).",
+      "- Adressen werden **Koordinaten** (Sektor / Quadrant / Gebäude / Etage / Wohnung).",
       "- Behörden werden **nummeriert**, nicht benannt.",
       "- Formulare folgen einem gemeinsamen Schema (PEAN-71).",
       "- Einheitliche Notrufnummern in allen Konventionsstaaten.",
@@ -104,14 +104,14 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
       "Sie wohnen im **Mandatsgebiet Mitteleuropa** — seit 1986 ein selbstverwalteter Staatenbund, wirtschaftlich integriert und politisch bewusst klein gehalten.",
       "Das Mandatsgebiet erstreckt sich grob zwischen Rhein und Weichsel und umfasst die mitteleuropäischen Landschaften beiderseits der alten Mittelgebirge sowie die Donau-Region bis östlich von Wien. Eine genaue Karte hängt in jedem Postamt aus.",
       "Es ist **kein Nationalstaat**, sondern eine fortgeschriebene Verwaltungsordnung. Für viele Bewohner ist das gewöhnungsbedürftig; es hat aber den Vorteil, dass kaum jemand für etwas zuständig ist, was im Alltag stören würde.",
-      "Ihr Quadrant **E67** liegt in **Sektor 28**. Sektor 28 zählt rund 700 Quadranten und gehört zu den älteren, dichter besiedelten Sektoren des Mandatsgebiets.",
+      "Ihr Gebäude **E67** liegt im **Quadrant 67**, der zum **Sektor 28** gehört. Sektor 28 zählt rund 700 Quadranten und gehört zu den älteren, dichter besiedelten Sektoren des Mandatsgebiets. Ein Quadrant umfasst mehrere Gebäude; E67 ist der Ergänzungsbau (E-Bau) von Quadrant 67.",
       "**Jenseits des Mandatsgebiets** liegen die übrigen Konventionsstaaten — Skandinavien, die Tschechoslowakei, Teile Polens, die westlichen Verwaltungsbezirke der Sowjetunion — sowie nicht-konventionierte Regionen wie die Vereinigten Staaten oder die Volksrepublik China. Reisen ist möglich, aber selten und antragspflichtig.",
     ],
   },
   {
     id: "alltag",
-    shortTitle: "Alltag im Sektor",
-    title: "Alltag im Sektor",
+    shortTitle: "Alltag im Gebäude",
+    title: "Alltag im Gebäude",
     body: [
       "Der Sektor versorgt Sie. Bitte versorgen Sie ihn ebenfalls.",
       "- **Bewohner-Ausweis:** stets bei sich tragen. Codiert nach §2 Abs. 7 des E67-Handbuchs.",
@@ -128,12 +128,12 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     shortTitle: "Technik im Alltag",
     title: "Technik im Alltag",
     body: [
-      "Der Almanach gibt einen knappen Überblick über die Geräte, denen Sie in einem mitteleuropäischen Quadranten regelmäßig begegnen. Andere Geräte gibt es ebenfalls; sie spielen im Alltag aber selten eine Rolle.",
+      "Der Almanach gibt einen knappen Überblick über die Geräte, denen Sie in einem mitteleuropäischen Gebäude regelmäßig begegnen. Andere Geräte gibt es ebenfalls; sie spielen im Alltag aber selten eine Rolle.",
       "- **CENTRALOS / ZENTRAL.NETZ.** Das staatlich kuratierte Verzeichnis- und Botensystem auf den verbreiteten bernsteinfarbenen Terminals; daneben kommen je nach Behörde und Baujahr auch Geräte mit grüner oder weißer Bildröhre vor. Zugang über die Terminal-Stationen in Postämtern und Verwaltungsstellen, in einzelnen Wohnungen auch privat.",
       "- **Festnetztelefon und Rohrpost.** Die beiden tragenden Säulen des Schriftverkehrs. Das Telefon für das Dringliche, die Rohrpost für das, was eine Unterschrift braucht.",
       "- **UKW-Radio, Tonband, Vinyl.** Die übliche Hör-Ausstattung. Bandkopien werden seit Jahrzehnten von Hand zu Hand weitergegeben.",
       "- **Fernsehen.** Schwarzweiß ist die Regel, Farbgeräte gibt es vereinzelt. Programm: drei Sektor-Kanäle und ein Konventions-Kanal.",
-      "- **Solarpanels.** Auf den Sims- und Dachflächen vieler Quadranten. Reichen für rund 48 Stunden Notstrom.",
+      "- **Solarpanels.** Auf den Sims- und Dachflächen vieler Gebäude. Reichen für rund 48 Stunden Notstrom.",
       "- **Heimcomputer.** Außerhalb der Bastlerkreise nicht weit verbreitet. Wer rechnet, geht ins Postamt oder zur Sektor-Verwaltung.",
       "*Es ist eine geordnete Technik. Sie hält, was auf ihr steht — und das oft länger, als ihre Hersteller versprochen haben.*",
     ],
@@ -143,9 +143,9 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     shortTitle: "Skurrile Geräte",
     title: "Skurrile Geräte und Bastler-Hobbys",
     body: [
-      "Ein Sektor ist mehr als seine Verwaltung. Der Almanach würdigt an dieser Stelle einige der freundlicheren **Bastler-Subkulturen**, die im Mandatsgebiet seit den 70er Jahren beheimatet sind.",
+      "Ein Gebäude ist mehr als seine Verwaltung. Der Almanach würdigt an dieser Stelle einige der freundlicheren **Bastler-Subkulturen**, die im Mandatsgebiet seit den 70er Jahren beheimatet sind.",
       "- **Rohrpost-Modellnetze.** Privatpersonen bauen in Kellern Miniatur-Rohrpoststrecken nach. Eigene Vereinszeitschriften, jährliches Treffen in Sektor 12.",
-      "- **Sektor-Funk.** Amateurfunk auf den hierfür freigegebenen Frequenzbändern. Viele Quadrantendächer tragen heute eine selbstgebaute Antenne.",
+      "- **Sektor-Funk.** Amateurfunk auf den hierfür freigegebenen Frequenzbändern. Viele Gebäudedächer tragen heute eine selbstgebaute Antenne.",
       "- **Aktenvereine.** Sammler historischer Formulare, besonders solcher aus der Zeit vor der PEAN-71. Eine ernsthafte Subkultur.",
       "- **Schmerz-Radio.** Ein Funkgerät, das auf 104,6 MHz arbeitet und — nach Aussage seiner Hörer — *Empfindungen* überträgt, vorwiegend unangenehme. Erfunden Mitte der 70er vom Funkamateur **Cornel Marteau**. In den 80ern als „Therapie-Spielzeug“ kurz im Handel, danach vom Markt verschwunden. Geräte stehen heute bei wenigen Sonderlingen, in Trödelläden und gelegentlich in Bewohner-Wohnungen.",
       "> Hinweis zur **Resonanz-Hygiene**: das ist der übergreifende Verwaltungsbegriff für alles, was im Komplex zwischen den Wänden schwingt — offiziell ein bau-akustischer Messwert, faktisch auch das soziale Klima (Streit, Trauer, Krankmeldungen). Bei einer *Resonanz-Überlastung* — gleich welcher Auslegung — ist die Sektorärztin zuständig, **nicht** die Leitstelle. Es handelt sich um einen medizinischen, keinen sicherheitsrelevanten Vorgang. Betroffen sein kann jeder Bewohner; Schmerz-Radio-Hörer sind eine sehr kleine, obskure Untergruppe.",
@@ -158,8 +158,8 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     title: "Schlusswort",
     body: [
       "Der Almanach endet hier. Er endet, wie er begonnen hat: mit einem freundlichen Hinweis.",
-      "Sie wohnen in einem Sektor, der Sie nicht braucht, der Sie aber ungern verlieren würde. Verwaltung ist die Form, in der diese Welt sich um Sie kümmert. Wenn Sie das anstrengend finden, sind Sie nicht allein. Wenn Sie das tröstlich finden, auch nicht.",
-      "*„Wir wünschen Ihnen einen ruhigen Quadranten und eine geduldige Schicht.“*",
+      "Sie wohnen in einem Gebäude, das Sie nicht braucht, das Sie aber ungern verlieren würde. Verwaltung ist die Form, in der diese Welt sich um Sie kümmert. Wenn Sie das anstrengend finden, sind Sie nicht allein. Wenn Sie das tröstlich finden, auch nicht.",
+      "*„Wir wünschen Ihnen ein ruhiges Gebäude und eine geduldige Schicht.“*",
       "— Quadranten-Konvention, Geleitwort, 7. revidierte Fassung",
     ],
   },

@@ -330,7 +330,7 @@ export const HINT_QUESTS: HintQuest[] = [
   // 15) Sektor-Tür öffnen
   {
     id: "act1.sectorDoor",
-    title: "Sektor E67 verlassen",
+    title: "Gebäude E67 verlassen",
     priority: 15,
     isActive: (a) =>
       a.hasItem("residentId") &&

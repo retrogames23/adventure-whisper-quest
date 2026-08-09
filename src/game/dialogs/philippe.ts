@@ -549,7 +549,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
       pr3: {
         id: "pr3",
         speaker: "LAYARD",
-        text: "Ich … weiß es nicht mehr genau. Ein anderer Quadrant. Es ist lange her.",
+        text: "Ich … weiß es nicht mehr genau. Ein anderes Gebäude. Es ist lange her.",
         subtext: "Er weiß es. Er will es nur nicht sagen.",
         next: "pr4",
       },

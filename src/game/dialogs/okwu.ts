@@ -8,7 +8,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       r1: {
         id: "r1",
         speaker: "RECEPTION",
-        text: "Sektor E71 — Medizin. Sie sind … Worag, korrekt? Quadrant E67. Ihr Eintritt wurde von der Leitstelle vorgemerkt.",
+        text: "Gebäude E71 — Medizin. Sie sind … Worag, korrekt? Gebäude E67. Ihr Eintritt wurde von der Leitstelle vorgemerkt.",
         subtext: "Vorgemerkt. Wie ein Paket, das man erwartet hat.",
         next: "r2",
       },
@@ -46,14 +46,14 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ru1: {
         id: "ru1",
         speaker: "RECEPTION",
-        text: "Sektor E71 — Medizin. Sie wünschen?",
+        text: "Gebäude E71 — Medizin. Sie wünschen?",
         subtext: "Sie sieht ihn an, ohne zu lächeln. Die Hand bleibt auf dem Terminal.",
         next: "ru2",
       },
       ru2: {
         id: "ru2",
         speaker: "LAYARD",
-        text: "Worag. E67, Quadrant 26. Ich bringe ein Einsatzprotokoll für Herrn Stegmann. Zimmer 1534.",
+        text: "Worag. E67, Etage 26. Ich bringe ein Einsatzprotokoll für Herrn Stegmann. Zimmer 1534.",
         next: "ru3",
       },
       ru3: {
@@ -97,7 +97,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       rnm1: {
         id: "rnm1",
         speaker: "RECEPTION",
-        text: "Halt — bitte einen Schritt zurück. Sektor E71, Hygienestufe drei. Ohne medizinische Maske kommen Sie hier nicht weiter.",
+        text: "Halt — bitte einen Schritt zurück. Gebäude E71, Hygienestufe drei. Ohne medizinische Maske kommen Sie hier nicht weiter.",
         subtext: "Sie hebt eine Hand. Routinegeste, kein Ärger.",
         next: "rnm2",
       },
@@ -174,7 +174,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ok5: {
         id: "ok5",
         speaker: "LAYARD",
-        text: "E67. Quadrant 26.",
+        text: "E67. Etage 26.",
         next: "ok6",
       },
       ok6: {
@@ -221,13 +221,13 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ok2a: {
         id: "ok2a",
         speaker: "OKWU",
-        text: "Also. E71 ist hier in der Gegend der Medizin-Quadrant. Vorzeige-Trakt, wenn Sie die richtigen Leute fragen. Die Geräte hier sind jünger als meine Praktikanten.",
+        text: "Also. E71 ist in dieser Gegend das Medizin-Gebäude. Vorzeige-Trakt, wenn Sie die richtigen Leute fragen. Die Geräte hier sind jünger als meine Praktikanten.",
         next: "ok2b",
       },
       ok2b: {
         id: "ok2b",
         speaker: "OKWU",
-        text: "Drumherum: E68, E69, E70. Lauter Wohn- und Verwaltungs-Quadranten. Man sieht sich auf den Quadrantenfesten, man kennt sich.",
+        text: "Drumherum: E68, E69, E70. Lauter Wohn- und Verwaltungs-Gebäude. Man sieht sich auf den Sektorenfesten, man kennt sich.",
         next: "ok2c",
       },
       ok2c: {
@@ -268,7 +268,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
         text: "Ich unterschreibe, was ich unterschreiben muss, und der Rest darf bis morgen warten. Ist bisher noch keiner dran gestorben.",
         choices: [
           {
-            text: "Und was sagen die anderen Quadranten über E67?",
+            text: "Und was sagen die anderen Gebäude über E67?",
             action: (api) => api.setFlag("okwuLayer3"),
             next: "ok2_handoff",
           },
@@ -307,7 +307,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ok3b: {
         id: "ok3b",
         speaker: "OKWU",
-        text: "Bei den Quadrantenfesten halten wir immer einen Tisch frei für E67. Und jedes Jahr räumen wir ihn am Abend wieder leer ab. Kein Mensch.",
+        text: "Bei den Sektorenfesten halten wir immer einen Tisch frei für E67. Und jedes Jahr räumen wir ihn am Abend wieder leer ab. Kein Mensch.",
         next: "ok3c",
       },
       ok3c: {
@@ -319,7 +319,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ok3d: {
         id: "ok3d",
         speaker: "OKWU",
-        text: "Eine Kollegin aus E68 schwört, sie hat mal jemanden aus eurem Quadranten am Fenster winken sehen. Sie redet seitdem nicht mehr drüber.",
+        text: "Eine Kollegin aus E68 schwört, sie hat mal jemanden aus eurem Gebäude am Fenster winken sehen. Sie redet seitdem nicht mehr drüber.",
         subtext: "Augenzwinkern. Ein einziges. Und sehr präzise.",
         next: "ok3e",
       },
@@ -373,7 +373,7 @@ export const okwuDialogs: Record<string, DialogTree> = {
       ok4b: {
         id: "ok4b",
         speaker: "OKWU",
-        text: "Manche Leute räumen ihre Wohnung jeden Sonntag auf. Manche Quadranten räumen sich selber weg. Das ist ein Unterschied von Grad, nicht von Art.",
+        text: "Manche Leute räumen ihre Wohnung jeden Sonntag auf. Manche Gebäude räumen sich selber weg. Das ist ein Unterschied von Grad, nicht von Art.",
         subtext: "Sie sagt's leise, ohne Schärfe.",
         next: "ok4c",
       },

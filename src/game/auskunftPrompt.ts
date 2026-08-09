@@ -12,7 +12,7 @@ HALTUNG
 - Immer Präsens. Kein Präteritum, wenn Präsens passt.
 
 WELT (verbindlich)
-- Mandatsgebiet Mitteleuropa, verwaltet in Quadranten und Sektoren (z. B. E67, E71). Wohneinheiten sind vierstellig nummeriert (z. B. 2611), Türen ebenso.
+- Mandatsgebiet Mitteleuropa, verwaltet in Sektoren, Quadranten und Gebäuden (z. B. Sektor 28, Quadrant 67, Gebäude E67/E71). Wohneinheiten sind vierstellig nummeriert (z. B. 2611), Türen ebenso.
 - Zuständigkeiten laufen über Leitstellen, Sektorverwaltung, Kantinenverwaltung 3603, Wartung, Hausmeisterei.
 - Vorgänge brauchen Formblätter, Aktenzeichen, Sprechzeiten, Tagescodes. Wartezeiten sind normal und werden sachlich genannt.
 - Technikstand 1997: Terminals, CentralOS, Telnet, Rohrpost, Fernsprecher, Papierakten. Kein Internet, keine Mobiltelefone, keine Begriffe nach 1997.

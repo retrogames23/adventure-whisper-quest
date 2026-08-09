@@ -711,7 +711,7 @@ export const insaDialogs: Record<string, DialogTree> = {
           id: "akte1978Sertl",
           name: "Akte 1978 · N. Sertl",
           description:
-            "Eine dünne, vergilbte Mappe. Aufdruck: »Resonanz-Überlastung 1978 · Quadrant E12 · Hörer N. Sertl · Gutachten: C. Marteau«. Die Mappe enthält nur einen Aktendeckel — der Inhalt fehlt. Insa sagt: liegt im Archiv 5710. Wenn er noch da ist.",
+            "Eine dünne, vergilbte Mappe. Aufdruck: »Resonanz-Überlastung 1978 · Gebäude E12 · Hörer N. Sertl · Gutachten: C. Marteau«. Die Mappe enthält nur einen Aktendeckel — der Inhalt fehlt. Insa sagt: liegt im Archiv 5710. Wenn er noch da ist.",
         });
       }
     },
@@ -770,7 +770,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       ip7: {
         id: "ip7",
         speaker: "INSA",
-        text: "1978. Quadrant E12. Hörer Nikolaus Sertl — vielleicht auch Nora, in den Akten steht nur N. Resonanz-Überlastung. Gutachten von einem externen Berater: C. Marteau.",
+        text: "1978. Gebäude E12. Hörer Nikolaus Sertl — vielleicht auch Nora, in den Akten steht nur N. Resonanz-Überlastung. Gutachten von einem externen Berater: C. Marteau.",
         subtext: "Sertl. Marteau. Zwei Namen, die heute schon einmal gefallen sind. Jetzt liegen sie zusammen auf demselben Aktendeckel.",
         next: "ip8",
       },

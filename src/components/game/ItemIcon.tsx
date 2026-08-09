@@ -234,7 +234,7 @@ function E67HandbookIcon() {
       <rect x="5" y="16" width="2" height="1" fill={ICON_BG} />
       {/* Titelbalken */}
       <rect x="8" y="6" width="9" height="2" fill={ICON_BG} />
-      {/* Quadrant-Code */}
+      {/* Gebäude-Code */}
       <rect x="8" y="10" width="3" height="1" fill={ICON_BG} />
       <rect x="12" y="10" width="2" height="1" fill={ICON_BG} />
       <rect x="15" y="10" width="2" height="1" fill={ICON_BG} />

@@ -57,7 +57,7 @@ export const CAFETERIA_CHATTER_TOPICS: ReadonlyArray<CafeteriaChatterTopic> = [
   {
     id: "rohrpost",
     lines: [
-      { npc: "kowalk", text: "(klong) — wieder Quadrant E70. Wieder leer." },
+      { npc: "kowalk", text: "(klong) — wieder Gebäude E70. Wieder leer." },
       { npc: "brust", text: "Steht trotzdem in der Eingangsliste." },
       { npc: "kowalk", text: "Genau." },
     ],

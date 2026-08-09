@@ -102,7 +102,7 @@ export const PARAMEDICS_LINES: ParamedicsLine[][] = [
 export const PARAMEDICS_PROTOCOL_ITEM = {
   name: "Einsatzprotokoll (verschlüsselt)",
   description:
-    "Ein versiegeltes Protokoll. Ziel: Sektor E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
+    "Ein versiegeltes Protokoll. Ziel: Gebäude E71, Zimmer 1534. Etikett: „Fall-ID 5245@E67@2613“.",
 } as const;
 
 // ─── Ending ────────────────────────────────────────────────────────
@@ -274,7 +274,7 @@ export const SECTOR_THRESHOLD_BEATS: Act2BridgeBeat[] = [
       "Was, so überlegt sich Layard, wenn ich dieses Protokoll nicht abliefere? Was ändert sich?",
       "Würde er bestraft werden?",
       "Die Idee, Freiheit zu besitzen, Handlungsfreiheit, hat fast etwas Verbotenes.",
-      "Andererseits: E71. Eine andere Welt. Ein Abenteuer? Ein Grund, den Quadranten zu verlassen. Eine Aufgabe.",
+      "Andererseits: E71. Eine andere Welt. Ein Abenteuer? Ein Grund, das Gebäude zu verlassen. Eine Aufgabe.",
     ],
   },
   {

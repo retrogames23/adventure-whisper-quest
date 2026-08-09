@@ -79,7 +79,7 @@ interface GameState {
   dsaSheetOpen: boolean;
   /** Handbuch-Lese-Overlay sichtbar. */
   handbookOpen: boolean;
-  /** Quadranten-Almanach-Lese-Overlay sichtbar. */
+  /** Sektoren-Almanach-Lese-Overlay sichtbar. */
   almanachOpen: boolean;
   /** Bewohner-Ausweis-Lese-Overlay sichtbar. */
   idCardOpen: boolean;
@@ -124,7 +124,7 @@ interface GameContextValue extends GameState {
   /** Handbuch / Ausweis Overlays. */
   openHandbook: () => void;
   closeHandbook: () => void;
-  /** Quadranten-Almanach Overlay. */
+  /** Sektoren-Almanach Overlay. */
   openAlmanach: () => void;
   closeAlmanach: () => void;
   openIdCard: () => void;

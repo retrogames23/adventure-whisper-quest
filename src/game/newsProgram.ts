@@ -1,8 +1,8 @@
 /**
- * "news" — Textbrowser für die Quadranten-Nachrichten.
+ * "news" — Textbrowser für die Sektoren-Nachrichten.
  *
  * Verfügbar auf Layards UND Bodos Terminal. Es gibt nur eine einzige
- * "Website": ZENTRAL.NETZ / Quadranten-Bote. Sie hat eine Startseite mit
+ * "Website": ZENTRAL.NETZ / Sektoren-Bote. Sie hat eine Startseite mit
  * verlinkten Untersektoren (Politik, Sicherheit, Versorgung, Kultur,
  * Vermischtes, Wetter) und einen "Newsticker" — eine endlose Lauflinie
  * aus Kurzmeldungen, die im Loop durchläuft, bis der Nutzer eine Taste
@@ -53,7 +53,7 @@ export function newNewsState(): NewsState {
 
 // ── Inhalte ───────────────────────────────────────────────
 export const NEWS_SEKTOREN: NewsSektor[] = [
-  { id: "politik", titel: "Politik & Verwaltung", untertitel: "Verlautbarungen aus den Quadranten-Räten" },
+  { id: "politik", titel: "Politik & Verwaltung", untertitel: "Verlautbarungen aus den Sektoren-Räten" },
   { id: "sicherheit", titel: "Sicherheit & Ordnung", untertitel: "Zugangsregelungen, Sperrcodes, Bewohner-Anträge" },
   { id: "versorgung", titel: "Versorgung & Lieferung", untertitel: "B-Lieferketten, Kantine, Engpässe" },
   { id: "kultur", titel: "Kultur & Funkbetrieb", untertitel: "Programmhinweise 104,6 · Lesungen · Aushänge" },
@@ -66,7 +66,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
   {
     id: "e67-zugang",
     sektor: "politik",
-    titel: "Quadrant E67: Verwaltung folgt Bewohner-Antrag auf Zugangsregelung",
+    titel: "Gebäude E67: Verwaltung folgt Bewohner-Antrag auf Zugangsregelung",
     meta: "POLITIK · 04.11.1997 · Beschluss-Nr. E67/97-441",
     grafik: [
       "  ┌──────────────────────┐",
@@ -75,18 +75,18 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       "  └──────────────────────┘",
     ],
     text: [
-      "ZENTRAL.NETZ / Quadranten-Bote. Sektor E67.",
+      "ZENTRAL.NETZ / Sektoren-Bote. Gebäude E67.",
       "",
-      "Die Sektorverwaltung E67 ist dem mehrfach vorgebrachten Wunsch der",
+      "Die Gebäudeverwaltung E67 ist dem mehrfach vorgebrachten Wunsch der",
       "ortsansässigen Bewohnerschaft nachgekommen und hat den Zugang zum",
-      "Quadranten ab sofort über eine standardisierte Code-Sperre",
+      "Gebäude ab sofort über eine standardisierte Code-Sperre",
       "reglementiert. Der entsprechende Antrag — eingebracht durch eine",
       "informelle Bewohner-Versammlung im Mai d. J. — war zuvor durch die",
       "Sektorleitstelle 001 fachlich begleitet und positiv gewürdigt worden.",
       "",
       "Die antragstellende Bewohnerschaft hatte ausdrücklich auf",
       "»wiederholte Begegnungen mit unbekannten Personen aus angrenzenden",
-      "Quadranten« sowie ein »diffuses, aber andauerndes Unsicherheits-",
+      "Gebäuden« sowie ein »diffuses, aber andauerndes Unsicherheits-",
       "gefühl« verwiesen. Die Verwaltung betont in diesem Zusammenhang,",
       "dass eine entsprechende Maßnahme »nicht von Amts wegen", 
       "veranlasst, sondern aus der Mitte der Bewohnerschaft erbeten«",
@@ -123,7 +123,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       "    104,6-Bandbreite (Petition Q-E67, 988 Unterschriften)",
       "  · die Verlängerung der Kantinen-Schließzeiten am Wochenende",
       "    (Petition Q-E68, 1.310 Unterschriften)",
-      "  · die Einführung der Quadranten-Code-Sperren (s. eigene Meldung)",
+      "  · die Einführung der Gebäude-Code-Sperren (s. eigene Meldung)",
       "",
       "Eine Sprecherin der Geschäftsstelle erklärte hierzu: »Es ist nicht",
       "die Verwaltung, die Grenzen zieht. Es sind die Bewohner, die uns",
@@ -148,15 +148,15 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       "   ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳",
     ],
     text: [
-      "Im Sektorbüro E67 ist die Petition Nr. E67-PT-0411 mit insgesamt",
+      "Im Gebäudebüro E67 ist die Petition Nr. E67-PT-0411 mit insgesamt",
       "1.247 gültigen Unterschriften eingegangen. Die Petenten — sämtlich",
-      "Bewohner des Quadranten E67 — fordern darin »eine unverzügliche",
-      "Reglementierung des Zugangs zu unserem Quadranten durch eine",
+      "Bewohner des Gebäudes E67 — fordern darin »eine unverzügliche",
+      "Reglementierung des Zugangs zu unserem Gebäude durch eine",
       "verbindliche, von der Verwaltung ausgegebene Sperrkennung«.",
       "",
       "Zur Begründung führen die Petenten aus:",
       "",
-      "  »Wiederholt haben sich in den Korridoren des Quadranten",
+      "  »Wiederholt haben sich in den Korridoren des Gebäudes",
       "  Personen aufgehalten, deren Anwesenheit weder durch ein",
       "  Bewohnerverhältnis noch durch einen erkennbaren dienstlichen",
       "  Anlass gerechtfertigt erschien. Diese Beobachtung führt unter",
@@ -184,7 +184,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     titel: "Code-Ausgabe E67: Hinweise zur Antragstellung",
     meta: "SICHERHEIT · 05.11.1997 · Merkblatt 97-203",
     text: [
-      "Bewohner des Quadranten E67 erhalten den Zugangscode auf",
+      "Bewohner des Gebäudes E67 erhalten den Zugangscode auf",
       "schriftlichen Antrag bei der Sektorleitstelle 001. Folgende",
       "Unterlagen sind beizubringen:",
       "",
@@ -244,7 +244,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     text: [
       "Die Beschaffungsstelle ZENTRAL.NETZ bestätigt »punktuelle",
       "Verzögerungen« in der B3-Lieferkette einzelner Sektoren. Betroffen",
-      "sind insbesondere die Quadranten E66 bis E68. Eine Wiederaufnahme",
+      "sind insbesondere die Gebäude E66 bis E68. Eine Wiederaufnahme",
       "der regulären Belieferung ist für Freitag d. W. vorgesehen.",
       "",
       "Die Verzögerung ist nach Auskunft der Beschaffungsstelle nicht auf",
@@ -293,11 +293,11 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     grafik: [
       "    .-\"\"-.",
       "   /  ((  \\    104,6",
-      "   \\  ))  /    Quadranten-Funk",
+      "   \\  ))  /    Sektor-Funk",
       "    '-..-'",
     ],
     text: [
-      "Das Quadranten-Programm 104,6 setzt in der laufenden Woche seine",
+      "Das Sektor-Programm 104,6 setzt in der laufenden Woche seine",
       "im Frühjahr begonnene Reihe »Stille zwischen den Stunden« fort.",
       "Vorgesehen sind tägliche Sendepausen von je drei Minuten Länge,",
       "die laut Sendeleitung »dem Hörer ein Innehalten« ermöglichen",
@@ -322,7 +322,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     titel: "Lesung in 1534: »Räume, die zu lange leer stehen«",
     meta: "KULTUR · 02.11.1997 · Aushang Sektor 15",
     text: [
-      "In der Wohnung 1534 (Quadrant E15) ist für den kommenden Donnerstag",
+      "In der Wohnung 1534 (Gebäude E15) ist für den kommenden Donnerstag",
       "eine private Lesung angekündigt. Vorgetragen werden, so der",
       "handgeschriebene Aushang, »kürzere Texte über Menschen, die nicht",
       "zurückkommen, und über Räume, die zu lange leer stehen«.",
@@ -405,7 +405,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       "    Verlauf 19,2 – 19,5 °C",
     ],
     text: [
-      "Die Innenraumtemperatur im Quadranten E67 wurde in der laufenden",
+      "Die Innenraumtemperatur im Gebäude E67 wurde in der laufenden",
       "Woche durchgehend zwischen 19,2 und 19,5 °C gemessen. Die",
       "Klimasteuerung folgt damit dem in der Bewohnerumfrage 96/04",
       "festgelegten Sollwert von 19,4 °C (± 0,3 K).",
@@ -427,9 +427,9 @@ export const NEWS_ARTICLES: NewsArticle[] = [
  * anderen, jede für ein paar Sekunden, bis der Nutzer Enter drückt.
  */
 export const NEWS_TICKER: string[] = [
-  "+++ Sektor E67: Zugangscode-Sperre auf Bewohner-Antrag in Kraft +++",
+  "+++ Gebäude E67: Zugangscode-Sperre auf Bewohner-Antrag in Kraft +++",
   "+++ Petition E66/97-518: Nachtruhe ab 21:00 Uhr — 1.402 Unterschriften +++",
-  "+++ B3-Belieferung Quadrant E67 ab Freitag wieder im Regelbetrieb +++",
+  "+++ B3-Belieferung Gebäude E67 ab Freitag wieder im Regelbetrieb +++",
   "+++ Initiative »Achtsamer Korridor« meldet 312 Beobachtungen im Jahr +++",
   "+++ 104,6 — heute drei Sendepausen à drei Minuten, ungeplant ungeplant +++",
   "+++ Kantine 26: Wochenend-Schließung auf Beschluss der Bewohnerversammlung +++",
@@ -441,7 +441,7 @@ export const NEWS_TICKER: string[] = [
   "+++ Reklamationen über Hausverwaltung — nicht über Beschaffungsstelle +++",
   "+++ Empfangsstörungen außerhalb 104,6 sind anmeldepflichtig +++",
   "+++ Zentrale erinnert: Wer berechtigt ist, kennt den Code +++",
-  "+++ Quadranten-Bote: Leserbriefe weiterhin per Hauspost erbeten +++",
+  "+++ Sektoren-Bote: Leserbriefe weiterhin per Hauspost erbeten +++",
 ];
 
 // ── Anzeige-Helfer ────────────────────────────────────────

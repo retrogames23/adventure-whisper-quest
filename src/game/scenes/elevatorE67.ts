@@ -204,7 +204,7 @@ export const elevatorE67Scenes: Record<string, Scene> = {
           api.showText([
             "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Bewohner:",
             "Belegungsdichte, Lüftung, Türsiegel-Praxis. Verstöße werden erfasst.“",
-            "Aushang: „Quadrant E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
+            "Aushang: „Gebäude E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
             "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
             "Kein Mensch am Tresen. Layard nimmt das erste Blatt vom Brett.",
             "[ Aushang „Resonanz-Hygiene“ (Lobby) eingesteckt. ]",

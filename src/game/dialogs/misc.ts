@@ -8,7 +8,7 @@ export const miscDialogs: Record<string, DialogTree> = {
       eo1: {
         id: "eo1",
         speaker: "SYSTEM",
-        text: "[ An der Tür 3601 hängt ein DIN-A5-Zettel. Maschinenschrift, krumm geklebt. ] „HEUTE NICHT BESETZT — Dienstplan-Engpass. Vertretung für E67: Sektor E71, Zimmer 1534.“",
+        text: "[ An der Tür 3601 hängt ein DIN-A5-Zettel. Maschinenschrift, krumm geklebt. ] „HEUTE NICHT BESETZT — Dienstplan-Engpass. Vertretung für E67: Gebäude E71, Zimmer 1534.“",
         next: "eo3",
       },
       eo3: {
