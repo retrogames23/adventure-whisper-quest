@@ -1168,17 +1168,32 @@ export function Terminal() {
         !flags.has("calledStegmann");
       const showStegmannMail = flags.has("calledStegmann");
       const showTicketMail = flags.has("troubleReported");
+      const showAct2Mail = flags.has("act2MailReceived");
       const count =
-        2 +
+        7 +
         (flags.has("calledForCode") ? 1 : 0) +
         (showExitMail ? 1 : 0) +
         (showStegmannMail ? 1 : 0) +
-        (showTicketMail ? 1 : 0);
+        (showTicketMail ? 1 : 0) +
+        (showAct2Mail ? 1 : 0);
       newLines.push(
         { text: `POSTEINGANG (${count}):`, kind: "system" },
         { text: "  [001] 06.11.1997  Insa Bauerfeind — Wartungsfenster Gateway", kind: "out" },
         { text: "  [002] 04.11.1997  Stegmann (IT)    — Bitte: Störungsmeldung einreichen", kind: "out" },
       );
+      newLines.push(
+        { text: "  [010] 29.10.1997  Abt. Informationsbeschaffung — Auftrag 28/1102 (erledigt)", kind: "out" },
+        { text: "  [011] 21.10.1997  Abt. Informationsbeschaffung — Auftrag 28/1091 (erledigt)", kind: "out" },
+        { text: "  [012] 14.10.1997  Abt. Informationsbeschaffung — Auftrag 28/1077 (erledigt)", kind: "out" },
+        { text: "  [013] 07.10.1997  Abt. Informationsbeschaffung — Auftrag 28/1063 (erledigt)", kind: "out" },
+        { text: "  [014] 30.09.1997  Sachgebietsleitung — Hinweis: Zitierweise Zeitungsbestände", kind: "out" },
+      );
+      if (showAct2Mail) {
+        newLines.push({
+          text: "  [020] 07.11.1997  Abt. Informationsbeschaffung — Rechercheauftrag 28/1194  ✶NEU",
+          kind: "system",
+        });
+      }
       if (showExitMail) {
         newLines.push({
           text: "  [004] 06.11.1997  Leitstelle E67   — Ausgangsmeldung: Standardprotokoll  ✶NEU",
@@ -1229,6 +1244,7 @@ export function Terminal() {
         { text: "── Ende ──────────────────────────────", kind: "system" },
       );
     } else if (cmd === "read 003") {
+      // (Arbeitsmails 010–014 und Auftragsmail 020 siehe unten.)
       if (!flags.has("calledForCode")) {
         newLines.push({ text: "FEHLER: Nachricht existiert nicht.", kind: "out" });
       } else {
