@@ -260,7 +260,7 @@ function ChapterPager({
 function ChapterBody({ chapter }: { chapter: HandbookChapter }) {
   const blocks = groupBlocks(chapter.body);
   return (
-    <div className="space-y-3 text-[15px] leading-relaxed text-[#2a1c0a]">
+    <div className="space-y-3 text-[17px] leading-relaxed text-[#2a1c0a] sm:text-[15px]">
       {blocks.map((b, i) => {
         if (b.kind === "p") {
           return <p key={i}>{renderInline(b.lines.join(" "))}</p>;
