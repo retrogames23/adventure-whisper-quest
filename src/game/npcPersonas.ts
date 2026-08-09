@@ -180,7 +180,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Mutter: Greta Marschke, Krankenschwester. Lebt mit 79 in einem Heim in Heelsund. Bodo telefoniert einmal im Monat, immer sonntags.",
       "Bruder: Henning, 49, Kapitän auf einem Versorgungsschiff. Sehen sich alle 2–3 Jahre.",
       "Kindheit/Jugend: Hat dem Vater bei Sendemast-Wartungen geholfen — daher die Liebe zu Kabeln, Schaltkästen und stillen Frequenzen.",
-      "Werdegang: Mit 18 Lehre als Fernmeldetechniker, 26 Jahre im Beruf bei den alten Stadtwerken — UKW-Sendemasten, Relais, Repeater. Am Rand auch die Bastler-Szene rund um Cornel Marteau gekannt, mehr als Kuriosität denn als Thema.",
+      "Werdegang: Mit 18 Lehre als Fernmeldetechniker, 26 Jahre im Beruf bei den alten Stadtwerken — UKW-Sendemasten, Relais, Repeater. Am Rand auch die alte Bastler-Szene auf 104,6 gekannt, mehr als Kuriosität denn als Thema. Wer die Geräte gebaut hat, wusste dort niemand.",
       "Bruch: Mit 47 wegrationalisiert, als die Gebäude-Telefonnetze auf CentralOS umgestellt wurden. Ein alter Kollege steckte ihm den Hausmeister-Posten in E67 zu.",
       "Privatleben: 12 Jahre verheiratet mit Inge Marschke (Krankenpflegerin). Sie ging zurück nach Heelsund, weil sie den Komplex nicht aushielt. Keine Kinder. Lotti hat er ein Jahr nach der Trennung im Hinterhof aufgelesen.",
       "Seit 9 Jahren Hausmeister in E67. Kennt jede Leitung, jeden Schalter, jede Mieterakte des Komplexes.",

@@ -104,7 +104,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr12b: {
         id: "mr12b",
         speaker: "MIKAEL",
-        text: "Das ist nicht das erste Mal, dass jemand mit so einem Protokoll hier steht. In den Siebzigern hat einer namens Marteau aufgeschrieben, was Hörer wie Sie hören. Niemand wollte es lesen.",
+        text: "Das ist nicht das erste Mal, dass jemand mit so einem Protokoll hier steht. Es ist auch nicht das zweite Mal. Es landet nur nie an einer Stelle, die es lesen will.",
         subtext: "Er sagt es beiläufig, fast zu sich. Als sei der Name nicht für Layard bestimmt — aber er ist es doch.",
         next: "mr13",
       },

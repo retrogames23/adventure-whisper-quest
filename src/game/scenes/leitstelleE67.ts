@@ -3,15 +3,11 @@ import type { Scene } from "../types";
 
 /**
  * Leitstelle E67 — kleines Disposition-Büro hinter Tür 4602 in Korridor 46.
- * Zweiter Besuch bei Insa Bauerfeind. Den ersten (Protokoll-Übergabe, Tee,
- * Einladung „kommen Sie morgen vorbei") hat die Akt-II-Bridge-Cutscene
- * bereits abgehandelt. Hier kommt Layard freiwillig zurück — mit den
- * Namen, die Mikael und Okwu beiläufig fallen gelassen haben.
- *
- * Die Szene enthält bewusst keinen Schicht-Botengang. Layard verlässt sie
- * mit einer Frage und einem Item: der „Akte 1978 · N. Sertl · Gutachten
- * C. Marteau". Das ist sein eigenes Ziel für Akt II — nicht ein Auftrag
- * von Insa, sondern eine Genehmigung, etwas zu suchen.
+ * Hierher bringt Layard das abgelehnte Einsatzprotokoll persönlich zu Insa
+ * Bauerfeind. Sie nimmt es entgegen, weist es zu — mehr passiert nicht.
+ * Kein Auftrag, kein Geheimnis, keine Akte. Der eigentliche Anstoß für
+ * Akt II kommt am nächsten Morgen per Dienstmail aus Layards eigener
+ * Abteilung (Informationsbeschaffung).
  */
 export const leitstelleE67Scenes: Record<string, Scene> = {
   leitstelleE67: {
