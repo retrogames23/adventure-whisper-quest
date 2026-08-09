@@ -800,10 +800,9 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Mira mitnehmen ]",
-            nextDialog: "miraRepairScene",
             action: (api) => {
               api.setFlag("knowsMiraIsWartung");
-              api.goTo("apartment");
+              api.startCutscene("miraRepair");
             },
           },
         ],
@@ -816,10 +815,9 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Mira mitnehmen ]",
-            nextDialog: "miraRepairScene",
             action: (api) => {
               api.setFlag("knowsMiraIsWartung");
-              api.goTo("apartment");
+              api.startCutscene("miraRepair");
             },
           },
         ],
@@ -829,20 +827,8 @@ export const miraDialogs: Record<string, DialogTree> = {
   miraRepairScene: {
     id: "miraRepairScene",
     npcId: "mira",
-    start: "mrs1",
+    start: "mrs2",
     lines: {
-      mrs1: {
-        id: "mrs1",
-        speaker: "SYSTEM",
-        text: "[ Korridor 46, Treppe, Korridor 26. Mira geht zwei Schritte vor Layard, Werkzeuggürtel, zwei Nummern zu groß. Vor 2611 bleibt sie stehen und klopft an — aus Gewohnheit, obwohl Layard den Schlüssel schon in der Hand hat. ]",
-        next: "mrs1b",
-      },
-      mrs1b: {
-        id: "mrs1b",
-        speaker: "SYSTEM",
-        text: "[ Layards Wohnung. Mira schraubt die Anschlussdose auf, ohne den Raum anzusehen. ]",
-        next: "mrs2",
-      },
       mrs2: {
         id: "mrs2",
         speaker: "MIRA",
