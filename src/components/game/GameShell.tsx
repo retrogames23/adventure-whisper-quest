@@ -24,6 +24,7 @@ import { NodeTerminal } from "./NodeTerminal";
 import { BurnSequence } from "./BurnSequence";
 import { ParamedicsCutscene } from "./ParamedicsCutscene";
 import { SectorThresholdCutscene } from "./SectorThresholdCutscene";
+import { Act2AssignmentCutscene } from "./Act2AssignmentCutscene";
 import { Ending } from "./Ending";
 import { PauseMenu } from "./PauseMenu";
 import { MobileStage } from "./MobileStage";
@@ -247,6 +248,7 @@ function GameStage({
             <ToiletWallOverlay />
             <Ending />
             <SectorThresholdCutscene />
+            <Act2AssignmentCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
             <Suspense fallback={null}>
               {terminalOpen && <Terminal />}
