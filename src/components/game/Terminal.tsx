@@ -1243,6 +1243,114 @@ export function Terminal() {
         { text: "Jede Meldung beschleunigt das Ticket-System.", kind: "out" },
         { text: "── Ende ──────────────────────────────", kind: "system" },
       );
+    } else if (cmd === "read 010") {
+      newLines.push(
+        { text: "── Nachricht 010 ─────────────────────", kind: "system" },
+        { text: "Von:    Abt. Informationsbeschaffung", kind: "out" },
+        { text: "Datum:  29.10.1997 08:04", kind: "out" },
+        { text: "Betreff: Rechercheauftrag 28/1102 — Umlegung Sperrmüllplatz Q67", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Zur Vorbereitung der Entscheidung über den Antrag".toString(), kind: "out" },
+        { text: "Q67/4412 werden die Bestände der Sektorpresse".toString(), kind: "out" },
+        { text: "1974–1981 auf Erwähnungen des Sperrmüllplatzes".toString(), kind: "out" },
+        { text: "hinter Block C ausgewertet.".toString(), kind: "out" },
+        { text: "".toString(), kind: "out" },
+        { text: "Ergebnis: 3 Fundstellen, keine mit Entscheidungs-".toString(), kind: "out" },
+        { text: "relevanz. Vermerk beigefügt. Vorgang abgeschlossen.".toString(), kind: "out" },
+        { text: "── Ende ──────────────────────────────", kind: "system" },
+      );
+    } else if (cmd === "read 011") {
+      newLines.push(
+        { text: "── Nachricht 011 ─────────────────────", kind: "system" },
+        { text: "Von:    Abt. Informationsbeschaffung", kind: "out" },
+        { text: "Datum:  21.10.1997 08:11", kind: "out" },
+        { text: "Betreff: Rechercheauftrag 28/1091 — Nutzungsdauer Aufzugsanlagen", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Auszuwerten: Wartungsakten E60–E74, Baujahre".toString(), kind: "out" },
+        { text: "1951–1963, hinsichtlich durchschnittlicher".toString(), kind: "out" },
+        { text: "Nutzungsdauer der Aufzugsanlagen.".toString(), kind: "out" },
+        { text: "".toString(), kind: "out" },
+        { text: "Ergebnis: Mittelwert 31,4 Jahre. Zwei Akten nicht".toString(), kind: "out" },
+        { text: "auffindbar (E62, E68). Vermerk beigefügt.".toString(), kind: "out" },
+        { text: "Vorgang abgeschlossen.".toString(), kind: "out" },
+        { text: "── Ende ──────────────────────────────", kind: "system" },
+      );
+    } else if (cmd === "read 012") {
+      newLines.push(
+        { text: "── Nachricht 012 ─────────────────────", kind: "system" },
+        { text: "Von:    Abt. Informationsbeschaffung", kind: "out" },
+        { text: "Datum:  14.10.1997 07:58", kind: "out" },
+        { text: "Betreff: Rechercheauftrag 28/1077 — Begriff „Belegungsdichte“", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Es ist zu klären, seit wann der Begriff".toString(), kind: "out" },
+        { text: "„Belegungsdichte“ in Aushängen des Mandatsrats".toString(), kind: "out" },
+        { text: "verwendet wird.".toString(), kind: "out" },
+        { text: "".toString(), kind: "out" },
+        { text: "Ergebnis: erstmals nachweisbar 1958, Aushang".toString(), kind: "out" },
+        { text: "Nr. 214. Vermerk beigefügt. Vorgang abgeschlossen.".toString(), kind: "out" },
+        { text: "── Ende ──────────────────────────────", kind: "system" },
+      );
+    } else if (cmd === "read 013") {
+      newLines.push(
+        { text: "── Nachricht 013 ─────────────────────", kind: "system" },
+        { text: "Von:    Abt. Informationsbeschaffung", kind: "out" },
+        { text: "Datum:  07.10.1997 08:20", kind: "out" },
+        { text: "Betreff: Rechercheauftrag 28/1063 — Zählweise Korridore Etage 3", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Zu prüfen: ob die Korridornummerierung der Etage 3".toString(), kind: "out" },
+        { text: "in E67 der Verordnung von 1955 entspricht.".toString(), kind: "out" },
+        { text: "".toString(), kind: "out" },
+        { text: "Ergebnis: entspricht ihr nicht; die Abweichung".toString(), kind: "out" },
+        { text: "besteht seit 1961 und ist seither Praxis.".toString(), kind: "out" },
+        { text: "Keine Maßnahme veranlasst. Vorgang abgeschlossen.".toString(), kind: "out" },
+        { text: "── Ende ──────────────────────────────", kind: "system" },
+      );
+    } else if (cmd === "read 014") {
+      newLines.push(
+        { text: "── Nachricht 014 ─────────────────────", kind: "system" },
+        { text: "Von:    Sachgebietsleitung 28/IB", kind: "out" },
+        { text: "Datum:  30.09.1997 16:40", kind: "out" },
+        { text: "Betreff: Hinweis: Zitierweise Zeitungsbestände", kind: "out" },
+        { text: "", kind: "out" },
+        { text: "Sehr geehrter Herr Worag,".toString(), kind: "out" },
+        { text: "bei Auswertungen der Sektorpresse ist künftig".toString(), kind: "out" },
+        { text: "die Blattnummer VOR dem Datum anzugeben.".toString(), kind: "out" },
+        { text: "Ihre bisherigen Vermerke sind nicht zu berichtigen.".toString(), kind: "out" },
+        { text: "".toString(), kind: "out" },
+        { text: "Mit vorzüglicher Hochachtung".toString(), kind: "out" },
+        { text: "Sachgebietsleitung 28/IB".toString(), kind: "out" },
+        { text: "── Ende ──────────────────────────────", kind: "system" },
+      );
+    } else if (cmd === "read 020") {
+      if (!flags.has("act2MailReceived")) {
+        newLines.push({ text: "FEHLER: Nachricht existiert nicht.", kind: "out" });
+      } else {
+        newLines.push(
+          { text: "── Nachricht 020 ─────────────────────", kind: "system" },
+          { text: "Von:    Abt. Informationsbeschaffung, Sektor 28", kind: "out" },
+          { text: "Datum:  07.11.1997 07:02", kind: "out" },
+          { text: "Betreff: Rechercheauftrag 28/1194", kind: "out" },
+          { text: "", kind: "out" },
+          { text: "Fuer den Sektor 28 liegt eine statistisch", kind: "out" },
+          { text: "auffaellige Haeufung aerztlich festgestellter", kind: "out" },
+          { text: "Resonanz-Ueberlastungen vor. Sie werden mit der", kind: "out" },
+          { text: "Aufklaerung der Ursachen beauftragt.", kind: "out" },
+          { text: "", kind: "out" },
+          { text: "Abweichend von der ueblichen Verfahrensweise ist", kind: "out" },
+          { text: "eine Auswertung von Akten- und Zeitungsbestaenden", kind: "out" },
+          { text: "nicht ausreichend. Die Erhebung ist vor Ort", kind: "out" },
+          { text: "durchzufuehren. Befragen Sie Anwohner, aerztliches", kind: "out" },
+          { text: "Personal und sonstige sachkundige Personen.", kind: "out" },
+          { text: "", kind: "out" },
+          { text: "Erster Erhebungsort: Gebaeude E71.", kind: "out" },
+          { text: "Legitimationsschreiben zur Abholung:", kind: "out" },
+          { text: "Kantinenverwaltung, Zimmer 3603.", kind: "out" },
+          { text: "Ohne dieses Schreiben ist keine Befragung zulaessig.", kind: "out" },
+          { text: "", kind: "out" },
+          { text: "Frist: unverzueglich.", kind: "out" },
+          { text: "── Ende ──────────────────────────────", kind: "system" },
+        );
+      }
     } else if (cmd === "read 003") {
       // (Arbeitsmails 010–014 und Auftragsmail 020 siehe unten.)
       if (!flags.has("calledForCode")) {
