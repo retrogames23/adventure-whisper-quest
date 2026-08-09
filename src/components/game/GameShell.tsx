@@ -218,7 +218,7 @@ function GameStage({
   return (
     <>
     <MobileStage uprightOnPortrait={consoleOpen}>
-      <div className="flex h-screen flex-col overflow-hidden bg-bureaucracy mobile-stage-host">
+      <div className="flex h-full flex-col overflow-hidden bg-bureaucracy mobile-stage-host">
         <TopBar
           onOpenPause={handleOpenPause}
           onOpenHelp={handleOpenHelp}
