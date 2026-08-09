@@ -7,13 +7,34 @@ import {
 } from "@/game/cutscenes";
 import { usePaused, useDevStep } from "@/dev/devPlaybackState";
 import { useDevMode } from "@/dev/devMode";
+import beat1 from "@/assets/cutscene-act2-1.jpg";
+import beat2 from "@/assets/cutscene-act2-2.jpg";
+import beat3 from "@/assets/cutscene-act2-3.jpg";
+import beat4 from "@/assets/cutscene-act2-4.jpg";
+import beat5 from "@/assets/cutscene-act2-5.jpg";
 
 /**
  * Akt-II-Auftakt: Am Morgen nach der Protokoll-Übergabe findet Layard in
  * seinem Dienstpostfach den ersten Rechercheauftrag, der ihn aus dem
- * Gebäude schickt. Reine Text-Cutscene (schwarzer Grund, drei Anmutungen)
- * — angelehnt an die Ending-Tafeln, ohne Bildmaterial.
+ * Gebäude schickt. Bebilderte Cutscene mit Ken-Burns-Kamerafahrt pro Beat
+ * und Untertitelband — Anmutung wie die Sektor-Schwelle-Cutscene.
  */
+const BEAT_IMAGES = [beat1, beat2, beat3, beat4, beat5];
+
+/** Pro Beat: Start-/Ziel-Skalierung und Pan (in % der Bildgröße). */
+const BEAT_CAMERA: Array<{
+  scale: [number, number];
+  pan: [number, number, number, number];
+}> = [
+  { scale: [1.05, 1.13], pan: [-2, -1, 2, 1] }, // Aufwachen
+  { scale: [1.03, 1.11], pan: [3, 0, -3, 0] }, // Postfach
+  { scale: [1.12, 1.02], pan: [0, 2, 0, -1] }, // Closeup, langsamer Rückzug
+  { scale: [1.02, 1.12], pan: [-3, 1, 3, -1] }, // Dienststelle
+  { scale: [1.06, 1.16], pan: [0, -1, 0, 1] }, // Mantel
+];
+
+const CROSSFADE_MS = 600;
+
 function holdFor(text: string): number {
   return Math.max(3600, Math.min(10000, Math.round(text.length * 82 + 1400)));
 }
@@ -27,6 +48,7 @@ export function Act2AssignmentCutscene() {
   const beats = ACT2_ASSIGNMENT_BEATS;
   const [beatIdx, setBeatIdx] = useState(0);
   const [lineIdx, setLineIdx] = useState(-1);
+  const [visible, setVisible] = useState(true);
   const finishedRef = useRef(false);
   const transitioningRef = useRef(false);
   const transitionTimerRef = useRef<number | null>(null);
@@ -35,6 +57,7 @@ export function Act2AssignmentCutscene() {
     if (active) return;
     setBeatIdx(0);
     setLineIdx(-1);
+    setVisible(true);
     finishedRef.current = false;
     transitioningRef.current = false;
     if (transitionTimerRef.current !== null) {
@@ -56,12 +79,14 @@ export function Act2AssignmentCutscene() {
   const startBeatTransition = () => {
     if (transitioningRef.current) return;
     transitioningRef.current = true;
+    setVisible(false);
     transitionTimerRef.current = window.setTimeout(() => {
       transitionTimerRef.current = null;
       setBeatIdx((b) => Math.min(b + 1, beats.length - 1));
       setLineIdx(-1);
+      setVisible(true);
       transitioningRef.current = false;
-    }, 320);
+    }, CROSSFADE_MS / 2);
   };
 
   const finish = () => {
@@ -147,43 +172,120 @@ export function Act2AssignmentCutscene() {
   const safeBeatIdx = Math.max(0, Math.min(beatIdx, beats.length - 1));
   const beat = beats[safeBeatIdx];
   if (!beat) return null;
-  const shown = beat.lines.slice(0, Math.max(0, lineIdx + 1));
+  const image = BEAT_IMAGES[safeBeatIdx] ?? BEAT_IMAGES[BEAT_IMAGES.length - 1];
+  const cam = BEAT_CAMERA[safeBeatIdx] ?? BEAT_CAMERA[BEAT_CAMERA.length - 1];
+  const currentLine = lineIdx >= 0 ? (beat.lines[lineIdx] ?? null) : null;
 
-  const bodyClass =
+  const lineClass =
     beat.style === "clinical"
-      ? "font-mono-crt text-base text-foreground sm:text-lg"
+      ? "font-mono-crt text-base not-italic text-foreground sm:text-lg"
       : beat.style === "amber"
-        ? "font-display text-lg text-amber-glow amber-glow sm:text-xl"
-        : "font-display text-lg text-foreground sm:text-xl";
+        ? "font-mono-crt text-base italic text-amber-glow amber-glow sm:text-lg"
+        : "font-mono-crt text-base italic text-amber-glow/85 sm:text-lg";
+
+  const beatDurationSec = Math.max(
+    5,
+    (700 + beat.lines.reduce((s, l) => s + holdFor(l), 0)) / 1000,
+  );
+  const camSpring = {
+    type: "spring" as const,
+    damping: 40,
+    stiffness: 18,
+    mass: 1.5,
+    duration: beatDurationSec,
+  };
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black px-6"
+      className="fixed inset-0 z-[200] flex flex-col bg-black"
       onClick={advance}
       role="presentation"
     >
-      {beat.header && (
-        <div className="mb-8 font-mono-crt text-[11px] uppercase tracking-[0.4em] text-amber-glow/80 amber-glow">
-          {beat.header}
-        </div>
-      )}
-      <div className="w-full max-w-3xl space-y-4 text-center">
-        <AnimatePresence initial={false}>
-          {shown.map((line, i) => (
-            <motion.p
-              key={`${safeBeatIdx}-${i}`}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className={bodyClass}
-            >
-              {line}
-            </motion.p>
-          ))}
+      <div className="relative flex-1 overflow-hidden">
+        <AnimatePresence mode="wait">
+          {visible && (
+            <motion.img
+              key={`beat-${safeBeatIdx}`}
+              src={image}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+              initial={{
+                opacity: 0,
+                scale: cam.scale[0],
+                x: `${cam.pan[0]}%`,
+                y: `${cam.pan[1]}%`,
+              }}
+              animate={{
+                opacity: 1,
+                scale: cam.scale[1],
+                x: `${cam.pan[2]}%`,
+                y: `${cam.pan[3]}%`,
+              }}
+              exit={{ opacity: 0 }}
+              transition={{
+                opacity: { duration: CROSSFADE_MS / 1000, ease: "easeOut" },
+                scale: camSpring,
+                x: camSpring,
+                y: camSpring,
+              }}
+            />
+          )}
         </AnimatePresence>
+
+        {/* CRT-Vignette */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)",
+          }}
+        />
+        {/* Scanlines */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-25 mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(0deg, rgba(0,0,0,0.6) 0px, rgba(0,0,0,0.6) 1px, transparent 1px, transparent 3px)",
+          }}
+        />
+
+        {beat.header && (
+          <div className="absolute left-4 top-4 font-mono-crt text-[10px] uppercase tracking-[0.3em] text-amber-glow/70 amber-glow">
+            {beat.header}
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            finish();
+          }}
+          className="absolute right-4 top-4 rounded border border-amber-glow/40 bg-black/50 px-3 py-1.5 font-mono-crt text-xs text-amber-glow/80 transition-colors hover:bg-black/70 hover:text-amber-glow"
+        >
+          Überspringen ⏵⏵
+        </button>
       </div>
-      <div className="absolute bottom-6 font-mono-crt text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-        {ACT2_ASSIGNMENT_UI_TEXT.skipHint}
+
+      {/* Untertitel-Band */}
+      <div className="relative h-[28%] min-h-[140px] border-t border-amber-glow/20 bg-black/85 px-6 py-5 sm:px-10">
+        <AnimatePresence mode="wait">
+          {currentLine && (
+            <motion.div
+              key={`${safeBeatIdx}-${lineIdx}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              className={`mx-auto max-w-3xl ${lineClass}`}
+            >
+              {currentLine}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div className="absolute bottom-2 left-0 right-0 text-center font-mono-crt text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          {ACT2_ASSIGNMENT_UI_TEXT.skipHint}
+        </div>
       </div>
     </div>
   );
