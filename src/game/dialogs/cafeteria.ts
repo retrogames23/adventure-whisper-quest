@@ -290,8 +290,8 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             text: "Verstanden. Ich rede mit Vossbeck.",
             action: (api) => {
               api.setFlag("gotTillaTransferInfo");
-              api.setFlag("learnedMarteauPhilippeLink");
-              api.setFlag("needsMarteauAuthForTilla");
+              api.setFlag("learnedStammPhilippeLink");
+              api.setFlag("needsStammAuthForTilla");
               api.setFlag("knowsVossbeckPath");
             },
             next: "k0",

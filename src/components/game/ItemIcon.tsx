@@ -416,7 +416,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   condom: CondomIcon,
   // Akt II — offizielles Schreiben zur Vor-Ort-Recherche. Vorerst geliehenes
   // Akten-Icon (Aushang-Stil, vergilbtes Papier).
-  akte1978Sertl: Aushang71Icon,
+  rechercheSchreiben: Aushang71Icon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */
