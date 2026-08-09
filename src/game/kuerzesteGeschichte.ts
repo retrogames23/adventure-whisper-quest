@@ -21,6 +21,7 @@ import imgMittelalter from "@/assets/history/mittelalter.jpg";
 import imgAufklaerung from "@/assets/history/aufklaerung.jpg";
 import imgIndustrie from "@/assets/history/industrie.jpg";
 import imgJahrhundert from "@/assets/history/jahrhundert.jpg";
+import imgZwischenkrieg from "@/assets/history/zwischenkrieg.jpg";
 import imgModerne from "@/assets/history/moderne.jpg";
 
 export type HistoryChapter = HandbookChapter;
