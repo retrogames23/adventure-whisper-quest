@@ -194,10 +194,10 @@ export const ENDING_FLYER_FRAMES: string[][] = [
 
 /** Statische Texte rund um den Abspann-Bildschirm. */
 export const ENDING_UI_TEXT = {
-  actLabel: "AKT II — ENDE",
+  actLabel: "AKT I — ENDE",
   subtitle: "Schmerz-Radio auf 104,6 — Fortsetzung folgt",
   restart: "▸ Neu beginnen",
-  continueButton: "▸ Akt II — Weiterspielen",
+  continueButton: "▸ Akt II beginnen",
   coffee: "☕ Buy me a coffee",
   /** Atmosphäre-Chatter, falls eine Nachricht im Abspann „zerhackt" sein soll. */
   garbledChatter: "» … «",

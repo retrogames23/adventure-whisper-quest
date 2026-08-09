@@ -373,7 +373,7 @@ export const HINT_QUESTS: HintQuest[] = [
     hints: [
       "Akt I ist zu Ende — aber die Geschichte ist es nicht. Insas Stimme im Kopf war kein Abschied.",
       "Auf dem Akt-I-Ending-Screen gibt es neben „Neu beginnen“ einen zweiten Button, der dich weiterspielen lässt.",
-      "Klick auf dem Ending-Screen den Button „▸ Akt II — Weiterspielen“. Der nächste Morgen beginnt automatisch: Layard bricht mit dem Protokoll zur Leitstelle auf.",
+      "Klick auf dem Ending-Screen den Button „▸ Akt II beginnen“. Der nächste Morgen beginnt automatisch: Layard bricht mit dem Protokoll zur Leitstelle auf.",
     ],
   },
 
