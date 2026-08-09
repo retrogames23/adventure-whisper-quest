@@ -11,6 +11,18 @@
 
 import type { HandbookChapter } from "./e67Handbook";
 
+import imgUrsprung from "@/assets/history/ursprung.jpg";
+import imgNeolithikum from "@/assets/history/neolithikum.jpg";
+import imgRadSchrift from "@/assets/history/rad-schrift.jpg";
+import imgDreiFluesse from "@/assets/history/drei-fluesse.jpg";
+import imgRomsErbe from "@/assets/history/roms-erbe.jpg";
+import imgWelt from "@/assets/history/welt.jpg";
+import imgMittelalter from "@/assets/history/mittelalter.jpg";
+import imgAufklaerung from "@/assets/history/aufklaerung.jpg";
+import imgIndustrie from "@/assets/history/industrie.jpg";
+import imgJahrhundert from "@/assets/history/jahrhundert.jpg";
+import imgModerne from "@/assets/history/moderne.jpg";
+
 export type HistoryChapter = HandbookChapter;
 
 export const HISTORY_TITLE = "Die kürzeste Geschichte der Menschheit";
@@ -44,6 +56,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "ursprung",
+    image: imgUrsprung,
+    imageCaption: "Tafel I — Jäger und Sammler in Ostafrika, Rekonstruktion",
     shortTitle: "Der Homo sapiens",
     title: "Vorgeschichte: Ein Tier lernt erzählen",
     body: [
@@ -56,6 +70,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "neolithikum",
+    image: imgNeolithikum,
+    imageCaption: "Tafel II — Frühe Bauern, Vorderer Orient, Rekonstruktion",
     shortTitle: "Neolithikum",
     title: "Die neolithische Revolution",
     body: [
@@ -68,6 +84,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "rad-schrift",
+    image: imgRadSchrift,
+    imageCaption: "Tafel III — Schreiber, Töpferscheibe und Karren, Mesopotamien",
     shortTitle: "Rad und Schrift",
     title: "Rad, Schrift und die ersten Zivilisationen",
     body: [
@@ -80,6 +98,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "drei-fluesse",
+    image: imgDreiFluesse,
+    imageCaption: "Tafel IV — Jerusalem, Athen, Rom",
     shortTitle: "Drei Flüsse",
     title: "Die drei Flüsse: Jerusalem, Athen, Rom",
     body: [
@@ -93,6 +113,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "roms-erbe",
+    image: imgRomsErbe,
+    imageCaption: "Tafel V — Konstantinopel, weströmische Ruinen, Córdoba",
     shortTitle: "Roms Erbe",
     title: "Roms Erbe teilt sich",
     body: [
@@ -107,6 +129,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "welt",
+    image: imgWelt,
+    imageCaption: "Tafel VI — China, Indien und die Handelswege Afrikas",
     shortTitle: "China und Indien",
     title: "Die Welt jenseits Europas",
     body: [
@@ -120,6 +144,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "mittelalter",
+    image: imgMittelalter,
+    imageCaption: "Tafel VII — Pflug, Mühle, Kathedrale, Universität",
     shortTitle: "Mittelalter",
     title: "Europas Mittelalter — ohne die üblichen Märchen",
     body: [
@@ -135,6 +161,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "aufklaerung",
+    image: imgAufklaerung,
+    imageCaption: "Tafel VIII — Studierzimmer und Straße, 1789",
     shortTitle: "Aufklärung",
     title: "Aufklärung und Französische Revolution",
     body: [
@@ -149,6 +177,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "industrie",
+    image: imgIndustrie,
+    imageCaption: "Tafel IX — Dampfmaschine, Fabrik, Eisenbahn",
     shortTitle: "Industrielle Revolution",
     title: "Die Industrielle Revolution",
     body: [
@@ -162,6 +192,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "jahrhundert",
+    image: imgJahrhundert,
+    imageCaption: "Tafel X — Westfront, 1916",
     shortTitle: "Das Jahrhundert",
     title: "1914 bis 1920: Der Bruch",
     body: [
@@ -173,6 +205,8 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "moderne",
+    image: imgModerne,
+    imageCaption: "Tafel XI — Aufbau der Quadranten, um 1950",
     shortTitle: "Ab 1920",
     title: "Ab 1920: Die Ordnung, in der wir leben",
     body: [

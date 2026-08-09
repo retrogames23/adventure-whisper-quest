@@ -142,6 +142,24 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
             <h1 className="mb-4 font-display text-2xl font-bold leading-tight text-[#2a1c0a]">
               {chapter.title}
             </h1>
+            {chapter.image && (
+              <figure className="mb-5">
+                <img
+                  src={chapter.image}
+                  alt={chapter.imageCaption ?? chapter.title}
+                  loading="lazy"
+                  width={1024}
+                  height={576}
+                  className="w-full rounded-sm border border-[#a87d2a]/70 shadow-[0_2px_10px_rgba(60,40,10,0.25)]"
+                  style={{ filter: "sepia(0.15) contrast(1.02)" }}
+                />
+                {chapter.imageCaption && (
+                  <figcaption className="mt-1 font-mono-crt text-[10px] uppercase tracking-widest text-[#8a6a2a]">
+                    {chapter.imageCaption}
+                  </figcaption>
+                )}
+              </figure>
+            )}
             <ChapterBody chapter={chapter} />
 
             <Divider />
