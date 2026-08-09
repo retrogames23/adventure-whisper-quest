@@ -25,6 +25,7 @@ import { BurnSequence } from "./BurnSequence";
 import { ParamedicsCutscene } from "./ParamedicsCutscene";
 import { SectorThresholdCutscene } from "./SectorThresholdCutscene";
 import { Act2AssignmentCutscene } from "./Act2AssignmentCutscene";
+import { MiraRepairCutscene } from "./MiraRepairCutscene";
 import { Ending } from "./Ending";
 import { PauseMenu } from "./PauseMenu";
 import { MobileStage } from "./MobileStage";
@@ -249,6 +250,7 @@ function GameStage({
             <Ending />
             <SectorThresholdCutscene />
             <Act2AssignmentCutscene />
+            <MiraRepairCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
             <Suspense fallback={null}>
               {terminalOpen && <Terminal />}

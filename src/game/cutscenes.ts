@@ -324,3 +324,48 @@ export const SECTOR_THRESHOLD_BEATS: Act2BridgeBeat[] = [
 export const SECTOR_THRESHOLD_UI_TEXT = {
   skipHint: "Esc / Enter überspringt · Klick · weiter",
 } as const;
+// ─── Mira repariert das Telefon (Akt I, Pflicht-Rätsel) ─────────────
+
+/**
+ * Bebilderte Cutscene: Mira geht mit Layard nach 2611, öffnet die
+ * Anschlussdose, findet den durchgescheuerten Draht und klemmt neu.
+ * Ersetzt die früheren SYSTEM-Zeilen am Anfang von `miraRepairScene`;
+ * das Gespräch selbst läuft danach als Dialog weiter.
+ */
+export const MIRA_REPAIR_BEATS: Act2BridgeBeat[] = [
+  {
+    header: "E67 · Korridor 46 → 26",
+    style: "black",
+    lines: [
+      "Mira geht zwei Schritte vor Layard. Der Werkzeuggürtel ist zwei Nummern zu groß und schlägt bei jedem Schritt gegen ihre Hüfte.",
+      "Treppe, Korridor, Treppe. Sie sagt nichts. Es ist ein Dienstvorgang, kein Besuch.",
+    ],
+  },
+  {
+    header: "E67 · Wohnung 2611",
+    style: "amber",
+    lines: [
+      "Vor der Tür klopft sie an — aus Gewohnheit, obwohl Layard den Schlüssel schon in der Hand hält.",
+      "Drinnen sieht sie sich den Raum nicht an. Sie kniet sich vor die Anschlussdose und schraubt die Abdeckung ab.",
+    ],
+  },
+  {
+    style: "clinical",
+    lines: [
+      "Zwei Schrauben, dann liegt die Klemme frei. Staub, Kupfer, ein Geruch nach warmem Lack.",
+      "Sie zieht eine Ader heraus und hält sie ins Licht: die Isolierung ist blank gescheuert.",
+    ],
+  },
+  {
+    style: "amber",
+    lines: [
+      "Sie klemmt neu, dreht die Dose zu und hebt ab.",
+      "Ein Freizeichen. Dünn, aber da.",
+    ],
+  },
+];
+
+/** Statische UI-Texte für die Reparatur-Cutscene. */
+export const MIRA_REPAIR_UI_TEXT = {
+  skipHint: "Esc / Enter überspringt · Klick · weiter",
+} as const;
