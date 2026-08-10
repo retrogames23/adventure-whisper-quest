@@ -90,8 +90,13 @@ export function startMiraEncounter(
 ): void {
   const atHome = opts?.atHome ?? false;
   // Der Ort steuert nur noch die Regieanweisung der ersten Zeile.
-  if (atHome) api.setFlag("miraEncounterAtHome");
-  else api.clearFlag("miraEncounterAtHome");
+  if (atHome) {
+    api.setFlag("miraEncounterAtHome");
+    // Nur als Wissens-Flag: Layard kennt 4601 von innen.
+    api.setFlag("miraAtHomeMet");
+  } else {
+    api.clearFlag("miraEncounterAtHome");
+  }
   if (
     api.hasFlag("miraTerminalTrespass") &&
     !api.hasFlag("miraConfrontedTrespass")
@@ -108,7 +113,6 @@ export function startMiraEncounter(
   }
   if (!api.hasFlag("metMira")) {
     api.setFlag("metMira");
-    api.setFlag("miraAtHomeMet");
     api.startDialog("miraIntro");
     return;
   }
