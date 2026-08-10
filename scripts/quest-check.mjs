@@ -145,6 +145,36 @@ for (const [file, src] of Object.entries(files)) {
       });
     }
   }
+  // requires: "X" (String-Form, z. B. Dateisystem-Einträge)
+  for (const m of src.matchAll(/\brequires\s*:\s*"([^"]+)"/g)) {
+    note(flagReaders, m[1], {
+      file,
+      line: lineOf(src, m.index),
+      kind: "requires",
+    });
+  }
+  // LLM-Personas & Overlays: requireFlags/contextFlags/hideWhenFlags: ["X"]
+  for (const m of src.matchAll(
+    /\b(requireFlags|contextFlags|hideWhenFlags|forbidFlags)\s*:\s*\[([^\]]*)\]/g,
+  )) {
+    for (const x of m[2].matchAll(/"([^"]+)"/g)) {
+      note(flagReaders, x[1], {
+        file,
+        line: lineOf(src, m.index),
+        kind: m[1],
+      });
+    }
+  }
+  // Dynamische Setter über Objekt-Literale: flag: "X" (z. B. Automat-Reihen)
+  for (const m of src.matchAll(/\bflag\s*:\s*"([^"]+)"/g)) {
+    note(flagWriters, m[1], { file, line: lineOf(src, m.index) });
+  }
+  // Item-Literale ohne addItem(): { id: "X", name: "...", description: ... }
+  for (const m of src.matchAll(
+    /\bid\s*:\s*"([^"]+)"\s*,\s*\n?\s*name\s*:/g,
+  )) {
+    note(itemWriters, m[1], { file, line: lineOf(src, m.index) });
+  }
   // addItem({ id: "X", ... })
   for (const m of src.matchAll(/\baddItem\(\s*\{[^}]*\bid\s*:\s*"([^"]+)"/g)) {
     note(itemWriters, m[1], { file, line: lineOf(src, m.index) });
