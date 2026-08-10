@@ -267,6 +267,7 @@ function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
   } else {
     lines.push(
       { text: "  adventure     — »Ein Tag draußen« (Textadventure)", kind: "out" },
+      { text: "  tetris        — ASCII-TETRIS, 99 Stufen", kind: "out" },
       { text: "  news          — Sektoren-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
     );
