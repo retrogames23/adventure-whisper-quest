@@ -140,7 +140,7 @@ export const sectorAct1Scenes: Record<string, Scene> = {
     background: e71LobbyBg,
     title: "Gebäude E71 — Empfang",
     intro:
-      "Der Aufzug schließt hinter Layard. Andere Luft. Kühler. Sauberer. Eine Frau hinter einem Tresen sieht auf.",
+      "Andere Luft. Kühler. Sauberer. Eine Frau hinter einem Tresen sieht auf.",
     decals: [
       {
         id: "tvE71",
