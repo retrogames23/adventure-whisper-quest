@@ -244,10 +244,26 @@ for (const item of [...itemWriters.keys(), ...itemReaders.keys()]) {
 // ohne Pendant existieren — sie sind in scenes.ts/dialogs.ts setbar via
 // Mechaniken oder Cutscene-Hooks und brauchen keinen statischen Reader.
 const FLAG_NO_READER_OK = new Set([
+  // Dynamisch gelesen (Variable statt Literal) — vom statischen Scan
+  // nicht erfassbar.
+  "askedBodoPhone",
+  "askedPhilippePhone",
+  "askedEnnisPhone",
+  "askedHelkaPhone",
+  "tookMedMaskFromAutomat",
+  "dsaAdventureScene2Done",
+  "duelTrainingWon1",
+  "duelTrainingWon2",
+  "duelTrainingWon3",
   // ending wird via setEnding() konsumiert, nicht via hasFlag
   "ending",
 ]);
-const FLAG_NO_WRITER_OK = new Set([]);
+const FLAG_NO_WRITER_OK = new Set([
+  "askedBodoPhone",
+  "askedPhilippePhone",
+  "askedEnnisPhone",
+  "askedHelkaPhone",
+]);
 
 // ── 4. Tote Flags / Items ─────────────────────────────────────────
 for (const flag of STORY_FLAGS) {
