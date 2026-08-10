@@ -650,8 +650,6 @@ export const insaDialogs: Record<string, DialogTree> = {
   insaWaitingForTransfer: {
     id: "insaWaitingForTransfer",
     start: "iw1",
-    onEnd: (api) => {
-    },
     lines: {
       iw1: {
         id: "iw1",
