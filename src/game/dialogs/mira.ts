@@ -5,8 +5,7 @@ import type { DialogChoice, DialogTree, GameApi } from "../types";
  * bei Zufallsbegegnungen greift — je nachdem, was schon gelaufen ist.
  */
 export function miraNormalDialogId(api: GameApi): string {
-  if (!api.hasFlag("miraAtHomeMet") && !api.hasFlag("metMira"))
-    return "miraAtHomeIntro";
+  if (!api.hasFlag("metMira")) return "miraIntro";
   if (api.hasFlag("miraEvidenceDelivered")) return "miraAfterEvidence";
   if (api.hasFlag("miraAskedEvidence")) {
     const belege = [
@@ -27,13 +26,18 @@ export function miraNormalDialogId(api: GameApi): string {
  * in den jeweiligen Normaldialog + Abbruch.
  */
 function miraHubChoices(api: GameApi): DialogChoice[] {
-  const choices: DialogChoice[] = [
-    {
+  const choices: DialogChoice[] = [];
+  // Einziger ortsunabhängiger Unterschied: kaputtes Telefon.
+  if (
+    api.hasFlag("phoneBroken") &&
+    !api.hasFlag("phoneRepaired") &&
+    !api.hasFlag("miraRepairDone")
+  ) {
+    choices.push({
       text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
       nextDialog: "miraFaultReport",
-      hiddenWhen: ["miraRepairDone"],
-    },
-  ];
+    });
+  }
   // Flugblatt-Strang: überall verfügbar, solange Layard es nicht hat.
   if (!api.hasFlag("tookFlyer")) {
     choices.push({
@@ -61,7 +65,6 @@ function miraHubChoices(api: GameApi): DialogChoice[] {
   }
   const normalId = miraNormalDialogId(api);
   const openers: Record<string, string> = {
-    miraAtHomeIntro: "Nichts Bestimmtes. Ich bleibe kurz.",
     miraEvidenceAsk: "Woran arbeitest du gerade?",
     miraEvidenceWait: "Wegen der Aushänge — was genau suchst du?",
     miraEvidenceWaitOne: "Wegen der Aushänge. Ich bin dran.",
@@ -69,17 +72,10 @@ function miraHubChoices(api: GameApi): DialogChoice[] {
     miraEvidenceDeliver: "Ich habe die drei Aushänge.",
     miraAfterEvidence: "Alles ruhig bei dir?",
   };
-  if (normalId === "miraAtHomeIntro") {
-    choices.push({
-      text: openers["miraAtHomeIntro"]!,
-      action: (api) => api.setFlag("miraAtHomeMet"),
-    });
-  } else {
-    choices.push({
-      text: openers[normalId] ?? "Wie läuft's?",
-      nextDialog: normalId,
-    });
-  }
+  choices.push({
+    text: openers[normalId] ?? "Wie läuft's?",
+    nextDialog: normalId,
+  });
   choices.push({ text: "[ Später ]" });
   return choices;
 }
@@ -93,6 +89,9 @@ export function startMiraEncounter(
   opts?: { atHome?: boolean },
 ): void {
   const atHome = opts?.atHome ?? false;
+  // Der Ort steuert nur noch die Regieanweisung der ersten Zeile.
+  if (atHome) api.setFlag("miraEncounterAtHome");
+  else api.clearFlag("miraEncounterAtHome");
   if (
     api.hasFlag("miraTerminalTrespass") &&
     !api.hasFlag("miraConfrontedTrespass")
@@ -101,7 +100,6 @@ export function startMiraEncounter(
     return;
   }
   if (
-    !atHome &&
     api.hasFlag("miraFlatOpen") &&
     !api.hasFlag("miraTerminalTrespass")
   ) {
@@ -110,14 +108,15 @@ export function startMiraEncounter(
   }
   if (!api.hasFlag("metMira")) {
     api.setFlag("metMira");
-    api.startDialog(atHome ? "miraAtHomeIntro" : "miraIntro");
+    api.setFlag("miraAtHomeMet");
+    api.startDialog("miraIntro");
     return;
   }
   if (api.hasFlag("miraSystemic")) {
     api.startDialog("miraSystemicGreeting");
     return;
   }
-  api.startDialog("miraAtHomeHub");
+  api.startDialog("miraHub");
 }
 
 /**
