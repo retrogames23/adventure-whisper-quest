@@ -220,6 +220,12 @@ export const miraDialogs: Record<string, DialogTree> = {
         hiddenWhen: ["sawEmptyOffice"],
         next: "mi4b",
         choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            requires: ["phoneBroken"],
+            hiddenWhen: ["phoneRepaired", "miraRepairDone"],
+          },
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
           {
             text: "Pass auf, was du sagst. Hier hört jemand zu.",
