@@ -710,8 +710,8 @@ export const dialogSummaries: Record<string, string> = {
     "Mira hat Layard im Korridor angesprochen und ihm einen Flyer angeboten.",
   miraTrustProbe:
     "Mira hat Layards Vertrauen geprüft (Manifest gelesen, Aushang wirklich gelesen, Charakterfrage) und ihm ihre Adresse 4601 verraten.",
-  miraAtHomeIntro:
-    "Layard hat Mira zum ersten Mal in ihrer Wohnung 4601 besucht — Plakate, Drucker-Kabel, FuckTheSystemOS.",
+  miraHub:
+    "Layard hat mit Mira über den aktuellen Stand gesprochen — Aushänge, Belege, Alltag.",
   okwuIntro:
     "Layard war kurz in Dr. Okwus Praxis. Sie hat höflich, aber knapp geantwortet.",
   tjarkIntro:
