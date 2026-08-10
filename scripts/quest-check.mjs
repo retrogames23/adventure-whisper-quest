@@ -65,14 +65,15 @@ const typesSrc = readFileSync(ROOT + "src/game/types.ts", "utf8");
 
 // ── 1. StoryFlag-Wahrheitsmenge aus types.ts extrahieren ─────────
 function extractUnion(src, typeName) {
+  // Kommentare zuerst entfernen — sonst kann ein ";" in einem Kommentar
+  // die Union vorzeitig abschneiden.
+  const stripped = src
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/[^\n]*/g, "");
   const re = new RegExp(`export type ${typeName}\\s*=\\s*([\\s\\S]*?);`);
-  const m = src.match(re);
+  const m = stripped.match(re);
   if (!m) throw new Error(`Union ${typeName} nicht gefunden`);
-  const block = m[1];
-  // Kommentare entfernen
-  const clean = block
-    .replace(/\/\/[^\n]*/g, "")
-    .replace(/\/\*[\s\S]*?\*\//g, "");
+  const clean = m[1];
   const literals = [...clean.matchAll(/"([^"]+)"/g)].map((x) => x[1]);
   return new Set(literals);
 }
