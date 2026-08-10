@@ -283,7 +283,7 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
         }
       }
     }
-    return grid.map((row) => `<!${row.map((c) => (c ? "[]" : " ."))?.join("")}!>`);
+    return grid.map((row) => `<!${row.map((c) => (c ? "[]" : " .")).join("")}!>`);
   }, [board, piece, over]);
 
   const nextRows = useMemo(() => {
@@ -301,8 +301,7 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
     <div className={`min-h-0 flex-1 overflow-y-auto bg-black px-4 py-3 font-mono-crt ${textClass}`}>
       <div className="flex flex-wrap gap-6">
         <pre className="text-[13px] leading-tight sm:text-[15px]">
-{rendered.join("\n")}
-{"\n"}{`<!${"=".repeat(COLS * 2)}!>`}
+          {[...rendered, `<!${"=".repeat(COLS * 2)}!>`].join("\n")}
         </pre>
         <div className="text-[13px] leading-relaxed sm:text-sm">
           <div>SCORE  {String(score).padStart(6, "0")}</div>
