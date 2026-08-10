@@ -83,6 +83,13 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             next: "kSmall1",
           },
           {
+            // Hinweisgeber für die beiden Phrasen-Lehrer (Bodo, Helka).
+            text: "Brust wimmelt mich mit Phrasen ab. Hat den je jemand stehen lassen?",
+            next: "kPhrase1",
+            requires: ["knowsVossbeckPath"],
+            hiddenWhen: ["kowalkHintedBodoHelka"],
+          },
+          {
             text: "Sie streiten ständig über die Hygieneordnung.",
             next: "kHyg1",
           },
@@ -112,6 +119,27 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
         next: "kCode1",
       },
       kCode1: {
+        id: "kCode1",
+        speaker: "KOWALK",
+        text: "Tagescode. Hat sie wieder die alte Leier vom »wir geben keine Codes raus« gefahren? Korrekt. Vossbeck nebenan in 3603 macht das jetzt. — Aber gehen Sie da nicht einfach rein.",
+        subtext: "Sie wischt den Tresen einmal trocken, obwohl der Tresen trocken ist.",
+        next: "kCode2",
+      },
+      // ── Hinweis: Bodo und Helka kennen die Gegensätze ───────────
+      kPhrase1: {
+        id: "kPhrase1",
+        speaker: "KOWALK",
+        text: "Zwei. Bodo aus 2612 — wegen einer Wassermarke. Und die Helka, Sortierung. Beide haben Brust mit einem einzigen Satz stehen lassen. Fragen Sie die, nicht mich. Ich schenke hier nur aus.",
+        subtext:
+          "Sie sagt die beiden Namen so beiläufig, dass es fast wie ein Auftrag klingt.",
+        choices: [
+          {
+            text: "[ Bodo und Helka. Notiert. ]",
+            action: (api) => api.setFlag("kowalkHintedBodoHelka"),
+          },
+        ],
+      },
+      kCode1Legacy: {
         id: "kCode1",
         speaker: "KOWALK",
         text: "Tagescode. Hat sie wieder die alte Leier vom »wir geben keine Codes raus« gefahren? Korrekt. Vossbeck nebenan in 3603 macht das jetzt. — Aber gehen Sie da nicht einfach rein.",
