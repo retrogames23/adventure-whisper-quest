@@ -1,7 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { ensureAuthSession, getDisplayName, getShiftNumber } from "@/multiplayer/identity";
 
-export interface TetrisScoreRow {
+export interface BlockfallScoreRow {
   id: string;
   display_name: string;
   score: number;
@@ -10,7 +10,7 @@ export interface TetrisScoreRow {
   created_at: string;
 }
 
-const LOCAL_KEY = "e67.tetris.highscore";
+const LOCAL_KEY = "e67.blockfall.highscore";
 
 /** Persönlicher Bestwert (lokal im Browser). */
 export function readLocalHighscore(): number {
@@ -29,18 +29,18 @@ export function writeLocalHighscore(score: number): boolean {
 }
 
 /** Top-Einträge der spielerübergreifenden Bestenliste. */
-export async function fetchLeaderboard(limit = 10): Promise<TetrisScoreRow[]> {
+export async function fetchLeaderboard(limit = 10): Promise<BlockfallScoreRow[]> {
   const { data, error } = await supabase
-    .from("tetris_scores")
+    .from("blockfall_scores")
     .select("id, display_name, score, lines, level, created_at")
     .order("score", { ascending: false })
     .order("created_at", { ascending: true })
     .limit(limit);
   if (error) {
-    console.error("tetris leaderboard failed", error);
+    console.error("blockfall leaderboard failed", error);
     return [];
   }
-  return (data ?? []) as TetrisScoreRow[];
+  return (data ?? []) as BlockfallScoreRow[];
 }
 
 /** Trägt ein Ergebnis ein (legt bei Bedarf eine anonyme Sitzung an). */
@@ -56,7 +56,7 @@ export async function submitScore(entry: {
     user: { id: session.userId, email: session.email, is_anonymous: session.isAnonymous },
     shiftNumber: getShiftNumber(),
   });
-  const { error } = await supabase.from("tetris_scores").insert({
+  const { error } = await supabase.from("blockfall_scores").insert({
     user_id: session.userId,
     display_name,
     score: entry.score,
@@ -64,7 +64,7 @@ export async function submitScore(entry: {
     level: Math.max(1, Math.min(99, entry.level)),
   });
   if (error) {
-    console.error("tetris score submit failed", error);
+    console.error("blockfall score submit failed", error);
     return false;
   }
   return true;

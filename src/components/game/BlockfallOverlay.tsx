@@ -4,73 +4,87 @@ import {
   readLocalHighscore,
   submitScore,
   writeLocalHighscore,
-  type TetrisScoreRow,
-} from "@/game/tetrisScores";
+  type BlockfallScoreRow,
+} from "@/game/blockfallScores";
 
 /**
- * ASCII-TETRIS für Layards Terminal ("./tetris.bin").
+ * ASCII-BLOCKFALL für Layards Terminal ("./blockfall.bin").
  *
- * 99 Level. Die Fallgeschwindigkeit steigt wie beim Game-Boy-Tetris
- * schrittweise an: pro Level fällt der Stein etwas schneller,
- * bis zu einem harten Minimum (Framerate-Grenze).
+ * Eigenes Raster (12 x 22) und eigener Steinsatz: neben den klassischen
+ * Vierlingen fallen auch Kreuz- und U-Formen. 99 Stufen, der Falltakt
+ * steigt schrittweise bis zu einem harten Minimum.
  */
 
-const COLS = 10;
-const ROWS = 18;
+const COLS = 12;
+const ROWS = 22;
 const LINES_PER_LEVEL = 10;
 
 type Cell = 0 | 1;
 type Board = Cell[][];
 
 const SHAPES: number[][][][] = [
-  // I
+  // Stange
   [
     [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
     [[0, 0, 1, 0], [0, 0, 1, 0], [0, 0, 1, 0], [0, 0, 1, 0]],
     [[0, 0, 0, 0], [0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0]],
     [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]],
   ],
-  // O
+  // Block
   [
     [[1, 1], [1, 1]],
     [[1, 1], [1, 1]],
     [[1, 1], [1, 1]],
     [[1, 1], [1, 1]],
   ],
-  // T
+  // Nase
   [
     [[0, 1, 0], [1, 1, 1], [0, 0, 0]],
     [[0, 1, 0], [0, 1, 1], [0, 1, 0]],
     [[0, 0, 0], [1, 1, 1], [0, 1, 0]],
     [[0, 1, 0], [1, 1, 0], [0, 1, 0]],
   ],
-  // S
+  // Stufe rechts
   [
     [[0, 1, 1], [1, 1, 0], [0, 0, 0]],
     [[0, 1, 0], [0, 1, 1], [0, 0, 1]],
     [[0, 0, 0], [0, 1, 1], [1, 1, 0]],
     [[1, 0, 0], [1, 1, 0], [0, 1, 0]],
   ],
-  // Z
+  // Stufe links
   [
     [[1, 1, 0], [0, 1, 1], [0, 0, 0]],
     [[0, 0, 1], [0, 1, 1], [0, 1, 0]],
     [[0, 0, 0], [1, 1, 0], [0, 1, 1]],
     [[0, 1, 0], [1, 1, 0], [1, 0, 0]],
   ],
-  // J
+  // Haken links
   [
     [[1, 0, 0], [1, 1, 1], [0, 0, 0]],
     [[0, 1, 1], [0, 1, 0], [0, 1, 0]],
     [[0, 0, 0], [1, 1, 1], [0, 0, 1]],
     [[0, 1, 0], [0, 1, 0], [1, 1, 0]],
   ],
-  // L
+  // Haken rechts
   [
     [[0, 0, 1], [1, 1, 1], [0, 0, 0]],
     [[0, 1, 0], [0, 1, 0], [0, 1, 1]],
     [[0, 0, 0], [1, 1, 1], [1, 0, 0]],
     [[1, 1, 0], [0, 1, 0], [0, 1, 0]],
+  ],
+  // Kreuz (eigene Form)
+  [
+    [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
+    [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
+    [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
+    [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
+  ],
+  // Bügel (eigene Form)
+  [
+    [[1, 0, 1], [1, 1, 1], [0, 0, 0]],
+    [[0, 1, 1], [0, 1, 0], [0, 1, 1]],
+    [[0, 0, 0], [1, 1, 1], [1, 0, 1]],
+    [[1, 1, 0], [0, 1, 0], [1, 1, 0]],
   ],
 ];
 
@@ -81,11 +95,7 @@ interface Piece {
   y: number;
 }
 
-/**
- * Fallintervall in Millisekunden für Level 1..99.
- * Game-Boy-Kurve: anfangs deutliche Sprünge, später asymptotisch
- * gegen ~30 ms (ein "Frame").
- */
+/** Fallintervall in Millisekunden für Stufe 1..99. */
 function dropInterval(level: number): number {
   const l = Math.max(1, Math.min(99, level));
   const ms = 800 * Math.pow(0.9, l - 1);
@@ -140,7 +150,7 @@ function clearLines(board: Board): { board: Board; cleared: number } {
   return { board: kept as Board, cleared };
 }
 
-const SCORE_TABLE = [0, 40, 100, 300, 1200];
+const SCORE_TABLE = [0, 50, 120, 340, 1300];
 
 interface Props {
   onExit: () => void;
@@ -148,7 +158,7 @@ interface Props {
   tone?: "phosphor" | "sepia" | "destructive";
 }
 
-export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
+export function BlockfallOverlay({ onExit, tone = "phosphor" }: Props) {
   const [board, setBoard] = useState<Board>(emptyBoard);
   const [piece, setPiece] = useState<Piece>(() => newPiece(randomType()));
   const [nextType, setNextType] = useState<number>(randomType);
@@ -159,19 +169,19 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
   const [paused, setPaused] = useState(false);
   const [highscore, setHighscore] = useState(0);
   const [newBest, setNewBest] = useState(false);
-  const [board_, setBoard_] = useState<TetrisScoreRow[]>([]);
-  const [boardState, setBoardState] = useState<"idle" | "loading" | "ready">("idle");
+  const [ranking, setRanking] = useState<BlockfallScoreRow[]>([]);
+  const [rankingState, setRankingState] = useState<"idle" | "loading" | "ready">("idle");
   const submittedRef = useRef(false);
 
   useEffect(() => {
     setHighscore(readLocalHighscore());
   }, []);
 
-  const loadBoard = useCallback(async () => {
-    setBoardState("loading");
+  const loadRanking = useCallback(async () => {
+    setRankingState("loading");
     const rows = await fetchLeaderboard(10);
-    setBoard_(rows);
-    setBoardState("ready");
+    setRanking(rows);
+    setRankingState("ready");
   }, []);
 
   // Beim Spielende: Bestwert sichern, Ergebnis eintragen, Liste laden.
@@ -182,9 +192,9 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
     setHighscore((h) => Math.max(h, score));
     void (async () => {
       if (score > 0) await submitScore({ score, lines, level });
-      await loadBoard();
+      await loadRanking();
     })();
-  }, [over, score, lines, level, loadBoard]);
+  }, [over, score, lines, level, loadRanking]);
 
   const boardRef = useRef(board);
   const pieceRef = useRef(piece);
@@ -320,12 +330,12 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
         }
       }
     }
-    return grid.map((row) => `<!${row.map((c) => (c ? "[]" : " .")).join("")}!>`);
+    return grid.map((row) => `<!${row.map((c) => (c ? "##" : " ·")).join("")}!>`);
   }, [board, piece, over]);
 
   const nextRows = useMemo(() => {
     const shape = SHAPES[nextType][0];
-    return shape.map((row) => row.map((c) => (c ? "[]" : "  ")).join(""));
+    return shape.map((row) => row.map((c) => (c ? "##" : "  ")).join(""));
   }, [nextType]);
 
   const textClass =
@@ -337,14 +347,15 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
   return (
     <div className={`min-h-0 flex-1 overflow-y-auto bg-black px-4 py-3 font-mono-crt ${textClass}`}>
       <div className="flex flex-wrap gap-6">
-        <pre className="text-[13px] leading-tight sm:text-[15px]">
+        <pre className="text-[11px] leading-tight sm:text-[13px]">
           {[...rendered, `<!${"=".repeat(COLS * 2)}!>`].join("\n")}
         </pre>
         <div className="text-[13px] leading-relaxed sm:text-sm">
-          <div>SCORE  {String(score).padStart(6, "0")}</div>
+          <div>BLOCKFALL</div>
+          <div className="mt-2">SCORE  {String(score).padStart(6, "0")}</div>
           <div>BEST   {String(Math.max(highscore, score)).padStart(6, "0")}</div>
-          <div>LINES  {String(lines).padStart(4, "0")}</div>
-          <div>LEVEL  {String(level).padStart(2, "0")} / 99</div>
+          <div>REIHEN {String(lines).padStart(4, "0")}</div>
+          <div>STUFE  {String(level).padStart(2, "0")} / 99</div>
           <div className="opacity-70">TAKT   {dropInterval(level)} ms</div>
           <div className="mt-3">NÄCHSTER:</div>
           <pre className="text-[13px] leading-tight">{nextRows.join("\n")}</pre>
@@ -359,22 +370,22 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
       {paused && !over && <div className="mt-3">— PAUSE — [P]</div>}
       {over && (
         <div className="mt-3">
-          <div>— SPIEL ENDE — Level {level}, {lines} Reihen, {score} Punkte.</div>
+          <div>— SPIEL ENDE — Stufe {level}, {lines} Reihen, {score} Punkte.</div>
           {newBest && <div>NEUER PERSÖNLICHER BESTWERT.</div>}
           <div className="mt-3">
             <div>— BESTENLISTE (SEKTORWEIT) —</div>
-            {boardState !== "ready" && <div className="opacity-70">wird abgerufen …</div>}
-            {boardState === "ready" && board_.length === 0 && (
+            {rankingState !== "ready" && <div className="opacity-70">wird abgerufen …</div>}
+            {rankingState === "ready" && ranking.length === 0 && (
               <div className="opacity-70">(noch keine Einträge)</div>
             )}
-            {boardState === "ready" && board_.length > 0 && (
+            {rankingState === "ready" && ranking.length > 0 && (
               <pre className="text-[13px] leading-tight">
-                {board_
+                {ranking
                   .map(
                     (r, i) =>
                       `${String(i + 1).padStart(2, " ")}. ${r.display_name
                         .slice(0, 22)
-                        .padEnd(22, " ")} ${String(r.score).padStart(6, "0")}  L${String(
+                        .padEnd(22, " ")} ${String(r.score).padStart(6, "0")}  S${String(
                         r.level,
                       ).padStart(2, "0")}`,
                   )
