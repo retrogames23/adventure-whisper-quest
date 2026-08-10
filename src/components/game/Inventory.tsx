@@ -33,10 +33,8 @@ export function Inventory() {
   // und Desktop-Klick).
   const examineItem = (item: InventoryItem) => {
     if (item.id === "e67Handbook") {
-      api.setFlag("readHandbook");
       openHandbook();
     } else if (item.id === "residentId") {
-      api.setFlag("examinedResidentId");
       openIdCard();
     } else if (item.id === "paragraphenNotizbuch") {
       api.openParagraphenNotizbuch();

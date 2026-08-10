@@ -396,7 +396,6 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         label: "Tür 1534 (rot beleuchtet)",
         kind: "exit",
         onUse: (api) => {
-          api.setFlag("foundRoom1534");
           api.goTo("room1534");
         },
       },

@@ -225,7 +225,6 @@ export const e71NerdsDialogs: Record<string, DialogTree> = {
     id: "e71Quiz",
     start: "q_intro",
     onStart: (api) => {
-      api.setFlag("e71QuizStarted");
       // Transient: vorherige Quiz-Antworten zurücksetzen, damit ein
       // neuer Versuch sauber startet.
       api.clearFlag("e71QuizQ1Right");

@@ -464,7 +464,6 @@ export const bodoDialogs: Record<string, DialogTree> = {
     start: "bx1",
     onEnd: (api) => {
       api.setFlag("bodoBackAfterB3");
-      api.setFlag("bodoNoticedIntrusion");
     },
     lines: {
       bx1: {
@@ -527,7 +526,6 @@ export const bodoDialogs: Record<string, DialogTree> = {
     start: "bm1",
     onEnd: (api) => {
       api.setFlag("bodoBackAfterB3");
-      api.setFlag("bodoNoticedIntrusion");
     },
     lines: {
       bm1: {
@@ -683,7 +681,6 @@ export const bodoDialogs: Record<string, DialogTree> = {
     onEnd: (api) => {
       api.setFlag("bodoBackAfterB3Twice");
       api.setFlag("elevatorMaintCleared");
-      api.setFlag("bodoSelfCanceledMaint");
     },
     lines: {
       bs1: {
@@ -1006,8 +1003,6 @@ export const bodoDialogs: Record<string, DialogTree> = {
           {
             text: "[ Notiert: 4601, Korridor 46 ]",
             action: (api) => {
-              api.setFlag("knowsMiraIsWartung");
-              api.setFlag("askedBodoPhone");
             },
           },
         ],

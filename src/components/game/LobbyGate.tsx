@@ -112,7 +112,6 @@ export function LobbyGate() {
 
   function escalate() {
     setEscalated(true);
-    api.setFlag("insaLobbyEscalated");
     api.setFlag("lobbyClearedDay");
     resetLobbyGateAttempts();
     // Dialog-Trigger: kurz Pause, dann Insa am Apparat.

@@ -327,7 +327,6 @@ export function NodeTerminal() {
           // reicht in dem Fall noch bis zur Wohnungstür durch.
           const needsPhilippeRecovery = !flags.has("doorbellRang");
           api.setFlag("burnedNode5610");
-          api.setFlag("crossLinkSevered");
           api.playBurnSequence();
           if (needsPhilippeRecovery) {
             api.setFlag("doorbellRang");

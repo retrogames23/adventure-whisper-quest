@@ -907,7 +907,6 @@ export function Terminal() {
         setTelnetAwaitPass(null);
         // Easter-Egg: Philippe-Login als Flag merken (für späteren Story-Hook).
         if (host.host === "philippe.e67") {
-          api.setFlag("hackedPhilippe");
         }
       } else {
         playBeep(0.3 * sfxVolume);
@@ -1781,7 +1780,6 @@ export function Terminal() {
             setTelnetHost(host.host);
           }
           if (host.host === "philippe.e67") {
-            api.setFlag("hackedPhilippe");
           }
           if (host.host === "leitstelle.e67" && flags.has("calledForCode")) {
             api.setFlag("readTagescodeViaMira");

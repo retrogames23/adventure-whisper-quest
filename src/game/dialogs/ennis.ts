@@ -251,7 +251,6 @@ export const ennisDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Verstanden ]",
-            action: (api) => api.setFlag("askedEnnisPhone"),
           },
         ],
       },

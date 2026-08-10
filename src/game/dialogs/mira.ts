@@ -374,7 +374,6 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Beenden ]",
-            action: (api) => api.setFlag("miraDeferred"),
           },
         ],
       },
@@ -386,7 +385,6 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Beenden ]",
-            action: (api) => api.setFlag("miraDeferred"),
           },
         ],
       },
@@ -564,7 +562,6 @@ export const miraDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Beenden ]",
-            action: (api) => api.setFlag("miraDeferred"),
           },
         ],
       },
@@ -814,7 +811,6 @@ export const miraDialogs: Record<string, DialogTree> = {
           {
             text: "[ Mira mitnehmen ]",
             action: (api) => {
-              api.setFlag("knowsMiraIsWartung");
               api.startCutscene("miraRepair");
             },
           },
@@ -829,7 +825,6 @@ export const miraDialogs: Record<string, DialogTree> = {
           {
             text: "[ Mira mitnehmen ]",
             action: (api) => {
-              api.setFlag("knowsMiraIsWartung");
               api.startCutscene("miraRepair");
             },
           },

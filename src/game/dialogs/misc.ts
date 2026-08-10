@@ -58,7 +58,6 @@ export const miscDialogs: Record<string, DialogTree> = {
           {
             text: "Die kürzeste Geschichte der Menschheit",
             action: (api) => {
-              api.setFlag("openedHistoryBook");
               api.openHistoryBook();
             },
           },

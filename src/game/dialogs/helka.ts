@@ -308,8 +308,6 @@ export const helkaDialogs: Record<string, DialogTree> = {
           {
             text: "[ Notiert: 4601, Korridor 46 ]",
             action: (api) => {
-              api.setFlag("knowsMiraIsWartung");
-              api.setFlag("askedHelkaPhone");
             },
           },
         ],

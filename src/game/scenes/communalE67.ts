@@ -67,7 +67,6 @@ export const communalE67Scenes: Record<string, Scene> = {
         label: (() => "Freier Stuhl am Tisch")(),
         kind: "use",
         onUse: (api) => {
-          api.setFlag("enteredCommonRoom");
           api.setFlag("metRpgGroup");
           if (!api.getDsaCharacter()) {
             api.openDsaCreator();

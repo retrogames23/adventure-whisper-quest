@@ -127,11 +127,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           if (!api.hasFlag("phoneRepaired")) {
             const first = !api.hasFlag("phoneBroken");
             api.setFlag("phoneBroken");
-            api.setFlag("reportedPhoneFault");
             // Der Aufkleber ist der Wegweiser: Er nennt Dienstweg,
             // Zuständigkeit UND Tür. Damit weiß der Spieler, dass Mira
             // (4601) ran muss — auch ohne vorheriges Gespräch.
-            api.setFlag("knowsMiraIsWartung");
             api.showText(
               first
                 ? [
@@ -157,7 +155,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             !api.hasFlag("calledInsaAfterE71")
           ) {
             api.setFlag("calledInsaAfterE71");
-            api.setFlag("insaInvitedToDispatch");
             api.startDialog("insaAct2Return");
           } else if (!api.hasFlag("calledInsa2")) {
             api.setFlag("calledInsa2");
@@ -306,7 +303,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("calledLeitstelle") &&
             tryPhoneRefusal(
               api,
-              "askedPhilippePhone",
               "philippePhoneRefusal",
               "philippePhoneRefusalShort",
             )
@@ -337,7 +333,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           if (
             tryPhoneRefusal(
               api,
-              "askedPhilippePhone",
               "philippePhoneRefusal",
               "philippePhoneRefusalShort",
             )
@@ -580,7 +575,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("metBodo") &&
             tryPhoneRefusal(
               api,
-              "askedBodoPhone",
               "bodoPhoneRefusal",
               "bodoPhoneRefusalShort",
             )
@@ -928,7 +922,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("metHelka") &&
             tryPhoneRefusal(
               api,
-              "askedHelkaPhone",
               "helkaPhoneRefusal",
               "helkaPhoneRefusalShort",
             )
@@ -983,7 +976,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("metEnnis") &&
             tryPhoneRefusal(
               api,
-              "askedEnnisPhone",
               "ennisPhoneRefusal",
               "ennisPhoneRefusalShort",
             )
