@@ -215,7 +215,6 @@ export const insaDialogs: Record<string, DialogTree> = {
             text: "Verstanden. Auf Wiederhören.",
             action: (api) => {
               api.setFlag("insaSentToKowalkForCode");
-              api.setFlag("skippedExitReport");
             },
           },
           {
@@ -223,7 +222,6 @@ export const insaDialogs: Record<string, DialogTree> = {
             next: "idNet1",
             action: (api) => {
               api.setFlag("insaSentToKowalkForCode");
-              api.setFlag("skippedExitReport");
             },
           },
         ],
@@ -287,9 +285,6 @@ export const insaDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "Verstanden. Auf Wiederhören.",
-            action: (api) => {
-              api.setFlag("insaGaveTransferTask");
-            },
           },
         ],
       },
@@ -655,9 +650,6 @@ export const insaDialogs: Record<string, DialogTree> = {
   insaWaitingForTransfer: {
     id: "insaWaitingForTransfer",
     start: "iw1",
-    onEnd: (api) => {
-      api.setFlag("insaGaveTransferTask");
-    },
     lines: {
       iw1: {
         id: "iw1",

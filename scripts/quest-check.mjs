@@ -65,14 +65,15 @@ const typesSrc = readFileSync(ROOT + "src/game/types.ts", "utf8");
 
 // ── 1. StoryFlag-Wahrheitsmenge aus types.ts extrahieren ─────────
 function extractUnion(src, typeName) {
+  // Kommentare zuerst entfernen — sonst kann ein ";" in einem Kommentar
+  // die Union vorzeitig abschneiden.
+  const stripped = src
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/[^\n]*/g, "");
   const re = new RegExp(`export type ${typeName}\\s*=\\s*([\\s\\S]*?);`);
-  const m = src.match(re);
+  const m = stripped.match(re);
   if (!m) throw new Error(`Union ${typeName} nicht gefunden`);
-  const block = m[1];
-  // Kommentare entfernen
-  const clean = block
-    .replace(/\/\/[^\n]*/g, "")
-    .replace(/\/\*[\s\S]*?\*\//g, "");
+  const clean = m[1];
   const literals = [...clean.matchAll(/"([^"]+)"/g)].map((x) => x[1]);
   return new Set(literals);
 }
@@ -144,6 +145,40 @@ for (const [file, src] of Object.entries(files)) {
       });
     }
   }
+  // requires: "X" (String-Form, z. B. Dateisystem-Einträge)
+  for (const m of src.matchAll(/\brequires\s*:\s*"([^"]+)"/g)) {
+    if (!STORY_FLAGS.has(m[1])) continue;
+    note(flagReaders, m[1], {
+      file,
+      line: lineOf(src, m.index),
+      kind: "requires",
+    });
+  }
+  // LLM-Personas & Overlays: requireFlags/contextFlags/hideWhenFlags: ["X"]
+  for (const m of src.matchAll(
+    /\b(requireFlags|contextFlags|hideWhenFlags|forbidFlags)\s*:\s*\[([^\]]*)\]/g,
+  )) {
+    for (const x of m[2].matchAll(/"([^"]+)"/g)) {
+      if (!STORY_FLAGS.has(x[1])) continue;
+      note(flagReaders, x[1], {
+        file,
+        line: lineOf(src, m.index),
+        kind: m[1],
+      });
+    }
+  }
+  // Dynamische Setter über Objekt-Literale: flag: "X" (z. B. Automat-Reihen)
+  for (const m of src.matchAll(/\bflag\s*:\s*"([^"]+)"/g)) {
+    if (!STORY_FLAGS.has(m[1])) continue;
+    note(flagWriters, m[1], { file, line: lineOf(src, m.index) });
+  }
+  // Item-Literale ohne addItem(): { id: "X", name: "...", description: ... }
+  for (const m of src.matchAll(
+    /\bid\s*:\s*"([^"]+)"\s*,\s*\n?\s*name\s*:/g,
+  )) {
+    if (!ITEM_IDS.has(m[1])) continue;
+    note(itemWriters, m[1], { file, line: lineOf(src, m.index) });
+  }
   // addItem({ id: "X", ... })
   for (const m of src.matchAll(/\baddItem\(\s*\{[^}]*\bid\s*:\s*"([^"]+)"/g)) {
     note(itemWriters, m[1], { file, line: lineOf(src, m.index) });
@@ -209,10 +244,26 @@ for (const item of [...itemWriters.keys(), ...itemReaders.keys()]) {
 // ohne Pendant existieren — sie sind in scenes.ts/dialogs.ts setbar via
 // Mechaniken oder Cutscene-Hooks und brauchen keinen statischen Reader.
 const FLAG_NO_READER_OK = new Set([
+  // Dynamisch gelesen (Variable statt Literal) — vom statischen Scan
+  // nicht erfassbar.
+  "askedBodoPhone",
+  "askedPhilippePhone",
+  "askedEnnisPhone",
+  "askedHelkaPhone",
+  "tookMedMaskFromAutomat",
+  "dsaAdventureScene2Done",
+  "duelTrainingWon1",
+  "duelTrainingWon2",
+  "duelTrainingWon3",
   // ending wird via setEnding() konsumiert, nicht via hasFlag
   "ending",
 ]);
-const FLAG_NO_WRITER_OK = new Set([]);
+const FLAG_NO_WRITER_OK = new Set([
+  "askedBodoPhone",
+  "askedPhilippePhone",
+  "askedEnnisPhone",
+  "askedHelkaPhone",
+]);
 
 // ── 4. Tote Flags / Items ─────────────────────────────────────────
 for (const flag of STORY_FLAGS) {

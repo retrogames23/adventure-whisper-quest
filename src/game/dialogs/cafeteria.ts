@@ -83,6 +83,13 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             next: "kSmall1",
           },
           {
+            // Hinweisgeber für die beiden Phrasen-Lehrer (Bodo, Helka).
+            text: "Brust wimmelt mich mit Phrasen ab. Hat den je jemand stehen lassen?",
+            next: "kPhrase1",
+            requires: ["knowsVossbeckPath"],
+            hiddenWhen: ["kowalkHintedBodoHelka"],
+          },
+          {
             text: "Sie streiten ständig über die Hygieneordnung.",
             next: "kHyg1",
           },
@@ -117,6 +124,20 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
         text: "Tagescode. Hat sie wieder die alte Leier vom »wir geben keine Codes raus« gefahren? Korrekt. Vossbeck nebenan in 3603 macht das jetzt. — Aber gehen Sie da nicht einfach rein.",
         subtext: "Sie wischt den Tresen einmal trocken, obwohl der Tresen trocken ist.",
         next: "kCode2",
+      },
+      // ── Hinweis: Bodo und Helka kennen die Gegensätze ───────────
+      kPhrase1: {
+        id: "kPhrase1",
+        speaker: "KOWALK",
+        text: "Zwei. Bodo aus 2612 — wegen einer Wassermarke. Und die Helka, Sortierung. Beide haben Brust mit einem einzigen Satz stehen lassen. Fragen Sie die, nicht mich. Ich schenke hier nur aus.",
+        subtext:
+          "Sie sagt die beiden Namen so beiläufig, dass es fast wie ein Auftrag klingt.",
+        choices: [
+          {
+            text: "[ Bodo und Helka. Notiert. ]",
+            action: (api) => api.setFlag("kowalkHintedBodoHelka"),
+          },
+        ],
       },
       kCode2: {
         id: "kCode2",
@@ -290,8 +311,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             text: "Verstanden. Ich rede mit Vossbeck.",
             action: (api) => {
               api.setFlag("gotTillaTransferInfo");
-              api.setFlag("learnedStammPhilippeLink");
-              api.setFlag("needsStammAuthForTilla");
               api.setFlag("knowsVossbeckPath");
             },
             next: "k0",
@@ -539,7 +558,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           {
             text: "[ Dose annehmen ]",
             action: (api) => {
-              api.setFlag("kowalkSidedWithLayard");
               api.setFlag("gotB3Ration");
               api.addItem({
                 id: "b3Ration",
@@ -592,7 +610,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           {
             text: "[ Dose annehmen ]",
             action: (api) => {
-              api.setFlag("brustOutruled");
               api.setFlag("gotB3Ration");
               api.addItem({
                 id: "b3Ration",
@@ -641,7 +658,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             // Kowalk hat Layard hergeschickt — Brust kennt den Pfad.
             text: "Frau Kowalk hat mich geschickt. Trainingsfall.",
             action: (api) => {
-              api.setFlag("duelOffered");
               api.setFlag("duelStarted");
             },
             nextDialog: () => pickTrainingFallId(),
@@ -659,7 +675,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             // Bleibt verfügbar, bis Layard das Endduell gewonnen hat.
             text: "Ich würde mit Ihnen einen Trainingsfall durchgehen.",
             action: (api) => {
-              api.setFlag("duelOffered");
               api.setFlag("duelStarted");
             },
             nextDialog: () => pickTrainingFallId(),
@@ -712,7 +727,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
             text: "Gut. Fangen wir an.",
             action: (api) => {
               api.setFlag("knowsVossbeckPath");
-              api.setFlag("duelOffered");
               api.setFlag("duelStarted");
             },
             nextDialog: () => pickTrainingFallId(),

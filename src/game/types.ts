@@ -91,6 +91,15 @@ export type CutsceneId =
   | "miraRepair";
 
 export type StoryFlag =
+  | "askedBodoPhone"
+  | "askedPhilippePhone"
+  | "askedEnnisPhone"
+  | "askedHelkaPhone"
+  | "tookMedMaskFromAutomat"
+  | "dsaAdventureScene2Done"
+  | "duelTrainingWon1"
+  | "duelTrainingWon2"
+  | "duelTrainingWon3"
   | "radioTunedTo1046"
   /** Der Lehrfilm im Lichtspielsaal 5 wurde bereits einmal automatisch abgespielt. */
   | "cinemaFilmSeen"
@@ -98,7 +107,6 @@ export type StoryFlag =
   | "tookPainRadio"
   | "doorbellRang"
   | "openedAlmanach"
-  | "openedHistoryBook"
   | "tookKantinenverordnung"
   | "metPhilippe"
   | "metPhilippeBefore"
@@ -116,7 +124,6 @@ export type StoryFlag =
   | "protocolReceived"
   | "calledInsa2"
   | "reportedExit"
-  | "skippedExitReport"
   | "calledStegmann"
   | "calledForCode"
   | "centralOsUpdated"
@@ -125,14 +132,11 @@ export type StoryFlag =
   | "sectorDoorOpen"
   | "feetWontMove"
   | "sectorThresholdSeen"
-  | "elevatorTaken"
   | "enteredE71"
   | "metReceptionist"
-  | "foundRoom1534"
   | "metMikael"
   | "heardMikaelTruth"
   | "mikaelRejectedProtocol"
-  | "insaInvitedToDispatch"
   | "calledInsaAfterE71"
   | "ending"
   | "sawEmptyOffice"
@@ -141,9 +145,7 @@ export type StoryFlag =
   | "miraOpenness"
   | "miraSystemic"
   | "miraOfferedFlyer"
-  | "miraDeferred"
   | "tookFlyer"
-  | "hackedPhilippe"
   | "talkedPhilippeAfter"
   | "philippeNote1"
   | "philippeNote2"
@@ -175,13 +177,11 @@ export type StoryFlag =
   // Bodo verlässt für 15 Min die Wohnung, damit Layard ans Terminal kommt
   | "bodoLeftForB3"
   | "bodoBackAfterB3"
-  | "bodoNoticedIntrusion"
   // Zweiter Anlauf: Bodo geht ein weiteres Mal los (Lotti-Wasser-Argument).
   | "bodoLeftForB3Twice"
   | "bodoBackAfterB3Twice"
   // Dritter Anlauf existiert nicht: stattdessen storniert Bodo die Sperre
   // selbst, sobald er bemerkt, dass Layard nichts unternommen hat.
-  | "bodoSelfCanceledMaint"
   // Ennis Korr (2614) — Türgespräch
   | "metEnnis"
   | "talkedEnnis2"
@@ -202,7 +202,6 @@ export type StoryFlag =
   | "tappedNode5610"
   | "burnedNode5610"
   // Folgen aus burn. Beendet das Spiel NICHT — wirkt nur narrativ.
-  | "crossLinkSevered"
   // Nach dem Burn-Anruf bei Insa: Layard hat die Tat als bewusste
   // Entscheidung benannt („… weil es uns kaputtgemacht hat.")
   | "burnedAndOwned"
@@ -219,14 +218,8 @@ export type StoryFlag =
   | "okwuLayer3"
   | "okwuLayer4"
   // ── DSA-Runde im Gemeinschaftsraum (Erdgeschoss-Lobby) ──
-  | "enteredCommonRoom"
   | "metRpgGroup"
   | "dsaCharacterRolled"
-  | "dsaCharacterRerolled"
-  | "dsaSeatedAtTable"
-  | "dsaAdventureScene1Done"
-  | "dsaAdventureScene2Done"
-  | "dsaAdventureScene3Done"
   | "dsaCampaignFinished"
   | "tjarkSmalltalkDone"
   | "askedTjarkAboutDsa"
@@ -234,30 +227,21 @@ export type StoryFlag =
   | "askedTjarkAboutRules"
   | "askedTjarkAboutPlan"
   // E67-Handbuch & Bewohner-Ausweis (Akt I, Start-Items)
-  | "readHandbook"
-  | "examinedResidentId"
   // Lobby-Schleuse (Tagesmodus): Bewohner-Ausweis + 4-stelliger Code
   | "lobbyClearedDay"
-  | "insaLobbyEscalated"
   // Kantine 3602 + Vollmachts-Rätsel (Akt I, Erweiterung)
   | "philippeAskedFavor"
   | "gotB3Authorization"
   | "metKowalk"
   | "metBrust"
   | "kowalkToldHerDaughter"
-  | "brustOutruled"
-  | "kowalkSidedWithLayard"
   | "gotB3Ration"
   | "gaveB3ToPhilippe"
   | "gotParamedicsReport"
   | "refusedB3Favor"
   // Bürokratie-Duell (Akt I, Brust-Tresen) — alternativer dritter Lösungsweg
-  | "duelOffered"
   | "duelStarted"
   // Bürokratie-Duell — Mehrstufiges Lernsystem (Vossbeck-Endgegner)
-  | "duelTrainingWon1"
-  | "duelTrainingWon2"
-  | "duelTrainingWon3"
   // Transientes Ergebnis-Flag des zuletzt abgeschlossenen Trainingsfalls.
   // Wird beim Start eines Falls gelöscht und bei einem Sieg gesetzt —
   // ausschließlich für die Verzweigung im Ergebnis-Dialog.
@@ -286,7 +270,6 @@ export type StoryFlag =
   /** Layard war bei Vossbeck, bevor er wusste, was er von ihm will — Kowalk-Callback. */
   | "triedVossbeckEarly"
   // Pflicht-Verzahnung Akt I: Tilla-Quittung 4317-K hängt am Stamm 4317.
-  | "needsStammAuthForTilla"
   // Endduell-Versuche bei Vossbeck (drei zugelassen).
   | "vossbeckAttempt1Lost"
   | "vossbeckAttempt2Lost"
@@ -309,15 +292,9 @@ export type StoryFlag =
   | "miraAtHomeMet"
   | "miraEncounterAtHome"
   // Akt-I-Pflichträtsel „Kaputtes Telefon" (Mira / Etagenwartung)
-  | "knowsMiraIsWartung"
   | "phoneBroken"
-  | "reportedPhoneFault"
   | "miraRepairDone"
   | "phoneRepaired"
-  | "askedBodoPhone"
-  | "askedPhilippePhone"
-  | "askedEnnisPhone"
-  | "askedHelkaPhone"
   // Akt-I-Pflichträtsel „Prüfsperre 2611" (Miras Terminal wird Pflicht)
   /** Datenport 2611 ist nach der Telefonreparatur gesperrt — kein Postfach. */
   | "port2611Locked"
@@ -369,11 +346,9 @@ export type StoryFlag =
   // bevor er zum B3-Holen aufbricht.
   | "bodoGaveWartungskarte"
   // Insa hat den Tilla-Transferauftrag erteilt (Quittung 4317-K).
-  | "insaGaveTransferTask"
   // Kowalk hat Layard erklärt, was 4317-K bedeutet — und nebenbei
   // den Aktenzusammenhang zu Philippe (Stamm 4317) offenbart.
   | "gotTillaTransferInfo"
-  | "learnedStammPhilippeLink"
   // ── Schmerz-Radio-Erweiterung (Akt I) ──────────────────────────────
   // Hidden Frequency 102,7 — Wartungs-Funkgerät im Serverraum 5610
   | "sawWartungsFunk5610"
@@ -414,7 +389,6 @@ export type StoryFlag =
   /** Layard trägt die OP-Maske aus dem Kondomautomat. */
   | "wearingMedMask"
   /** Der Kondomautomat hat bereits eine Maske ausgegeben. */
-  | "tookMedMaskFromAutomat"
   /** Der Kondomautomat hat bereits ein Kondom ausgegeben. */
   | "tookCondomFromAutomat"
   /** Der Kondomautomat hat bereits eine Schachtel Pfefferminzkaugummi ausgegeben. */
@@ -437,7 +411,6 @@ export type StoryFlag =
   /** Hat mit dem dritten Nerd (Ruven) gesprochen. */
   | "metE71Nerd3"
   /** Layard hat das Quiz angefangen (mind. einmal). */
-  | "e71QuizStarted"
   /** Layard hat das Quiz bestanden — der Amiga ist freigegeben. */
   | "e71QuizPassed"
   /** Transient: jeweilige Quiz-Antwort war richtig (wird pro Versuch zurückgesetzt). */

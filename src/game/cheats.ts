@@ -14,8 +14,6 @@ import type { GameApi, StoryFlag } from "./types";
  */
 const VOSSBECK_WEAK_FLAGS: StoryFlag[] = [
   // Auftakt: Protokoll-Kette 2613 / 2615
-  "readHandbook",
-  "examinedResidentId",
   "doorbellRang",
   "metPhilippe",
   "metPhilippeBefore",
@@ -31,7 +29,6 @@ const VOSSBECK_WEAK_FLAGS: StoryFlag[] = [
   "elevatorMaintBlocked",
   "elevatorMaintSeen",
   "elevatorMaintCleared",
-  "elevatorTaken",
   // Leeres Büro, Insa, Lobby-Schleuse
   "sawEmptyOffice",
   "rangEmptyOfficeBell",
@@ -44,7 +41,6 @@ const VOSSBECK_WEAK_FLAGS: StoryFlag[] = [
   // ein Telefon an, über das im Spiel noch nie die Rede war.
   "metMira",
   "miraAtHomeMet",
-  "knowsMiraIsWartung",
   // Knoten 5610
   "saw5610Door",
   "serverRoom5610Open",
@@ -54,11 +50,7 @@ const VOSSBECK_WEAK_FLAGS: StoryFlag[] = [
   "metBrust",
   "knowsVossbeckPath",
   // Bürokratie-Duell: Training + Formblatt 17/V
-  "duelOffered",
   "duelStarted",
-  "duelTrainingWon1",
-  "duelTrainingWon2",
-  "duelTrainingWon3",
   "vossbeckSummoned",
   "gotFormblatt17V",
   // Endduell gegen Vossbeck gewonnen → Sektor-Code liegt im Terminal
@@ -92,7 +84,6 @@ const ENDE_AKT1_FLAGS: StoryFlag[] = [
   // Gebäude E71: Empfang, Korridor, Zimmer 1534
   "enteredE71",
   "metReceptionist",
-  "foundRoom1534",
   "metMikael",
   "heardMikaelTruth",
   "mikaelRejectedProtocol",
@@ -112,8 +103,6 @@ export function applyEndeAkt1Cheat(api: GameApi): void {
  * steht in seiner Wohnung und muss zu Mira (Korridor 46, Tür 4601).
  */
 const PHONE_BROKEN_FLAGS: StoryFlag[] = [
-  "readHandbook",
-  "examinedResidentId",
   "doorbellRang",
   "metPhilippe",
   "metPhilippeBefore",
@@ -128,7 +117,6 @@ const PHONE_BROKEN_FLAGS: StoryFlag[] = [
   "elevatorMaintBlocked",
   "elevatorMaintSeen",
   "elevatorMaintCleared",
-  "elevatorTaken",
   "sawEmptyOffice",
   "rangEmptyOfficeBell",
   // Der Apparat ist tot — Meldung an die Wartung steht noch aus.

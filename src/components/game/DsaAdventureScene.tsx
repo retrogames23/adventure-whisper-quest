@@ -195,10 +195,8 @@ export function DsaAdventureScene() {
       return;
     }
     if (target === "scene2") {
-      api.setFlag("dsaAdventureScene1Done");
       api.setDsaBeat("s2b1");
     } else if (target === "scene3") {
-      api.setFlag("dsaAdventureScene2Done");
       api.setDsaBeat("s3b1");
     } else {
       // Camp-Beat erreicht? Markiere Akt 2 als beendet.
@@ -229,7 +227,6 @@ export function DsaAdventureScene() {
 
   function handleOutroLeaveTable() {
     // Reguläres Ende: Flags setzen, Beat zurücksetzen, schließen.
-    api.setFlag("dsaAdventureScene3Done");
     api.setFlag("dsaCampaignFinished");
     api.setDsaBeat(null);
     closeDsaAdventure();

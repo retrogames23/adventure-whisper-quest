@@ -286,7 +286,6 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         label: "Eingang E71 →",
         kind: "exit",
         onUse: (api) => {
-          api.setFlag("elevatorTaken");
           api.setFlag("enteredE71");
           api.goTo("e71Lobby");
         },
