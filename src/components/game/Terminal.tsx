@@ -48,6 +48,7 @@ import {
 } from "@/game/newsProgram";
 import { CloseButton } from "./CloseButton";
 import { TerminalScreen } from "./TerminalScreen";
+import { TetrisOverlay } from "./TetrisOverlay";
 import {
   applyOsVersion,
   buildTree,
@@ -77,6 +78,9 @@ const COMMANDS = [
   "./lotti",
   "news",
   "./news",
+  "tetris",
+  "./tetris.bin",
+  "tetris.bin",
   "auskunft",
   "./auskunft.bin",
   "auskunft.bin",
@@ -301,6 +305,8 @@ export function Terminal() {
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const [lottiState, setLottiState] = useState<LottiState | null>(null);
   const [newsState, setNewsState] = useState<NewsState | null>(null);
+  // ./tetris.bin — ASCII-Tetris, läuft als Vollbild-Sub-Modus im Terminal.
+  const [tetrisOn, setTetrisOn] = useState(false);
   // auskunft.bin — amtliches Auskunftssystem. Läuft als Sub-Modus:
   // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
   const [auskunftOn, setAuskunftOn] = useState(false);
@@ -1046,6 +1052,18 @@ export function Terminal() {
             text: `  trouble net   — Netzwerkproblem an Leitstelle E67 melden  ${flags.has("troubleReported") ? "" : flags.has("centralOsUpdated") ? "✶ERFORDERLICH" : ""}`.trimEnd(),
             kind: "out",
           },
+        );
+      }
+    } else if (cmd === "tetris" || cmd === "./tetris.bin" || cmd === "tetris.bin") {
+      if (bodoMode || miraMode) {
+        newLines.push(
+          { text: "bash: tetris: Befehl nicht gefunden.", kind: "out" },
+          { text: "(»tetris.bin« liegt im /home/layard — andere Maschine.)", kind: "out" },
+        );
+      } else {
+        setTetrisOn(true);
+        newLines.push(
+          { text: "tetris.bin — 99 Stufen. Viel Erfolg.", kind: "system" },
         );
       }
     } else if (cmd === "adventure" || cmd === "./adventure.bin" || cmd === "adventure.bin") {
@@ -2123,13 +2141,29 @@ export function Terminal() {
           />
         </div>
 
-        <TerminalScreen
-          lines={lines}
-          miraMode={miraMode}
-          bodoMode={bodoMode}
-          scrollRef={scrollRef}
-        />
+        {tetrisOn ? (
+          <TetrisOverlay
+            tone={miraMode ? "destructive" : bodoMode ? "sepia" : "phosphor"}
+            onExit={() => {
+              setTetrisOn(false);
+              setLines((prev) => [
+                ...prev,
+                { text: "tetris.bin beendet.", kind: "system" },
+                { text: "", kind: "out" },
+              ]);
+              setTimeout(() => inputRef.current?.focus(), 30);
+            }}
+          />
+        ) : (
+          <TerminalScreen
+            lines={lines}
+            miraMode={miraMode}
+            bodoMode={bodoMode}
+            scrollRef={scrollRef}
+          />
+        )}
 
+        {tetrisOn ? null : (
         <form
           onSubmit={handleSubmit}
           className={`flex items-center gap-2 border-t bg-black px-4 py-2 ${
@@ -2295,6 +2329,7 @@ export function Terminal() {
             autoComplete="off"
           />
         </form>
+        )}
       </div>
     </div>
   );
