@@ -214,10 +214,10 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) =>
           api.showText([
-            ">> SEKTOR E71 — MEDIZIN",
+            ">> QUADRANT E71 — MEDIZIN",
             ">> Korridor 15  →  Zimmer 1500–1540",
             ">> Korridor 16  →  Pathologie",
-            ">> Frequenzsperre 104,6 in diesem Sektor — bitte respektieren.",
+            ">> Resonanz-Hygiene in diesem Quadranten — bitte respektieren.",
           ]),
       },
       {
@@ -263,7 +263,21 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         h: 28,
         label: "Aufzug",
         kind: "exit",
-        onUse: (api) => api.goTo("elevatorE71"),
+        onUse: (api) => {
+          // Ohne offizielles Schreiben (Akt II) hält die Empfangsdame Layard
+          // vom Aufzug ab — der ist den Bewohnern von E71 vorbehalten.
+          if (
+            !api.hasItem("rechercheSchreiben") &&
+            !api.hasFlag("act2LetterPickedUp")
+          ) {
+            api.showText([
+              "Die Empfangsdame sieht auf, noch bevor Layard die Hand am Türgriff hat.",
+              "„Das Büro von Herrn Stegmann befindet sich im Gang geradeaus. Der Aufzug ist für Bewohner von E71.“",
+            ]);
+            return;
+          }
+          api.goTo("elevatorE71");
+        },
       },
     ],
   },
