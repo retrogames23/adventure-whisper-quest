@@ -143,7 +143,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                     "Layard kennt die Tür. Dahinter wohnt das Mädchen mit dem Werkzeuggürtel.",
                   ]
                 : [
-                    "Sirren. Sonst nichts. Bleibt der Aufkleber: Etagenwartung, Schicht A, Tür 4601.",
+                    "Sirren. Sonst nichts. ",
                   ],
             );
             return;
@@ -783,7 +783,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             ]);
           } else if (api.hasFlag("knowsLotti")) {
             api.showText([
-              "Bodo schüttelt den Kopf, ohne aufzuschauen. „Solange ich hier sitze, sitzen Sie nicht hier. Ende.“ „Wenn ich mal weg bin, dann vielleicht. Aber dafür müssten Sie mich erst mal weg kriegen.“",
+              "Bodo schüttelt den Kopf, ohne aufzuschauen. „Solange ich hier sitze, sitzen Sie nicht hier. Ende.“ ",
             ]);
           } else {
             api.showText([
