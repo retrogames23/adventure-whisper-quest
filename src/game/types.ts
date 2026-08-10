@@ -307,6 +307,7 @@ export type StoryFlag =
   | "miraTrustEarned"
   | "miraTrustWithheld"
   | "miraAtHomeMet"
+  | "miraEncounterAtHome"
   // Akt-I-Pflichträtsel „Kaputtes Telefon" (Mira / Etagenwartung)
   | "knowsMiraIsWartung"
   | "phoneBroken"
