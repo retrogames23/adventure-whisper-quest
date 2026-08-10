@@ -432,8 +432,7 @@ export const communalE67Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Mit Paketband zugeklebt. Wer hier wohnt, will nicht,",
-            "dass sein Zimmer mithört.",
+            "Die Lüftung surrt leise und wackelt sanft – etwas weniger als es ohne das Paketband würde.",
           ]),
       },
       {
