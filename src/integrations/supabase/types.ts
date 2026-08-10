@@ -772,6 +772,36 @@ export type Database = {
         }
         Relationships: []
       }
+      tetris_scores: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          level: number
+          lines: number
+          score: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          id?: string
+          level: number
+          lines: number
+          score: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          level?: number
+          lines?: number
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       toilet_graffiti: {
         Row: {
           color_index: number

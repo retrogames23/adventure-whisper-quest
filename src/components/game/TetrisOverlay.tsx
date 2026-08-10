@@ -1,4 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  fetchLeaderboard,
+  readLocalHighscore,
+  submitScore,
+  writeLocalHighscore,
+  type TetrisScoreRow,
+} from "@/game/tetrisScores";
 
 /**
  * ASCII-TETRIS für Layards Terminal ("./tetris.bin").
@@ -150,6 +157,34 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
   const [level, setLevel] = useState(1);
   const [over, setOver] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [highscore, setHighscore] = useState(0);
+  const [newBest, setNewBest] = useState(false);
+  const [board_, setBoard_] = useState<TetrisScoreRow[]>([]);
+  const [boardState, setBoardState] = useState<"idle" | "loading" | "ready">("idle");
+  const submittedRef = useRef(false);
+
+  useEffect(() => {
+    setHighscore(readLocalHighscore());
+  }, []);
+
+  const loadBoard = useCallback(async () => {
+    setBoardState("loading");
+    const rows = await fetchLeaderboard(10);
+    setBoard_(rows);
+    setBoardState("ready");
+  }, []);
+
+  // Beim Spielende: Bestwert sichern, Ergebnis eintragen, Liste laden.
+  useEffect(() => {
+    if (!over || submittedRef.current) return;
+    submittedRef.current = true;
+    setNewBest(writeLocalHighscore(score));
+    setHighscore((h) => Math.max(h, score));
+    void (async () => {
+      if (score > 0) await submitScore({ score, lines, level });
+      await loadBoard();
+    })();
+  }, [over, score, lines, level, loadBoard]);
 
   const boardRef = useRef(board);
   const pieceRef = useRef(piece);
@@ -235,6 +270,8 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
     setLevel(1);
     setOver(false);
     setPaused(false);
+    setNewBest(false);
+    submittedRef.current = false;
   }, []);
 
   // Gravitation.
@@ -305,6 +342,7 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
         </pre>
         <div className="text-[13px] leading-relaxed sm:text-sm">
           <div>SCORE  {String(score).padStart(6, "0")}</div>
+          <div>BEST   {String(Math.max(highscore, score)).padStart(6, "0")}</div>
           <div>LINES  {String(lines).padStart(4, "0")}</div>
           <div>LEVEL  {String(level).padStart(2, "0")} / 99</div>
           <div className="opacity-70">TAKT   {dropInterval(level)} ms</div>
@@ -322,6 +360,28 @@ export function TetrisOverlay({ onExit, tone = "phosphor" }: Props) {
       {over && (
         <div className="mt-3">
           <div>— SPIEL ENDE — Level {level}, {lines} Reihen, {score} Punkte.</div>
+          {newBest && <div>NEUER PERSÖNLICHER BESTWERT.</div>}
+          <div className="mt-3">
+            <div>— BESTENLISTE (SEKTORWEIT) —</div>
+            {boardState !== "ready" && <div className="opacity-70">wird abgerufen …</div>}
+            {boardState === "ready" && board_.length === 0 && (
+              <div className="opacity-70">(noch keine Einträge)</div>
+            )}
+            {boardState === "ready" && board_.length > 0 && (
+              <pre className="text-[13px] leading-tight">
+                {board_
+                  .map(
+                    (r, i) =>
+                      `${String(i + 1).padStart(2, " ")}. ${r.display_name
+                        .slice(0, 22)
+                        .padEnd(22, " ")} ${String(r.score).padStart(6, "0")}  L${String(
+                        r.level,
+                      ).padStart(2, "0")}`,
+                  )
+                  .join("\n")}
+              </pre>
+            )}
+          </div>
           <div className="opacity-70">[R] neues Spiel · [Q] zurück zum Terminal</div>
         </div>
       )}
