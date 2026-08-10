@@ -143,7 +143,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
                     "Layard kennt die Tür. Dahinter wohnt das Mädchen mit dem Werkzeuggürtel.",
                   ]
                 : [
-                    "Sirren. Sonst nichts. ",
+                    "Sirren. Sonst nichts.",
+                    "Am Gehäuse klebt der vergilbte Aufkleber noch immer: „Störungen an Wohnungsapparaten NICHT über die Leitstelle. Zuständig: Etagenwartung des eigenen Korridors.“",
+                    "Darunter, mit Kugelschreiber nachgetragen: „Schicht A, Korridor 46 — Anwärterin, Tür 4601.“",
                   ],
             );
             return;
