@@ -176,6 +176,7 @@ for (const [file, src] of Object.entries(files)) {
   for (const m of src.matchAll(
     /\bid\s*:\s*"([^"]+)"\s*,\s*\n?\s*name\s*:/g,
   )) {
+    if (!ITEM_IDS.has(m[1])) continue;
     note(itemWriters, m[1], { file, line: lineOf(src, m.index) });
   }
   // addItem({ id: "X", ... })
