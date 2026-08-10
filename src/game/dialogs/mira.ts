@@ -144,7 +144,33 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mi1",
         speaker: "SYSTEM",
         text: "[ An der Wand lehnt eine junge Frau. Sechzehn, vielleicht siebzehn. Sie sieht Layard direkt an. ]",
+        hiddenWhen: ["miraEncounterAtHome"],
+        next: "mi1h",
+      },
+      // Gleiche Begegnung, nur in 4601 statt im Korridor.
+      mi1h: {
+        id: "mi1h",
+        speaker: "SYSTEM",
+        text: "[ Die Tür war angelehnt. Im Zimmer sitzt eine junge Frau im Schneidersitz auf dem Bett. Sechzehn, vielleicht siebzehn. Neben ihr ein Stapel sortierter Aushänge. Sie sieht Layard direkt an. ]",
+        requires: ["miraEncounterAtHome"],
+        next: "mi2h",
+      },
+      mi2h: {
+        id: "mi2h",
+        speaker: "MIRA",
+        text: "Du hast nicht geklopft. Das ist die erste Bewährung. — Setz dich, wenn du willst. Oder steh, ist eh klein hier.",
+        subtext: "Sie klappt das Buch auf ihrem Schoß zu, ohne es wegzulegen.",
+        requires: ["miraEncounterAtHome"],
         next: "mi2",
+        choices: [
+          { text: "Was ist das für ein Stapel?", next: "miraOpen1" },
+          {
+            text: "Pass auf, was du sagst. Hier hört jemand zu.",
+            next: "miraClosed1",
+            action: (api) => api.setFlag("miraSystemic"),
+          },
+          { text: "Keine Zeit für sowas." },
+        ],
       },
       mi2: {
         id: "mi2",
