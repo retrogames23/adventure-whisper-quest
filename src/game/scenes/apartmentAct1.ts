@@ -303,6 +303,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("calledLeitstelle") &&
             tryPhoneRefusal(
               api,
+              "askedPhilippePhone",
               "philippePhoneRefusal",
               "philippePhoneRefusalShort",
             )
@@ -333,6 +334,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           if (
             tryPhoneRefusal(
               api,
+              "askedPhilippePhone",
               "philippePhoneRefusal",
               "philippePhoneRefusalShort",
             )
@@ -575,6 +577,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("metBodo") &&
             tryPhoneRefusal(
               api,
+              "askedBodoPhone",
               "bodoPhoneRefusal",
               "bodoPhoneRefusalShort",
             )
@@ -922,6 +925,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("metHelka") &&
             tryPhoneRefusal(
               api,
+              "askedHelkaPhone",
               "helkaPhoneRefusal",
               "helkaPhoneRefusalShort",
             )
@@ -976,6 +980,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.hasFlag("metEnnis") &&
             tryPhoneRefusal(
               api,
+              "askedEnnisPhone",
               "ennisPhoneRefusal",
               "ennisPhoneRefusalShort",
             )

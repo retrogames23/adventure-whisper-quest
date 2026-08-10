@@ -91,6 +91,15 @@ export type CutsceneId =
   | "miraRepair";
 
 export type StoryFlag =
+  | "askedBodoPhone"
+  | "askedPhilippePhone"
+  | "askedEnnisPhone"
+  | "askedHelkaPhone"
+  | "tookMedMaskFromAutomat"
+  | "dsaAdventureScene2Done"
+  | "duelTrainingWon1"
+  | "duelTrainingWon2"
+  | "duelTrainingWon3"
   | "radioTunedTo1046"
   /** Der Lehrfilm im Lichtspielsaal 5 wurde bereits einmal automatisch abgespielt. */
   | "cinemaFilmSeen"
