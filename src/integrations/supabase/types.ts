@@ -35,6 +35,36 @@ export type Database = {
         }
         Relationships: []
       }
+      blockfall_scores: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          level: number
+          lines: number
+          score: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          id?: string
+          level: number
+          lines: number
+          score: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          level?: number
+          lines?: number
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
           amount_cents: number
@@ -769,36 +799,6 @@ export type Database = {
           id?: string
           metadata?: Json | null
           reason?: string
-        }
-        Relationships: []
-      }
-      tetris_scores: {
-        Row: {
-          created_at: string
-          display_name: string
-          id: string
-          level: number
-          lines: number
-          score: number
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          display_name: string
-          id?: string
-          level: number
-          lines: number
-          score: number
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          display_name?: string
-          id?: string
-          level?: number
-          lines?: number
-          score?: number
-          user_id?: string
         }
         Relationships: []
       }
