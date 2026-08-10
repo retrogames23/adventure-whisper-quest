@@ -147,6 +147,7 @@ for (const [file, src] of Object.entries(files)) {
   }
   // requires: "X" (String-Form, z. B. Dateisystem-Einträge)
   for (const m of src.matchAll(/\brequires\s*:\s*"([^"]+)"/g)) {
+    if (!STORY_FLAGS.has(m[1])) continue;
     note(flagReaders, m[1], {
       file,
       line: lineOf(src, m.index),
@@ -158,6 +159,7 @@ for (const [file, src] of Object.entries(files)) {
     /\b(requireFlags|contextFlags|hideWhenFlags|forbidFlags)\s*:\s*\[([^\]]*)\]/g,
   )) {
     for (const x of m[2].matchAll(/"([^"]+)"/g)) {
+      if (!STORY_FLAGS.has(x[1])) continue;
       note(flagReaders, x[1], {
         file,
         line: lineOf(src, m.index),
@@ -167,6 +169,7 @@ for (const [file, src] of Object.entries(files)) {
   }
   // Dynamische Setter über Objekt-Literale: flag: "X" (z. B. Automat-Reihen)
   for (const m of src.matchAll(/\bflag\s*:\s*"([^"]+)"/g)) {
+    if (!STORY_FLAGS.has(m[1])) continue;
     note(flagWriters, m[1], { file, line: lineOf(src, m.index) });
   }
   // Item-Literale ohne addItem(): { id: "X", name: "...", description: ... }
