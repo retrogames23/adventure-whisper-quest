@@ -285,8 +285,6 @@ export const insaDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "Verstanden. Auf Wiederhören.",
-            action: (api) => {
-            },
           },
         ],
       },

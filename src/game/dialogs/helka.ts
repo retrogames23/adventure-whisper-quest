@@ -307,8 +307,6 @@ export const helkaDialogs: Record<string, DialogTree> = {
         choices: [
           {
             text: "[ Notiert: 4601, Korridor 46 ]",
-            action: (api) => {
-            },
           },
         ],
       },
