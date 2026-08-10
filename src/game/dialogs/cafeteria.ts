@@ -139,13 +139,6 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
           },
         ],
       },
-      kCode1Legacy: {
-        id: "kCode1",
-        speaker: "KOWALK",
-        text: "Tagescode. Hat sie wieder die alte Leier vom »wir geben keine Codes raus« gefahren? Korrekt. Vossbeck nebenan in 3603 macht das jetzt. — Aber gehen Sie da nicht einfach rein.",
-        subtext: "Sie wischt den Tresen einmal trocken, obwohl der Tresen trocken ist.",
-        next: "kCode2",
-      },
       kCode2: {
         id: "kCode2",
         speaker: "KOWALK",
