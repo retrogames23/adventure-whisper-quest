@@ -162,7 +162,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mi2h: {
         id: "mi2h",
         speaker: "MIRA",
-        text: "Du hast nicht geklopft. Das ist die erste Bewährung. — Setz dich, wenn du willst. Oder steh, ist eh klein hier.",
+        text: "Du hast nicht geklopft. Das ist die erste Bewährung. — Setz dich, wenn du willst. Oder steh, ist eh eng hier.",
         subtext: "Sie klappt das Buch auf ihrem Schoß zu, ohne es wegzulegen.",
         requires: ["miraEncounterAtHome"],
         next: "mi2",
