@@ -48,7 +48,7 @@ import {
 } from "@/game/newsProgram";
 import { CloseButton } from "./CloseButton";
 import { TerminalScreen } from "./TerminalScreen";
-import { TetrisOverlay } from "./TetrisOverlay";
+import { BlockfallOverlay } from "./BlockfallOverlay";
 import {
   applyOsVersion,
   buildTree,
@@ -78,9 +78,9 @@ const COMMANDS = [
   "./lotti",
   "news",
   "./news",
-  "tetris",
-  "./tetris.bin",
-  "tetris.bin",
+  "blockfall",
+  "./blockfall.bin",
+  "blockfall.bin",
   "auskunft",
   "./auskunft.bin",
   "auskunft.bin",
@@ -267,7 +267,7 @@ function buildHelpLines(bodoMode: boolean, miraMode = false): Line[] {
   } else {
     lines.push(
       { text: "  adventure     — »Ein Tag draußen« (Textadventure)", kind: "out" },
-      { text: "  tetris        — ASCII-TETRIS, 99 Stufen", kind: "out" },
+      { text: "  blockfall     — ASCII-BLOCKFALL, 99 Stufen", kind: "out" },
       { text: "  news          — Sektoren-Bote (Textbrowser, ZENTRAL.NETZ)", kind: "out" },
       { text: "", kind: "out" },
     );
@@ -306,8 +306,8 @@ export function Terminal() {
   const [advState, setAdvState] = useState<AdvState | null>(null);
   const [lottiState, setLottiState] = useState<LottiState | null>(null);
   const [newsState, setNewsState] = useState<NewsState | null>(null);
-  // ./tetris.bin — ASCII-Tetris, läuft als Vollbild-Sub-Modus im Terminal.
-  const [tetrisOn, setTetrisOn] = useState(false);
+  // ./blockfall.bin — ASCII-Blockfall, läuft als Vollbild-Sub-Modus im Terminal.
+  const [blockfallOn, setBlockfallOn] = useState(false);
   // auskunft.bin — amtliches Auskunftssystem. Läuft als Sub-Modus:
   // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
   const [auskunftOn, setAuskunftOn] = useState(false);
@@ -1055,16 +1055,16 @@ export function Terminal() {
           },
         );
       }
-    } else if (cmd === "tetris" || cmd === "./tetris.bin" || cmd === "tetris.bin") {
+    } else if (cmd === "blockfall" || cmd === "./blockfall.bin" || cmd === "blockfall.bin") {
       if (bodoMode || miraMode) {
         newLines.push(
-          { text: "bash: tetris: Befehl nicht gefunden.", kind: "out" },
-          { text: "(»tetris.bin« liegt im /home/layard — andere Maschine.)", kind: "out" },
+          { text: "bash: blockfall: Befehl nicht gefunden.", kind: "out" },
+          { text: "(»blockfall.bin« liegt im /home/layard — andere Maschine.)", kind: "out" },
         );
       } else {
-        setTetrisOn(true);
+        setBlockfallOn(true);
         newLines.push(
-          { text: "tetris.bin — 99 Stufen. Viel Erfolg.", kind: "system" },
+          { text: "blockfall.bin — 99 Stufen. Viel Erfolg.", kind: "system" },
         );
       }
     } else if (cmd === "adventure" || cmd === "./adventure.bin" || cmd === "adventure.bin") {
@@ -2142,14 +2142,14 @@ export function Terminal() {
           />
         </div>
 
-        {tetrisOn ? (
-          <TetrisOverlay
+        {blockfallOn ? (
+          <BlockfallOverlay
             tone={miraMode ? "destructive" : bodoMode ? "sepia" : "phosphor"}
             onExit={() => {
-              setTetrisOn(false);
+              setBlockfallOn(false);
               setLines((prev) => [
                 ...prev,
-                { text: "tetris.bin beendet.", kind: "system" },
+                { text: "blockfall.bin beendet.", kind: "system" },
                 { text: "", kind: "out" },
               ]);
               setTimeout(() => inputRef.current?.focus(), 30);
@@ -2164,7 +2164,7 @@ export function Terminal() {
           />
         )}
 
-        {tetrisOn ? null : (
+        {blockfallOn ? null : (
         <form
           onSubmit={handleSubmit}
           className={`flex items-center gap-2 border-t bg-black px-4 py-2 ${
