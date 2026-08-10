@@ -242,6 +242,12 @@ export const miraDialogs: Record<string, DialogTree> = {
         subtext: "Sie hat das schon oft gesagt. Sie wartet darauf, wie er reagiert.",
         requires: ["sawEmptyOffice"],
         choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            requires: ["phoneBroken"],
+            hiddenWhen: ["phoneRepaired", "miraRepairDone"],
+          },
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
           {
             text: "Pass auf, was du sagst. Hier hört jemand zu.",
