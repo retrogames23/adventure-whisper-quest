@@ -155,6 +155,10 @@ export const mikaelDialogs: Record<string, DialogTree> = {
             text: "[ Verstanden. ]",
             action: (api) => {
               api.setFlag("mikaelHintHiddenFreqMood");
+              // Damit werden die zurückgehaltenen Archiv-Dateien
+              // (Redaktionsnotiz 1997, Bewohnerbrief 1986) im
+              // Terminal-Dateisystem sichtbar.
+              api.setFlag("heardMikaelTruth");
             },
           },
         ],
