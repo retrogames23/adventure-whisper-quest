@@ -69,7 +69,7 @@ const HOME_WORAG: FsDir = {
         "[ausführbare Datei — 2048 Bytes]",
         "",
         "Dies ist ein Programm. Tippe ins Terminal:",
-        "    tetris",
+        "    blockfall",
         "oder:",
         "    ./blockfall.bin",
         "um es zu starten.",
