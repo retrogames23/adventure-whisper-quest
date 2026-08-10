@@ -317,7 +317,7 @@ export const communalE67Scenes: Record<string, Scene> = {
     background: aptMira4601Bg,
     title: "Wohnung 4601 — Mira",
     intro:
-      "Eng. Ein Bett, ein Schreibtisch, an der Wand mehr Plakate als Tapete. Auf dem Tisch summt ein offenes Terminal in giftigem Phosphorgrün. Ein Kabel verschwindet hinter der Wand Richtung Etagendrucker.",
+      "Eng. Ein Bett, ein Schreibtisch, an der Wand mehr Plakate als Tapete. Auf dem Tisch summt ein offenes Terminal in blutrotem Phosphorglühen. Ein Kabel verschwindet hinter der Wand Richtung Etagendrucker.",
     hotspots: [
       {
         id: "miraInRoom",
