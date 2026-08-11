@@ -1,3 +1,4 @@
+import { libraryBookByItemId } from "@/game/libraryE71Books";
 import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useInventoryDrag } from "@/game/InventoryDragContext";
