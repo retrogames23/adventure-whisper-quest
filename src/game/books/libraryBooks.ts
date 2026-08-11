@@ -132,9 +132,10 @@ const resonanzChapters: HandbookChapter[] = [
     shortTitle: "Vorwort",
     title: "Vorwort: Resonanz als Gefährdung",
     body: [
-      "Dieses Buch erschien 1956, in einer Zeit, in der der Begriff *Resonanz* noch nicht das bedeutete, was er heute bedeutet. Er beschrieb eine physikalische Wirkung: Schwingungen, die sich verstärken, wenn sie auf das richtige Material treffen.",
-      "Resonanz war ein Problem des Bauwesens, der Akustik, der Maschinentechnik. Sie war kein soziales Phänomen. Wer das Buch heute liest, sollte das im Kopf behalten.",
+      "Dieses Buch wurde im Dezember 1956 geschrieben. Der Begriff *Resonanz* war damals noch eng gefasst: Er beschrieb eine physikalische Wirkung — Schwingungen, die sich verstärken, wenn sie auf das richtige Material treffen.",
+      "Resonanz galt als Problem des Bauwesens, der Akustik, der Maschinentechnik. Nicht als soziales Phänomen. Wer das Buch liest, sollte das im Kopf behalten.",
       "Der Autor war Sektorarzt und Berater mehrerer Verwaltungen. Er schreibt nüchtern, manchmal trocken, aber immer mit dem Ziel, dem Einzelnen zu helfen, seine Umgebung zu kontrollieren.",
+      "Berlin, Dezember 1956",
     ],
   },
   {
