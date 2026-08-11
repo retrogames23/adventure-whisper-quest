@@ -5,9 +5,9 @@ import { LIBRARY_BOOKS } from "@/game/libraryE71Books";
 
 /**
  * Dev-only Bücher-Switcher: Öffnet jedes im Spiel lesbare Buch direkt,
- * unabhängig davon, ob Layard es schon gefunden hat. Zusätzlich wird der
- * Bestand der Bewohnerbibliothek (E71, Raum 1101) als Katalog gelistet —
- * diese Titel haben noch keinen Lesetext.
+ * unabhängig davon, ob Layard es schon gefunden hat. Der Katalog der
+ * Bewohnerbibliothek (E71, Raum 1101) listet ebenfalls alle Titel; bereits
+ * mit Volltext angelegte Bücher lassen sich direkt öffnen.
  */
 export function BookSwitcher() {
   const { api, openHandbook } = useGame();
