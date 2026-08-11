@@ -86,7 +86,8 @@ export type InventoryItemId =
   | "buchSumerListen"
   | "buchSchmalspur"
   | "buchResonanzhygiene"
-  | "buchGespaltenerGeist";
+  | "buchGespaltenerGeist"
+  | "buchOrdnungEigentum";
 
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 

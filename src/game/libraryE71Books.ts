@@ -61,6 +61,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "buchGespaltenerGeist",
     itemName: "Der gespaltene Geist (Leihbuch)",
   },
+  {
+    id: "ordnung-und-eigentum",
+    title: "Ordnung und Eigentum — Wirtschaftssysteme im Vergleich",
+    author: "Prof. Dr. E. Kallweit · Dr. R. Semmler",
+    year: "1995",
+    blurb:
+      "Vergleicht drei Wirtschaftsordnungen: die Vereinigten Staaten, die Sowjetunion und das Mandatsgebiet. Kallweit und Semmler beschreiben, wie Eigentum, Plan und Verwaltung in jedem System verteilt sind — ohne zu predigen, aber mit scharfem Blick für Bürokratie.",
+    itemId: "buchOrdnungEigentum",
+    itemName: "Ordnung und Eigentum (Leihbuch)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */
