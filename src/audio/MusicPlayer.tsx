@@ -61,6 +61,7 @@ export const MUSIC_OVERRIDES = {
   pub: { title: "The Corner Booth", src: trackCornerBooth } as MusicTrack,
   e71Nerds: { title: "Victory over the Spire", src: trackVictorySpire } as MusicTrack,
   sectorThreshold: { title: "The City Forgets", src: trackCityForgets } as MusicTrack,
+  elevator: { title: "Fahrstuhl-Musik", src: elevatorMusicAsset.url } as MusicTrack,
 };
 export type MusicOverrideId = keyof typeof MUSIC_OVERRIDES;
 const CROSSFADE_SECONDS = 6;
