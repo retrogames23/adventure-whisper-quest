@@ -154,7 +154,7 @@ export function TextOverlay() {
       </div>
       {editing ? (
         <div
-          className="fade-in max-w-3xl w-full rounded-sm border border-amber-glow bg-background/95 px-6 py-5 text-left shadow-[0_0_40px_rgba(0,0,0,0.6)]"
+          className="fade-in max-h-full w-full max-w-3xl overflow-y-auto rounded-sm border border-amber-glow bg-background/95 px-6 py-5 text-left shadow-[0_0_40px_rgba(0,0,0,0.6)]"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-amber-glow">
