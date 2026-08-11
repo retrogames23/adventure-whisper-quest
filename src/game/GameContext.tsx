@@ -132,9 +132,7 @@ interface GameContextValue extends GameState {
   closeHandbook: () => void;
   /** Sektoren-Almanach Overlay. */
   openAlmanach: () => void;
-  closeAlmanach: () => void;
   openHistoryBook: () => void;
-  closeHistoryBook: () => void;
   /** Beliebiges registriertes Buch öffnen / schließen. */
   openBook: (bookId: string) => void;
   closeBook: () => void;
