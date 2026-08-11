@@ -897,12 +897,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setCurrentBookId("almanach");
         setBookOpen(true);
       },
-      closeAlmanach: () => setBookOpen(false),
       openHistoryBook: () => {
         setCurrentBookId("history");
         setBookOpen(true);
       },
-      closeHistoryBook: () => setBookOpen(false),
       openBook: (id: string) => {
         if (id === "e67Handbook") {
           setHandbookOpen(true);
