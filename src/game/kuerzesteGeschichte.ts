@@ -221,6 +221,19 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
     ],
   },
   {
+    id: "weltkrieg",
+    shortTitle: "Zweiter Weltkrieg",
+    title: "1939–1945: Der zweite große Krieg",
+    body: [
+      "Die Krise der dreißiger Jahre entlädt sich 1939 in einem zweiten Krieg, der den ersten übertrifft. Deutschland greift Polen an; Frankreich und Großbritannien erklären daraufhin Deutschland den Krieg. Innerhalb von zwei Jahren steht fast ganz Europa unter deutscher Besatzung oder Kontrolle.",
+      "Anders als im Großen Krieg ist dieser Krieg von Anfang an ein **Vernichtungskrieg**. Zivile Opfer werden nicht mehr als Kollateralschaden behandelt, sondern als Ziel: Bombardements ganzer Städte, deportierte Bevölkerungen, industriell organisierte Massenmorde. Die Zahlen übersteigen alles, was 1918 als unvorstellbar galt.",
+      "Auch der Osten entwickelt sich anders als erwartet. Die Sowjetunion unter Buchars Neuer Ökonomischer Politik bleibt zwar autoritär, aber weniger expansionistisch und ideologisch aggressiv als ihre Gegner befürchteten. Der Pakt mit Deutschland, der in anderen Versionen dieser Jahre geschlossen wurde, kommt hier nicht zustande; stattdessen hält Moskau lange Waffenstillstand, bevor es 1941 doch angegriffen wird. Der Krieg im Osten wird dadurch länger und blutiger, aber auch weniger ideologisch verbrämt.",
+      "Die Vereinigten Staaten treten 1941 in den Krieg ein und bringen Produktionskapazitäten ins Spiel, die Europa nicht mehr besitzt. Dennoch dauert der Krieg in Europa bis **1945**. Er endet mit der völligen Erschöpfung des Kontinents: zerstörte Städte, vertriebene Millionen, bankrotte Staaten, ein Ansehen der Nationalstaaten, das sich nicht wiederherstellen lässt.",
+      "- **Mythos:** „Der Krieg war eine Fortsetzung des Großen Krieges.“ — Nein. 1914–1918 war ein Krieg um Territorien und Bündnisse. 1939–1945 war ein Krieg um Bevölkerungen und Weltanschauungen. Das macht ihn schwerer zu erzählen und unmöglich zu vergessen.",
+      "> 1945 endete der Kampf. Die Frage, wer Europa danach ordnen sollte, war damit erst gestellt.",
+    ],
+  },
+  {
     id: "moderne",
     image: imgModerne,
     imageCaption: "Tafel XII — Aufbau der Quadranten, um 1950",
