@@ -106,9 +106,7 @@ export function BookSwitcher() {
                             api.showText([
                               `„${b.title}“ — ${b.author}, ${b.year}.`,
                               b.blurb,
-                              b.openToOutsiders
-                                ? "Grüner Punkt: auch für Bewohner anderer Gebäude ausleihbar."
-                                : "Kein grüner Punkt: Präsenzbestand, nur am Lesetisch.",
+                              "Ausleihbar bei Herbert in Raum 1101.",
                             ]);
                           }
                         }}
@@ -123,8 +121,7 @@ export function BookSwitcher() {
                           )}
                         </div>
                         <div className="text-xs">
-                          {b.author} · {b.year} ·{" "}
-                          {b.openToOutsiders ? "ausleihbar" : "Präsenzbestand"}
+                          {b.author} · {b.year} · ausleihbar
                         </div>
                       </button>
                     </li>
