@@ -255,17 +255,14 @@ function GameStage({
               {handbookOpen && (
                 <HandbookOverlay open={handbookOpen} onClose={closeHandbook} />
               )}
-              {almanachOpen && (
-                <AlmanachOverlay open={almanachOpen} onClose={closeAlmanach} />
-              )}
-              {historyBookOpen && (
+              {bookOpen && currentBook && (
                 <BookOverlay
-                  open={historyBookOpen}
-                  onClose={closeHistoryBook}
-                  title={HISTORY_TITLE}
-                  subtitle={HISTORY_SUBTITLE}
-                  chapters={HISTORY_CHAPTERS}
-                  uiText={HISTORY_UI_TEXT}
+                  open={bookOpen}
+                  onClose={closeBook}
+                  title={currentBook.title}
+                  subtitle={currentBook.subtitle}
+                  chapters={currentBook.chapters}
+                  uiText={currentBook.uiText}
                 />
               )}
               {helpOpen !== false && (
