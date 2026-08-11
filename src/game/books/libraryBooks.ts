@@ -190,20 +190,21 @@ const dataflowChapters: HandbookChapter[] = [
   {
     id: "df-vorwort",
     shortTitle: "Vorwort",
-    title: "Vorwort: Eine andere Abzweigung",
+    title: "Vorwort: Die Trennung als Prinzip",
     body: [
-      "Dieses Buch erzählt eine Geschichte der Computer, wie sie sich in diesem Jahrhundert entwickelt haben. Es geht um Maschinen, die nie einen einzelnen Prozessor hatten.",
-      "Der Ausgangspunkt ist ein geheimer Bericht aus dem Jahr 1945. Er verschwand in den Archiven des US-Kriegsministeriums und blieb dort. Ohne den *First Draft of a Report on the EDVAC* setzte sich nicht die von-Neumann-Architektur durch, sondern eine strengere Trennung von Programm und Daten. Daraus erwuchs die Datenfluss-Maschine.",
+      "Dieses Buch erzählt eine Geschichte der Computer, wie sie sich in diesem Jahrhundert entwickelt haben. Es geht um Maschinen, die nicht auf einen einzelnen Prozessor angewiesen sind, sondern aus Netzwerken kleiner, spezialisierter Rechenknoten bestehen.",
+      "Der Ausgangspunkt liegt in den Arbeiten der 1940er Jahre. Howard Aiken in Harvard und Konrad Zuse in Europa bauten Systeme, in denen Programm und Daten physisch getrennt blieben. Ihr Grundsatz war einfach: Befehle sind Befehle, Daten sind Daten. Wer sie vermischt, macht eine Maschine schwerer zu verstehen und schwerer zu schützen. Diese Strenge erwies sich als verlässlicher, prüfbarer und leichter zu beherrschen. Aus ihr erwuchs die Datenfluss-Maschine.",
     ],
   },
   {
     id: "df-geheim",
-    shortTitle: "EDVAC",
-    title: "Das geheime EDVAC-Dokument",
+    shortTitle: "Frühe Entwürfe",
+    title: "Frühe Entwürfe: Aiken, Zuse und die getrennte Speicherung",
     body: [
-      "1945 arbeitete John von Neumann an einem Bericht über den Entwurf des Computers EDVAC. Der Bericht beschrieb die Zusammenlegung von Befehlen und Daten im selben Speicher — elegant, flexibel, revolutionär.",
-      "Das US-Kriegsministerium stufte das Dokument als *Top Secret* ein. Die atomare Forschung in Los Alamos hatte Vorrang; der EDVAC-Entwurf verschwand für Jahrzehnte in den Archiven.",
-      "Ohne diese Schrift trat keine einheitliche Architektur hervor. Die Computerpioniere blieben geteilt. Howard Aiken in Harvard arbeitete an getrennten Speichern. Konrad Zuse in Europa tat dasselbe. Ihr Dogma: Code und Daten müssen physisch strikt getrennt bleiben.",
+      "In den 1940er Jahren entstanden die ersten programmgesteuerten Rechenmaschinen. Sie waren groß, laut, störanfällig und jede für sich eine Ingenieursleistung. Doch schon früh teilten sich die Schulen.",
+      "Howard Aiken an der Harvard University baute das Mark-I-System. Sein Grundsatz: Programm und Daten liegen in getrennten Speichern. Ein Programm wird eingelesen, ausgeführt, und erst danach verarbeitet die Maschine die Ergebnisse. Der Programmspeicher bleibt während der Rechnung unverändert.",
+      "Konrad Zuse in Europa verfolgte einen ähnlichen Weg. Seine Z-Maschinen trennten Befehls- und Datenspeicher ebenfalls strikt. Für Zuse war diese Trennung keine akademische Vorliebe, sondern eine Frage der Übersichtlichkeit: Wer die Befehle nicht von den Daten trennt, verliert schnell den Überblick über das, was die Maschine tut.",
+      "Andere Entwürfe — darunter der EDVAC-Entwurf von John von Neumann — schlugen vor, Befehle und Daten im selben Speicher unterzubringen. Dieser Gedanke war theoretisch elegant, weil er eine Maschine ermöglichte, die ihr eigenes Programm verändern konnte. Die Ingenieurspraxis fand ihn jedoch zu undurchsichtig. Ein selbstmodifizierendes Programm ist schwer zu testen, schwer zu debuggen und fast unmöglich formal zu verifizieren. Die Entwicklung entschied sich für die Trennung.",
     ],
   },
   {
@@ -213,7 +214,7 @@ const dataflowChapters: HandbookChapter[] = [
     body: [
       "Howard Aikens Harvard-Mark-Systeme und Konrad Zuses Z-Maschinen teilten einen Grundsatz: Programmspeicher und Datenspeicher sind getrennte Räume. Man schreibt nicht in den Programmspeicher hinein, während man ihn liest.",
       "Das machte Computer weniger flexibel, aber vorhersehbarer. Ein Programm war eine feste Schaltung, ein Datenstrom war ein Datenstrom. Die beiden durften sich nicht vermischen.",
-      "Diese Trennung verhinderte eine ganze Klasse von Fehlern, die in anderen Architekturen später alltäglich werden sollten: Speicherüberläufe, Pufferfehler, das Einschleusen von Code als Daten.",
+      "Diese Trennung verhinderte eine ganze Klasse von Fehlerquellen: Speicherüberläufe, Pufferfehler, das Einschleusen von Code als Daten. Die Sicherheit lag in der Struktur, nicht in der Kontrolle.",
     ],
   },
   {
@@ -263,7 +264,7 @@ const dataflowChapters: HandbookChapter[] = [
     body: [
       "Niemand lernt hier C, C++ oder Python. Stattdessen gibt es zwei dominierende Paradigmen: visuelle Datenflussdiagramme und rein mathematisch-funktionale Sprachen.",
       "Der Programmierer zeichnet nicht, was der Prozessor tun soll, sondern wie die Daten fließen. Das Ergebnis ist mathematisch beweisbar korrekt — zumindest in der Theorie.",
-      "Software hat keine Speicherlecks, keine Pufferüberläufe, keine wilden Pointer. Die Trennung von Code und Daten macht viele der Fehler unmöglich, die in anderen Architekturen zum Alltag gehören.",
+      "Software hat keine Speicherlecks, keine Pufferüberläufe, keine wilden Pointer. Die physische Trennung von Code und Daten macht diese Fehlerklassen von vornherein unmöglich.",
       "Nicht jeder findet diese Art zu programmieren intuitiv. Aber sie ist, gemessen an Ausfallzeiten und Sicherheitsvorfällen, erstaunlich robust.",
     ],
   },
@@ -318,7 +319,7 @@ registerBook({
   author: "S. R. Vossen",
   year: "1997",
   blurb:
-    "Vossen erzählt, warum die Computer in diesem Jahrhundert nie einen einzelnen Prozessor hatten: 1945 verschwand ein geheimer Entwurf, und die Entwicklung entschied sich für die strenge Trennung von Programm und Daten.",
+    "Vossen erzählt, wie die Datenfluss-Architektur zur dominierenden Form des Rechnens wurde — ausgehend von der strengen Trennung von Programm und Daten, die Aiken, Zuse und die frühen Harvard-Systeme prägten.",
   chapters: dataflowChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
