@@ -264,7 +264,7 @@ const dataflowChapters: HandbookChapter[] = [
     body: [
       "Niemand lernt hier C, C++ oder Python. Stattdessen gibt es zwei dominierende Paradigmen: visuelle Datenflussdiagramme und rein mathematisch-funktionale Sprachen.",
       "Der Programmierer zeichnet nicht, was der Prozessor tun soll, sondern wie die Daten fließen. Das Ergebnis ist mathematisch beweisbar korrekt — zumindest in der Theorie.",
-      "Software hat keine Speicherlecks, keine Pufferüberläufe, keine wilden Pointer. Die Trennung von Code und Daten macht viele der Fehler unmöglich, die in anderen Architekturen zum Alltag gehören.",
+      "Software hat keine Speicherlecks, keine Pufferüberläufe, keine wilden Pointer. Die physische Trennung von Code und Daten macht diese Fehlerklassen von vornherein unmöglich.",
       "Nicht jeder findet diese Art zu programmieren intuitiv. Aber sie ist, gemessen an Ausfallzeiten und Sicherheitsvorfällen, erstaunlich robust.",
     ],
   },
