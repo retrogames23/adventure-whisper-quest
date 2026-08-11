@@ -192,7 +192,7 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "Vorwort",
     title: "Vorwort: Die Trennung als Prinzip",
     body: [
-      "Dieses Buch erzählt eine Geschichte der Computer, wie sie sich in diesem Jahrhundert entwickelt haben. Es geht um Maschinen, die nicht auf einen einzelnen Prozessor angewiesen sind, sondern aus Netzwerken kleiner, spezialisierter Rechenknoten bestehen.",
+      "Dieses Buch erzählt eine Geschichte der Computer, wie sie sich in diesem Jahrhundert entwickelt haben. Es geht um Maschinen, die aus Netzwerken kleiner, spezialisierter Rechenknoten bestehen.",
       "Der Ausgangspunkt liegt in den Arbeiten der 1940er Jahre. Howard Aiken in Harvard und Konrad Zuse in Europa bauten Systeme, in denen Programm und Daten physisch getrennt blieben. Ihr Grundsatz war einfach: Befehle sind Befehle, Daten sind Daten. Wer sie vermischt, macht eine Maschine schwerer zu verstehen und schwerer zu schützen. Diese Strenge erwies sich als verlässlicher, prüfbarer und leichter zu beherrschen. Aus ihr erwuchs die Datenfluss-Maschine.",
     ],
   },
@@ -232,9 +232,9 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "Matrix-1",
     title: "Intels asynchroner Matrix-1",
     body: [
-      "Als in den 1970ern die Mikrochips boomen, baute Intel nicht einen einzelnen Prozessor, sondern den **Matrix-1**: einen Chip aus einem Gitter von 64 winzigen, asynchronen Rechenkernen.",
+      "Als in den 1970ern die Mikrochips boomen, baute Intel den **Matrix-1**: einen Chip aus einem Gitter von 64 winzigen, asynchronen Rechenkernen.",
       "Es gab kein globales Taktsignal. Jeder Kern verbrauchte nur dann Strom, wenn Daten bei ihm ankamen. Das sparte Energie und reduzierte Wärmeentwicklung drastisch.",
-      "Der Matrix-1 war nicht schneller als die Prozessoren, die in anderen Ländern und anderen Projekten zur gleichen Zeit entwickelt wurden. Er war anders: weniger eine Rechenmaschine, mehr ein Schaltwerk aus tausenden kleinen Entscheidungen.",
+      "Der Matrix-1 war nicht schneller als die Rechenmaschinen, die in anderen Ländern und anderen Projekten zur gleichen Zeit entwickelt wurden. Er war anders: weniger eine Rechenmaschine, mehr ein Schaltwerk aus tausenden kleinen Entscheidungen.",
     ],
   },
   {
@@ -263,7 +263,7 @@ const dataflowChapters: HandbookChapter[] = [
     title: "Wie man heute programmiert",
     body: [
       "Niemand lernt hier C, C++ oder Python. Stattdessen gibt es zwei dominierende Paradigmen: visuelle Datenflussdiagramme und rein mathematisch-funktionale Sprachen.",
-      "Der Programmierer zeichnet nicht, was der Prozessor tun soll, sondern wie die Daten fließen. Das Ergebnis ist mathematisch beweisbar korrekt — zumindest in der Theorie.",
+      "Der Programmierer zeichnet nicht, was ein einzelner Rechenknoten tun soll, sondern wie die Daten fließen. Das Ergebnis ist mathematisch beweisbar korrekt — zumindest in der Theorie.",
       "Software hat keine Speicherlecks, keine Pufferüberläufe, keine wilden Pointer. Die physische Trennung von Code und Daten macht diese Fehlerklassen von vornherein unmöglich.",
       "Nicht jeder findet diese Art zu programmieren intuitiv. Aber sie ist, gemessen an Ausfallzeiten und Sicherheitsvorfällen, erstaunlich robust.",
     ],
