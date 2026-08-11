@@ -1,3 +1,4 @@
+import { libraryBookByItemId } from "@/game/libraryE71Books";
 import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useInventoryDrag } from "@/game/InventoryDragContext";
@@ -32,7 +33,10 @@ export function Inventory() {
   // Hilfsfunktion: „ansehen" / lesen (geteilt zwischen Tap-Pfad-Long-Press
   // und Desktop-Klick).
   const examineItem = (item: InventoryItem) => {
-    if (item.id === "e67Handbook") {
+    const libraryBook = libraryBookByItemId(item.id);
+    if (libraryBook) {
+      api.openBook(libraryBook.id);
+    } else if (item.id === "e67Handbook") {
       openHandbook();
     } else if (item.id === "residentId") {
       openIdCard();

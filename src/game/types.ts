@@ -81,7 +81,12 @@ export type InventoryItemId =
   // Kondom aus dem Kondomautomaten („Zum stillen Funk").
   | "condom"
   // Akt II — offizielles Schreiben zur Vor-Ort-Recherche (Vossbeck).
-  | "rechercheSchreiben";
+  | "rechercheSchreiben"
+  // Ausgeliehene Bücher der Bewohnerbibliothek 1101 (E71, Herbert)
+  | "buchSumerListen"
+  | "buchSchmalspur"
+  | "buchResonanzhygiene"
+  | "buchGespaltenerGeist";
 
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 

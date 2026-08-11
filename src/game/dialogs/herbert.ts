@@ -1,12 +1,12 @@
 import type { DialogTree } from "../types";
 import { getBook } from "../books";
-import { LIBRARY_BOOKS, openBooks } from "../libraryE71Books";
+import { LIBRARY_BOOKS } from "../libraryE71Books";
 
 /**
  * Herbert — Bibliothekar der Bewohnerbibliothek 1101 (E71, Etage 1).
  * Ruhiger Gesprächspartner: E71, Politik im Mandatsgebiet, Kunst,
  * Literatur, Weltgeschichte. Steckenpferde: Sumerer und Eisenbahn.
- * Ausleihe nur aus der Freigabeliste — Layard wohnt in E67.
+ * Ausleihe: alle Titel, auch für Bewohner anderer Gebäude.
  */
 export const herbertDialogs: Record<string, DialogTree> = {
   herbertTalk: {
@@ -34,12 +34,15 @@ export const herbertDialogs: Record<string, DialogTree> = {
         id: "hh1",
         speaker: "HERBERT",
         text: "Worüber wollen wir reden?",
-        choices: [
+        choicesFn: (api) => [
           { text: "Über dieses Gebäude. E71.", next: "e71" },
           { text: "Über Politik im Mandatsgebiet.", next: "politik" },
           { text: "Über Kunst und Literatur.", next: "kunst" },
           { text: "Über Geschichte.", next: "geschichte" },
-          { text: "Ich würde gern ein Buch ausleihen.", next: "leihe1" },
+          { text: "Ich würde gern ein Buch ausleihen.", next: "leihe2" },
+          ...(LIBRARY_BOOKS.some((b) => api.hasItem(b.itemId))
+            ? [{ text: "Ich möchte ein Buch zurückbringen.", next: "rueck1" }]
+            : []),
           { text: "Später. Danke, Herbert." },
         ],
       },
@@ -117,35 +120,55 @@ export const herbertDialogs: Record<string, DialogTree> = {
         subtext: "Er sagt das ohne Bitterkeit. Eher wie jemand, der etwas aufhebt, weil sonst niemand es tut.",
         next: "hh1",
       },
-      leihe1: {
-        id: "leihe1",
-        speaker: "HERBERT",
-        text: "Gern — mit einer Einschränkung, die nicht von mir stammt. Der Bestand hier ist für Bewohner von E71. Für auswärtige Bewohner ist nur die Freigabeliste ausleihbar. Der Rest bleibt im Raum; lesen dürfen Sie ihn hier am Tisch, so lange Sie wollen.",
-        next: "leihe2",
-      },
       leihe2: {
         id: "leihe2",
         speaker: "HERBERT",
-        text: `Die Liste ist kurz. ${openBooks().length} von ${LIBRARY_BOOKS.length} Titeln im Katalog.`,
+        text: "Gern. Alles, was hier steht, darf mit. Sagen Sie einfach, welchen Titel.",
         choicesFn: (api) => [
-          ...openBooks().map((b) => {
-            const registered = !!getBook(b.id);
+          ...LIBRARY_BOOKS.map((b) => {
+            const owned = api.hasItem(b.itemId);
             return {
-              text: `„${b.title}“ ansehen`,
+              text: owned
+                ? `„${b.title}“ — haben Sie schon`
+                : `„${b.title}“ ausleihen`,
               action: () => {
-                if (registered) {
-                  api.openBook(b.id);
-                } else {
+                if (owned) {
                   api.showText([
-                    `${b.title} — ${b.author}, ${b.year}.`,
-                    b.blurb,
-                    "Herbert schiebt es über den Tresen und notiert nichts. „Bringen Sie es zurück, wenn Sie es zurückbringen.“",
+                    "Herbert schmunzelt. „Das liegt schon bei Ihnen. Lesen Sie erst.“",
                   ]);
+                  return;
                 }
+                api.addItem({
+                  id: b.itemId,
+                  name: b.itemName,
+                  description: `${b.title} — ${b.author}, ${b.year}. Leihgabe der Bewohnerbibliothek 1101. ${b.blurb}`,
+                });
+                api.showText([
+                  `${b.title} — ${b.author}, ${b.year}.`,
+                  "Herbert schiebt es über den Tresen, zieht eine Karteikarte heraus und notiert ein Datum. „Bringen Sie es zurück, wenn Sie es gelesen haben. Oder wenn nicht.“",
+                ]);
               },
             };
           }),
           { text: "Zurück zum Gespräch.", next: "hh1" },
+        ],
+      },
+      rueck1: {
+        id: "rueck1",
+        speaker: "HERBERT",
+        text: "Legen Sie es einfach hin. Welches ist es?",
+        choicesFn: (api) => [
+          ...LIBRARY_BOOKS.filter((b) => api.hasItem(b.itemId)).map((b) => ({
+            text: `„${b.title}“ zurückgeben`,
+            action: () => {
+              api.removeItem(b.itemId);
+              api.showText([
+                "Herbert nimmt das Buch, streicht kurz über den Rücken und stellt es an seinen Platz.",
+                "„Danke. Es steht wieder da, wo es hingehört.“",
+              ]);
+            },
+          })),
+          { text: "Doch nicht.", next: "hh1" },
         ],
       },
     },
@@ -158,7 +181,7 @@ export const herbertDialogs: Record<string, DialogTree> = {
       lrt1: {
         id: "lrt1",
         speaker: "HERBERT",
-        text: "Nehmen Sie Platz. Hier dürfen Sie alles lesen, was im Regal steht — auch den Präsenzbestand. Was darf ich Ihnen hinlegen?",
+        text: "Nehmen Sie Platz. Hier dürfen Sie alles lesen, was im Regal steht. Was darf ich Ihnen hinlegen?",
         choicesFn: (api) => {
           const readable = LIBRARY_BOOKS.filter((b) => getBook(b.id));
           return [
@@ -173,7 +196,7 @@ export const herbertDialogs: Record<string, DialogTree> = {
       lrtEnd: {
         id: "lrtEnd",
         speaker: "HERBERT",
-        text: "Gern. Die Seiten bleiben hier, wenn Sie gehen.",
+        text: "Gern. Und wenn Sie es mitnehmen wollen: sagen Sie Bescheid, ich trage es ein.",
       },
     },
   },
