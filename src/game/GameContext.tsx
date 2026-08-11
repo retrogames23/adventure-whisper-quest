@@ -1225,6 +1225,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       handbookOpen,
       almanachOpen,
       historyBookOpen,
+      bookOpen,
+      currentBookId,
       idCardOpen,
       lobbyGateOpen,
       notizbuchOpen,
