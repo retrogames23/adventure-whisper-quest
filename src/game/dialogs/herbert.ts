@@ -34,18 +34,15 @@ export const herbertDialogs: Record<string, DialogTree> = {
         id: "hh1",
         speaker: "HERBERT",
         text: "Worüber wollen wir reden?",
-        choices: [
+        choicesFn: (api) => [
           { text: "Über dieses Gebäude. E71.", next: "e71" },
           { text: "Über Politik im Mandatsgebiet.", next: "politik" },
           { text: "Über Kunst und Literatur.", next: "kunst" },
           { text: "Über Geschichte.", next: "geschichte" },
           { text: "Ich würde gern ein Buch ausleihen.", next: "leihe2" },
-          {
-            text: "Ich möchte ein Buch zurückbringen.",
-            next: "rueck1",
-            visibleWhenFn: (api) =>
-              LIBRARY_BOOKS.some((b) => api.hasItem(b.itemId)),
-          },
+          ...(LIBRARY_BOOKS.some((b) => api.hasItem(b.itemId))
+            ? [{ text: "Ich möchte ein Buch zurückbringen.", next: "rueck1" }]
+            : []),
           { text: "Später. Danke, Herbert." },
         ],
       },
