@@ -9,14 +9,14 @@ import { LIBRARY_BOOKS } from "@/game/libraryE71Books";
  * diese Titel haben noch keinen Lesetext.
  */
 export function BookSwitcher() {
-  const { api } = useGame();
+  const { api, openHandbook } = useGame();
   const [open, setOpen] = useState(false);
 
   const readable: { label: string; note: string; open: () => void }[] = [
     {
       label: "E67-Handbuch (Auszug)",
       note: "Bewohner-Heft, 7. rev. Fassung",
-      open: () => api.openHandbook(),
+      open: () => openHandbook(),
     },
     {
       label: "Sektoren-Almanach 1997",
