@@ -234,9 +234,6 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
       "Die Vereinigten Staaten treten 1941 in den Krieg ein und bringen Produktionskapazitäten ins Spiel, die Europa nicht mehr besitzt. Der Pazifik-Krieg endet **1946 durch Verhandlungen**. Kernwaffen werden erst 1947 von mehreren Staaten entwickelt und gelten von Beginn an als nicht einsetzbar.",
       "In Europa bricht der NS-Staat 1945/46 zusammen. Doch der Krieg lässt sich nicht mehr siegreich beenden; er lässt sich nur noch nicht weiterführen. **1946** wird Mitteleuropa unter eine gemeinsame Vier-Mächte-Verwaltung gestellt — USA, Vereinigtes Königreich, Frankreich, Sowjetunion. Aus dem Provisorium entsteht das **Mandatsgebiet Mitteleuropa**, ein Verwaltungsraum ohne klare Ost-West-Teilung.",
       "Erst **1948** wird der Krieg formell durch Verhandlungen beendet. Nicht mit einer Siegerkonferenz, sondern mit dem Eingeständnis, dass niemand die Last noch tragen kann. Die Nationalstaaten, die ihn begonnen hatten, gelten fortan als ungeeignet, Europa zu ordnen.",
-      "- **Mythos:** „Der Krieg endete 1945.“ — Nein. Die Kämpfe in Europa ließen sich 1945 nicht mehr gewinnen, aber sie endeten erst 1948. Dazwischen lagen drei Jahre Verwaltung, Hunger und mühsame Verhandlung.",
-      "- **Mythos:** „Der Krieg war eine Fortsetzung des Großen Krieges.“ — Nein. 1914–1918 war ein Krieg um Territorien und Bündnisse. 1939–1948 war ein Krieg um Bevölkerungen und Weltanschauungen. Das macht ihn schwerer zu erzählen und unmöglich zu vergessen.",
-      "> 1948 endete der Krieg. 1946 hatte schon die Verwaltung begonnen. Das ist der Unterschied, auf dem unsere Epoche ruht.",
     ],
   },
   {
