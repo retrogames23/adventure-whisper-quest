@@ -30,7 +30,8 @@ type Speaker =
   | "DETLEF"
   | "SIGI"
   | "RUVEN"
-  | "RALF";
+  | "RALF"
+  | "HERBERT";
 
 
 interface VoiceProfile {
@@ -220,6 +221,12 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
     voiceId: "nPczCjzI2devNBz1zQrb", // Brian
     speed: 0.86,
     settings: { stability: 0.6, similarity_boost: 0.8, style: 0.15, use_speaker_boost: true },
+  },
+  HERBERT: {
+    // Herbert, Bibliothekar, 61 — warm, ruhig, gebildet.
+    voiceId: "nPczCjzI2devNBz1zQrb", // Brian
+    speed: 0.92,
+    settings: { stability: 0.65, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true },
   },
 };
 

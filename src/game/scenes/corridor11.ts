@@ -22,13 +22,15 @@ export const corridor11Scenes: Record<string, Scene> = {
         y: 5,
         w: 14,
         h: 92,
-        label: "Tür 1101",
-        kind: "look",
-        onUse: (api) =>
+        label: "Tür 1101 — Bewohnerbibliothek",
+        kind: "use",
+        onUse: (api) => {
           api.showText([
-            "Messingschild, poliert: 1101. Darunter, mit Kugelschreiber auf einen Klebestreifen: „Bitte nicht vor 9 Uhr.“",
-            "Hinter der Tür läuft ein Radio, leise, dudelnd. Kein Rauschen, keine Meldungen — nur Musik. In E67 klingt das anders.",
-          ]),
+            "Messingschild, poliert: 1101. Darunter eine Tafel in Handschrift: „Bewohnerbibliothek — DI/DO 17–19, SO 10–12. Bitte leise sein.“",
+            "Die Tür steht einen Spalt offen. Warmes Licht, Papiergeruch.",
+          ]);
+          api.goTo("libraryE71");
+        },
       },
       {
         id: "door1103",
