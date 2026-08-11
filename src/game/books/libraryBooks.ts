@@ -240,7 +240,7 @@ const dataflowChapters: HandbookChapter[] = [
       "In den 1940er Jahren entstanden die ersten programmgesteuerten Rechenmaschinen. Sie waren groß, laut, störanfällig und jede für sich eine Ingenieursleistung. Doch schon früh teilten sich die Schulen.",
       "Howard Aiken an der Harvard University baute das Mark-I-System. Sein Grundsatz: Programm und Daten liegen in getrennten Speichern. Ein Programm wird eingelesen, ausgeführt, und erst danach verarbeitet die Maschine die Ergebnisse. Der Programmspeicher bleibt während der Rechnung unverändert.",
       "Konrad Zuse in Europa verfolgte einen ähnlichen Weg. Seine Z-Maschinen trennten Befehls- und Datenspeicher ebenfalls strikt. Für Zuse war diese Trennung keine akademische Vorliebe, sondern eine Frage der Übersichtlichkeit: Wer die Befehle nicht von den Daten trennt, verliert schnell den Überblick über das, was die Maschine tut.",
-      "Andere Entwürfe — darunter der EDVAC-Entwurf von John von Neumann — schlugen vor, Befehle und Daten im selben Speicher unterzubringen. Dieser Gedanke war theoretisch elegant, weil er eine Maschine ermöglichte, die ihr eigenes Programm verändern konnte. Die Ingenieurspraxis fand ihn jedoch zu undurchsichtig. Ein selbstmodifizierendes Programm ist schwer zu testen, schwer zu debuggen und fast unmöglich formal zu verifizieren. Die Entwicklung entschied sich für die Trennung.",
+      "Aus diesen Arbeiten entstand der verbindliche Grundsatz der Speichertrennung. Hochschulen, Rechenämter und Hersteller übernahmen ihn, weil sich getrennte Befehls- und Datenwege prüfen, warten und eindeutig dokumentieren ließen. Die Harvard-Bauweise wurde damit zur gemeinsamen Grundlage der weiteren Entwicklung.",
     ],
   },
   {
@@ -310,10 +310,10 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "Programmieren",
     title: "Wie man heute programmiert",
     body: [
-      "Niemand lernt hier C, C++ oder Python. Stattdessen gibt es zwei dominierende Paradigmen: visuelle Datenflussdiagramme und rein mathematisch-funktionale Sprachen.",
-      "Der Programmierer zeichnet nicht, was ein einzelner Rechenknoten tun soll, sondern wie die Daten fließen. Das Ergebnis ist mathematisch beweisbar korrekt — zumindest in der Theorie.",
-      "Software hat keine Speicherlecks, keine Pufferüberläufe, keine wilden Pointer. Die physische Trennung von Code und Daten macht diese Fehlerklassen von vornherein unmöglich.",
-      "Nicht jeder findet diese Art zu programmieren intuitiv. Aber sie ist, gemessen an Ausfallzeiten und Sicherheitsvorfällen, erstaunlich robust.",
+      "In der Ausbildung haben sich zwei Arbeitsweisen durchgesetzt: visuelle Datenflusspläne und mathematisch-funktionale Sprachen.",
+      "Programmierer beschreiben darin Knoten, Verbindungen und die Bedingungen, unter denen Daten weitergegeben werden. Vor der Ausführung lassen sich diese Wege formal prüfen und mit bekannten Eingabemengen erproben.",
+      "Befehlsfolgen werden in den geschützten Programmspeicher übertragen; Messwerte, Akten und Zwischenergebnisse verbleiben auf den getrennten Datenwegen. Jede Änderung erhält eine Prüfsumme und einen Eintrag im Laufprotokoll.",
+      "Die Arbeit verlangt Sorgfalt und ein gutes Verständnis für Abläufe. Dafür sind Fehler meist bis zu jener Verbindung zurückzuverfolgen, an der ein Wert unerwartet weitergegeben oder zurückgehalten wurde.",
     ],
   },
 ];
