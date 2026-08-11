@@ -192,9 +192,8 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "Vorwort",
     title: "Vorwort: Eine andere Abzweigung",
     body: [
-      "Dieses Buch erzählt eine Geschichte, die in unserer Welt anders verlaufen ist als in der, die der Leser kennt. Es geht um Computer, die nie einen einzelnen Prozessor hatten.",
-      "Der Ausgangspunkt ist ein geheimer Bericht aus dem Jahr 1945. In unserer Welt verschwand er in den Archiven des US-Kriegsministeriums. In der Welt, in der Sie dies lesen, geschah dasselbe. Der Unterschied ist: Er blieb verschwunden.",
-      "Ohne den *First Draft of a Report on the EDVAC* setzte sich nicht die von-Neumann-Architektur durch, sondern eine strengere Trennung von Programm und Daten. Daraus erwuchs die Datenfluss-Maschine.",
+      "Dieses Buch erzählt eine Geschichte der Computer, wie sie sich in diesem Jahrhundert entwickelt haben. Es geht um Maschinen, die nie einen einzelnen Prozessor hatten.",
+      "Der Ausgangspunkt ist ein geheimer Bericht aus dem Jahr 1945. Er verschwand in den Archiven des US-Kriegsministeriums und blieb dort. Ohne den *First Draft of a Report on the EDVAC* setzte sich nicht die von-Neumann-Architektur durch, sondern eine strengere Trennung von Programm und Daten. Daraus erwuchs die Datenfluss-Maschine.",
     ],
   },
   {
@@ -234,7 +233,7 @@ const dataflowChapters: HandbookChapter[] = [
     body: [
       "Als in den 1970ern die Mikrochips boomen, baute Intel nicht einen einzelnen Prozessor, sondern den **Matrix-1**: einen Chip aus einem Gitter von 64 winzigen, asynchronen Rechenkernen.",
       "Es gab kein globales Taktsignal. Jeder Kern verbrauchte nur dann Strom, wenn Daten bei ihm ankamen. Das sparte Energie und reduzierte Wärmeentwicklung drastisch.",
-      "Der Matrix-1 war nicht schneller als die Prozessoren, die in anderen Weltlinien entwickelt wurden. Er war anders: weniger eine Rechenmaschine, mehr ein Schaltwerk aus tausenden kleinen Entscheidungen.",
+      "Der Matrix-1 war nicht schneller als die Prozessoren, die in anderen Ländern und anderen Projekten zur gleichen Zeit entwickelt wurden. Er war anders: weniger eine Rechenmaschine, mehr ein Schaltwerk aus tausenden kleinen Entscheidungen.",
     ],
   },
   {
@@ -252,7 +251,7 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "MARV",
     title: "MARV und eingeatzte Künstliche Intelligenz",
     body: [
-      "Neuronale Netze lassen sich auf Datenfluss-Architekturen nativ abbilden. Das hat die Künstliche Intelligenz in dieser Welt früher und kompakter werden lassen als in anderen.",
+      "Neuronale Netze lassen sich auf Datenfluss-Architekturen nativ abbilden. Das hat die Künstliche Intelligenz früher und kompakter werden lassen als in sequenziellen Systemen.",
       "Systeme wie MARV, die intelligente Türsteuerung, sind keine Simulationen auf einer sequenziellen Maschine. Sie sind eingeatzt — direkt in das Cellular Array hineinverdrahtet.",
       "Das macht sie vernünftiger, stabiler und weniger fehleranfällig. Sie müssen nicht erst lernen, sequenzielle Befehle zu simulieren. Sie denken, sofern man das Wort erlaubt, in Datenflüssen.",
     ],
@@ -319,7 +318,7 @@ registerBook({
   author: "S. R. Vossen",
   year: "1997",
   blurb:
-    "Vossen erzählt, warum unsere Computer nie einen einzelnen Prozessor hatten: 1945 verschwand ein geheimer Entwurf, und die Welt entschied sich für die strenge Trennung von Programm und Daten.",
+    "Vossen erzählt, warum die Computer in diesem Jahrhundert nie einen einzelnen Prozessor hatten: 1945 verschwand ein geheimer Entwurf, und die Entwicklung entschied sich für die strenge Trennung von Programm und Daten.",
   chapters: dataflowChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
