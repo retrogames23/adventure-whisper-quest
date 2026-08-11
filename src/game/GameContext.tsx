@@ -268,8 +268,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const dsaBeatRef = useRef<string | null>(null);
   dsaBeatRef.current = dsaBeat;
   const [handbookOpen, setHandbookOpen] = useState(false);
-  const [almanachOpen, setAlmanachOpen] = useState(false);
-  const [historyBookOpen, setHistoryBookOpen] = useState(false);
   const [bookOpen, setBookOpen] = useState(false);
   const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   const [idCardOpen, setIdCardOpen] = useState(false);
