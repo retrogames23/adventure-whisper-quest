@@ -85,8 +85,10 @@ interface GameState {
   handbookOpen: boolean;
   /** Sektoren-Almanach-Lese-Overlay sichtbar. */
   almanachOpen: boolean;
-  /** „Die kürzeste Geschichte der Menschheit“ (Lese-Overlay) sichtbar. */
+  /** „Die kürzeste Geschichte der Menschheit" (Lese-Overlay) sichtbar. */
   historyBookOpen: boolean;
+  /** Buch-Lese-Overlay sichtbar (allgemein, für registrierte Bücher). */
+  bookOpen: boolean;
   /** Bewohner-Ausweis-Lese-Overlay sichtbar. */
   idCardOpen: boolean;
   /** Lobby-Schleuse-Overlay sichtbar (Tagesmodus, vor Erstbetreten). */
