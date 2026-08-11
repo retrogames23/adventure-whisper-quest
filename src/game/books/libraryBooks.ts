@@ -318,7 +318,7 @@ registerBook({
   author: "S. R. Vossen",
   year: "1997",
   blurb:
-    "Vossen erzählt, warum unsere Computer nie einen einzelnen Prozessor hatten: 1945 verschwand ein geheimer Entwurf, und die Welt entschied sich für die strenge Trennung von Programm und Daten.",
+    "Vossen erzählt, warum die Computer in diesem Jahrhundert nie einen einzelnen Prozessor hatten: 1945 verschwand ein geheimer Entwurf, und die Entwicklung entschied sich für die strenge Trennung von Programm und Daten.",
   chapters: dataflowChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
