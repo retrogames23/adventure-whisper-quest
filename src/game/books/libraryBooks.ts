@@ -214,7 +214,7 @@ const dataflowChapters: HandbookChapter[] = [
     body: [
       "Howard Aikens Harvard-Mark-Systeme und Konrad Zuses Z-Maschinen teilten einen Grundsatz: Programmspeicher und Datenspeicher sind getrennte Räume. Man schreibt nicht in den Programmspeicher hinein, während man ihn liest.",
       "Das machte Computer weniger flexibel, aber vorhersehbarer. Ein Programm war eine feste Schaltung, ein Datenstrom war ein Datenstrom. Die beiden durften sich nicht vermischen.",
-      "Diese Trennung verhinderte eine ganze Klasse von Fehlern, die in anderen Architekturen später alltäglich werden sollten: Speicherüberläufe, Pufferfehler, das Einschleusen von Code als Daten.",
+      "Diese Trennung verhinderte eine ganze Klasse von Fehlerquellen: Speicherüberläufe, Pufferfehler, das Einschleusen von Code als Daten. Die Sicherheit lag in der Struktur, nicht in der Kontrolle.",
     ],
   },
   {
