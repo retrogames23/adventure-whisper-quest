@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGame } from "@/game/GameContext";
+import { getBook } from "@/game/books";
 import { LIBRARY_BOOKS } from "@/game/libraryE71Books";
 
 /**
