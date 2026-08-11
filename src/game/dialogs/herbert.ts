@@ -1,4 +1,5 @@
 import type { DialogTree } from "../types";
+import { getBook } from "../books";
 import { LIBRARY_BOOKS, openBooks } from "../libraryE71Books";
 
 /**
