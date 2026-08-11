@@ -47,28 +47,12 @@ export const libraryE71Scenes: Record<string, Scene> = {
         h: 30,
         label: "Karteikasten",
         kind: "look",
-        onUse: (api) => {
-          const registered = LIBRARY_BOOKS.filter((b) => getBook(b.id));
-          if (registered.length > 0) {
-            api.showChoice(
-              "Karteikasten",
-              `Der Katalog zählt ${LIBRARY_BOOKS.length} Titel. ${openBooks().length} davon tragen einen grünen Punkt und sind für Bewohner anderer Gebäude ausleihbar.`,
-              [
-                ...registered.map((b) => ({
-                  text: `„${b.title}“ lesen`,
-                  action: () => api.openBook(b.id),
-                })),
-                { text: "Zurück", action: () => {} },
-              ],
-            );
-          } else {
-            api.showText([
-              `Handbeschriftete Karten, alphabetisch. Der Katalog zählt ${LIBRARY_BOOKS.length} Titel.`,
-              "Auf manchen Karten klebt oben rechts ein kleiner grüner Punkt. Eine gedruckte Notiz erklärt: „Grün = auch für Bewohner anderer Gebäude ausleihbar.“",
-              `Grüne Punkte sind selten. Layard zählt ${openBooks().length}.`,
-            ]);
-          }
-        },
+        onUse: (api) =>
+          api.showText([
+            `Handbeschriftete Karten, alphabetisch. Der Katalog zählt ${LIBRARY_BOOKS.length} Titel.`,
+            "Auf manchen Karten klebt oben rechts ein kleiner grüner Punkt. Eine gedruckte Notiz erklärt: „Grün = auch für Bewohner anderer Gebäude ausleihbar.“",
+            `Grüne Punkte sind selten. Layard zählt ${openBooks().length}.`,
+          ]),
       },
       {
         id: "shelvesLeft",
