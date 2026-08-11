@@ -262,7 +262,7 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "Datenfluss",
     title: "Die Datenfluss-Revolution",
     body: [
-      "In den 1970er Jahren setzte sich eine neue Art der Programmierung durch: nicht sequenziell, sondern datengesteuert. Ein Rechenknoten feuert genau dann, wenn alle benötigten Eingangsdaten bereitstehen.",
+      "In den 1970er Jahren setzte sich eine neue Art der Programmierung durch: datengesteuerte Verarbeitung. Ein Rechenknoten feuert genau dann, wenn alle benötigten Eingangsdaten bereitstehen.",
       "Es gibt keinen zentralen Programmzähler, der Befehl für Befehl abarbeitet. Stattdessen gibt es ein Netz aus Knoten. Jeder Knoten wartet, bis er genug hat, dann rechnet er und gibt sein Ergebnis weiter.",
       "Diese Architektur eignet sich besonders für Aufgaben, die parallel ablaufen können: Bildverarbeitung, Simulation, neuronale Netze. Sie war nicht schneller im Einzelnen, aber skalierbarer im Ganzen.",
     ],
@@ -298,9 +298,9 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "MARV",
     title: "MARV und eingeatzte Künstliche Intelligenz",
     body: [
-      "Neuronale Netze lassen sich auf Datenfluss-Architekturen nativ abbilden. Das hat die Künstliche Intelligenz früher und kompakter werden lassen als in sequenziellen Systemen.",
-      "Systeme wie MARV, die intelligente Türsteuerung, sind keine Simulationen auf einer sequenziellen Maschine. Sie sind eingeatzt — direkt in das Cellular Array hineinverdrahtet.",
-      "Das macht sie vernünftiger, stabiler und weniger fehleranfällig. Sie müssen nicht erst lernen, sequenzielle Befehle zu simulieren. Sie denken, sofern man das Wort erlaubt, in Datenflüssen.",
+      "Neuronale Netze lassen sich auf Datenfluss-Architekturen nativ abbilden. Das hat die Künstliche Intelligenz früh und kompakter werden lassen.",
+      "Systeme wie MARV, die intelligente Türsteuerung, sind keine Simulationen auf einer fremden Bauweise. Sie sind eingeatzt — direkt in das Cellular Array hineinverdrahtet.",
+      "Das macht sie vernünftiger, stabiler und weniger fehleranfällig. Sie denken, sofern man das Wort erlaubt, in Datenflüssen.",
     ],
   },
   {
