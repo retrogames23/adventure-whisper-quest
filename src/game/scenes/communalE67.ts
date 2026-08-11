@@ -84,10 +84,10 @@ export const communalE67Scenes: Record<string, Scene> = {
       {
         id: "tjarkSpot",
         // Tjark (schwarze Haare, Brille) hinten Mitte-Rechts hinter dem GM-Schirm.
-        x: 63.4,
-        y: 4.5,
-        w: 20,
-        h: 34.3,
+        x: 62.6,
+        y: 4,
+        w: 23.4,
+        h: 32.5,
         label: "Tjark (Meister)",
         kind: "talk",
         onUse: (api) => api.startDialog("tjarkSmalltalk"),
@@ -95,8 +95,8 @@ export const communalE67Scenes: Record<string, Scene> = {
       {
         id: "yelvaSpot",
         // Yelva (grünes Kleid, Brille) sitzt rechts am Tisch.
-        x: 75.2,
-        y: 38,
+        x: 77.2,
+        y: 36.1,
         w: 16,
         h: 58,
         label: "Yelva (Elfe)",
@@ -110,10 +110,10 @@ export const communalE67Scenes: Record<string, Scene> = {
       {
         id: "bremSpot",
         // Brem (rote Haare, rot-schwarz gestreift) steht links am Tisch.
-        x: 19.2,
-        y: 12,
-        w: 15.8,
-        h: 42.8,
+        x: 22.6,
+        y: 12.3,
+        w: 9,
+        h: 49.5,
         label: "Brem (Streuner)",
         kind: "talk",
         onUse: (api) =>
@@ -127,8 +127,8 @@ export const communalE67Scenes: Record<string, Scene> = {
         // Aufgeschlagenes DSA-Regelwerk auf dem Tisch (links unten).
         x: 24,
         y: 64,
-        w: 22,
-        h: 16,
+        w: 16.4,
+        h: 15,
         label: "DSA-Regelwerk",
         kind: "look",
         onUse: (api) =>
@@ -140,9 +140,9 @@ export const communalE67Scenes: Record<string, Scene> = {
       {
         id: "exitCommon",
         // Schmaler Streifen am linken Bildrand (Tür außerhalb des Bildes).
-        x: 0.2,
-        y: 0,
-        w: 6.1,
+        x: 3.7,
+        y: -0.9,
+        w: 6.6,
         h: 100,
         label: "Zurück in die Lobby",
         kind: "exit",

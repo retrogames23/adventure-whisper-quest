@@ -70,8 +70,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "radio",
-        x: 17.3,
-        y: 48.4,
+        x: 20.8,
+        y: 52,
         w: 8.1,
         h: 13.7,
         label: "Schmerz-Radio",
@@ -108,10 +108,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       },
       {
         id: "phoneApt",
-        x: 70.7,
-        y: 33.8,
-        w: 7.2,
-        h: 18.1,
+        x: 70.8,
+        y: 30,
+        w: 6.7,
+        h: 22,
 
         label: "Telefon",
         kind: "use",
@@ -257,9 +257,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       },
       {
         id: "door",
-        x: 82.7,
-        y: 3.7,
-        w: 16.5,
+        x: 78,
+        y: 4.2,
+        w: 14.9,
         h: 92,
         label: "Wohnungstür",
         kind: "exit",

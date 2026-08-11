@@ -45,10 +45,10 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       {
         id: "officeDoor",
         // Tür 3601 — links außen.
-        x: 4.8,
-        y: 29.6,
-        w: 15,
-        h: 56.7,
+        x: 4.4,
+        y: 31.7,
+        w: 14,
+        h: 45.4,
         label: "Tür 3601 — Abschnittsverantwortlicher E67",
         kind: "talk",
         onUse: (api) => {
@@ -81,8 +81,8 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       {
         id: "officeBell",
         // Brass-Klingelknopf an der Wand zwischen Tür 3601 und 3602.
-        x: 21,
-        y: 46.4,
+        x: 20.1,
+        y: 48,
         w: 3.1,
         h: 6.2,
         label: "Klingelknopf",
@@ -118,8 +118,8 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       {
         id: "miraSprite46",
         src: miraSprite,
-        x: 39,
-        y: 22.8,
+        x: 37,
+        y: 18.4,
         w: 19.4,
         h: 70.8,
         alt: "Junge Frau, an die Wand gelehnt",
@@ -154,8 +154,8 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "miraSpot46",
-        x: 42,
-        y: 34.1,
+        x: 40.5,
+        y: 26.9,
         w: 10.5,
         h: 55,
         label: "Junge Frau an der Wand",
@@ -489,10 +489,10 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       {
         id: "oilCanSprite5610",
         src: oilCanSprite,
-        x: 44.5,
-        y: 70.5,
-        w: 12.9,
-        h: 30.2,
+        x: 39.6,
+        y: 62.5,
+        w: 21.3,
+        h: 39.4,
         alt: "Ölkännchen auf dem Wartungsregal",
         hiddenWhen: ["tookOilCan"],
       },
@@ -520,10 +520,10 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "racks5610",
-        x: 22.9,
-        y: 20.9,
-        w: 20.8,
-        h: 68.1,
+        x: 22.1,
+        y: 25.2,
+        w: 22.5,
+        h: 72.6,
         label: "Racks (warm)",
         kind: "look",
         onUse: (api) =>
@@ -568,9 +568,9 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "exit5610",
-        x: -0.3,
+        x: 8.3,
         y: 0.4,
-        w: 19.1,
+        w: 10.5,
         h: 99.8,
         label: "Zurück in den Korridor",
         kind: "exit",
