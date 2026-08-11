@@ -8,13 +8,16 @@ import { LIBRARY_BOOKS, openBooks } from "../libraryE71Books";
  * Ausleihe nur aus der Freigabeliste — Layard wohnt in E67.
  */
 export const herbertDialogs: Record<string, DialogTree> = {
-  herbertIntro: {
-    id: "herbertIntro",
+  herbertTalk: {
+    id: "herbertTalk",
     start: "hb1",
+    npcId: "herbert",
+    onStart: (api) => api.setFlag("metHerbert"),
     lines: {
       hb1: {
         id: "hb1",
         speaker: "HERBERT",
+        hiddenWhen: ["metHerbert"],
         text: "Guten Tag. Sie sind nicht von hier, oder? — Nicht schlimm. Lesen darf jeder, das steht so in der Leseordnung. Ganz oben sogar.",
         subtext: "Er sagt es freundlich, ohne Prüfblick. Der erste Mensch heute, der Layard nicht abgleicht.",
         next: "hb2",
@@ -22,17 +25,10 @@ export const herbertDialogs: Record<string, DialogTree> = {
       hb2: {
         id: "hb2",
         speaker: "HERBERT",
+        hiddenWhen: ["metHerbert"],
         text: "Herbert. Ich mache das hier seit neunzehn Jahren, dienstags, donnerstags, sonntags. Setzen Sie sich, wenn Sie mögen.",
-        onEnter: (api) => api.setFlag("metHerbert"),
-        next: "hub",
+        next: "hh1",
       },
-      hub: { id: "hub", speaker: "HERBERT", text: "", next: "herbertHub", end: true },
-    },
-  },
-  herbertHub: {
-    id: "herbertHub",
-    start: "hh1",
-    lines: {
       hh1: {
         id: "hh1",
         speaker: "HERBERT",
