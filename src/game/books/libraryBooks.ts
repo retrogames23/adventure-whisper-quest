@@ -15,6 +15,9 @@ import imgDfMatrix from "@/assets/books/df-matrix.jpg";
 import imgDfCellular from "@/assets/books/df-cellular.jpg";
 import imgDfMarv from "@/assets/books/df-marv.jpg";
 import imgDfProgrammieren from "@/assets/books/df-programmieren.jpg";
+import imgWirtUsa from "@/assets/books/wirt-usa.jpg";
+import imgWirtUdssr from "@/assets/books/wirt-udssr.jpg";
+import imgWirtMandat from "@/assets/books/wirt-mandat.jpg";
 import { registerBook, type BookUiText } from "./index";
 
 const LIBRARY_UI_TEXT: BookUiText = {
@@ -398,6 +401,8 @@ const wirtschaftsChapters: HandbookChapter[] = [
   },
   {
     id: "wirt-usa",
+    image: imgWirtUsa,
+    imageCaption: "Börse in den Vereinigten Staaten, 1992",
     shortTitle: "Vereinigte Staaten",
     title: "Kapitel II: Die Vereinigten Staaten — Markt, Vertrag und Anteil",
     body: [
@@ -409,6 +414,8 @@ const wirtschaftsChapters: HandbookChapter[] = [
   },
   {
     id: "wirt-udssr",
+    image: imgWirtUdssr,
+    imageCaption: "Planungsbüro einer sowjetischen Fabrik, 1988",
     shortTitle: "Sowjetunion",
     title: "Kapitel III: Die Sowjetunion — Plan, Verteilung und Kollektiv",
     body: [
@@ -420,6 +427,8 @@ const wirtschaftsChapters: HandbookChapter[] = [
   },
   {
     id: "wirt-mandat",
+    image: imgWirtMandat,
+    imageCaption: "Verwaltungsarchiv im Mandatsgebiet, 1991",
     shortTitle: "Mandatsgebiet",
     title: "Kapitel IV: Das Mandatsgebiet — Eigentum unter Verwaltung",
     body: [
