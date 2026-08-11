@@ -214,9 +214,11 @@ export function SceneView() {
 
   useEffect(() => {
     setShowIntro(true);
+    // Im Text-Edit-Modus darf der Intro-Text nicht wegblenden.
+    if (editing) return;
     const t = setTimeout(() => setShowIntro(false), 20000);
     return () => clearTimeout(t);
-  }, [scene]);
+  }, [scene, editing]);
 
   // Sicherheitsnetz: Captions beim Szenenwechsel immer zurücksetzen, falls
   // ein onMouseLeave nicht gefeuert hat (z. B. weil der Hotspot beim Klick
