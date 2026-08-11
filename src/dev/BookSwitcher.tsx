@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useGame } from "@/game/GameContext";
+import { getBook } from "@/game/books";
 import { LIBRARY_BOOKS } from "@/game/libraryE71Books";
 
 /**
  * Dev-only Bücher-Switcher: Öffnet jedes im Spiel lesbare Buch direkt,
- * unabhängig davon, ob Layard es schon gefunden hat. Zusätzlich wird der
- * Bestand der Bewohnerbibliothek (E71, Raum 1101) als Katalog gelistet —
- * diese Titel haben noch keinen Lesetext.
+ * unabhängig davon, ob Layard es schon gefunden hat. Der Katalog der
+ * Bewohnerbibliothek (E71, Raum 1101) listet ebenfalls alle Titel; bereits
+ * mit Volltext angelegte Bücher lassen sich direkt öffnen.
  */
 export function BookSwitcher() {
   const { api, openHandbook } = useGame();
@@ -88,33 +89,47 @@ export function BookSwitcher() {
               </ul>
 
               <div className="mb-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                Bibliothek E71 · Katalog (Katalogeintrag)
+                Bibliothek E71 · Katalog (anklickbar = lesbar)
               </div>
               <ul className="space-y-1">
-                {LIBRARY_BOOKS.map((b) => (
-                  <li key={b.id}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOpen(false);
-                        api.showText([
-                          `„${b.title}“ — ${b.author}, ${b.year}.`,
-                          b.blurb,
-                          b.openToOutsiders
-                            ? "Grüner Punkt: auch für Bewohner anderer Gebäude ausleihbar."
-                            : "Kein grüner Punkt: Präsenzbestand, nur am Lesetisch.",
-                        ]);
-                      }}
-                      className="w-full rounded-sm border border-amber-glow/20 px-3 py-2 text-left text-muted-foreground transition hover:border-amber-glow/60 hover:bg-amber-glow/10"
-                    >
-                      <div className="truncate text-foreground/80">{b.title}</div>
-                      <div className="text-xs">
-                        {b.author} · {b.year} ·{" "}
-                        {b.openToOutsiders ? "ausleihbar" : "Präsenzbestand"}
-                      </div>
-                    </button>
-                  </li>
-                ))}
+                {LIBRARY_BOOKS.map((b) => {
+                  const registered = !!getBook(b.id);
+                  return (
+                    <li key={b.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOpen(false);
+                          if (registered) {
+                            api.openBook(b.id);
+                          } else {
+                            api.showText([
+                              `„${b.title}“ — ${b.author}, ${b.year}.`,
+                              b.blurb,
+                              b.openToOutsiders
+                                ? "Grüner Punkt: auch für Bewohner anderer Gebäude ausleihbar."
+                                : "Kein grüner Punkt: Präsenzbestand, nur am Lesetisch.",
+                            ]);
+                          }
+                        }}
+                        className="w-full rounded-sm border border-amber-glow/20 px-3 py-2 text-left text-muted-foreground transition hover:border-amber-glow/60 hover:bg-amber-glow/10"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="truncate text-foreground/80">{b.title}</span>
+                          {!registered && (
+                            <span className="shrink-0 text-[10px] uppercase text-amber-glow/70">
+                              (nur Katalog)
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-xs">
+                          {b.author} · {b.year} ·{" "}
+                          {b.openToOutsiders ? "ausleihbar" : "Präsenzbestand"}
+                        </div>
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

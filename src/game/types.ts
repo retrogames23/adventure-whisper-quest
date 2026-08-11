@@ -647,8 +647,12 @@ export interface GameApi {
   openAmigaWorkbench: () => void;
   /** Sektoren-Almanach (Lese-Overlay) öffnen. */
   openAlmanach: () => void;
-  /** „Die kürzeste Geschichte der Menschheit“ (Lese-Overlay) öffnen. */
+  /** „Die kürzeste Geschichte der Menschheit" (Lese-Overlay) öffnen. */
   openHistoryBook: () => void;
+  /** Beliebiges registriertes Buch öffnen (id aus der Buch-Registry). */
+  openBook: (bookId: string) => void;
+  /** Aktuelles Buch-Overlay schließen. */
+  closeBook: () => void;
   /** Wartungsterminal hinter Tür 5610 (eigenes UI, kein CentralOS). */
   openNode5610: () => void;
   /** Pneumatik-Rohrpost-Overlay in der Kantine 3602. */

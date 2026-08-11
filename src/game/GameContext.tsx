@@ -24,6 +24,10 @@ import type {
   SceneId,
   StoryFlag,
 } from "./types";
+import { getBook } from "./books";
+import "./books/history";
+import "./books/almanach";
+import "./books/libraryBooks";
 
 export interface MarvSaveState {
   empathyScore: number;
@@ -79,10 +83,8 @@ interface GameState {
   dsaSheetOpen: boolean;
   /** Handbuch-Lese-Overlay sichtbar. */
   handbookOpen: boolean;
-  /** Sektoren-Almanach-Lese-Overlay sichtbar. */
-  almanachOpen: boolean;
-  /** „Die kürzeste Geschichte der Menschheit“ (Lese-Overlay) sichtbar. */
-  historyBookOpen: boolean;
+  /** Buch-Lese-Overlay sichtbar (allgemein, für registrierte Bücher). */
+  bookOpen: boolean;
   /** Bewohner-Ausweis-Lese-Overlay sichtbar. */
   idCardOpen: boolean;
   /** Lobby-Schleuse-Overlay sichtbar (Tagesmodus, vor Erstbetreten). */
@@ -101,6 +103,8 @@ interface GameContextValue extends GameState {
   closeFreeChat: () => void;
   /** True, sobald die Assets der ersten Szene geladen sind. */
   isEssentialAssetsLoaded: boolean;
+  /** Aktuell geöffnetes Buch (id), oder null. */
+  currentBookId: string | null;
   /** Wird aus der SceneView aufgerufen, wenn der erste Hintergrund da ist. */
   markEssentialAssetsLoaded: () => void;
   setCaption: (s: string | null) => void;
@@ -128,9 +132,10 @@ interface GameContextValue extends GameState {
   closeHandbook: () => void;
   /** Sektoren-Almanach Overlay. */
   openAlmanach: () => void;
-  closeAlmanach: () => void;
   openHistoryBook: () => void;
-  closeHistoryBook: () => void;
+  /** Beliebiges registriertes Buch öffnen / schließen. */
+  openBook: (bookId: string) => void;
+  closeBook: () => void;
   openIdCard: () => void;
   closeIdCard: () => void;
   /** Lobby-Schleuse manuell öffnen / schließen. */
@@ -263,8 +268,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const dsaBeatRef = useRef<string | null>(null);
   dsaBeatRef.current = dsaBeat;
   const [handbookOpen, setHandbookOpen] = useState(false);
-  const [almanachOpen, setAlmanachOpen] = useState(false);
-  const [historyBookOpen, setHistoryBookOpen] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
+  const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   const [idCardOpen, setIdCardOpen] = useState(false);
   const [lobbyGateOpen, setLobbyGateOpen] = useState(false);
   const [notizbuchOpen, setNotizbuchOpen] = useState(false);
@@ -477,13 +482,31 @@ export function GameProvider({ children }: { children: ReactNode }) {
       openAlmanach: () => {
         setRadioOpen(false);
         setTerminalOpen(false);
-        setAlmanachOpen(true);
+        setCurrentBookId("almanach");
+        setBookOpen(true);
       },
       openHistoryBook: () => {
         setRadioOpen(false);
         setTerminalOpen(false);
-        setHistoryBookOpen(true);
+        setCurrentBookId("history");
+        setBookOpen(true);
       },
+      openBook: (id: string) => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        if (id === "e67Handbook") {
+          setHandbookOpen(true);
+          return;
+        }
+        const book = getBook(id);
+        if (!book) {
+          console.warn(`Unknown book id: ${id}`);
+          return;
+        }
+        setCurrentBookId(id);
+        setBookOpen(true);
+      },
+      closeBook: () => setBookOpen(false),
       openKeypad: () => {
         setKeypadOpen(true);
       },
@@ -870,10 +893,28 @@ export function GameProvider({ children }: { children: ReactNode }) {
       toggleDsaSheet: () => setDsaSheetOpen((v) => !v),
       openHandbook: () => setHandbookOpen(true),
       closeHandbook: () => setHandbookOpen(false),
-      openAlmanach: () => setAlmanachOpen(true),
-      closeAlmanach: () => setAlmanachOpen(false),
-      openHistoryBook: () => setHistoryBookOpen(true),
-      closeHistoryBook: () => setHistoryBookOpen(false),
+      openAlmanach: () => {
+        setCurrentBookId("almanach");
+        setBookOpen(true);
+      },
+      openHistoryBook: () => {
+        setCurrentBookId("history");
+        setBookOpen(true);
+      },
+      openBook: (id: string) => {
+        if (id === "e67Handbook") {
+          setHandbookOpen(true);
+          return;
+        }
+        const book = getBook(id);
+        if (!book) {
+          console.warn(`Unknown book id: ${id}`);
+          return;
+        }
+        setCurrentBookId(id);
+        setBookOpen(true);
+      },
+      closeBook: () => setBookOpen(false),
       openIdCard: () => setIdCardOpen(true),
       closeIdCard: () => setIdCardOpen(false),
       openLobbyGate: () => setLobbyGateOpen(true),
@@ -1123,8 +1164,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
     dsaBeat,
     dsaSheetOpen,
     handbookOpen,
-    almanachOpen,
-    historyBookOpen,
+    bookOpen,
+    currentBookId,
     idCardOpen,
     lobbyGateOpen,
     notizbuchOpen,
@@ -1175,8 +1216,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       dsaBeat,
       dsaSheetOpen,
       handbookOpen,
-      almanachOpen,
-      historyBookOpen,
+      bookOpen,
+      currentBookId,
       idCardOpen,
       lobbyGateOpen,
       notizbuchOpen,

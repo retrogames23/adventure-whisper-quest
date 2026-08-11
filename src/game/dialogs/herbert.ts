@@ -1,4 +1,5 @@
 import type { DialogTree } from "../types";
+import { getBook } from "../books";
 import { LIBRARY_BOOKS, openBooks } from "../libraryE71Books";
 
 /**
@@ -127,17 +128,52 @@ export const herbertDialogs: Record<string, DialogTree> = {
         speaker: "HERBERT",
         text: `Die Liste ist kurz. ${openBooks().length} von ${LIBRARY_BOOKS.length} Titeln im Katalog.`,
         choicesFn: (api) => [
-          ...openBooks().map((b) => ({
-            text: `„${b.title}“ ansehen`,
-            action: () =>
-              api.showText([
-                `${b.title} — ${b.author}, ${b.year}.`,
-                b.blurb,
-                "Herbert schiebt es über den Tresen und notiert nichts. „Bringen Sie es zurück, wenn Sie es zurückbringen.“",
-              ]),
-          })),
+          ...openBooks().map((b) => {
+            const registered = !!getBook(b.id);
+            return {
+              text: `„${b.title}“ ansehen`,
+              action: () => {
+                if (registered) {
+                  api.openBook(b.id);
+                } else {
+                  api.showText([
+                    `${b.title} — ${b.author}, ${b.year}.`,
+                    b.blurb,
+                    "Herbert schiebt es über den Tresen und notiert nichts. „Bringen Sie es zurück, wenn Sie es zurückbringen.“",
+                  ]);
+                }
+              },
+            };
+          }),
           { text: "Zurück zum Gespräch.", next: "hh1" },
         ],
+      },
+    },
+  },
+  libraryReadingTable: {
+    id: "libraryReadingTable",
+    start: "lrt1",
+    npcId: "herbert",
+    lines: {
+      lrt1: {
+        id: "lrt1",
+        speaker: "HERBERT",
+        text: "Nehmen Sie Platz. Hier dürfen Sie alles lesen, was im Regal steht — auch den Präsenzbestand. Was darf ich Ihnen hinlegen?",
+        choicesFn: (api) => {
+          const readable = LIBRARY_BOOKS.filter((b) => getBook(b.id));
+          return [
+            ...readable.map((b) => ({
+              text: `„${b.title}“`,
+              action: () => api.openBook(b.id),
+            })),
+            { text: "Doch nicht. Danke.", next: "lrtEnd" },
+          ];
+        },
+      },
+      lrtEnd: {
+        id: "lrtEnd",
+        speaker: "HERBERT",
+        text: "Gern. Die Seiten bleiben hier, wenn Sie gehen.",
       },
     },
   },

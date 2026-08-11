@@ -1,5 +1,6 @@
 import libraryBg from "@/assets/scene-library-1101.jpg";
 import type { Scene } from "../types";
+import { getBook } from "../books";
 import { LIBRARY_BOOKS, openBooks } from "../libraryE71Books";
 
 /**
@@ -75,11 +76,17 @@ export const libraryE71Scenes: Record<string, Scene> = {
         h: 30,
         label: "Lesetisch",
         kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "Zwei Stühle, ein aufgeschlagener Band, ein Stapel Zeitschriften. Jemand hat eine Karte als Lesezeichen liegen lassen.",
-            "Präsenzbestand: hier lesen, hier lassen.",
-          ]),
+        onUse: (api) => {
+          const readable = LIBRARY_BOOKS.filter((b) => getBook(b.id));
+          if (readable.length === 0) {
+            api.showText([
+              "Zwei Stühle, ein aufgeschlagener Band, ein Stapel Zeitschriften. Jemand hat eine Karte als Lesezeichen liegen lassen.",
+              "Präsenzbestand: hier lesen, hier lassen.",
+            ]);
+            return;
+          }
+          api.startDialog("libraryReadingTable");
+        },
       },
       {
         id: "leseordnung",
