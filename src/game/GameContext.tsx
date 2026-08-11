@@ -271,6 +271,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [handbookOpen, setHandbookOpen] = useState(false);
   const [almanachOpen, setAlmanachOpen] = useState(false);
   const [historyBookOpen, setHistoryBookOpen] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
+  const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   const [idCardOpen, setIdCardOpen] = useState(false);
   const [lobbyGateOpen, setLobbyGateOpen] = useState(false);
   const [notizbuchOpen, setNotizbuchOpen] = useState(false);
