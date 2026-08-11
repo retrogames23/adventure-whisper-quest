@@ -6,6 +6,7 @@ import { corridorsE67Scenes } from "./corridorsE67";
 import { communalE67Scenes } from "./communalE67";
 import { commonRoomE71Scenes } from "./commonRoomE71";
 import { cinemaE71Scenes } from "./cinemaE71";
+import { corridor11Scenes } from "./corridor11";
 import { kantinenverwaltung3603Scenes } from "./kantinenverwaltung3603";
 import { leitstelleE67Scenes } from "./leitstelleE67";
 import { kellerE67Scenes } from "./kellerE67";
@@ -20,6 +21,7 @@ export const scenes: Record<string, Scene> = {
   ...communalE67Scenes,
   ...commonRoomE71Scenes,
   ...cinemaE71Scenes,
+  ...corridor11Scenes,
   ...kantinenverwaltung3603Scenes,
   ...leitstelleE67Scenes,
   ...kellerE67Scenes,

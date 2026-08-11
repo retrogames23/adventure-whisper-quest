@@ -1,0 +1,132 @@
+import corridor11Bg from "@/assets/scene-corridor-11.jpg";
+import type { Scene } from "../types";
+
+/**
+ * Etage 1, Korridor 11 — Wohnkorridor in Gebäude E71.
+ * Nummernschema wie in E67: erste Ziffer = Etage, zweite = Korridor,
+ * letzte beiden = Wohnung. Also 1101–1140.
+ * Charakter: sauberer, wärmer, wohnlicher als E67 — Teppich, Wandlampen,
+ * Holzleisten. Ein Hotelgang, der so tut, als wäre er kein Verwaltungsbau.
+ */
+export const corridor11Scenes: Record<string, Scene> = {
+  corridor11: {
+    id: "corridor11",
+    background: corridor11Bg,
+    title: "Korridor 11 — Etage 1, Gebäude E71",
+    intro:
+      "Teppich statt Linoleum. Warmes Licht aus Wandlampen, Holzleisten in Hüfthöhe, gerahmte Drucke, die niemand aufgehängt haben will. Am Ende des Gangs ein Fenster mit geschlossener Jalousie und eine Topfpflanze, die jemand tatsächlich gießt. Es riecht nach Teppichreiniger.",
+    hotspots: [
+      {
+        id: "door1101",
+        x: 2,
+        y: 5,
+        w: 14,
+        h: 92,
+        label: "Tür 1101",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Messingschild, poliert: 1101. Darunter, mit Kugelschreiber auf einen Klebestreifen: „Bitte nicht vor 9 Uhr.“",
+            "Hinter der Tür läuft ein Radio, leise, dudelnd. Kein Rauschen, keine Meldungen — nur Musik. In E67 klingt das anders.",
+          ]),
+      },
+      {
+        id: "door1103",
+        x: 30,
+        y: 24,
+        w: 8,
+        h: 45,
+        label: "Tür 1103",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "1103. Vor der Tür steht ein Paar Hausschuhe, ordentlich nebeneinander.",
+            "Layard denkt an seinen eigenen Flur: Beton, ein Lichtschalter, der klemmt.",
+          ]),
+      },
+      {
+        id: "door1102",
+        x: 84,
+        y: 5,
+        w: 15,
+        h: 92,
+        label: "Tür 1102",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "1102. Am Rahmen klebt ein kleiner Zettel der Hausverwaltung: „Reinigung Di + Fr. Teppichpflege wird gestellt.“",
+            "Gestellt. Layard liest das Wort zweimal.",
+          ]),
+      },
+      {
+        id: "door1104",
+        x: 63,
+        y: 24,
+        w: 8,
+        h: 45,
+        label: "Tür 1104",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "1104. Kein Siegelband, kein rotes Statuslicht, kein Aushang.",
+            "Nur eine Tür. Das ist hier offenbar möglich.",
+          ]),
+      },
+      {
+        id: "corridorPrints",
+        x: 22,
+        y: 26,
+        w: 7,
+        h: 22,
+        label: "Gerahmter Druck",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Ein Landschaftsdruck in Grün und Grau. Unten rechts eine Registriernummer, kleiner als die Signatur.",
+            "Derselbe Druck hängt weiter hinten noch einmal. Und gegenüber. Dekoration nach Stückliste.",
+          ]),
+      },
+      {
+        id: "corridorWindow",
+        x: 45,
+        y: 30,
+        w: 10,
+        h: 18,
+        label: "Fenster mit Jalousie",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Die Lamellen sind geschlossen und verstaubt. Durch die Ritzen: graues Licht, ein Stück Dach, Regen.",
+            "Neben dem Fenster steht die Topfpflanze. Feuchte Erde. Jemand kümmert sich.",
+          ]),
+      },
+      {
+        id: "corridor11Board",
+        x: 74,
+        y: 27,
+        w: 7,
+        h: 20,
+        label: "Aushang der Hausverwaltung",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            ">> KORRIDOR 11 — WOHNEN, ETAGE 1",
+            ">> Wohnungen 1101–1140",
+            ">> Resonanz-Hygiene: Zimmerlautstärke ab 21:00",
+            ">> Beschwerden schriftlich, Formblatt 9/W, Empfang.",
+          ]),
+      },
+      {
+        id: "backElevator11",
+        x: 24,
+        y: 80,
+        w: 52,
+        h: 19,
+        label: "Zurück zum Aufzug",
+        kind: "exit",
+        exitDir: "down",
+        onUse: (api) => api.goTo("elevatorE71"),
+      },
+    ],
+  },
+};
