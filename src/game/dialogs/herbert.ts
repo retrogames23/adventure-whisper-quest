@@ -159,12 +159,12 @@ export const herbertDialogs: Record<string, DialogTree> = {
         id: "lrt1",
         speaker: "HERBERT",
         text: "Nehmen Sie Platz. Hier dürfen Sie alles lesen, was im Regal steht — auch den Präsenzbestand. Was darf ich Ihnen hinlegen?",
-        choicesFn: () => {
+        choicesFn: (api) => {
           const readable = LIBRARY_BOOKS.filter((b) => getBook(b.id));
           return [
             ...readable.map((b) => ({
               text: `„${b.title}“`,
-              action: (api: any) => api.openBook(b.id),
+              action: () => api.openBook(b.id),
             })),
             { text: "Doch nicht. Danke.", next: "lrtEnd" },
           ];
