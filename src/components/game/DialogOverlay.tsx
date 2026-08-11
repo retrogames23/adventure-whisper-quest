@@ -302,7 +302,7 @@ export function DialogOverlay() {
 
   return (
     <div
-      className={`absolute inset-0 z-40 flex items-end ${justifyClass} px-4 pb-6 ${
+      className={`absolute inset-0 z-40 flex items-end ${justifyClass} overflow-y-auto px-4 pb-6 pt-14 ${
         // Fensternische: Bild bleibt sichtbar, nur der untere Bereich wird
         // für die Lesbarkeit der Bubble abgedunkelt.
         scene === "windowNiche"
@@ -314,7 +314,7 @@ export function DialogOverlay() {
       onClick={handleAdvance}
     >
       <div
-        className="fade-in relative w-full max-w-3xl rounded-sm border border-amber-glow/40 bg-background/95 p-5 pr-12 shadow-[0_0_40px_rgba(0,0,0,0.7)]"
+        className="fade-in relative max-h-full w-full max-w-3xl overflow-y-auto rounded-sm border border-amber-glow/40 bg-background/95 p-5 pr-12 shadow-[0_0_40px_rgba(0,0,0,0.7)]"
         onClick={(e) => {
           // Klick auf die Bubble selbst zählt nur als „weiter“,
           // wenn keine Auswahl ansteht. Sonst stoppen wir die Propagation
