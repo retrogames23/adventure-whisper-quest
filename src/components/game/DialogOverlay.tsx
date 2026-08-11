@@ -181,6 +181,7 @@ export function DialogOverlay() {
     "VOSSBECK",
     "BRAM",
     "MARV",
+    "HERBERT",
   ];
 
   // Vorgängerzeile finden (für „Merge ↑").
@@ -291,6 +292,7 @@ export function DialogOverlay() {
     BREM: "text-foreground",
     YELVA: "text-foreground",
     BRAM: "text-amber-glow",
+    HERBERT: "text-amber-glow",
   };
 
   // Tastatur: Space / Enter / Klick-irgendwohin → weiter (nur wenn keine Auswahl)

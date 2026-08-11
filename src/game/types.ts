@@ -7,6 +7,7 @@ export type SceneId =
   | "cinemaE71"
   | "corridor15"
   | "corridor11"
+  | "libraryE71"
   | "room1534"
   | "room1532"
   | "apt2613"
@@ -92,6 +93,8 @@ export type CutsceneId =
   | "miraRepair";
 
 export type StoryFlag =
+  /** Layard hat Herbert in der Bewohnerbibliothek 1101 (E71) kennengelernt. */
+  | "metHerbert"
   | "askedBodoPhone"
   | "askedPhilippePhone"
   | "askedEnnisPhone"
@@ -577,7 +580,8 @@ export interface DialogLine {
     | "DETLEF"
     | "SIGI"
     | "RUVEN"
-    | "RALF";
+    | "RALF"
+    | "HERBERT";
   text: string;
   /** subtext appears only when Schmerz-Radio active */
   subtext?: string;
