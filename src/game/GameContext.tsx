@@ -139,6 +139,9 @@ interface GameContextValue extends GameState {
   closeAlmanach: () => void;
   openHistoryBook: () => void;
   closeHistoryBook: () => void;
+  /** Beliebiges registriertes Buch öffnen / schließen. */
+  openBook: (bookId: string) => void;
+  closeBook: () => void;
   openIdCard: () => void;
   closeIdCard: () => void;
   /** Lobby-Schleuse manuell öffnen / schließen. */
