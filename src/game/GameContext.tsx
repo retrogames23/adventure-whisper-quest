@@ -105,6 +105,8 @@ interface GameContextValue extends GameState {
   closeFreeChat: () => void;
   /** True, sobald die Assets der ersten Szene geladen sind. */
   isEssentialAssetsLoaded: boolean;
+  /** Aktuell geöffnetes Buch (id), oder null. */
+  currentBookId: string | null;
   /** Wird aus der SceneView aufgerufen, wenn der erste Hintergrund da ist. */
   markEssentialAssetsLoaded: () => void;
   setCaption: (s: string | null) => void;
