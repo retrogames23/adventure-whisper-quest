@@ -319,7 +319,7 @@ registerBook({
   author: "S. R. Vossen",
   year: "1997",
   blurb:
-    "Vossen erzählt, warum die Computer in diesem Jahrhundert nie einen einzelnen Prozessor hatten: 1945 verschwand ein geheimer Entwurf, und die Entwicklung entschied sich für die strenge Trennung von Programm und Daten.",
+    "Vossen erzählt, wie die Datenfluss-Architektur zur dominierenden Form des Rechnens wurde — ausgehend von der strengen Trennung von Programm und Daten, die Aiken, Zuse und die frühen Harvard-Systeme prägten.",
   chapters: dataflowChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
