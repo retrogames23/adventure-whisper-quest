@@ -235,9 +235,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         id: "commonRoomDoor",
         // Schmale Tür links neben dem Empfangstresen (unterer Bildbereich,
         // damit es nicht mit den anderen Hotspots kollidiert).
-        x: -0.1,
-        y: 2.3,
-        w: 6,
+        x: 3.3,
+        y: 2.5,
+        w: 14.5,
         h: 89.6,
         label: "Tür: Gemeinschaftsraum",
         kind: "exit",
@@ -254,10 +254,10 @@ export const elevatorE67Scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "lookE67",
-        x: 32,
-        y: 81.3,
-        w: 37.3,
-        h: 11.9,
+        x: 12,
+        y: 42.3,
+        w: 8.4,
+        h: 50,
         label: "Wand E67 (zurück)",
         kind: "exit",
         onUse: (api) => api.goTo("sectorDoor"),
@@ -279,9 +279,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       },
       {
         id: "toE71",
-        x: 72,
+        x: 69.1,
         y: 40.1,
-        w: 7.9,
+        w: 14.7,
         h: 51.9,
         label: "Eingang E71 →",
         kind: "exit",
@@ -296,7 +296,7 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         // hinten am Ende des Gehwegs.
         x: 23.4,
         y: 53.8,
-        w: 6.5,
+        w: 12.3,
         h: 29.6,
         label: "Kneipe „Zum stillen Funk“",
         kind: "exit",

@@ -125,9 +125,9 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       },
       {
         id: "backHallwayS",
-        x: -0.1,
-        y: 26.2,
-        w: 24.5,
+        x: 10.9,
+        y: 35,
+        w: 13.5,
         h: 60,
         label: "Zurück in die Lobby",
         kind: "exit",
@@ -289,13 +289,13 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       "Eine Kabine aus gebürstetem Stahl. Rechts an der Wand ein Bedienfeld: fünf Etagen und ein Keller. Über der Tür ein rotes Segment-Display, das leise flackert.",
     hotspots: [
       ...[
-        { id: "e71Btn4", y: 36.0, label: "Etage 4" },
-        { id: "e71Btn3", y: 46.1, label: "Etage 3" },
-        { id: "e71Btn2", y: 56.9, label: "Etage 2" },
-        { id: "e71BtnK", y: 78.2, label: "Keller" },
+        { id: "e71Btn4", x: 86.8, y: 33.6, label: "Etage 4" },
+        { id: "e71Btn3", x: 86.6, y: 42.0, label: "Etage 3" },
+        { id: "e71Btn2", x: 87.0, y: 51.5, label: "Etage 2" },
+        { id: "e71BtnK", x: 86.8, y: 68.7, label: "Keller" },
       ].map((b) => ({
         id: b.id,
-        x: 87.8,
+        x: b.x,
         y: b.y,
         w: 4.6,
         h: 6.2,
@@ -306,8 +306,8 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       })),
       {
         id: "e71Btn5",
-        x: 87.8,
-        y: 25.8,
+        x: 86.1,
+        y: 24.6,
         w: 4.6,
         h: 6.2,
         label: "Etage 5 — Lichtspielsaal",
@@ -317,8 +317,8 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       },
       {
         id: "e71Btn1",
-        x: 87.8,
-        y: 67.5,
+        x: 86.7,
+        y: 60.4,
         w: 4.6,
         h: 6.2,
         label: "Etage 1 — Wohnkorridor 11",
