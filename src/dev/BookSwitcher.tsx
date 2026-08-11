@@ -88,19 +88,31 @@ export function BookSwitcher() {
               </ul>
 
               <div className="mb-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                Bibliothek E71 · Katalog (kein Lesetext)
+                Bibliothek E71 · Katalog (Katalogeintrag)
               </div>
               <ul className="space-y-1">
                 {LIBRARY_BOOKS.map((b) => (
-                  <li
-                    key={b.id}
-                    className="rounded-sm border border-amber-glow/10 px-3 py-2 text-muted-foreground"
-                  >
-                    <div className="truncate text-foreground/80">{b.title}</div>
-                    <div className="text-xs">
-                      {b.author} · {b.year} ·{" "}
-                      {b.openToOutsiders ? "ausleihbar" : "Präsenzbestand"}
-                    </div>
+                  <li key={b.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpen(false);
+                        api.showText([
+                          `„${b.title}“ — ${b.author}, ${b.year}.`,
+                          b.blurb,
+                          b.openToOutsiders
+                            ? "Grüner Punkt: auch für Bewohner anderer Gebäude ausleihbar."
+                            : "Kein grüner Punkt: Präsenzbestand, nur am Lesetisch.",
+                        ]);
+                      }}
+                      className="w-full rounded-sm border border-amber-glow/20 px-3 py-2 text-left text-muted-foreground transition hover:border-amber-glow/60 hover:bg-amber-glow/10"
+                    >
+                      <div className="truncate text-foreground/80">{b.title}</div>
+                      <div className="text-xs">
+                        {b.author} · {b.year} ·{" "}
+                        {b.openToOutsiders ? "ausleihbar" : "Präsenzbestand"}
+                      </div>
+                    </button>
                   </li>
                 ))}
               </ul>
