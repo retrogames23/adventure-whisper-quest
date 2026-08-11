@@ -83,19 +83,22 @@ function DsaMusicBridge() {
     const inCafeteria = scene === "cafeteriaE67";
     const inPub = scene === "pub" || scene === "pubToilet";
     const inE71Nerds = scene === "commonRoomE71";
+    const inElevator = scene === "elevator" || scene === "elevatorE71";
     const target = dsaAdventureOpen
       ? null
-      : inTavern
-      ? "dsaTavern"
-      : inDsa
-        ? "dsaTable"
-        : inCafeteria
-          ? "cafeteria"
-          : inPub
-            ? "pub"
-            : inE71Nerds
-              ? "e71Nerds"
-              : null;
+      : inElevator
+        ? "elevator"
+        : inTavern
+          ? "dsaTavern"
+          : inDsa
+            ? "dsaTable"
+            : inCafeteria
+              ? "cafeteria"
+              : inPub
+                ? "pub"
+                : inE71Nerds
+                  ? "e71Nerds"
+                  : null;
     // „sectorThreshold" ist ein Play-Once-Override, der sich selbst auflöst,
     // sobald der Song zu Ende ist. Bis dahin nicht überschreiben — sonst
     // würde z. B. der Wechsel in „passage" (target=null) den Song abbrechen.

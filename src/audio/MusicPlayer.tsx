@@ -22,6 +22,7 @@ import trackCornerBooth from "@/assets/music/The_Corner_Booth.mp3";
 import trackVictorySpire from "@/assets/music/victory-over-the-spire.mp3";
 import trackCityForgets from "@/assets/music/The_City_Forgets.mp3";
 import trackElectro3 from "@/assets/music/Electro3.mp3";
+import elevatorMusicAsset from "@/assets/elevator-music.mp3.asset.json";
 import { pickMoodTrack, type DsaMood } from "./dsaMusic";
 
 /**
@@ -60,6 +61,7 @@ export const MUSIC_OVERRIDES = {
   pub: { title: "The Corner Booth", src: trackCornerBooth } as MusicTrack,
   e71Nerds: { title: "Victory over the Spire", src: trackVictorySpire } as MusicTrack,
   sectorThreshold: { title: "The City Forgets", src: trackCityForgets } as MusicTrack,
+  elevator: { title: "Fahrstuhl-Musik", src: elevatorMusicAsset.url } as MusicTrack,
 };
 export type MusicOverrideId = keyof typeof MUSIC_OVERRIDES;
 const CROSSFADE_SECONDS = 6;
