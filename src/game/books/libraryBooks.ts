@@ -192,9 +192,8 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "Vorwort",
     title: "Vorwort: Eine andere Abzweigung",
     body: [
-      "Dieses Buch erzählt eine Geschichte, die in unserer Welt anders verlaufen ist als in der, die der Leser kennt. Es geht um Computer, die nie einen einzelnen Prozessor hatten.",
-      "Der Ausgangspunkt ist ein geheimer Bericht aus dem Jahr 1945. In unserer Welt verschwand er in den Archiven des US-Kriegsministeriums. In der Welt, in der Sie dies lesen, geschah dasselbe. Der Unterschied ist: Er blieb verschwunden.",
-      "Ohne den *First Draft of a Report on the EDVAC* setzte sich nicht die von-Neumann-Architektur durch, sondern eine strengere Trennung von Programm und Daten. Daraus erwuchs die Datenfluss-Maschine.",
+      "Dieses Buch erzählt eine Geschichte der Computer, wie sie sich in diesem Jahrhundert entwickelt haben. Es geht um Maschinen, die nie einen einzelnen Prozessor hatten.",
+      "Der Ausgangspunkt ist ein geheimer Bericht aus dem Jahr 1945. Er verschwand in den Archiven des US-Kriegsministeriums und blieb dort. Ohne den *First Draft of a Report on the EDVAC* setzte sich nicht die von-Neumann-Architektur durch, sondern eine strengere Trennung von Programm und Daten. Daraus erwuchs die Datenfluss-Maschine.",
     ],
   },
   {
