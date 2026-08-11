@@ -1,5 +1,6 @@
 import libraryBg from "@/assets/scene-library-1101.jpg";
 import type { Scene } from "../types";
+import { getBook } from "../books";
 import { LIBRARY_BOOKS, openBooks } from "../libraryE71Books";
 
 /**
