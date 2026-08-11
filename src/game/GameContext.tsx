@@ -485,13 +485,31 @@ export function GameProvider({ children }: { children: ReactNode }) {
       openAlmanach: () => {
         setRadioOpen(false);
         setTerminalOpen(false);
-        setAlmanachOpen(true);
+        setCurrentBookId("almanach");
+        setBookOpen(true);
       },
       openHistoryBook: () => {
         setRadioOpen(false);
         setTerminalOpen(false);
-        setHistoryBookOpen(true);
+        setCurrentBookId("history");
+        setBookOpen(true);
       },
+      openBook: (id: string) => {
+        setRadioOpen(false);
+        setTerminalOpen(false);
+        if (id === "e67Handbook") {
+          setHandbookOpen(true);
+          return;
+        }
+        const book = getBook(id);
+        if (!book) {
+          console.warn(`Unknown book id: ${id}`);
+          return;
+        }
+        setCurrentBookId(id);
+        setBookOpen(true);
+      },
+      closeBook: () => setBookOpen(false),
       openKeypad: () => {
         setKeypadOpen(true);
       },
