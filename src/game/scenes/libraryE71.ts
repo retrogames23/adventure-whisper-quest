@@ -50,8 +50,7 @@ export const libraryE71Scenes: Record<string, Scene> = {
         onUse: (api) =>
           api.showText([
             `Handbeschriftete Karten, alphabetisch. Der Katalog zählt ${LIBRARY_BOOKS.length} Titel.`,
-            "Auf manchen Karten klebt oben rechts ein kleiner grüner Punkt. Eine gedruckte Notiz erklärt: „Grün = auch für Bewohner anderer Gebäude ausleihbar.“",
-            `Grüne Punkte sind selten. Layard zählt ${openBooks().length}.`,
+            "Oben auf dem Kasten liegt eine gedruckte Notiz: „Alle Titel ausleihbar. Bitte bei Herbert eintragen lassen.“",
           ]),
       },
       {
@@ -81,7 +80,6 @@ export const libraryE71Scenes: Record<string, Scene> = {
           if (readable.length === 0) {
             api.showText([
               "Zwei Stühle, ein aufgeschlagener Band, ein Stapel Zeitschriften. Jemand hat eine Karte als Lesezeichen liegen lassen.",
-              "Präsenzbestand: hier lesen, hier lassen.",
             ]);
             return;
           }
