@@ -233,7 +233,7 @@ const dataflowChapters: HandbookChapter[] = [
     body: [
       "Als in den 1970ern die Mikrochips boomen, baute Intel nicht einen einzelnen Prozessor, sondern den **Matrix-1**: einen Chip aus einem Gitter von 64 winzigen, asynchronen Rechenkernen.",
       "Es gab kein globales Taktsignal. Jeder Kern verbrauchte nur dann Strom, wenn Daten bei ihm ankamen. Das sparte Energie und reduzierte Wärmeentwicklung drastisch.",
-      "Der Matrix-1 war nicht schneller als die Prozessoren, die in anderen Weltlinien entwickelt wurden. Er war anders: weniger eine Rechenmaschine, mehr ein Schaltwerk aus tausenden kleinen Entscheidungen.",
+      "Der Matrix-1 war nicht schneller als die Prozessoren, die in anderen Ländern und anderen Projekten zur gleichen Zeit entwickelt wurden. Er war anders: weniger eine Rechenmaschine, mehr ein Schaltwerk aus tausenden kleinen Entscheidungen.",
     ],
   },
   {
