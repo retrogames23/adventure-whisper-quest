@@ -39,6 +39,7 @@ import { ParagraphenNotizbuchOverlay } from "./ParagraphenNotizbuchOverlay";
 import { KantinenverordnungOverlay } from "./KantinenverordnungOverlay";
 import { PubOverlay } from "./PubOverlay";
 import { RoomSwitcher } from "@/dev/RoomSwitcher";
+import { BookSwitcher } from "@/dev/BookSwitcher";
 import { ConsoleSwitcher } from "@/dev/ConsoleSwitcher";
 import { OverlayQAOverlay } from "@/dev/OverlayQAOverlay";
 import { DialogEditOverlay } from "@/dev/DialogEditOverlay";
@@ -287,6 +288,7 @@ function GameStage({
       </div>
     </MobileStage>
       {dev && <RoomSwitcher />}
+      {dev && <BookSwitcher />}
       {dev && <ConsoleSwitcher />}
       {dev && <OverlayQAOverlay />}
       {dev && <DialogEditOverlay />}
