@@ -22,6 +22,7 @@ import imgAufklaerung from "@/assets/history/aufklaerung.jpg";
 import imgIndustrie from "@/assets/history/industrie.jpg";
 import imgJahrhundert from "@/assets/history/jahrhundert.jpg";
 import imgZwischenkrieg from "@/assets/history/zwischenkrieg.jpg";
+import imgWeltkrieg from "@/assets/history/weltkrieg.jpg";
 import imgModerne from "@/assets/history/moderne.jpg";
 
 export type HistoryChapter = HandbookChapter;
@@ -222,13 +223,15 @@ export const HISTORY_CHAPTERS: HistoryChapter[] = [
   },
   {
     id: "weltkrieg",
+    image: imgWeltkrieg,
+    imageCaption: "Tafel XII — Provisorische Verwaltung in den Ruinen, 1946",
     shortTitle: "Zweiter Weltkrieg",
     title: "1939–1948: Der zweite große Krieg",
     body: [
-      "Die Krise der dreißiger Jahre entlädt sich 1939 in einem zweiten Krieg, der den ersten übertrifft. Deutschland greift Polen an; Frankreich und Großbritannien erklären daraufhin Deutschland den Krieg. Innerhalb von zwei Jahren steht fast ganz Europa unter deutscher Besatzung oder Kontrolle.",
-      "Anders als im Großen Krieg ist dieser Krieg von Anfang an ein **Vernichtungskrieg**. Zivile Opfer werden nicht mehr als Kollateralschaden behandelt, sondern als Ziel: Bombardements ganzer Städte, deportierte Bevölkerungen, industriell organisierte Massenmorde. Die Zahlen übersteigen alles, was 1918 als unvorstellbar galt.",
-      "Auch der Osten entwickelt sich anders als erwartet. Die Sowjetunion unter Buchars Neuer Ökonomischer Politik bleibt zwar autoritär, aber weniger expansionistisch und ideologisch aggressiv als ihre Gegner befürchteten. Der Pakt mit Deutschland kommt nicht zustande; stattdessen hält Moskau lange Waffenstillstand, bevor es 1941 doch angegriffen wird. Der Krieg im Osten wird dadurch länger und blutiger, aber auch weniger ideologisch verbrämt.",
-      "Die Vereinigten Staaten treten 1941 in den Krieg ein und bringen Produktionskapazitäten ins Spiel, die Europa nicht mehr besitzt. Der Pazifik-Krieg dauert an, endet aber — ohne Atombombenabwurf — **1946 durch Verhandlungen**. Kernwaffen werden erst 1947 von mehreren Staaten entwickelt und gelten von Beginn an als nicht einsetzbar.",
+      "Die Krise der dreißiger Jahre entlädt sich 1939 in einem zweiten Krieg, der den ersten übertrifft. Der NS-Staat greift Polen an; Frankreich und Großbritannien erklären daraufhin dem NS-Staat den Krieg. Innerhalb von zwei Jahren steht fast ganz Europa unter seiner Besatzung oder der seiner Verbündeten.",
+      "Dieser Krieg ist von Anfang an ein **Vernichtungskrieg**. Zivile Opfer werden nicht mehr als Kollateralschaden behandelt, sondern als Ziel: Bombardements ganzer Städte, deportierte Bevölkerungen, industriell organisierte Massenmorde. Die Zahlen übersteigen alles, was 1918 als unvorstellbar galt.",
+      "Auch der Osten entwickelt sich anders als erwartet. Die Sowjetunion unter Buchars Neuer Ökonomischer Politik bleibt zwar autoritär, aber weniger expansionistisch und ideologisch aggressiv als ihre Gegner befürchteten. Ein Pakt zwischen Moskau und dem NS-Staat kommt nicht zustande; stattdessen hält Moskau lange Waffenstillstand, bevor es 1941 doch angegriffen wird. Der Krieg im Osten wird dadurch länger und blutiger; die Front verläuft ohne den ideologischen Zusatz, den die Reichspropaganda im Westen verbreitet.",
+      "Die Vereinigten Staaten treten 1941 in den Krieg ein und bringen Produktionskapazitäten ins Spiel, die Europa nicht mehr besitzt. Der Pazifik-Krieg endet **1946 durch Verhandlungen**. Kernwaffen werden erst 1947 von mehreren Staaten entwickelt und gelten von Beginn an als nicht einsetzbar.",
       "In Europa bricht der NS-Staat 1945/46 zusammen. Doch der Krieg lässt sich nicht mehr siegreich beenden; er lässt sich nur noch nicht weiterführen. **1946** wird Mitteleuropa unter eine gemeinsame Vier-Mächte-Verwaltung gestellt — USA, Vereinigtes Königreich, Frankreich, Sowjetunion. Aus dem Provisorium entsteht das **Mandatsgebiet Mitteleuropa**, ein Verwaltungsraum ohne klare Ost-West-Teilung.",
       "Erst **1948** wird der Krieg formell durch Verhandlungen beendet. Nicht mit einer Siegerkonferenz, sondern mit dem Eingeständnis, dass niemand die Last noch tragen kann. Die Nationalstaaten, die ihn begonnen hatten, gelten fortan als ungeeignet, Europa zu ordnen.",
       "- **Mythos:** „Der Krieg endete 1945.“ — Nein. Die Kämpfe in Europa ließen sich 1945 nicht mehr gewinnen, aber sie endeten erst 1948. Dazwischen lagen drei Jahre Verwaltung, Hunger und mühsame Verhandlung.",
