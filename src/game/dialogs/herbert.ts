@@ -128,15 +128,23 @@ export const herbertDialogs: Record<string, DialogTree> = {
         speaker: "HERBERT",
         text: `Die Liste ist kurz. ${openBooks().length} von ${LIBRARY_BOOKS.length} Titeln im Katalog.`,
         choicesFn: (api) => [
-          ...openBooks().map((b) => ({
-            text: `„${b.title}“ ansehen`,
-            action: () =>
-              api.showText([
-                `${b.title} — ${b.author}, ${b.year}.`,
-                b.blurb,
-                "Herbert schiebt es über den Tresen und notiert nichts. „Bringen Sie es zurück, wenn Sie es zurückbringen.“",
-              ]),
-          })),
+          ...openBooks().map((b) => {
+            const registered = !!getBook(b.id);
+            return {
+              text: `„${b.title}“ ansehen`,
+              action: () => {
+                if (registered) {
+                  api.openBook(b.id);
+                } else {
+                  api.showText([
+                    `${b.title} — ${b.author}, ${b.year}.`,
+                    b.blurb,
+                    "Herbert schiebt es über den Tresen und notiert nichts. „Bringen Sie es zurück, wenn Sie es zurückbringen.“",
+                  ]);
+                }
+              },
+            };
+          }),
           { text: "Zurück zum Gespräch.", next: "hh1" },
         ],
       },
