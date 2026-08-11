@@ -32,7 +32,10 @@ export function Inventory() {
   // Hilfsfunktion: „ansehen" / lesen (geteilt zwischen Tap-Pfad-Long-Press
   // und Desktop-Klick).
   const examineItem = (item: InventoryItem) => {
-    if (item.id === "e67Handbook") {
+    const libraryBook = libraryBookByItemId(item.id);
+    if (libraryBook) {
+      api.openBook(libraryBook.id);
+    } else if (item.id === "e67Handbook") {
       openHandbook();
     } else if (item.id === "residentId") {
       openIdCard();
