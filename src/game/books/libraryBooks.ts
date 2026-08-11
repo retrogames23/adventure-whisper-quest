@@ -1,4 +1,20 @@
 import type { HandbookChapter } from "@/game/e67Handbook";
+import imgSumerUruk from "@/assets/books/sumer-uruk.jpg";
+import imgSumerTafeln from "@/assets/books/sumer-tafeln.jpg";
+import imgSumerVerwaltung from "@/assets/books/sumer-verwaltung.jpg";
+import imgBahnEntstehung from "@/assets/books/bahn-entstehung.jpg";
+import imgBahnMandat from "@/assets/books/bahn-mandat.jpg";
+import imgBahnFahrplaene from "@/assets/books/bahn-fahrplaene.jpg";
+import imgResPhysik from "@/assets/books/res-physik.jpg";
+import imgResDaemmung from "@/assets/books/res-daemmung.jpg";
+import imgResLueften from "@/assets/books/res-lueften.jpg";
+import imgDfFruehe from "@/assets/books/df-fruehe.jpg";
+import imgDfHarvard from "@/assets/books/df-harvard.jpg";
+import imgDfRevolution from "@/assets/books/df-revolution.jpg";
+import imgDfMatrix from "@/assets/books/df-matrix.jpg";
+import imgDfCellular from "@/assets/books/df-cellular.jpg";
+import imgDfMarv from "@/assets/books/df-marv.jpg";
+import imgDfProgrammieren from "@/assets/books/df-programmieren.jpg";
 import { registerBook, type BookUiText } from "./index";
 
 const LIBRARY_UI_TEXT: BookUiText = {
@@ -26,6 +42,8 @@ const sumerChapters: HandbookChapter[] = [
   },
   {
     id: "sumer-uruk",
+    image: imgSumerUruk,
+    imageCaption: "Tafel I — Uruk, Eanna-Bezirk, Rekonstruktion",
     shortTitle: "Uruk",
     title: "Uruk, um 3300 vor unserer Zeitrechnung",
     body: [
@@ -36,6 +54,8 @@ const sumerChapters: HandbookChapter[] = [
   },
   {
     id: "sumer-tafeln",
+    image: imgSumerTafeln,
+    imageCaption: "Tafel II — Frühe Tontafeln mit Schilfrohrgriffel",
     shortTitle: "Tafeln",
     title: "Was auf den Tafeln steht",
     body: [
@@ -46,6 +66,8 @@ const sumerChapters: HandbookChapter[] = [
   },
   {
     id: "sumer-verwaltung",
+    image: imgSumerVerwaltung,
+    imageCaption: "Tafel III — Abrechnung im Tempelspeicher",
     shortTitle: "Verwaltung",
     title: "Verwaltung vor der Literatur",
     body: [
@@ -82,6 +104,8 @@ const railwayChapters: HandbookChapter[] = [
   },
   {
     id: "bahn-entstehung",
+    image: imgBahnEntstehung,
+    imageCaption: "Abb. 1 — Nebenbahnzug auf freier Strecke, um 1908",
     shortTitle: "Entstehung",
     title: "Entstehung der Nebenbahnen",
     body: [
@@ -92,6 +116,8 @@ const railwayChapters: HandbookChapter[] = [
   },
   {
     id: "bahn-mandat",
+    image: imgBahnMandat,
+    imageCaption: "Abb. 2 — Haltestelle im Mandatsgebiet, um 1949",
     shortTitle: "Im Mandatsgebiet",
     title: "Nebenbahnen im Mandatsgebiet",
     body: [
@@ -102,6 +128,8 @@ const railwayChapters: HandbookChapter[] = [
   },
   {
     id: "bahn-fahrplaene",
+    image: imgBahnFahrplaene,
+    imageCaption: "Abb. 3 — Bahnsteiguhr, letzter Zug des Tages",
     shortTitle: "Fahrpläne",
     title: "Fahrpläne als Zeitzeugen",
     body: [
@@ -140,6 +168,8 @@ const resonanzChapters: HandbookChapter[] = [
   },
   {
     id: "res-physik",
+    image: imgResPhysik,
+    imageCaption: "Abb. 1 — Übertragung von Schwingungen zwischen zwei Räumen",
     shortTitle: "Physik",
     title: "Was Resonanz physisch ist",
     body: [
@@ -150,6 +180,8 @@ const resonanzChapters: HandbookChapter[] = [
   },
   {
     id: "res-daemmung",
+    image: imgResDaemmung,
+    imageCaption: "Abb. 2 — Wandaufbau mit Dämmschicht und Falzdichtung",
     shortTitle: "Dämmen",
     title: "Dämmen und Abschirmen",
     body: [
@@ -162,6 +194,8 @@ const resonanzChapters: HandbookChapter[] = [
   },
   {
     id: "res-lueften",
+    image: imgResLueften,
+    imageCaption: "Abb. 3 — Lüftung, Abstand und Ruhepause im Wohnraum",
     shortTitle: "Lüften",
     title: "Lüften, Abstandhalten, Ruhepausen",
     body: [
@@ -198,6 +232,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-geheim",
+    image: imgDfFruehe,
+    imageCaption: "Abb. 1 — Rechenanlage mit getrennten Speicherwerken, 1940er Jahre",
     shortTitle: "Frühe Entwürfe",
     title: "Frühe Entwürfe: Aiken, Zuse und die getrennte Speicherung",
     body: [
@@ -209,6 +245,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-harvard",
+    image: imgDfHarvard,
+    imageCaption: "Abb. 2 — Getrennte Befehls- und Datenträger am Prüfstand",
     shortTitle: "Harvard",
     title: "Aiken, Zuse und die Reine Harvard-Architektur",
     body: [
@@ -219,6 +257,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-revolution",
+    image: imgDfRevolution,
+    imageCaption: "Abb. 3 — Knotenhalle einer frühen Datenfluss-Anlage",
     shortTitle: "Datenfluss",
     title: "Die Datenfluss-Revolution",
     body: [
@@ -229,6 +269,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-matrix",
+    image: imgDfMatrix,
+    imageCaption: "Abb. 4 — Matrix-1: Gitter identischer Rechenzellen",
     shortTitle: "Matrix-1",
     title: "Intels asynchroner Matrix-1",
     body: [
@@ -239,6 +281,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-cellular",
+    image: imgDfCellular,
+    imageCaption: "Abb. 5 — Cellular Array, schematische Darstellung",
     shortTitle: "Cellular Arrays",
     title: "Cellular Arrays: Das Gitter der Gegenwart",
     body: [
@@ -249,6 +293,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-marvs",
+    image: imgDfMarv,
+    imageCaption: "Abb. 6 — Eingeätztes MARV-Modul in einem Arbeitsplatzgerät",
     shortTitle: "MARV",
     title: "MARV und eingeatzte Künstliche Intelligenz",
     body: [
@@ -259,6 +305,8 @@ const dataflowChapters: HandbookChapter[] = [
   },
   {
     id: "df-programmieren",
+    image: imgDfProgrammieren,
+    imageCaption: "Abb. 7 — Arbeitsplatz mit Knotenliste und Ausdruck",
     shortTitle: "Programmieren",
     title: "Wie man heute programmiert",
     body: [
