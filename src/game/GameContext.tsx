@@ -24,6 +24,10 @@ import type {
   SceneId,
   StoryFlag,
 } from "./types";
+import { getBook } from "./books";
+import "./books/history";
+import "./books/almanach";
+import "./books/libraryBooks";
 
 export interface MarvSaveState {
   empathyScore: number;
