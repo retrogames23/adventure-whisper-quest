@@ -83,10 +83,6 @@ interface GameState {
   dsaSheetOpen: boolean;
   /** Handbuch-Lese-Overlay sichtbar. */
   handbookOpen: boolean;
-  /** Sektoren-Almanach-Lese-Overlay sichtbar. */
-  almanachOpen: boolean;
-  /** „Die kürzeste Geschichte der Menschheit" (Lese-Overlay) sichtbar. */
-  historyBookOpen: boolean;
   /** Buch-Lese-Overlay sichtbar (allgemein, für registrierte Bücher). */
   bookOpen: boolean;
   /** Bewohner-Ausweis-Lese-Overlay sichtbar. */
