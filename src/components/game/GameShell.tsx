@@ -163,13 +163,13 @@ function GameStage({
     toggleDsaSheet,
     handbookOpen,
     closeHandbook,
-    almanachOpen,
-    closeAlmanach,
-    historyBookOpen,
-    closeHistoryBook,
+    bookOpen,
+    currentBookId,
+    closeBook,
     idCardOpen,
     closeIdCard,
   } = useGame();
+  const currentBook = currentBookId ? getBook(currentBookId) : null;
   const dev = useDevMode();
 
   const handleOpenPause = useCallback(() => setPauseOpen(true), [setPauseOpen]);
