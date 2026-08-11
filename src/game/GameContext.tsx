@@ -878,10 +878,30 @@ export function GameProvider({ children }: { children: ReactNode }) {
       toggleDsaSheet: () => setDsaSheetOpen((v) => !v),
       openHandbook: () => setHandbookOpen(true),
       closeHandbook: () => setHandbookOpen(false),
-      openAlmanach: () => setAlmanachOpen(true),
-      closeAlmanach: () => setAlmanachOpen(false),
-      openHistoryBook: () => setHistoryBookOpen(true),
-      closeHistoryBook: () => setHistoryBookOpen(false),
+      openAlmanach: () => {
+        setCurrentBookId("almanach");
+        setBookOpen(true);
+      },
+      closeAlmanach: () => setBookOpen(false),
+      openHistoryBook: () => {
+        setCurrentBookId("history");
+        setBookOpen(true);
+      },
+      closeHistoryBook: () => setBookOpen(false),
+      openBook: (id: string) => {
+        if (id === "e67Handbook") {
+          setHandbookOpen(true);
+          return;
+        }
+        const book = getBook(id);
+        if (!book) {
+          console.warn(`Unknown book id: ${id}`);
+          return;
+        }
+        setCurrentBookId(id);
+        setBookOpen(true);
+      },
+      closeBook: () => setBookOpen(false),
       openIdCard: () => setIdCardOpen(true),
       closeIdCard: () => setIdCardOpen(false),
       openLobbyGate: () => setLobbyGateOpen(true),
