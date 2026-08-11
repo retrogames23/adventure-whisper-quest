@@ -89,7 +89,7 @@ export function BookSwitcher() {
               </ul>
 
               <div className="mb-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                Bibliothek E71 · Katalog (Katalogeintrag)
+                Bibliothek E71 · Katalog (anklickbar = lesbar)
               </div>
               <ul className="space-y-1">
                 {LIBRARY_BOOKS.map((b) => {
