@@ -15,6 +15,9 @@ import imgDfMatrix from "@/assets/books/df-matrix.jpg";
 import imgDfCellular from "@/assets/books/df-cellular.jpg";
 import imgDfMarv from "@/assets/books/df-marv.jpg";
 import imgDfProgrammieren from "@/assets/books/df-programmieren.jpg";
+import imgWirtUsa from "@/assets/books/wirt-usa.jpg";
+import imgWirtUdssr from "@/assets/books/wirt-udssr.jpg";
+import imgWirtMandat from "@/assets/books/wirt-mandat.jpg";
 import { registerBook, type BookUiText } from "./index";
 
 const LIBRARY_UI_TEXT: BookUiText = {
@@ -369,6 +372,95 @@ registerBook({
   blurb:
     "Vossen erzählt, wie die Datenfluss-Architektur zur dominierenden Form des Rechnens wurde — ausgehend von der strengen Trennung von Programm und Daten, die Aiken, Zuse und die frühen Harvard-Systeme prägten.",
   chapters: dataflowChapters,
+  uiText: LIBRARY_UI_TEXT,
+  locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
+  lendable: true,
+});
+
+const wirtschaftsChapters: HandbookChapter[] = [
+  {
+    id: "wirt-vorwort",
+    shortTitle: "Vorwort",
+    title: "Vorwort: Warum drei?",
+    body: [
+      "Dieses Buch ist aus Gesprächen entstanden. Der eine von uns lehrt vergleichende Politikwissenschaft an einer Universität, die nicht im Mandatsgebiet liegt; der andere berät den Mandatsrat in Wirtschaftsfragen. Wir haben uns oft gestritten, selten überzeugt, aber immer darin geübt, die Systeme zu beschreiben, wie sie tatsächlich funktionieren, nicht wie sie beschrieben werden sollen.",
+      "Wir vergleichen drei Wirtschaftsordnungen, die auf dieselbe Frage unterschiedliche Antworten geben: Wie soll eine Gesellschaft produzieren, verteilen und verbrauchen? Die Vereinigten Staaten setzen auf Eigentum, Vertrag und Preisbildung. Die Sowjetunion setzt auf staatlichen Besitz, Plan und kollektive Verteilung. Das Mandatsgebiet setzt auf eine Mischform: Eigentum erlaubt, Märkte geduldet, aber die Verwaltung hat das letzte Wort.",
+      "Wir schreiben im Jahr 1995. Das Mandatsgebiet existiert seit fast fünfzig Jahren als Übergangslösung. Wer es verstehen will, muss verstehen, wovon es sich abhebt.",
+    ],
+  },
+  {
+    id: "wirt-frage",
+    shortTitle: "Die Frage",
+    title: "Kapitel I: Drei Antworten auf dieselbe Frage",
+    body: [
+      "Jede Gesellschaft muss entscheiden, wer wofür arbeitet, wer was erhält und wer überhaupt mitredet. Diese Entscheidungen lassen sich nicht vermeiden; sie lassen sich nur verschleiern.",
+      "Die erste Antwort lautet: Der Einzelne entscheidet selbst, solange er Vertragspartner findet. Eigentum ist das Fundament, der Markt ist das Verfahren, der Staat hält den Rahmen.",
+      "Die zweite Antwort lautet: Die Gesellschaft entscheidet kollektiv, vertreten durch den Staat. Große Güter gehören allen, der Plan legt die Richtung fest, der Markt spielt eine untergeordnete Rolle.",
+      "Die dritte Antwort ist komplizierter. Sie sagt: Eigentum bleibt erlaubt, aber es wird verwaltet. Private Betriebe dürfen existieren, aber sie brauchen Genehmigungen, Quoten und Zuteilungen. Der Staat greift nicht ein, weil er alles besitzen will, sondern weil er alles koordinieren will. Das ist die Antwort des Mandatsgebiets.",
+    ],
+  },
+  {
+    id: "wirt-usa",
+    image: imgWirtUsa,
+    imageCaption: "Börse in den Vereinigten Staaten, 1992",
+    shortTitle: "Vereinigte Staaten",
+    title: "Kapitel II: Die Vereinigten Staaten — Markt, Vertrag und Anteil",
+    body: [
+      "In den Vereinigten Staaten wird Wirtschaft als Folge von Verträgen verstanden. Wer etwas besitzt, darf damit handeln, vermieten, verkaufen oder vererben. Wer etwas herstellen will, gründet eine Firma, sucht Investoren und bietet Produkte auf einem Markt an, auf dem die Preise durch Angebot und Nachfrage entstehen.",
+      "Der Staat ist hier nicht der Hauptakteur. Er schützt Eigentum, erzwingt Verträge, baut Straßen und Schienenwege und greift in Krisen ein, wenn Banken, Landwirtschaft oder ganze Branchen zusammenbrechen. Zwischen diesen Eingriffen lässt er die Wirtschaft weitgehend sich selbst über.",
+      "Das Ergebnis ist eine hohe Dynamik. Neue Güter entstehen schnell, alte verschwinden ebenso schnell. Reichtum und Armut liegen nah beieinander; Arbeitslosigkeit ist ein normales Risiko, nicht ein Ausnahmezustand. Der einzelne Bürger hat große Freiheit in der Wahl von Beruf, Wohnort und Verbrauch. Er hat aber auch weniger Sicherheit als in anderen Systemen.",
+      "Kritiker innerhalb der Vereinigten Staaten nennen das System ungerecht, weil Startbedingungen ungleich sind. Befürworter nennen es frei, weil niemand gezwungen wird, etwas Bestimmtes zu tun. Beides trifft zu; darum ist der Vergleich so schwierig.",
+    ],
+  },
+  {
+    id: "wirt-udssr",
+    image: imgWirtUdssr,
+    imageCaption: "Planungsbüro einer sowjetischen Fabrik, 1988",
+    shortTitle: "Sowjetunion",
+    title: "Kapitel III: Die Sowjetunion — Plan, Verteilung und Kollektiv",
+    body: [
+      "Die Sowjetunion antwortet auf dieselbe Frage anders. Große Betriebe, Minen, Bahnen und Banken gehören dem Staat. Fünfjahrespläne legen fest, was produziert wird, in welcher Menge und zu welchem Preis. Der Staat ist gleichzeitig Eigentümer, Auftraggeber und Verteiler.",
+      "Dieses Buch beschreibt die Sowjetunion, wie sie ist, nicht wie sie einmal war oder sein sollte. Und wie sie ist, erlaubt sie mehr Spielräume, als Außenstehende oft annehmen. Kleine private Betriebe existieren, besonders im Handwerk und in der Landwirtschaft. Genossenschaften dürfen Waren herstellen und verkaufen. In manchen Republiken hat der lokale Handel mehr Bedeutung als der zentrale Plan vorsieht. Die Partei kontrolliert die großen Linien, nicht jeden einzelnen Tausch.",
+      "Das System bietet Sicherheit. Es gibt praktisch keine Arbeitslosigkeit; Wohnraum, Gesundheitsversorgung und Grundbildung sind staatliche Aufgaben. Preise schwanken weniger als in Marktwirtschaften. Aber das System leidet unter Engpässen: Waren, die der Plan nicht vorsieht, fehlen oft; Waren, die niemand braucht, werden trotzdem produziert. Innovationen kommen langsamer voran, weil der einzelne Betrieb wenig Anreiz hat, Risiken einzugehen.",
+      "Die Sowjetunion ist kein Modell, das man einfach übernehmen kann. Sie ist ein eigenständiger Versuch, Wirtschaft als staatliche Planungsaufgabe zu begreifen.",
+    ],
+  },
+  {
+    id: "wirt-mandat",
+    image: imgWirtMandat,
+    imageCaption: "Verwaltungsarchiv im Mandatsgebiet, 1991",
+    shortTitle: "Mandatsgebiet",
+    title: "Kapitel IV: Das Mandatsgebiet — Eigentum unter Verwaltung",
+    body: [
+      "Das Mandatsgebiet entstand 1946 als vorübergehende Verwaltung. Vier Schutzmächte übergaben die Aufgabe einem Mandatsrat, der bis zur endgültigen Regelung wirtschaften sollte. Die endgültige Regelung ist bis heute nicht erfolgt.",
+      "In dieser Zwischenzeit ist eine eigene Wirtschaftsordnung gewachsen. Private Betriebe existieren; es gibt Eigentum an Häusern, Maschinen und Läden. Doch kaum eine Entscheidung läuft ohne Verwaltung. Wer eine Fabrik eröffnen will, braucht Genehmigungen. Wer Waren importieren will, braucht Zuteilungen. Wer arbeiten will, meldet sich bei einer Stelle, die wiederum einem Sektor zugeordnet ist. Der Markt ist erlaubt, aber er ist eingefasst.",
+      "Das Ergebnis ist eine Wirtschaft, die weder planmäßig noch marktwirtschaftlich funktioniert. Sie ist bürokratisch. Jeder Vorgang braucht ein Formular, jede Änderung ein Aktenzeichen, jede Lieferung eine Quittung. Der Staat besitzt nicht alles, aber er weiß über alles Bescheid und kann über alles entscheiden.",
+      "Die Befürworter dieser Ordnung nennen sie stabil. Es gibt keine großen Zusammenbrüche, keine plötzlichen Enteignungen, keine Spekulationskrisen. Die Kritiker nennen sie erstarrt. Unternehmerische Ideen verlaufen in Warteschleifen; wer erfolgreich wird, wird schnell zum Verwaltungspartner und damit zum halben Staatsbetrieb.",
+      "Das Mandatsgebiet ist keine Kopie der Vereinigten Staaten und keine Kopie der Sowjetunion. Es ist ein eigenes Experiment: Eigentum ohne freien Markt, Verwaltung ohne totale Planung.",
+    ],
+  },
+  {
+    id: "wirt-vergleich",
+    shortTitle: "Vergleich",
+    title: "Kapitel V: Was bleibt?",
+    body: [
+      "Keine der drei Ordnungen ist rein. In den Vereinigten Staaten gibt es staatliche Subventionen, Zölle und Eingriffe in Krisen. In der Sowjetunion gibt es private Tauschbeziehungen, lokale Märkte und Genossenschaften. Im Mandatsgebiet gibt es Unternehmer, die innerhalb der Verwaltung handeln, als wäre es ein Markt.",
+      "Dennoch unterscheiden sich die Systeme in einer entscheidenden Frage: Wer trägt das Risiko? In den Vereinigten Staaten trägt es der Einzelne. In der Sowjetunion trägt es der Staat. Im Mandatsgebiet trägt es derjenige, der gerade das Formular in der Hand hat.",
+      "Das Mandatsgebiet wird oft als Übergangslösung beschrieben. Aber Übergänge können lange dauern. Nach fast fünfzig Jahren ist es nicht mehr vorübergehend; es ist gewachsen. Wer es verstehen will, muss es ernst nehmen — auch wenn es absurd wirkt.",
+      "Wir schließen ohne Empfehlung. Ein Vergleich sollte zuerst beschreiben. Urteile überlassen wir dem Leser, der in einem dieser Systeme lebt und es jeden Tag erfährt.",
+    ],
+  },
+];
+
+registerBook({
+  id: "ordnung-und-eigentum",
+  title: "Ordnung und Eigentum — Wirtschaftssysteme im Vergleich",
+  subtitle: "Prof. Dr. E. Kallweit · Dr. R. Semmler · 1995 · Bewohnerbibliothek E71",
+  author: "Prof. Dr. E. Kallweit · Dr. R. Semmler",
+  year: "1995",
+  blurb:
+    "Ein Fachbuch über drei Wirtschaftsordnungen: die Vereinigten Staaten, die Sowjetunion und das Mandatsgebiet. Kallweit und Semmler beschreiben, wie Eigentum, Plan und Verwaltung in jedem System verteilt sind — ohne zu predigen, aber mit scharfem Blick für Bürokratie.",
+  chapters: wirtschaftsChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
   lendable: true,

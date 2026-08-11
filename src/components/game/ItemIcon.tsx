@@ -422,6 +422,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   buchSchmalspur: E67HandbookIcon,
   buchResonanzhygiene: E67HandbookIcon,
   buchGespaltenerGeist: E67HandbookIcon,
+  buchOrdnungEigentum: E67HandbookIcon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */
