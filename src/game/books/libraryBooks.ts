@@ -251,7 +251,7 @@ const dataflowChapters: HandbookChapter[] = [
     shortTitle: "MARV",
     title: "MARV und eingeatzte Künstliche Intelligenz",
     body: [
-      "Neuronale Netze lassen sich auf Datenfluss-Architekturen nativ abbilden. Das hat die Künstliche Intelligenz in dieser Welt früher und kompakter werden lassen als in anderen.",
+      "Neuronale Netze lassen sich auf Datenfluss-Architekturen nativ abbilden. Das hat die Künstliche Intelligenz früher und kompakter werden lassen als in sequenziellen Systemen.",
       "Systeme wie MARV, die intelligente Türsteuerung, sind keine Simulationen auf einer sequenziellen Maschine. Sie sind eingeatzt — direkt in das Cellular Array hineinverdrahtet.",
       "Das macht sie vernünftiger, stabiler und weniger fehleranfällig. Sie müssen nicht erst lernen, sequenzielle Befehle zu simulieren. Sie denken, sofern man das Wort erlaubt, in Datenflüssen.",
     ],
