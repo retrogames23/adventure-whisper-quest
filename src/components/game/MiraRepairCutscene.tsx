@@ -4,6 +4,7 @@ import { useGame } from "@/game/GameContext";
 import { MIRA_REPAIR_BEATS } from "@/game/cutscenes";
 import { usePaused, useDevStep } from "@/dev/devPlaybackState";
 import { useDevMode } from "@/dev/devMode";
+import { useMusic } from "@/audio/MusicPlayer";
 import beat1 from "@/assets/cutscene-mira-repair-1.jpg";
 import beat2 from "@/assets/cutscene-mira-repair-2.jpg";
 import beat3 from "@/assets/cutscene-mira-repair-3.jpg";
