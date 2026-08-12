@@ -88,7 +88,8 @@ export type InventoryItemId =
   | "buchResonanzhygiene"
   | "buchGespaltenerGeist"
   | "buchOrdnungEigentum"
-  | "buchDrehendeDreieck";
+  | "buchDrehendeDreieck"
+  | "buchMandatsdeutsch";
 
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 
