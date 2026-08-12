@@ -71,6 +71,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "buchOrdnungEigentum",
     itemName: "Ordnung und Eigentum (Leihbuch)",
   },
+  {
+    id: "drehende-dreieck",
+    title: "Das drehende Dreieck — Eine Geschichte des Automobils",
+    author: "Dipl.-Ing. G. Rothstein",
+    year: "1997",
+    blurb:
+      "Rothstein erzählt, wie der Rotationskolbenmotor zum Weltstandard wurde: Keramik-Dichtleisten ab 1968, Schichteinspritzung 1971, die Ölkrise als Rückenwind — und warum Autos seitdem außen kleiner und innen größer sind.",
+    itemId: "buchDrehendeDreieck",
+    itemName: "Das drehende Dreieck (Leihbuch)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */

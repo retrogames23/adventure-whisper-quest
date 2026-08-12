@@ -18,6 +18,9 @@ import imgDfProgrammieren from "@/assets/books/df-programmieren.jpg";
 import imgWirtUsa from "@/assets/books/wirt-usa.jpg";
 import imgWirtUdssr from "@/assets/books/wirt-udssr.jpg";
 import imgWirtMandat from "@/assets/books/wirt-mandat.jpg";
+import imgAutoWankel from "@/assets/books/auto-wankel.jpg";
+import imgAutoSerie72 from "@/assets/books/auto-serie72.jpg";
+import imgAutoDesign90 from "@/assets/books/auto-design90.jpg";
 import { registerBook, type BookUiText } from "./index";
 
 const LIBRARY_UI_TEXT: BookUiText = {
@@ -461,6 +464,99 @@ registerBook({
   blurb:
     "Ein Fachbuch über drei Wirtschaftsordnungen: die Vereinigten Staaten, die Sowjetunion und das Mandatsgebiet. Kallweit und Semmler beschreiben, wie Eigentum, Plan und Verwaltung in jedem System verteilt sind — ohne zu predigen, aber mit scharfem Blick für Bürokratie.",
   chapters: wirtschaftsChapters,
+  uiText: LIBRARY_UI_TEXT,
+  locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
+  lendable: true,
+});
+
+const autoChapters: HandbookChapter[] = [
+  {
+    id: "auto-vorwort",
+    shortTitle: "Vorwort",
+    title: "Vorwort: Ein Dreieck dreht sich",
+    body: [
+      "Wer heute die Motorhaube eines Wagens öffnet, sieht viel Luft. In der Mitte, meist tief unten und weit vorn, sitzt ein Block von der Größe eines Reisekoffers. Er hat keine Ventile, keine Nockenwelle, keine Kipphebel. Er hat zwei Scheiben, die sich drehen, und er läuft so ruhig, dass man am Straßenrand nicht hört, ob ein Wagen steht oder wartet.",
+      "Dieses Buch erzählt, wie es dazu kam. Es ist keine Heldengeschichte. Der Rotationskolbenmotor war lange eine Randerscheinung, belächelt von Ingenieuren, die ihn für eine hübsche Idee mit schmutzigen Details hielten. Zwei dieser Details — die Dichtleisten und der Verbrauch — entschieden alles.",
+      "Ich schreibe für Leser, die Autos benutzen, nicht bauen. Formeln stehen im Anhang. Im Text steht, was passiert ist und warum es sich gelohnt hat.",
+    ],
+  },
+  {
+    id: "auto-anfang",
+    image: imgAutoWankel,
+    imageCaption: "Abb. 1 — Zweischeiben-Rotationsmotor im Schnitt, Werkzeichnung",
+    shortTitle: "Anfang",
+    title: "Kapitel I: Die Dichtleiste, an der alles hing",
+    body: [
+      "Das Prinzip ist alt und einfach: Ein dreieckiger Läufer dreht sich in einem geschwungenen Gehäuse. Bei jeder Umdrehung entstehen an seinen drei Flanken nacheinander Ansaugen, Verdichten, Verbrennen und Ausstoßen. Kein Kolben muss abgebremst und zurückgeworfen werden. Deshalb läuft die Maschine ohne die Erschütterungen, die ein Hubkolbenmotor mit Ausgleichswellen mühsam glätten muss.",
+      "Das Problem saß in den Ecken. Die Dichtleisten an den drei Spitzen des Läufers streifen bei jeder Umdrehung über die Gehäusewand. Frühe Leisten aus Kohle oder Metall rieben Rillen in die Bahn, verloren Druck, fraßen Öl. Fahrzeuge liefen fünfzigtausend Kilometer, dann kam die Werkstattrechnung.",
+      "1968 löste ein Konsortium aus NSU, Mazda und General Motors das Problem mit einem Werkstoff: Dichtleisten aus Siliziumnitrid-Keramik. Sie sind hart, hitzefest und dehnen sich kaum. Riffelbildung und Dichtungsverluste verschwanden binnen einer Motorengeneration aus den Prüfprotokollen. Was vorher ein Verschleißteil war, hielt nun länger als die Karosserie.",
+    ],
+  },
+  {
+    id: "auto-einspritzung",
+    shortTitle: "Einspritzung",
+    title: "Kapitel II: 1971 — Der Verbrauch fällt",
+    body: [
+      "Die zweite Schwäche war der Durst. Die langgezogene Brennkammer verbrannte das Gemisch unvollständig; ein Teil des Kraftstoffs verließ den Motor, ohne Arbeit geleistet zu haben.",
+      "Mazda beantwortete das 1971 mit einer elektronisch gesteuerten Schichteinspritzung: Der Kraftstoff wird nicht mehr vorgemischt angesaugt, sondern unter hohem Druck direkt in die wandernde Kammer gegeben, dosiert nach Last und Drehzahl. Damit lag der Verbrauch erstmals auf dem Niveau vergleichbarer Hubkolbenmotoren — bei geringerem Gewicht und deutlich kleinerem Bauraum.",
+      "Zwei Jahre lang blieb das eine Fachmeldung. Dann wurde es die wichtigste Zahl der Branche.",
+    ],
+  },
+  {
+    id: "auto-serie",
+    image: imgAutoSerie72,
+    imageCaption: "Abb. 2 — Endmontage in einem amerikanischen Werk, 1972",
+    shortTitle: "Serie",
+    title: "Kapitel III: 1972 — Das Signal aus Detroit",
+    body: [
+      "Entschieden wurde die Sache nicht in einem Labor, sondern in einer Verkaufsstatistik. General Motors brachte 1972 den Chevrolet Vega mit Rotationsmotor. Der Wagen war leise, drehfreudig und billig zu bauen; er verkaufte sich besser als jede Prognose.",
+      "Ford und Chrysler nahmen innerhalb eines Jahres Lizenzen. Wer in Detroit als Zulieferer überleben wollte, stellte auf Gehäuse, Läufer und Keramikleisten um. Die Kostenrechnung war schlicht: Ein Rotationsmotor hat keine Ventile, keine Nockenwellen, keine Kipphebel. Weniger Teile bedeuten weniger Fertigungsschritte, weniger Prüfstationen, weniger Ausschuss.",
+    ],
+  },
+  {
+    id: "auto-oelkrise",
+    shortTitle: "Ölkrise",
+    title: "Kapitel IV: 1973–1985 — Die Krise als Beschleuniger",
+    body: [
+      "Als 1973 der Ölpreis sprang, hatte die Branche zufällig genau die Maschine im Programm, die sie brauchte. Ein Zweischeiben-Rotationsmotor beansprucht rund ein Drittel des Bauraums und die Hälfte des Gewichts eines Reihenvierzylinders. Wagen wurden dadurch nicht um Gramm, sondern um hundertfünfzig bis zweihundert Kilogramm leichter — und leichte Wagen verbrauchen weniger, unabhängig davon, was unter der Haube arbeitet.",
+      "In Europa übernahm die NSU-Audi-AG 1976 die technische Führung im Volkswagen-Konzern. Der Golf II erschien 1983 serienmäßig mit einem Einliter-Zweischeiben-Rotationsmotor; die Nachfrage überstieg die Fertigung um Monate.",
+      "In Asien ging es schneller. Toyota und Honda stellten ihre Fertigungsstraßen bis 1980 vollständig um und senkten ihre Produktionskosten um etwa ein Viertel. Wer damals noch Zylinderköpfe goss, lieferte fünf Jahre später Traktoren zu.",
+    ],
+  },
+  {
+    id: "auto-design",
+    image: imgAutoDesign90,
+    imageCaption: "Abb. 3 — Karosseriestudie im Windkanal, 1995",
+    shortTitle: "Design",
+    title: "Kapitel V: 1986–1997 — Was kleine Motoren mit Karosserien machen",
+    body: [
+      "Ein Motor, der klein und flach baut, verändert nicht nur die Werkstatt, sondern das Aussehen der Straße. Weil vorn kein hoher Block mehr Platz braucht, fallen die Frontpartien seit Ende der Achtzigerjahre steil ab. Die Luftwiderstandsbeiwerte sanken auf Werte, die man zwei Jahrzehnte zuvor nur von Rekordfahrzeugen kannte.",
+      "Der gewonnene Raum landete im Innenraum. Ein Mittelklassewagen von 1995 ist außen kürzer als sein Vorgänger von 1975 und innen deutlich größer. Familien fahren kompakte Wagen mit dem Platzangebot alter Limousinen.",
+      "Nebenbei änderte sich der Klang der Städte. Rotationsmotoren laufen ohne den harten Rhythmus der Hubkolben; wer an einer Kreuzung steht, hört Reifen, nicht Zylinder.",
+    ],
+  },
+  {
+    id: "auto-1997",
+    shortTitle: "1997",
+    title: "Kapitel VI: Der Stand der Dinge",
+    body: [
+      "Über drei Viertel aller weltweit neu zugelassenen Personenwagen fahren mit Rotationsmotoren. Hubkolben findet man noch dort, wo Drehmoment bei niedriger Drehzahl über alles geht: in Lastwagen mit Dieselmotor, in Traktoren, in stationären Aggregaten.",
+      "Im Rennsport schreibt die Formel 1 seit 1992 Vierscheiben-Motoren vor, die bis achtzehntausend Umdrehungen drehen. In der Sportfliegerei hat der vibrationsfreie Lauf den Kolbenmotor vollständig verdrängt; Zellen halten länger, wenn nichts sie durchschüttelt.",
+      "Am interessantesten ist die Kraftstofffrage. Weil Ansaug- und Verbrennungsbereich beim Rotationsmotor räumlich getrennt liegen, entzündet sich Wasserstoff nicht vorzeitig am heißen Bauteil — das Hindernis, an dem Hubkolbenversuche seit Jahrzehnten scheitern. Mazda und BMW fahren seit diesem Jahr erste seriennahe Flotten mit Wasserstoff.",
+      "Ob daraus eine Umstellung wird, entscheidet nicht die Technik, sondern die Versorgung. Motoren gibt es. Tankstellen noch nicht.",
+    ],
+  },
+];
+
+registerBook({
+  id: "drehende-dreieck",
+  title: "Das drehende Dreieck — Eine Geschichte des Automobils",
+  subtitle: "Dipl.-Ing. G. Rothstein · 1997 · Bewohnerbibliothek E71",
+  author: "Dipl.-Ing. G. Rothstein",
+  year: "1997",
+  blurb:
+    "Wie der Rotationskolbenmotor vom Sorgenkind zum Weltstandard wurde: Keramik-Dichtleisten, Schichteinspritzung, die Ölkrise als Rückenwind — und was kleine Motoren mit Karosserien anstellen.",
+  chapters: autoChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
   lendable: true,
