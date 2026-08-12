@@ -15,7 +15,7 @@ function ChannelTabsImpl({ channels, channelIdx, onSelect }: Props) {
           key={c.id}
           type="button"
           onClick={() => onSelect(i)}
-          className={`flex-1 px-3 py-2 text-left font-mono-crt text-xs uppercase tracking-widest transition-colors ${
+          className={`flex-1 px-3 py-2.5 text-left font-mono-crt text-sm uppercase tracking-widest transition-colors ${
             i === channelIdx
               ? "bg-amber-glow/20 text-amber-glow amber-glow"
               : "bg-black text-muted-foreground hover:bg-amber-glow/10 hover:text-amber-glow"
