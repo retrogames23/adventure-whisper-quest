@@ -89,7 +89,8 @@ export type InventoryItemId =
   | "buchGespaltenerGeist"
   | "buchOrdnungEigentum"
   | "buchDrehendeDreieck"
-  | "buchMandatsdeutsch";
+  | "buchMandatsdeutsch"
+  | "buchLobDesVorgangs";
 
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 
