@@ -18,10 +18,10 @@ export const apt1102Scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "setsuko",
-        x: 30,
-        y: 22,
-        w: 20,
-        h: 60,
+        x: 37,
+        y: 17,
+        w: 13,
+        h: 64,
         label: "Setsuko Arai",
         kind: "talk",
         onUse: (api) => {
@@ -48,10 +48,10 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "softSculptures",
-        x: 47,
-        y: 60,
-        w: 26,
-        h: 30,
+        x: 0,
+        y: 50,
+        w: 24,
+        h: 42,
         label: "Genähte Auswüchse",
         kind: "look",
         onUse: (api) =>
@@ -62,10 +62,10 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "mirrorCorner",
-        x: 22,
-        y: 8,
-        w: 20,
-        h: 50,
+        x: 23,
+        y: 9,
+        w: 13,
+        h: 46,
         label: "Spiegelwinkel",
         kind: "look",
         onUse: (api) =>
@@ -76,10 +76,10 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "riceBowl",
-        x: 58,
-        y: 55,
+        x: 59,
+        y: 59,
         w: 8,
-        h: 10,
+        h: 9,
         label: "Reisschale",
         kind: "look",
         onUse: (api) =>
@@ -104,10 +104,10 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "back1102",
-        x: 88,
-        y: 8,
-        w: 12,
-        h: 62,
+        x: 78,
+        y: 9,
+        w: 15,
+        h: 74,
         label: "Zurück in den Korridor",
         kind: "exit",
         exitDir: "right",
