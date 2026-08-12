@@ -33,7 +33,7 @@ export const CHANNELS: Channel[] = [
     accentClass: "text-emerald-300",
     bulletins: [
       "Guten Abend. Der Mandatsrat hat das Heizöl-Kontingjent für den E-Sektor um vier Prozent angehoben. Die Anhebung gilt ab Montag und betrifft rund elftausend Wohneinheiten. Die Hausverwaltungen wurden schriftlich unterrichtet.",
-      "Die Ringtrasse zwischen Gebäude E67 und Gebäude E71 wird ab Montag für neun Tage einspurig geführt. Grund sind Arbeiten an der Fernwärmeleitung. Die Fahrzeit verlängert sich nach Angaben der Verkehrsstelle um sieben bis zwölf Minuten.",
+      "Die Ringstraße zwischen Gebäude E67 und Gebäude E71 wird ab Montag für neun Tage einspurig geführt. Grund sind Arbeiten an der Fernwärmeleitung. Die Fahrzeit verlängert sich nach Angaben der Verkehrsstelle um sieben bis zwölf Minuten.",
       "Zum Winterfahrplan der Mandatsbahn. Ab dem 15. November entfällt die 5-Uhr-40 ab E-Nord ersatzlos. Die 6-Uhr-05 hält dafür zusätzlich in E12-West. Aushänge hängen seit gestern in den Empfangsbereichen.",
       "Die Meldefrist für die Wohnraum-Sprawka endet am 30. November. Wer seine Wohneinheit seit dem Frühjahr weder unter- noch übervermietet hat, kann die Kurzform verwenden. Sie umfasst zwei Seiten statt sieben.",
       "Personalie. Die Leitung der Bauverwaltung im Quadranten E7 wechselt zum Monatsende an Frau Dr. Ostermann, bisher Fernwärme. Ihr Vorgänger geht nach neunzehn Jahren in den Ruhestand.",
