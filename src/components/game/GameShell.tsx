@@ -85,12 +85,12 @@ function DsaMusicBridge() {
     const inPub = scene === "pub" || scene === "pubToilet";
     const inE71Nerds = scene === "commonRoomE71";
     const inElevator = scene === "elevator" || scene === "elevatorE71";
-    // Während der Lobby-Schleuse (Numpad direkt nach dem Aufzug) soll
-    // die Aufzugsmusik weiterlaufen, damit der Übergang nicht abreißt.
-    const keepElevator = lobbyGateOpen && activeOverride === "elevator";
+    // Die Lobby-Schleuse (Numpad direkt nach dem Aufzug-Ausstieg) ist
+    // akustisch noch Teil des Aufzugs: Aufzugsmusik läuft weiter.
+    const treatAsElevator = inElevator || lobbyGateOpen;
     const target = dsaAdventureOpen
       ? null
-      : keepElevator || inElevator
+      : treatAsElevator
         ? "elevator"
         : inTavern
           ? "dsaTavern"
