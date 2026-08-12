@@ -1087,7 +1087,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       moh2: {
         id: "moh2",
         speaker: "MIRA",
-        text: "Ich warte, bis es abkühlt. Melden bringt nichts, für Betriebstechnik ist niemand zuständig, den man erreichen kann. Kennst du ja.",
+        text: "Ich warte, bis es abkühlt. Melden bringt nichts — für Betriebstechnik ist Kontakt mit Bewohnern nicht vorgesehen. Nicht abgelehnt. Nicht vorgesehen. Kennst du ja.",
         end: true,
       },
     },

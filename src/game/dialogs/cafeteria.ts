@@ -269,7 +269,7 @@ export const cafeteriaDialogs: Record<string, DialogTree> = {
       kInsa5: {
         id: "kInsa5",
         speaker: "KOWALK",
-        text: "Aber — und das ist die Bedingung, Worag — E70-K nimmt eine 4317-K nur an, wenn der Stamm-Vorgang 4317 frisch gegengezeichnet vorliegt. Ohne den landet Ihre Quittung im Aushang. Das wird sie sehen, ohne hinzusehen.",
+        text: "Aber — und das ist die Bedingung, Worag — E70-K nimmt eine 4317-K nur an, wenn der Stamm-Vorgang 4317 frisch gegengezeichnet vorliegt. Eine Sprawka für die nächste Sprawka, wie immer. Ohne den landet Ihre Quittung im Aushang. Das wird sie sehen, ohne hinzusehen.",
         subtext:
           "Sie sagt »ohne hinzusehen« mit der Müdigkeit von jemandem, der das hundertmal erlebt hat.",
         next: "kInsa6",

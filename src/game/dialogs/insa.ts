@@ -271,7 +271,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       x4pflicht1: {
         id: "x4pflicht1",
         speaker: "INSA",
-        text: "Worag — Ihr Vorgang Vier-Drei-Eins-Sieben hängt noch. Solange der Block auf Ihrem Datensatz steht, kann ich den Code nicht herausgeben.",
+        text: "Worag — Ihr Vorgang hängt noch. Casenummer Vier-Drei-Eins-Sieben. Solange der Block auf Ihrem Datensatz steht, kann ich den Code nicht herausgeben.",
         subtext: "Sachlich. Es ist keine Drohung, es ist eine Reihenfolge.",
         hiddenWhen: ["receivedTillaTransfer"],
         next: "x4pflicht2",
