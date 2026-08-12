@@ -493,7 +493,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrOpen2: {
         id: "mrOpen2",
         speaker: "MIRA",
-        text: "Ein Wort ohne Definition ist eine Blankovollmacht. Du kannst dich nicht dagegen wehren, weil du nicht weißt, wogegen. Ich denke: genau deshalb bleibt es unscharf. Ich weiß, das klingt nach These. Ist es auch.",
+        text: "Ein Wort ohne Definition ist eine Blankovollmacht. Du kannst dich nicht dagegen wehren, weil du nicht weißt, wogegen. Ich denke: genau deshalb bleibt es unscharf. Ich hab keine Sprawka dafür. Ist trotzdem 'ne These.",
         choices: [
           { text: "Wer sorgt dafür?", next: "mrOpen3" },
           { text: "Reicht. Ich muss weiter.", next: "mrOpenDefer" },
