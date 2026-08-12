@@ -24,6 +24,9 @@ import imgAutoDesign90 from "@/assets/books/auto-design90.jpg";
 import imgSpracheFormular from "@/assets/books/sprache-formular.jpg";
 import imgSpracheSchalter from "@/assets/books/sprache-schalter.jpg";
 import imgSpracheJugend from "@/assets/books/sprache-jugend.jpg";
+import imgLobArchiv from "@/assets/books/lob-vorgang-archiv.jpg";
+import imgLobSchalter from "@/assets/books/lob-vorgang-schalter.jpg";
+import imgLobGedicht from "@/assets/books/lob-vorgang-gedicht.jpg";
 import {
   registerBook,
   type BookUiText,
@@ -668,6 +671,105 @@ registerLibraryBook({
   blurb:
     "Eine Sprachbeschreibung des Verwaltungsdeutschen: woher seine Lehnwörter stammen, warum es den Handelnden vermeidet und was Jugendliche heute daraus machen.",
   chapters: spracheChapters,
+  uiText: LIBRARY_UI_TEXT,
+  locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
+  lendable: true,
+});
+
+const lobChapters: HandbookChapter[] = [
+  {
+    id: "lob-vorwort",
+    shortTitle: "Vorwort",
+    title: "Vorwort: Warum wir Vorgänge loben müssen",
+    body: [
+      "Bürokratie hat schlechte Presse. Man nennt sie kalt, langsam, sinnlos. Das ist ein Urteil, das sich bequem anfühlt, weil es den Sprecher ausnimmt: er ist das Opfer, das Amt ist der Schurke.",
+      "Dieses Buch wagt das Gegenteil. Es versucht, die Verwaltung so zu sehen, wie sie sich selbst sieht: nicht als Hindernis, sondern als Form. Eine Form, die den Zufall bändigt, die Gewalt verzögert und das Individuum vor der Willkür des Individuums schützt.",
+      "Ich schreibe als Philosoph, nicht als Beamter. Mein Lehrer in dieser Sache ist Max Weber, der die Bürokratie einmal als „Herrschaft mit der Schreibstube“ beschrieb. Was er damit meinte, war keine Beleidigung. Er meinte: Macht wird hier nicht mehr durch Geburt, Muskeln oder Waffen ausgeübt, sondern durch Akten, Signaturen und Verfahren. Das ist keine Verarmung. Das ist eine Zivilisationsleistung.",
+    ],
+  },
+  {
+    id: "lob-amt",
+    image: imgLobArchiv,
+    imageCaption: "Abb. 1 — Verwaltungsarchiv, Gang C, Sektor 7",
+    shortTitle: "Das Amt",
+    title: "Kapitel I: Das Amt vor dem Menschen",
+    body: [
+      "Der bürokratische Beamte ist ein Idealtyp. Er kennt nicht die Person, die vor ihm steht; er kennt den Fall. Das klingt grausam. Aber gerade darin liegt seine Güte.",
+      "Wer ein Amt betritt, trägt sein Privates nicht mit. Er wird zum Antragsteller, zur Aktennummer, zum Vorgang. Diese Entpersönlichung ist keine Demütigung; sie ist ein Schutz. Der Fürst entscheidet nach Gunst, der Verwandte nach Sympathie, der Beamte nach der Akte. Die Akte liegt offen. Jeder kann sie lesen, jeder kann sie prüfen.",
+      "Weber nennt das „Lebensführung als Beruf“. Der Beamte übt keine Tätigkeit aus, um reich zu werden, und nicht, um geliebt zu werden. Er übt sie aus, weil sie eine Ordnung erhält. In dieser Haltung gibt es etwas Asketisches — und etwas Edles.",
+      "Das Amt steht also vor dem Menschen, damit der Mensch nicht vor dem Menschen stehen muss.",
+    ],
+  },
+  {
+    id: "lob-warten",
+    image: imgLobSchalter,
+    imageCaption: "Abb. 2 — Wartebereich, Bezirksstelle Sektor 4",
+    shortTitle: "Warten",
+    title: "Kapitel II: Die Psychologie des Wartens",
+    body: [
+      "Warten gilt als Zeitverlust. Aber Warten ist auch eine Übung. Wer wartet, übt Geduld. Wer Geduld übt, übt Gleichbehandlung: andere waren vor ihm, andere kommen nach ihm, und niemand springt vor.",
+      "Die Warteschlange ist eine kleine Schule der Demokratie. Sie sagt: Ihr Anliegen ist wichtig, aber nicht wichtiger als das der anderen. Der Stuhl, auf dem Sie sitzen, ist gleich dem allen. Die Nummer, die Sie halten, folgt einer Regel, die niemanden bevorzugt.",
+      "Natürlich gibt es Ungeduld. Sie kommt aus der Illusion, dass das eigene Leid einzigartig sei. Die Verwaltung kennt diese Illusion nicht. Sie hat gestern schon einen ähnlichen Fall bearbeitet und wird morgen einen weiteren bearbeiten. Das ist nicht Gleichgültigkeit; das ist Erfahrung.",
+      "Wer das Warten als Ritual begreift, empfindet es nicht mehr als Leere. Er empfindet es als Teilnahme an einer Ordnung, die größer ist als sein eigener Tag.",
+    ],
+  },
+  {
+    id: "lob-verfahren",
+    shortTitle: "Verfahren",
+    title: "Kapitel III: Die Schönheit des Verfahrens",
+    body: [
+      "Ein Verfahren ist mehr als eine Abfolge von Schritten. Es ist eine Versicherung gegen Hast. Es sagt: Bevor etwas geschieht, muss es geprüft, dokumentiert und mitgeteilt werden. Nicht, weil die Verwaltung langsam sein will, sondern weil Schnelligkeit oft die Feindin der Gerechtigkeit ist.",
+      "Das Formular ist das Gedicht des Verfahrens. Es fragt nach Namen, Daten, Zuständigkeiten. Es wiederholt sich. Es scheint überflüssig. Aber in seiner Wiederholung liegt seine Kraft: Wer alles zweimal sagt, kann sich einmal irren und wird trotzdem verstanden.",
+      "Die Unterschrift ist ein Akt des Einverständnisses. Sie bindet den Einzelnen an das, was er selbst beantragt hat. Sie macht ihn zum Mitverantwortlichen. Ohne sie wäre die Verwaltung Willkür; mit ihr wird sie zum Vertrag.",
+      "Es gibt eine Ästhetik der Akte: der saubere Rand, die fortlaufende Nummer, die korrekte Vermerkung. Nicht jeder sieht sie. Aber wer sie einmal gesehen hat, vermisst sie, wenn sie fehlt.",
+    ],
+  },
+  {
+    id: "lob-gedicht",
+    image: imgLobGedicht,
+    imageCaption: "Abb. 3 — Handschriftliche Niederschrift des Schlussgedichts",
+    shortTitle: "Liebeserklärung",
+    title: "Liebeserklärung an die Bürokratie",
+    body: [
+      "Du, die du niemals fragst, wer ich bin,",
+      "sondern nur, was ich beantrage.",
+      "Du, die du mein Gesicht vergisst,",
+      "sobald der Stempel fällt.",
+      "",
+      "Ich liebe dich, weil du gleich bist",
+      "für den Reichen und den Armen,",
+      "weil du den Fürsten nicht erkennst",
+      "und den Bettler nicht verachtest.",
+      "",
+      "Ich liebe deine Formulare,",
+      "deine dreifache Durchschrift,",
+      "deine Nummern, die kein Ende kennen,",
+      "weil sie ein Anfang waren.",
+      "",
+      "Ich liebe dein Warten,",
+      "denn es lehrt mich, dass ich nicht allein bin",
+      "in meinem Drang, etwas zu wollen.",
+      "",
+      "Ich liebe dich, Bürokratie,",
+      "nicht trotz deiner Kälte,",
+      "sondern wegen ihr.",
+      "Denn in deiner Kälte wohnt",
+      "die Wärme der Gleichbehandlung.",
+      "",
+      "Amen, Akte, Ende.",
+    ],
+  },
+];
+
+registerLibraryBook({
+  id: "lob-des-vorgangs",
+  title: "Lob des Vorgangs",
+  subtitle: "Dr. phil. J. A. Sonderegger · 1988 · Bewohnerbibliothek E71",
+  author: "Dr. phil. J. A. Sonderegger",
+  year: "1988",
+  blurb:
+    "Eine historisch-philosophische Verteidigung der Bürokratie: von Max Webers idealtypischem Beamten bis zur Psychologie des Wartens — und einem Schlussgedicht, das sich in die Aktenordnung verliebt.",
+  chapters: lobChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
   lendable: true,

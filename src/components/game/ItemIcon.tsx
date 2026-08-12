@@ -425,6 +425,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   buchOrdnungEigentum: E67HandbookIcon,
   buchDrehendeDreieck: E67HandbookIcon,
   buchMandatsdeutsch: E67HandbookIcon,
+  buchLobDesVorgangs: E67HandbookIcon,
 };
 
 /* ─── Akt-I-Pflichträtsel: Zusatz-Icons ─────────────────── */

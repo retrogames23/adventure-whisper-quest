@@ -91,6 +91,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "buchMandatsdeutsch",
     itemName: "Mandatsdeutsch (Leihbuch)",
   },
+  {
+    id: "lob-des-vorgangs",
+    title: "Lob des Vorgangs",
+    author: "Dr. phil. J. A. Sonderegger",
+    year: "1988",
+    blurb:
+      "Eine historisch-philosophische Verteidigung der Bürokratie: von Max Webers idealtypischem Beamten bis zur Psychologie des Wartens — und einem Schlussgedicht, das sich in die Aktenordnung verliebt.",
+    itemId: "buchLobDesVorgangs",
+    itemName: "Lob des Vorgangs (Leihbuch)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */
