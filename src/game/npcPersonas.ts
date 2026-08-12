@@ -801,6 +801,10 @@ export function getPersonaBySpeaker(
  * Bogen still durch.
  */
 export const dialogSummaries: Record<string, string> = {
+  setsukoIntro:
+    "Layard war in Wohnung 1102 bei Setsuko Arai — es ging um ihre Punktbilder, um Scham, Essen und Körper.",
+  setsukoHub:
+    "Layard hat Setsuko noch einmal besucht und weiter über ihre Arbeit gesprochen.",
   herbertTalk:
     "Layard hat in der Bewohnerbibliothek 1101 mit Herbert gesprochen — über E71, den Mandatsrat, Literatur, die Sumerer und alte Eisenbahnstrecken.",
   philippeAtDoor:
