@@ -26,7 +26,7 @@ export const CHANNELS: Channel[] = [
     name: "ZDS · Sektorbericht",
     tag: "Zentrale Direktion für Sektorale Lage",
     ticker:
-      "+++ Heizöl-Kontingjent für den E-Sektor um vier Prozent angehoben +++ Ringtrasse zwischen E67 und E71 ab Montag einspurig +++ Winterfahrplan der Mandatsbahn ab 15.11. gültig +++ Meldefrist für die Wohnraum-Sprawka endet am 30.11. +++ Mandatsrat tagt am Donnerstag zur Haushaltslage +++",
+      "+++ Heizöl-Kontingjent für den E-Sektor um vier Prozent angehoben +++ Ringstraße zwischen E67 und E71 ab Montag einspurig +++ Winterfahrplan der Mandatsbahn ab 15.11. gültig +++ Meldefrist für die Wohnraum-Sprawka endet am 30.11. +++ Mandatsrat tagt am Donnerstag zur Haushaltslage +++",
     hold: 13,
     videoUrl: anchorZdsAsset.url,
     voiceId: "Xb7hH8MSUJpSbSDYk0k2",
