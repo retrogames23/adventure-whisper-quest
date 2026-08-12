@@ -24,6 +24,9 @@ import imgAutoDesign90 from "@/assets/books/auto-design90.jpg";
 import imgSpracheFormular from "@/assets/books/sprache-formular.jpg";
 import imgSpracheSchalter from "@/assets/books/sprache-schalter.jpg";
 import imgSpracheJugend from "@/assets/books/sprache-jugend.jpg";
+import imgLobArchiv from "@/assets/books/lob-vorgang-archiv.jpg";
+import imgLobSchalter from "@/assets/books/lob-vorgang-schalter.jpg";
+import imgLobGedicht from "@/assets/books/lob-vorgang-gedicht.jpg";
 import {
   registerBook,
   type BookUiText,
