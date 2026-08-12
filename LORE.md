@@ -342,9 +342,10 @@ Schmerz-Radio ist eine Randnische *darin*, nicht seine Quelle.
 - **Layard:** Empfindet selbst zu wenig. Hört Schmerz-Radio, weil fremde
   Emotionen für ihn die einzigen sind, die durchkommen. Das macht ihn
   ungewöhnlich, aber nicht kriminell.
-- **Begriffsklärung:** „Resonanz", „Resonanz-Hygiene", „Resonanz-Überlastung"
-  beziehen sich auf das **persönliche emotionale Gleichgewicht** der Hörer.
-  Es gibt **keine** staatliche Resonanz-Infrastruktur.
+- **Begriffsklärung:** „Resonanz", „Resonanz-Hygiene" und
+  „Resonanz-Überlastung" gehören dem **allgemeinen Weltbegriff** aus §6c und
+  gelten für alle Bewohner — nicht nur für Radiohörer. Es gibt **keine**
+  staatliche Resonanz-Infrastruktur und keine behördliche Radio-Regulierung.
 - **Verschwörungstheorie (lore-intern bekannt, nicht bestätigt):** Einzelne
   Bewohner — am lautesten Mira (E67/4601) — sind überzeugt, die Verwaltung
   habe die Frequenz heimlich kapert und nutze sie zur Befriedung. Diese
