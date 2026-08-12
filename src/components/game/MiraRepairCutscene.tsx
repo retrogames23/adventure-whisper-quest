@@ -4,6 +4,7 @@ import { useGame } from "@/game/GameContext";
 import { MIRA_REPAIR_BEATS } from "@/game/cutscenes";
 import { usePaused, useDevStep } from "@/dev/devPlaybackState";
 import { useDevMode } from "@/dev/devMode";
+import { useMusic } from "@/audio/MusicPlayer";
 import beat1 from "@/assets/cutscene-mira-repair-1.jpg";
 import beat2 from "@/assets/cutscene-mira-repair-2.jpg";
 import beat3 from "@/assets/cutscene-mira-repair-3.jpg";
@@ -41,6 +42,7 @@ export function MiraRepairCutscene() {
   const paused = dev && usePaused();
 
   const beats = MIRA_REPAIR_BEATS;
+  const { setOverride } = useMusic();
   const [beatIdx, setBeatIdx] = useState(0);
   const [lineIdx, setLineIdx] = useState(-1);
   const [visible, setVisible] = useState(true);
@@ -60,6 +62,15 @@ export function MiraRepairCutscene() {
       transitionTimerRef.current = null;
     }
   }, [active]);
+
+  // Während der Cutscene läuft ausschließlich "The Copper Wire Hour";
+  // die reguläre Playlist ist stumm. Am Ende der Cutscene kehrt die
+  // normale Musik zurück.
+  useEffect(() => {
+    if (!active) return;
+    setOverride("miraRepair", { playOnce: true, force: true });
+    return () => setOverride(null);
+  }, [active, setOverride]);
 
   useEffect(
     () => () => {

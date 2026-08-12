@@ -24,6 +24,7 @@ import trackCityForgets from "@/assets/music/The_City_Forgets.mp3";
 import trackElectro3 from "@/assets/music/Electro3.mp3";
 import elevatorMusicAsset from "@/assets/elevator-music.mp3.asset.json";
 import morningDirectiveAsset from "@/assets/morning-directive.mp3.asset.json";
+import copperWireHourAsset from "@/assets/The_Copper_Wire_Hour.mp3.asset.json";
 import { pickMoodTrack, type DsaMood } from "./dsaMusic";
 
 /**
@@ -66,6 +67,10 @@ export const MUSIC_OVERRIDES = {
   act2Assignment: {
     title: "The Morning Directive",
     src: morningDirectiveAsset.url,
+  } as MusicTrack,
+  miraRepair: {
+    title: "The Copper Wire Hour",
+    src: copperWireHourAsset.url,
   } as MusicTrack,
 };
 export type MusicOverrideId = keyof typeof MUSIC_OVERRIDES;
