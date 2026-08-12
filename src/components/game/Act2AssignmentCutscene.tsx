@@ -7,6 +7,7 @@ import {
 } from "@/game/cutscenes";
 import { usePaused, useDevStep } from "@/dev/devPlaybackState";
 import { useDevMode } from "@/dev/devMode";
+import { useMusic } from "@/audio/MusicPlayer";
 import beat1 from "@/assets/cutscene-act2-1.jpg";
 import beat2 from "@/assets/cutscene-act2-2.jpg";
 import beat3 from "@/assets/cutscene-act2-3.jpg";
@@ -44,6 +45,16 @@ export function Act2AssignmentCutscene() {
   const active = cutscene === "act2Assignment";
   const dev = useDevMode();
   const paused = dev && usePaused();
+  const { setOverride } = useMusic();
+
+  // Während der Cutscene läuft ausschließlich "The Morning Directive";
+  // die reguläre Playlist ist stumm. Am Ende der Cutscene kehrt die
+  // normale Musik zurück.
+  useEffect(() => {
+    if (!active) return;
+    setOverride("act2Assignment", { playOnce: true, force: true });
+    return () => setOverride(null);
+  }, [active, setOverride]);
 
   const beats = ACT2_ASSIGNMENT_BEATS;
   const [beatIdx, setBeatIdx] = useState(0);
