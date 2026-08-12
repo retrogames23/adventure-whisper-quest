@@ -5,11 +5,11 @@ import {
   DSA_ATTRIBUTION_PARAGRAPHS,
 } from "@/lib/dsaAttribution";
 
-
 interface Props {
   open: boolean;
   onClose: () => void;
 }
+
 
 interface Credit {
   title: string;
