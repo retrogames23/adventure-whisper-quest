@@ -31,13 +31,13 @@ function TvScreenImpl({
           >
             {channel.name}
           </div>
-          <div className="mt-1 font-display text-xs uppercase tracking-widest text-muted-foreground">
+          <div className="mt-1 font-display text-sm uppercase tracking-widest text-muted-foreground">
             {channel.tag}
           </div>
         </div>
         <div className="text-right font-mono-crt text-amber-glow/80">
           <div className="text-lg leading-none">{time}</div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <div className="text-xs uppercase tracking-widest text-muted-foreground">
             Live · Sektorfunk
           </div>
         </div>
@@ -55,20 +55,20 @@ function TvScreenImpl({
         />
         <div
           key={`${channel.id}-${bulletinIdx}`}
-          className="fade-in pointer-events-none absolute inset-x-4 bottom-3 rounded-sm border border-amber-glow/30 bg-black/80 px-4 py-2 backdrop-blur-sm"
+          className="fade-in pointer-events-none absolute inset-x-3 bottom-3 rounded-sm border border-amber-glow/30 bg-black/85 px-4 py-3 backdrop-blur-sm"
         >
           <div
-            className={`font-mono-crt text-[10px] uppercase tracking-widest ${channel.accentClass}`}
+            className={`font-mono-crt text-xs uppercase tracking-widest ${channel.accentClass}`}
           >
             {channel.name}
           </div>
-          <p className="mt-0.5 font-display text-xs leading-snug text-foreground sm:text-sm">
+          <p className="mt-1 font-display text-lg leading-snug text-foreground">
             {bulletin}
           </p>
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t border-amber-glow/20 px-5 py-2 font-mono-crt text-[11px] uppercase tracking-widest text-muted-foreground">
+      <div className="flex items-center justify-between border-t border-amber-glow/20 px-5 py-2 font-mono-crt text-sm uppercase tracking-widest text-muted-foreground">
         <span>
           Meldung {bulletinIdx + 1} / {bulletinTotal}
         </span>
@@ -76,7 +76,7 @@ function TvScreenImpl({
       </div>
 
       <div className="overflow-hidden border-t border-amber-glow/30 bg-black/60 py-1">
-        <div className="tv-ticker whitespace-nowrap font-mono-crt text-sm text-amber-glow amber-glow">
+        <div className="tv-ticker whitespace-nowrap font-mono-crt text-base text-amber-glow amber-glow">
           {channel.ticker}
           <span className="px-8">·</span>
           {channel.ticker}
