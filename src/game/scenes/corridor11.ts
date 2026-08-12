@@ -53,12 +53,20 @@ export const corridor11Scenes: Record<string, Scene> = {
         w: 15,
         h: 92,
         label: "Tür 1102",
-        kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "1102. Am Rahmen klebt ein kleiner Zettel der Hausverwaltung: „Reinigung Di + Fr. Teppichpflege wird gestellt.“",
-            "Gestellt. Layard liest das Wort zweimal.",
-          ]),
+        kind: "use",
+        onUse: (api) => {
+          if (api.hasFlag("metSetsuko")) {
+            api.goTo("apt1102");
+            return;
+          }
+          api.showText(
+            [
+              "1102. Am Rahmen klebt ein Zettel der Hausverwaltung: „Reinigung Di + Fr. Teppichpflege wird gestellt.“ Quer darüber, mit rotem Pinsel, lauter Punkte.",
+              "Layard klopft. Drinnen fällt etwas Metallisches um, dann geht die Tür ganz auf, ohne Spalt, ohne Prüfblick.",
+            ],
+            () => api.goTo("apt1102"),
+          );
+        },
       },
       {
         id: "door1104",
