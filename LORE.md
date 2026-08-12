@@ -57,9 +57,14 @@ Konkrete Folgen:
   untergegangen. Konkrete Massenverbrechen werden im Spiel **nicht**
   thematisiert (Tabu-Liste, §9). Das ist eine Erzählentscheidung, keine
   historische Aussage.
-- **Kein Atombombenabwurf auf Japan.** Der Pazifik-Krieg endet 1946 durch
-  Verhandlungen. Kernwaffen existieren ab 1947 in mehreren Staaten, gelten
-  aber als „nicht-einsetzbar" — ein über fünfzig Jahre stabiles Tabu.
+- **Kein Atombombenabwurf auf Japan.** Der Pazifik-Krieg endet **1946 durch
+  Verhandlungen**. Kernwaffen werden erst **1947** in mehreren Staaten
+  entwickelt und gelten von Beginn an als „nicht-einsetzbar" — ein über
+  fünfzig Jahre stabiles Tabu.
+- In Europa bricht der NS-Staat 1945/46 zusammen. **Formell beendet wird der
+  Krieg erst 1948**, nicht durch eine Siegerkonferenz, sondern durch
+  Verhandlungen und das Eingeständnis, dass niemand die Last weiter tragen
+  kann. Seither gelten die Nationalstaaten als ungeeignet, Europa zu ordnen.
 - 1946 wird Mitteleuropa unter eine **gemeinsame vier-Mächte-Verwaltung**
   gestellt: USA, Vereinigtes Königreich, Frankreich, UdSSR. Anders als
   historisch entsteht **keine harte Ost-West-Teilung**, sondern ein einziges
@@ -199,6 +204,122 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
 - Überwachungstechnik im heutigen Umfang (der Apparat ist langsam und
   papiergestützt — das macht ihn nicht freundlicher, aber langsamer)
 
+## 6a. Technikgeschichte dieser Welt
+
+Quellen: die Bewohnerbibliothek 1101 in E71. Was hier steht, ist Kanon.
+
+### Rechnen — die Von-Neumann-Architektur hat sich nie durchgesetzt
+*(Buch: „Der gespaltene Geist — Eine Geschichte der Datenfluss-Maschinen",
+S. R. Vossen, 1997)*
+
+- In den 1940ern setzten **Howard Aiken** (Harvard Mark) und **Konrad Zuse**
+  die strikte Trennung von Programm- und Datenspeicher durch. Diese **Reine
+  Harvard-Bauweise** wurde zum verbindlichen Grundsatz, weil sie prüfbar,
+  wartbar und eindeutig dokumentierbar ist.
+- Ab den **1970ern** die **Datenfluss-Revolution**: kein zentraler
+  Programmzähler mehr, sondern Netze aus Rechenknoten, die feuern, sobald ihre
+  Eingangsdaten vollständig vorliegen.
+- **Intels Matrix-1** (1970er): ein Gitter aus 64 asynchronen Kernen ohne
+  globales Taktsignal; Strom fließt nur dort, wo Daten ankommen.
+- **1997:** Computer sind **Cellular Arrays** — Milliarden mikroskopischer
+  Knoten. Laptop und Großrechner unterscheiden sich nur durch die Gittergröße.
+- Folgen für die Spielwelt: **eingeätzte Künstliche Intelligenz** (MARV-Klasse)
+  ist seit den 80ern Alltagstechnik und nichts Aufregendes; Schadcode, der sich
+  als Datenstrom tarnt und dann ausgeführt wird, ist **physikalisch unmöglich**;
+  ZENTRAL.NETZ und CENTRALOS laufen auf dieser Grundlage.
+- **Nicht erlaubt:** Vergleiche mit „unserer" Computergeschichte, Von-Neumann
+  als bekannte Alternative, PCs/Internet-Analogien. Erzählt wird streng aus
+  der Welt heraus.
+
+### Automobil — der Rotationskolbenmotor ist Weltstandard
+*(Buch: „Das drehende Dreieck — Eine Geschichte des Automobils",
+Dipl.-Ing. G. Rothstein, 1997)*
+
+- **1968:** Dichtleisten aus Siliziumnitrid-Keramik (NSU/Mazda/GM) lösen das
+  Verschleißproblem an den Läuferspitzen.
+- **1971:** Mazdas elektronische Schichteinspritzung senkt den Verbrauch auf
+  Hubkolben-Niveau.
+- **1972:** Der Chevrolet Vega mit Rotationsmotor wird zum Verkaufserfolg;
+  Detroit stellt um. **1973** wirkt die Ölkrise als Beschleuniger.
+- **1983:** Golf II serienmäßig mit Einliter-Zweischeiben-Rotationsmotor.
+- **1997:** Über drei Viertel aller Neuzulassungen sind Rotationsmotoren.
+  Hubkolben nur noch bei Lkw-Dieseln, Traktoren, stationären Aggregaten.
+  Mazda und BMW fahren erste seriennahe **Wasserstoff**-Flotten — Motoren gibt
+  es, Tankstellen noch nicht.
+- Nebenwirkungen: flache Fronten, kurze Wagen mit großem Innenraum, und
+  **Straßen klingen nach Reifen, nicht nach Zylindern**.
+
+## 6b. Mandatsdeutsch
+
+*(Buch: „Mandatsdeutsch — Wie am Schalter eine Sprache entstand",
+Dr. phil. A. Ternes, 1993)*
+
+Die Verkehrssprache des Mandatsgebiets entstand **nicht auf der Straße,
+sondern am Schalter** und wanderte von dort in den Alltag. Träger ist Deutsch,
+die Wörter kommen aus allen vier Amtssprachen.
+
+- **Lehnwörter:** *Sprawka* (jede Bescheinigung), *Naryad* (Zuteilungsschein),
+  *Kontingent* (Betonung auf der letzten Silbe), *Ressort, Instanz, Dossier,
+  Bureau*, „**in Regel**" (aus *en règle*), *Case*, *Track*, „gecleart".
+- **Grammatik der Unzuständigkeit:** Der Handelnde verschwindet. Nicht „ich
+  lehne ab", sondern „**es ergeht Ablehnung**". Nicht „Sie haben etwas
+  vergessen", sondern „die Unterlage liegt nicht vor".
+- **Dreistufige Höflichkeit:** „Das wäre möglich" = es geht. „Das ließe sich
+  prüfen" = geht wahrscheinlich nicht, Antrag erlaubt. „**Das ist nicht
+  vorgesehen**" = hören Sie auf.
+- **Jugendsprache:** dieselben Wörter, umgekehrtes Vorzeichen. „Alles in
+  Regel?" = Alles gut? „Ich hab keine Sprawka dafür" = glaub's mir einfach.
+  „**anquatschen**" (Gespräch ohne Termin), „**angeben**" (etwas erzählen, das
+  im Protokoll schlecht aussähe).
+- **Anwendungsregel:** sparsam einstreuen. Jeder Begriff muss aus dem Kontext
+  verständlich bleiben, auch für Spieler, die das Buch nie gelesen haben.
+  Nie mehr als ein Fremdbegriff pro Dialogzeile.
+
+## 6c. Resonanz — ein Begriff im Wandel
+
+Resonanz ist ein **eigenständiger, älterer, größerer Weltbegriff**. Das
+Schmerz-Radio ist eine Randnische *darin*, nicht seine Quelle.
+
+- **1956er Lesart (Buch: „Resonanzhygiene — Ein Leitfaden für den Einzelnen",
+  Dr. med. H. C. Brennwald):** rein bau-akustisch und medizinisch.
+  Schwingungen im Stahlbeton, Körperschall, Trittschall. Gegenmittel:
+  **Dämmen, Lüften, Abstandhalten, Ruhepausen.** Kein sozialer Beiklang.
+- **Wandel bis 1997:** Der Mandatsrat hält den Begriff **absichtlich unscharf**
+  und verbindet die bau-akustische mit einer sozialen Lesart — das emotionale
+  Klima im Haus: Streit hinter Wänden, Weinen im Aufzug, Krankmeldungen,
+  Trauerspitzen. So lässt sich mit „Resonanz-Hygiene" formal über Bauakustik
+  reden und faktisch über Ruhezeiten, Belegungsdichte, Türsiegel und
+  Nachbarschaftskonflikte entscheiden, ohne je zugeben zu müssen, dass man
+  Menschen reguliert.
+- **Feste Begriffe:**
+  - **Resonanzindex** — täglich im TV-Programm „Wetter & Resonanz", Mischgröße
+    aus Bau-Messwerten und Krankmeldungen. Formel intransparent; das ist Absicht.
+  - **Resonanz-Hygiene** — der Regelkatalog (Ruhezeiten, Pausen,
+    Belegungsdichte, Lüftung, Türsiegel-Praxis).
+  - **Resonanz-Überlastung** — Diagnose der Sektorärztin. **Medizinischer**
+    Vorgang, kein Sicherheitsvorgang; kann jeden treffen.
+- **Nicht erfinden:** keine staatliche Resonanz-Infrastruktur, keine
+  behördliche Radio-Regulierung, keine „Klang-Visite".
+
+## 6d. Wirtschaftsordnung und Bürokratie-Ethos
+
+*(Bücher: „Ordnung und Eigentum — Wirtschaftssysteme im Vergleich", 1995;
+„Lob des Vorgangs")*
+
+- **Vereinigte Staaten:** Eigentum, Vertrag, Preisbildung. Hohe Dynamik,
+  wenig Sicherheit. Aus mitteleuropäischer Sicht exotisch.
+- **Sowjetunion:** Staatsbesitz der großen Betriebe, Fünfjahrespläne,
+  kollektive Verteilung; daneben Handwerk, Genossenschaften, lokale Märkte.
+  Sicherheit gegen Engpässe und Trägheit.
+- **Mandatsgebiet:** **Eigentum unter Verwaltung.** Private Betriebe erlaubt,
+  Märkte geduldet — aber jede Entscheidung braucht Genehmigung, Zuteilung,
+  Quittung. Der Staat besitzt nicht alles, aber er weiß über alles Bescheid.
+  Merksatz aus dem Buch: **„Das Risiko trägt derjenige, der gerade das
+  Formular in der Hand hat."**
+- **Ethos:** Der Vorgang ist nicht Hindernis, sondern Form. Er hält fest, was
+  sonst vergessen würde, und schützt vor Willkür, indem er Willkür langsam
+  macht. Diese Haltung wird im Spiel ernst genommen, nicht parodiert.
+
 ## 7. Skurrile Geräte und Subkulturen
 
 ### Schmerz-Radio
@@ -240,6 +361,19 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
 - **Aktenvereine:** Sammler historischer Formulare. Echte Subkultur,
   besonders im Mandatsgebiet.
 
+### Medien und Zeitvertreib 1997
+- **Fernsehen, drei Programme:** **ZDS · Sektorbericht** (nüchterne
+  Sektor-Nachrichten: Heizöl-Kontingente, Bauarbeiten, Fristen),
+  **Bürgerfunk** (von Bewohnern für Bewohner: Veranstaltungen, Tauschbörse,
+  Fundsachen, Gesuche) und **Wetter & Resonanz** (Wetterbericht plus
+  Resonanzindizes der Gebäude).
+- **Blockfall** — das verbreitete Terminal-Spiel: fallende Blöcke auf
+  bernsteinfarbenem Bildschirm. Turniere werden im Bürgerfunk angekündigt,
+  Bestenlisten hängen in Fluren.
+- **Bewohnerbibliothek 1101, Gebäude E71** — Ausleihe gegen Eintrag im Heft,
+  betreut von **Herbert**. Hier stehen die Bücher, aus denen der Kanon dieses
+  Dokuments stammt.
+
 ## 8. Personenverzeichnis (kompatibel zu `npcPersonas.ts`)
 
 Nur Lore-relevante Eckdaten. Tonfall, Verhaltensregeln und exakte Stimme
@@ -275,6 +409,17 @@ stehen weiterhin in `src/game/npcPersonas.ts`.
   (siehe `dialogs/`).
 - **Cornel Marteau** — Erfinder des Schmerz-Radios. Im Spiel nicht
   anwesend; nur als Name in Akten und §3.6.
+- **Herbert** — Bibliothekar der Bewohnerbibliothek 1101 in E71. Leiht Bücher
+  aus, spricht wenig, legt lieber den Finger auf eine Zeile.
+- **Setsuko Arai** — Künstlerin, E71/1102 (gegenüber der Bibliothek).
+  Japanischer Herkunft, exzentrisch, arbeitet mit Punktmustern, Spiegeln und
+  Weichskulpturen über Scham, Körper und Essen. Sie kennt Leute aus dem
+  Kollektiv **„Zero is Infinity"**, gehört ihm aber nicht an. Bei hartnäckigem
+  Nachfragen fällt bei ihr **zum ersten Mal** dieser Name.
+- **„Zero is Infinity"** — loses Künstler- und Aktivisten-Kollektiv. Existiert
+  als Kanon; Layard weiß 1997 nichts darüber außer dem Namen. Struktur, Ziele
+  und Mitglieder werden erst später festgelegt und dürfen nicht frei erfunden
+  werden.
 
 ## 9. Tabu-Liste
 
@@ -308,3 +453,10 @@ vorgetragene Härte, Verwaltung als Tragödie und Geborgenheit zugleich.
   Schmerz-Radios: unbekannte Bastler-Szene. Akt II beginnt mit dem
   Rechercheauftrag 28/1194 (Häufung von Resonanz-Überlastungen,
   Erhebung vor Ort in E71, Legitimationsschreiben bei Vossbeck/3603).
+- **2026-08-12** — Bibliotheks-Kanon nachgezogen: neue Abschnitte 6a
+  (Technikgeschichte: Harvard-/Datenfluss-Rechner statt Von-Neumann;
+  Rotationskolbenmotor als Weltstandard), 6b (Mandatsdeutsch), 6c (Resonanz
+  als Begriff im Wandel, 1956 bau-akustisch → 1997 Doppelbegriff) und 6d
+  (Wirtschaftsordnungen, Bürokratie-Ethos). Ergänzt: TV-Programme, Blockfall,
+  Bewohnerbibliothek 1101/Herbert, Setsuko Arai und „Zero is Infinity".
+  Präzisiert: formelles Kriegsende 1948.
