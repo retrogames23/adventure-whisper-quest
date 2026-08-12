@@ -207,14 +207,14 @@ export const setsukoDialogs: Record<string, DialogTree> = {
             ? [{
                 text: "Warum überall diese Punkte?",
                 next: "shKunst",
-                action: (a: GameApi) => api.setFlag("setsukoArtTalk"),
+                action: (a: GameApi) => a.setFlag("setsukoArtTalk"),
               }]
             : []),
           ...(!api.hasFlag("setsukoBodyTalk")
             ? [{
                 text: "Warum Essen und Körper?",
                 next: "shKoerper",
-                action: (a: GameApi) => api.setFlag("setsukoBodyTalk"),
+                action: (a: GameApi) => a.setFlag("setsukoBodyTalk"),
               }]
             : []),
           ...(api.hasFlag("setsukoArtTalk") &&
@@ -224,7 +224,7 @@ export const setsukoDialogs: Record<string, DialogTree> = {
                 {
                   text: "Sie sagten, es gibt andere. Ich frage noch mal.",
                   next: "shAndere",
-                  action: (a: GameApi) => api.setFlag("heardZeroIsInfinity"),
+                  action: (a: GameApi) => a.setFlag("heardZeroIsInfinity"),
                 },
               ]
             : []),
