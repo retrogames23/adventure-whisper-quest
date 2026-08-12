@@ -74,7 +74,7 @@ const FreeChatOverlay = lazy(() =>
 );
 
 function DsaMusicBridge() {
-  const { scene, dsaAdventureOpen, dsaBeat } = useGame();
+  const { scene, dsaAdventureOpen, dsaBeat, lobbyGateOpen } = useGame();
   const { setOverride, activeOverride } = useMusic();
   useEffect(() => {
     // Wenn die LLM-Tafelrunde offen ist, übernimmt der Mood-Pool in
@@ -85,9 +85,12 @@ function DsaMusicBridge() {
     const inPub = scene === "pub" || scene === "pubToilet";
     const inE71Nerds = scene === "commonRoomE71";
     const inElevator = scene === "elevator" || scene === "elevatorE71";
+    // Die Lobby-Schleuse (Numpad direkt nach dem Aufzug-Ausstieg) ist
+    // akustisch noch Teil des Aufzugs: Aufzugsmusik läuft weiter.
+    const treatAsElevator = inElevator || lobbyGateOpen;
     const target = dsaAdventureOpen
       ? null
-      : inElevator
+      : treatAsElevator
         ? "elevator"
         : inTavern
           ? "dsaTavern"
@@ -110,7 +113,7 @@ function DsaMusicBridge() {
     ];
     if (activeOverride && CUTSCENE_OVERRIDES.includes(activeOverride)) return;
     setOverride(target);
-  }, [scene, dsaAdventureOpen, dsaBeat, setOverride, activeOverride]);
+  }, [scene, dsaAdventureOpen, dsaBeat, setOverride, activeOverride, lobbyGateOpen]);
   return null;
 }
 
