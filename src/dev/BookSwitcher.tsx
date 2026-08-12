@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { getBook } from "@/game/books";
+import { getLibraryReadableBook } from "@/game/books/libraryBooks";
 import { LIBRARY_BOOKS } from "@/game/libraryE71Books";
 
 /**
@@ -93,7 +94,9 @@ export function BookSwitcher() {
               </div>
               <ul className="space-y-1">
                 {LIBRARY_BOOKS.map((b) => {
-                  const registered = !!getBook(b.id);
+                  const registered = !!(
+                    getBook(b.id) ?? getLibraryReadableBook(b.id)
+                  );
                   return (
                     <li key={b.id}>
                       <button

@@ -24,7 +24,23 @@ import imgAutoDesign90 from "@/assets/books/auto-design90.jpg";
 import imgSpracheFormular from "@/assets/books/sprache-formular.jpg";
 import imgSpracheSchalter from "@/assets/books/sprache-schalter.jpg";
 import imgSpracheJugend from "@/assets/books/sprache-jugend.jpg";
-import { registerBook, type BookUiText } from "./index";
+import {
+  registerBook,
+  type BookUiText,
+  type ReadableBook,
+} from "./index";
+
+const libraryReadableBooks = new Map<string, ReadableBook>();
+
+function registerLibraryBook(book: ReadableBook) {
+  libraryReadableBooks.set(book.id, book);
+  registerBook(book);
+}
+
+/** Direkter Zugriff auf Bibliotheksvolltexte, unabhängig von der HMR-Registry. */
+export function getLibraryReadableBook(id: string): ReadableBook | undefined {
+  return libraryReadableBooks.get(id);
+}
 
 const LIBRARY_UI_TEXT: BookUiText = {
   ariaLabel: "Buch lesen",
@@ -327,7 +343,7 @@ const dataflowChapters: HandbookChapter[] = [
   },
 ];
 
-registerBook({
+registerLibraryBook({
   id: "sumer-listen",
   title: "Listen aus Uruk — Verwaltung vor der Literatur",
   subtitle: "M. Ehrenhart · 1981 · Bewohnerbibliothek E71",
@@ -341,7 +357,7 @@ registerBook({
   lendable: true,
 });
 
-registerBook({
+registerLibraryBook({
   id: "schmalspur",
   title: "Schmalspur — Nebenbahnen Mitteleuropas 1890–1946",
   subtitle: "K. Obholz · 1974 · Bewohnerbibliothek E71",
@@ -355,7 +371,7 @@ registerBook({
   lendable: true,
 });
 
-registerBook({
+registerLibraryBook({
   id: "resonanzhygiene-1956",
   title: "Resonanzhygiene — Ein Leitfaden für den Einzelnen",
   subtitle: "Dr. med. H. C. Brennwald · 1956 · Bewohnerbibliothek E71",
@@ -369,7 +385,7 @@ registerBook({
   lendable: true,
 });
 
-registerBook({
+registerLibraryBook({
   id: "gespaltener-geist",
   title: "Der gespaltene Geist — Eine Geschichte der Datenfluss-Maschinen",
   subtitle: "S. R. Vossen · 1997 · Bewohnerbibliothek E71",
@@ -458,7 +474,7 @@ const wirtschaftsChapters: HandbookChapter[] = [
   },
 ];
 
-registerBook({
+registerLibraryBook({
   id: "ordnung-und-eigentum",
   title: "Ordnung und Eigentum — Wirtschaftssysteme im Vergleich",
   subtitle: "Prof. Dr. E. Kallweit · Dr. R. Semmler · 1995 · Bewohnerbibliothek E71",
@@ -551,7 +567,7 @@ const autoChapters: HandbookChapter[] = [
   },
 ];
 
-registerBook({
+registerLibraryBook({
   id: "drehende-dreieck",
   title: "Das drehende Dreieck — Eine Geschichte des Automobils",
   subtitle: "Dipl.-Ing. G. Rothstein · 1997 · Bewohnerbibliothek E71",
@@ -643,7 +659,7 @@ const spracheChapters: HandbookChapter[] = [
   },
 ];
 
-registerBook({
+registerLibraryBook({
   id: "mandatsdeutsch",
   title: "Mandatsdeutsch — Wie am Schalter eine Sprache entstand",
   subtitle: "Dr. phil. A. Ternes · 1993 · Bewohnerbibliothek E71",
