@@ -81,6 +81,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "buchDrehendeDreieck",
     itemName: "Das drehende Dreieck (Leihbuch)",
   },
+  {
+    id: "mandatsdeutsch",
+    title: "Mandatsdeutsch — Wie am Schalter eine Sprache entstand",
+    author: "Dr. phil. A. Ternes",
+    year: "1993",
+    blurb:
+      "Ternes hat jahrelang in Wartebereichen zugehört. Herausgekommen ist eine Sprachbeschreibung: Sprawka, Naryad, Case, „nicht vorgesehen\" — und warum hier niemand sagt, wer etwas entschieden hat.",
+    itemId: "buchMandatsdeutsch",
+    itemName: "Mandatsdeutsch (Leihbuch)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */

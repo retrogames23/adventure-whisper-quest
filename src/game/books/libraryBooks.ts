@@ -21,6 +21,9 @@ import imgWirtMandat from "@/assets/books/wirt-mandat.jpg";
 import imgAutoWankel from "@/assets/books/auto-wankel.jpg";
 import imgAutoSerie72 from "@/assets/books/auto-serie72.jpg";
 import imgAutoDesign90 from "@/assets/books/auto-design90.jpg";
+import imgSpracheFormular from "@/assets/books/sprache-formular.jpg";
+import imgSpracheSchalter from "@/assets/books/sprache-schalter.jpg";
+import imgSpracheJugend from "@/assets/books/sprache-jugend.jpg";
 import { registerBook, type BookUiText } from "./index";
 
 const LIBRARY_UI_TEXT: BookUiText = {
@@ -557,6 +560,98 @@ registerBook({
   blurb:
     "Wie der Rotationskolbenmotor vom Sorgenkind zum Weltstandard wurde: Keramik-Dichtleisten, Schichteinspritzung, die Ölkrise als Rückenwind — und was kleine Motoren mit Karosserien anstellen.",
   chapters: autoChapters,
+  uiText: LIBRARY_UI_TEXT,
+  locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
+  lendable: true,
+});
+
+const spracheChapters: HandbookChapter[] = [
+  {
+    id: "spr-vorwort",
+    shortTitle: "Vorwort",
+    title: "Vorwort: Eine Sprache, die aus Formularen kommt",
+    body: [
+      "Sprachen entstehen selten dort, wo man sie vermutet. Nicht in Gedichten, nicht auf Bühnen, nicht in Schulen. Das Deutsch, das im Mandatsgebiet gesprochen wird, ist an Schaltern entstanden, in Wartebereichen, in Kopierstellen und in Aktenkellern.",
+      "Man nennt es Mandatsdeutsch. Der Ausdruck war lange spöttisch gemeint. Ich verwende ihn ohne Spott. Was hier gewachsen ist, hat eine eigene Grammatik, ein eigenes Wortfeld und einen eigenen Höflichkeitsapparat, und es funktioniert.",
+      "Dieses Buch beschreibt, was gesprochen wird, nicht was gesprochen werden sollte. Wer eine Empfehlung sucht, welche Wendung korrekt sei, wird enttäuscht sein. Ich verzeichne, ich urteile nicht.",
+    ],
+  },
+  {
+    id: "spr-herkunft",
+    image: imgSpracheSchalter,
+    imageCaption: "Abb. 1 — Schalterhalle einer Bezirksstelle, um 1957",
+    shortTitle: "Herkunft",
+    title: "Kapitel I: Vier Amtssprachen an einem Tresen",
+    body: [
+      "Nach der Einrichtung der Verwaltung arbeiteten in denselben Häusern Beamte aus vier Sprachräumen nebeneinander. Vorschriften wurden in mehreren Fassungen ausgegeben, Vordrucke aber nur einmal gedruckt — und zwar in der Sprache, die vor Ort am meisten Leute lasen.",
+      "Deutsch wurde so zur Trägersprache des Schriftverkehrs. Die Begriffe darin kamen aus allen vier Verwaltungen. Wer ein Formular ausfüllte, übernahm die Wörter, die darauf standen, ohne sie zu übersetzen. Nach zwei Jahrzehnten sprachen die Leute so.",
+      "Der Sprachwandel verlief deshalb ungewöhnlich: nicht von der Straße in die Ämter, sondern von den Ämtern auf die Straße.",
+    ],
+  },
+  {
+    id: "spr-lehnwoerter",
+    image: imgSpracheFormular,
+    imageCaption: "Abb. 2 — Vordruck mit Feldbezeichnungen, Bezirksdruckerei",
+    shortTitle: "Lehnwörter",
+    title: "Kapitel II: Woher die Wörter stammen",
+    body: [
+      "Aus dem Französischen stammen die Wörter der Ordnung und der Zuständigkeit: das Ressort, die Instanz, das Dossier, das Bureau, die Kontrolle, der Bescheid „en règle“ — im Mandatsdeutsch verkürzt zu „ongregel“, geschrieben meist „in Regel“.",
+      "Aus dem Russischen kamen die Wörter der Zuteilung und des Bestands: das Kontingent (kontingjent, betont auf der letzten Silbe), der Naryad — der Zuteilungsschein —, und das verbreitete „Sprawka“ für jede Bescheinigung, die man vorlegen muss, um eine andere zu bekommen.",
+      "Aus dem Englischen kamen die Wörter der Abläufe: der Vorgang heißt in vielen Häusern schlicht „Case“, die Bearbeitungsspur „Track“, der abgeschlossene Fall ist „gecleart“.",
+      "Kaum jemand empfindet diese Wörter noch als fremd. „Reich mir mal die Sprawka“ sagt man auch zu Hause, wenn der Impfnachweis gemeint ist.",
+    ],
+  },
+  {
+    id: "spr-grammatik",
+    shortTitle: "Grammatik",
+    title: "Kapitel III: Die Grammatik der Unzuständigkeit",
+    body: [
+      "Auffälliger als die Wörter ist der Satzbau. Mandatsdeutsch vermeidet den Handelnden. Nicht „ich lehne ab“, sondern „es ergeht Ablehnung“. Nicht „Sie haben etwas vergessen“, sondern „die Unterlage liegt nicht vor“.",
+      "Man kann das für Feigheit halten. Zutreffender ist: Der Sprecher am Schalter hat den Bescheid nicht gefasst und kann ihn nicht ändern. Die Sprache bildet diese Lage genau ab.",
+      "Daraus folgt eine zweite Eigenart, die Fremde regelmäßig irritiert: die dreistufige Höflichkeit. „Das wäre möglich“ heißt: es geht. „Das ließe sich prüfen“ heißt: es geht wahrscheinlich nicht, aber Sie dürfen einen Antrag stellen. „Das ist nicht vorgesehen“ heißt: hören Sie auf.",
+      "Wer diese drei Stufen nicht unterscheidet, verbringt Jahre in Wartebereichen.",
+    ],
+  },
+  {
+    id: "spr-jugend",
+    image: imgSpracheJugend,
+    imageCaption: "Abb. 3 — Jugendliche vor einem Wohnblock, Sektor 14",
+    shortTitle: "Jugend",
+    title: "Kapitel IV: Was die Jungen daraus machen",
+    body: [
+      "Die Kinder derer, die das Mandatsdeutsch am Schalter lernten, sprechen es lockerer und respektloser. Sie verwenden dieselben Wörter, aber im Alltag und mit umgekehrtem Vorzeichen.",
+      "„Bist du in Regel?“ heißt: Geht es dir gut? „Ich hab keine Sprawka dafür“ heißt: Ich kann es nicht beweisen, glaub es einfach. Und wer jemanden abweisen will, sagt „nicht vorgesehen“ und lacht dabei.",
+      "Besonders produktiv ist die Vorsilbe „an-“ aus dem Formularwesen: anmelden, anzeigen, anhören — daraus wurde „anquatschen“ für ein Gespräch, das man ohne Termin beginnt, und „angeben“ im Sinne von: jemandem etwas erzählen, das im Protokoll schlecht aussähe.",
+      "Die Verwaltung hat, ohne es zu wollen, den Jargon einer ganzen Generation geliefert.",
+    ],
+  },
+  {
+    id: "spr-anhang",
+    shortTitle: "Anhang",
+    title: "Anhang: Kleines Verzeichnis",
+    body: [
+      "Sprawka — jede Bescheinigung, die Voraussetzung für eine weitere ist.",
+      "Naryad — Zuteilungsschein für Material, Wohnraum, Arbeitszeit.",
+      "Kontingjent — bewilligte Menge innerhalb eines Zeitraums.",
+      "Case — Vorgang; das Aktenzeichen heißt „Casenummer“, auch schriftlich.",
+      "in Regel — formal einwandfrei; umgangssprachlich auch: gesund, in Ordnung.",
+      "Dossier — Sammelakte zu einer Person oder Sache.",
+      "es ergeht — unpersönliche Form für jede Entscheidung, die zugestellt wird.",
+      "nicht vorgesehen — höchste Ablehnungsstufe; kein Widerspruch erwartet.",
+      "vorbehaltlich — der häufigste Bestandteil aller Zusagen im Mandatsgebiet.",
+    ],
+  },
+];
+
+registerBook({
+  id: "mandatsdeutsch",
+  title: "Mandatsdeutsch — Wie am Schalter eine Sprache entstand",
+  subtitle: "Dr. phil. A. Ternes · 1993 · Bewohnerbibliothek E71",
+  author: "Dr. phil. A. Ternes",
+  year: "1993",
+  blurb:
+    "Eine Sprachbeschreibung des Verwaltungsdeutschen: woher seine Lehnwörter stammen, warum es den Handelnden vermeidet und was Jugendliche heute daraus machen.",
+  chapters: spracheChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
   lendable: true,
