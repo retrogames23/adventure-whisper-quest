@@ -28,11 +28,22 @@ export interface ReadableBook {
   lendable: boolean;
 }
 
-const allBooks: ReadableBook[] = [];
+/**
+ * Registry auf globalThis, damit ein Hot-Reload dieses Moduls die bereits
+ * registrierten Bücher nicht verliert (sonst fällt die UI auf den
+ * Katalog-Text zurück, statt das Buch zu öffnen).
+ */
+const registryKey = "__lovableBookRegistry" as const;
+const globalStore = globalThis as typeof globalThis & {
+  __lovableBookRegistry?: ReadableBook[];
+};
+const allBooks: ReadableBook[] = (globalStore[registryKey] ??= []);
 
 export function registerBook(book: ReadableBook) {
-  if (allBooks.some((b) => b.id === book.id)) {
-    console.warn(`Book with id ${book.id} already registered. Skipping.`);
+  const existing = allBooks.findIndex((b) => b.id === book.id);
+  if (existing >= 0) {
+    // Hot-Reload: Eintrag ersetzen statt verwerfen.
+    allBooks[existing] = book;
     return;
   }
   allBooks.push(book);
