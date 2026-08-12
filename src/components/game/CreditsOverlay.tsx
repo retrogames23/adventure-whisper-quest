@@ -13,9 +13,10 @@ interface Props {
 
 interface Credit {
   title: string;
-  creators: string;
+  creators: ReactNode;
   note?: string;
 }
+
 
 const inspirations: Credit[] = [
   {
