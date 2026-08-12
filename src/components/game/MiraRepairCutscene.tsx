@@ -63,6 +63,15 @@ export function MiraRepairCutscene() {
     }
   }, [active]);
 
+  // Während der Cutscene läuft ausschließlich "The Copper Wire Hour";
+  // die reguläre Playlist ist stumm. Am Ende der Cutscene kehrt die
+  // normale Musik zurück.
+  useEffect(() => {
+    if (!active) return;
+    setOverride("miraRepair", { playOnce: true, force: true });
+    return () => setOverride(null);
+  }, [active, setOverride]);
+
   useEffect(
     () => () => {
       if (transitionTimerRef.current !== null) {
