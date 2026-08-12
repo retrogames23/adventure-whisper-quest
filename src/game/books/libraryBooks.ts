@@ -696,7 +696,7 @@ const lobChapters: HandbookChapter[] = [
     body: [
       "Der bürokratische Beamte ist ein Idealtyp. Er kennt nicht die Person, die vor ihm steht; er kennt den Fall. Das klingt grausam. Aber gerade darin liegt seine Güte.",
       "Wer ein Amt betritt, trägt sein Privates nicht mit. Er wird zum Antragsteller, zur Aktennummer, zum Vorgang. Diese Entpersönlichung ist keine Demütigung; sie ist ein Schutz. Der Fürst entscheidet nach Gunst, der Verwandte nach Sympathie, der Beamte nach der Akte. Die Akte liegt offen. Jeder kann sie lesen, jeder kann sie prüfen.",
-      "Weber nannt das „Lebensführung als Beruf“. Der Beamte übt keine Tätigkeit aus, um reich zu werden, und nicht, um geliebt zu werden. Er übt sie aus, weil sie eine Ordnung erhält. In dieser Haltung gibt es etwas Asketisches — und etwas Edles.",
+      "Weber nennt das „Lebensführung als Beruf“. Der Beamte übt keine Tätigkeit aus, um reich zu werden, und nicht, um geliebt zu werden. Er übt sie aus, weil sie eine Ordnung erhält. In dieser Haltung gibt es etwas Asketisches — und etwas Edles.",
       "Das Amt steht also vor dem Menschen, damit der Mensch nicht vor dem Menschen stehen muss.",
     ],
   },
