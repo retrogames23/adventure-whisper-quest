@@ -3,8 +3,9 @@ import type { Scene } from "../types";
 
 /**
  * Wohnung 1102 — Gebäude E71, Etage 1, gegenüber der Bewohnerbibliothek.
- * Bewohnerin: Setsuko Arai, Künstlerin. Die Wohnung ist selbst das Werk:
- * Punkte auf allen Flächen, genähte Auswüchse, ein Spiegelwinkel.
+ * Bewohnerin: Setsuko Arai, Künstlerin. Eine normale Bewohnerwohnung, in
+ * der ihre Arbeit sichtbar ist — Punktbilder, genähte Auswüchse, ein
+ * Spiegelparavent —, aber kein begehbares Gesamtkunstwerk.
  * Hier fällt — nur bei hartnäckigem Interesse — zum ersten Mal der
  * Name „Zero is Infinity“.
  */
@@ -14,14 +15,14 @@ export const apt1102Scenes: Record<string, Scene> = {
     background: apt1102Bg,
     title: "Wohnung 1102 — Gebäude E71",
     intro:
-      "Kein Zimmer, ein Muster. Wände, Boden, Sofa, Tisch: überall dieselben roten Punkte, mit der Hand gesetzt, tausendfach. Über die Möbel wachsen genähte Auswüchse aus demselben gepunkteten Stoff. In einer Ecke stehen kleine Spiegel im Winkel und vervielfachen alles ins Endlose. Es riecht nach Farbe, nicht nach Essen.",
+      "Eine gewöhnliche Bewohnerwohnung: Parkett, Sofa, Couchtisch, ein Regal voller Farbgläser. Und dazwischen die Arbeit — Leinwände voller roter Punkte an der Wand und an die Wand gelehnt, in der Ecke genähte, gepunktete Auswüchse, daneben ein Spiegelparavent. Es riecht nach Farbe, nicht nach Essen.",
     hotspots: [
       {
         id: "setsuko",
-        x: 37,
+        x: 53,
         y: 17,
-        w: 13,
-        h: 64,
+        w: 16,
+        h: 78,
         label: "Setsuko Arai",
         kind: "talk",
         onUse: (api) => {
@@ -34,52 +35,52 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "dotPaintings",
-        x: 2,
-        y: 8,
-        w: 14,
-        h: 30,
+        x: 0,
+        y: 14,
+        w: 21,
+        h: 82,
         label: "Punktbilder an der Wand",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Leinwände, dicht an dicht, jede voller Punkte. Aus zwei Schritten Entfernung ein Netz, aus fünf Schritten eine Fläche.",
+            "Ein paar große Leinwände, gerahmt oder an die Wand gelehnt, jede voller Punkte. Aus zwei Schritten Entfernung ein Netz, aus fünf Schritten eine Fläche.",
             "Auf keinem Bild ist ein Rand frei geblieben. Wer das gemalt hat, hat nicht aufgehört, weil es fertig war.",
           ]),
       },
       {
         id: "softSculptures",
-        x: 0,
-        y: 50,
-        w: 24,
-        h: 42,
+        x: 13,
+        y: 57,
+        w: 25,
+        h: 35,
         label: "Genähte Auswüchse",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Aus dem Sofa und über die Tischkante wachsen weiche, gepolsterte Formen, mit der Hand genäht, gepunktet wie alles hier.",
+            "In der Ecke liegen weiche, gepolsterte Formen, mit der Hand genäht, rot gepunktet, wie liegengelassene Arme.",
             "Sie sehen aus wie etwas, das man nicht laut benennt. Genau das ist offenbar der Punkt.",
           ]),
       },
       {
         id: "mirrorCorner",
-        x: 23,
-        y: 9,
-        w: 13,
-        h: 46,
-        label: "Spiegelwinkel",
+        x: 22,
+        y: 27,
+        w: 12,
+        h: 37,
+        label: "Spiegelparavent",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Zwei Spiegel im rechten Winkel, dazwischen runde kleine Scheiben. Layard tritt hinein und ist plötzlich zwanzig Layards, dann zweihundert.",
+            "Ein dreiteiliger Spiegelparavent, leicht eingewinkelt. Layard tritt davor und ist plötzlich drei Layards, dann zwanzig.",
             "Nach ein paar Sekunden weiß er nicht mehr sicher, welcher davon er ist. Er tritt zurück.",
           ]),
       },
       {
         id: "riceBowl",
-        x: 59,
-        y: 59,
+        x: 43,
+        y: 63,
         w: 8,
-        h: 9,
+        h: 8,
         label: "Reisschale",
         kind: "look",
         onUse: (api) =>
@@ -90,9 +91,9 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "leaflets",
-        x: 82,
-        y: 74,
-        w: 14,
+        x: 79,
+        y: 76,
+        w: 19,
         h: 22,
         label: "Stapel selbstgedruckter Blätter",
         kind: "look",
@@ -104,10 +105,10 @@ export const apt1102Scenes: Record<string, Scene> = {
       },
       {
         id: "back1102",
-        x: 78,
+        x: 79,
         y: 9,
-        w: 15,
-        h: 74,
+        w: 13,
+        h: 65,
         label: "Zurück in den Korridor",
         kind: "exit",
         exitDir: "right",
