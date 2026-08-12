@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
 import { CloseButton } from "./CloseButton";
 import {
   DSA_ATTRIBUTION_HEADLINE,
   DSA_ATTRIBUTION_PARAGRAPHS,
 } from "@/lib/dsaAttribution";
+
 
 interface Props {
   open: boolean;
