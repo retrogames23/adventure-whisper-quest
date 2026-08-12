@@ -962,7 +962,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
       pp7: {
         id: "pp7",
         speaker: "PHILIPPE",
-        text: "Lassen Sie ihn reparieren. Wohnungsapparate laufen über die Korridor-Wartung, nicht über die Leitstelle. Für 46 ist die Anwärterin zuständig, Tür 4601. Die junge Frau mit dem Koffer.",
+        text: "Lassen Sie ihn reparieren. Wohnungsapparate laufen über die Korridor-Wartung, nicht über die Leitstelle. Sie brauchen keinen Naryad dafür, keinen Zuteilungsschein — nur die Anwärterin für Korridor 46, Tür 4601. Die junge Frau mit dem Koffer.",
         choices: [
           {
             text: "[ Notiert: 4601, Korridor 46 ]",
