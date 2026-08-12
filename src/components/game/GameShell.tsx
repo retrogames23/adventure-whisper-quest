@@ -100,10 +100,15 @@ function DsaMusicBridge() {
                 : inE71Nerds
                   ? "e71Nerds"
                   : null;
-    // „sectorThreshold" ist ein Play-Once-Override, der sich selbst auflöst,
-    // sobald der Song zu Ende ist. Bis dahin nicht überschreiben — sonst
-    // würde z. B. der Wechsel in „passage" (target=null) den Song abbrechen.
-    if (activeOverride === "sectorThreshold" && target === null) return;
+    // Cutscene-Overrides (Play-Once) gehören der jeweiligen Cutscene und
+    // lösen sich selbst auf. Bis dahin nicht überschreiben — sonst würde
+    // ein Szenenwechsel (target=null) den Song abbrechen.
+    const CUTSCENE_OVERRIDES = [
+      "sectorThreshold",
+      "act2Assignment",
+      "miraRepair",
+    ];
+    if (activeOverride && CUTSCENE_OVERRIDES.includes(activeOverride)) return;
     setOverride(target);
   }, [scene, dsaAdventureOpen, dsaBeat, setOverride, activeOverride]);
   return null;
