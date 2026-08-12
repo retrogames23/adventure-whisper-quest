@@ -42,6 +42,7 @@ export function MiraRepairCutscene() {
   const paused = dev && usePaused();
 
   const beats = MIRA_REPAIR_BEATS;
+  const { setOverride } = useMusic();
   const [beatIdx, setBeatIdx] = useState(0);
   const [lineIdx, setLineIdx] = useState(-1);
   const [visible, setVisible] = useState(true);
