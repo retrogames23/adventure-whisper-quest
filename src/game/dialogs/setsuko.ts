@@ -1,3 +1,4 @@
+import type { GameApi } from "../types";
 import type { DialogTree } from "../types";
 
 /**
@@ -206,14 +207,14 @@ export const setsukoDialogs: Record<string, DialogTree> = {
             ? [{
                 text: "Warum überall diese Punkte?",
                 next: "shKunst",
-                action: (api) => api.setFlag("setsukoArtTalk"),
+                action: (a: GameApi) => api.setFlag("setsukoArtTalk"),
               }]
             : []),
           ...(!api.hasFlag("setsukoBodyTalk")
             ? [{
                 text: "Warum Essen und Körper?",
                 next: "shKoerper",
-                action: (api) => api.setFlag("setsukoBodyTalk"),
+                action: (a: GameApi) => api.setFlag("setsukoBodyTalk"),
               }]
             : []),
           ...(api.hasFlag("setsukoArtTalk") &&
@@ -223,7 +224,7 @@ export const setsukoDialogs: Record<string, DialogTree> = {
                 {
                   text: "Sie sagten, es gibt andere. Ich frage noch mal.",
                   next: "shAndere",
-                  action: (api) => api.setFlag("heardZeroIsInfinity"),
+                  action: (a: GameApi) => api.setFlag("heardZeroIsInfinity"),
                 },
               ]
             : []),
