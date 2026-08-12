@@ -17,8 +17,8 @@ interface Credit {
   note?: string;
 }
 
-
 const inspirations: Credit[] = [
+
   {
     title: "„Electro 3“ — Musik",
     creators: (
