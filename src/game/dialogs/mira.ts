@@ -325,7 +325,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       miraOpen7: {
         id: "miraOpen7",
         speaker: "MIRA",
-        text: "Lies es allein. Z.K.S.",
+        text: "Lies es allein. Und gib's nicht an. Z.K.S.",
         next: "miraOpen8",
       },
       miraOpen8: {
@@ -454,7 +454,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrTalk: {
         id: "mrTalk",
         speaker: "MIRA",
-        text: "Reden. Gut. — Worüber denn?",
+        text: "Angequatscht. Gut. — Worüber denn?",
         choices: [
           { text: "Über das, was du vorhin meintest.", next: "mrOpen1" },
           { text: "Eigentlich über nichts." },
@@ -658,7 +658,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mtp1: {
         id: "mtp1",
         speaker: "MIRA",
-        text: "Du bist nochmal da. Mit dem Blatt. Und jetzt willst du was.",
+        text: "Du bist nochmal da. Mit dem Blatt. Quatschst mich an. Und jetzt willst du was?",
         subtext: "Sie wirkt nicht überrascht. Eher: bereit.",
         next: "mtp2",
       },
@@ -768,7 +768,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mhubKnown: {
         id: "mhubKnown",
         speaker: "MIRA",
-        text: "Du bist es. — Also, was ist?",
+        text: "Du bist es. Alles in Regel?",
         requires: ["metMira"],
         next: "mhubChoices",
       },
