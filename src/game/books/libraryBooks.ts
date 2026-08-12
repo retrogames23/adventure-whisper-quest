@@ -679,8 +679,8 @@ registerLibraryBook({
 const lobChapters: HandbookChapter[] = [
   {
     id: "lob-vorwort",
-    shortTitle: "Vorwort",
-    title: "Vorwort: Warum wir Vorgänge loben müssen",
+    shortTitle: "Lob der Bürokratie",
+    title: "Lob der Bürokratie",
     body: [
       "Bürokratie hat schlechte Presse. Man nennt sie kalt, langsam, sinnlos. Das ist ein Urteil, das sich bequem anfühlt, weil es den Sprecher ausnimmt: er ist das Opfer, das Amt ist der Schurke.",
       "Dieses Buch wagt das Gegenteil. Es versucht, die Verwaltung so zu sehen, wie sie sich selbst sieht: nicht als Hindernis, sondern als Form. Eine Form, die den Zufall bändigt, die Gewalt verzögert und das Individuum vor der Willkür des Individuums schützt.",
