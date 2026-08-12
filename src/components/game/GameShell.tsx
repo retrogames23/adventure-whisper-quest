@@ -1,6 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { GameProvider } from "@/game/GameContext";
 import { getBook } from "@/game/books";
+import { getLibraryReadableBook } from "@/game/books/libraryBooks";
 import { InventoryDragProvider } from "@/game/InventoryDragContext";
 import { SettingsProvider } from "@/audio/SettingsContext";
 import { MusicPlayer } from "@/audio/MusicPlayer";
@@ -172,7 +173,9 @@ function GameStage({
     idCardOpen,
     closeIdCard,
   } = useGame();
-  const currentBook = currentBookId ? getBook(currentBookId) : null;
+  const currentBook = currentBookId
+    ? (getBook(currentBookId) ?? getLibraryReadableBook(currentBookId))
+    : null;
   const dev = useDevMode();
 
   const handleOpenPause = useCallback(() => setPauseOpen(true), [setPauseOpen]);

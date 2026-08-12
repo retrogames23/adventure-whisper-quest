@@ -27,7 +27,7 @@ import type {
 import { getBook } from "./books";
 import "./books/history";
 import "./books/almanach";
-import "./books/libraryBooks";
+import { getLibraryReadableBook } from "./books/libraryBooks";
 
 export interface MarvSaveState {
   empathyScore: number;
@@ -498,7 +498,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
           setHandbookOpen(true);
           return;
         }
-        const book = getBook(id);
+        const book = getBook(id) ?? getLibraryReadableBook(id);
         if (!book) {
           console.warn(`Unknown book id: ${id}`);
           return;
@@ -906,7 +906,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
           setHandbookOpen(true);
           return;
         }
-        const book = getBook(id);
+        const book = getBook(id) ?? getLibraryReadableBook(id);
         if (!book) {
           console.warn(`Unknown book id: ${id}`);
           return;
