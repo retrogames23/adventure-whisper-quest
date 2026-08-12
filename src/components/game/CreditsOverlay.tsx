@@ -21,9 +21,23 @@ interface Credit {
 const inspirations: Credit[] = [
   {
     title: "„Electro 3“ — Musik",
-    creators: "Kai Krösche (darum.at)",
-    note: "Herzlichen Dank an Kai Krösche für das Stück „Electro 3“, das im Spiel zu hören ist. Mehr unter https://www.darum.at/",
+    creators: (
+      <>
+        Kai Krösche ({""}
+        <a
+          href="https://www.darum.at/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-amber-glow/80 underline-offset-4 hover:underline"
+        >
+          darum.at
+        </a>
+        )
+      </>
+    ),
+    note: "Herzlichen Dank an Kai Krösche für das Stück „Electro 3“, das im Spiel zu hören ist.",
   },
+
   {
     title: "Monkey Island",
     creators: "Ron Gilbert, Tim Schafer, Dave Grossman (LucasArts)",
