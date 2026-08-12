@@ -8,6 +8,7 @@ export type SceneId =
   | "corridor15"
   | "corridor11"
   | "libraryE71"
+  | "apt1102"
   | "room1534"
   | "room1532"
   | "apt2613"
@@ -104,6 +105,12 @@ export type CutsceneId =
 export type StoryFlag =
   /** Layard hat Herbert in der Bewohnerbibliothek 1101 (E71) kennengelernt. */
   | "metHerbert"
+  /** Setsuko Arai (Wohnung 1102, E71) kennengelernt. */
+  | "metSetsuko"
+  | "setsukoArtTalk"
+  | "setsukoBodyTalk"
+  /** Erster Hinweis auf das Kollektiv „Zero is Infinity“. */
+  | "heardZeroIsInfinity"
   | "askedBodoPhone"
   | "askedPhilippePhone"
   | "askedEnnisPhone"

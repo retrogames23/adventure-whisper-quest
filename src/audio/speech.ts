@@ -31,7 +31,8 @@ type Speaker =
   | "SIGI"
   | "RUVEN"
   | "RALF"
-  | "HERBERT";
+  | "HERBERT"
+  | "SETSUKO";
 
 
 interface VoiceProfile {
@@ -227,6 +228,12 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
     voiceId: "nPczCjzI2devNBz1zQrb", // Brian
     speed: 0.92,
     settings: { stability: 0.65, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true },
+  },
+  SETSUKO: {
+    // Setsuko Arai, Künstlerin, 1102 — schnell, hell, überschwänglich.
+    voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte
+    speed: 1.05,
+    settings: { stability: 0.35, similarity_boost: 0.75, style: 0.55, use_speaker_boost: true },
   },
 };
 

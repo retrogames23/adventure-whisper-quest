@@ -38,8 +38,16 @@ export const setsukoDialogs: Record<string, DialogTree> = {
         speaker: "SETSUKO",
         text: "Und? Sie sehen sich um. Alle sehen sich zuerst um und stellen dann die falsche Frage. Stellen Sie ruhig die falsche.",
         choicesFn: (api) => [
-          { text: "Warum überall diese Punkte?", next: "kunst1" },
-          { text: "Warum genau Essen und Körper?", next: "koerper1" },
+          {
+            text: "Warum überall diese Punkte?",
+            next: "kunst1",
+            action: (api) => api.setFlag("setsukoArtTalk"),
+          },
+          {
+            text: "Warum genau Essen und Körper?",
+            next: "koerper1",
+            action: (api) => api.setFlag("setsukoBodyTalk"),
+          },
           ...(api.hasFlag("setsukoArtTalk") && api.hasFlag("setsukoBodyTalk")
             ? [
                 {
@@ -71,7 +79,6 @@ export const setsukoDialogs: Record<string, DialogTree> = {
       kunst2: {
         id: "kunst2",
         speaker: "SETSUKO",
-        onEnter: (api) => api.setFlag("setsukoArtTalk"),
         text: "Ich male, bis ich verschwinde. Erst der Tisch, dann der Boden, dann meine Hände — sehen Sie? — dann bin ich nur noch Muster. Und wer Muster ist, den kann man nicht mehr beschämen. So befreiend!",
         next: "kunst3",
       },
@@ -100,7 +107,6 @@ export const setsukoDialogs: Record<string, DialogTree> = {
       koerper3: {
         id: "koerper3",
         speaker: "SETSUKO",
-        onEnter: (api) => api.setFlag("setsukoBodyTalk"),
         text: "Und deshalb sage ich: alle sollen sich nackt machen. Nicht die Kleider — das ist das Leichteste. Das Verletzlichste zeigen, das, wofür man sich am meisten schämt. Wenn das jeder täte, hätte niemand mehr etwas gegen einen in der Hand. Keine Akte, keine Nachbarn, nichts. So befreiend!",
         next: "koerper4",
       },
@@ -132,6 +138,7 @@ export const setsukoDialogs: Record<string, DialogTree> = {
           {
             text: "Weil mir Ihr Gedanke nicht mehr aus dem Kopf geht.",
             next: "andere3",
+            action: (api) => api.setFlag("heardZeroIsInfinity"),
           },
           {
             text: "Dienstlich. Ich schreibe etwas auf.",
@@ -164,7 +171,6 @@ export const setsukoDialogs: Record<string, DialogTree> = {
       zero2: {
         id: "zero2",
         speaker: "SETSUKO",
-        onEnter: (api) => api.setFlag("heardZeroIsInfinity"),
         text: "Sie nennen sich Zero is Infinity. Englisch, ja. Null ist Unendlich. Wenn du nichts mehr bist, was man wegnehmen kann, bist du alles. Das ist mein Satz, ehrlich gesagt, aber sie tragen ihn weiter, und das ist in Ordnung.",
         next: "zero3",
       },
@@ -197,10 +203,18 @@ export const setsukoDialogs: Record<string, DialogTree> = {
         text: "Ah, der Mantel. Alles in Regel? Setzen Sie sich nicht aufs Sofa, das trocknet noch.",
         choicesFn: (api) => [
           ...(!api.hasFlag("setsukoArtTalk")
-            ? [{ text: "Warum überall diese Punkte?", next: "shKunst" }]
+            ? [{
+                text: "Warum überall diese Punkte?",
+                next: "shKunst",
+                action: (api) => api.setFlag("setsukoArtTalk"),
+              }]
             : []),
           ...(!api.hasFlag("setsukoBodyTalk")
-            ? [{ text: "Warum Essen und Körper?", next: "shKoerper" }]
+            ? [{
+                text: "Warum Essen und Körper?",
+                next: "shKoerper",
+                action: (api) => api.setFlag("setsukoBodyTalk"),
+              }]
             : []),
           ...(api.hasFlag("setsukoArtTalk") &&
           api.hasFlag("setsukoBodyTalk") &&
@@ -209,6 +223,7 @@ export const setsukoDialogs: Record<string, DialogTree> = {
                 {
                   text: "Sie sagten, es gibt andere. Ich frage noch mal.",
                   next: "shAndere",
+                  action: (api) => api.setFlag("heardZeroIsInfinity"),
                 },
               ]
             : []),
@@ -221,14 +236,12 @@ export const setsukoDialogs: Record<string, DialogTree> = {
       shKunst: {
         id: "shKunst",
         speaker: "SETSUKO",
-        onEnter: (api) => api.setFlag("setsukoArtTalk"),
         text: "Ein Punkt ist ein Fehler. Zehntausend sind eine Ordnung. Ich male, bis ich verschwinde, und was verschwunden ist, kann man nicht beschämen. So befreiend!",
         next: "sh1",
       },
       shKoerper: {
         id: "shKoerper",
         speaker: "SETSUKO",
-        onEnter: (api) => api.setFlag("setsukoBodyTalk"),
         text: "Weil mir vor beidem graut, vor Essen und vor Sex. Also nähe ich es hundertmal und setze mich hinein. Wer sein Schlimmstes ausstellt, ist frei. Alle anderen bedecken sich und wundern sich, dass sie flüstern.",
         next: "sh1",
       },
@@ -241,7 +254,6 @@ export const setsukoDialogs: Record<string, DialogTree> = {
       shZeroReveal: {
         id: "shZeroReveal",
         speaker: "SETSUKO",
-        onEnter: (api) => api.setFlag("heardZeroIsInfinity"),
         text: "Es gibt Leute, die arbeiten mit der Null. Sie ziehen sich aus, wo es nicht vorgesehen ist, zwei Minuten lang, dann sind sie weg. Zero is Infinity nennen sie sich. Keine Namen von mir. Ich mache ihnen Kaffee, mehr nicht.",
         next: "sh1",
       },
