@@ -49,6 +49,7 @@ import {
 import { CloseButton } from "./CloseButton";
 import { TerminalScreen } from "./TerminalScreen";
 import { BlockfallOverlay } from "./BlockfallOverlay";
+import { FastWebChatRoom } from "./fastweb/ChatRoom";
 import {
   applyOsVersion,
   buildTree,
@@ -308,6 +309,8 @@ export function Terminal() {
   const [newsState, setNewsState] = useState<NewsState | null>(null);
   // ./blockfall.bin — ASCII-Blockfall, läuft als Vollbild-Sub-Modus im Terminal.
   const [blockfallOn, setBlockfallOn] = useState(false);
+  // Simulierter IRC-Raum (Telnet auf chat.globalfuture.net).
+  const [ircOn, setIrcOn] = useState(false);
   // auskunft.bin — amtliches Auskunftssystem. Läuft als Sub-Modus:
   // solange aktiv, geht jede Eingabe als Anfrage an die Verwaltung.
   const [auskunftOn, setAuskunftOn] = useState(false);
@@ -896,7 +899,10 @@ export function Terminal() {
         const sameAsLocal =
           (targetUser === "bodo" && localBodoMode) ||
           (targetUser === "worag" && !localBodoMode);
-        if (targetUser && !sameAsLocal) {
+        if (host.chatRoom) {
+          out.push({ text: ">> Mit /quit (oben rechts) verlässt du den Kanal.", kind: "system" });
+          setIrcOn(true);
+        } else if (targetUser && !sameAsLocal) {
           savedCwdRef.current = cwd;
           setRemoteMode(targetUser);
           // Im Remote-Modus starten wir im Home des Zielhosts.
@@ -1770,7 +1776,13 @@ export function Terminal() {
           const sameAsLocal =
             (targetUser === "bodo" && localBodoMode) ||
             (targetUser === "worag" && !localBodoMode);
-          if (targetUser && !sameAsLocal) {
+          if (host.chatRoom) {
+            newLines.push({
+              text: ">> Mit /quit (oben rechts) verlässt du den Kanal.",
+              kind: "system",
+            });
+            setIrcOn(true);
+          } else if (targetUser && !sameAsLocal) {
             savedCwdRef.current = cwd;
             setRemoteMode(targetUser);
             setCwd(
@@ -2140,7 +2152,26 @@ export function Terminal() {
           />
         </div>
 
-        {blockfallOn ? (
+        {ircOn ? (
+          <div className="relative min-h-0 flex-1 overflow-hidden bg-black sm:h-[60vh] sm:flex-none">
+            <FastWebChatRoom roomId="gfa" />
+            <button
+              type="button"
+              onClick={() => {
+                setIrcOn(false);
+                setLines((prev) => [
+                  ...prev,
+                  { text: ">> Verbindung geschlossen.", kind: "system" },
+                  { text: "", kind: "out" },
+                ]);
+                setTimeout(() => inputRef.current?.focus(), 30);
+              }}
+              className="absolute right-2 top-1 border border-phosphor/60 bg-black px-2 py-0.5 font-mono-crt text-[11px] text-phosphor hover:bg-phosphor/10"
+            >
+              /quit
+            </button>
+          </div>
+        ) : blockfallOn ? (
           <BlockfallOverlay
             tone={miraMode ? "destructive" : bodoMode ? "sepia" : "phosphor"}
             onExit={() => {
@@ -2162,7 +2193,7 @@ export function Terminal() {
           />
         )}
 
-        {blockfallOn ? null : (
+        {blockfallOn || ircOn ? null : (
         <form
           onSubmit={handleSubmit}
           className={`flex items-center gap-2 border-t bg-black px-4 py-2 ${

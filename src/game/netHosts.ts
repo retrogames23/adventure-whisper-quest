@@ -26,6 +26,11 @@ export interface NetHost {
    * Werden mit `files` gemerged. Spätere Einträge überschreiben frühere.
    */
   dynamicFiles?: (hasFlag: (f: StoryFlag) => boolean) => Record<string, string[]>;
+  /**
+   * Wenn gesetzt: Nach erfolgreicher Anmeldung startet statt einer
+   * Datei-Sitzung ein simulierter Chatraum (siehe `fastWebChat/rooms.ts`).
+   */
+  chatRoom?: "gfa";
 }
 
 export const NET_HOSTS: NetHost[] = [
@@ -651,6 +656,22 @@ export const NET_HOSTS: NetHost[] = [
     host: "sprechzimmer.e71",
     desc: "Sprechzimmer Sanitäter (E71)",
     password: null,
+  },
+  {
+    // Chat-Knoten der Global Future Alliance. Läuft auf einer geliehenen
+    // Leitung außerhalb des Amtsnetzes; Adresse und Passwort stehen im
+    // Manifest, das Walter Grewe verteilt.
+    ip: "10.71.11.03",
+    host: "chat.globalfuture.net",
+    desc: "Chat-Knoten (nicht amtlich verzeichnet)",
+    password: "xodox",
+    passwordCaseInsensitive: true,
+    chatRoom: "gfa",
+    motd: [
+      "── chat.globalfuture.net — GFA-Knoten ────────",
+      "Kein amtlicher Dienst. Leitung geliehen, Zeit knapp.",
+      "Betreten von #globalfuture …",
+    ],
   },
   {
     // Miras Rechner — kein offizieller Eintrag, taucht aber im Routing auf,

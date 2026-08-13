@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useFastWebChat } from "./useFastWebChat";
+import { getChatRoom, type ChatRoomId } from "@/game/fastWebChat/rooms";
 
 function fmtTime(ts: number): string {
   const d = new Date(ts);
@@ -15,8 +16,13 @@ function fmtCountdown(until: number): string {
   return `${mins} Min.`;
 }
 
-export function FastWebChatRoom() {
-  const chat = useFastWebChat(true);
+export function FastWebChatRoom({
+  roomId = "amiga",
+}: {
+  roomId?: ChatRoomId;
+}) {
+  const room = getChatRoom(roomId);
+  const chat = useFastWebChat(true, roomId);
   const [input, setInput] = useState("");
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState(chat.playerName);
@@ -70,7 +76,7 @@ export function FastWebChatRoom() {
         }}
       >
         <span style={{ color: "#0f0" }}>
-          #amiga-zone · {chat.sleeping ? "0" : "5"} user online
+          {room.channel} · {chat.sleeping ? "0" : String(room.personaIds.length)} user online
         </span>
         <span style={{ color: chat.sleeping ? "#ff8" : "#9f9" }}>
           {chat.sleeping
