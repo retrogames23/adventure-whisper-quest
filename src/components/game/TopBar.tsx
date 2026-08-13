@@ -109,10 +109,6 @@ function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
               />
             )}
           </button>}
-          {dsaCharacter && (
-            <>
-            </>
-          )}
           {hasMap && !ending && (
             <button
               type="button"
