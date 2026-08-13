@@ -900,7 +900,7 @@ export function Terminal() {
           (targetUser === "bodo" && localBodoMode) ||
           (targetUser === "worag" && !localBodoMode);
         if (host.chatRoom) {
-          out.push({ text: ">> /quit oder ESC beendet die Sitzung.", kind: "system" });
+          out.push({ text: ">> Mit /quit (oben rechts) verlässt du den Kanal.", kind: "system" });
           setIrcOn(true);
         } else if (targetUser && !sameAsLocal) {
           savedCwdRef.current = cwd;
@@ -1777,7 +1777,7 @@ export function Terminal() {
             (targetUser === "bodo" && localBodoMode) ||
             (targetUser === "worag" && !localBodoMode);
           if (host.chatRoom) {
-          out.push({ text: ">> /quit oder ESC beendet die Sitzung.", kind: "system" });
+          out.push({ text: ">> Mit /quit (oben rechts) verlässt du den Kanal.", kind: "system" });
           setIrcOn(true);
         } else if (targetUser && !sameAsLocal) {
             savedCwdRef.current = cwd;

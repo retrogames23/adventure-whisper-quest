@@ -100,6 +100,20 @@ export const GFA_MANIFEST_CHAPTERS: HandbookChapter[] = [
       "Jeder Einzelne haette gleiches Mitspracherecht, waehrend heutzutage alle grossen Parteien dem Druck der Wirtschaft unterliegen und somit gar nicht im Interesse der grossen Masse handeln koennen. Selbst die Gruenen konnten diesem Druck nicht standhalten (Bsp. Atompolitik). Die Interesse des Einzelnen muss mehr beruecksichtigt werden und das nicht nur alle vier Jahre - der Weg in eine Gesellschaft, in der jeder seinen Platz und seine Aufgabe hat.",
     ],
   },
+  {
+    id: "mitmachen",
+    shortTitle: "Mitmachen",
+    title: "Mitmachen — unser Knoten im FastWeb",
+    body: [
+      "Wir mieten keine Saele. Wir treffen uns dort, wo es nichts kostet: auf unserem eigenen Chat-Knoten im FastWeb. Die Leitung ist geliehen, die Zeit knapp, die Diskussionen dafuer ehrlich.",
+      "Du erreichst uns von jedem Terminal aus. Tippe:",
+      "  telnet chat.globalfuture.net",
+      "Als Passwort gibst du ein:",
+      "  xodox",
+      "Danach bist du im Kanal #globalfuture. Dort sitzen abends fuenf bis zehn von uns. Keine Klarnamen, keine Adressen, keine Wohnungsnummern — nicht aus Angst, sondern aus Anstand.",
+      "Wer zuhoert, ist willkommen. Wer widerspricht, ist noch willkommener. Wer das Manifest weitergibt, hat schon mitgemacht.",
+    ],
+  },
 ];
 
 export const GFA_MANIFEST_UI_TEXT = {
