@@ -105,16 +105,17 @@ export const apt1103Scenes: Record<string, Scene> = {
       },
       {
         id: "posters1103",
-        x: 68,
-        y: 3,
-        w: 12,
-        h: 22,
-        label: "Alte Plakate",
+        x: 47,
+        y: 12,
+        w: 30,
+        h: 20,
+        label: "Altes Plakat",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Verblasste Plakate, dreißig Jahre alt, Ränder wellig. Fäuste, Megafone, ein Satz über Versammlungsrecht, den man heute so nicht mehr druckt.",
-            "Jemand hat sie nicht aus Nostalgie hängen lassen, sondern weil das Abhängen eine Entscheidung wäre.",
+            "Ein breites, verblasstes Plakat, mit Klebeband über den Wandplan geheftet, die Ränder wellig. Links eine rauchende Stadt und eine Reihe Uniformen hinter Schilden, rechts grünes Land und Leute mit Bussen und Zelten. Dazwischen eine Schlucht und eine schmale Hängebrücke.",
+            "Vorn steht einer mit langen Haaren, den Finger in die Luft, und macht sich daran, das Seil der Brücke zu kappen.",
+            "Jemand hat es nicht aus Nostalgie hängen lassen, sondern weil das Abhängen eine Entscheidung wäre.",
           ]),
       },
       {
