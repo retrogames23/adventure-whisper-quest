@@ -173,7 +173,7 @@ const MODEL_LIMITS_MAP: Record<string, Partial<ModelLimits>> = {
     maxToolRounds: 3,
     useTools: true,
   },
-  "google/gemini-3.6-flash": {
+  "google/gemini-3.1-flash-lite": {
     maxTokens: 700,
     historyWindow: 6,
     maxToolRounds: 3,
