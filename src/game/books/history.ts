@@ -4,7 +4,7 @@ import {
   HISTORY_TITLE,
   HISTORY_UI_TEXT,
 } from "@/game/kuerzesteGeschichte";
-import { registerBook } from "./index";
+import { registerBook } from "./registry";
 
 registerBook({
   id: "history",

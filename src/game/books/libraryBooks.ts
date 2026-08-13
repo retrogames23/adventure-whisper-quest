@@ -31,7 +31,7 @@ import {
   registerBook,
   type BookUiText,
   type ReadableBook,
-} from "./index";
+} from "./registry";
 
 const libraryReadableBooks = new Map<string, ReadableBook>();
 
