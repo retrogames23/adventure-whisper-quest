@@ -58,7 +58,7 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
 
   return (
     <div
-      className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/75 px-3 py-4"
+      className="absolute inset-0 z-50 flex items-center justify-center bg-black/75 px-3 py-4"
       onClick={onClose}
       role="dialog"
       aria-label={uiText.ariaLabel}
