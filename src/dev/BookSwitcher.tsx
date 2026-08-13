@@ -11,8 +11,21 @@ import { LIBRARY_BOOKS } from "@/game/libraryE71Books";
  * mit Volltext angelegte Bücher lassen sich direkt öffnen.
  */
 export function BookSwitcher() {
-  const { api, openHandbook } = useGame();
+  const {
+    api,
+    openHandbook,
+    openAlmanach,
+    openHistoryBook,
+    openBook,
+  } = useGame();
   const [open, setOpen] = useState(false);
+
+  const openAfterClosingSwitcher = (openSelectedBook: () => void) => {
+    setOpen(false);
+    // iOS Safari kann den abschließenden Touch sonst noch an das gerade
+    // eingeblendete Buch-Overlay weiterreichen und es sofort wieder schließen.
+    window.setTimeout(openSelectedBook, 0);
+  };
 
   const readable: { label: string; note: string; open: () => void }[] = [
     {
@@ -23,17 +36,17 @@ export function BookSwitcher() {
     {
       label: "Sektoren-Almanach 1997",
       note: "Wandregal, Layards Wohnung",
-      open: () => api.openAlmanach(),
+      open: () => openAlmanach(),
     },
     {
       label: "Die kürzeste Geschichte der Menschheit",
       note: "Wandregal, Layards Wohnung",
-      open: () => api.openHistoryBook(),
+      open: () => openHistoryBook(),
     },
     {
       label: "Global Future Alliance — Manifest",
       note: "Von Walter Grewe, Wohnung 1103",
-      open: () => api.openBook("gfaManifest"),
+      open: () => openBook("gfaManifest"),
     },
   ];
 
@@ -79,10 +92,7 @@ export function BookSwitcher() {
                   <li key={b.label}>
                     <button
                       type="button"
-                      onClick={() => {
-                        b.open();
-                        setOpen(false);
-                      }}
+                      onClick={() => openAfterClosingSwitcher(b.open)}
                       className="flex w-full items-center justify-between gap-3 rounded-sm border border-amber-glow/20 px-3 py-2 text-left text-foreground transition hover:border-amber-glow/60 hover:bg-amber-glow/10"
                     >
                       <span className="truncate">{b.label}</span>
@@ -107,16 +117,17 @@ export function BookSwitcher() {
                       <button
                         type="button"
                         onClick={() => {
-                          setOpen(false);
-                          if (registered) {
-                            api.openBook(b.id);
-                          } else {
-                            api.showText([
-                              `„${b.title}“ — ${b.author}, ${b.year}.`,
-                              b.blurb,
-                              "Ausleihbar bei Herbert in Raum 1101.",
-                            ]);
-                          }
+                          openAfterClosingSwitcher(() => {
+                            if (registered) {
+                              openBook(b.id);
+                            } else {
+                              api.showText([
+                                `„${b.title}“ — ${b.author}, ${b.year}.`,
+                                b.blurb,
+                                "Ausleihbar bei Herbert in Raum 1101.",
+                              ]);
+                            }
+                          });
                         }}
                         className="w-full rounded-sm border border-amber-glow/20 px-3 py-2 text-left text-muted-foreground transition hover:border-amber-glow/60 hover:bg-amber-glow/10"
                       >
