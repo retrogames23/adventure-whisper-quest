@@ -1,5 +1,5 @@
 import type { HandbookChapter } from "@/game/e67Handbook";
-import { registerBook } from "./registry";
+import { registerBook, type ReadableBook } from "./registry";
 
 import imgPlakat from "@/assets/gfa/plakat.jpg";
 import imgVorhaben from "@/assets/gfa/vorhaben.jpg";
@@ -128,7 +128,7 @@ export const GFA_MANIFEST_UI_TEXT = {
   chapterSelectLabel: "Abschnitt",
 } as const;
 
-registerBook({
+export const GFA_MANIFEST_BOOK: ReadableBook = {
   id: "gfaManifest",
   title: "Global Future Alliance",
   subtitle: "Manifest",
@@ -140,4 +140,6 @@ registerBook({
   uiText: GFA_MANIFEST_UI_TEXT,
   locationHint: "Von Walter Grewe, Wohnung 1103",
   lendable: true,
-});
+};
+
+registerBook(GFA_MANIFEST_BOOK);

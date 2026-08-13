@@ -4,9 +4,9 @@ import {
   HISTORY_TITLE,
   HISTORY_UI_TEXT,
 } from "@/game/kuerzesteGeschichte";
-import { registerBook } from "./registry";
+import { registerBook, type ReadableBook } from "./registry";
 
-registerBook({
+export const HISTORY_BOOK: ReadableBook = {
   id: "history",
   title: HISTORY_TITLE,
   subtitle: HISTORY_SUBTITLE,
@@ -18,4 +18,6 @@ registerBook({
   uiText: HISTORY_UI_TEXT,
   locationHint: "Wandregal, Layards Wohnung",
   lendable: false,
-});
+};
+
+registerBook(HISTORY_BOOK);
