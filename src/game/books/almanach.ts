@@ -4,7 +4,7 @@ import {
   ALMANACH_TITLE,
   ALMANACH_UI_TEXT,
 } from "@/game/quadrantenAlmanach";
-import { registerBook } from "./index";
+import { registerBook } from "./registry";
 
 registerBook({
   id: "almanach",

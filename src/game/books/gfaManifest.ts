@@ -1,5 +1,5 @@
 import type { HandbookChapter } from "@/game/e67Handbook";
-import { registerBook } from "./index";
+import { registerBook } from "./registry";
 
 import imgPlakat from "@/assets/gfa/plakat.jpg";
 import imgVorhaben from "@/assets/gfa/vorhaben.jpg";
