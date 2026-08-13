@@ -36,6 +36,8 @@ export function Inventory() {
     const libraryBook = libraryBookByItemId(item.id);
     if (libraryBook) {
       api.openBook(libraryBook.id);
+    } else if (item.id === "gfaManifest") {
+      api.openBook("gfaManifest");
     } else if (item.id === "e67Handbook") {
       openHandbook();
     } else if (item.id === "residentId") {

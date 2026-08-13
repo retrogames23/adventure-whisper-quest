@@ -27,6 +27,7 @@ import type {
 import { getBook } from "./books";
 import "./books/history";
 import "./books/almanach";
+import "./books/gfaManifest";
 import { getLibraryReadableBook } from "./books/libraryBooks";
 
 export interface MarvSaveState {
