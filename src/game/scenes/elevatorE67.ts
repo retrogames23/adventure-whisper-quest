@@ -14,8 +14,8 @@ export const elevatorE67Scenes: Record<string, Scene> = {
     intro:
       "Käfig aus Edelstahl, halb so groß wie eine Wohnung. An der rechten Seitenwand: ein Bedienfeld mit fünf Knöpfen. Über der Tür blinzelt der Etagen-Indikator.",
     hotspots: [
-      // Knöpfe von oben (5) nach unten (1) — Koordinaten direkt auf dem
-      // 4:3-Aufzug-Asset: jeweils Zahl + amberfarbener Knopf.
+      // Knöpfe von oben (5) nach unten (1) — Werte in Prozent der
+      // 16:9-Bühne, rechtes Bedienfeld.
       {
         id: "btn5",
         x: 76.3,
