@@ -122,6 +122,9 @@ export type StoryFlag =
   | "walterResonanz"
   /** Walters Peilung: verstärkter Träger 104,6, NW, 300–500 m — also E67. */
   | "walterBearing"
+  // Plakat der „Global Future Alliance“ in Wohnung 1103 angesehen / Manifest genommen
+  | "sawGfaPoster"
+  | "gfaManifestTaken"
   | "askedBodoPhone"
   | "askedPhilippePhone"
   | "askedEnnisPhone"
