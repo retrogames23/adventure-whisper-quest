@@ -26,6 +26,11 @@ export interface NetHost {
    * Werden mit `files` gemerged. Spätere Einträge überschreiben frühere.
    */
   dynamicFiles?: (hasFlag: (f: StoryFlag) => boolean) => Record<string, string[]>;
+  /**
+   * Wenn gesetzt: Nach erfolgreicher Anmeldung startet statt einer
+   * Datei-Sitzung ein simulierter Chatraum (siehe `fastWebChat/rooms.ts`).
+   */
+  chatRoom?: "gfa";
 }
 
 export const NET_HOSTS: NetHost[] = [
