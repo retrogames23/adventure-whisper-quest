@@ -1,12 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  FASTWEB_PERSONA_IDS,
-  type FastWebPersonaId,
-} from "@/game/fastWebChat/personas";
-import {
-  FASTWEB_BYE_LINES,
-  FASTWEB_WAKE_LINES,
-} from "@/game/fastWebChat/promptBuilder";
+import { getChatRoom, type ChatRoomId } from "@/game/fastWebChat/rooms";
 import { getFreshAccessToken } from "@/auth/freshToken";
 import {
   onCloudError,
@@ -27,7 +20,6 @@ interface PersistedState {
   sleepingUntil: number | null; // unix ms
 }
 
-const STORAGE_KEY = "fastweb-chat-v1";
 const MAX_BUFFER = 200;
 const HARD_CAP = 50;
 const SLEEP_DURATION_MS = 60 * 60 * 1000; // 1h
@@ -42,9 +34,9 @@ function newId(): string {
   return `m${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 }
 
-function loadState(): PersistedState {
+function loadState(storageKey: string): PersistedState {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     if (raw) {
       const parsed = JSON.parse(raw) as PersistedState;
       if (parsed && parsed.v === 1 && Array.isArray(parsed.messages)) {
@@ -57,9 +49,9 @@ function loadState(): PersistedState {
   return { v: 1, messages: [], count: 0, sleepingUntil: null };
 }
 
-function saveState(s: PersistedState): void {
+function saveState(storageKey: string, s: PersistedState): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+    localStorage.setItem(storageKey, JSON.stringify(s));
   } catch {
     /* ignore */
   }
@@ -79,20 +71,27 @@ export interface FastWebChatApi {
   reset: () => void;
 }
 
-export function useFastWebChat(active: boolean): FastWebChatApi {
+export function useFastWebChat(
+  active: boolean,
+  roomId: ChatRoomId = "amiga",
+): FastWebChatApi {
+  const room = getChatRoom(roomId);
   const [state, setState] = useState<PersistedState>(() =>
     typeof window === "undefined"
       ? { v: 1, messages: [], count: 0, sleepingUntil: null }
-      : loadState(),
+      : loadState(room.storageKey),
   );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [playerName, setPlayerNameState] = useState<string>(() => {
-    if (typeof window === "undefined") return "layard_e67";
+    if (typeof window === "undefined") return room.defaultPlayerName;
     try {
-      return localStorage.getItem("fastweb-chat-username") ?? "layard_e67";
+      return (
+        localStorage.getItem(`${room.storageKey}-username`) ??
+        room.defaultPlayerName
+      );
     } catch {
-      return "layard_e67";
+      return room.defaultPlayerName;
     }
   });
 
@@ -100,20 +99,25 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
   stateRef.current = state;
   const busyRef = useRef(false);
 
-  const persist = useCallback((next: PersistedState) => {
-    setState(next);
-    saveState(next);
-  }, []);
+  const persist = useCallback(
+    (next: PersistedState) => {
+      setState(next);
+      saveState(room.storageKey, next);
+    },
+    [room.storageKey],
+  );
 
   const setPlayerName = useCallback((n: string) => {
-    const safe = n.trim().replace(/[^a-zA-Z0-9_]/g, "").slice(0, 24) || "layard_e67";
+    const safe =
+      n.trim().replace(/[^a-zA-Z0-9_]/g, "").slice(0, 24) ||
+      room.defaultPlayerName;
     setPlayerNameState(safe);
     try {
-      localStorage.setItem("fastweb-chat-username", safe);
+      localStorage.setItem(`${room.storageKey}-username`, safe);
     } catch {
       /* ignore */
     }
-  }, []);
+  }, [room.defaultPlayerName, room.storageKey]);
 
   const appendMessage = useCallback(
     (msg: FastWebChatMessage, countsTowardCap: boolean) => {
@@ -130,7 +134,7 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
     if (!active) return;
     const s = stateRef.current;
     if (s.sleepingUntil && Date.now() >= s.sleepingUntil) {
-      const wake = FASTWEB_WAKE_LINES[randInt(0, FASTWEB_WAKE_LINES.length - 1)];
+      const wake = room.wakeLines[randInt(0, room.wakeLines.length - 1)];
       const wakeMsg: FastWebChatMessage = {
         id: newId(),
         ts: Date.now(),
@@ -145,7 +149,7 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
         sleepingUntil: null,
       });
     }
-  }, [active, persist]);
+  }, [active, persist, room]);
 
   // Error-Listener (Donation-Gate)
   useEffect(() => {
@@ -160,7 +164,7 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
   const triggerSleep = useCallback(() => {
     const prev = stateRef.current;
     const until = Date.now() + SLEEP_DURATION_MS;
-    const byes = [...FASTWEB_BYE_LINES]
+    const byes = [...room.byeLines]
       .sort(() => Math.random() - 0.5)
       .slice(0, 3);
     let messages = [...prev.messages];
@@ -177,12 +181,12 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
     }
     messages = messages.slice(-MAX_BUFFER);
     persist({ v: 1, messages, count: prev.count, sleepingUntil: until });
-  }, [persist]);
+  }, [persist, room]);
 
   const callServer = useCallback(
     async (
       trigger: "idle" | "player",
-      chooseFrom?: FastWebPersonaId[],
+      chooseFrom?: string[],
     ): Promise<void> => {
       if (busyRef.current) return;
       const s = stateRef.current;
@@ -203,7 +207,7 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
             persona:
               m.kind === "player"
                 ? playerName.replace(/[^a-z0-9_-]/gi, "").toLowerCase() ||
-                  "layard_e67"
+                  room.defaultPlayerName
                 : m.persona,
             text: m.text,
           }));
@@ -216,8 +220,9 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
           body: JSON.stringify({
             history,
             trigger,
-            chooseFrom: chooseFrom ?? FASTWEB_PERSONA_IDS,
+            chooseFrom: chooseFrom ?? room.personaIds,
             playerName,
+            room: room.id,
           }),
         });
         if (!resp.ok) {
@@ -232,10 +237,10 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
             return;
           }
           if (resp.status === 429) {
-            setError("FastWeb-Server überlastet. Warte einen Moment.");
+            setError("Server überlastet. Warte einen Moment.");
             return;
           }
-          setError("FastWeb-Verbindung gestört.");
+          setError("Verbindung gestört.");
           return;
         }
         const data = (await resp.json()) as {
@@ -264,13 +269,13 @@ export function useFastWebChat(active: boolean): FastWebChatApi {
         }
       } catch (e) {
         console.warn("fastweb-chat send failed", e);
-        setError("FastWeb-Verbindung verloren.");
+        setError("Verbindung verloren.");
       } finally {
         busyRef.current = false;
         setBusy(false);
       }
     },
-    [appendMessage, playerName, triggerSleep],
+    [appendMessage, playerName, room, triggerSleep],
   );
 
   // Idle-Ticker
