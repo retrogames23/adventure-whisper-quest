@@ -176,7 +176,11 @@ export const walterDialogs: Record<string, DialogTree> = {
         speaker: "WALTER",
         text: "Deshalb sage ich dreihundert bis fünfhundert und nicht vierhundert. Wer vierhundert sagt, verkauft Ihnen eine Genauigkeit, die er nicht hat.",
         choicesFn: () => [
-          { text: "Was steht da in der Richtung?", next: "peil14" },
+          {
+            text: "Was steht da in der Richtung?",
+            next: "peil14",
+            action: (a: GameApi) => a.setFlag("walterBearing"),
+          },
         ],
       },
       peil14: {
@@ -192,7 +196,6 @@ export const walterDialogs: Record<string, DialogTree> = {
         subtext:
           "Layard sagt eine Sekunde lang nichts. Das ist die Adresse, unter der er seit vierzehn Jahren schläft.",
         next: "peil16",
-        action: (api: GameApi) => api.setFlag("walterBearing"),
       },
       peil16: {
         id: "peil16",
