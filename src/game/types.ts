@@ -400,6 +400,8 @@ export type StoryFlag =
   | "act2MailReceived"
   /** Layard hat das offizielle Schreiben bei Vossbeck abgeholt. */
   | "act2LetterPickedUp"
+  /** Vossbeck hat die Zentralverwaltungsstelle Sektor 28 genannt — Karte frei. */
+  | "sectorMapUnlocked"
   // ── MARV-9 (Robo-Türsteher Kneipe) ─────────────────────────────
   /** Layard hat MARV-9 zum ersten Mal vor der Kneipentür angesprochen. */
   | "metMarv"
