@@ -92,10 +92,10 @@ export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
     donorOnly: true,
   },
   {
-    id: "google/gemini-3.6-flash",
-    label: "Gemini 3.6 Flash",
-    short: "Gemini",
-    hint: "Neueste Flash-Generation — schnell, günstig, solides Deutsch.",
+    id: "google/gemini-3.1-flash-lite",
+    label: "Gemini 3.1 Flash Lite",
+    short: "Flash Lite",
+    hint: "Schnellste, günstigste Gemini-Option — für flotte, einfache Runden.",
     donorOnly: false,
   },
 ];
