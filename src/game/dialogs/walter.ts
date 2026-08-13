@@ -13,10 +13,18 @@ import type { GameApi, DialogTree } from "../types";
 export const walterDialogs: Record<string, DialogTree> = {
   walterIntro: {
     id: "walterIntro",
-    start: "wi1",
+    start: "wi0",
     npcId: "walter",
     onStart: (api) => api.setFlag("metWalter"),
     lines: {
+      wi0: {
+        id: "wi0",
+        speaker: "WALTER",
+        text: "Bitte nicht so fest auftreten! Ich führe gerade eine sensible Resonanz-Messung durch!",
+        subtext:
+          "Er spricht ohne aufzusehen, den Blick auf einen schwankenden Zeiger gerichtet, während er an einem Knopf dreht.",
+        next: "wi1",
+      },
       wi1: {
         id: "wi1",
         speaker: "WALTER",
