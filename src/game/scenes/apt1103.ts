@@ -111,12 +111,14 @@ export const apt1103Scenes: Record<string, Scene> = {
         h: 20,
         label: "Altes Plakat",
         kind: "look",
-        onUse: (api) =>
+        onUse: (api) => {
+          api.setFlag("sawGfaPoster");
           api.showText([
             "Ein breites, verblasstes Plakat, mit Klebeband über den Wandplan geheftet, die Ränder wellig. Links eine rauchende Stadt und eine Reihe Uniformen hinter Schilden, rechts grünes Land und Leute mit Bussen und Zelten. Dazwischen eine Schlucht und eine schmale Hängebrücke.",
             "Vorn steht einer mit langen Haaren, den Finger in die Luft, und macht sich daran, das Seil der Brücke zu kappen.",
             "Jemand hat es nicht aus Nostalgie hängen lassen, sondern weil das Abhängen eine Entscheidung wäre.",
-          ]),
+          ]);
+        },
       },
       {
         id: "back1103",

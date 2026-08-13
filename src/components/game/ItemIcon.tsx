@@ -377,6 +377,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   belegAushangKorridor46: AushangIcon,
   belegAushangGemeinschaftsraum: AushangIcon,
   flyer: FlyerIcon,
+  gfaManifest: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
   residentId: ResidentIdIcon,
   e67Handbook: E67HandbookIcon,
