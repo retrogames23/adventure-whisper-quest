@@ -77,18 +77,30 @@ export function MapOverlay() {
                   type="button"
                   onClick={() => setSelected(p)}
                   onDoubleClick={() => travel(p)}
+                  title={p.label}
                   style={{ left: `${p.x}%`, top: `${p.y}%` }}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-sm border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.14em] transition-all duration-150 sm:text-[10px] ${
-                    active
-                      ? "border-amber-glow bg-amber-glow/25 text-amber-glow shadow-[0_0_12px_rgba(255,170,60,0.4)]"
-                      : p.travelTo
-                        ? "border-amber-glow/60 bg-black/70 text-amber-glow/90 hover:border-amber-glow hover:bg-amber-glow/20"
-                        : "border-white/25 bg-black/60 text-foreground/70 hover:border-amber-glow/60 hover:text-amber-glow/90"
-                  }`}
+                  className="group absolute -translate-x-1/2 -translate-y-1/2"
                 >
-                  {p.travelTo && <span aria-hidden className="mr-1">◆</span>}
-                  {p.label}
-                  {isHere && <span className="ml-1 opacity-70">(hier)</span>}
+                  <span
+                    aria-hidden
+                    className={`block rounded-full border transition-all duration-150 ${
+                      p.travelTo ? "h-3 w-3 sm:h-3.5 sm:w-3.5" : "h-2 w-2 sm:h-2.5 sm:w-2.5"
+                    } ${
+                      active
+                        ? "border-amber-glow bg-amber-glow shadow-[0_0_12px_rgba(255,170,60,0.6)]"
+                        : p.travelTo
+                          ? "border-amber-glow bg-amber-glow/50 shadow-[0_0_8px_rgba(255,170,60,0.35)] group-hover:bg-amber-glow"
+                          : "border-white/70 bg-black/60 group-hover:border-amber-glow group-hover:bg-amber-glow/60"
+                    }`}
+                  />
+                  <span
+                    className={`pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-sm border border-amber-glow/50 bg-black/85 px-1.5 py-0.5 text-[9px] uppercase tracking-[0.14em] text-amber-glow transition-opacity duration-150 sm:text-[10px] ${
+                      active ? "opacity-100" : "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    }`}
+                  >
+                    {p.label}
+                    {isHere && <span className="ml-1 opacity-70">(hier)</span>}
+                  </span>
                 </button>
               );
             })}
@@ -133,7 +145,8 @@ export function MapOverlay() {
               </>
             ) : (
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Ort auf dem Plan wählen. Mit ◆ gekennzeichnete Orte sind
+                Punkt auf dem Plan überfahren, um den Ort zu benennen, und
+                anklicken für Einzelheiten. Größere, hell gefüllte Punkte sind
                 begehbar.
               </p>
             )}
