@@ -413,6 +413,14 @@ stehen weiterhin in `src/game/npcPersonas.ts`.
 - **Herbert** — Bibliothekar der Bewohnerbibliothek 1101 in E71. Leiht Bücher
   aus, spricht wenig, legt lieber den Finger auf eine Zeile.
 - **Setsuko Arai** — Künstlerin, E71/1102 (gegenüber der Bibliothek).
+- **Walter Grewe** — 56, Funk- und Messtüftler, E71/1103. Alt-68er mit
+  Garagenwerkstatt: Peilrahmen von 1938, Röhrenempfänger, Bandschreiber,
+  Wandplan mit Peillinien. Spricht Resonanz konsequent doppelt (bau-akustisch
+  UND sozial). **Sein Befund (Kanon):** auf 104,6 MHz liegt ein verstärkter,
+  quarzstabiler Träger im Dauerbetrieb; Kreuzpeilung über das Minimum der
+  Acht-Charakteristik, Seitenauflösung per Hilfsantenne, zwei Standorte in
+  E71 → **Richtung Nordwest, 300–500 m Entfernung, also Gebäude E67**. Er
+  nennt es Messung, nicht Beweis (Betonreflexionen, zwei Geisterminima).
   Japanischer Herkunft, exzentrisch, arbeitet mit Punktmustern, Spiegeln und
   Weichskulpturen über Scham, Körper und Essen. Sie kennt Leute aus dem
   Kollektiv **„Zero is Infinity"**, gehört ihm aber nicht an. Bei hartnäckigem
