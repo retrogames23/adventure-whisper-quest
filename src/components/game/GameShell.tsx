@@ -231,10 +231,9 @@ function GameStage({
     nodeOpen ||
     dsaCreatorOpen ||
     dsaAdventureOpen ||
-    // Bücher sind reine Lese-Overlays: im Hochformat aufrecht darstellen,
-    // sonst landen sie quer gedreht und sind mobil unlesbar.
-    handbookOpen ||
-    bookOpen;
+    // Das Handbuch liegt innerhalb der Bühne und braucht dort den aufrechten
+    // Modus. Die übrigen Bücher werden außerhalb der gedrehten Bühne gerendert.
+    handbookOpen;
   return (
     <>
     <MobileStage uprightOnPortrait={consoleOpen}>
@@ -278,16 +277,6 @@ function GameStage({
               {handbookOpen && (
                 <HandbookOverlay open={handbookOpen} onClose={closeHandbook} />
               )}
-              {bookOpen && currentBook && (
-                <BookOverlay
-                  open={bookOpen}
-                  onClose={closeBook}
-                  title={currentBook.title}
-                  subtitle={currentBook.subtitle}
-                  chapters={currentBook.chapters}
-                  uiText={currentBook.uiText}
-                />
-              )}
               {helpOpen !== false && (
                 <HelpOverlay
                   open
@@ -302,6 +291,18 @@ function GameStage({
         <Inventory />
       </div>
     </MobileStage>
+      <Suspense fallback={null}>
+        {bookOpen && currentBook && (
+          <BookOverlay
+            open={bookOpen}
+            onClose={closeBook}
+            title={currentBook.title}
+            subtitle={currentBook.subtitle}
+            chapters={currentBook.chapters}
+            uiText={currentBook.uiText}
+          />
+        )}
+      </Suspense>
       {dev && <RoomSwitcher />}
       {dev && <BookSwitcher />}
       {dev && <ConsoleSwitcher />}
