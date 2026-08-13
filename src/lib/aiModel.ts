@@ -24,7 +24,7 @@ export const AI_MODEL_MAIN = "anthropic/claude-haiku-4.5";
  * sparen, nie sichtbar mit Spielern reden. Läuft über Lovable AI
  * Gateway, weil Anthropic-Modelle dort nicht verfügbar sind.
  */
-export const AI_MODEL_LIGHT = "google/gemini-2.5-flash-lite";
+export const AI_MODEL_LIGHT = "google/gemini-3.1-flash-lite";
 
 /**
  * DSA-Meister läuft über OpenRouter mit Anthropic Claude Haiku 4.5.
@@ -92,10 +92,10 @@ export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
     donorOnly: true,
   },
   {
-    id: "google/gemini-3.6-flash",
-    label: "Gemini 3.6 Flash",
-    short: "Gemini",
-    hint: "Neueste Flash-Generation — schnell, günstig, solides Deutsch.",
+    id: "google/gemini-3.1-flash-lite",
+    label: "Gemini 3.1 Flash Lite",
+    short: "Flash Lite",
+    hint: "Schnellste, günstigste Gemini-Option — für flotte, einfache Runden.",
     donorOnly: false,
   },
 ];
@@ -173,7 +173,7 @@ const MODEL_LIMITS_MAP: Record<string, Partial<ModelLimits>> = {
     maxToolRounds: 3,
     useTools: true,
   },
-  "google/gemini-3.6-flash": {
+  "google/gemini-3.1-flash-lite": {
     maxTokens: 700,
     historyWindow: 6,
     maxToolRounds: 3,
