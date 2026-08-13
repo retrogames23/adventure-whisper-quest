@@ -74,7 +74,7 @@ export const sector28Places: MapPlace[] = [
     label: "Ringstraße 28",
     x: 7,
     y: 38,
-    text: "Die Ringstraße schließt den Sektor. Vier Fahrspuren, zwei davon dauerhaft mit Bauzaun. Wer sie zu Fuß verlässt, gilt verwaltungstechnisch als „außerhalb des Zuständigkeitsbereichs" und muss sich bei Rückkehr melden.",
+    text: "Die Ringstraße schließt den Sektor. Vier Fahrspuren, zwei davon dauerhaft mit Bauzaun. Wer sie zu Fuß verlässt, gilt verwaltungstechnisch als „außerhalb des Zuständigkeitsbereichs“ und muss sich bei Rückkehr melden.",
   },
   {
     id: "anger",
@@ -97,7 +97,7 @@ export const sector28Places: MapPlace[] = [
     label: "Umspannwerk 28/3",
     x: 60,
     y: 85,
-    text: "Versorgt beide Quadranten und die Ergänzungsbauten. Das Brummen ist bei Ostwind bis in die Korridore hörbar. Bewohnereingaben zum Thema Brummen werden zentral unter „Wahrnehmungsschwankung" geführt.",
+    text: "Versorgt beide Quadranten und die Ergänzungsbauten. Das Brummen ist bei Ostwind bis in die Korridore hörbar. Bewohnereingaben zum Thema Brummen werden zentral unter „Wahrnehmungsschwankung“ geführt.",
   },
   {
     id: "messfeld",
