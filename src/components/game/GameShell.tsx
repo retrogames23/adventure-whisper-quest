@@ -227,7 +227,14 @@ function GameStage({
     toggleDsaSheet,
   ]);
   const consoleOpen =
-    terminalOpen || nodeOpen || dsaCreatorOpen || dsaAdventureOpen;
+    terminalOpen ||
+    nodeOpen ||
+    dsaCreatorOpen ||
+    dsaAdventureOpen ||
+    // Bücher sind reine Lese-Overlays: im Hochformat aufrecht darstellen,
+    // sonst landen sie quer gedreht und sind mobil unlesbar.
+    handbookOpen ||
+    bookOpen;
   return (
     <>
     <MobileStage uprightOnPortrait={consoleOpen}>
