@@ -1,4 +1,4 @@
-import type { GameApi, DialogTree } from "../types";
+import type { GameApi, DialogLine, DialogTree } from "../types";
 
 /**
  * Walter Grewe — Wohnung 1103, Gebäude E71, Etage 1.
@@ -10,6 +10,136 @@ import type { GameApi, DialogTree } from "../types";
  * verstärkter Träger auf 104,6, Richtung Nordwest, 300 bis 500 Meter.
  * Das ist, mit Vorbehalt, E67. Layards eigenes Gebäude.
  */
+
+/**
+ * Plakat-Strang: „Global Future Alliance“. Wird nur angeboten, wenn Layard
+ * das Plakat in 1103 einmal angesehen hat (Flag `sawGfaPoster`).
+ * `hub` ist die Rückkehr-Zeile des jeweiligen Dialogbaums.
+ */
+function gfaLines(hub: string): Record<string, DialogLine> {
+  return {
+    gfa1: {
+      id: "gfa1",
+      speaker: "WALTER",
+      text: "Das Plakat? Das ist keine Erinnerung, das ist eine Ankündigung. Ich bin in einer Partei. Neu, klein, heißt Global Future Alliance. Ja, auf Englisch, das war nicht meine Idee.",
+      subtext: "Er stellt den Lötkolben ab, zum ersten Mal ganz bei der Sache.",
+      next: "gfa2",
+    },
+    gfa2: {
+      id: "gfa2",
+      speaker: "WALTER",
+      text: "Grundgedanke: Grenzen sind nichts Physisches. Über das FastWeb reden Leute miteinander, die sich nach der alten Ordnung nie begegnen. Wenn das normal wird, wird Krieg unwahrscheinlich. Und die Technik, die uns Arbeit abnimmt, soll allen nützen, nicht nur denen, die sie kaufen.",
+      next: "gfa3",
+    },
+    gfa3: {
+      id: "gfa3",
+      speaker: "WALTER",
+      text: "Etwas naiv, aber gut gemeint. Es sind halt vor allem junge Leute in der Partei. Aber sie haben das Herz am richtigen Fleck. Vielleicht verändern sie wirklich etwas. Ich will sie unterstützen.",
+      subtext:
+        "Er zieht einen Stapel gehefteter Blätter unter dem Rechenheft hervor: Nadeldrucker, kein einziger Umlaut.",
+      next: "gfa4",
+    },
+    gfa4: {
+      id: "gfa4",
+      speaker: "WALTER",
+      text: "Hier. Das Manifest. Nehmen Sie eins mit, ich habe vierzig davon und dreiunddreißig Nachbarn.",
+      choicesFn: (api) => [
+        ...(!api.hasItem("gfaManifest")
+          ? [
+              {
+                text: "Danke. Ich lese es.",
+                next: "gfaTake",
+                action: (a: GameApi) => {
+                  a.addItem({
+                    id: "gfaManifest",
+                    name: "Manifest der Global Future Alliance",
+                    description:
+                      "Geheftete Blätter aus einem Nadeldrucker, ohne Umlaute. Von Walter Grewe, Wohnung 1103.",
+                  });
+                  a.setFlag("gfaManifestTaken");
+                },
+              },
+              { text: "Lieber nicht. Ich arbeite für die Verwaltung.", next: "gfaDecline" },
+            ]
+          : [{ text: "Ich habe es schon. Reden wir darüber.", next: "gfaTopics" }]),
+      ],
+    },
+    gfaTake: {
+      id: "gfaTake",
+      speaker: "WALTER",
+      text: "Sehr gut. Nicht wegwerfen, auch wenn Sie es albern finden. Papier ist geduldiger als Leute.",
+      next: "gfaTopics",
+    },
+    gfaDecline: {
+      id: "gfaDecline",
+      speaker: "WALTER",
+      text: "Verstehe ich. Ich lege es hierhin, an die Kante. Wenn Sie es beim Rausgehen mitnehmen, habe ich nichts gesehen.",
+      subtext: "Er schiebt den Stapel an den Rand der Werkbank, mit einer Sorgfalt, die fast höflich ist.",
+      next: "gfaTopics",
+    },
+    gfaTopics: {
+      id: "gfaTopics",
+      speaker: "WALTER",
+      text: "Fragen Sie ruhig. Ich verteidige nicht jeden Satz darin, aber ich stehe dazu.",
+      choicesFn: () => [
+        { text: "Arbeit und Automatisierung — wie soll das gehen?", next: "gfaArbeit" },
+        { text: "Abstimmen über das FastWeb? Ernsthaft?", next: "gfaDemokratie" },
+        { text: "Und die Umwelt?", next: "gfaUmwelt" },
+        { text: "Was sagt der Mandatsrat dazu?", next: "gfaRat" },
+        { text: "Anderes Thema.", next: hub },
+      ],
+    },
+    gfaArbeit: {
+      id: "gfaArbeit",
+      speaker: "WALTER",
+      text: "Ganz einfach im Prinzip: Wer einen Menschen durch eine Maschine ersetzt, zahlt auf die Maschine. Das Geld geht in die Sozialkassen. Dann ist Rationalisierung kein Unglück mehr, sondern Freizeit für alle.",
+      next: "gfaArbeit2",
+    },
+    gfaArbeit2: {
+      id: "gfaArbeit2",
+      speaker: "WALTER",
+      text: "Und ja, dann kommt sofort einer und sagt: Dann wandert die Industrie ab. Darauf haben die Jungen eine Antwort, die mir zu schnell kommt — Zölle. Ich sage: Die Idee stimmt, die Rechnung fehlt. Aber lieber eine Idee ohne Rechnung als eine Verwaltung, die beides nicht hat.",
+      next: "gfaTopics",
+    },
+    gfaDemokratie: {
+      id: "gfaDemokratie",
+      speaker: "WALTER",
+      text: "Technisch geht das heute schon. Ein Forum, eine Abstimmung, jeder eine Stimme, und Besitz zählt darin genau nichts. Das ist der Teil, den ich am meisten mag: kein Amtsweg dazwischen.",
+      next: "gfaDemokratie2",
+    },
+    gfaDemokratie2: {
+      id: "gfaDemokratie2",
+      speaker: "WALTER",
+      text: "Der Haken ist derselbe wie bei jeder Messung: Wer stellt die Frage, und wer zählt aus? Steht so nicht drin. Sollte drinstehen. Habe ich denen geschrieben, zweimal.",
+      next: "gfaTopics",
+    },
+    gfaUmwelt: {
+      id: "gfaUmwelt",
+      speaker: "WALTER",
+      text: "Ozonlöcher werden größer, und die Politik senkt Ausstöße auf dem Papier, wirksam in dreißig Jahren. Motoren für Rapsöl, Erdgas, Wasserstoff sind lange erfunden. Es fehlt nicht die Technik, es fehlt der Wille — und einer muss anfangen.",
+      next: "gfaUmwelt2",
+    },
+    gfaUmwelt2: {
+      id: "gfaUmwelt2",
+      speaker: "WALTER",
+      text: "Am schärfsten ist der Teil über die Tiere. Transporte, Legebatterien. Da werden die Jungen laut, und das ist gut so. Ein Tier ist keine Ware. Das schreibt sich leicht hin und ist trotzdem richtig.",
+      next: "gfaTopics",
+    },
+    gfaRat: {
+      id: "gfaRat",
+      speaker: "WALTER",
+      text: "Nichts. Bisher nichts, und das ist die ehrliche Antwort. Wir sind zu klein, um zu stören. Ich habe die Blätter angemeldet, ordnungsgemäß, Aushang und Verteilung, mit Vorgangsnummer. Alles im Rahmen.",
+      next: "gfaRat2",
+    },
+    gfaRat2: {
+      id: "gfaRat2",
+      speaker: "WALTER",
+      text: "Sie können es also ruhig einstecken, ohne dass Ihnen jemand etwas kann. Es ist ein Blatt Papier mit einer Meinung drauf. Das darf man hier noch, steht sogar in der Verordnung. Man muss es nur lesen wollen.",
+      next: "gfaTopics",
+    },
+  };
+}
+
 export const walterDialogs: Record<string, DialogTree> = {
   walterIntro: {
     id: "walterIntro",
@@ -58,6 +188,9 @@ export const walterDialogs: Record<string, DialogTree> = {
             text: "Im Sektor häufen sich Resonanz-Überlastungen. Sagt Ihnen das etwas?",
             next: "peil1",
           },
+          ...(api.hasFlag("sawGfaPoster")
+            ? [{ text: "Das Plakat da an der Wand — Ihres?", next: "gfa1" }]
+            : []),
           { text: "Ich schaue mich nur um.", next: "wBye" },
         ],
       },
@@ -218,6 +351,8 @@ export const walterDialogs: Record<string, DialogTree> = {
         next: "wHub",
       },
 
+      ...gfaLines("wHub"),
+
       wBye: {
         id: "wBye",
         speaker: "WALTER",
@@ -263,6 +398,16 @@ export const walterDialogs: Record<string, DialogTree> = {
                 },
               ]
             : [{ text: "Noch mal zu Ihrer Peilung.", next: "whPeil" }]),
+          ...(api.hasFlag("sawGfaPoster")
+            ? [
+                {
+                  text: api.hasItem("gfaManifest")
+                    ? "Ihr Manifest — dazu hätte ich Fragen."
+                    : "Das Plakat da an der Wand — Ihres?",
+                  next: api.hasItem("gfaManifest") ? "gfaTopics" : "gfa1",
+                },
+              ]
+            : []),
           { text: "Nur kurz Hallo.", next: "whBye" },
         ],
       },
@@ -290,6 +435,8 @@ export const walterDialogs: Record<string, DialogTree> = {
         text: "Wenn Sie schon dort sind: Schauen Sie nach oben. Antennen versteckt man nicht im Keller.",
         next: "wh1",
       },
+      ...gfaLines("wh1"),
+
       whBye: {
         id: "whBye",
         speaker: "WALTER",
