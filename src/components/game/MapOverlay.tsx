@@ -59,7 +59,7 @@ export function MapOverlay() {
               src={mapBg}
               alt="Lageplan von Sektor 28 aus der Vogelperspektive"
               width={1920}
-              height={1088}
+              height={1080}
               loading="lazy"
               className="block w-full select-none"
             />
