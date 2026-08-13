@@ -1,6 +1,13 @@
 import type { HandbookChapter } from "@/game/e67Handbook";
 import { registerBook } from "./index";
 
+import imgPlakat from "@/assets/gfa/plakat.jpg";
+import imgVorhaben from "@/assets/gfa/vorhaben.jpg";
+import imgInnen from "@/assets/gfa/innen.jpg";
+import imgAussen from "@/assets/gfa/aussen.jpg";
+import imgUmwelt from "@/assets/gfa/umwelt.jpg";
+import imgDemokratie from "@/assets/gfa/demokratie.jpg";
+
 /**
  * „Global Future Alliance“ — Manifest, das Walter Grewe an Layard weitergibt.
  * Nadeldrucker-Ausdruck aus dem FastWeb, deshalb ohne Umlaute (ae/oe/ue).
@@ -8,7 +15,21 @@ import { registerBook } from "./index";
  */
 export const GFA_MANIFEST_CHAPTERS: HandbookChapter[] = [
   {
+    id: "titelblatt",
+    shortTitle: "Titelblatt",
+    title: "Global Future Alliance",
+    image: imgPlakat,
+    imageCaption:
+      "Titelblatt: das Plakat der Global Future Alliance, grob gerastert vom Nadeldrucker.",
+    body: [
+      "Global Future Alliance — Manifest, Fassung 1997.",
+      "Globales Denken statt nationalstaatlichem. Herausgegeben im FastWeb, gedruckt in Eigenarbeit, Weitergabe ausdruecklich erwuenscht.",
+    ],
+  },
+  {
     id: "vorhaben",
+    image: imgVorhaben,
+    imageCaption: "Kopie des Plakats, das auch in Walters Wohnung haengt — Beilage zum Manifest.",
     shortTitle: "Unser Vorhaben",
     title: "Unser Vorhaben",
     body: [
@@ -25,6 +46,8 @@ export const GFA_MANIFEST_CHAPTERS: HandbookChapter[] = [
   },
   {
     id: "innen",
+    image: imgInnen,
+    imageCaption: "Abbildung 2: „Rationalisierung\" — Fliessband ohne Menschen.",
     shortTitle: "Innenpolitik",
     title: "Innenpolitik",
     body: [
@@ -38,6 +61,8 @@ export const GFA_MANIFEST_CHAPTERS: HandbookChapter[] = [
   },
   {
     id: "aussen",
+    image: imgAussen,
+    imageCaption: "Abbildung 3: Haende ueber Grenzen. Randnotiz: „Zeichen setzen.\"",
     shortTitle: "Aussenpolitik",
     title: "Aussenpolitik",
     body: [
@@ -51,6 +76,8 @@ export const GFA_MANIFEST_CHAPTERS: HandbookChapter[] = [
   },
   {
     id: "umwelt",
+    image: imgUmwelt,
+    imageCaption: "Abbildung 4: Ein Fluss, zwei Zukuenfte.",
     shortTitle: "Umweltpolitik",
     title: "Umweltpolitk",
     body: [
@@ -64,6 +91,8 @@ export const GFA_MANIFEST_CHAPTERS: HandbookChapter[] = [
   },
   {
     id: "demokratie",
+    image: imgDemokratie,
+    imageCaption: "Abbildung 5: Abstimmung im Gemeinschaftssaal.",
     shortTitle: "Direkte Demokratie",
     title: "Direkte Demokratie",
     body: [
