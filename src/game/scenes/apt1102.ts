@@ -15,7 +15,7 @@ export const apt1102Scenes: Record<string, Scene> = {
     background: apt1102Bg,
     title: "Wohnung 1102 — Gebäude E71",
     intro:
-      "Eine gewöhnliche Bewohnerwohnung: Parkett, Sofa, Couchtisch, ein Regal voller Farbgläser. Und dazwischen die Arbeit — Leinwände voller roter Punkte an der Wand und an die Wand gelehnt, in der Ecke genähte, gepunktete Auswüchse, daneben ein Spiegelparavent. Es riecht nach Farbe, nicht nach Essen.",
+      "Parkett, Sofa, Couchtisch, ein Regal voller Farbgläser. Und dazwischen die Arbeit — Leinwände voller roter Punkte an der Wand und an die Wand gelehnt, in der Ecke genähte, gepunktete Auswüchse, daneben ein Spiegelparavent. Es riecht nach Farbe, nicht nach Essen.",
     hotspots: [
       {
         id: "setsuko",
