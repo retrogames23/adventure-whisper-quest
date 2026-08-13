@@ -88,6 +88,49 @@ export const elevatorE67Scenes: Record<string, Scene> = {
             "„E67 · 5 ETAGEN · max. 6 Personen · Anschluss E71 nur über Etage 1.“",
           ]),
       },
+      {
+        // Unter Etage 1: kein Knopf, sondern ein Vierkant-Schlitz mit
+        // eingraviertem „K“ — Betriebsfahrt Keller, nur für Wartung.
+        id: "btnKeller",
+        x: 46.63,
+        y: 74.6,
+        w: 6.38,
+        h: 5.6,
+        label: "K — Vierkant-Schlitz (Betriebsfahrt)",
+        kind: "use",
+        onUse: (api) => {
+          if (api.hasItem("vierkantschluessel")) {
+            api.showText([
+              "Layard setzt Bodos Vierkantschlüssel an und dreht ihn eine",
+              "Vierteldrehung nach rechts. Unter dem Schlitz glimmt ein „K“ auf.",
+              "Der Käfig ruckt und fährt abwärts — an Etage 1 vorbei.",
+            ]);
+            api.goTo("kellerE67");
+            return;
+          }
+          api.showText([
+            "Unter dem Knopf für Etage 1 sitzt kein Knopf, sondern ein",
+            "Vierkant-Schlitz. Daneben eingraviert: „K — nur Betriebsfahrt“.",
+            "Ohne den passenden Schlüssel bleibt der Käfig, wo er ist.",
+          ]);
+        },
+      },
+      {
+        id: "elevatorIndicatorOld",
+        x: 11.6,
+        y: 8.3,
+        w: 10.1,
+        h: 7.8,
+        label: "Etagen-Indikator",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Ein schmales amberfarbenes Sieben-Segment-Display.",
+            "Im Moment zeigt es nur eine flackernde, halb-erloschene Ziffer.",
+            "Darunter, in winziger Gravur:",
+            "„E67 · 5 ETAGEN · max. 6 Personen · Anschluss E71 nur über Etage 1.“",
+          ]),
+      },
     ],
   },
   floor1Lobby: {
