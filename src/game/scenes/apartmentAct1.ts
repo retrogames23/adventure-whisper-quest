@@ -70,8 +70,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "radio",
-        x: 20.8,
-        y: 52,
+        x: 17,
+        y: 50.9,
         w: 8.1,
         h: 13.7,
         label: "Schmerz-Radio",
@@ -100,12 +100,27 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         id: "terminal",
         x: 28.6,
         y: 35.6,
-        w: 13.5,
+        w: 11.5,
         h: 28,
         label: "CentralOS Terminal",
         kind: "use",
         onUse: (api) => api.openTerminal(),
       },
+      {
+        id: "window",
+        x: 45.1,
+        y: 1.8,
+        w: 10.2,
+        h: 54.9,
+        label: "Fenster",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Durch das schmale Fenster sieht Layard den gegenüberliegenden Trakt E65, die gleichen Reihen, die gleichen Scheiben.",
+            "Unten im Hof fährt gerade ein Linienbus vorbei, kaum schneller als die Fußgänger. Der Lärm dringt gedämpft herauf.",
+          ]),
+      },
+
       {
         id: "phoneApt",
         x: 70.8,
