@@ -2153,7 +2153,7 @@ export function Terminal() {
         </div>
 
         {ircOn ? (
-          <div className="relative flex-1 overflow-hidden">
+          <div className="relative min-h-0 flex-1 overflow-hidden bg-black sm:h-[60vh] sm:flex-none">
             <FastWebChatRoom roomId="gfa" />
             <button
               type="button"
