@@ -39,12 +39,20 @@ export const corridor11Scenes: Record<string, Scene> = {
         w: 8,
         h: 45,
         label: "Tür 1103",
-        kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "1103. Vor der Tür steht ein Paar Hausschuhe, ordentlich nebeneinander.",
-            "Layard denkt an seinen eigenen Flur: Beton, ein Lichtschalter, der klemmt.",
-          ]),
+        kind: "use",
+        onUse: (api) => {
+          if (api.hasFlag("metWalter")) {
+            api.goTo("apt1103");
+            return;
+          }
+          api.showText(
+            [
+              "1103. Vor der Tür steht ein Paar Hausschuhe, ordentlich nebeneinander. Am Rahmen ein handgeschriebener Zettel: „Klingel defekt, Klopfen reicht, aber fest.“",
+              "Layard klopft fest. Drinnen brummt etwas Tieffrequentes, dann wird es leiser. Die Tür geht auf, dahinter Kabel, Zeigerinstrumente und Kaffeegeruch.",
+            ],
+            () => api.goTo("apt1103"),
+          );
+        },
       },
       {
         id: "door1102",
