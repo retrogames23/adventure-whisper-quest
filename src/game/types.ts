@@ -84,6 +84,8 @@ export type InventoryItemId =
   | "condom"
   // Akt II — offizielles Schreiben zur Vor-Ort-Recherche (Vossbeck).
   | "rechercheSchreiben"
+  // Manifest der „Global Future Alliance“ — von Walter Grewe (Wohnung 1103)
+  | "gfaManifest"
   // Ausgeliehene Bücher der Bewohnerbibliothek 1101 (E71, Herbert)
   | "buchSumerListen"
   | "buchSchmalspur"
