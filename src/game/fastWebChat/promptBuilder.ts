@@ -34,6 +34,47 @@ export function buildFastWebSystemPrompt(allowed: FastWebPersonaId[]): string {
   ].join("\n");
 }
 
+/**
+ * Raum-unabhängige Variante: baut denselben Prompt aus einer
+ * Raum-Definition (siehe `rooms.ts`).
+ */
+export function buildRoomSystemPrompt(
+  room: {
+    setting: string;
+    bios: Record<string, { bio: string }>;
+    topics: ReadonlyArray<string>;
+    guard: string;
+  },
+  allowed: string[],
+): string {
+  const personaBlock = allowed
+    .map((id) => `- ${id}: ${room.bios[id]?.bio ?? ""}`)
+    .join("\n");
+  const topicHints = room.topics.slice(0, 12).join(" · ");
+
+  return [
+    room.setting,
+    "",
+    "AKTIVE PERSONAS IN DIESEM RAUM:",
+    personaBlock,
+    "",
+    "Du sollst GENAU EINE neue Chat-Zeile von GENAU EINER dieser Personas erzeugen. Wähle, wer am natürlichsten als nächstes spricht: jemand, der eine Frage beantworten kann, jemand, der schon länger nichts gesagt hat, oder jemand, der zum aktuellen Thema etwas Konkretes beizutragen hat.",
+    "",
+    "STIL:",
+    "- Eine kurze IRC-Zeile, 5 bis 140 Zeichen, klein/locker geschrieben.",
+    "- Kein eigener Name als Präfix, kein Zeitstempel — nur der Text.",
+    "- Keine Anführungszeichen drumherum.",
+    "- Bleib in der gewählten Persona-Stimme (siehe bio).",
+    "- Reagiere konkret auf die letzten 2-4 Zeilen. Wiederhole nichts wörtlich.",
+    "- Wenn das Thema müde wirkt, darf die gewählte Persona ein neues anstoßen aus diesem Pool: " +
+      topicHints +
+      ".",
+    "",
+    "LORE-REGELN (HART):",
+    room.guard,
+  ].join("\n");
+}
+
 export const FASTWEB_BYE_LINES: ReadonlyArray<{ persona: FastWebPersonaId; text: string }> = [
   { persona: "amiga4ever", text: "so, ich mach feierabend. n8 zusammen." },
   { persona: "zak_mckracken_92", text: "ich auch, bye. morgen wieder." },
