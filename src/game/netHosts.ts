@@ -658,8 +658,23 @@ export const NET_HOSTS: NetHost[] = [
     password: null,
   },
   {
+    // Chat-Knoten der Global Future Alliance. Läuft auf einer geliehenen
+    // Leitung außerhalb des Amtsnetzes; Adresse und Passwort stehen im
+    // Manifest, das Walter Grewe verteilt.
+    ip: "10.71.11.03",
+    host: "chat.globalfuture.net",
+    desc: "Chat-Knoten (nicht amtlich verzeichnet)",
+    password: "xodox",
+    passwordCaseInsensitive: true,
+    chatRoom: "gfa",
+    motd: [
+      "── chat.globalfuture.net — GFA-Knoten ────────",
+      "Kein amtlicher Dienst. Leitung geliehen, Zeit knapp.",
+      "Betreten von #globalfuture …",
+    ],
+  },
+  {
     // Miras Rechner — kein offizieller Eintrag, taucht aber im Routing auf,
-*** move marker ***
     // weil sie sich an einen freien Port am Etagendrucker geklemmt hat.
     // IP-Bereich „99“ wird vom System eigentlich für Wartung reserviert.
     ip: "10.67.99.16",
