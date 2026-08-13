@@ -659,6 +659,7 @@ export const NET_HOSTS: NetHost[] = [
   },
   {
     // Miras Rechner — kein offizieller Eintrag, taucht aber im Routing auf,
+*** move marker ***
     // weil sie sich an einen freien Port am Etagendrucker geklemmt hat.
     // IP-Bereich „99“ wird vom System eigentlich für Wartung reserviert.
     ip: "10.67.99.16",
