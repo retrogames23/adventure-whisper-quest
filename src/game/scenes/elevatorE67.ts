@@ -116,21 +116,6 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         },
       },
       {
-        id: "elevatorIndicatorOld",
-        x: 11.6,
-        y: 8.3,
-        w: 10.1,
-        h: 7.8,
-        label: "Etagen-Indikator",
-        kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "Ein schmales amberfarbenes Sieben-Segment-Display.",
-            "Im Moment zeigt es nur eine flackernde, halb-erloschene Ziffer.",
-            "Darunter, in winziger Gravur:",
-            "„E67 · 5 ETAGEN · max. 6 Personen · Anschluss E71 nur über Etage 1.“",
-          ]),
-      },
     ],
   },
   floor1Lobby: {
