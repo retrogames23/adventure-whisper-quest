@@ -32,7 +32,8 @@ type Speaker =
   | "RUVEN"
   | "RALF"
   | "HERBERT"
-  | "SETSUKO";
+  | "SETSUKO"
+  | "WALTER";
 
 
 interface VoiceProfile {
@@ -234,6 +235,12 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
     voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte
     speed: 1.05,
     settings: { stability: 0.35, similarity_boost: 0.75, style: 0.55, use_speaker_boost: true },
+  },
+  WALTER: {
+    // Walter Grewe, Tüftler, 56 — rau, schnell, begeistert.
+    voiceId: "onwK4e9ZLuTAKqWW03F9", // Daniel
+    speed: 1.0,
+    settings: { stability: 0.45, similarity_boost: 0.8, style: 0.35, use_speaker_boost: true },
   },
 };
 

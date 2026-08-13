@@ -9,6 +9,7 @@ export type SceneId =
   | "corridor11"
   | "libraryE71"
   | "apt1102"
+  | "apt1103"
   | "room1534"
   | "room1532"
   | "apt2613"
@@ -111,6 +112,14 @@ export type StoryFlag =
   | "setsukoBodyTalk"
   /** Erster Hinweis auf das Kollektiv „Zero is Infinity“. */
   | "heardZeroIsInfinity"
+  /** Walter Grewe (Wohnung 1103, E71) kennengelernt. */
+  | "metWalter"
+  /** Walter hat über seine Apparate und Messungen gesprochen. */
+  | "walterTech"
+  /** Walter hat seinen Resonanz-Begriff erklärt (sozial vs. technisch). */
+  | "walterResonanz"
+  /** Walters Peilung: verstärkter Träger 104,6, NW, 300–500 m — also E67. */
+  | "walterBearing"
   | "askedBodoPhone"
   | "askedPhilippePhone"
   | "askedEnnisPhone"
