@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
-import { Radio, TerminalSquare, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2 } from "lucide-react";
+import { Radio, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2 } from "lucide-react";
 
 interface Props {
   onOpenPause: () => void;
@@ -108,15 +108,6 @@ function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
               />
             )}
           </button>}
-          <button
-            type="button"
-            onClick={() => game.api.openTerminal()}
-            title="CentralOS Terminal"
-            className="group inline-flex items-center gap-2 rounded-sm border border-phosphor/30 bg-gradient-to-b from-phosphor/10 to-transparent px-3 py-1.5 text-xs uppercase tracking-[0.2em] text-phosphor/85 transition-all duration-200 hover:-translate-y-px hover:border-phosphor/70 hover:text-phosphor hover:shadow-[0_0_12px_rgba(80,255,140,0.22)]"
-          >
-            <TerminalSquare className="h-3.5 w-3.5" strokeWidth={2.25} />
-            <span className="font-display">Terminal</span>
-          </button>
           {dsaCharacter && (
             <button
               type="button"
