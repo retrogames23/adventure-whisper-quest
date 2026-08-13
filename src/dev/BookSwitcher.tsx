@@ -30,6 +30,11 @@ export function BookSwitcher() {
       note: "Wandregal, Layards Wohnung",
       open: () => api.openHistoryBook(),
     },
+    {
+      label: "Global Future Alliance — Manifest",
+      note: "Von Walter Grewe, Wohnung 1103",
+      open: () => api.openBook("gfaManifest"),
+    },
   ];
 
   return (
