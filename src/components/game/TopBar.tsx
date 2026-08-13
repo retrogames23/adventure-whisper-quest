@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
-import { Radio, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2 } from "lucide-react";
+import { Radio, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2, Map as MapIcon } from "lucide-react";
 
 interface Props {
   onOpenPause: () => void;
@@ -11,8 +11,9 @@ interface Props {
 
 function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
   const game = useGame();
-  const { scene, radioActive, flags, ending, dsaCharacter, dsaSheetOpen, toggleDsaSheet, inventory } = game;
+  const { scene, radioActive, flags, ending, dsaCharacter, dsaSheetOpen, toggleDsaSheet, inventory, mapOpen, openMap, closeMap } = game;
   const hasPainRadio = inventory.some((i) => i.id === "painRadio");
+  const hasMap = flags.has("sectorMapUnlocked");
   const music = useMusic();
   const { musicEnabled } = useSettings();
   const currentTrack = music.tracks[music.currentIndex];
@@ -108,6 +109,25 @@ function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
               />
             )}
           </button>}
+          {dsaCharacter && (
+            <>
+            </>
+          )}
+          {hasMap && !ending && (
+            <button
+              type="button"
+              onClick={() => (mapOpen ? closeMap() : openMap())}
+              title="Karte von Sektor 28"
+              className={`group inline-flex items-center gap-2 rounded-sm border px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-all duration-200 ${
+                mapOpen
+                  ? "border-amber-glow bg-amber-glow/15 text-amber-glow shadow-[0_0_14px_rgba(255,170,60,0.35)]"
+                  : "border-amber-glow/30 bg-gradient-to-b from-amber-glow/10 to-transparent text-amber-glow/85 hover:-translate-y-px hover:border-amber-glow/70 hover:text-amber-glow"
+              }`}
+            >
+              <MapIcon className="h-3.5 w-3.5" strokeWidth={2.25} />
+              <span className="font-display">Karte</span>
+            </button>
+          )}
           {dsaCharacter && (
             <button
               type="button"
