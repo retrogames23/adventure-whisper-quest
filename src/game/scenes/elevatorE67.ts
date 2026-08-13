@@ -14,13 +14,13 @@ export const elevatorE67Scenes: Record<string, Scene> = {
     intro:
       "Käfig aus Edelstahl, halb so groß wie eine Wohnung. An der rechten Seitenwand: ein Bedienfeld mit fünf Knöpfen. Über der Tür blinzelt der Etagen-Indikator.",
     hotspots: [
-      // Knöpfe von oben (5) nach unten (1) — Koordinaten direkt auf dem
-      // 4:3-Aufzug-Asset: jeweils Zahl + amberfarbener Knopf.
+      // Knöpfe von oben (5) nach unten (1) — Werte in Prozent der
+      // 16:9-Bühne, rechtes Bedienfeld.
       {
         id: "btn5",
-        x: 46.63,
-        y: 32.8,
-        w: 6.38,
+        x: 76.3,
+        y: 19.6,
+        w: 6.1,
         h: 5.6,
         label: "Etage 5 — Wohnen / Dach",
         kind: "exit",
@@ -29,9 +29,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       },
       {
         id: "btn4",
-        x: 46.63,
-        y: 41.2,
-        w: 6.38,
+        x: 77,
+        y: 30.1,
+        w: 6.4,
         h: 5.6,
         label: "Etage 4 — Korridor",
         kind: "exit",
@@ -40,9 +40,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       },
       {
         id: "btn3",
-        x: 46.63,
-        y: 49.7,
-        w: 6.38,
+        x: 76.7,
+        y: 40.6,
+        w: 6.4,
         h: 5.6,
         label: "Etage 3 — Verwaltung und Versorgung",
         kind: "exit",
@@ -51,9 +51,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       },
       {
         id: "btn2",
-        x: 46.63,
-        y: 58.2,
-        w: 6.38,
+        x: 76.3,
+        y: 49.8,
+        w: 6.4,
         h: 5.6,
         label: "Etage 2 — Korridor 26 (Heim)",
         kind: "exit",
@@ -62,9 +62,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       },
       {
         id: "btn1",
-        x: 46.63,
-        y: 66.9,
-        w: 6.38,
+        x: 76.2,
+        y: 59.6,
+        w: 6.4,
         h: 5.6,
         label: "Etage 1 — Lobby",
         kind: "exit",
@@ -74,8 +74,8 @@ export const elevatorE67Scenes: Record<string, Scene> = {
       {
         // Etagen-Indikator über den Türen — kleines amber-Display.
         id: "elevatorIndicator",
-        x: 11.6,
-        y: 8.3,
+        x: 17,
+        y: 6.7,
         w: 10.1,
         h: 7.8,
         label: "Etagen-Indikator",
@@ -92,9 +92,9 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         // Unter Etage 1: kein Knopf, sondern ein Vierkant-Schlitz mit
         // eingraviertem „K“ — Betriebsfahrt Keller, nur für Wartung.
         id: "btnKeller",
-        x: 46.63,
-        y: 74.6,
-        w: 6.38,
+        x: 76.6,
+        y: 69.3,
+        w: 6.4,
         h: 5.6,
         label: "K — Vierkant-Schlitz (Betriebsfahrt)",
         kind: "use",
