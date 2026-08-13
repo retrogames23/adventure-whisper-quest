@@ -1777,9 +1777,12 @@ export function Terminal() {
             (targetUser === "bodo" && localBodoMode) ||
             (targetUser === "worag" && !localBodoMode);
           if (host.chatRoom) {
-          out.push({ text: ">> Mit /quit (oben rechts) verlässt du den Kanal.", kind: "system" });
-          setIrcOn(true);
-        } else if (targetUser && !sameAsLocal) {
+            newLines.push({
+              text: ">> Mit /quit (oben rechts) verlässt du den Kanal.",
+              kind: "system",
+            });
+            setIrcOn(true);
+          } else if (targetUser && !sameAsLocal) {
             savedCwdRef.current = cwd;
             setRemoteMode(targetUser);
             setCwd(
