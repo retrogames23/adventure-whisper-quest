@@ -255,22 +255,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           ]),
       },
       {
-        id: "window",
-        // Fenster mit grünem Schein, Bildmitte etwas nach rechts.
-        x: 42.5,
-        y: 11.6,
-        w: 12.8,
-        h: 37,
-        label: "Fenster",
-        kind: "look",
-        onUse: (api) =>
-          api.showText([
-            "Hinter dem Fenster: derselbe Innenhof wie gestern.",
-            "Auf dem Sims: die Solaranlage. Sie reicht für 48 Stunden Notstrom.",
-            "Lange genug. So lange, hat noch nie etwas gedauert.",
-          ]),
-      },
-      {
         id: "door",
         x: 78,
         y: 4.2,

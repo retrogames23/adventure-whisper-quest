@@ -4,9 +4,9 @@ import {
   ALMANACH_TITLE,
   ALMANACH_UI_TEXT,
 } from "@/game/quadrantenAlmanach";
-import { registerBook } from "./registry";
+import { registerBook, type ReadableBook } from "./registry";
 
-registerBook({
+export const ALMANACH_BOOK: ReadableBook = {
   id: "almanach",
   title: ALMANACH_TITLE,
   subtitle: ALMANACH_SUBTITLE,
@@ -18,4 +18,6 @@ registerBook({
   uiText: ALMANACH_UI_TEXT,
   locationHint: "Wandregal, Layards Wohnung",
   lendable: false,
-});
+};
+
+registerBook(ALMANACH_BOOK);
