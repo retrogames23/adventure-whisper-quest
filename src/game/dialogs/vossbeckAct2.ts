@@ -17,6 +17,7 @@ export const vossbeckAct2Dialogs: Record<string, DialogTree> = {
     onEnd: (api) => {
       if (!api.hasFlag("act2LetterPickedUp")) {
         api.setFlag("act2LetterPickedUp");
+        api.setFlag("sectorMapUnlocked");
         api.addItem({
           id: "rechercheSchreiben",
           name: "Legitimationsschreiben (28/1194)",
@@ -60,6 +61,20 @@ export const vossbeckAct2Dialogs: Record<string, DialogTree> = {
         speaker: "VOSSBECK",
         text: "Paraphe, Stempel, Datum. — Zeigen Sie es vor, bevor Sie fragen, nicht danach. Und tragen Sie es innen, es regnet.",
         subtext: "Er schiebt den Bogen über den Tisch und greift wieder zum Bleistift.",
+        next: "l5",
+      },
+      l5: {
+        id: "l5",
+        speaker: "VOSSBECK",
+        text: "Und noch eins: Was Sie herausfinden, bringen Sie nicht mir. Alle Hinweise gehen an die Zentralverwaltungsstelle Sektor 28. Nordrand des Angers, langer Bau mit Kolonnade. Schriftform, Paraphe, Abgabe persönlich.",
+        subtext: "Er tippt mit dem Bleistift zweimal auf die Tischkante, als markiere er eine Stelle auf einem Plan.",
+        next: "l6",
+      },
+      l6: {
+        id: "l6",
+        speaker: "LAYARD",
+        text: "Ich weiß, wo das ist.",
+        subtext: "Er weiß es tatsächlich. Jeder weiß es. Nur war es bisher nie ein Ort, zu dem man ging.",
         end: true,
       },
     },
