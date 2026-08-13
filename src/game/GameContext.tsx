@@ -87,6 +87,8 @@ interface GameState {
   bookOpen: boolean;
   /** Bewohner-Ausweis-Lese-Overlay sichtbar. */
   idCardOpen: boolean;
+  /** Sektor-28-Karte sichtbar. */
+  mapOpen: boolean;
   /** Lobby-Schleuse-Overlay sichtbar (Tagesmodus, vor Erstbetreten). */
   lobbyGateOpen: boolean;
   /** Notizbuch-Overlay (gelernte Paragraphen) sichtbar. */
@@ -138,6 +140,9 @@ interface GameContextValue extends GameState {
   closeBook: () => void;
   openIdCard: () => void;
   closeIdCard: () => void;
+  /** Sektor-28-Karte öffnen / schließen. */
+  openMap: () => void;
+  closeMap: () => void;
   /** Lobby-Schleuse manuell öffnen / schließen. */
   openLobbyGate: () => void;
   closeLobbyGate: () => void;
@@ -271,6 +276,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [bookOpen, setBookOpen] = useState(false);
   const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   const [idCardOpen, setIdCardOpen] = useState(false);
+  const [mapOpen, setMapOpen] = useState(false);
   const [lobbyGateOpen, setLobbyGateOpen] = useState(false);
   const [notizbuchOpen, setNotizbuchOpen] = useState(false);
   const [kantinenverordnungOpen, setKantinenverordnungOpen] = useState(false);
@@ -917,6 +923,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       closeBook: () => setBookOpen(false),
       openIdCard: () => setIdCardOpen(true),
       closeIdCard: () => setIdCardOpen(false),
+      openMap: () => setMapOpen(true),
+      closeMap: () => setMapOpen(false),
       openLobbyGate: () => setLobbyGateOpen(true),
       closeLobbyGate: () => setLobbyGateOpen(false),
       closeNotizbuch: () => setNotizbuchOpen(false),
@@ -1176,6 +1184,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     updateMarvState,
     resetMarvState,
       isEssentialAssetsLoaded,
+      mapOpen,
       api,
       advanceDialog,
       closeDialog,
@@ -1228,6 +1237,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       updateMarvState,
       resetMarvState,
       isEssentialAssetsLoaded,
+      mapOpen,
       api,
       advanceDialog,
       closeDialog,

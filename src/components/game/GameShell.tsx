@@ -34,6 +34,7 @@ import { CondomAutomatOverlay } from "./CondomAutomatOverlay";
 import { ParagraphenNotizbuchOverlay } from "./ParagraphenNotizbuchOverlay";
 import { KantinenverordnungOverlay } from "./KantinenverordnungOverlay";
 import { PubOverlay } from "./PubOverlay";
+import { MapOverlay } from "./MapOverlay";
 import { RoomSwitcher } from "@/dev/RoomSwitcher";
 import { BookSwitcher } from "@/dev/BookSwitcher";
 import { ConsoleSwitcher } from "@/dev/ConsoleSwitcher";
@@ -256,6 +257,7 @@ function GameStage({
             <ParagraphenNotizbuchOverlay />
             <KantinenverordnungOverlay />
             <PubOverlay />
+            <MapOverlay />
             <ToiletWallOverlay />
             <Ending />
             <SectorThresholdCutscene />
