@@ -115,7 +115,6 @@ export const elevatorE67Scenes: Record<string, Scene> = {
           ]);
         },
       },
-      {
     ],
   },
   floor1Lobby: {
