@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
-import { Radio, TerminalSquare, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2 } from "lucide-react";
+import { Radio, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2 } from "lucide-react";
 
 interface Props {
   onOpenPause: () => void;
