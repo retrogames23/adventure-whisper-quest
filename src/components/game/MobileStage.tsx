@@ -84,38 +84,36 @@ export function MobileStage({
     return <>{children}</>;
   }
 
-  if (passthrough) {
-    // Konsolen-Modus: kein Skalieren, kein Rotieren. Children erhalten den
-    // vollen mobilen Viewport — die offenen Konsolen-Overlays (Terminal,
-    // NodeTerminal) liegen ohnehin als `fixed`/`absolute inset-0`-Layer
-    // darüber und nutzen den Platz dann komplett aus.
-    return (
-      <div
-        data-mobile-passthrough="true"
-        className="fixed inset-0 overflow-hidden bg-black"
-        style={{ touchAction: "manipulation" }}
-      >
-        {children}
-      </div>
-    );
-  }
-
+  // WICHTIG: Die DOM-Struktur ist in allen Modi identisch (fixed-Wrapper +
+  // Bühnen-Div). Sonst würde React beim Umschalten (z. B. wenn ein Buch
+  // öffnet) den kompletten Spiel-Baum ab- und neu mounten — dabei ging das
+  // gerade geöffnete Overlay verloren.
   return (
     <div
+      data-mobile-passthrough={passthrough ? "true" : undefined}
       className="fixed inset-0 overflow-hidden bg-black"
       style={{ touchAction: "manipulation" }}
     >
       <div
         ref={wrapRef}
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          width: STAGE_W,
-          height: stageH,
-          transform: `translate(-50%, -50%) rotate(${rotate ? -90 : 0}deg) scale(${scale})`,
-          transformOrigin: "center center",
-        }}
+        style={
+          passthrough
+            ? {
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+              }
+            : {
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                width: STAGE_W,
+                height: stageH,
+                transform: `translate(-50%, -50%) rotate(${rotate ? -90 : 0}deg) scale(${scale})`,
+                transformOrigin: "center center",
+              }
+        }
       >
         {children}
       </div>
