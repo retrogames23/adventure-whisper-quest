@@ -23,7 +23,6 @@ const components: Component[] = [
   { name: "Lucide Icons", license: "ISC", url: "https://github.com/lucide-icons/lucide" },
   { name: "shadcn/ui (Komponenten-Vorlagen)", license: "MIT", url: "https://github.com/shadcn-ui/ui" },
   { name: "Radix UI Primitives", license: "MIT", url: "https://github.com/radix-ui/primitives" },
-  { name: "class-variance-authority", license: "Apache-2.0", url: "https://github.com/joe-bell/cva" },
   { name: "clsx", license: "MIT", url: "https://github.com/lukeed/clsx" },
   { name: "tailwind-merge", license: "MIT", url: "https://github.com/dcastil/tailwind-merge" },
   { name: "@mlc-ai/web-llm", license: "Apache-2.0", url: "https://github.com/mlc-ai/web-llm", note: "Lokales LLM für Free-Mode-Dialoge" },
