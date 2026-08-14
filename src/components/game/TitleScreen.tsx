@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import titleTrack from "@/assets/the-glass-hour.mp3";
+import titleTrackAsset from "@/assets/the-glass-hour.mp3.asset.json";
 import { ImpressumOverlay } from "./ImpressumOverlay";
 import { OpenSourceOverlay } from "./OpenSourceOverlay";
 import { CreditsOverlay } from "./CreditsOverlay";
 import { DonationModal } from "@/components/donation/DonationModal";
 import titleArtwork from "@/assets/title/schmerz-radio-v1.jpg";
 import { RainOverlay } from "./RainOverlay";
+
+const titleTrack = titleTrackAsset.url;
 
 const PRE_ALPHA_WARNING_UI_TEXT = {
   title: "Pre-Alpha-Warnung",

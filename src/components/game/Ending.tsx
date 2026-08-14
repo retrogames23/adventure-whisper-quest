@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useSettings } from "@/audio/SettingsContext";
 import { useMusic } from "@/audio/MusicPlayer";
-import endingTrack from "@/assets/music/rain-against-the-pane.mp3";
+import endingTrackAsset from "@/assets/music/rain-against-the-pane.mp3.asset.json";
 import { SECTOR_CHATTER, chatterTimestamp } from "@/game/sectorChatter";
 import {
   buildEndingBaseFrames,
@@ -25,6 +25,8 @@ import {
   getTextPatch,
 } from "@/dev/textPatchState";
 import { usePaused, useDevStep } from "@/dev/devPlaybackState";
+
+const endingTrack = endingTrackAsset.url;
 
 export function Ending() {
   const { ending, api } = useGame();

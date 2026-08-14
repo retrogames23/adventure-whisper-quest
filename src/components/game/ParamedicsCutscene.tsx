@@ -16,7 +16,9 @@ import beat3 from "@/assets/cutscene-paramedics-3.jpg";
 import beat4 from "@/assets/cutscene-paramedics-4.jpg";
 import beat5 from "@/assets/cutscene-paramedics-5.jpg";
 import beat6 from "@/assets/cutscene-paramedics-6.jpg";
-import cutsceneMusic from "@/assets/cutscene-paramedics-music.mp3";
+import cutsceneMusicAsset from "@/assets/cutscene-paramedics-music.mp3.asset.json";
+
+const cutsceneMusic = cutsceneMusicAsset.url;
 
 type Speaker = ParamedicsSpeaker;
 
