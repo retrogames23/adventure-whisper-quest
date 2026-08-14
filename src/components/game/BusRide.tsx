@@ -8,6 +8,7 @@ import {
   getBusPassenger,
   COMPOSITION_WINDOWS,
   type BusPassenger,
+  type BusTopic,
 } from "@/game/busPassengers";
 import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
 import busCompositionB from "@/assets/bus/bus-passengers-b.jpg";
