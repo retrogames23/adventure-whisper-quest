@@ -133,7 +133,7 @@ export function BusRide() {
           />
 
           {/* Fenster mit vorbeiziehender Landschaft */}
-          {WINDOWS.map((w, i) => (
+          {COMPOSITION_WINDOWS[ride.composition].map((w, i) => (
             <div
               key={i}
               aria-hidden
@@ -143,6 +143,7 @@ export function BusRide() {
                 top: `${w.top}%`,
                 width: `${w.width}%`,
                 height: `${w.height}%`,
+                borderRadius: `${w.radius}% / ${(w.radius * w.width) / w.height}%`,
               }}
             >
               <div
