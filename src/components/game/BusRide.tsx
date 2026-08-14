@@ -177,7 +177,7 @@ export function BusRide() {
                 <img
                   src={BUS_SPRITES[p.sprite]}
                   alt={p.name}
-                  className="h-full w-full select-none object-contain transition-[filter] duration-200 group-hover:brightness-110"
+                  className="h-full w-full select-none object-contain object-bottom transition-[filter] duration-200 group-hover:brightness-110"
                   style={{
                     transform: s.flip ? "scaleX(-1)" : undefined,
                     filter:

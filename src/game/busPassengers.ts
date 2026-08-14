@@ -605,9 +605,9 @@ export function getBusPassenger(id: string): BusPassenger | undefined {
 
 /** Sitzplätze im Bus-Innenraum (Prozent des Hintergrundbildes). */
 export const BUS_SEATS: { id: number; x: number; y: number; w: number; h: number; flip?: boolean }[] = [
-  { id: 0, x: -1, y: 45, w: 22, h: 54 },
-  { id: 1, x: 17, y: 41, w: 16, h: 41, flip: true },
-  { id: 2, x: 42.5, y: 32, w: 13, h: 33 },
-  { id: 3, x: 67, y: 41, w: 16, h: 41 },
-  { id: 4, x: 79, y: 45, w: 22, h: 54, flip: true },
+  { id: 0, x: -2, y: 30, w: 29, h: 60 },
+  { id: 1, x: 15, y: 32, w: 24, h: 54, flip: true },
+  { id: 2, x: 41.5, y: 36, w: 17, h: 43 },
+  { id: 3, x: 61, y: 32, w: 24, h: 54 },
+  { id: 4, x: 73, y: 30, w: 29, h: 60, flip: true },
 ];
