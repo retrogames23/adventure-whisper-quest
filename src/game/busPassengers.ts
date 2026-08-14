@@ -15,7 +15,7 @@ export {
 } from "./busPassengerDialogs";
 export type { BusPassenger, BusTopic, BusSpriteId } from "./busPassengerDialogs";
 
-export type BusCompositionId = "a" | "b" | "c";
+export type BusCompositionId = "a" | "b" | "c" | "d" | "e" | "f" | "g";
 
 /** Sichtbare Scheibe im Gesamtbild (Prozent) inklusive Scheibenform. */
 export interface BusWindowArea {
@@ -32,7 +32,7 @@ export interface BusWindowArea {
  * Bilddatei ausgemessen und minimal nach innen versetzt, damit Rahmen und
  * Dichtung sichtbar bleiben.
  */
-export const COMPOSITION_WINDOWS: Record<BusCompositionId, BusWindowArea[]> = {
+const WINDOWS_BASE: Record<"a" | "b" | "c", BusWindowArea[]> = {
   a: [
     {
       left: 2.91,
@@ -89,6 +89,18 @@ export const COMPOSITION_WINDOWS: Record<BusCompositionId, BusWindowArea[]> = {
   ],
 };
 
+/**
+ * d/f entstehen als Bildbearbeitung aus Komposition a, e/g aus b — Innenraum
+ * und Scheiben sind dort pixelgleich, daher dieselben Fensterflächen.
+ */
+export const COMPOSITION_WINDOWS: Record<BusCompositionId, BusWindowArea[]> = {
+  ...WINDOWS_BASE,
+  d: WINDOWS_BASE.a,
+  e: WINDOWS_BASE.b,
+  f: WINDOWS_BASE.a,
+  g: WINDOWS_BASE.b,
+};
+
 export interface BusCompositionPassenger {
   passengerId: string;
   /** Ankerpunkte für fortlaufende Sprechblasen (nur beim streitenden Paar). */
@@ -128,11 +140,30 @@ const COMPOSITION_SLOTS: Record<
     { sprite: "woman", hotspot: { x: 47, y: 43, w: 11, h: 26 } },
     { sprite: "elder", hotspot: { x: 60, y: 34, w: 21, h: 62 } },
   ],
+  d: [
+    { sprite: "elder", hotspot: { x: 17, y: 33, w: 22, h: 62 } },
+    { sprite: "woman", hotspot: { x: 46, y: 40, w: 11, h: 26 } },
+    { sprite: "worker", hotspot: { x: 62, y: 34, w: 21, h: 63 } },
+  ],
+  e: [
+    { sprite: "youth", hotspot: { x: 25, y: 38, w: 21, h: 55 } },
+    { sprite: "elder", hotspot: { x: 46, y: 39, w: 11, h: 27 } },
+    { sprite: "worker", hotspot: { x: 59, y: 36, w: 21, h: 53 } },
+  ],
+  f: [
+    { sprite: "elder", hotspot: { x: 19, y: 35, w: 21, h: 61 } },
+    { sprite: "woman", hotspot: { x: 63, y: 35, w: 20, h: 61 } },
+  ],
+  g: [
+    { sprite: "woman", hotspot: { x: 25, y: 37, w: 20, h: 54 } },
+    { sprite: "youth", hotspot: { x: 47, y: 40, w: 9, h: 27 } },
+    { sprite: "elder", hotspot: { x: 60, y: 41, w: 18, h: 49 } },
+  ],
 };
 
 /** Wählt eine vollständige Bildkomposition und genau eine passende Persona je Figur. */
 export function pickBusComposition(): BusCompositionSelection {
-  const ids: BusCompositionId[] = ["a", "b", "c"];
+  const ids: BusCompositionId[] = ["a", "b", "c", "d", "e", "f", "g"];
   const id = ids[Math.floor(Math.random() * ids.length)];
   const used = new Set<string>();
   const passengers = COMPOSITION_SLOTS[id].map(({ sprite, hotspot, chatterAnchors }) => {
