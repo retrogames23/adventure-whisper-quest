@@ -141,16 +141,26 @@ export function BusRide() {
 
   return (
     <div className="absolute inset-0 z-[60] flex flex-col bg-black">
-      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden">
-        <div className="bus-shake relative max-h-full max-w-full">
+      <div
+        className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden"
+        style={{ containerType: "size" }}
+      >
+        {/* Bühne behält immer das Seitenverhältnis des Bildes, egal wie hoch
+            der verbleibende Platz ist (z. B. wenn das Gespräch aufgeht). */}
+        <div
+          className="bus-shake relative"
+          style={{
+            aspectRatio: "1376 / 768",
+            width: "min(100%, calc(100cqh * 1376 / 768))",
+          }}
+        >
           {/* Businnenraum – bestimmt die Größe der Bühne, nie verzerrt */}
           <img
             src={BUS_COMPOSITIONS[ride.composition]}
             alt="Innenraum eines abgenutzten Linienbusses mit drei sitzenden Fahrgästen"
             width={1376}
             height={768}
-            className="pointer-events-none block h-auto max-h-[100vh] w-auto max-w-full select-none object-contain"
-            style={{ maxHeight: "100%" }}
+            className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
           />
 
           {/* Fenster mit vorbeiziehender Landschaft */}
