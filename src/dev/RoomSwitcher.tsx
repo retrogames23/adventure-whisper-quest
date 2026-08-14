@@ -6,9 +6,7 @@ import { pickBusPassengers, BUS_SEATS } from "@/game/busPassengers";
 
 /** Startet eine Testfahrt der Linie 28 mit zufälligen Fahrgästen. */
 function startTestBusRide(scene: string) {
-  const target = (scene === "zentralverwaltung"
-    ? "apartment"
-    : "zentralverwaltung") as SceneId;
+  const target = (scene === "e71Lobby" ? "floor1Lobby" : "e71Lobby") as SceneId;
   const count = 1 + Math.floor(Math.random() * 5);
   const chosen = pickBusPassengers(count);
   const seats = BUS_SEATS.map((s) => s.id);
