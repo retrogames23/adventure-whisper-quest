@@ -5,12 +5,11 @@ import { useSettings } from "@/audio/SettingsContext";
 import { startBusAmbience } from "@/audio/sfx";
 import { useBusRide, endBusRide } from "@/game/busRideState";
 import {
-  BUS_SEATS,
-  BUS_SPRITES,
   getBusPassenger,
   type BusPassenger,
 } from "@/game/busPassengers";
-import busBg from "@/assets/scene-bus-28.jpg";
+import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
+import busCompositionB from "@/assets/bus/bus-passengers-b.jpg";
 import windowLoop from "@/assets/bus-window-loop.jpg";
 
 /** Fahrtdauer: acht echte Minuten. Jederzeit überspringbar. */
@@ -21,6 +20,11 @@ const WINDOWS = [
   { left: 2.4, top: 9.8, width: 20.4, height: 36.5 },
   { left: 77.8, top: 10.5, width: 21, height: 36.3 },
 ];
+
+const BUS_COMPOSITIONS = {
+  a: busCompositionA,
+  b: busCompositionB,
+};
 
 function formatRemaining(ms: number) {
   const total = Math.max(0, Math.ceil(ms / 1000));
@@ -48,8 +52,16 @@ export function BusRide() {
   const passengers = useMemo(() => {
     if (!ride) return [];
     return ride.passengers
-      .map((id, i) => ({ p: getBusPassenger(id), seat: ride.seats[i] }))
-      .filter((e): e is { p: BusPassenger; seat: number } => !!e.p);
+      .map(({ passengerId, hotspot }) => ({
+        p: getBusPassenger(passengerId),
+        hotspot,
+      }))
+      .filter(
+        (entry): entry is {
+          p: BusPassenger;
+          hotspot: { x: number; y: number; w: number; h: number };
+        } => !!entry.p,
+      );
   }, [ride]);
 
   // Musik anhalten, Fahrgeräusch starten.
@@ -118,8 +130,8 @@ export function BusRide() {
         <div className="bus-shake relative aspect-[1920/1080] max-h-full w-full max-w-[calc(100vh*1920/1080)]">
           {/* Businnenraum */}
           <img
-            src={busBg}
-            alt="Innenraum eines abgenutzten Linienbusses"
+            src={BUS_COMPOSITIONS[ride.composition]}
+            alt="Innenraum eines abgenutzten Linienbusses mit drei sitzenden Fahrgästen"
             width={1920}
             height={1080}
             className="pointer-events-none absolute inset-0 h-full w-full select-none object-fill"
@@ -158,38 +170,26 @@ export function BusRide() {
           ))}
 
           {/* Fahrgäste */}
-          {passengers.map(({ p, seat }) => {
-            const s = BUS_SEATS[seat] ?? BUS_SEATS[0];
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => openTalk(p)}
-                title={p.name}
-                className="cursor-talk group absolute"
-                style={{
-                  left: `${s.x}%`,
-                  bottom: `${s.bottom}%`,
-                  width: `${s.w}%`,
-                  height: `${s.h}%`,
-                }}
-              >
-                <img
-                  src={BUS_SPRITES[p.sprite]}
-                  alt={p.name}
-                  className="h-full w-full select-none object-contain object-bottom transition-[filter] duration-200 group-hover:brightness-110"
-                  style={{
-                    transform: s.flip ? "scaleX(-1)" : undefined,
-                    filter:
-                      "drop-shadow(0 6px 12px rgba(0,0,0,0.55)) contrast(0.95) saturate(0.8) brightness(0.86)",
-                  }}
-                />
-                <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-sm border border-amber-glow/50 bg-black/80 px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em] text-amber-glow opacity-0 transition-opacity group-hover:opacity-100">
-                  {p.name}
-                </span>
-              </button>
-            );
-          })}
+          {passengers.map(({ p, hotspot }) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => openTalk(p)}
+              aria-label={`Mit ${p.name} sprechen`}
+              title={p.name}
+              className="cursor-talk group absolute rounded-sm outline-none ring-inset hover:ring-2 hover:ring-amber-glow/45 focus-visible:ring-2 focus-visible:ring-amber-glow"
+              style={{
+                left: `${hotspot.x}%`,
+                top: `${hotspot.y}%`,
+                width: `${hotspot.w}%`,
+                height: `${hotspot.h}%`,
+              }}
+            >
+              <span className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-sm border border-amber-glow/50 bg-black/80 px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em] text-amber-glow opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                {p.name}
+              </span>
+            </button>
+          ))}
 
           {/* Fahrtanzeige */}
           <div className="pointer-events-none absolute left-1/2 top-2 -translate-x-1/2 rounded-sm border border-amber-glow/40 bg-black/70 px-3 py-1 text-center">

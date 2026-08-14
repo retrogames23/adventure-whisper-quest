@@ -8,16 +8,20 @@
  */
 import { useEffect, useState } from "react";
 import type { SceneId } from "./types";
+import type { BusCompositionId } from "./busPassengers";
 
 export interface BusRide {
   target: SceneId;
   /** Zieltext für die Fahrtzielanzeige. */
   targetLabel: string;
   startedAt: number;
-  /** IDs der Fahrgäste dieser Fahrt (Reihenfolge = Sitzplatz-Slot). */
-  passengers: string[];
-  /** Sitzplatz-Slots, auf die die Fahrgäste gesetzt wurden. */
-  seats: number[];
+  /** Fertig komponierte Busansicht mit perspektivisch integrierten Figuren. */
+  composition: BusCompositionId;
+  /** Persona und Gesprächsfläche jeder im Bild sichtbaren Figur. */
+  passengers: {
+    passengerId: string;
+    hotspot: { x: number; y: number; w: number; h: number };
+  }[];
 }
 
 const EVT = "e67:bus-ride-change";
