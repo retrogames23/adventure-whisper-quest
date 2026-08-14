@@ -18,6 +18,10 @@ import {
 import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
 import busCompositionB from "@/assets/bus/bus-passengers-b.jpg";
 import busCompositionC from "@/assets/bus/bus-passengers-c.jpg";
+import busCompositionD from "@/assets/bus/bus-passengers-d.jpg";
+import busCompositionE from "@/assets/bus/bus-passengers-e.jpg";
+import busCompositionF from "@/assets/bus/bus-passengers-f.jpg";
+import busCompositionG from "@/assets/bus/bus-passengers-g.jpg";
 import windowLoop from "@/assets/bus-window-loop.jpg";
 
 /** Fahrtdauer: acht echte Minuten. Jederzeit überspringbar. */
@@ -27,6 +31,10 @@ const BUS_COMPOSITIONS = {
   a: busCompositionA,
   b: busCompositionB,
   c: busCompositionC,
+  d: busCompositionD,
+  e: busCompositionE,
+  f: busCompositionF,
+  g: busCompositionG,
 };
 
 function formatRemaining(ms: number) {
