@@ -6,6 +6,7 @@ import { startBusAmbience } from "@/audio/sfx";
 import { useBusRide, endBusRide } from "@/game/busRideState";
 import {
   getBusPassenger,
+  COMPOSITION_WINDOWS,
   type BusPassenger,
 } from "@/game/busPassengers";
 import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
@@ -14,12 +15,6 @@ import windowLoop from "@/assets/bus-window-loop.jpg";
 
 /** Fahrtdauer: acht echte Minuten. Jederzeit überspringbar. */
 const RIDE_MS = 8 * 60 * 1000;
-
-/** Fensterflächen im Hintergrundbild (Prozent). */
-const WINDOWS = [
-  { left: 2.4, top: 9.8, width: 20.4, height: 36.5 },
-  { left: 77.8, top: 10.5, width: 21, height: 36.3 },
-];
 
 const BUS_COMPOSITIONS = {
   a: busCompositionA,
