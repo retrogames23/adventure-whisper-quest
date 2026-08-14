@@ -143,7 +143,7 @@ export function BusRide() {
                 top: `${w.top}%`,
                 width: `${w.width}%`,
                 height: `${w.height}%`,
-                borderRadius: `${w.radius}% / ${(w.radius * w.width) / w.height}%`,
+                clipPath: w.clip,
               }}
             >
               <div
