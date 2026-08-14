@@ -593,6 +593,60 @@ export function pickBusPassengers(count: number): BusPassenger[] {
 
 export type BusCompositionId = "a" | "b";
 
+/** Sichtbare Scheibe im Gesamtbild (Prozent) inklusive Scheibenform. */
+export interface BusWindowArea {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  /** CSS-clip-path: exakte Scheibenkontur innerhalb des Rechtecks. */
+  clip: string;
+}
+
+/**
+ * Fensterflächen je Buskomposition — direkt an den Scheiben der jeweiligen
+ * Bilddatei ausgemessen und minimal nach innen versetzt, damit Rahmen und
+ * Dichtung sichtbar bleiben.
+ */
+export const COMPOSITION_WINDOWS: Record<BusCompositionId, BusWindowArea[]> = {
+  a: [
+    {
+      left: 2.76,
+      top: 9.24,
+      width: 19.33,
+      height: 39.58,
+      clip:
+        "polygon(6% 1%, 2% 13%, 2% 25%, 2.5% 37.5%, 2.5% 50%, 2% 62.5%, 2.5% 75%, 3.5% 87.5%, 18% 99%, 86% 99%, 94% 87.5%, 93% 75%, 98% 62.5%, 98% 50%, 89% 37.5%, 63% 25%, 34% 13%, 7.5% 1%)",
+    },
+    {
+      left: 78.78,
+      top: 9.77,
+      width: 18.82,
+      height: 39.06,
+      clip:
+        "polygon(94% 1%, 65.5% 13%, 37% 25%, 8% 37.5%, 2.5% 50%, 2.5% 62.5%, 3% 75%, 3% 87.5%, 6% 99%, 66% 99%, 97.5% 87.5%, 97.5% 75%, 97% 62.5%, 97.5% 50%, 97.5% 37.5%, 97% 25%, 97% 13%, 95% 1%)",
+    },
+  ],
+  b: [
+    {
+      left: 2.76,
+      top: 9.11,
+      width: 19.33,
+      height: 39.84,
+      clip:
+        "polygon(6% 1%, 2% 13%, 2% 25%, 2.5% 37.5%, 2.5% 50%, 2.5% 62.5%, 2.5% 75%, 3% 87.5%, 66% 99%, 93.5% 99%, 97.5% 87.5%, 97.5% 75%, 97.5% 62.5%, 97.5% 50%, 90% 37.5%, 62% 25%, 34% 13%, 7% 1%)",
+    },
+    {
+      left: 78.78,
+      top: 9.77,
+      width: 18.82,
+      height: 39.19,
+      clip:
+        "polygon(94% 1%, 65.5% 13%, 36% 25%, 8% 37.5%, 2.5% 50%, 2.5% 62.5%, 3% 75%, 3% 88%, 97.5% 88%, 97.5% 75%, 97% 62.5%, 97% 50%, 97.5% 37.5%, 97% 25%, 97% 13%, 95.5% 1%)",
+    },
+  ],
+};
+
 export interface BusCompositionPassenger {
   passengerId: string;
   /** Unsichtbare Gesprächsfläche in Prozent des Gesamtbildes. */
