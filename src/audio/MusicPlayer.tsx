@@ -9,23 +9,37 @@ import {
   type ReactNode,
 } from "react";
 import { useSettings } from "./SettingsContext";
-import trackSunday from "@/assets/sunday-at-the-bunker.mp3";
-import trackMidnight from "@/assets/midnight-at-the-loading-bay.mp3";
-import trackSunrise from "@/assets/music/Before_the_Sunrise.mp3";
-import trackSteelRain from "@/assets/music/Steel_Rain_at_Midnight.mp3";
-import trackWohnung from "@/assets/music/Wohnung.mp3";
-import trackThreeOClock from "@/assets/music/Three_O_Clock_Skyline.mp3";
-import trackDsaTavern from "@/assets/music/dsa-tavern.mp3";
-import trackDsaTable from "@/assets/music/dsa-table.mp3";
-import trackLinoleumWaltz from "@/assets/music/the-linoleum-waltz.mp3";
-import trackCornerBooth from "@/assets/music/The_Corner_Booth.mp3";
-import trackVictorySpire from "@/assets/music/victory-over-the-spire.mp3";
-import trackCityForgets from "@/assets/music/The_City_Forgets.mp3";
-import trackElectro3 from "@/assets/music/Electro3.mp3";
+import trackSundayAsset from "@/assets/sunday-at-the-bunker.mp3.asset.json";
+import trackMidnightAsset from "@/assets/midnight-at-the-loading-bay.mp3.asset.json";
+import trackSunriseAsset from "@/assets/music/Before_the_Sunrise.mp3.asset.json";
+import trackSteelRainAsset from "@/assets/music/Steel_Rain_at_Midnight.mp3.asset.json";
+import trackWohnungAsset from "@/assets/music/Wohnung.mp3.asset.json";
+import trackThreeOClockAsset from "@/assets/music/Three_O_Clock_Skyline.mp3.asset.json";
+import trackDsaTavernAsset from "@/assets/music/dsa-tavern.mp3.asset.json";
+import trackDsaTableAsset from "@/assets/music/dsa-table.mp3.asset.json";
+import trackLinoleumWaltzAsset from "@/assets/music/the-linoleum-waltz.mp3.asset.json";
+import trackCornerBoothAsset from "@/assets/music/The_Corner_Booth.mp3.asset.json";
+import trackVictorySpireAsset from "@/assets/music/victory-over-the-spire.mp3.asset.json";
+import trackCityForgetsAsset from "@/assets/music/The_City_Forgets.mp3.asset.json";
+import trackElectro3Asset from "@/assets/music/Electro3.mp3.asset.json";
 import elevatorMusicAsset from "@/assets/elevator-music.mp3.asset.json";
 import morningDirectiveAsset from "@/assets/morning-directive.mp3.asset.json";
 import copperWireHourAsset from "@/assets/The_Copper_Wire_Hour.mp3.asset.json";
 import { pickMoodTrack, type DsaMood } from "./dsaMusic";
+
+const trackSunday = trackSundayAsset.url;
+const trackMidnight = trackMidnightAsset.url;
+const trackSunrise = trackSunriseAsset.url;
+const trackSteelRain = trackSteelRainAsset.url;
+const trackWohnung = trackWohnungAsset.url;
+const trackThreeOClock = trackThreeOClockAsset.url;
+const trackDsaTavern = trackDsaTavernAsset.url;
+const trackDsaTable = trackDsaTableAsset.url;
+const trackLinoleumWaltz = trackLinoleumWaltzAsset.url;
+const trackCornerBooth = trackCornerBoothAsset.url;
+const trackVictorySpire = trackVictorySpireAsset.url;
+const trackCityForgets = trackCityForgetsAsset.url;
+const trackElectro3 = trackElectro3Asset.url;
 
 /**
  * Background music. Plays a playlist of tracks in sequence and
