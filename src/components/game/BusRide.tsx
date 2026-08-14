@@ -140,9 +140,9 @@ export function BusRide() {
     : [];
 
   return (
-    <div className="absolute inset-0 z-[60] flex flex-col bg-black">
+    <div className="absolute inset-0 z-[60] bg-black">
       <div
-        className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden"
+        className="relative flex h-full w-full items-center justify-center overflow-hidden"
         style={{ containerType: "size" }}
       >
         {/* Bühne behält immer das Seitenverhältnis des Bildes, egal wie hoch
@@ -240,7 +240,7 @@ export function BusRide() {
 
       {/* Gesprächsfenster */}
       {talking && (
-        <div className="shrink-0 border-t border-amber-glow/25 bg-[#0d0e0c]/95 px-4 py-3">
+        <div className="absolute inset-x-0 bottom-0 max-h-[60%] overflow-y-auto border-t border-amber-glow/25 bg-[#0d0e0c]/92 px-4 py-3 backdrop-blur-sm">
           <div className="mx-auto max-w-3xl">
             <div className="flex items-baseline justify-between gap-3">
               <div>
