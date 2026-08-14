@@ -286,6 +286,17 @@ export function BusRide() {
           ))}
 
           {/* Fahrgäste */}
+          {/* Vordergrund: liegt über der Landschaft, damit Personen und
+              Rahmen nicht von der Animation überdeckt werden. */}
+          <img
+            src={BUS_FOREGROUNDS[ride.composition]}
+            alt=""
+            aria-hidden
+            width={1376}
+            height={768}
+            className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
+          />
+
           {passengers.map(({ p, hotspot }) => (
             <button
               key={p.id}
