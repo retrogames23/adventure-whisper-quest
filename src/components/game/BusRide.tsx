@@ -71,10 +71,9 @@ export function BusRide() {
         (entry): entry is {
           p: BusPassenger;
           hotspot: { x: number; y: number; w: number; h: number };
-          chatterAnchors?: {
-            sie: { x: number; y: number };
-            er: { x: number; y: number };
-          };
+          chatterAnchors:
+            | { sie: { x: number; y: number }; er: { x: number; y: number } }
+            | undefined;
         } => !!entry.p,
       );
   }, [ride]);
