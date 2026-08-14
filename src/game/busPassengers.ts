@@ -15,7 +15,7 @@ export {
 } from "./busPassengerDialogs";
 export type { BusPassenger, BusTopic, BusSpriteId } from "./busPassengerDialogs";
 
-export type BusCompositionId = "a" | "b" | "c";
+export type BusCompositionId = "a" | "b" | "c" | "d" | "e" | "f" | "g";
 
 /** Sichtbare Scheibe im Gesamtbild (Prozent) inklusive Scheibenform. */
 export interface BusWindowArea {
