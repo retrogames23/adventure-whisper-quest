@@ -314,7 +314,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
     name: "Tibor Lang",
     kicker: "Lehrling, Versorgungswerk",
     sprite: "youth",
-    greeting: "„Ist der Platz frei? Ist eh alles frei um diese Zeit.“",
+    greeting: "„Alles in Regel? Platz ist frei, ist eh alles frei um diese Zeit.“",
     farewell: "„Ich hör wieder Musik. Nichts für ungut.“",
     topics: [
       {
@@ -737,7 +737,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
     name: "Sanne Ruhl",
     kicker: "Schülerin, Bildungsstelle Süd",
     sprite: "woman",
-    greeting: "„Wenn Sie fragen, ob ich schwänze: Der Unterricht ist ausgefallen. Verordnungsgemäß.“",
+    greeting: "„Wenn Sie fragen, ob ich schwänze: Unterricht ausgefallen. Ich hab keine Sprawka dafür, aber es stimmt.“",
     farewell: "„Ich muss lernen. Angeblich.“",
     topics: [
       {
@@ -768,7 +768,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
             id: "ordnungskunde",
             label: "Nach Ordnungskunde fragen.",
             lines: [
-              "„Nützlich, ehrlich gesagt. Ich habe für meine Mutter einen Wohnungsantrag zulässig gemacht. Das kann sonst keiner bei uns.“",
+              "„Nützlich, ehrlich gesagt. Ich habe für meine Mutter einen Wohnungsantrag in Regel gebracht. Das kann sonst keiner bei uns.“",
             ],
           },
         ],
@@ -1058,7 +1058,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
         id: "antrag",
         label: "Fragen, worum es geht.",
         lines: [
-          "„Wohnungswechsel. Seit vierzehn Monaten. Der Vorgang ist vollständig, nur nicht zuständig.“",
+          "„Wohnungswechsel. Seit vierzehn Monaten. Das Dossier ist vollständig, nur keine Instanz zuständig.“",
           "„Sie schicken mich von Norden nach Süden und zurück. Ich kenne die Linie 28 auswendig.“",
         ],
         follow: [
