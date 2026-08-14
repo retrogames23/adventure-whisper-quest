@@ -276,7 +276,16 @@ export function BusRide() {
                   {t.label}
                 </button>
               ))}
-              {openTopics.length === 0 && (
+              {path.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setPath(path.slice(0, -1))}
+                  className="rounded-sm border border-border/60 px-3 py-2 text-left text-sm text-muted-foreground transition-all hover:border-amber-glow/60 hover:text-amber-glow"
+                >
+                  Das Thema wechseln.
+                </button>
+              )}
+              {openTopics.length === 0 && path.length === 0 && (
                 <p className="text-sm italic leading-relaxed text-muted-foreground">
                   {talking.farewell}
                 </p>
