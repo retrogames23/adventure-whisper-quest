@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { sector28Places, type MapPlace } from "@/game/mapSector28";
 import { CloseButton } from "./CloseButton";
+import { startBusRide } from "@/game/busRideState";
+import { pickBusPassengers, BUS_SEATS } from "@/game/busPassengers";
+import { useDevMode } from "@/dev/devMode";
 import mapBg from "@/assets/map-sector-28.jpg";
 
 /**
@@ -11,6 +14,7 @@ import mapBg from "@/assets/map-sector-28.jpg";
 export function MapOverlay() {
   const { mapOpen, closeMap, api, scene } = useGame();
   const [selected, setSelected] = useState<MapPlace | null>(null);
+  const dev = useDevMode();
 
   useEffect(() => {
     if (!mapOpen) return;
@@ -27,9 +31,32 @@ export function MapOverlay() {
 
   if (!mapOpen) return null;
 
+  /** Startet die Busfahrt (Linie 28) mit 1–5 zufälligen Fahrgästen. */
+  const beginRide = (target: MapPlace["travelTo"], label: string) => {
+    if (!target) return;
+    const count = 1 + Math.floor(Math.random() * 5);
+    const chosen = pickBusPassengers(count);
+    const seats = BUS_SEATS.map((s) => s.id);
+    for (let i = seats.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [seats[i], seats[j]] = [seats[j], seats[i]];
+    }
+    startBusRide({
+      target,
+      targetLabel: label,
+      startedAt: Date.now(),
+      passengers: chosen.map((p) => p.id),
+      seats: seats.slice(0, chosen.length),
+    });
+  };
+
   const travel = (place: MapPlace) => {
     if (!place.travelTo || place.travelTo === scene) return;
     closeMap();
+    if (place.farAway) {
+      beginRide(place.travelTo, place.label);
+      return;
+    }
     api.goTo(place.travelTo);
   };
 
@@ -129,7 +156,7 @@ export function MapOverlay() {
                     onClick={() => travel(selected)}
                     className="mt-auto inline-flex items-center justify-center rounded-sm border border-amber-glow/60 bg-gradient-to-b from-amber-glow/15 to-transparent px-3 py-2 text-xs uppercase tracking-[0.2em] text-amber-glow transition-all hover:-translate-y-px hover:border-amber-glow"
                   >
-                    Dorthin gehen
+                    {selected.farAway ? "Mit der Linie 28 fahren" : "Dorthin gehen"}
                   </button>
                 )}
                 {selected.travelTo && selected.travelTo === scene && (
@@ -149,6 +176,18 @@ export function MapOverlay() {
                 anklicken für Einzelheiten. Größere, hell gefüllte Punkte sind
                 begehbar.
               </p>
+            )}
+            {dev && (
+              <button
+                type="button"
+                onClick={() => {
+                  closeMap();
+                  beginRide("e71Lobby", "Zentralverwaltungsstelle (Test)");
+                }}
+                className="mt-2 rounded-sm border border-border/60 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground hover:border-amber-glow/60 hover:text-amber-glow"
+              >
+                Dev · Testfahrt Linie 28
+              </button>
             )}
           </div>
         </div>

@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
+import { useBusRide } from "@/game/busRideState";
 import { Radio, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2, Map as MapIcon } from "lucide-react";
 
 interface Props {
@@ -16,12 +17,13 @@ function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
   const hasMap = flags.has("sectorMapUnlocked");
   const music = useMusic();
   const { musicEnabled } = useSettings();
+  const busRide = useBusRide();
   const currentTrack = music.tracks[music.currentIndex];
   // Während „The City Forgets" als Override an der E67-Schleuse läuft,
   // soll der Track-Switcher verschwinden (Song darf in Ruhe auslaufen).
   // Auch in den Aufzügen wird der Switcher ausgeblendet, da dort die
   // Fahrstuhl-Musik in Dauerschleife läuft.
-  const hideMusicSwitcher = music.activeOverride === "sectorThreshold" || scene === "elevator" || scene === "elevatorE71";
+  const hideMusicSwitcher = music.activeOverride === "sectorThreshold" || scene === "elevator" || scene === "elevatorE71" || !!busRide;
 
   // Vollbild-Status (Desktop). Synchronisiert mit der Browser-API,
   // damit ESC-Verlassen den Button korrekt zurücksetzt.

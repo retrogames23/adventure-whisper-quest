@@ -790,3 +790,29 @@
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
+
+/* Busfahrt (Linie 28): vorbeiziehende Landschaft im Fenster und
+   leichtes Rütteln des Innenraums. */
+@keyframes busScroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.bus-scroll {
+  animation-name: busScroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes busShake {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(0.08%, 0.16%, 0); }
+  50% { transform: translate3d(-0.06%, -0.1%, 0); }
+  75% { transform: translate3d(0.05%, 0.12%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+.bus-shake {
+  animation: busShake 0.9s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bus-shake { animation: none; }
+  .bus-scroll { animation-duration: 90s; }
+}

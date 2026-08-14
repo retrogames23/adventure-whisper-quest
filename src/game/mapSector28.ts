@@ -25,6 +25,11 @@ export interface MapPlace {
   text: string;
   /** Wenn gesetzt: bereisbar, Klick springt in diese Szene. */
   travelTo?: SceneId;
+  /**
+   * Weit entferntes Ziel: Der Weg dorthin führt über die Buslinie 28,
+   * nicht zu Fuß. Nahe Ziele (E67 <-> E71) bleiben ohne Zwischenspiel.
+   */
+  farAway?: boolean;
   /** Bereisbar geplant, aber noch nicht begehbar. */
   travelPending?: boolean;
 }
@@ -71,7 +76,8 @@ export const sector28Places: MapPlace[] = [
     x: 70,
     y: 7,
     travelPending: true,
-    text: "Der lange Bau ganz im Norden, jenseits der Grünbrache und der Magistrale. Kolonnade, drei Eingänge, von denen zwei geschlossen sind. Rund zweieinhalb Kilometer von den Ergänzungsbauten — zu Fuß fünfunddreißig Minuten, mit der Linie 4 angeblich zwölf. Hier laufen alle Vermerke des Sektors zusammen. Abgabe von Hinweisen ausschließlich hier, in Schriftform, mit Paraphe.",
+    farAway: true,
+    text: "Der lange Bau ganz im Norden, jenseits der Grünbrache und der Magistrale. Kolonnade, drei Eingänge, von denen zwei geschlossen sind. Rund zweieinhalb Kilometer von den Ergänzungsbauten — zu Fuß fünfunddreißig Minuten, mit der Buslinie 28 rund acht. Hier laufen alle Vermerke des Sektors zusammen. Abgabe von Hinweisen ausschließlich hier, in Schriftform, mit Paraphe.",
   },
   {
     id: "magistrale",
@@ -142,7 +148,7 @@ export const sector28Places: MapPlace[] = [
   },
   {
     id: "haltepunkt",
-    label: "Haltepunkt Linie 4",
+    label: "Haltepunkt Linie 28",
     kicker: "Wohngürtel ↔ Verwaltung",
     x: 30,
     y: 84.5,
