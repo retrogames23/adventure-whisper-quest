@@ -9,7 +9,7 @@
  * Anspielungen auf das Schmerz-Radio.
  */
 
-export type BusSpriteId = "elder" | "woman" | "youth" | "worker";
+export type BusSpriteId = "elder" | "woman" | "youth" | "worker" | "couple";
 
 export interface BusTopic {
   id: string;
@@ -1418,6 +1418,127 @@ export const BUS_PASSENGERS: BusPassenger[] = [
               },
             ],
           },
+        ],
+      },
+    ],
+  },
+  {
+    id: "eheleuteRitter",
+    name: "Eheleute Ritter",
+    kicker: "Beide um die 40, unterwegs zu einem Termin",
+    sprite: "couple",
+    greeting:
+      "Frau Ritter: „Entschuldigen Sie. Sagen Sie doch bitte einmal etwas dazu, Sie sind unbefangen.“",
+    farewell:
+      "Herr Ritter: „Wir klären das zu Hause. Also: nie.“",
+    topics: [
+      {
+        id: "einmischen",
+        label: "Sich einmischen.",
+        lines: [
+          "Frau Ritter: „Er behauptet, braune Eier seien braun, weil die Hühner braun sind. Das ist der Stand nach zwanzig Jahren Ehe.“",
+          "Herr Ritter: „Sie behauptet, es habe mit dem Ohr zu tun. Mit dem Ohrläppchen des Huhns.“",
+          "Frau Ritter: „Ohrscheibe. Es heißt Ohrscheibe, Manfred.“",
+        ],
+        follow: [
+          {
+            id: "ohrscheibe",
+            label: "Fragen, was eine Ohrscheibe ist.",
+            lines: [
+              "Frau Ritter: „Ein kleiner Fleck am Kopf des Huhns. Weiß oder rot. Danach richtet sich die Schale, hat meine Mutter gesagt.“",
+              "Herr Ritter: „Ihre Mutter hat auch gesagt, Radio hört man besser bei offener Tür.“",
+              "Frau Ritter: „Und das stimmt.“",
+            ],
+          },
+          {
+            id: "partei",
+            label: "Sich vorsichtig auf eine Seite schlagen.",
+            lines: [
+              "Herr Ritter: „Sehen Sie, Hedwig. Der Herr gibt mir recht.“",
+              "Frau Ritter: „Der Herr will aussteigen, ohne dass wir ihn festhalten. Das ist etwas anderes.“",
+            ],
+          },
+          {
+            id: "wielange",
+            label: "Fragen, wie lange das schon geht.",
+            lines: [
+              "Frau Ritter: „Seit Haltestelle Ringstraße.“",
+              "Herr Ritter: „Seit 1979.“",
+              "Frau Ritter: „Das war das Thema Wandfarbe. Das ist ein anderes Verfahren.“",
+            ],
+          },
+        ],
+      },
+      {
+        id: "ziel",
+        label: "Nach dem Ziel fragen.",
+        lines: [
+          "Herr Ritter: „Zentralverwaltungsstelle. Wohnungsangelegenheit, angeblich nur eine Unterschrift.“",
+          "Frau Ritter: „Es ist nie nur eine Unterschrift. Es sind immer zwei und eine fehlende.“",
+        ],
+        follow: [
+          {
+            id: "wohnung",
+            label: "Nach der Wohnungsangelegenheit fragen.",
+            lines: [
+              "Frau Ritter: „Bei uns war eine Begehung. Zwei Leute mit Mappe, sehr freundlich, sehr schnell.“",
+              "Herr Ritter: „Sie haben nicht die Wohnung gemessen, sondern die Zimmer gezählt. Das ist ein Unterschied.“",
+            ],
+            follow: [
+              {
+                id: "beleg",
+                label: "Fragen, ob sie einen Beleg bekommen haben.",
+                lines: [
+                  "Herr Ritter: „Ein Blatt. Ohne Stellennummer.“",
+                  "Frau Ritter: „Und ohne Datum. Ich habe es trotzdem in die Mappe getan, zwischen die Sprawka und den Zählerstand.“",
+                  "Herr Ritter: „Es ließe sich prüfen, sagte der Jüngere. Da wusste ich, dass wir hinfahren müssen.“",
+                ],
+              },
+              {
+                id: "zaehlung",
+                label: "Fragen, ob das mit der Zählung zu tun hat.",
+                lines: [
+                  "Frau Ritter: „Im Haus reden alle davon. Bei den Bienerts haben sie zweimal geklopft, gleich laut.“",
+                  "Herr Ritter: „Hedwig.“",
+                  "Frau Ritter: „Was denn. Der Herr fährt auch dorthin. Dann weiß er wenigstens, was ihn erwartet.“",
+                ],
+              },
+            ],
+          },
+          {
+            id: "termin",
+            label: "Fragen, ob sie einen Termin haben.",
+            lines: [
+              "Herr Ritter: „Vorsprache ohne Terminbindung. Das heißt: Wir sitzen, bis jemand Mitleid hat.“",
+              "Frau Ritter: „Er nimmt immer belegte Brote mit. Das ist das einzig Vernünftige an ihm.“",
+            ],
+          },
+        ],
+      },
+      {
+        id: "streitkultur",
+        label: "Fragen, ob sie immer so miteinander reden.",
+        lines: [
+          "Frau Ritter: „Nur wenn wir wach sind.“",
+          "Herr Ritter: „Es ist kein Streit. Es ist eine laufende Abstimmung ohne Ergebnis.“",
+        ],
+        follow: [
+          {
+            id: "geheimnis",
+            label: "Nach dem Geheimnis der langen Ehe fragen.",
+            lines: [
+              "Herr Ritter: „Man darf nie beide gleichzeitig recht haben wollen.“",
+              "Frau Ritter: „Er meint: Er hat immer recht, und ich habe immer die Mappe.“",
+            ],
+          },
+        ],
+      },
+      {
+        id: "weiter",
+        label: "Weiterstreiten lassen.",
+        lines: [
+          "Frau Ritter: „Sehr freundlich. Also: Ohrscheibe.“",
+          "Herr Ritter: „Huhn.“",
         ],
       },
     ],
