@@ -169,7 +169,7 @@ export function BusRide() {
                 className="cursor-talk group absolute"
                 style={{
                   left: `${s.x}%`,
-                  top: `${s.y}%`,
+                  bottom: `${s.bottom}%`,
                   width: `${s.w}%`,
                   height: `${s.h}%`,
                 }}
