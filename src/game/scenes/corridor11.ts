@@ -124,14 +124,12 @@ export const corridor11Scenes: Record<string, Scene> = {
         y: 27,
         w: 7,
         h: 20,
-        label: "Aushang der Hausverwaltung",
+        label: "Gerahmter Druck",
         kind: "look",
         onUse: (api) =>
           api.showText([
-            ">> KORRIDOR 11 — WOHNEN, ETAGE 1",
-            ">> Wohnungen 1101–1140",
-            ">> Resonanz-Hygiene: Zimmerlautstärke ab 21:00",
-            ">> Beschwerden schriftlich, Formblatt 9/W, Empfang.",
+            "Derselbe Landschaftsdruck wie gegenüber, nur spiegelverkehrt gehängt. Grün, Grau, eine Registriernummer unten rechts.",
+            "Im Glas spiegelt sich die Wandlampe. Dahinter, kaum lesbar, ein alter Klebestreifen: „Korridor 11 — Wohnen, Etage 1 · 1101–1140“.",
           ]),
       },
       {
