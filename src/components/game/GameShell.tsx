@@ -35,6 +35,7 @@ import { ParagraphenNotizbuchOverlay } from "./ParagraphenNotizbuchOverlay";
 import { KantinenverordnungOverlay } from "./KantinenverordnungOverlay";
 import { PubOverlay } from "./PubOverlay";
 import { MapOverlay } from "./MapOverlay";
+import { BusRide } from "./BusRide";
 import { RoomSwitcher } from "@/dev/RoomSwitcher";
 import { BookSwitcher } from "@/dev/BookSwitcher";
 import { ConsoleSwitcher } from "@/dev/ConsoleSwitcher";
@@ -263,6 +264,7 @@ function GameStage({
             <KantinenverordnungOverlay />
             <PubOverlay />
             <MapOverlay />
+            <BusRide />
             <ToiletWallOverlay />
             <Ending />
             <SectorThresholdCutscene />
