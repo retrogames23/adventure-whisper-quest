@@ -10,8 +10,14 @@ import {
   type BusPassenger,
   type BusTopic,
 } from "@/game/busPassengers";
+import {
+  BUS_COUPLE_TOPICS,
+  BUS_COUPLE_LABEL,
+  type BusCoupleSpeaker,
+} from "@/game/busCoupleChatter";
 import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
 import busCompositionB from "@/assets/bus/bus-passengers-b.jpg";
+import busCompositionC from "@/assets/bus/bus-passengers-c.jpg";
 import windowLoop from "@/assets/bus-window-loop.jpg";
 
 /** Fahrtdauer: acht echte Minuten. Jederzeit überspringbar. */
@@ -20,6 +26,7 @@ const RIDE_MS = 8 * 60 * 1000;
 const BUS_COMPOSITIONS = {
   a: busCompositionA,
   b: busCompositionB,
+  c: busCompositionC,
 };
 
 function formatRemaining(ms: number) {
@@ -46,18 +53,27 @@ export function BusRide() {
   /** Aktueller Pfad im Gesprächsbaum (Themen-IDs von oben nach unten). */
   const [path, setPath] = useState<string[]>([]);
   const arrivedRef = useRef(false);
+  /** Aktuelle Streitzeile des Paares (Sprechblasen im Bild). */
+  const [chatter, setChatter] = useState<{
+    npc: BusCoupleSpeaker;
+    text: string;
+  } | null>(null);
 
   const passengers = useMemo(() => {
     if (!ride) return [];
     return ride.passengers
-      .map(({ passengerId, hotspot }) => ({
+      .map(({ passengerId, hotspot, chatterAnchors }) => ({
         p: getBusPassenger(passengerId),
         hotspot,
+        chatterAnchors,
       }))
       .filter(
         (entry): entry is {
           p: BusPassenger;
           hotspot: { x: number; y: number; w: number; h: number };
+          chatterAnchors:
+            | { sie: { x: number; y: number }; er: { x: number; y: number } }
+            | undefined;
         } => !!entry.p,
       );
   }, [ride]);
@@ -96,6 +112,49 @@ export function BusRide() {
     return () => window.clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ride?.startedAt]);
+
+  const couple = passengers.find((entry) => !!entry.chatterAnchors);
+  const coupleId = couple?.p.id ?? null;
+  const chatterPaused = !!talking;
+
+  // Fortlaufender Ehestreit, solange Layard zusieht und nicht spricht.
+  useEffect(() => {
+    if (!coupleId || chatterPaused) {
+      setChatter(null);
+      return;
+    }
+    let cancelled = false;
+    let timer = 0;
+    const order = [...BUS_COUPLE_TOPICS].sort(() => Math.random() - 0.5);
+    let ti = 0;
+    let li = 0;
+
+    const step = () => {
+      if (cancelled) return;
+      const topic = order[ti % order.length];
+      const line = topic.lines[li];
+      setChatter(line);
+      const hold = 2600 + line.text.length * 45;
+      li += 1;
+      const pause = li >= topic.lines.length ? 3200 : 700;
+      if (li >= topic.lines.length) {
+        li = 0;
+        ti += 1;
+      }
+      timer = window.setTimeout(() => {
+        if (cancelled) return;
+        setChatter(null);
+        timer = window.setTimeout(step, pause);
+      }, hold);
+    };
+
+    timer = window.setTimeout(step, 1200);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      setChatter(null);
+    };
+  }, [coupleId, chatterPaused]);
 
   function arrive() {
     if (!ride) return;
@@ -217,6 +276,26 @@ export function BusRide() {
               </span>
             </button>
           ))}
+
+          {/* Fortlaufender Streit des Paares */}
+          {couple?.chatterAnchors && chatter && (
+            <div
+              className="pointer-events-none absolute z-10 w-[38%] max-w-[280px] -translate-x-1/2 -translate-y-full"
+              style={{
+                left: `${couple.chatterAnchors[chatter.npc].x}%`,
+                top: `${couple.chatterAnchors[chatter.npc].y}%`,
+              }}
+            >
+              <div className="animate-fade-in rounded-md border border-amber-glow/35 bg-[#0d0e0c]/88 px-2.5 py-1.5 shadow-lg backdrop-blur-sm">
+                <div className="font-mono-crt text-[9px] uppercase tracking-[0.18em] text-amber-glow/70">
+                  {BUS_COUPLE_LABEL[chatter.npc]}
+                </div>
+                <p className="text-[12px] leading-snug text-foreground/90 sm:text-[13px]">
+                  {chatter.text}
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Fahrtanzeige */}
           <div className="pointer-events-none absolute left-1/2 top-2 -translate-x-1/2 rounded-sm border border-amber-glow/40 bg-black/70 px-3 py-1 text-center">

@@ -20,6 +20,7 @@ export interface BusRide {
   /** Persona und Gesprächsfläche jeder im Bild sichtbaren Figur. */
   passengers: {
     passengerId: string;
+    chatterAnchors?: { sie: { x: number; y: number }; er: { x: number; y: number } };
     hotspot: { x: number; y: number; w: number; h: number };
   }[];
 }
