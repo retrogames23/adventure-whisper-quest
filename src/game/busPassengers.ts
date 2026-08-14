@@ -593,6 +593,32 @@ export function pickBusPassengers(count: number): BusPassenger[] {
 
 export type BusCompositionId = "a" | "b";
 
+/** Sichtbare Scheibe im Gesamtbild (Prozent), inkl. Rundung der Ecken. */
+export interface BusWindowArea {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  /** Eckenrundung in Prozent der Fensterbreite. */
+  radius: number;
+}
+
+/**
+ * Fensterflächen je Buskomposition — direkt an den Scheiben der jeweiligen
+ * Bilddatei ausgemessen und minimal nach innen versetzt, damit Rahmen und
+ * Dichtung sichtbar bleiben.
+ */
+export const COMPOSITION_WINDOWS: Record<BusCompositionId, BusWindowArea[]> = {
+  a: [
+    { left: 3.2, top: 9.7, width: 18.6, height: 38.6, radius: 12 },
+    { left: 79.2, top: 10.2, width: 18.0, height: 38.2, radius: 12 },
+  ],
+  b: [
+    { left: 3.1, top: 9.6, width: 18.7, height: 38.9, radius: 12 },
+    { left: 79.2, top: 10.2, width: 18.0, height: 38.2, radius: 12 },
+  ],
+};
+
 export interface BusCompositionPassenger {
   passengerId: string;
   /** Unsichtbare Gesprächsfläche in Prozent des Gesamtbildes. */
