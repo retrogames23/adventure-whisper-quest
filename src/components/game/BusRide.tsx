@@ -8,6 +8,7 @@ import {
   getBusPassenger,
   COMPOSITION_WINDOWS,
   type BusPassenger,
+  type BusTopic,
 } from "@/game/busPassengers";
 import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
 import busCompositionB from "@/assets/bus/bus-passengers-b.jpg";
@@ -42,6 +43,8 @@ export function BusRide() {
   const [talking, setTalking] = useState<BusPassenger | null>(null);
   const [spoken, setSpoken] = useState<Record<string, string[]>>({});
   const [lines, setLines] = useState<string[] | null>(null);
+  /** Aktueller Pfad im Gesprächsbaum (Themen-IDs von oben nach unten). */
+  const [path, setPath] = useState<string[]>([]);
   const arrivedRef = useRef(false);
 
   const passengers = useMemo(() => {
@@ -78,6 +81,7 @@ export function BusRide() {
     setRemaining(RIDE_MS);
     setTalking(null);
     setLines(null);
+    setPath([]);
     setSpoken({});
     const tick = () => {
       const left = ride.startedAt + RIDE_MS - Date.now();
@@ -105,18 +109,34 @@ export function BusRide() {
   const openTalk = (p: BusPassenger) => {
     setTalking(p);
     setLines([p.greeting]);
+    setPath([]);
   };
 
-  const chooseTopic = (p: BusPassenger, topicId: string) => {
-    const topic = p.topics.find((t) => t.id === topicId);
-    if (!topic) return;
-    setSpoken((s) => ({ ...s, [p.id]: [...(s[p.id] ?? []), topicId] }));
+  /** Themenliste an einem Pfad auflösen. */
+  const topicsAt = (p: BusPassenger, at: string[]): BusTopic[] => {
+    let list: BusTopic[] = p.topics;
+    for (const id of at) {
+      const node = list.find((t) => t.id === id);
+      if (!node?.follow?.length) return [];
+      list = node.follow;
+    }
+    return list;
+  };
+
+  const chooseTopic = (p: BusPassenger, topic: BusTopic) => {
+    const next = [...path, topic.id];
+    const key = next.join("/");
+    setSpoken((s) => ({ ...s, [p.id]: [...(s[p.id] ?? []), key] }));
     setLines(topic.lines);
+    // Ohne Nachfragen bleibt der Spieler auf der aktuellen Ebene.
+    setPath(topic.follow?.length ? next : path);
   };
 
   const done = talking ? (spoken[talking.id] ?? []) : [];
   const openTopics = talking
-    ? talking.topics.filter((t) => !done.includes(t.id))
+    ? topicsAt(talking, path).filter(
+        (t) => !done.includes([...path, t.id].join("/")),
+      )
     : [];
 
   return (
@@ -250,13 +270,22 @@ export function BusRide() {
                 <button
                   key={t.id}
                   type="button"
-                  onClick={() => chooseTopic(talking, t.id)}
+                  onClick={() => chooseTopic(talking, t)}
                   className="rounded-sm border border-amber-glow/30 bg-gradient-to-b from-amber-glow/10 to-transparent px-3 py-2 text-left text-sm text-amber-glow/90 transition-all hover:-translate-y-px hover:border-amber-glow/70 hover:text-amber-glow"
                 >
                   {t.label}
                 </button>
               ))}
-              {openTopics.length === 0 && (
+              {path.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setPath(path.slice(0, -1))}
+                  className="rounded-sm border border-border/60 px-3 py-2 text-left text-sm text-muted-foreground transition-all hover:border-amber-glow/60 hover:text-amber-glow"
+                >
+                  Das Thema wechseln.
+                </button>
+              )}
+              {openTopics.length === 0 && path.length === 0 && (
                 <p className="text-sm italic leading-relaxed text-muted-foreground">
                   {talking.farewell}
                 </p>
