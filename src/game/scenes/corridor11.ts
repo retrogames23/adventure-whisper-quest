@@ -80,7 +80,7 @@ export const corridor11Scenes: Record<string, Scene> = {
         id: "door1104",
         x: 63,
         y: 24,
-        w: 8,
+        w: 4.9,
         h: 45,
         label: "Tür 1104",
         kind: "look",
@@ -120,10 +120,10 @@ export const corridor11Scenes: Record<string, Scene> = {
       },
       {
         id: "corridor11Board",
-        x: 74,
-        y: 27,
-        w: 7,
-        h: 20,
+        x: 69.2,
+        y: 25.5,
+        w: 6.9,
+        h: 19.5,
         label: "Gerahmter Druck",
         kind: "look",
         onUse: (api) =>
