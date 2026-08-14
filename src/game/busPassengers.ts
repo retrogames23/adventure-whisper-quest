@@ -1,13 +1,8 @@
-import p1 from "@/assets/bus/passenger-1.png";
-import p2 from "@/assets/bus/passenger-2.png";
-import p3 from "@/assets/bus/passenger-3.png";
-import p4 from "@/assets/bus/passenger-4.png";
-
 /**
  * Fahrgäste der Linie 28.
  *
- * Pro Fahrt werden zufällig 1–5 Personen aus diesem Pool gezogen und
- * zufällig auf die Sitzplätze verteilt. Kein Free-Chat: jede Person hat
+ * Pro Fahrt werden drei Personen passend zu einer fertig komponierten
+ * Busansicht aus diesem Pool gezogen. Kein Free-Chat: jede Person hat
  * 2–3 feste Themen (Smalltalk / Gerücht / Sektor 28 bzw. Mandatsgebiet).
  *
  * Lore-Regeln: Sektor 28 ist die Großeinheit, Quadranten sind Baugruppen,
@@ -16,13 +11,6 @@ import p4 from "@/assets/bus/passenger-4.png";
  */
 
 export type BusSpriteId = "elder" | "woman" | "youth" | "worker";
-
-export const BUS_SPRITES: Record<BusSpriteId, string> = {
-  elder: p1,
-  woman: p2,
-  youth: p3,
-  worker: p4,
-};
 
 export interface BusTopic {
   id: string;
@@ -593,7 +581,7 @@ export function pickBusPassengers(count: number): BusPassenger[] {
   const pool = [...BUS_PASSENGERS];
   const out: BusPassenger[] = [];
   const usedSprites = new Set<BusSpriteId>();
-  while (out.length < count && pool.length && usedSprites.size < Object.keys(BUS_SPRITES).length) {
+  while (out.length < count && pool.length && usedSprites.size < 4) {
     const idx = Math.floor(Math.random() * pool.length);
     const passenger = pool.splice(idx, 1)[0];
     if (usedSprites.has(passenger.sprite)) continue;
@@ -603,15 +591,53 @@ export function pickBusPassengers(count: number): BusPassenger[] {
   return out;
 }
 
+export type BusCompositionId = "a" | "b";
+
+export interface BusCompositionPassenger {
+  passengerId: string;
+  /** Unsichtbare Gesprächsfläche in Prozent des Gesamtbildes. */
+  hotspot: { x: number; y: number; w: number; h: number };
+}
+
+export interface BusCompositionSelection {
+  id: BusCompositionId;
+  passengers: BusCompositionPassenger[];
+}
+
+const COMPOSITION_SLOTS: Record<
+  BusCompositionId,
+  { sprite: BusSpriteId; hotspot: BusCompositionPassenger["hotspot"] }[]
+> = {
+  a: [
+    { sprite: "woman", hotspot: { x: 16, y: 31, w: 24, h: 65 } },
+    { sprite: "youth", hotspot: { x: 46, y: 42, w: 12, h: 28 } },
+    { sprite: "worker", hotspot: { x: 61, y: 31, w: 24, h: 67 } },
+  ],
+  b: [
+    { sprite: "worker", hotspot: { x: 25, y: 34, w: 20, h: 61 } },
+    { sprite: "woman", hotspot: { x: 47, y: 43, w: 11, h: 26 } },
+    { sprite: "elder", hotspot: { x: 60, y: 34, w: 21, h: 62 } },
+  ],
+};
+
+/** Wählt eine vollständige Bildkomposition und genau eine passende Persona je Figur. */
+export function pickBusComposition(): BusCompositionSelection {
+  const id: BusCompositionId = Math.random() < 0.5 ? "a" : "b";
+  const used = new Set<string>();
+  const passengers = COMPOSITION_SLOTS[id].map(({ sprite, hotspot }) => {
+    const candidates = BUS_PASSENGERS.filter(
+      (passenger) => passenger.sprite === sprite && !used.has(passenger.id),
+    );
+    const passenger = candidates[Math.floor(Math.random() * candidates.length)];
+    if (!passenger) {
+      throw new Error(`Keine Bus-Persona für Figurentyp ${sprite}`);
+    }
+    used.add(passenger.id);
+    return { passengerId: passenger.id, hotspot };
+  });
+  return { id, passengers };
+}
+
 export function getBusPassenger(id: string): BusPassenger | undefined {
   return BUS_PASSENGERS.find((p) => p.id === id);
 }
-
-/** Sitzplätze im Bus-Innenraum (Prozent des Hintergrundbildes, am Boden verankert). */
-export const BUS_SEATS: { id: number; x: number; bottom: number; w: number; h: number; flip?: boolean }[] = [
-  { id: 0, x: -1, bottom: 0, w: 30, h: 66 },
-  { id: 1, x: 16, bottom: 4, w: 25, h: 58, flip: true },
-  { id: 2, x: 42, bottom: 20, w: 16, h: 42 },
-  { id: 3, x: 59, bottom: 4, w: 25, h: 58 },
-  { id: 4, x: 71, bottom: 0, w: 30, h: 66, flip: true },
-];

@@ -3,7 +3,7 @@ import { useGame } from "@/game/GameContext";
 import { sector28Places, type MapPlace } from "@/game/mapSector28";
 import { CloseButton } from "./CloseButton";
 import { startBusRide } from "@/game/busRideState";
-import { pickBusPassengers, BUS_SEATS } from "@/game/busPassengers";
+import { pickBusComposition } from "@/game/busPassengers";
 import { useDevMode } from "@/dev/devMode";
 import mapBg from "@/assets/map-sector-28.jpg";
 
@@ -31,22 +31,16 @@ export function MapOverlay() {
 
   if (!mapOpen) return null;
 
-  /** Startet die Busfahrt (Linie 28) mit 1–5 zufälligen Fahrgästen. */
+  /** Startet die Busfahrt mit einer vollständigen, perspektivisch festen Besetzung. */
   const beginRide = (target: MapPlace["travelTo"], label: string) => {
     if (!target) return;
-    const count = 1 + Math.floor(Math.random() * 5);
-    const chosen = pickBusPassengers(count);
-    const seats = BUS_SEATS.map((s) => s.id);
-    for (let i = seats.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [seats[i], seats[j]] = [seats[j], seats[i]];
-    }
+    const selection = pickBusComposition();
     startBusRide({
       target,
       targetLabel: label,
       startedAt: Date.now(),
-      passengers: chosen.map((p) => p.id),
-      seats: seats.slice(0, chosen.length),
+      composition: selection.id,
+      passengers: selection.passengers,
     });
   };
 

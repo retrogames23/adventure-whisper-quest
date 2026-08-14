@@ -2,24 +2,18 @@ import { useEffect, useState } from "react";
 import { scenes, useGame } from "@/game/GameContext";
 import type { CutsceneId, SceneId } from "@/game/types";
 import { startBusRide } from "@/game/busRideState";
-import { pickBusPassengers, BUS_SEATS } from "@/game/busPassengers";
+import { pickBusComposition } from "@/game/busPassengers";
 
 /** Startet eine Testfahrt der Linie 28 mit zufälligen Fahrgästen. */
 function startTestBusRide(scene: string) {
   const target = (scene === "e71Lobby" ? "floor1Lobby" : "e71Lobby") as SceneId;
-  const count = 1 + Math.floor(Math.random() * 5);
-  const chosen = pickBusPassengers(count);
-  const seats = BUS_SEATS.map((s) => s.id);
-  for (let i = seats.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [seats[i], seats[j]] = [seats[j], seats[i]];
-  }
+  const selection = pickBusComposition();
   startBusRide({
     target,
     targetLabel: "Testfahrt",
     startedAt: Date.now(),
-    passengers: chosen.map((p) => p.id),
-    seats: seats.slice(0, chosen.length),
+    composition: selection.id,
+    passengers: selection.passengers,
   });
 }
 
