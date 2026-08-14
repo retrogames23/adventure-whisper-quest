@@ -270,7 +270,7 @@ export function BusRide() {
                 <button
                   key={t.id}
                   type="button"
-                  onClick={() => chooseTopic(talking, t.id)}
+                  onClick={() => chooseTopic(talking, t)}
                   className="rounded-sm border border-amber-glow/30 bg-gradient-to-b from-amber-glow/10 to-transparent px-3 py-2 text-left text-sm text-amber-glow/90 transition-all hover:-translate-y-px hover:border-amber-glow/70 hover:text-amber-glow"
                 >
                   {t.label}
