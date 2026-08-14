@@ -18,8 +18,8 @@ const RIDE_MS = 8 * 60 * 1000;
 
 /** Fensterflächen im Hintergrundbild (Prozent). */
 const WINDOWS = [
-  { left: 4, top: 11, width: 16.8, height: 32 },
-  { left: 78.6, top: 12, width: 16.5, height: 31 },
+  { left: 2.4, top: 9.8, width: 20.4, height: 36.5 },
+  { left: 77.8, top: 10.5, width: 21, height: 36.3 },
 ];
 
 function formatRemaining(ms: number) {
@@ -145,12 +145,12 @@ export function BusRide() {
                 <img
                   src={windowLoop}
                   alt=""
-                  className="h-full w-auto max-w-none select-none"
+                  className="h-full w-auto max-w-none shrink-0 select-none"
                 />
                 <img
                   src={windowLoop}
                   alt=""
-                  className="h-full w-auto max-w-none select-none"
+                  className="h-full w-auto max-w-none shrink-0 select-none"
                 />
               </div>
               <div className="pointer-events-none absolute inset-0 bg-[#c9cdd6]/25 mix-blend-screen" />
