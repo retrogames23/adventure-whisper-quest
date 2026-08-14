@@ -1,6 +1,29 @@
 import { useEffect, useState } from "react";
 import { scenes, useGame } from "@/game/GameContext";
 import type { CutsceneId, SceneId } from "@/game/types";
+import { startBusRide } from "@/game/busRideState";
+import { pickBusPassengers, BUS_SEATS } from "@/game/busPassengers";
+
+/** Startet eine Testfahrt der Linie 28 mit zufälligen Fahrgästen. */
+function startTestBusRide(scene: string) {
+  const target = (scene === "zentralverwaltung"
+    ? "apartment"
+    : "zentralverwaltung") as SceneId;
+  const count = 1 + Math.floor(Math.random() * 5);
+  const chosen = pickBusPassengers(count);
+  const seats = BUS_SEATS.map((s) => s.id);
+  for (let i = seats.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [seats[i], seats[j]] = [seats[j], seats[i]];
+  }
+  startBusRide({
+    target,
+    targetLabel: "Testfahrt",
+    startedAt: Date.now(),
+    passengers: chosen.map((p) => p.id),
+    seats: seats.slice(0, chosen.length),
+  });
+}
 
 /**
  * Liste aller im Spiel verfügbaren Cutscenes. Hier ergänzen, wenn neue
@@ -104,6 +127,30 @@ export function RoomSwitcher() {
             />
 
             <div className="max-h-[60vh] overflow-y-auto pr-1 font-mono-crt text-sm">
+              {"busfahrt linie 28 zwischenspiel".includes(filter.toLowerCase()) && (
+                <>
+                  <div className="mb-1 mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    Zwischenspiele
+                  </div>
+                  <ul className="mb-3 space-y-1">
+                    <li>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          startTestBusRide(scene);
+                          setOpen(false);
+                        }}
+                        className="flex w-full items-center justify-between gap-3 rounded-sm border border-amber-glow/20 px-3 py-2 text-left text-foreground transition hover:border-amber-glow/60 hover:bg-amber-glow/10"
+                      >
+                        <span className="truncate">Busfahrt · Linie 28</span>
+                        <span className="shrink-0 text-xs text-muted-foreground">
+                          busRide
+                        </span>
+                      </button>
+                    </li>
+                  </ul>
+                </>
+              )}
               {filtered.length === 0 && filteredCutscenes.length === 0 && (
                 <div className="px-2 py-4 text-center text-muted-foreground">
                   Keine Treffer.
