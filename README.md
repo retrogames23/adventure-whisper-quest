@@ -19,6 +19,8 @@ deep inside a crumbling state housing block. A radio frequency. A neighbour
 who hasn't been seen in days. An elevator that won't go where you want.
 Cozypunk in spirit, oppressive in its corridors.
 
+The game's world, background and lore are documented in [LORE.md](./LORE.md).
+
 The game is being built **publicly and iteratively** with [Lovable](https://lovable.dev/invite/LN0I260),
 an AI-assisted full-stack development environment. If you're curious about
 how the sausage is made, that invite link gets you started (and gives me a
