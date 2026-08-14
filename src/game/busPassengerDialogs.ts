@@ -45,7 +45,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
         label: "Über das Wetter reden.",
         lines: [
           "„Feucht. Immer feucht. Bei uns im Block B haben sie die Fenster verordnungsgemäß dichtgemacht, jetzt schwitzt die Wand.“",
-          "„Ich hab eine Eingabe geschrieben. Antwort kam: Wahrnehmungsschwankung. Also gut, dann schwitze ich eben falsch.“",
+          "„Ich hab eine Eingabe geschrieben. Es erging Antwort: Wahrnehmungsschwankung. Also gut, dann schwitze ich eben falsch.“",
         ],
         follow: [
           {
@@ -60,7 +60,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
                 id: "nachhaken",
                 label: "Fragen, ob Nachhaken hilft.",
                 lines: [
-                  "„Nachhaken hilft, wenn Sie freundlich und schriftlich sind. Freundlich allein ist Luft, schriftlich allein ist frech.“",
+              "„Nachhaken hilft, wenn Sie freundlich und schriftlich sind. Freundlich allein ist Luft, schriftlich allein ist frech. Und ohne Sprawka in der Mappe sind Sie beides umsonst.“",
                 ],
               },
               {
@@ -77,7 +77,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
             label: "Nach der feuchten Wand fragen.",
             lines: [
               "„Sie ist dunkel geworden, kniehoch, wie ein Wasserstand. Mein Mann hätte gesagt: Das Haus atmet nicht mehr.“",
-              "„Die Instandhaltung war da, hat gemessen und geschrieben: innerhalb der Werte. Die Werte sind großzügig.“",
+              "„Die Instandhaltung war da, hat gemessen und geschrieben: in Regel. Die Werte sind großzügig.“",
             ],
           },
         ],
@@ -129,7 +129,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
             id: "besser",
             label: "Fragen, ob früher besser war.",
             lines: [
-              "„Nein. Enger, lauter, dreckiger. Aber man wusste, wen man ärgern muss, wenn etwas fehlt.“",
+              "„Nein. Enger, lauter, dreckiger. Aber man wusste, welche Instanz man ärgern muss, wenn etwas fehlt.“",
               "„Heute ärgert man einen Vorgang. Der Vorgang nimmt das nicht persönlich.“",
             ],
           },
@@ -157,7 +157,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
             id: "formular",
             label: "Nach diesem Formular fragen.",
             lines: [
-              "„Ersatzbedarfsanzeige. Wer sie stellt, muss begründen, warum Instandhaltung nicht genügt. Wer das kann, wird gefragt, warum er es nicht früher konnte.“",
+              "„Ersatzbedarfsanzeige. Wer sie stellt, muss begründen, warum Instandhaltung nicht genügt. Wer das kann, wird gefragt, warum er es nicht früher konnte. Kurz: Das ließe sich prüfen.“",
               "„Also flicken wir. Ein Rohr aus dem Baujahr, drei Schellen aus diesem Jahr.“",
             ],
             follow: [
@@ -199,7 +199,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
                 id: "wer_darf",
                 label: "Fragen, wer daran darf.",
                 lines: [
-                  "„Fernmeldedienst. Wir nicht. Und trotzdem trägt sich dort regelmäßig jemand ein, der weder das eine noch das andere ist.“",
+              "„Fernmeldedienst. Für uns ist das nicht vorgesehen. Und trotzdem trägt sich dort regelmäßig jemand ein, der weder das eine noch das andere ist.“",
                 ],
               },
             ],
@@ -227,7 +227,7 @@ export const BUS_PASSENGERS: BusPassenger[] = [
         id: "vorlagen",
         label: "Fragen, was sie prüft.",
         lines: [
-          "„Vorlagen. Wer wo hindarf, mit welchem Blatt. Neunzig Prozent sind richtig ausgefüllt und trotzdem unzulässig.“",
+          "„Vorlagen. Wer wo hindarf, mit welchem Blatt. Neunzig Prozent sind richtig ausgefüllt und trotzdem nicht in Regel.“",
           "„Das liegt am Vorgang, nicht an den Leuten. Der Vorgang mag es, wenn er dreimal läuft.“",
         ],
         follow: [
