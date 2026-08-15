@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
@@ -94,6 +95,16 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("dev") === "1") return;
+    if (window.self === window.top) return;
+    if (!url.hostname.includes("lovable.app")) return;
+    url.searchParams.set("dev", "1");
+    window.location.replace(url.toString());
+  }, []);
+
   return (
     <AuthProvider>
       <Outlet />
