@@ -22,6 +22,7 @@ import busCompositionD from "@/assets/bus/bus-passengers-d.jpg";
 import busCompositionE from "@/assets/bus/bus-passengers-e.jpg";
 import busCompositionF from "@/assets/bus/bus-passengers-f.jpg";
 import busCompositionG from "@/assets/bus/bus-passengers-g.jpg";
+import busCompositionH from "@/assets/bus/bus-passengers-h.jpg";
 import busFrontA from "@/assets/bus/bus-front-a.png";
 import busFrontB from "@/assets/bus/bus-front-b.png";
 import busFrontC from "@/assets/bus/bus-front-c.png";
@@ -29,6 +30,7 @@ import busFrontD from "@/assets/bus/bus-front-d.png";
 import busFrontE from "@/assets/bus/bus-front-e.png";
 import busFrontF from "@/assets/bus/bus-front-f.png";
 import busFrontG from "@/assets/bus/bus-front-g.png";
+import busFrontH from "@/assets/bus/bus-front-h.png";
 import windowLoop from "@/assets/bus-window-loop.jpg";
 
 /** Fahrtdauer: acht echte Minuten. Jederzeit überspringbar. */
@@ -42,6 +44,7 @@ const BUS_COMPOSITIONS = {
   e: busCompositionE,
   f: busCompositionF,
   g: busCompositionG,
+  h: busCompositionH,
 };
 
 /**
@@ -57,6 +60,7 @@ const BUS_FOREGROUNDS = {
   e: busFrontE,
   f: busFrontF,
   g: busFrontG,
+  h: busFrontH,
 };
 
 function formatRemaining(ms: number) {
