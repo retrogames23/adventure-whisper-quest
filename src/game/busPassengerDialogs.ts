@@ -9,6 +9,8 @@
  * Anspielungen auf das Schmerz-Radio.
  */
 
+import { BUS_READER } from "./busReaderDialog";
+
 export type BusSpriteId =
   | "elder"
   | "woman"
@@ -1550,6 +1552,8 @@ export const BUS_PASSENGERS: BusPassenger[] = [
     ],
   },
 ];
+
+BUS_PASSENGERS.push(BUS_READER);
 
 export function pickBusPassengers(count: number): BusPassenger[] {
   const pool = [...BUS_PASSENGERS];
