@@ -231,6 +231,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [knowledge, setKnowledge] = useState<Set<KnowledgeFlag>>(
     () => new Set(),
   );
+  // Offenlegen/Verschweigen pro Wissensstück. Wird wie `knowledge`
+  // persistiert und ist die Grundlage für spätere Entscheidungen.
+  const [disclosures, setDisclosures] = useState<DisclosureMap>({});
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [caption, setCaption] = useState<string | null>(null);
   const [textOverlay, setTextOverlay] = useState<string[] | null>(null);
@@ -353,6 +356,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   inventoryRef.current = inventory;
   const knowledgeRef = useRef(knowledge);
   knowledgeRef.current = knowledge;
+  const disclosuresRef = useRef(disclosures);
+  disclosuresRef.current = disclosures;
   const radioActiveRef = useRef(radioActive);
   radioActiveRef.current = radioActive;
   const sceneRef = useRef(scene);
@@ -395,6 +400,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
           return n;
         }),
       hasKnowledge: (k) => knowledgeRef.current.has(k),
+      setDisclosure: (k, choice) => {
+        const next = { ...disclosuresRef.current, [k]: choice };
+        disclosuresRef.current = next;
+        setDisclosures(next);
+      },
+      getDisclosure: (k) => disclosuresRef.current[k] ?? null,
       addItem: (item) =>
         setInventory((prev) =>
           prev.find((i) => i.id === item.id)
