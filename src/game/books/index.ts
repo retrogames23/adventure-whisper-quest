@@ -7,12 +7,14 @@ import { getBook as getRegisteredBook, type ReadableBook } from "./registry";
 import { HISTORY_BOOK } from "./history";
 import { ALMANACH_BOOK } from "./almanach";
 import { GFA_MANIFEST_BOOK } from "./gfaManifest";
+import { NICHT_VORGESEHEN_BOOK } from "./nichtVorgesehen";
 import "./libraryBooks";
 
 const CORE_BOOKS: Readonly<Record<string, ReadableBook>> = {
   [HISTORY_BOOK.id]: HISTORY_BOOK,
   [ALMANACH_BOOK.id]: ALMANACH_BOOK,
   [GFA_MANIFEST_BOOK.id]: GFA_MANIFEST_BOOK,
+  [NICHT_VORGESEHEN_BOOK.id]: NICHT_VORGESEHEN_BOOK,
 };
 
 export function getBook(id: string): ReadableBook | undefined {
