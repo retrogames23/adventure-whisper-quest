@@ -98,7 +98,7 @@ Konkrete Folgen:
 - **1971 — Die Quadranten-Konvention.** Ein technokratisches Abkommen zwischen
   rund 30 Staaten beidseits des alten Eisernen Vorhangs vereinheitlicht
   Verwaltungsstrukturen. Adressen werden zu Koordinaten, Behörden zu
-  nummerierten Sektoren. Das Modell wird im Mandatsgebiet, in Skandinavien,
+  nummerierten Sektoren. Das Modell wird im **Provisorium**, in Skandinavien,
   in der Tschechoslowakei und in Teilen der UdSSR umgesetzt.
 - Die USA bleiben außen vor und entwickeln eigene Standards. Sie sind in
   dieser Welt der **exotische Pol**, nicht das globale Vorbild. Konsumkultur
@@ -107,11 +107,13 @@ Konkrete Folgen:
 - Konsumkultur entwickelt sich, aber gedämpfter: kein Reagan-Boom, kein
   Thatcher-Schock.
 
-### 1980–1990 — Stillstand als Stabilität
+### 1980–1990 — Vom Provisorium zum Mandatsbund
+
 - Keine Wende, kein Mauerfall — weil es keine Mauer in der scharfen Form
-  gegeben hat. Das Mandatsgebiet wird 1986 in einen lockeren Staatenbund
-  umgewandelt, der wirtschaftlich integriert, politisch aber bewusst klein
-  gehalten ist.
+  gegeben hat. **1986** wird das Provisorium in einen lockeren Staatenbund
+  überführt, den **Mandatsbund**; seither spricht man formell vom
+  **Mandatsgebiet Mitteleuropa**. Der Bund ist wirtschaftlich integriert,
+  politisch aber bewusst klein gehalten.
 - Die vier Mandatsmächte treten formal zurück, lassen aber den
   Verwaltungsapparat unverändert weiterlaufen. Das ist die kulturelle
   Grundtatsache der Spielwelt: **niemand ist mehr politisch zuständig, aber
