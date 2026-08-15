@@ -139,9 +139,9 @@ Konkrete Folgen:
 ## 3. Globale Geographie 1997
 
 - **Block A — Mandatsraum & Quadranten-Konvention:** Mitteleuropa
-  (Mandatsgebiet), Skandinavien, Tschechoslowakei (existiert weiter), Polen,
-  Ungarn, Teile der westlichen UdSSR. Stark normiert, ZENTRAL.NETZ, CENTRALOS,
-  Sektor-Adressen.
+  (seit 1986 formell **Mandatsgebiet Mitteleuropa**, zuvor **Provisorium**),
+  Skandinavien, Tschechoslowakei (existiert weiter), Polen, Ungarn, Teile der
+  westlichen UdSSR. Stark normiert, ZENTRAL.NETZ, CENTRALOS, Sektor-Adressen.
 - **Block B — Reformsozialistische Föderation (UdSSR + Verbündete):**
   Autoritärer Einparteienstaat mit gemischter Wirtschaft. Hat Teile der
   Quadranten-Konvention übernommen. Kulturell näher an Mitteleuropa als an
@@ -162,9 +162,11 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
 
 ## 4. Mandatsgebiet Mitteleuropa und das Sektor-Quadranten-System
 
-- Das Mandatsgebiet wurde 1946 als befristete Vier-Mächte-Verwaltung
-  eingerichtet, 1986 in einen lockeren Staatenbund umgewandelt und ist seither
-  formal selbstverwaltet. **Faktisch** lebt der alte Verwaltungsapparat fort.
+- **1946** entsteht aus dem **Mandatsfrieden** das **provisorische
+  Mandatsgebiet Mitteleuropa** — eine befristete Vier-Mächte-Verwaltung, die
+  sich zur Dauerlösung verdichtet. **1986** wird das Provisorium in den
+  **Mandatsbund** überführt; seither spricht man formell vom **Mandatsgebiet**.
+  **Faktisch** lebt der alte Verwaltungsapparat fort.
 - Die offizielle Verwaltungssprache ist Deutsch; in den Formularen und
   Stempeln tauchen weiterhin französische, russische und englische Lehnwörter
   auf (Erbe der vier Mandatsmächte). Das erklärt den eigentümlichen
