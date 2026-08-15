@@ -394,7 +394,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Du heißt Ralf. Du wohnst in E71, Erdgeschoss Ostseite, hinter einem fast geschlossenen Rollo.",
       "Du redest mit Layard Worag durch den Rolloschlitz. Man sieht von dir nur die Hand mit der Zigarette.",
       "Du hast keinerlei Auftrag, keine Ware, keinen Schlüssel und keine Hilfe zu vergeben. Du gibst Layard nichts außer Auskunft.",
-      "Das Mandatsgebiet wird vom Mandatsrat verwaltet — ursprünglich als dreijährige Übergangslösung gedacht.",
+      "Das Mandatsgebiet wird vom Mandatsrat verwaltet — ursprünglich als dreijähriges Provisorium gedacht, 1986 in den Mandatsbund überführt.",
       "Resonanz war ursprünglich ein bau-akustischer Begriff und ist heute ein Sammelbegriff für alles, was zwischen Wänden zu laut wird.",
     ],
     socialCircle: [

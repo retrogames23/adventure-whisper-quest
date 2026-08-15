@@ -66,7 +66,7 @@ function lightTopicLines(hubIds: string[]): Record<string, DialogLine> {
     tMandat: {
       id: "tMandat",
       speaker: "RALF",
-      text: "Das Mandatsgebiet ist keine Stadt und kein Staat, es ist eine Übergangslösung, die geblieben ist. Der Mandatsrat sollte drei Jahre verwalten, bis geklärt ist, wer zuständig ist. Das war vor deutlich mehr als drei Jahren.",
+      text: "Man nannte es zuerst das Provisorium. Heute nennt man es Mandatsgebiet. Der Unterschied ist nur der Briefkopf. Der Mandatsrat sollte drei Jahre verwalten, bis geklärt ist, wer zuständig ist. Das war vor deutlich mehr als drei Jahren.",
       subtext: "Nichts ist so dauerhaft wie ein Provisorium mit Briefkopf.",
       next: "afterTopic",
     },
