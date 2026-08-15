@@ -15,11 +15,6 @@ import {
   BUS_COUPLE_LABEL,
   type BusCoupleSpeaker,
 } from "@/game/busCoupleChatter";
-import { getBookReadState } from "@/game/bookReadingTime";
-import {
-  BUS_READER_GREETING,
-  BUS_READER_TOPICS,
-} from "@/game/busReaderDialog";
 import busCompositionA from "@/assets/bus/bus-passengers-a.jpg";
 import busCompositionB from "@/assets/bus/bus-passengers-b.jpg";
 import busCompositionC from "@/assets/bus/bus-passengers-c.jpg";
@@ -27,7 +22,6 @@ import busCompositionD from "@/assets/bus/bus-passengers-d.jpg";
 import busCompositionE from "@/assets/bus/bus-passengers-e.jpg";
 import busCompositionF from "@/assets/bus/bus-passengers-f.jpg";
 import busCompositionG from "@/assets/bus/bus-passengers-g.jpg";
-import busCompositionH from "@/assets/bus/bus-passengers-h.jpg";
 import busFrontA from "@/assets/bus/bus-front-a.png";
 import busFrontB from "@/assets/bus/bus-front-b.png";
 import busFrontC from "@/assets/bus/bus-front-c.png";
@@ -35,7 +29,6 @@ import busFrontD from "@/assets/bus/bus-front-d.png";
 import busFrontE from "@/assets/bus/bus-front-e.png";
 import busFrontF from "@/assets/bus/bus-front-f.png";
 import busFrontG from "@/assets/bus/bus-front-g.png";
-import busFrontH from "@/assets/bus/bus-front-h.png";
 import windowLoop from "@/assets/bus-window-loop.jpg";
 
 /** Fahrtdauer: acht echte Minuten. Jederzeit überspringbar. */
@@ -49,7 +42,6 @@ const BUS_COMPOSITIONS = {
   e: busCompositionE,
   f: busCompositionF,
   g: busCompositionG,
-  h: busCompositionH,
 };
 
 /**
@@ -65,7 +57,6 @@ const BUS_FOREGROUNDS = {
   e: busFrontE,
   f: busFrontF,
   g: busFrontG,
-  h: busFrontH,
 };
 
 function formatRemaining(ms: number) {
@@ -152,16 +143,6 @@ export function BusRide() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ride?.startedAt]);
 
-  /**
-   * Wie gut kennt Layard „Nicht vorgesehen“? Einmal je Fahrt ausgewertet,
-   * damit sich die Antwortmöglichkeiten mitten im Gespräch nicht ändern.
-   */
-  const readState = useMemo(
-    () => getBookReadState("nicht-vorgesehen"),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ride?.startedAt],
-  );
-
   const couple = passengers.find((entry) => !!entry.chatterAnchors);
   const coupleId = couple?.p.id ?? null;
   const chatterPaused = !!talking;
@@ -216,14 +197,13 @@ export function BusRide() {
 
   const openTalk = (p: BusPassenger) => {
     setTalking(p);
-    setLines([p.sprite === "reader" ? BUS_READER_GREETING[readState] : p.greeting]);
+    setLines([p.greeting]);
     setPath([]);
   };
 
   /** Themenliste an einem Pfad auflösen. */
   const topicsAt = (p: BusPassenger, at: string[]): BusTopic[] => {
-    let list: BusTopic[] =
-      p.sprite === "reader" ? BUS_READER_TOPICS[readState] : p.topics;
+    let list: BusTopic[] = p.topics;
     for (const id of at) {
       const node = list.find((t) => t.id === id);
       if (!node?.follow?.length) return [];

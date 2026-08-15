@@ -15,7 +15,7 @@ export {
 } from "./busPassengerDialogs";
 export type { BusPassenger, BusTopic, BusSpriteId } from "./busPassengerDialogs";
 
-export type BusCompositionId = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h";
+export type BusCompositionId = "a" | "b" | "c" | "d" | "e" | "f" | "g";
 
 /** Sichtbare Scheibe im Gesamtbild (Prozent) inklusive Scheibenform. */
 export interface BusWindowArea {
@@ -99,13 +99,6 @@ export const COMPOSITION_WINDOWS: Record<BusCompositionId, BusWindowArea[]> = {
   e: WINDOWS_BASE.b,
   f: WINDOWS_BASE.a,
   g: WINDOWS_BASE.b,
-  // Komposition h: leerer Bus, eine Leserin. Scheiben direkt am Bild
-  // ausgemessen; der freigestellte Vordergrund deckt die Rahmen ab,
-  // daher genügt hier das Rechteck ohne zusätzliche Kontur.
-  h: [
-    { left: 2.83, top: 9.9, width: 19.33, height: 39.06, clip: "none" },
-    { left: 79.0, top: 9.9, width: 18.68, height: 38.93, clip: "none" },
-  ],
 };
 
 export interface BusCompositionPassenger {
@@ -166,13 +159,11 @@ const COMPOSITION_SLOTS: Record<
     { sprite: "youth", hotspot: { x: 47, y: 40, w: 9, h: 27 } },
     { sprite: "elder", hotspot: { x: 60, y: 41, w: 18, h: 49 } },
   ],
-  // Nur die Leserin — der übrige Bus ist leer.
-  h: [{ sprite: "reader", hotspot: { x: 18, y: 34, w: 21, h: 62 } }],
 };
 
 /** Wählt eine vollständige Bildkomposition und genau eine passende Persona je Figur. */
 export function pickBusComposition(): BusCompositionSelection {
-  const ids: BusCompositionId[] = ["a", "b", "c", "d", "e", "f", "g", "h"];
+  const ids: BusCompositionId[] = ["a", "b", "c", "d", "e", "f", "g"];
   const id = ids[Math.floor(Math.random() * ids.length)];
   const used = new Set<string>();
   const passengers = COMPOSITION_SLOTS[id].map(({ sprite, hotspot, chatterAnchors }) => {
