@@ -21,6 +21,7 @@ import type {
   InventoryItem,
   InventoryItemId,
   KnowledgeFlag,
+  DisclosureMap,
   SceneId,
   StoryFlag,
 } from "./types";
