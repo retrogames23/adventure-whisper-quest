@@ -94,7 +94,8 @@ export type InventoryItemId =
   | "buchOrdnungEigentum"
   | "buchDrehendeDreieck"
   | "buchMandatsdeutsch"
-  | "buchLobDesVorgangs";
+  | "buchLobDesVorgangs"
+  | "buchNichtVorgesehen";
 
 export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
 

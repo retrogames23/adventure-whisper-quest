@@ -101,6 +101,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "buchLobDesVorgangs",
     itemName: "Lob des Vorgangs (Leihbuch)",
   },
+  {
+    id: "nicht-vorgesehen",
+    title: "Nicht vorgesehen",
+    author: "Christa Wolf",
+    year: "1987",
+    blurb:
+      "Ein Kurzroman: Eine Verwaltungsangestellte soll vierzig Tagebuchhefte aus einem Nachlass einstufen. Das Formblatt kennt drei Felder — verwertbar, zuzustellen, zu vernichten. Ein viertes gibt es nicht.",
+    itemId: "buchNichtVorgesehen",
+    itemName: "Nicht vorgesehen (Leihbuch)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */
