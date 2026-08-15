@@ -67,11 +67,15 @@ Konkrete Folgen:
   kann. Seither gelten die Nationalstaaten als ungeeignet, Europa zu ordnen.
 - 1946 wird Mitteleuropa unter eine **gemeinsame vier-Mächte-Verwaltung**
   gestellt: USA, Vereinigtes Königreich, Frankreich, UdSSR. Anders als
-  historisch entsteht **keine harte Ost-West-Teilung**, sondern ein einziges
-  **Mandatsgebiet Mitteleuropa**, das Deutschland, Österreich, Teile
-  Tschechiens und Polens umfasst.
+  historisch entsteht **keine harte Ost-West-Teilung**, sondern ein
+  **provisorisches Mandatsgebiet Mitteleuropa** — ausgedacht für wenige Jahre,
+  doch schon im ersten Jahrzehnt zur Gewohnheit geworden.
+- Der **Mandatsfrieden** von 1946 bezeichnet den Verwaltungsakt und die
+  Verhandlungslösung, mit der der Krieg endet und das Provisorium beginnt.
+  Er wird später retrospektiv benannt, nicht proklamiert.
 
-### 1948–1965 — Die lange Tauwetter-Periode
+### 1948–1965 — Provisorium: Die lange Tauwetter-Periode
+
 - Statt Kalter Krieg: **„Korrespondenz"** — ein semi-offizieller Austausch
   zwischen den Blöcken auf wissenschaftlicher, verwaltungstechnischer und
   kultureller Ebene. Diplomaten, Statistiker, Stadtplaner reisen routiniert
