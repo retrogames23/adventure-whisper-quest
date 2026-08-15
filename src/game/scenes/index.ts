@@ -15,6 +15,7 @@ import { leitstelleE67Scenes } from "./leitstelleE67";
 import { kellerE67Scenes } from "./kellerE67";
 import { pubScenes } from "./pub";
 import { windowNicheScenes } from "./windowNiche";
+import { zentralverwaltungScenes } from "./zentralverwaltung";
 
 export const scenes: Record<string, Scene> = {
   ...apartmentAct1Scenes,
@@ -33,4 +34,5 @@ export const scenes: Record<string, Scene> = {
   ...kellerE67Scenes,
   ...pubScenes,
   ...windowNicheScenes,
+  ...zentralverwaltungScenes,
 };
