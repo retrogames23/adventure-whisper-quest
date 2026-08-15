@@ -192,6 +192,8 @@ interface PersistedState {
   scene: SceneId;
   flags: StoryFlag[];
   knowledge: KnowledgeFlag[];
+  /** Offenlegen/Verschweigen je Wissensstück (ältere Saves haben es nicht). */
+  disclosures?: DisclosureMap;
   inventory: InventoryItem[];
   resonance: number;
   ending: boolean;
@@ -982,6 +984,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         scene: sceneRef.current,
         flags: Array.from(flagsRef.current),
         knowledge: Array.from(knowledgeRef.current),
+        disclosures: disclosuresRef.current,
         inventory: inventoryRef.current,
         resonance: resonanceRef.current,
         ending: endingRef.current,
@@ -1037,6 +1040,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setScene(persisted.scene);
     setFlags(new Set(persisted.flags));
     setKnowledge(new Set(persisted.knowledge));
+    const restoredDisclosures = persisted.disclosures ?? {};
+    disclosuresRef.current = restoredDisclosures;
+    setDisclosures(restoredDisclosures);
     setInventory(persisted.inventory);
     setResonance(persisted.resonance);
     setEnding(persisted.ending);
