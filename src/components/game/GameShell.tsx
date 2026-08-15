@@ -1,5 +1,6 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { GameProvider } from "@/game/GameContext";
+import { addBookReadingMs } from "@/game/bookReadingTime";
 import { getBook } from "@/game/books";
 import { getLibraryReadableBook } from "@/game/books/libraryBooks";
 import { InventoryDragProvider } from "@/game/InventoryDragContext";
@@ -187,6 +188,14 @@ function GameStage({
     ? (getBook(currentBookId) ?? getLibraryReadableBook(currentBookId))
     : null;
   const dev = useDevMode();
+
+  // Anzeigedauer je Buch mitschreiben — NPCs (z. B. die Leserin im Bus)
+  // unterscheiden danach, ob Layard nur reingeschaut oder gelesen hat.
+  useEffect(() => {
+    if (!bookOpen || !currentBookId) return;
+    const started = Date.now();
+    return () => addBookReadingMs(currentBookId, Date.now() - started);
+  }, [bookOpen, currentBookId]);
 
   const handleOpenPause = useCallback(() => setPauseOpen(true), [setPauseOpen]);
   const handleOpenHelp = useCallback(
