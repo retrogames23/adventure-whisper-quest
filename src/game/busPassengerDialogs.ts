@@ -9,7 +9,13 @@
  * Anspielungen auf das Schmerz-Radio.
  */
 
-export type BusSpriteId = "elder" | "woman" | "youth" | "worker" | "couple";
+export type BusSpriteId =
+  | "elder"
+  | "woman"
+  | "youth"
+  | "worker"
+  | "couple"
+  | "reader";
 
 export interface BusTopic {
   id: string;
