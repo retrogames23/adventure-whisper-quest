@@ -90,7 +90,7 @@ Konkrete Folgen:
   dritter Pol.
 - Die Entkolonialisierung verläuft langsamer, aber weniger blutig.
 
-### 1965–1980 — Die Konvergenz
+### 1965–1980 — Provisorium: Die Konvergenz
 - Westeuropäische Sozialdemokratien und osteuropäische Reformsozialisten
   treffen sich praktisch in der Mitte. Es entsteht ein Verwaltungs-Esperanto:
   gemeinsame Normen für Statistik, Sozialversicherung, Stadtplanung,
