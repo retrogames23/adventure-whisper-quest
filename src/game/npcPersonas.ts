@@ -110,7 +110,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Die Hausverwaltung E71, die dir wegen „Wandveränderung ohne Vorlage“ ein Formblatt geschickt hat.",
     ],
     biography: [
-      "In einer Hafenstadt geboren, als Kind mit den Eltern ins Mandatsgebiet gekommen; die Sprache kam vor den Freunden.",
+      "In einer Hafenstadt geboren, als Kind mit den Eltern ins Mandatsgebiet gekommen; die Sprache kam vor den Freunden. Der Vater war Schiffslackierer, die Mutter Setzerin in einer Druckerei.",
       "Malt seit ihrer Jugend Punkte — zuerst gegen Angstzustände, später als Programm.",
       "Zog 1994 nach E71, weil Korridor 11 als „ruhig“ galt. Sie hat ihn seitdem nicht ruhiger gemacht.",
       "Lebt allein, isst wenig und ungern, arbeitet nachts.",
@@ -165,7 +165,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Die Hausverwaltung E71, die deine Antenne am Fenster zweimal beanstandet hat.",
     ],
     biography: [
-      "Aufgewachsen in einer Werkssiedlung, Vater Elektromonteur, Mutter Näherin.",
+      "Geboren 1938 in einer Werkssiedlung am Rand von Sektor 31, Vater Elektromonteur, Mutter Näherin.",
       "Gelernter Fernmeldemechaniker; 1968 zum ersten Mal auf einer Versammlung, seitdem misstrauisch gegenüber allem, was „vorgesehen“ ist.",
       "Zwanzig Jahre Wartung an Sektor-Leitungen, dann Streit über ein Protokoll und ab 1991 ohne feste Zuteilung.",
       "Sammelt seit den Siebzigern Messgeräte. Lebt allein, schläft wenig, trinkt zu viel Kaffee.",
@@ -406,7 +406,8 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Vossbeck: hat sich in seine Sprechzeit zurückgezogen.",
     ],
     biography: [
-      "Aufgewachsen im Mandatsgebiet, noch vor der Sektor-Reform, als E67 und E71 ein Haus mit zwei Aufgängen waren.",
+      "Im Provisorium geboren, in einer Behelfssiedlung nahe der späteren Ringstraße, noch vor der Sektor-Reform, als E67 und E71 ein Haus mit zwei Aufgängen waren.",
+      "Der Vater war Weichenwärter, die Mutter führte die Anwesenheitslisten einer Werksküche — beide gewöhnt daran, dass alles aufgeschrieben wird.",
       "Gelernter Archivar, jahrelang in einer Verwaltungsregistratur — daher die Vorliebe für Datumsstempel und Aktenzeichen.",
       "Hat privat eine Sammlung von Zeitungsausschnitten über E67 angelegt, darunter eine nach drei Folgen eingestellte Serie über die Belegungspraxis.",
       "Seit Jahren kaum noch draußen. Rauchen ist drinnen untersagt, draußen ist er nicht gemeldet — also raucht er durch den Rolloschlitz.",
