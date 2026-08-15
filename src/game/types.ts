@@ -645,7 +645,9 @@ export interface DialogLine {
     | "RALF"
     | "HERBERT"
     | "SETSUKO"
-    | "WALTER";
+    | "WALTER"
+    | "ZVSEMPFANG"
+    | "SASSE";
   text: string;
   /** subtext appears only when Schmerz-Radio active */
   subtext?: string;
@@ -689,6 +691,9 @@ export interface GameApi {
   hasFlag: (flag: StoryFlag) => boolean;
   setKnowledge: (k: KnowledgeFlag) => void;
   hasKnowledge: (k: KnowledgeFlag) => boolean;
+  /** Merkt, ob Layard ein Wissensstück offengelegt oder verschwiegen hat. */
+  setDisclosure: (k: KnowledgeFlag, choice: DisclosureChoice) => void;
+  getDisclosure: (k: KnowledgeFlag) => DisclosureChoice | null;
   addItem: (item: InventoryItem) => void;
   hasItem: (id: InventoryItemId) => boolean;
   /** Anzahl eines Items im Inventar (0, wenn nicht vorhanden). */
