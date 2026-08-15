@@ -51,9 +51,9 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     title: "Wie das Mandatsgebiet entstanden ist",
     body: [
       "Mitteleuropa hat eine lange, oft umständliche Geschichte. Der Almanach beschränkt sich auf die Linien, die **bis heute spürbar** sind, wenn Sie morgens Ihr Gebäude verlassen.",
-      "Aus den Kriegen der ersten Jahrhunderthälfte ging Mitteleuropa **erschöpft** hervor. An die Stelle der alten Nationalstaaten trat 1946 eine **gemeinsame Verwaltung der vier Schutzmächte** — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —, der **Mandatsrat**. Sein Auftrag war zunächst der Wiederaufbau, dann die Verstetigung.",
+      "Aus den Kriegen der ersten Jahrhunderthälfte ging Mitteleuropa **erschöpft** hervor. An die Stelle der alten Nationalstaaten trat 1946 eine **gemeinsame Verwaltung der vier Schutzmächte** — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —, der **Mandatsrat**. Sein Auftrag war zunächst der Wiederaufbau; was als **Provisorium** gedacht war, wurde durch Praxis zur Verstetigung.",
       "In den Jahren 1948 bis 1953 wurden die ersten **Quadranten** in den Trümmerfeldern errichtet, von Anfang an nach einem gemeinsamen geometrischen Raster. Wer heute durch einen Sektor geht, geht über Pläne, die in jenen Jahren gezeichnet wurden.",
-      "Es ist eine Eigenart des Mandatsgebiets, dass es **kein Nationalstaat** ist und nie einer geworden ist. Das wirkt für Reisende ungewohnt; für Bewohner ist es selbstverständlich. Mehr dazu im Kapitel *„Wo Sie wohnen“.*",
+      "Es ist eine Eigenart des heutigen **Mandatsgebiets**, dass es **kein Nationalstaat** ist und nie einer geworden ist. Das wirkt für Reisende ungewohnt; für Bewohner ist es selbstverständlich. Mehr dazu im Kapitel *„Wo Sie wohnen“.*",
     ],
   },
   {
@@ -89,8 +89,8 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     shortTitle: "1980–1996",
     title: "Jahrzehnte der Verstetigung (1980–1996)",
     body: [
-      "Die 80er Jahre verliefen im Mandatsgebiet **ohne große Erschütterungen**. Manche bezeichnen diese Zeit als Stillstand, andere als die ersten Jahre echter Stabilität — der Almanach möchte das nicht entscheiden.",
-      "**1986** wurde das Mandatsgebiet in einen **lockeren Staatenbund** umgewandelt. Der Mandatsrat zog sich aus der laufenden Verwaltung zurück; sein Apparat blieb unverändert in Funktion. Es bestand kein Anlass, ihn zu ändern.",
+      "Die 80er Jahre verliefen im **Provisorium** **ohne große Erschütterungen**. Manche bezeichnen diese Zeit als Stillstand, andere als die ersten Jahre echter Stabilität — der Almanach möchte das nicht entscheiden.",
+      "**1986** wurde das Provisorium in den **Mandatsbund** überführt; seither spricht man formell vom **Mandatsgebiet**. Der Mandatsrat zog sich aus der laufenden Verwaltung zurück; sein Apparat blieb unverändert in Funktion. Es bestand kein Anlass, ihn zu ändern.",
       "**1989** ging das **ZENTRAL.NETZ** in Betrieb, ein staatlich kuratiertes Verzeichnis- und Botensystem auf Terminalstationen. Es löste die letzten verbliebenen Telex-Strecken ab. Das Betriebssystem heißt **CENTRALOS**.",
       "**1996 — Sektor-Reform.** Quadranten werden zu Sektoren zusammengefasst. Die alte Notrufnummer 002 wird abgeschafft (vgl. E67-Handbuch §3 Abs. 3). Das Bewohner-Kompendium erscheint in seiner 7. revidierten Fassung.",
       "*„Wir leben in einer Welt, in der wenig passieren muss. Manche finden das tröstlich. Andere weniger.“*",

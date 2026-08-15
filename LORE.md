@@ -67,11 +67,15 @@ Konkrete Folgen:
   kann. Seither gelten die Nationalstaaten als ungeeignet, Europa zu ordnen.
 - 1946 wird Mitteleuropa unter eine **gemeinsame vier-Mächte-Verwaltung**
   gestellt: USA, Vereinigtes Königreich, Frankreich, UdSSR. Anders als
-  historisch entsteht **keine harte Ost-West-Teilung**, sondern ein einziges
-  **Mandatsgebiet Mitteleuropa**, das Deutschland, Österreich, Teile
-  Tschechiens und Polens umfasst.
+  historisch entsteht **keine harte Ost-West-Teilung**, sondern ein
+  **provisorisches Mandatsgebiet Mitteleuropa** — ausgedacht für wenige Jahre,
+  doch schon im ersten Jahrzehnt zur Gewohnheit geworden.
+- Der **Mandatsfrieden** von 1946 bezeichnet den Verwaltungsakt und die
+  Verhandlungslösung, mit der der Krieg endet und das Provisorium beginnt.
+  Er wird später retrospektiv benannt, nicht proklamiert.
 
-### 1948–1965 — Die lange Tauwetter-Periode
+### 1948–1965 — Provisorium: Die lange Tauwetter-Periode
+
 - Statt Kalter Krieg: **„Korrespondenz"** — ein semi-offizieller Austausch
   zwischen den Blöcken auf wissenschaftlicher, verwaltungstechnischer und
   kultureller Ebene. Diplomaten, Statistiker, Stadtplaner reisen routiniert
@@ -86,7 +90,7 @@ Konkrete Folgen:
   dritter Pol.
 - Die Entkolonialisierung verläuft langsamer, aber weniger blutig.
 
-### 1965–1980 — Die Konvergenz
+### 1965–1980 — Provisorium: Die Konvergenz
 - Westeuropäische Sozialdemokratien und osteuropäische Reformsozialisten
   treffen sich praktisch in der Mitte. Es entsteht ein Verwaltungs-Esperanto:
   gemeinsame Normen für Statistik, Sozialversicherung, Stadtplanung,
@@ -94,7 +98,7 @@ Konkrete Folgen:
 - **1971 — Die Quadranten-Konvention.** Ein technokratisches Abkommen zwischen
   rund 30 Staaten beidseits des alten Eisernen Vorhangs vereinheitlicht
   Verwaltungsstrukturen. Adressen werden zu Koordinaten, Behörden zu
-  nummerierten Sektoren. Das Modell wird im Mandatsgebiet, in Skandinavien,
+  nummerierten Sektoren. Das Modell wird im **Provisorium**, in Skandinavien,
   in der Tschechoslowakei und in Teilen der UdSSR umgesetzt.
 - Die USA bleiben außen vor und entwickeln eigene Standards. Sie sind in
   dieser Welt der **exotische Pol**, nicht das globale Vorbild. Konsumkultur
@@ -103,11 +107,13 @@ Konkrete Folgen:
 - Konsumkultur entwickelt sich, aber gedämpfter: kein Reagan-Boom, kein
   Thatcher-Schock.
 
-### 1980–1990 — Stillstand als Stabilität
+### 1980–1990 — Vom Provisorium zum Mandatsbund
+
 - Keine Wende, kein Mauerfall — weil es keine Mauer in der scharfen Form
-  gegeben hat. Das Mandatsgebiet wird 1986 in einen lockeren Staatenbund
-  umgewandelt, der wirtschaftlich integriert, politisch aber bewusst klein
-  gehalten ist.
+  gegeben hat. **1986** wird das Provisorium in einen lockeren Staatenbund
+  überführt, den **Mandatsbund**; seither spricht man formell vom
+  **Mandatsgebiet Mitteleuropa**. Der Bund ist wirtschaftlich integriert,
+  politisch aber bewusst klein gehalten.
 - Die vier Mandatsmächte treten formal zurück, lassen aber den
   Verwaltungsapparat unverändert weiterlaufen. Das ist die kulturelle
   Grundtatsache der Spielwelt: **niemand ist mehr politisch zuständig, aber
@@ -133,9 +139,9 @@ Konkrete Folgen:
 ## 3. Globale Geographie 1997
 
 - **Block A — Mandatsraum & Quadranten-Konvention:** Mitteleuropa
-  (Mandatsgebiet), Skandinavien, Tschechoslowakei (existiert weiter), Polen,
-  Ungarn, Teile der westlichen UdSSR. Stark normiert, ZENTRAL.NETZ, CENTRALOS,
-  Sektor-Adressen.
+  (seit 1986 formell **Mandatsgebiet Mitteleuropa**, zuvor **Provisorium**),
+  Skandinavien, Tschechoslowakei (existiert weiter), Polen, Ungarn, Teile der
+  westlichen UdSSR. Stark normiert, ZENTRAL.NETZ, CENTRALOS, Sektor-Adressen.
 - **Block B — Reformsozialistische Föderation (UdSSR + Verbündete):**
   Autoritärer Einparteienstaat mit gemischter Wirtschaft. Hat Teile der
   Quadranten-Konvention übernommen. Kulturell näher an Mitteleuropa als an
@@ -156,9 +162,11 @@ gesehen hat. Das ist die Perspektive, aus der die Welt im Spiel sichtbar wird.
 
 ## 4. Mandatsgebiet Mitteleuropa und das Sektor-Quadranten-System
 
-- Das Mandatsgebiet wurde 1946 als befristete Vier-Mächte-Verwaltung
-  eingerichtet, 1986 in einen lockeren Staatenbund umgewandelt und ist seither
-  formal selbstverwaltet. **Faktisch** lebt der alte Verwaltungsapparat fort.
+- **1946** entsteht aus dem **Mandatsfrieden** das **provisorische
+  Mandatsgebiet Mitteleuropa** — eine befristete Vier-Mächte-Verwaltung, die
+  sich zur Dauerlösung verdichtet. **1986** wird das Provisorium in den
+  **Mandatsbund** überführt; seither spricht man formell vom **Mandatsgebiet**.
+  **Faktisch** lebt der alte Verwaltungsapparat fort.
 - Die offizielle Verwaltungssprache ist Deutsch; in den Formularen und
   Stempeln tauchen weiterhin französische, russische und englische Lehnwörter
   auf (Erbe der vier Mandatsmächte). Das erklärt den eigentümlichen
