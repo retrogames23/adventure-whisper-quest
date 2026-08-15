@@ -51,9 +51,9 @@ export const ALMANACH_CHAPTERS: AlmanachChapter[] = [
     title: "Wie das Mandatsgebiet entstanden ist",
     body: [
       "Mitteleuropa hat eine lange, oft umständliche Geschichte. Der Almanach beschränkt sich auf die Linien, die **bis heute spürbar** sind, wenn Sie morgens Ihr Gebäude verlassen.",
-      "Aus den Kriegen der ersten Jahrhunderthälfte ging Mitteleuropa **erschöpft** hervor. An die Stelle der alten Nationalstaaten trat 1946 eine **gemeinsame Verwaltung der vier Schutzmächte** — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —, der **Mandatsrat**. Sein Auftrag war zunächst der Wiederaufbau, dann die Verstetigung.",
+      "Aus den Kriegen der ersten Jahrhunderthälfte ging Mitteleuropa **erschöpft** hervor. An die Stelle der alten Nationalstaaten trat 1946 eine **gemeinsame Verwaltung der vier Schutzmächte** — Vereinigte Staaten, Vereinigtes Königreich, Frankreich und Sowjetunion —, der **Mandatsrat**. Sein Auftrag war zunächst der Wiederaufbau; was als **Provisorium** gedacht war, wurde durch Praxis zur Verstetigung.",
       "In den Jahren 1948 bis 1953 wurden die ersten **Quadranten** in den Trümmerfeldern errichtet, von Anfang an nach einem gemeinsamen geometrischen Raster. Wer heute durch einen Sektor geht, geht über Pläne, die in jenen Jahren gezeichnet wurden.",
-      "Es ist eine Eigenart des Mandatsgebiets, dass es **kein Nationalstaat** ist und nie einer geworden ist. Das wirkt für Reisende ungewohnt; für Bewohner ist es selbstverständlich. Mehr dazu im Kapitel *„Wo Sie wohnen“.*",
+      "Es ist eine Eigenart des heutigen **Mandatsgebiets**, dass es **kein Nationalstaat** ist und nie einer geworden ist. Das wirkt für Reisende ungewohnt; für Bewohner ist es selbstverständlich. Mehr dazu im Kapitel *„Wo Sie wohnen“.*",
     ],
   },
   {
