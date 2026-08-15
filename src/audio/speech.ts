@@ -33,7 +33,9 @@ type Speaker =
   | "RALF"
   | "HERBERT"
   | "SETSUKO"
-  | "WALTER";
+  | "WALTER"
+  | "ZVSEMPFANG"
+  | "SASSE";
 
 
 interface VoiceProfile {
@@ -241,6 +243,18 @@ const PROFILES: Record<Speaker, VoiceProfile> = {
     voiceId: "onwK4e9ZLuTAKqWW03F9", // Daniel
     speed: 1.0,
     settings: { stability: 0.45, similarity_boost: 0.8, style: 0.35, use_speaker_boost: true },
+  },
+  ZVSEMPFANG: {
+    // Empfang der Zentralverwaltungsstelle — knapp, geübt, unbeteiligt.
+    voiceId: "nPczCjzI2devNBz1zQrb", // Brian
+    speed: 0.98,
+    settings: { stability: 0.75, similarity_boost: 0.8, style: 0.05, use_speaker_boost: true },
+  },
+  SASSE: {
+    // Sachbearbeiterin 5011, 55 — freundlich, sehr korrekt, ruhig.
+    voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte
+    speed: 0.92,
+    settings: { stability: 0.7, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true },
   },
 };
 

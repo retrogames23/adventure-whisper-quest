@@ -31,7 +31,11 @@ export type SceneId =
   | "pubToilet"
   | "pubVestibule"
   | "commonRoomE71"
-  | "windowNiche";
+  | "windowNiche"
+  // Zentralverwaltungsstelle Sektor 28 (Akt II)
+  | "zvsExterior"
+  | "zvsForum"
+  | "zvsRoom5011";
 
 export type InventoryItemId =
   | "protocol"
@@ -97,7 +101,23 @@ export type InventoryItemId =
   | "buchLobDesVorgangs"
   | "buchNichtVorgesehen";
 
-export type KnowledgeFlag = "responsibilityE67" | "radioOrigin" | "wordControl";
+export type KnowledgeFlag =
+  | "responsibilityE67"
+  | "radioOrigin"
+  | "wordControl"
+  // Wissens-Register zur Resonanzüberlastung (Akt II)
+  | "collapse2615"
+  | "protocolContent"
+  | "walterBearing"
+  | "carrierTruth"
+  | "e71Denial"
+  | "miraNetwork"
+  | "gfaContact"
+  | "zeroIsInfinity";
+
+/** Hat Layard ein Wissensstück offengelegt oder verschwiegen? */
+export type DisclosureChoice = "shared" | "withheld";
+export type DisclosureMap = Partial<Record<KnowledgeFlag, DisclosureChoice>>;
 
 /** Identifier einer narrativen Cutscene. */
 export type CutsceneId =
@@ -455,7 +475,16 @@ export type StoryFlag =
   | "e71QuizQ2Right"
   | "e71QuizQ3Right"
   | "e71QuizQ4Right"
-  | "e71QuizQ5Right";
+  | "e71QuizQ5Right"
+  // ── Zentralverwaltungsstelle Sektor 28 (Akt II) ──
+  /** Layard steht zum ersten Mal auf dem Vorplatz der Zentralverwaltung. */
+  | "enteredZvs"
+  /** Der Empfang hat ihn an Zimmer 5011 verwiesen. */
+  | "zvsSentTo5011"
+  /** Sachbearbeiterin 5011 kennengelernt. */
+  | "metSasse"
+  /** Die Befragung in 5011 ist einmal vollständig durchlaufen. */
+  | "zvsIntakeDone";
 
 export interface InventoryItem {
   id: InventoryItemId;
@@ -616,7 +645,9 @@ export interface DialogLine {
     | "RALF"
     | "HERBERT"
     | "SETSUKO"
-    | "WALTER";
+    | "WALTER"
+    | "ZVSEMPFANG"
+    | "SASSE";
   text: string;
   /** subtext appears only when Schmerz-Radio active */
   subtext?: string;
@@ -660,6 +691,9 @@ export interface GameApi {
   hasFlag: (flag: StoryFlag) => boolean;
   setKnowledge: (k: KnowledgeFlag) => void;
   hasKnowledge: (k: KnowledgeFlag) => boolean;
+  /** Merkt, ob Layard ein Wissensstück offengelegt oder verschwiegen hat. */
+  setDisclosure: (k: KnowledgeFlag, choice: DisclosureChoice) => void;
+  getDisclosure: (k: KnowledgeFlag) => DisclosureChoice | null;
   addItem: (item: InventoryItem) => void;
   hasItem: (id: InventoryItemId) => boolean;
   /** Anzahl eines Items im Inventar (0, wenn nicht vorhanden). */

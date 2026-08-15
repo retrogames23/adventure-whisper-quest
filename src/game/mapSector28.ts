@@ -75,8 +75,8 @@ export const sector28Places: MapPlace[] = [
     kicker: "Abgabe · Vorlage · Vermerk · 2,4 km",
     x: 70,
     y: 7,
-    travelPending: true,
     farAway: true,
+    travelTo: "zvsExterior",
     text: "Der lange Bau ganz im Norden, jenseits der Grünbrache und der Magistrale. Kolonnade, drei Eingänge, von denen zwei geschlossen sind. Rund zweieinhalb Kilometer von den Ergänzungsbauten — zu Fuß fünfunddreißig Minuten, mit der Buslinie 28 rund acht. Hier laufen alle Vermerke des Sektors zusammen. Abgabe von Hinweisen ausschließlich hier, in Schriftform, mit Paraphe.",
   },
   {

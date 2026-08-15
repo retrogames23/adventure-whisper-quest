@@ -21,6 +21,7 @@ import type {
   InventoryItem,
   InventoryItemId,
   KnowledgeFlag,
+  DisclosureMap,
   SceneId,
   StoryFlag,
 } from "./types";
@@ -191,6 +192,8 @@ interface PersistedState {
   scene: SceneId;
   flags: StoryFlag[];
   knowledge: KnowledgeFlag[];
+  /** Offenlegen/Verschweigen je Wissensstück (ältere Saves haben es nicht). */
+  disclosures?: DisclosureMap;
   inventory: InventoryItem[];
   resonance: number;
   ending: boolean;
@@ -231,6 +234,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [knowledge, setKnowledge] = useState<Set<KnowledgeFlag>>(
     () => new Set(),
   );
+  // Offenlegen/Verschweigen pro Wissensstück. Wird wie `knowledge`
+  // persistiert und ist die Grundlage für spätere Entscheidungen.
+  const [disclosures, setDisclosures] = useState<DisclosureMap>({});
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [caption, setCaption] = useState<string | null>(null);
   const [textOverlay, setTextOverlay] = useState<string[] | null>(null);
@@ -353,6 +359,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   inventoryRef.current = inventory;
   const knowledgeRef = useRef(knowledge);
   knowledgeRef.current = knowledge;
+  const disclosuresRef = useRef(disclosures);
+  disclosuresRef.current = disclosures;
   const radioActiveRef = useRef(radioActive);
   radioActiveRef.current = radioActive;
   const sceneRef = useRef(scene);
@@ -395,6 +403,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
           return n;
         }),
       hasKnowledge: (k) => knowledgeRef.current.has(k),
+      setDisclosure: (k, choice) => {
+        const next = { ...disclosuresRef.current, [k]: choice };
+        disclosuresRef.current = next;
+        setDisclosures(next);
+      },
+      getDisclosure: (k) => disclosuresRef.current[k] ?? null,
       addItem: (item) =>
         setInventory((prev) =>
           prev.find((i) => i.id === item.id)
@@ -970,6 +984,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         scene: sceneRef.current,
         flags: Array.from(flagsRef.current),
         knowledge: Array.from(knowledgeRef.current),
+        disclosures: disclosuresRef.current,
         inventory: inventoryRef.current,
         resonance: resonanceRef.current,
         ending: endingRef.current,
@@ -1025,6 +1040,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setScene(persisted.scene);
     setFlags(new Set(persisted.flags));
     setKnowledge(new Set(persisted.knowledge));
+    const restoredDisclosures = persisted.disclosures ?? {};
+    disclosuresRef.current = restoredDisclosures;
+    setDisclosures(restoredDisclosures);
     setInventory(persisted.inventory);
     setResonance(persisted.resonance);
     setEnding(persisted.ending);
