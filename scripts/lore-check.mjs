@@ -59,6 +59,10 @@ function buildPromptFor(persona) {
   });
 }
 
+// Maschinen-Personas (z. B. MARV-9) haben keinen Geburtsort und keine Eltern.
+// Für sie gelten Bau-Ort und Erbauer als Äquivalent.
+const isMachine = (p) => /Baujahr/i.test(p.age ?? "");
+
 const STATIC_CHECKS = [
   {
     name: "hardFacts vorhanden",
@@ -83,12 +87,20 @@ const STATIC_CHECKS = [
   {
     name: "Biografie nennt einen Geburtsort",
     fn: (p) =>
-      (p.biography ?? []).some((line) => /geboren/i.test(line)),
+      (p.biography ?? []).some((line) =>
+        isMachine(p)
+          ? /gebaut|zusammengel(ö|oe)tet|Werkstatt|montiert/i.test(line)
+          : /geboren/i.test(line),
+      ),
   },
   {
     name: "Biografie nennt mind. einen Elternteil",
     fn: (p) =>
-      (p.biography ?? []).some((line) => /Vater|Mutter/i.test(line)),
+      (p.biography ?? []).some((line) =>
+        isMachine(p)
+          ? /Erbauer|Techniker|Pjotr|gebaut/i.test(line)
+          : /Vater|Mutter/i.test(line),
+      ),
   },
 ];
 
