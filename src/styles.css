@@ -1043,11 +1043,11 @@ a:focus-visible,
 /* Blinkt den vorhandenen Unterstrich im Bild, indem er kurz abgedeckt wird */
 .apt-cursor {
   position: absolute;
-  left: 30.9%;
-  top: 50.1%;
-  width: 1.5%;
-  height: 0.9%;
-  background: rgb(20, 36, 26);
+  left: 30.7%;
+  top: 49.3%;
+  width: 1%;
+  height: 0.8%;
+  background: rgb(21, 52, 32);
   animation: apt-cursor-blink 1.1s steps(1) infinite;
 }
 @keyframes apt-cursor-blink {
