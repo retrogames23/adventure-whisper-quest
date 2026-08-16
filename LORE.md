@@ -328,6 +328,25 @@ Schmerz-Radio ist eine Randnische *darin*, nicht seine Quelle.
   sonst vergessen würde, und schützt vor Willkür, indem er Willkür langsam
   macht. Diese Haltung wird im Spiel ernst genommen, nicht parodiert.
 
+### Vorgangsknoten der Hausverwaltung
+
+Jedes größere Wohngebäude hat einen **Vorgangsknoten** — eine kleine
+Datenfluss-Anlage im Technikraum, meist ein Gitter aus wenigen Dutzend Knoten.
+Sie ist keine Überwachungstechnik und misst nichts am Menschen. Sie hält
+ausschließlich **Verwaltungsvorgänge** des Hauses fest: Störmeldungen,
+Ruhezeitbeschwerden, Türsiegel und Belegungen, weitergeleitete Krankmeldungen,
+Wartungssperren des Aufzugs — jeweils mit Eingang, Bearbeiter-Paraphe und
+Abschlussvermerk.
+
+Der Knoten ist also banal und genau deshalb brisant: Wer ihn liest, sieht nicht
+ein Komplott, sondern die **Statistik des Wegschreibens** — wie oft ein Haus
+gemeldet hat und wie oft dieselbe Paraphe darunter »nicht vorgesehen« gesetzt
+hat. Ein Nadeldrucker gibt den Bestand als **Vorgangsstreifen** auf
+Endlospapier aus; erst dieses Papier ist bei einer Zentralverwaltungsstelle
+vorlegbar. Ein **Löschlauf** vernichtet den Bestand unwiderruflich: Er löscht
+die Belege, aber auch die Namen derer, die im Bestand stehen — und löst
+zwangsläufig den Brandalarm im Technikraum aus.
+
 ## 7. Skurrile Geräte und Subkulturen
 
 ### Schmerz-Radio
