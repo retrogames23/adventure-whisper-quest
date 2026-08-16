@@ -1,6 +1,38 @@
 import type { DialogChoice, DialogTree, GameApi } from "../types";
 
 /**
+ * Mira wird nicht durch einen einzigen Satz abgeschaltet, sondern kühlt in
+ * Stufen ab: Stufe 1 (miraDistance1) = thematischer Rückzug, Stufe 2
+ * (miraDistance2) = kühler Ton, Stufe 3 (miraSystemic) = sie redet nicht mehr
+ * über ihre Sache. Auch Stufe 3 ist KEIN Dead End: Dienstliches — vor allem
+ * die Störungsmeldung zum Wohnungsapparat — bleibt immer ansprechbar.
+ */
+export function bumpMiraDistance(api: GameApi): void {
+  if (!api.hasFlag("miraDistance1")) {
+    api.setFlag("miraDistance1");
+    return;
+  }
+  if (!api.hasFlag("miraDistance2")) {
+    api.setFlag("miraDistance2");
+    return;
+  }
+  api.setFlag("miraSystemic");
+}
+
+/** Ernsthaftes Nachfragen oder ein gelieferter Beleg holt eine Stufe zurück. */
+export function easeMiraDistance(api: GameApi): void {
+  if (api.hasFlag("miraSystemic")) {
+    api.clearFlag("miraSystemic");
+    return;
+  }
+  if (api.hasFlag("miraDistance2")) {
+    api.clearFlag("miraDistance2");
+    return;
+  }
+  if (api.hasFlag("miraDistance1")) api.clearFlag("miraDistance1");
+}
+
+/**
  * Welches „übliche" Mira-Gespräch steht gerade an? Dieselbe Logik, die auch
  * bei Zufallsbegegnungen greift — je nachdem, was schon gelaufen ist.
  */
