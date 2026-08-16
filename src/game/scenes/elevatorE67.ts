@@ -325,19 +325,6 @@ export const elevatorE67Scenes: Record<string, Scene> = {
           ]),
       },
       {
-        id: "toPubOld",
-        // Tür mit Lampe und Schild „Zum stillen Funk" am zentralen Gebäude
-        // hinten am Ende des Gehwegs.
-        x: 23.4,
-        y: 53.8,
-        w: 12.3,
-        h: 29.6,
-        label: "Kneipe „Zum stillen Funk“",
-        kind: "exit",
-        exitDir: "down",
-        onUse: (api) => api.goTo("pubVestibule"),
-      },
-      {
         // Der Gehweg läuft nach rechts weiter — dort sitzt Ralf hinter
         // seinem Rollo. Rein narrativer Ort, kein Rätsel.
         id: "toWindowNiche",
