@@ -628,14 +628,14 @@ export const philippeDialogs: Record<string, DialogTree> = {
       pt1: {
         id: "pt1",
         speaker: "PHILIPPE",
-        text: "Darf ich? — Wie gehen Sie eigentlich mit dem Schmerz-Radio um? Konkret. Wie viele Stunden am Tag?",
-        subtext: "Es klingt beiläufig. Es ist nicht beiläufig.",
+        text: "Darf ich? — Ich habe mal gehört, Sie hätten so ein Schmerz-Radio. Stimmt das?",
+        subtext: "Er formuliert es als Gerücht. So als hätte er nicht selbst an der Tür lauschen müssen.",
         next: "pt2",
       },
       pt2: {
         id: "pt2",
         speaker: "LAYARD",
-        text: "Mehr, als die Leitstelle empfiehlt. Manche Tage fast durchgehend.",
+        text: "Manche Tage fast durchgehend. Es ist ein altes Gerät, nichts, womit man angeben würde.",
         next: "pt3",
       },
       pt3: {
