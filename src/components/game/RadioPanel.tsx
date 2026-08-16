@@ -113,7 +113,9 @@ export function RadioPanel() {
   // Resonance build-up
   useEffect(() => {
     if (!radioOpen) return;
-    const burned = flags.has("burnedNode5610");
+    // Das Schmerz-Radio ist ein privates Phänomen und hängt nicht am
+    // Vorgangsknoten 5610 — ein Löschlauf dort ändert am Empfang nichts.
+    const burned = false;
     const interval = setInterval(() => {
       const onSignal = freq === 104.6;
       setRadioActive(onSignal && !burned);
@@ -137,7 +139,6 @@ export function RadioPanel() {
 
   // Doorbell trigger
   useEffect(() => {
-    if (flags.has("burnedNode5610")) return;
     // Erst klingeln, wenn die Resonanz tatsächlich überlastet (≥100 %).
     if (
       freq === 104.6 &&
@@ -190,7 +191,6 @@ export function RadioPanel() {
     if (!radioOpen) return;
     if (!inE71) return;
     if (freq !== 104.6) return;
-    if (flags.has("burnedNode5610")) return;
     const t = setTimeout(() => {
       setRadioActive(false);
       resetResonance();
@@ -231,7 +231,7 @@ export function RadioPanel() {
     [],
   );
 
-  const burned = flags.has("burnedNode5610");
+  const burned = false;
   const currentBand = useMemo(
     () => (burned && freq === 104.6 ? BURNED_NOISE_BAND : bandFor(freq)),
     [burned, freq],
