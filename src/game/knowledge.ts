@@ -193,17 +193,6 @@ export const KNOWLEDGE_ENTRIES: KnowledgeEntry[] = [
     from: "philippeProbesDeep",
   },
   {
-    id: "_unused_placeholder_never",
-    source: "Wohnung 1103, E71",
-    sensitivity: "brisant",
-    question: "",
-    share: "",
-    withhold: "",
-    noted: "",
-    askedAt5011: false,
-    from: "gfaManifestTaken",
-  },
-  {
     id: "zeroIsInfinity",
     label: "Zero is Infinity",
     source: "Gerüchte im Wohngürtel",
