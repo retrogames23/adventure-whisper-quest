@@ -135,8 +135,9 @@ export function TitleScreen({ onStart }: Props) {
         fetchPriority="high"
         decoding="async"
       />
-      {/* Animated rain on top of the painted artwork. */}
-      <RainOverlay />
+      {/* Animated rain on top of the painted artwork — desktop only. */}
+      {rainEnabled && <RainOverlay />}
+
       {/* Vignette + darken so foreground text stays readable on top of the art. */}
       <div
         className="pointer-events-none absolute inset-0"
