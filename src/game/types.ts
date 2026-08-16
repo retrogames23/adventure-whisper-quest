@@ -220,7 +220,7 @@ export type StoryFlag =
   | "philippeThemaNotiz3"
   | "philippeThemaNotiz4"
   | "philippeThemaNotiz5"
-  /** Mindestens drei der fünf Philippe-Theman abgeschlossen. */
+  /** Mindestens drei der fünf Philippe-Themen abgeschlossen. */
   | "philippeThemenTief"
   // Helka Vint (2610) — Türgespräch
   | "metHelka"

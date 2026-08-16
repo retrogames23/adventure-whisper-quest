@@ -2,8 +2,8 @@ import type { GameApi, StoryFlag } from "../types";
 import type { DialogTree } from "../types";
 
 /**
- * Setzt die Notiz-Flag einer Philippe-Thema und prüft, ob Layard nun
- * mindestens drei der fünf vertiefte Gespräche hinter sich hat. Ab drei
+ * Setzt die Notiz-Flag eines Philippe-Themas und prüft, ob Layard nun
+ * mindestens drei der fünf vertieften Gespräche hinter sich hat. Ab drei
  * ist ihm klar, dass der Nachbar ihn systematisch abklopft — daraus
  * wird ein Wissenseintrag, den er später in 5011 aussagen kann.
  */

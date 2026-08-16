@@ -365,7 +365,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       // Sichtbar nur, wenn eine der Motivations-Spuren erfüllt ist:
       //   (a) Mira-Hint: tookFlyer
       //   (b) Schmerz-Radio aktiv (104,6)
-      //   (c) Mindestens 3 Philippe-Theman gelesen
+      //   (c) Mindestens 3 Philippe-Themen gelesen
       // Öffnet sich ohne Keypad — narrative Wege:
       //   (1) Bodos Hausmeister-Reset (elevatorMaintCleared) hat den
       //       Magnetriegel im selben Wartungs-Sammelvorgang mitfreigeschaltet.
