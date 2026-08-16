@@ -73,10 +73,10 @@ export function AlmanachOverlay({ open, onClose }: Props) {
         />
 
         <aside className="hidden w-56 shrink-0 flex-col border-r-2 border-[#caa861] bg-[#ead8a8] p-4 sm:flex">
-          <div className="font-display text-[10px] uppercase tracking-[0.3em] text-[#6b4a16]">
+          <div className="font-display text-[13px] uppercase tracking-[0.16em] text-[#6b4a16]">
             {ALMANACH_UI_TEXT.contents}
           </div>
-          <div className="mt-1 font-mono-crt text-[10px] uppercase tracking-widest text-[#8a6a2a]">
+          <div className="mt-1 font-mono-crt text-[12px] uppercase tracking-[0.12em] text-[#6b4a16]">
             {ALMANACH_UI_TEXT.chaptersUnit(ALMANACH_CHAPTERS.length)}
           </div>
           <nav className="mt-3 flex flex-1 flex-col gap-1 overflow-y-auto pr-1">
@@ -87,7 +87,7 @@ export function AlmanachOverlay({ open, onClose }: Props) {
                   key={c.id}
                   type="button"
                   onClick={() => setChapterId(c.id)}
-                  className={`group flex items-center justify-between rounded-sm border px-2 py-1 text-left font-mono-crt text-xs transition ${
+                  className={`group flex items-center justify-between rounded-sm border px-2 py-1.5 text-left font-mono-crt text-sm leading-snug transition ${
                     active
                       ? "border-[#6b4a16] bg-[#f4e8c8] text-[#2a1c0a] shadow-[inset_0_0_0_1px_rgba(107,74,22,0.4)]"
                       : "border-transparent text-[#5a4015] hover:border-[#caa861] hover:bg-[#f0dfb0]"
@@ -99,7 +99,7 @@ export function AlmanachOverlay({ open, onClose }: Props) {
               );
             })}
           </nav>
-          <div className="mt-3 border-t border-[#caa861] pt-2 font-mono-crt text-[9px] uppercase tracking-widest text-[#8a6a2a]">
+          <div className="mt-3 border-t border-[#caa861] pt-2 font-mono-crt text-[11px] uppercase tracking-[0.12em] text-[#6b4a16]">
             {ALMANACH_UI_TEXT.edition}
           </div>
         </aside>
@@ -121,10 +121,10 @@ export function AlmanachOverlay({ open, onClose }: Props) {
 
         <div className="flex flex-1 flex-col">
           <header className="border-b-2 border-[#caa861] bg-[#ead8a8] px-6 py-3 pr-12">
-            <div className="font-mono-crt text-[10px] uppercase tracking-[0.3em] text-[#8a6a2a]">
+            <div className="font-mono-crt text-[13px] uppercase tracking-[0.16em] text-[#6b4a16]">
               {ALMANACH_TITLE}
             </div>
-            <div className="mt-0.5 font-display text-[10px] italic tracking-wide text-[#7a5a20]">
+            <div className="mt-0.5 font-display text-[13px] italic tracking-wide text-[#5a4015]">
               {ALMANACH_SUBTITLE}
             </div>
           </header>
@@ -176,7 +176,7 @@ function ChapterPager({
   const next =
     idx < ALMANACH_CHAPTERS.length - 1 ? ALMANACH_CHAPTERS[idx + 1] : null;
   return (
-    <div className="flex items-center justify-between font-mono-crt text-xs text-[#6b4a16]">
+    <div className="flex items-center justify-between font-mono-crt text-[13px] text-[#5a4015]">
       <div>
         {prev ? (
           <button
