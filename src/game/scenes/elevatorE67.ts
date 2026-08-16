@@ -311,6 +311,33 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         onUse: (api) => api.goTo("pubVestibule"),
       },
       {
+        id: "zksGraffiti",
+        x: 10.5,
+        y: 53,
+        w: 11,
+        h: 12,
+        label: "Graffiti an der Betonwand",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Drei Buchstaben, mit Sprühdose an den Beton geworfen: „Z.K.S.“ Die Farbe ist verlaufen, jemand hat halbherzig versucht, sie abzuschrubben.",
+            "Layard hat das Kürzel schon im Treppenhaus gesehen, in den Beton geritzt. Niemand sagt, wofür es steht. Alle tun so, als wüssten sie es.",
+          ]),
+      },
+      {
+        id: "toPubOld",
+        // Tür mit Lampe und Schild „Zum stillen Funk" am zentralen Gebäude
+        // hinten am Ende des Gehwegs.
+        x: 23.4,
+        y: 53.8,
+        w: 12.3,
+        h: 29.6,
+        label: "Kneipe „Zum stillen Funk“",
+        kind: "exit",
+        exitDir: "down",
+        onUse: (api) => api.goTo("pubVestibule"),
+      },
+      {
         // Der Gehweg läuft nach rechts weiter — dort sitzt Ralf hinter
         // seinem Rollo. Rein narrativer Ort, kein Rätsel.
         id: "toWindowNiche",
