@@ -93,6 +93,7 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
                   key={c.id}
                   type="button"
                   onClick={() => setChapterId(c.id)}
+                  aria-current={active ? "true" : undefined}
                   className={`group flex items-center justify-between rounded-sm border px-2 py-1.5 text-left font-mono-crt text-sm leading-snug transition ${
                     active
                       ? "border-[#6b4a16] bg-[#f4e8c8] text-[#2a1c0a] shadow-[inset_0_0_0_1px_rgba(107,74,22,0.4)]"
