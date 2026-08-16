@@ -283,6 +283,14 @@ export function combineItem(
       lines = ITEM_PAIRS[pairKey(itemId, otherId)];
     }
   } else {
+    // Spezialfall: Wartungskarte auf Bodo gezogen → Bodo will sie nicht zurücknehmen
+    if (
+      itemId === "wartungsnotiz5610" &&
+      ctx.targetId === "bodoNpc"
+    ) {
+      ctx.api.startDialog("bodoReturnWartungskarte");
+      return;
+    }
     // Spezialfall: Thermoskanne auf Bodo gezogen → Übergabe-Dialog
     // (entfernt das Item, setzt `gaveBodoThermos`). Vor dem Fallback,
     // sonst greift „Layard hat keine Idee" und das Item bleibt liegen.
