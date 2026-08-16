@@ -33,18 +33,19 @@ export function TitleScreen({ onStart }: Props) {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [donationOpen, setDonationOpen] = useState(false);
-  const [rainEnabled, setRainEnabled] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return window.matchMedia("(min-width: 768px)").matches;
-  });
+  // Regen-Animation: initial aktiv (für SSR-Konsistenz), dann anhand der
+  // Viewport-Breite auf Mobilgeräten deaktiviert.
+  const [rainEnabled, setRainEnabled] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(min-width: 768px)");
     const onChange = (e: MediaQueryListEvent) => setRainEnabled(e.matches);
+    setRainEnabled(mq.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+
 
 
   useEffect(() => {
