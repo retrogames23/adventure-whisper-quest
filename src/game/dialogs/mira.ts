@@ -516,7 +516,8 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrSystemic: {
         id: "mrSystemic",
         speaker: "MIRA",
-        text: "Verstanden. — Schönen Tag noch, Bürger.",
+        text: "Verstanden. Ich hör auf damit. — Falls du doch mal was brauchst: ich bin oft hier oben.",
+        subtext: "Sie klingt nicht beleidigt. Nur ein bisschen sparsamer.",
         choices: [
           {
             text: "[ Beenden ]",
