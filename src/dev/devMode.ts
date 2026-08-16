@@ -10,8 +10,27 @@ function readFlag(): boolean {
   if (typeof window === "undefined") return false;
   try {
     const url = new URL(window.location.href);
-    const param = url.searchParams.get("dev");
-    return param === "1";
+    if (url.searchParams.get("dev") === "1") return true;
+    // In der eingebetteten Lovable-Preview gilt der Dev-Modus auch dann,
+    // wenn der ?dev=1-Redirect noch nicht durchgelaufen ist.
+    return isEmbeddedPreview();
+  } catch {
+    return false;
+  }
+}
+
+/** Läuft die App in einem Lovable-Preview-Iframe? */
+export function isEmbeddedPreview(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    if (window.self === window.top) return false;
+    const h = window.location.hostname;
+    return (
+      h.includes("lovable.app") ||
+      h.includes("lovableproject.com") ||
+      h.includes("lovable.dev") ||
+      h === "localhost"
+    );
   } catch {
     return false;
   }
