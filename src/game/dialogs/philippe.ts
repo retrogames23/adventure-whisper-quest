@@ -110,7 +110,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
         id: "q3",
         speaker: "PHILIPPE",
         text: "Hier wohnt ein alleinstehender Mann. Schlank, hager, vielleicht Mitte, Ende vierzig. Ich weiß nicht, wie er heißt. Ich habe geklingelt. Niemand öffnet.",
-        subtext: "Niemand kennt hier den Nachbarn. Das ist Statut, nicht Zufall.",
+        subtext: "Obwohl auf diesem Korridor nur wenige Wohnungen sind leben die meisten hier recht anonym.",
         next: "q4",
       },
       q4: {
@@ -148,7 +148,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
       k2: {
         id: "k2",
         speaker: "LAYARD",
-        text: "Ja. Überwiegend B2. Einfach bequem zu wissen, dass man alle Nährstoffe zu sich nimmt. Ich verdiente zuletzt wenig mit dem Schreiben.",
+        text: "Ja. Überwiegend B2. Einfach bequem zu wissen, dass man alle Nährstoffe zu sich nimmt. Ich haba ja den Beruf gewechselt und jetzt wenig Zeit. Das Schreiben hat nicht viel eingebracht.",
         subtext: "Hat er gerade etwas Persönliches verraten? Einem fast Unbekannten?",
         next: "k3",
       },

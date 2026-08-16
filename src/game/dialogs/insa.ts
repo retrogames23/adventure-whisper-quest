@@ -15,7 +15,7 @@ export const insaDialogs: Record<string, DialogTree> = {
         id: "i2",
         speaker: "INSA",
         text: "Hier ist die Leitstelle E67, Sie sprechen mit Insa Bauerfeind. Ihr Anliegen?",
-        subtext: "Erschöpfung. Routine. Etwas darunter.",
+        subtext: "Erschöpfung. Routine.",
         next: "i3",
       },
       i3: {
