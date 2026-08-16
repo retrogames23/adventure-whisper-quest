@@ -365,7 +365,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       // Sichtbar nur, wenn eine der Motivations-Spuren erfüllt ist:
       //   (a) Mira-Hint: tookFlyer
       //   (b) Schmerz-Radio aktiv (104,6)
-      //   (c) Mindestens 3 Philippe-Sonden gelesen
+      //   (c) Mindestens 3 Philippe-Theman gelesen
       // Öffnet sich ohne Keypad — narrative Wege:
       //   (1) Bodos Hausmeister-Reset (elevatorMaintCleared) hat den
       //       Magnetriegel im selben Wartungs-Sammelvorgang mitfreigeschaltet.
@@ -396,11 +396,11 @@ export const corridorsE67Scenes: Record<string, Scene> = {
           )
             return true;
           const probeCount =
-            (api.hasFlag("philippeProbeNote1") ? 1 : 0) +
-            (api.hasFlag("philippeProbeNote2") ? 1 : 0) +
-            (api.hasFlag("philippeProbeNote3") ? 1 : 0) +
-            (api.hasFlag("philippeProbeNote4") ? 1 : 0) +
-            (api.hasFlag("philippeProbeNote5") ? 1 : 0);
+            (api.hasFlag("philippeThemaNotiz1") ? 1 : 0) +
+            (api.hasFlag("philippeThemaNotiz2") ? 1 : 0) +
+            (api.hasFlag("philippeThemaNotiz3") ? 1 : 0) +
+            (api.hasFlag("philippeThemaNotiz4") ? 1 : 0) +
+            (api.hasFlag("philippeThemaNotiz5") ? 1 : 0);
           return (
             api.hasFlag("tookFlyer") ||
             api.isRadioActive() ||

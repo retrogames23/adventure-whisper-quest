@@ -190,7 +190,7 @@ export const KNOWLEDGE_ENTRIES: KnowledgeEntry[] = [
     noted:
       "Angabe zu einer Befragung durch Dritte. Eine Befragung durch Dritte ist nicht vorgesehen. Ich führe es unter Nachbarschaft.",
     askedAt5011: true,
-    from: "philippeProbesDeep",
+    from: "philippeThemenTief",
   },
   {
     id: "zeroIsInfinity",
