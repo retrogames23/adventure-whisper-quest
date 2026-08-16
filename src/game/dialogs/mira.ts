@@ -209,7 +209,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           {
             text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
-            action: (api) => api.setFlag("miraSystemic"),
+            action: (api) => bumpMiraDistance(api),
           },
           { text: "Keine Zeit für sowas." },
         ],
