@@ -314,7 +314,6 @@ export function SceneView() {
         {scene === "apartment" && (
           <div className="apt-ambience" aria-hidden="true">
             <div className="apt-lamp" />
-            <div className="apt-rain" />
             <div className="apt-cursor" />
           </div>
         )}
