@@ -264,7 +264,6 @@ export function BusRide() {
                 width: `${w.width}%`,
                 height: `${w.height}%`,
                 clipPath: w.clip,
-                backgroundColor: "#8d8f86",
                 transform: "translateZ(0)",
               }}
             >
