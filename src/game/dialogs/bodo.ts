@@ -392,7 +392,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bc10d: {
         id: "bc10d",
         speaker: "BODO",
-        text: "Karte können Sie behalten. Von dem Raum weiß eh keiner mehr, dass es ign gibt.",
+        text: "Karte können Sie behalten. Von dem Raum weiß eh keiner mehr, dass es ihn gibt.",
         subtext: "Lotti hebt kurz den Kopf. Bodo nickt nur einmal, knapp.",
         choices: [
           {
