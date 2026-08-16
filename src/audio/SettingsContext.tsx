@@ -9,10 +9,7 @@ import {
 } from "react";
 import { isDevMode } from "@/dev/devMode";
 
-// v3: Im Dev-Modus (?dev=1) startet die Musik standardmäßig aus.
-// Key-Bump erzwingt, dass bestehende Spieler die neue Voreinstellung
-// übernehmen — sonst würde der alte v2-Eintrag die Dev-Default-Logik
-// überschreiben.
+// v3: Gespeicherte Einstellungen für reguläre Spielaufrufe.
 const STORAGE_KEY = "schmerz-radio.settings.v3";
 
 export interface Settings {
@@ -43,10 +40,7 @@ function load(): Settings {
   if (typeof window === "undefined") return DEFAULTS;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      // Im Dev-Modus ohne gespeicherte Einstellungen startet die Musik aus.
-      return { ...DEFAULTS, musicEnabled: !isDevMode() };
-    }
+    if (!raw) return DEFAULTS;
     return { ...DEFAULTS, ...(JSON.parse(raw) as Partial<Settings>) };
   } catch {
     return DEFAULTS;
@@ -54,28 +48,28 @@ function load(): Settings {
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<Settings>(() => load());
+  // Server und erster Browser-Render müssen identisch sein. Audio bleibt bis
+  // nach der Hydration aus; danach gelten gespeicherte Einstellungen nur
+  // außerhalb der Dev-Preview.
+  const [state, setState] = useState<Settings>(() => ({
+    ...DEFAULTS,
+    musicEnabled: false,
+  }));
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    // Nach der Hydration korrigieren: Im Dev-Modus ohne gespeicherte
-    // Einstellungen soll die Musik aus bleiben (SSR kennt keinen Dev-Modus).
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (!raw && isDevMode()) {
-        setState((s) => ({ ...s, musicEnabled: false }));
-      }
-    } catch {
-      /* ignore */
-    }
+    setState(isDevMode() ? { ...load(), musicEnabled: false } : load());
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
       /* ignore */
     }
-  }, [state]);
+  }, [hydrated, state]);
 
   const set = useCallback(
     (patch: Partial<Settings>) => setState((s) => ({ ...s, ...patch })),
