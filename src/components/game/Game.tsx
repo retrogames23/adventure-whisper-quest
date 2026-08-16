@@ -28,7 +28,9 @@ export function Game() {
   if (!started) {
     return (
       <SettingsProvider>
-        <MobileStage>
+        {/* Titelbildschirm bleibt im Hochformat aufrecht — sonst kippt er
+            nach dem ersten Layout-Durchlauf sichtbar ins Querformat. */}
+        <MobileStage uprightOnPortrait>
           <TitleScreen
             onStart={() => {
               unlockAudio();
