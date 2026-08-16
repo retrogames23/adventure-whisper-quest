@@ -9,11 +9,11 @@ import {
 } from "react";
 import { isDevMode } from "@/dev/devMode";
 
-// v2: Default für `ttsEnabled` von true auf false geändert. Key-Bump
-// erzwingt, dass auch bestehende Spieler die neue Voreinstellung
-// übernehmen — sonst würde der alte v1-Eintrag (mit ttsEnabled: true)
-// die neue Default-Logik überschreiben.
-const STORAGE_KEY = "schmerz-radio.settings.v2";
+// v3: Im Dev-Modus (?dev=1) startet die Musik standardmäßig aus.
+// Key-Bump erzwingt, dass bestehende Spieler die neue Voreinstellung
+// übernehmen — sonst würde der alte v2-Eintrag die Dev-Default-Logik
+// überschreiben.
+const STORAGE_KEY = "schmerz-radio.settings.v3";
 
 export interface Settings {
   musicEnabled: boolean;
@@ -43,7 +43,10 @@ function load(): Settings {
   if (typeof window === "undefined") return DEFAULTS;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULTS;
+    if (!raw) {
+      // Im Dev-Modus ohne gespeicherte Einstellungen startet die Musik aus.
+      return { ...DEFAULTS, musicEnabled: !isDevMode() };
+    }
     return { ...DEFAULTS, ...(JSON.parse(raw) as Partial<Settings>) };
   } catch {
     return DEFAULTS;
@@ -52,6 +55,19 @@ function load(): Settings {
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<Settings>(() => load());
+
+  useEffect(() => {
+    // Nach der Hydration korrigieren: Im Dev-Modus ohne gespeicherte
+    // Einstellungen soll die Musik aus bleiben (SSR kennt keinen Dev-Modus).
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw && isDevMode()) {
+        setState((s) => ({ ...s, musicEnabled: false }));
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   useEffect(() => {
     try {
