@@ -245,6 +245,27 @@
   96% { opacity: 0.92; }
 }
 
+/* Leuchtstoffröhren-Flackern im Aufzug */
+.fluorescent-flicker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.08);
+  mix-blend-mode: overlay;
+  animation: fluorescent-flicker 7.5s steps(1) infinite;
+  z-index: 1;
+}
+@keyframes fluorescent-flicker {
+  0%, 96%, 100% { opacity: 0; }
+  96.5% { opacity: 0.55; }
+  97% { opacity: 0; }
+  97.5% { opacity: 0.3; }
+  98% { opacity: 0; }
+  98.5% { opacity: 0.12; }
+  99% { opacity: 0; }
+}
+
+
 /* Bernstein-Vignette wenn Schmerz-Radio aktiv */
 .amber-vignette {
   position: absolute;
