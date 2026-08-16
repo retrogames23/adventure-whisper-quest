@@ -1,37 +1,46 @@
-# Akt-I-Plot: Aufräumen von Sackgassen und losen Enden
+# Serverraum 5610 — neues Narrativ für das Terminal
 
-Ergebnis der Durchsicht von Szenen, Dialogen, Items und Flags in Akt I. Die Lore-Konsistenz ist insgesamt gut: Schmerz-Radio wird überall als obskures Bastlergerät geführt, der Autor/Verwaltungsangestellten-Retcon ist durchgezogen, Datum (November 1997) und Mandatsdeutsch stimmen. Die Probleme liegen bei ungenutzten Spielelementen und einer fragilen Kopplung.
+## Problem (geprüft im Code)
 
-## 1. Elemente, die nirgendwo hinführen
+- Die Szene beschreibt 5610 als Ort, an dem „die Resonanz-Pakete von E67 zusammenlaufen, bevor sie an die Leitstelle gehen" (`corridorsE67.ts`:487), das Terminal nennt sich „Lokaler Resonanz-Konzentrator" und gibt Affekt-Telemetrie auf 104,6 MHz aus (`NodeTerminal.tsx`).
+- Das widerspricht der gesetzten Lore (`LORE.md` §6c/§7): Es gibt **keine staatliche Resonanz-Infrastruktur** und keine behördliche Radio-Regulierung. Das Schmerz-Radio ist private Bastelei.
+- Plot-Wirkung: `tap` setzt nur `radioOrigin` (das Layard ohnehin über sein eigenes Gerät hat), `burn` setzt nur Kosmetik (Rauch im Korridor, totes Radio-Panel, stiller Abspann). Kein Bezug zum Akt-I-Ziel: verwertbares Material für Zimmer 5011.
 
-**Das Schmerz-Radio als Item** — man steckt es ein, aber es wird in keinem Rätsel, keiner Kombination und keiner Dialogbedingung abgefragt. Es ist reine Trophäe, obwohl es das titelgebende Objekt ist.
-Vorschlag: mindestens eine harte Verwendung geben. Am naheliegendsten in Bodos Resonanz-Hygiene-Strang: Layard kann das Radio bei Bodo/im Korridor benutzen, um den Körperschall der Wartungsfrequenz hörbar zu machen — das setzt ein Wissens-Flag, das später bei SASSE in der Zentralverwaltung als eigene Aussageoption zählt. Kein neuer Pflichtweg, aber eine echte Belohnung.
+## Neues Narrativ
 
-**Miras Türnotiz** — wird bei Miras Enthüllung vergeben, danach nie geprüft, während alle anderen Aushang-Belege in die Beweislogik einfließen.
-Vorschlag: die Notiz in dieselbe Belegprüfung aufnehmen (zählt als weiterer Beleg bei der Übergabe), oder ersatzlos streichen und den Text als Dialogzeile belassen.
+**NODE-MAINT 5610 ist kein Resonanz-Knoten, sondern der Vorgangs-Knoten der Hausverwaltung E67** — eine Datenfluss-Maschine, die jeden Vorgang im Haus mitschreibt: Störmeldungen, Türsiegel, Ruhezeit-Beschwerden, Aufzug-Wartungsmodus, weitergeleitete Krankmeldungen. Langweilige Verwaltungstechnik, genau das Ethos aus §6d: „Der Vorgang ist die Form."
 
-**Die fünf Philippe-Sonden** setzen jeweils ein Notiz-Flag, das seit dem Entfernen der Wartungskarten-Route nirgends mehr ausgewertet wird.
-Vorschlag: die Notiz-Flags als Wissensquelle bei SASSE bzw. in Layards Terminal-Notizen sichtbar machen, damit die Gespräche eine Spur hinterlassen.
+Interessant wird er, weil in diesem Papierweg sichtbar wird, was Menschen nicht sagen: über Monate wurden Meldungen aus E67 mit demselben Kürzel geschlossen — „nicht vorgesehen" —, und der Befund zu 2615 wurde im selben Vorgang wieder zurückgenommen. Kein Komplott, sondern ein Apparat, der Belastung wegverwaltet.
 
-**Ungenutztes Gerüst** — die Item×Item-Kombinationstabelle ist leer (alles läuft über Sonderfälle) und ein Code-Kommentar behauptet, das Ölkännchen werde nach dem Ölen von MARV-9 verbraucht, was nicht passiert.
-Vorschlag: Kommentar korrigieren; leere Tabelle entweder entfernen oder als bewusst leer kennzeichnen.
+## Terminal-Befehle (neu)
 
-## 2. Lore- und Story-Konsistenz
+- `vorgang` (ersetzt `tap`) — Vorgangsliste E67 der letzten Monate: Häufung von Meldungen, Serie identischer Abschlussvermerke, der zurückgenommene Befund zu 2615. Setzt Wissen `vorgangsspur5610`.
+- `mitschnitt` (bisher `listen`) — bleibt als Atmosphäre, aber als laufender **Vorgangsverkehr** E67↔Leitstelle (`SECTOR_CHATTER`), nicht als Affektstrom.
+- `drucken` — nur nach `vorgang`: gibt einen **Vorgangsstreifen 5610** als Inventar-Gegenstand aus. Das ist das Schriftstück, das SASSE in 5011 überhaupt annehmen kann.
+- `loeschlauf` (bisher `burn`) — bleibt dramatisch, bekommt aber Folgen (unten).
+- `exit` — unverändert.
 
-Keine inhaltlichen Verstöße gefunden. Einziger offener Punkt: die Leitplanken gegen alte Retcons (kein Radio-Meldezwang, Mira spekuliert nicht über Frequenzen) existieren nur als Persona-Anweisungen für die frei sprechenden NPCs, nicht als harte Regel.
-Vorschlag: die zentralen Verbote zusätzlich als kurze, immer mitgesendete Weltregel-Zeile in allen NPC-Personas verankern, damit sie nicht nur in Miras und Walters Text stehen.
+Das Wartungs-Funkgerät (102,7 MHz, Krummbein-Diktat) und das Schmerz-Radio bleiben davon **unberührt** — private Nische, getrennt vom Verwaltungsknoten. Thermoskanne und Ölkännchen bleiben exakt wie sie sind.
 
-## 3. Dead Ends
+## Der Löschlauf — echte Entscheidung
 
-**Kein bestätigter Softlock.** Zwei Stellen sind aber strukturell fragil:
+Im Speicher stehen auch Namen: Bodos eigenmächtige Wartungsfahrten, Miras Beschwerdeserie, Layards eigene Besuche und Nachfragen.
 
-- **Aufzug-Wartungsmodus**: Bodo ist der einzige Weg, die Sperre zu lösen. Fällt er künftig aus, ist Akt I blockiert.
-  Vorschlag: eine Notfall-Weiche einbauen — wenn Bodo bereits weggeschickt/erledigt ist und die Sperre noch steht, löst die Leitstelle sie nach einer kurzen Meldung. Reine Absicherung, im Normalspiel unsichtbar.
-- **Kondomautomat**: Layard hat exakt drei Münzen für exakt drei Reihen, eine davon ist die Maske, die man für den Zutritt zu E71 braucht. Aktuell geht es genau auf — jede spätere Ausgabe (Bier, vierte Reihe) würde einen echten Softlock erzeugen.
-  Vorschlag: Zutritt zusätzlich absichern — ohne Maske und ohne Geld bietet die Empfangsdame einmalig eine Ersatzmaske aus der Schublade an (mit passend spitzem Kommentar).
+- **Löschlauf ausführen:** Der lokale Vorgangsspeicher ist weg. Bodo und Mira tauchen in keiner Auswertung mehr auf — aber es gibt kein Schriftstück mehr, und ein bereits gedruckter Streifen lässt sich nicht mehr gegenprüfen. In 5011 bleibt Layards Aussage unbelegt. Alarm, Rauch, Anruf an der Lobby — bleibt wie gehabt.
+- **Nicht ausführen:** Layard hat Belege, aber die Namen bleiben im Apparat.
 
-**Bürokratie-Duell**: Nach drei verlorenen Versuchen verweist Vossbeck auf die Fälschungsroute bei Kowalk — dieser Ausweg existiert und ist erreichbar, hier ist kein Dead End.
+Beides wird als Flag geführt und wirkt in 5011 und im Abspann.
 
-## Umfang
+## Änderungen
 
-Reine Spiel-Logik: Dialoge, Szenen-Hotspots, Flags, Wissens-Einträge. Keine Änderungen an Assets, Backend oder UI-Struktur.
+1. `corridorsE67.ts`: Szenen-Intro und Racks-Text lore-konform (Vorgangsknoten der Hausversorgung statt Resonanz-Pakete/104,6).
+2. `NodeTerminal.tsx`: Befehle, Ausgaben und Kopfzeile neu; `tap`-Telemetrie durch Vorgangsliste ersetzt; `drucken` ergänzt; `burn` → `loeschlauf` (alte Eingaben bleiben als Alias verstanden).
+3. `types.ts`: Flags `readVorgangsliste5610`, `printedVorgangsstreifen`, `wipedNode5610` (bestehende 5610-Flags bleiben als Alias erhalten, damit Spielstände nicht brechen); Wissen `vorgangsspur5610`.
+4. `knowledge.ts`: Eintrag `vorgangsspur5610` mit Frage/Offenlegen/Ausweichen/Vermerk für Zimmer 5011.
+5. `combine.ts`/Inventar: Gegenstand „Vorgangsstreifen 5610".
+6. `hints.ts`: Hinweise auf die neuen Befehle umstellen.
+7. `LORE.md`: kurzer Absatz zum Vorgangsknoten unter §6a/§5.
+
+## Offen
+
+Nichts blockiert — falls der Löschlauf zusätzlich Bodos oder Miras spätere Reaktion auslösen soll, ergänze ich das als zweiten Schritt.
