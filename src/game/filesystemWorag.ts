@@ -7,6 +7,8 @@
  * Auswirkung auf Bodos Terminal.
  */
 
+import { MANUSKRIPTE_DIR } from "./waragManuskripte";
+
 export interface FsFile {
   type: "file";
   name: string;
@@ -197,6 +199,7 @@ const HOME_WORAG: FsDir = {
         },
       ],
     },
+    MANUSKRIPTE_DIR,
     {
       type: "dir",
       name: "gedanken",
