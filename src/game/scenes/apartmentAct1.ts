@@ -706,8 +706,8 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Ein beiger Bakelit-Apparat. Hörer staubig. Bodo, von hinten: „Den hab ich seit zwölf Jahren nicht abgenommen.\"",
-            "„Wer was von mir will, klopft. Oder ist die Katze.\"",
+            "Ein beiger Bakelit-Apparat. Hörer staubig. Bodo, von hinten: „Den hab ich seit zwölf Jahren nicht abgenommen."",
+            "„Wer was von mir will, klopft. Oder ist die Katze."",
           ]),
       },
       // Bleistiftstummel auf dem Terminaltisch — Pickup für das
