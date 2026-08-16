@@ -120,6 +120,34 @@ export const KNOWLEDGE_ENTRIES: KnowledgeEntry[] = [
     from: "tookPainRadio",
   },
   {
+    id: "vorgangsspur5610",
+    label: "Vorgangsbestand des Hauses E67",
+    source: "Vorgangsknoten 5610, Technikraum E67",
+    sensitivity: "brisant",
+    question:
+      "Sie sprechen von Meldungen. Haben Sie einen Überblick, was aus den Meldungen aus E67 geworden ist?",
+    share:
+      "Einundvierzig Vorgänge seit Januar. Vierunddreißig davon geschlossen mit »nicht vorgesehen«, alle mit derselben Paraphe. Und im Vorgang 5245 steht der Befund und vier Minuten später seine Rücknahme — ebenfalls dieselbe Paraphe.",
+    withhold:
+      "Was aus den Meldungen geworden ist, weiß ich nicht. Ich habe sie nur eingereicht wie alle anderen.",
+    noted:
+      "Bestandsauszug behauptet. Wenn Sie ihn vorlegen können, wird er geprüft. Wenn nicht, bleibt es Ihre Wahrnehmung.",
+    askedAt5011: true,
+    from: "readVorgangsliste5610",
+  },
+  {
+    id: "wordControl",
+    source: "Gerät in Layards Wohnung",
+    sensitivity: "heikel",
+    question: "Verfügen Sie über ein Gerät, das die Belastung hörbar macht?",
+    share:
+      "Ich habe ein Gerät. Es hört nicht Sender, es hört das, was zwischen den Leuten ungesagt bleibt. Ausgegeben hat es niemand.",
+    withhold: "Ich habe ein Radio wie jeder. Zwei Wellenbereiche, einer davon tot.",
+    noted: "Gerät ohne Zuteilungsnachweis. Das wäre gesondert zu klären.",
+    askedAt5011: true,
+    from: "tookPainRadio",
+  },
+  {
     id: "wordControl",
     label: "Sprache als Steuerung",
     source: "Mikael, Verwaltungszimmer E71",
