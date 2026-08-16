@@ -569,7 +569,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
         id: "pr6",
         speaker: "PHILIPPE",
         text: "Hm. — Entschuldigen Sie. Ich frage zu viel.",
-        subtext: "Er fragt nicht zu viel. Er fragt zu wenig. Innerlich notiert er bereits.",
+        subtext: "",
         end: true,
       },
     },
@@ -585,7 +585,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
       ps1: {
         id: "ps1",
         speaker: "PHILIPPE",
-        text: "Sie haben vorhin „Schreiben“ gesagt. Was schreiben Sie denn?",
+        text: "Sie haben vorhin „Schreiben“ gesagt. Was haben Sie denn geschrieben?",
         subtext: "Er hat sich das Wort gemerkt. Er merkt sich alles.",
         next: "ps2",
       },
