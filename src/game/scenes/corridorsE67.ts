@@ -395,7 +395,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             api.hasFlag("saw5610Door")
           )
             return true;
-          const probeCount =
+          const themaCount =
             (api.hasFlag("philippeThemaNotiz1") ? 1 : 0) +
             (api.hasFlag("philippeThemaNotiz2") ? 1 : 0) +
             (api.hasFlag("philippeThemaNotiz3") ? 1 : 0) +
@@ -404,7 +404,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
           return (
             api.hasFlag("tookFlyer") ||
             api.isRadioActive() ||
-            probeCount >= 3
+            themaCount >= 3
           );
         },
         onUse: (api) => {
