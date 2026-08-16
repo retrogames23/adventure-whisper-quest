@@ -7,6 +7,7 @@ export type SceneId =
   | "cinemaE71"
   | "corridor15"
   | "corridor11"
+  | "corridor21"
   | "libraryE71"
   | "apt1102"
   | "apt1103"
