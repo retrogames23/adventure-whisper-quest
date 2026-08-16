@@ -287,19 +287,23 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "philippeNpc",
         // Philippe steht rechts mit verschränkten Armen.
-        x: 69.3,
-        y: 26.1,
-        w: 17.1,
-        h: 68.5,
+        // Ein Hotspot für vor und nach dem Sanitäter-Einsatz,
+        // mit interner Verzweigung.
+        x: 68.4,
+        y: 22.9,
+        w: 17.4,
+        h: 75.2,
 
         label: "Philippe",
         kind: "talk",
-        requires: ["knockingHeard"],
-        // Nach dem ersten "Warten"-Klick verschwindet der Dialog-Hotspot.
-        // Er kommt erst wieder, wenn Layard die Wohnung verlässt und neu
-        // betritt (dann werden die Warte-Flags zurückgesetzt).
-        hiddenWhen: ["paramedicsArrived", "wait2613Step1"],
+        visible: (api) =>
+          api.hasFlag("paramedicsArrived")
+            ? true
+            : // Vor den Sanitätern: erst nach dem Klopfen, und nach dem
+              // ersten "Warten"-Klick vorübergehend nicht ansprechbar.
+              api.hasFlag("knockingHeard") && !api.hasFlag("wait2613Step1"),
         onUse: (api) => {
+          if (!api.hasFlag("paramedicsArrived")) {
           if (
             api.hasFlag("calledLeitstelle") &&
             tryPhoneRefusal(
@@ -317,21 +321,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           } else {
             api.startDialog("philippeSmalltalk");
           }
-        },
-      },
-      // Nach den Sanitätern: Philippe bleibt in seiner Wohnung 2613.
-      // Verschiedene Dialoge je nach Stand der Geschichte.
-      {
-        id: "philippeAfterNpc",
-        x: 68.4,
-        y: 22.9,
-        w: 17.4,
-        h: 75.2,
-
-        label: "Philippe",
-        kind: "talk",
-        requires: ["paramedicsArrived"],
-        onUse: (api) => {
+            return;
+          }
+          // Nach den Sanitätern: Philippe bleibt in seiner Wohnung 2613.
+          // Verschiedene Dialoge je nach Stand der Geschichte.
           // Kaputtes Telefon: die Bitte um den Apparat geht allem voraus.
           if (
             tryPhoneRefusal(
@@ -419,15 +412,23 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "wall",
         // Mittlere Betonwand zwischen Telefon und Philippe.
-        x: 28.7,
-        y: 9.4,
-        w: 34.8,
-        h: 50,
+        // Ein Hotspot, intern verzweigt: klopfend vor, still nach Akt 1.
+        x: 27.3,
+        y: 7.9,
+        w: 34.4,
+        h: 57.3,
 
-        label: "Wand mit Klopfen (zur 2615)",
+        label: "Wand zur 2615",
         kind: "look",
-        hiddenWhen: ["doorBrokenOpen"],
         onUse: (api) => {
+          if (api.hasFlag("doorBrokenOpen")) {
+            api.showText([
+              "Die Wand ist still. Zum ersten Mal seit Wochen, sagt Philippe.",
+              "Trotzdem hält Layard kurz die Hand an den Beton.",
+              "Nichts. Nur sein eigener Puls.",
+            ]);
+            return;
+          }
           api.setFlag("knockingHeard");
           api.showText([
             "Klopf. Klopf. Klopf.",
@@ -436,24 +437,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             "„Hallo?! Jemand da?“ — Das Klopfen geht im selben Rhythmus weiter.",
           ]);
         },
-      },
-      // Nach Akt 1: ruhige Wand zur (jetzt versiegelten) 2615.
-      {
-        id: "wallAfter",
-        x: 27.3,
-        y: 7.9,
-        w: 34.4,
-        h: 57.3,
-
-        label: "Wand zur 2615 (still)",
-        kind: "look",
-        requires: ["doorBrokenOpen"],
-        onUse: (api) =>
-          api.showText([
-            "Die Wand ist still. Zum ersten Mal seit Wochen, sagt Philippe.",
-            "Trotzdem hält Layard kurz die Hand an den Beton.",
-            "Nichts. Nur sein eigener Puls.",
-          ]),
       },
       {
         id: "phone2613",
