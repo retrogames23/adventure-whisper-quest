@@ -616,6 +616,94 @@
   }
 }
 
+/* ===== Desktop-Lesbarkeit =====
+   Auf Desktop wirken alle Größen 1:1. Der Code enthält viele
+   Mini-Größen (7–12 px), die auf großen Bildschirmen kaum lesbar sind.
+   Hier ziehen wir eine Untergrenze ein und heben den Kontrast der
+   gedämpften Töne leicht an. Mobil bleibt unverändert. */
+@media (min-width: 768px) {
+  :root {
+    --muted-foreground: oklch(0.72 0.02 130);
+    --phosphor-dim: oklch(0.66 0.19 145);
+    --sepia-dim: oklch(0.72 0.12 62);
+    --amber-deep: oklch(0.63 0.15 57);
+  }
+
+  .text-\[7px\],
+  .text-\[8px\],
+  .text-\[9px\],
+  .text-\[0\.55rem\] {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  .text-\[10px\],
+  .text-\[11px\],
+  .text-\[0\.6rem\],
+  .text-\[0\.65rem\] {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+
+  .text-xs {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .text-\[12px\],
+  .text-\[13px\],
+  .text-\[0\.8rem\],
+  .text-sm {
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+  }
+
+  .text-\[15px\],
+  .text-\[0\.9rem\],
+  .text-base {
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Extreme Versal-Laufweiten beruhigen — Kleinversalien zerfallen sonst. */
+  .tracking-\[0\.3em\],
+  .tracking-\[0\.35em\],
+  .tracking-\[0\.4em\] {
+    letter-spacing: 0.16em !important;
+  }
+  .tracking-widest {
+    letter-spacing: 0.12em !important;
+  }
+
+  /* Sehr transparente Textfarben anheben (unter ~60 % Deckkraft). */
+  [class*="text-muted-foreground/3"],
+  [class*="text-muted-foreground/4"],
+  [class*="text-muted-foreground/5"],
+  [class*="text-foreground/3"],
+  [class*="text-foreground/4"],
+  [class*="text-foreground/5"],
+  [class*="text-phosphor-dim/3"],
+  [class*="text-phosphor-dim/4"],
+  [class*="text-phosphor-dim/5"],
+  [class*="text-sepia-dim/3"],
+  [class*="text-sepia-dim/4"],
+  [class*="text-sepia-dim/5"],
+  [class*="text-amber-glow/3"],
+  [class*="text-amber-glow/4"],
+  [class*="text-amber-glow/5"] {
+    opacity: 1 !important;
+  }
+}
+
+/* Sichtbarer Tastatur-Fokus in allen Overlays. */
+button:focus-visible,
+select:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--amber-glow, currentColor);
+  outline-offset: 2px;
+}
+
 /* Größere Trefferfläche für Hotspots auf Touch-Geräten ohne das
    Desktop-Verhalten zu ändern. Wir hängen unsichtbares Padding an,
    das den Klickbereich vergrößert, aber das visuelle Layout nicht
