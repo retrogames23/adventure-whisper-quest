@@ -114,7 +114,9 @@ export type KnowledgeFlag =
   | "e71Denial"
   | "miraNetwork"
   | "gfaContact"
-  | "zeroIsInfinity";
+  | "zeroIsInfinity"
+  /** Der Nachbar Philippe fragt Layard systematisch aus. */
+  | "philippeProbing";
 
 /** Hat Layard ein Wissensstück offengelegt oder verschwiegen? */
 export type DisclosureChoice = "shared" | "withheld";
