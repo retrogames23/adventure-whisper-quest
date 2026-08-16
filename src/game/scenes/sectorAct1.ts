@@ -291,7 +291,6 @@ export const sectorAct1Scenes: Record<string, Scene> = {
       ...[
         { id: "e71Btn4", x: 86.8, y: 33.6, label: "Etage 4" },
         { id: "e71Btn3", x: 86.6, y: 42.0, label: "Etage 3" },
-        { id: "e71Btn2", x: 87.0, y: 51.5, label: "Etage 2" },
         { id: "e71BtnK", x: 86.8, y: 68.7, label: "Keller" },
       ].map((b) => ({
         id: b.id,
@@ -314,6 +313,17 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         kind: "exit",
         exitDir: "up",
         onUse: (api) => api.goTo("cinemaE71"),
+      },
+      {
+        id: "e71Btn2",
+        x: 87.0,
+        y: 51.5,
+        w: 4.6,
+        h: 6.2,
+        label: "Etage 2 — Korridor 21",
+        kind: "exit",
+        exitDir: "up",
+        onUse: (api) => api.goTo("corridor21"),
       },
       {
         id: "e71Btn1",
