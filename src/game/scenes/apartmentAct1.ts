@@ -412,15 +412,23 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "wall",
         // Mittlere Betonwand zwischen Telefon und Philippe.
-        x: 28.7,
-        y: 9.4,
-        w: 34.8,
-        h: 50,
+        // Ein Hotspot, intern verzweigt: klopfend vor, still nach Akt 1.
+        x: 27.3,
+        y: 7.9,
+        w: 34.4,
+        h: 57.3,
 
-        label: "Wand mit Klopfen (zur 2615)",
+        label: "Wand zur 2615",
         kind: "look",
-        hiddenWhen: ["doorBrokenOpen"],
         onUse: (api) => {
+          if (api.hasFlag("doorBrokenOpen")) {
+            api.showText([
+              "Die Wand ist still. Zum ersten Mal seit Wochen, sagt Philippe.",
+              "Trotzdem hält Layard kurz die Hand an den Beton.",
+              "Nichts. Nur sein eigener Puls.",
+            ]);
+            return;
+          }
           api.setFlag("knockingHeard");
           api.showText([
             "Klopf. Klopf. Klopf.",
@@ -429,24 +437,6 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             "„Hallo?! Jemand da?“ — Das Klopfen geht im selben Rhythmus weiter.",
           ]);
         },
-      },
-      // Nach Akt 1: ruhige Wand zur (jetzt versiegelten) 2615.
-      {
-        id: "wallAfter",
-        x: 27.3,
-        y: 7.9,
-        w: 34.4,
-        h: 57.3,
-
-        label: "Wand zur 2615 (still)",
-        kind: "look",
-        requires: ["doorBrokenOpen"],
-        onUse: (api) =>
-          api.showText([
-            "Die Wand ist still. Zum ersten Mal seit Wochen, sagt Philippe.",
-            "Trotzdem hält Layard kurz die Hand an den Beton.",
-            "Nichts. Nur sein eigener Puls.",
-          ]),
       },
       {
         id: "phone2613",
