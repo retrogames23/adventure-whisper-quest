@@ -79,10 +79,10 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
         />
 
         <aside className="hidden w-56 shrink-0 flex-col border-r-2 border-[#caa861] bg-[#ead8a8] p-4 sm:flex">
-          <div className="font-display text-[10px] uppercase tracking-[0.3em] text-[#6b4a16]">
+          <div className="font-display text-[13px] uppercase tracking-[0.16em] text-[#6b4a16]">
             {uiText.contents}
           </div>
-          <div className="mt-1 font-mono-crt text-[10px] uppercase tracking-widest text-[#8a6a2a]">
+          <div className="mt-1 font-mono-crt text-[12px] uppercase tracking-[0.12em] text-[#6b4a16]">
             {uiText.chaptersUnit(chapters.length)}
           </div>
           <nav className="mt-3 flex flex-1 flex-col gap-1 overflow-y-auto pr-1">
@@ -93,7 +93,8 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
                   key={c.id}
                   type="button"
                   onClick={() => setChapterId(c.id)}
-                  className={`group flex items-center justify-between rounded-sm border px-2 py-1 text-left font-mono-crt text-xs transition ${
+                  aria-current={active ? "true" : undefined}
+                  className={`group flex items-center justify-between rounded-sm border px-2 py-1.5 text-left font-mono-crt text-sm leading-snug transition ${
                     active
                       ? "border-[#6b4a16] bg-[#f4e8c8] text-[#2a1c0a] shadow-[inset_0_0_0_1px_rgba(107,74,22,0.4)]"
                       : "border-transparent text-[#5a4015] hover:border-[#caa861] hover:bg-[#f0dfb0]"
@@ -105,7 +106,7 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
               );
             })}
           </nav>
-          <div className="mt-3 border-t border-[#caa861] pt-2 font-mono-crt text-[9px] uppercase tracking-widest text-[#8a6a2a]">
+          <div className="mt-3 border-t border-[#caa861] pt-2 font-mono-crt text-[11px] uppercase tracking-[0.12em] text-[#6b4a16]">
             {uiText.edition}
           </div>
         </aside>
@@ -127,10 +128,10 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
 
         <div className="flex flex-1 flex-col">
           <header className="border-b-2 border-[#caa861] bg-[#ead8a8] px-6 py-3 pr-12">
-            <div className="font-mono-crt text-[10px] uppercase tracking-[0.3em] text-[#8a6a2a]">
+            <div className="font-mono-crt text-[13px] uppercase tracking-[0.16em] text-[#6b4a16]">
               {title}
             </div>
-            <div className="mt-0.5 font-display text-[10px] italic tracking-wide text-[#7a5a20]">
+            <div className="mt-0.5 font-display text-[13px] italic tracking-wide text-[#5a4015]">
               {subtitle}
             </div>
           </header>
@@ -154,7 +155,7 @@ export function BookOverlay({ open, onClose, title, subtitle, chapters, uiText }
                   style={{ filter: "sepia(0.15) contrast(1.02)" }}
                 />
                 {chapter.imageCaption && (
-                  <figcaption className="mt-1 font-mono-crt text-[13px] uppercase tracking-widest text-[#8a6a2a] sm:text-[10px]">
+                  <figcaption className="mt-1 font-mono-crt text-[13px] uppercase tracking-widest text-[#6b4a16] sm:text-[10px]">
                     {chapter.imageCaption}
                   </figcaption>
                 )}
@@ -206,7 +207,7 @@ function ChapterPager({
   const next =
     idx < chapters.length - 1 ? chapters[idx + 1] : null;
   return (
-    <div className="flex items-center justify-between font-mono-crt text-xs text-[#6b4a16]">
+    <div className="flex items-center justify-between font-mono-crt text-[13px] text-[#5a4015]">
       <div>
         {prev ? (
           <button
