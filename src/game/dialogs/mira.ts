@@ -1136,6 +1136,7 @@ export const miraDialogs: Record<string, DialogTree> = {
             text: "[ Beenden ]",
             action: (api) => {
               api.setFlag("miraEvidenceDelivered");
+              easeMiraDistance(api);
               api.setFlag("miraTerminalUnlocked");
             },
           },
