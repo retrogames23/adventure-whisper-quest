@@ -218,6 +218,8 @@ export type StoryFlag =
   | "philippeProbeNote3"
   | "philippeProbeNote4"
   | "philippeProbeNote5"
+  /** Mindestens drei der fünf Philippe-Sonden abgeschlossen. */
+  | "philippeProbesDeep"
   // Helka Vint (2610) — Türgespräch
   | "metHelka"
   | "talkedHelka2"
