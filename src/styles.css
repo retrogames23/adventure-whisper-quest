@@ -678,20 +678,28 @@
   /* Sehr transparente Textfarben anheben (unter ~60 % Deckkraft). */
   [class*="text-muted-foreground/3"],
   [class*="text-muted-foreground/4"],
-  [class*="text-muted-foreground/5"],
+  [class*="text-muted-foreground/5"] {
+    color: color-mix(in oklch, var(--muted-foreground) 85%, transparent) !important;
+  }
   [class*="text-foreground/3"],
   [class*="text-foreground/4"],
-  [class*="text-foreground/5"],
+  [class*="text-foreground/5"] {
+    color: color-mix(in oklch, var(--foreground) 82%, transparent) !important;
+  }
   [class*="text-phosphor-dim/3"],
   [class*="text-phosphor-dim/4"],
-  [class*="text-phosphor-dim/5"],
+  [class*="text-phosphor-dim/5"] {
+    color: color-mix(in oklch, var(--phosphor-dim) 85%, transparent) !important;
+  }
   [class*="text-sepia-dim/3"],
   [class*="text-sepia-dim/4"],
-  [class*="text-sepia-dim/5"],
+  [class*="text-sepia-dim/5"] {
+    color: color-mix(in oklch, var(--sepia-dim) 85%, transparent) !important;
+  }
   [class*="text-amber-glow/3"],
   [class*="text-amber-glow/4"],
   [class*="text-amber-glow/5"] {
-    opacity: 1 !important;
+    color: color-mix(in oklch, var(--amber-glow) 85%, transparent) !important;
   }
 }
 
