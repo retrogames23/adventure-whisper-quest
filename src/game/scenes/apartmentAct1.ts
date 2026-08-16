@@ -287,10 +287,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "philippeNpc",
         // Philippe steht rechts mit verschränkten Armen.
-        x: 60.5,
-        y: 18,
-        w: 19.5,
-        h: 78,
+        x: 69.3,
+        y: 26.1,
+        w: 17.1,
+        h: 68.5,
+
         label: "Philippe",
         kind: "talk",
         requires: ["knockingHeard"],
@@ -322,10 +323,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       // Verschiedene Dialoge je nach Stand der Geschichte.
       {
         id: "philippeAfterNpc",
-        x: 64.5,
-        y: 22.5,
-        w: 19.5,
-        h: 78,
+        x: 68.4,
+        y: 22.9,
+        w: 17.4,
+        h: 75.2,
+
         label: "Philippe",
         kind: "talk",
         requires: ["paramedicsArrived"],
@@ -417,10 +419,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "wall",
         // Mittlere Betonwand zwischen Telefon und Philippe.
-        x: 29.5,
-        y: 15,
-        w: 28.5,
+        x: 28.7,
+        y: 9.4,
+        w: 34.8,
         h: 50,
+
         label: "Wand mit Klopfen (zur 2615)",
         kind: "look",
         hiddenWhen: ["doorBrokenOpen"],
@@ -437,10 +440,11 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       // Nach Akt 1: ruhige Wand zur (jetzt versiegelten) 2615.
       {
         id: "wallAfter",
-        x: 28.8,
-        y: 13.2,
-        w: 32.6,
+        x: 27.3,
+        y: 7.9,
+        w: 34.4,
         h: 57.3,
+
         label: "Wand zur 2615 (still)",
         kind: "look",
         requires: ["doorBrokenOpen"],
@@ -455,9 +459,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         id: "phone2613",
         // Beiger Bakelit-Wandapparat ganz links.
         x: 19.2,
-        y: 18,
+        y: 23.7,
         w: 9.8,
-        h: 55,
+        h: 26.6,
+
         label: "Telefon (Wandapparat)",
         kind: "use",
         requires: ["talkedPhilippe2613"],
@@ -510,8 +515,9 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         // Türrahmen ganz rechts (hinter Philippe).
         x: 83.8,
         y: 18.3,
-        w: 12.3,
+        w: 16.4,
         h: 80,
+
         label: "In den Korridor",
         kind: "exit",
         // Sobald die Sanitäter da sind, kann Layard hinaus. Beim ersten
