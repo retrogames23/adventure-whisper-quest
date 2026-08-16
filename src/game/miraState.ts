@@ -5,8 +5,10 @@ import type { GameApi } from "./types";
  *
  * - friendly:  Layard hat Mira die drei widersprüchlichen Aushang-Belege
  *              gebracht.
- * - skeptical: Layard hat Mira aktiv abgewiesen oder die Vertrauensprobe
- *              verloren (miraSystemic ODER miraTrustWithheld).
+ * - skeptical: Layard hat sich mehrfach systemkonform geoutet (Stufe 3 =
+ *              miraSystemic) oder die Vertrauensprobe verloren
+ *              (miraTrustWithheld). Einzelne kühle Antworten (miraDistance1/2)
+ *              reichen dafür bewusst nicht.
  * - neutral:   Alles dazwischen — inkl. „nie mit Mira gesprochen".
  */
 export type MiraEndState = "friendly" | "neutral" | "skeptical";

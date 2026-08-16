@@ -1,6 +1,38 @@
 import type { DialogChoice, DialogTree, GameApi } from "../types";
 
 /**
+ * Mira wird nicht durch einen einzigen Satz abgeschaltet, sondern kühlt in
+ * Stufen ab: Stufe 1 (miraDistance1) = thematischer Rückzug, Stufe 2
+ * (miraDistance2) = kühler Ton, Stufe 3 (miraSystemic) = sie redet nicht mehr
+ * über ihre Sache. Auch Stufe 3 ist KEIN Dead End: Dienstliches — vor allem
+ * die Störungsmeldung zum Wohnungsapparat — bleibt immer ansprechbar.
+ */
+export function bumpMiraDistance(api: GameApi): void {
+  if (!api.hasFlag("miraDistance1")) {
+    api.setFlag("miraDistance1");
+    return;
+  }
+  if (!api.hasFlag("miraDistance2")) {
+    api.setFlag("miraDistance2");
+    return;
+  }
+  api.setFlag("miraSystemic");
+}
+
+/** Ernsthaftes Nachfragen oder ein gelieferter Beleg holt eine Stufe zurück. */
+export function easeMiraDistance(api: GameApi): void {
+  if (api.hasFlag("miraSystemic")) {
+    api.clearFlag("miraSystemic");
+    return;
+  }
+  if (api.hasFlag("miraDistance2")) {
+    api.clearFlag("miraDistance2");
+    return;
+  }
+  if (api.hasFlag("miraDistance1")) api.clearFlag("miraDistance1");
+}
+
+/**
  * Welches „übliche" Mira-Gespräch steht gerade an? Dieselbe Logik, die auch
  * bei Zufallsbegegnungen greift — je nachdem, was schon gelaufen ist.
  */
@@ -177,7 +209,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           {
             text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
-            action: (api) => api.setFlag("miraSystemic"),
+            action: (api) => bumpMiraDistance(api),
           },
           { text: "Keine Zeit für sowas." },
         ],
@@ -230,7 +262,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           {
             text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
-            action: (api) => api.setFlag("miraSystemic"),
+            action: (api) => bumpMiraDistance(api),
           },
           { text: "Keine Zeit für sowas." },
         ],
@@ -252,7 +284,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           {
             text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
-            action: (api) => api.setFlag("miraSystemic"),
+            action: (api) => bumpMiraDistance(api),
           },
           { text: "Keine Zeit für sowas." },
         ],
@@ -392,14 +424,35 @@ export const miraDialogs: Record<string, DialogTree> = {
       miraClosed1: {
         id: "miraClosed1",
         speaker: "MIRA",
+        text: "Schon gut. Vergiss, dass ich was gesagt habe. — Ich rede über sowas auch nicht mit jedem.",
+        subtext: "Kein Vorwurf. Sie sortiert einfach weiter.",
+        hiddenWhen: ["miraDistance2"],
+        next: "miraClosed1b",
+        end: true,
+      },
+      miraClosed1b: {
+        id: "miraClosed1b",
+        speaker: "MIRA",
+        text: "Ach so. Du bist da wirklich ganz auf Linie. — Gut zu wissen. Dann halten wir's dienstlich.",
+        subtext: "Der Ton wird kühler. Sie sieht ihn noch an, aber kürzer.",
+        requires: ["miraDistance2"],
+        hiddenWhen: ["miraSystemic"],
+        next: "miraClosed1c",
+        end: true,
+      },
+      miraClosed1c: {
+        id: "miraClosed1c",
+        speaker: "MIRA",
         text: "Ach. Einer von denen. Schon gut. Vergiss, dass ich was gesagt habe.",
         subtext: "Sie ist nicht überrascht. Sie hat damit gerechnet.",
+        requires: ["miraSystemic"],
         next: "miraClosed2",
       },
       miraClosed2: {
         id: "miraClosed2",
         speaker: "MIRA",
         text: "Schönen Tag noch, Bürger.",
+        requires: ["miraSystemic"],
         end: true,
       },
     },
@@ -463,11 +516,12 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrSystemic: {
         id: "mrSystemic",
         speaker: "MIRA",
-        text: "Verstanden. — Schönen Tag noch, Bürger.",
+        text: "Verstanden. Ich hör auf damit. — Falls du doch mal was brauchst: ich bin oft hier oben.",
+        subtext: "Sie klingt nicht beleidigt. Nur ein bisschen sparsamer.",
         choices: [
           {
             text: "[ Beenden ]",
-            action: (api) => api.setFlag("miraSystemic"),
+            action: (api) => bumpMiraDistance(api),
           },
         ],
       },
@@ -639,6 +693,7 @@ export const miraDialogs: Record<string, DialogTree> = {
   },
   miraSystemicGreeting: {
     id: "miraSystemicGreeting",
+    npcId: "mira",
     start: "msg1",
     lines: {
       msg1: {
@@ -646,6 +701,42 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Guten Tag, Bürger.",
         subtext: "Sie sieht ihn nicht einmal an.",
+        choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            requires: ["phoneBroken"],
+            hiddenWhen: ["phoneRepaired", "miraRepairDone"],
+          },
+          { text: "Ich wollte nichts. Nur fragen, ob hier alles in Ordnung ist.", next: "msg2" },
+          { text: "[ Später ]" },
+        ],
+      },
+      msg2: {
+        id: "msg2",
+        speaker: "MIRA",
+        text: "Ordnung ist immer. Steht so im Aushang. — Sonst noch was, Bürger?",
+        subtext: "Dienst nach Vorschrift. Kein Zentimeter mehr.",
+        choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            requires: ["phoneBroken"],
+            hiddenWhen: ["phoneRepaired", "miraRepairDone"],
+          },
+          {
+            text: "Ich habe dir unrecht getan. Erzähl mir noch mal, was dich an dem Wort stört.",
+            next: "msg3",
+            action: (api) => easeMiraDistance(api),
+          },
+          { text: "[ Beenden ]" },
+        ],
+      },
+      msg3: {
+        id: "msg3",
+        speaker: "MIRA",
+        text: "… hm. Nicht heute. Aber merk dir, dass du gefragt hast. Frag noch mal, wenn du wirklich Zeit hast.",
+        subtext: "Sie sieht ihn zum ersten Mal wieder an.",
         end: true,
       },
     },
@@ -1045,6 +1136,7 @@ export const miraDialogs: Record<string, DialogTree> = {
             text: "[ Beenden ]",
             action: (api) => {
               api.setFlag("miraEvidenceDelivered");
+              easeMiraDistance(api);
               api.setFlag("miraTerminalUnlocked");
             },
           },

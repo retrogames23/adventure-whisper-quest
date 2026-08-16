@@ -206,6 +206,8 @@ export type StoryFlag =
   | "metMira"
   | "miraOpenness"
   | "miraSystemic"
+  | "miraDistance1"
+  | "miraDistance2"
   | "miraOfferedFlyer"
   | "tookFlyer"
   | "talkedPhilippeAfter"
