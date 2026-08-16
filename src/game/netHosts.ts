@@ -228,7 +228,7 @@ export const NET_HOSTS: NetHost[] = [
           "ich werde es ihm nicht geben.",
         ];
       }
-      if (hasFlag("philippeProbeNote1")) {
+      if (hasFlag("philippeThemaNotiz1")) {
         out["spekulation_layard_01.txt"] = [
           "── spekulation, weil die wand jetzt still ist ─",
           "",
@@ -249,7 +249,7 @@ export const NET_HOSTS: NetHost[] = [
           "ich werde es trotzdem aufschreiben.",
         ];
       }
-      if (hasFlag("philippeProbeNote2")) {
+      if (hasFlag("philippeThemaNotiz2")) {
         out["spekulation_layard_02.txt"] = [
           "── spekulation, schreiben & motiv ─────────────",
           "",
@@ -270,7 +270,7 @@ export const NET_HOSTS: NetHost[] = [
           "(diese unterscheidung gibt es vielleicht nicht.)",
         ];
       }
-      if (hasFlag("philippeProbeNote3")) {
+      if (hasFlag("philippeThemaNotiz3")) {
         out["spekulation_layard_03.txt"] = [
           "── spekulation, 104,6 ────────────────────────",
           "",
@@ -293,7 +293,7 @@ export const NET_HOSTS: NetHost[] = [
           "(ich höre es nicht mehr. das ist der punkt.)",
         ];
       }
-      if (hasFlag("philippeProbeNote4")) {
+      if (hasFlag("philippeThemaNotiz4")) {
         out["spekulation_layard_04.txt"] = [
           "── spekulation, insa bauerfeind ──────────────",
           "",
@@ -316,7 +316,7 @@ export const NET_HOSTS: NetHost[] = [
           "trotzdem am besten. ich behalte sie.",
         ];
       }
-      if (hasFlag("philippeProbeNote5")) {
+      if (hasFlag("philippeThemaNotiz5")) {
         out["spekulation_layard_05.txt"] = [
           "── spekulation, der mann von nebenan ─────────",
           "",

@@ -2,23 +2,23 @@ import type { GameApi, StoryFlag } from "../types";
 import type { DialogTree } from "../types";
 
 /**
- * Setzt die Notiz-Flag einer Philippe-Sonde und prüft, ob Layard nun
- * mindestens drei der fünf Ausfrage-Gespräche hinter sich hat. Ab drei
+ * Setzt die Notiz-Flag eines Philippe-Themas und prüft, ob Layard nun
+ * mindestens drei der fünf vertieften Gespräche hinter sich hat. Ab drei
  * ist ihm klar, dass der Nachbar ihn systematisch abklopft — daraus
  * wird ein Wissenseintrag, den er später in 5011 aussagen kann.
  */
-const PROBE_NOTES: StoryFlag[] = [
-  "philippeProbeNote1",
-  "philippeProbeNote2",
-  "philippeProbeNote3",
-  "philippeProbeNote4",
-  "philippeProbeNote5",
+const THEMA_NOTIZEN: StoryFlag[] = [
+  "philippeThemaNotiz1",
+  "philippeThemaNotiz2",
+  "philippeThemaNotiz3",
+  "philippeThemaNotiz4",
+  "philippeThemaNotiz5",
 ];
 
-function markProbe(api: GameApi, note: StoryFlag) {
+function markThema(api: GameApi, note: StoryFlag) {
   api.setFlag(note);
-  const done = PROBE_NOTES.filter((f) => api.hasFlag(f)).length;
-  if (done >= 3) api.setFlag("philippeProbesDeep");
+  const done = THEMA_NOTIZEN.filter((f) => api.hasFlag(f)).length;
+  if (done >= 3) api.setFlag("philippeThemenTief");
 }
 
 export const philippeDialogs: Record<string, DialogTree> = {
@@ -545,11 +545,11 @@ export const philippeDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  philippeProbe1: {
-    id: "philippeProbe1",
+  philippeThema1: {
+    id: "philippeThema1",
     start: "pr1",
     onEnd: (api) => {
-      markProbe(api, "philippeProbeNote1");
+      markThema(api, "philippeThemaNotiz1");
     },
     lines: {
       pr1: {
@@ -593,11 +593,11 @@ export const philippeDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  philippeProbe2: {
-    id: "philippeProbe2",
+  philippeThema2: {
+    id: "philippeThema2",
     start: "ps1",
     onEnd: (api) => {
-      markProbe(api, "philippeProbeNote2");
+      markThema(api, "philippeThemaNotiz2");
     },
     lines: {
       ps1: {
@@ -635,11 +635,11 @@ export const philippeDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  philippeProbe3: {
-    id: "philippeProbe3",
+  philippeThema3: {
+    id: "philippeThema3",
     start: "pt1",
     onEnd: (api) => {
-      markProbe(api, "philippeProbeNote3");
+      markThema(api, "philippeThemaNotiz3");
     },
     lines: {
       pt1: {
@@ -677,11 +677,11 @@ export const philippeDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  philippeProbe4: {
-    id: "philippeProbe4",
+  philippeThema4: {
+    id: "philippeThema4",
     start: "pu1",
     onEnd: (api) => {
-      markProbe(api, "philippeProbeNote4");
+      markThema(api, "philippeThemaNotiz4");
     },
     lines: {
       pu1: {
@@ -719,11 +719,11 @@ export const philippeDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  philippeProbe5: {
-    id: "philippeProbe5",
+  philippeThema5: {
+    id: "philippeThema5",
     start: "pv1",
     onEnd: (api) => {
-      markProbe(api, "philippeProbeNote5");
+      markThema(api, "philippeThemaNotiz5");
     },
     lines: {
       pv1: {

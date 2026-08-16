@@ -369,22 +369,22 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.startDialog("philippeAsksFavor");
           } else if (api.hasFlag("protocolReceived")) {
             // Tür ist versiegelt → Philippe beginnt Layard auszufragen.
-            // Fünf Sondierungs-Dialoge in fester Reihenfolge.
-            if (!api.hasFlag("philippeProbe1")) {
-              api.setFlag("philippeProbe1");
-              api.startDialog("philippeProbe1");
-            } else if (!api.hasFlag("philippeProbe2")) {
-              api.setFlag("philippeProbe2");
-              api.startDialog("philippeProbe2");
-            } else if (!api.hasFlag("philippeProbe3")) {
-              api.setFlag("philippeProbe3");
-              api.startDialog("philippeProbe3");
-            } else if (!api.hasFlag("philippeProbe4")) {
-              api.setFlag("philippeProbe4");
-              api.startDialog("philippeProbe4");
-            } else if (!api.hasFlag("philippeProbe5")) {
-              api.setFlag("philippeProbe5");
-              api.startDialog("philippeProbe5");
+            // Fünf vertiefte Gespräche in fester Reihenfolge.
+            if (!api.hasFlag("philippeThema1")) {
+              api.setFlag("philippeThema1");
+              api.startDialog("philippeThema1");
+            } else if (!api.hasFlag("philippeThema2")) {
+              api.setFlag("philippeThema2");
+              api.startDialog("philippeThema2");
+            } else if (!api.hasFlag("philippeThema3")) {
+              api.setFlag("philippeThema3");
+              api.startDialog("philippeThema3");
+            } else if (!api.hasFlag("philippeThema4")) {
+              api.setFlag("philippeThema4");
+              api.startDialog("philippeThema4");
+            } else if (!api.hasFlag("philippeThema5")) {
+              api.setFlag("philippeThema5");
+              api.startDialog("philippeThema5");
             } else {
               api.startDialog("philippeSmalltalk");
             }
