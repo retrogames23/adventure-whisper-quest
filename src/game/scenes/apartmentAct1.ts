@@ -423,7 +423,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         onUse: (api) => {
           if (api.hasFlag("doorBrokenOpen")) {
             api.showText([
-              "Die Wand ist still. Zum ersten Mal seit Wochen, sagt Philippe.",
+              "Die Wand ist still. Zum ersten Mal seit Tagen, sagt Philippe.",
               "Trotzdem hält Layard kurz die Hand an den Beton.",
               "Nichts. Nur sein eigener Puls.",
             ]);
