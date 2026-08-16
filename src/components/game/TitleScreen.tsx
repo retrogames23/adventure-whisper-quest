@@ -137,7 +137,7 @@ export function TitleScreen({ onStart }: Props) {
       </button>
 
       {/* Title + tagline pinned in the upper third (where the artwork has sky). */}
-      <div className="relative z-10 mt-[8vh] max-w-3xl">
+      <div className="relative z-20 mt-[8vh] max-w-3xl">
         <p className="font-mono-crt text-xs uppercase tracking-[0.5em] text-amber-glow/70">
           Gebäude E67 · Akt I
         </p>
@@ -161,11 +161,11 @@ export function TitleScreen({ onStart }: Props) {
           Ein klassisches Cozypunk-Point-&amp;-Click-Adventure
         </p>
 
-        <div className="relative z-30 mt-8" style={{ height: 0 }}>
+        <div className="relative z-30 mt-40 flex justify-center">
           <button
             type="button"
             onClick={handleStartRequest}
-            className="absolute left-1/2 z-30 -translate-x-1/2 translate-y-[180px] rounded-sm border border-amber-glow/70 bg-background/80 px-8 py-3 font-display text-base uppercase tracking-[0.4em] text-amber-glow backdrop-blur-sm transition hover:bg-amber-glow/15 amber-glow whitespace-nowrap"
+            className="pointer-events-auto relative z-30 rounded-sm border border-amber-glow/70 bg-background/80 px-8 py-3 font-display text-base uppercase tracking-[0.4em] text-amber-glow backdrop-blur-sm transition hover:bg-amber-glow/15 amber-glow whitespace-nowrap"
           >
             ▸ Spiel beginnen
           </button>
