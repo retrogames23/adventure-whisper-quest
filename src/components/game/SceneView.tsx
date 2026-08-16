@@ -308,6 +308,7 @@ export function SceneView() {
               : ""
           }`}
         />
+        {scene === "elevator" && <div className="fluorescent-flicker" aria-hidden="true" />}
       </div>
 
       <div
