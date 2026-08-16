@@ -16,8 +16,12 @@ interface Line {
 
 /**
  * Wartungsterminal hinter Tür 5610 — eigenes UI.
- * Drei sinnvolle Befehle: tap, listen, burn.
- * Jede Aktion ist einmalig pro Run und beeinflusst das Ende.
+ *
+ * NODE-MAINT 5610 ist KEIN Resonanz-Knoten (das wäre lore-widrig — es gibt
+ * keine staatliche Resonanz-Infrastruktur), sondern der Vorgangsknoten der
+ * Hausverwaltung E67: eine Datenfluss-Maschine, die jeden Vorgang im Haus
+ * mitschreibt. Befehle: vorgang, mitschnitt, drucken, loeschlauf.
+ * Alte Eingaben (tap/listen/burn) bleiben als Alias erhalten.
  */
 export function NodeTerminal() {
   const { nodeOpen, closeNode, api, flags, ending } = useGame();
@@ -36,29 +40,33 @@ export function NodeTerminal() {
     const tapped = flags.has("tappedNode5610");
     const burned = flags.has("burnedNode5610");
     const status = burned
-      ? "OFFLINE (Hardware)"
-      : "AKTIV — Pakete: 1.04k/s";
+      ? "SPEICHER GELÖSCHT — keine Vorgänge"
+      : "AKTIV — Vorgänge im Umlauf: 41";
     setLines([
       { text: "── NODE-MAINT 5610 · E67 ──────────────────", kind: "system" },
-      { text: "── Lokaler Resonanz-Konzentrator         ──", kind: "system" },
-      { text: "── Träger: 104,6 MHz · Quelle: aggregiert ──", kind: "system" },
+      { text: "── Vorgangsknoten der Hausverwaltung     ──", kind: "system" },
+      { text: "── Gitter: 64 Knoten · Datenfluss, asynchron", kind: "system" },
       { text: "", kind: "out" },
       { text: `Status: ${status}`, kind: tapped || burned ? "warn" : "out" },
       { text: "", kind: "out" },
       { text: "Verfügbare Befehle:", kind: "system" },
       {
-        text: "  tap      — passiv mithören (10 s)",
+        text: "  vorgang    — Vorgangsliste E67 (letzte Monate)",
         kind: tapped ? "out" : "out",
       },
       {
-        text: "  listen   — Live-Mitschnitt des Sektor-Verkehrs",
+        text: "  mitschnitt — laufender Vorgangsverkehr E67 ↔ Leitstelle",
         kind: "out",
       },
       {
-        text: "  burn     — Hardware-Reset (irreversibel, ALARM)",
+        text: "  drucken    — Vorgangsstreifen ausgeben (Papier)",
+        kind: "out",
+      },
+      {
+        text: "  loeschlauf — Speicher löschen (irreversibel, ALARM)",
         kind: "warn",
       },
-      { text: "  exit     — Terminal schließen", kind: "out" },
+      { text: "  exit       — Terminal schließen", kind: "out" },
       { text: "", kind: "out" },
     ]);
     setTimeout(() => inputRef.current?.focus(), 50);
