@@ -261,30 +261,13 @@ export const elevatorE67Scenes: Record<string, Scene> = {
     hotspots: [
       {
         id: "lookE67",
-        x: 15,
+        x: 12,
         y: 42.3,
-        w: 5.4,
+        w: 8.4,
         h: 50,
         label: "Wand E67 (zurück)",
         kind: "exit",
         onUse: (api) => api.goTo("sectorDoor"),
-      },
-      {
-        id: "zksGraffiti",
-        x: 5,
-        y: 45,
-        w: 10,
-        h: 30,
-        label: "Graffiti an der Wand",
-        kind: "look",
-        onUse: (api) => {
-          api.setFlag("sawZksGraffiti");
-          api.showText([
-            "Unter der gelben Lampe, auf der rauen Betonwand: ein Kreis, dünn mit schwarzem Lack gesprüht.",
-            "Drei Buchstaben darin: Z.K.S. Darunter, fast ausgewaschen: „Zentrum Käfig Stille“.",
-            "Layard kennt das Kürzel. Mira trägt es in ihrer Wohnung wie einen Schlüssel, den niemand abfordern darf.",
-          ]);
-        },
       },
       {
         id: "lookSky",
@@ -326,6 +309,20 @@ export const elevatorE67Scenes: Record<string, Scene> = {
         kind: "exit",
         exitDir: "down",
         onUse: (api) => api.goTo("pubVestibule"),
+      },
+      {
+        id: "zksGraffiti",
+        x: 10.5,
+        y: 53,
+        w: 11,
+        h: 12,
+        label: "Graffiti an der Betonwand",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Drei Buchstaben, mit Sprühdose an den Beton geworfen: „Z.K.S.“ Die Farbe ist verlaufen, jemand hat halbherzig versucht, sie abzuschrubben.",
+            "Layard hat das Kürzel schon im Treppenhaus gesehen, in den Beton geritzt. Niemand sagt, wofür es steht. Alle tun so, als wüssten sie es.",
+          ]),
       },
       {
         // Der Gehweg läuft nach rechts weiter — dort sitzt Ralf hinter
