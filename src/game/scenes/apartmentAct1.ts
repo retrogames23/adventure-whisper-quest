@@ -690,8 +690,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.startDialog("bodoLotti");
           } else {
             api.showText([
-              "Auf dem Sessel: eine grau-getigerte Katze, eingerollt auf einer Strickdecke.",
-              "Sie schaut Layard nicht an. Sie weiß genau, dass er da ist.",
+              "Auf dem Sessel: eine schwarze Katze, eingerollt auf einer Strickdecke. Sie schaut Layard nicht an. Sie weiß genau, dass er da ist.",
             ]);
           }
         },

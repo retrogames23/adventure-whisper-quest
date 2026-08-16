@@ -14,7 +14,7 @@ export const ennisDialogs: Record<string, DialogTree> = {
       e2: {
         id: "e2",
         speaker: "ENNIS",
-        text: "Was wollen Sie? Hören heißt Gehören, Bürger. Was machen Sie um diese Zeit im Korridor und nicht auf Schicht?",
+        text: "Was wollen Sie? Was machen Sie um diese Zeit im Korridor und nicht auf Schicht?",
         next: "e3",
       },
       e3: {
@@ -26,7 +26,7 @@ export const ennisDialogs: Record<string, DialogTree> = {
       e4: {
         id: "e4",
         speaker: "ENNIS",
-        text: "Urlaub. Schön. — Ich hab Nachtschicht in der Logistik. Sektor-Frachten. Ohne mich kommt Ihre B2 nicht in den Schacht. Sie sind also indirekt mein Bürger. Behalten Sie das im Kopf.",
+        text: "Urlaub. Schön. — Ich hab Nachtschicht in der Logistik. Sektor-Frachten. Ohne mich kommt Ihre B2 nicht in den Schacht. Behalten Sie das im Kopf.",
         next: "e5",
       },
       e5: {

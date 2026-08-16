@@ -65,13 +65,13 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bodoLottiReveal2: {
         id: "bodoLottiReveal2",
         speaker: "BODO",
-        text: "Tiere sind im Sektor offiziell nicht erlaubt. Ich hab sie über Insa angemeldet. Sie hat es nie protokolliert. Das ist alles, was ich Ihnen heute über Insa sage.",
+        text: "Tiere sind in dieser Etage offiziell nicht erlaubt. Ich hab sie über Insa angemeldet. Sie hat es nie protokolliert. Das ist alles, was ich Ihnen heute über Insa sage.",
         next: "bodoLottiReveal3",
       },
       bodoLottiReveal3: {
         id: "bodoLottiReveal3",
         speaker: "BODO",
-        text: "Sie zuckt, wenn es im Mauerwerk brummt. Tieffrequent, nachts. Deshalb halte ich es hier leise — soweit ein Stahlbetonbau das zulässt.",
+        text: "Sie zuckt, wenn das Radio voll aufgedreht ist. Deshalb läuft es hier leise.",
         choices: [
           {
             text: "[ Beenden ]",
@@ -140,7 +140,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bk4: {
         id: "bk4",
         speaker: "BODO",
-        text: "Weiter. Schönes Wort. Steht nicht im Lautsprecher. Wenn Sie weiter wollen — gehen Sie zu Helka, drei Türen weiter. Die hat eine Liste. Da steht ›weiter‹ wahrscheinlich auch drin.",
+        text: "Weiter. Schönes Wort.",
         subtext: "Er trinkt einen Schluck.",
         choices: [
           {
@@ -392,7 +392,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bc10d: {
         id: "bc10d",
         speaker: "BODO",
-        text: "Karte behalten Sie. An der Tür weiß keiner mehr, dass es die noch gibt. Mir lieber bei Ihnen als im Schubfach.",
+        text: "Karte können Sie behalten. Von dem Raum weiß eh keiner mehr, dass es ign gibt.",
         subtext: "Lotti hebt kurz den Kopf. Bodo nickt nur einmal, knapp.",
         choices: [
           {
