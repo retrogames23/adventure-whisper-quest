@@ -120,6 +120,22 @@ export const KNOWLEDGE_ENTRIES: KnowledgeEntry[] = [
     from: "tookPainRadio",
   },
   {
+    id: "vorgangsspur5610",
+    label: "Vorgangsbestand des Hauses E67",
+    source: "Vorgangsknoten 5610, Technikraum E67",
+    sensitivity: "brisant",
+    question:
+      "Sie sprechen von Meldungen. Haben Sie einen Überblick, was aus den Meldungen aus E67 geworden ist?",
+    share:
+      "Einundvierzig Vorgänge seit Januar. Vierunddreißig davon geschlossen mit »nicht vorgesehen«, alle mit derselben Paraphe. Und im Vorgang 5245 steht der Befund und vier Minuten später seine Rücknahme — ebenfalls dieselbe Paraphe.",
+    withhold:
+      "Was aus den Meldungen geworden ist, weiß ich nicht. Ich habe sie nur eingereicht wie alle anderen.",
+    noted:
+      "Bestandsauszug behauptet. Wenn Sie ihn vorlegen können, wird er geprüft. Wenn nicht, bleibt es Ihre Wahrnehmung.",
+    askedAt5011: true,
+    from: "readVorgangsliste5610",
+  },
+  {
     id: "wordControl",
     label: "Sprache als Steuerung",
     source: "Mikael, Verwaltungszimmer E71",

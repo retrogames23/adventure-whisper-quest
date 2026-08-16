@@ -207,10 +207,10 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
 
-  // 12) Optional: Serverraum 5610 für Schmerz-Radio-Spurensucher
+  // 12) Optional: Serverraum 5610 — Vorgangsbestand des Hauses E67
   {
     id: "act1.serverRoom5610",
-    title: "Serverraum 5610 — Spur des Schmerz-Radios",
+    title: "Serverraum 5610 — Vorgangsbestand E67",
     priority: 65,
     isActive: (a) =>
       a.hasFlag("saw5610Door") &&
@@ -219,9 +219,9 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) =>
       a.hasFlag("tappedNode5610") || a.hasFlag("burnedNode5610"),
     hints: [
-      "Optional: hinter Tür 5610 liegt die Quelle des Brummens auf 104,6.",
+      "Optional: hinter Tür 5610 steht der Vorgangsknoten des Hauses. Dort ist festgehalten, was aus den Meldungen aus E67 geworden ist.",
       "Sobald die Wartungssperre 4711 gelöscht ist (Bodos Terminal), gibt der Magnetriegel auch hier nach.",
-      "Im Raum gibt es ein Wartungsterminal — »tap« schneidet den Datenstrom mit, ohne Spuren zu hinterlassen. Für die Story nicht zwingend.",
+      "Am Wartungsterminal öffnet »vorgang« den Bestand, »drucken« gibt ihn als Papierstreifen aus — den kann Layard in Zimmer 5011 vorlegen. »loeschlauf« löscht alles, schützt aber die Namen im Bestand.",
     ],
   },
 

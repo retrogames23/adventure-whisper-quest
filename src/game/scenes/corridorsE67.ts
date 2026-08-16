@@ -484,7 +484,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
     background: serverRoom5610Bg,
     title: "Serverraum 5610 — Knoten E67",
     intro:
-      "Drei Racks, blinkende LEDs, der Geruch von heißem Lötzinn. In der Ecke: ein einzelnes Wartungsterminal. Hier laufen die Resonanz-Pakete von E67 zusammen, bevor sie an die Leitstelle gehen.",
+      "Drei Racks, blinkende LEDs, der Geruch von heißem Lötzinn. In der Ecke: ein einzelnes Wartungsterminal. Hier läuft der Vorgangsknoten des Hauses — jede Störmeldung, jedes Türsiegel, jede weitergeleitete Krankmeldung aus E67 geht durch dieses Gitter.",
     npcs: [
       {
         id: "oilCanSprite5610",
@@ -528,7 +528,7 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Drei Racks, dicht an dicht. Die LEDs flackern im Takt von 104,6.",
+            "Drei Racks, dicht an dicht. Die LEDs flackern unregelmäßig — das Gitter feuert nur dort, wo gerade Daten ankommen.",
             "Layard hält die Hand kurz an das Gehäuse — es ist warm.",
             "Wärme von etwas, das ohne Pause arbeitet.",
           ]),

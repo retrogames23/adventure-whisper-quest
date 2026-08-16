@@ -37,7 +37,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr4burnA: {
         id: "mr4burnA",
         speaker: "MIKAEL",
-        text: "Sie haben den Knoten weggeschossen. Das war nicht klug — aber es war ehrlicher als alles, was ich heute hier gemacht habe.",
+        text: "Sie haben den Bestand von E67 gelöscht. Das war nicht klug — aber es war ehrlicher als alles, was ich heute hier abgezeichnet habe.",
         subtext: "Er sagt das nicht zu Layard. Eher: zu sich selbst.",
         requires: ["burnedAndOwned"],
         next: "mr4burnB",
@@ -45,7 +45,7 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mr4burnB: {
         id: "mr4burnB",
         speaker: "MIKAEL",
-        text: "Sie haben ihn weggeschossen — und wissen nicht warum. Das ist das Schlimmste daran.",
+        text: "Sie haben ihn gelöscht — und wissen nicht warum. Das ist das Schlimmste daran.",
         subtext: "Es ist kein Vorwurf. Eher eine Diagnose.",
         requires: ["burnedAndDodged"],
         next: "mr5",

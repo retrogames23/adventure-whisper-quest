@@ -22,12 +22,12 @@ export function BurnSequence() {
     { text: string; delay: number; tone: "warn" | "system" | "muted" }[]
   >(
     () => [
-      { text: "── HARDWARE-RESET ──────────────────────────", delay: 0, tone: "warn" },
+      { text: "── LÖSCHLAUF · BESTAND E67 ─────────────────", delay: 0, tone: "warn" },
       { text: "PSU-1 :: ÜBERSPANNUNG", delay: 600, tone: "warn" },
       { text: "RAUCHMELDER SEKTOR 5/TECH :: ALARM", delay: 700, tone: "warn" },
-      { text: "CARRIER-DAEMON :: SEGFAULT", delay: 700, tone: "warn" },
+      { text: "VORGANG 5245 :: GELÖSCHT", delay: 700, tone: "warn" },
       { text: "», , ,", delay: 600, tone: "muted" },
-      { text: "104,6 — KEIN TRÄGER", delay: 1100, tone: "system" },
+      { text: "41 VON 41 ZEILEN — KEIN BESTAND", delay: 1100, tone: "system" },
       { text: "», , ,", delay: 1400, tone: "muted" },
     ],
     [],

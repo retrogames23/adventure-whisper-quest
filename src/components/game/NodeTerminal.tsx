@@ -16,8 +16,12 @@ interface Line {
 
 /**
  * Wartungsterminal hinter Tür 5610 — eigenes UI.
- * Drei sinnvolle Befehle: tap, listen, burn.
- * Jede Aktion ist einmalig pro Run und beeinflusst das Ende.
+ *
+ * NODE-MAINT 5610 ist KEIN Resonanz-Knoten (das wäre lore-widrig — es gibt
+ * keine staatliche Resonanz-Infrastruktur), sondern der Vorgangsknoten der
+ * Hausverwaltung E67: eine Datenfluss-Maschine, die jeden Vorgang im Haus
+ * mitschreibt. Befehle: vorgang, mitschnitt, drucken, loeschlauf.
+ * Alte Eingaben (tap/listen/burn) bleiben als Alias erhalten.
  */
 export function NodeTerminal() {
   const { nodeOpen, closeNode, api, flags, ending } = useGame();
@@ -36,29 +40,33 @@ export function NodeTerminal() {
     const tapped = flags.has("tappedNode5610");
     const burned = flags.has("burnedNode5610");
     const status = burned
-      ? "OFFLINE (Hardware)"
-      : "AKTIV — Pakete: 1.04k/s";
+      ? "SPEICHER GELÖSCHT — keine Vorgänge"
+      : "AKTIV — Vorgänge im Umlauf: 41";
     setLines([
       { text: "── NODE-MAINT 5610 · E67 ──────────────────", kind: "system" },
-      { text: "── Lokaler Resonanz-Konzentrator         ──", kind: "system" },
-      { text: "── Träger: 104,6 MHz · Quelle: aggregiert ──", kind: "system" },
+      { text: "── Vorgangsknoten der Hausverwaltung     ──", kind: "system" },
+      { text: "── Gitter: 64 Knoten · Datenfluss, asynchron", kind: "system" },
       { text: "", kind: "out" },
       { text: `Status: ${status}`, kind: tapped || burned ? "warn" : "out" },
       { text: "", kind: "out" },
       { text: "Verfügbare Befehle:", kind: "system" },
       {
-        text: "  tap      — passiv mithören (10 s)",
+        text: "  vorgang    — Vorgangsliste E67 (letzte Monate)",
         kind: tapped ? "out" : "out",
       },
       {
-        text: "  listen   — Live-Mitschnitt des Sektor-Verkehrs",
+        text: "  mitschnitt — laufender Vorgangsverkehr E67 ↔ Leitstelle",
         kind: "out",
       },
       {
-        text: "  burn     — Hardware-Reset (irreversibel, ALARM)",
+        text: "  drucken    — Vorgangsstreifen ausgeben (Papier)",
+        kind: "out",
+      },
+      {
+        text: "  loeschlauf — Speicher löschen (irreversibel, ALARM)",
         kind: "warn",
       },
-      { text: "  exit     — Terminal schließen", kind: "out" },
+      { text: "  exit       — Terminal schließen", kind: "out" },
       { text: "", kind: "out" },
     ]);
     setTimeout(() => inputRef.current?.focus(), 50);
@@ -198,24 +206,27 @@ export function NodeTerminal() {
     if (raw === "help" || raw === "?") {
       append([
         echo,
-        { text: "Befehle: tap | listen | burn | exit", kind: "out" },
+        {
+          text: "Befehle: vorgang | mitschnitt | drucken | loeschlauf | exit",
+          kind: "out",
+        },
         { text: "", kind: "out" },
       ]);
       return;
     }
 
-    if (raw === "listen") {
+    if (raw === "mitschnitt" || raw === "listen") {
       if (flags.has("burnedNode5610")) {
         append([
           echo,
-          { text: "listen: Knoten ist offline (burn).", kind: "warn" },
+          { text: "mitschnitt: Speicher gelöscht. Es läuft nichts mehr auf.", kind: "warn" },
           { text: "", kind: "out" },
         ]);
         return;
       }
       append([
         echo,
-        { text: ">> Öffne passiven Listen-Port am Sektor-Bus …", kind: "system" },
+        { text: ">> Öffne Mitleseanschluss am Vorgangsbus E67 …", kind: "system" },
         {
           text: ">> [Enter drücken, um den Mitschnitt zu beenden]",
           kind: "system",
@@ -227,15 +238,20 @@ export function NodeTerminal() {
       return;
     }
 
-    if (raw === "tap") {
+    if (raw === "vorgang" || raw === "vorgaenge" || raw === "tap") {
       if (flags.has("burnedNode5610")) {
-        append([echo, { text: "tap: Knoten ist offline (burn).", kind: "warn" }, { text: "", kind: "out" }]);
+        append([
+          echo,
+          { text: "vorgang: Speicher gelöscht. Kein Bestand.", kind: "warn" },
+          { text: "", kind: "out" },
+        ]);
         return;
       }
       if (flags.has("tappedNode5610")) {
         append([
           echo,
-          { text: "tap: bereits abgehört. Das war genug.", kind: "out" },
+          { text: "vorgang: Liste bereits abgerufen. Sie ändert sich nicht.", kind: "out" },
+          { text: "Mit 'drucken' gibt es sie auf Papier.", kind: "out" },
           { text: "", kind: "out" },
         ]);
         return;
@@ -243,67 +259,122 @@ export function NodeTerminal() {
       append([echo]);
       runScripted(
         [
-          { text: ">> Öffne passiven Tap-Port …", delayMs: 0, kind: "system", beep: true },
-          { text: ">> Demoduliere 104,6 MHz (Roh-Stream) …", delayMs: 420 },
-          { text: ">> ─────── AFFEKT-TELEMETRIE ───────", delayMs: 380, kind: "system" },
-          { text: "   Knoten:        5610  (E67, lokaler Bastler-Repeater)", delayMs: 360 },
-          { text: "   Aktive Sender im Empfang: 11", delayMs: 320 },
-          { text: "   Trägerpegel:   -18,2 dBm   stabil", delayMs: 280 },
-          { text: "   SNR:            27,4 dB", delayMs: 240 },
-          { text: "   Bündelungs-Last: 87 %       (inoffizieller Booster)", delayMs: 280, kind: "warn" },
-          { text: "   Kompressor:     3:1 → 6:1   (dyn. nachgeführt)", delayMs: 280 },
-          { text: "   ─── Affektbänder (gleitender Mittelwert, 60 s) ───", delayMs: 380, kind: "system" },
-          { text: "   Trauer          ████████████░░░░  74 %", delayMs: 320, kind: "warn" },
-          { text: "   Erschöpfung     ██████████░░░░░░  62 %", delayMs: 320, kind: "warn" },
-          { text: "   Scham           ███████░░░░░░░░░  41 %", delayMs: 320, kind: "warn" },
-          { text: "   Wut (gedämpft)  ████░░░░░░░░░░░░  22 %", delayMs: 320, kind: "warn" },
-          { text: "   Sehnsucht       ██░░░░░░░░░░░░░░  11 %", delayMs: 320, kind: "warn" },
-          { text: "   ─── Quell-Signatur ───", delayMs: 380, kind: "system" },
-          { text: "   1 Sender dominiert den Mix zu 38 %.", delayMs: 500, kind: "warn" },
-          { text: "   Signatur-Hash: 0x4E67·LAYARD·WORAG", delayMs: 600, kind: "warn" },
-          { text: "   ─── Sender-Topologie ───", delayMs: 380, kind: "system" },
-          { text: "   Quelle:        Knoten 5610 (lokal aggregiert)", delayMs: 320 },
-          { text: "   Träger-Mod.:   Antenne Dach-E67 → Reichweite ~Quartier", delayMs: 320 },
-          { text: "   Reichweite:    E67 voll · Randabfall E66/E68", delayMs: 320 },
-          { text: ">> ─── EINGANG: DEIN EIGENES SIGNAL IST IM MIX. ──", delayMs: 800, kind: "system" },
-          { text: ">> Tap geschlossen.", delayMs: 500, kind: "system", beep: true },
+          { text: ">> Öffne Bestand: HAUS E67 · lfd. Vorgänge …", delayMs: 0, kind: "system", beep: true },
+          { text: ">> Zeitraum: 01/97 – heute. Sortierung: Abschlussvermerk.", delayMs: 420 },
+          { text: ">> ─── VORGANGSLISTE E67 (Auszug) ───", delayMs: 380, kind: "system" },
+          { text: "   Eingegangen gesamt:            41", delayMs: 340 },
+          { text: "   davon Ruhezeit / Körperschall: 19", delayMs: 300 },
+          { text: "   davon Türsiegel / Belegung:     9", delayMs: 300 },
+          { text: "   davon Krankmeldung weitergel.:  7", delayMs: 300 },
+          { text: "   davon Aufzug / Wartungssperre:  6", delayMs: 300 },
+          { text: "   ─── Abschlussvermerke ───", delayMs: 380, kind: "system" },
+          { text: "   »nicht vorgesehen«             34", delayMs: 360, kind: "warn" },
+          { text: "   »zuständigkeitshalber zurück«   5", delayMs: 300, kind: "warn" },
+          { text: "   sachlich beschieden:            2", delayMs: 300 },
+          { text: "   Alle 34 mit derselben Paraphe abgezeichnet.", delayMs: 520, kind: "warn" },
+          { text: "   ─── Einzelvorgang 5245 · Wohnung 2615 ───", delayMs: 420, kind: "system" },
+          { text: "   14:22  Befund aufgenommen (Sanitätereinsatz).", delayMs: 340 },
+          { text: "   14:26  Befund zurückgenommen — »Wahrnehmungsschwankung«.", delayMs: 420, kind: "warn" },
+          { text: "   14:26  Beide Eintragungen: dieselbe Paraphe.", delayMs: 420, kind: "warn" },
+          { text: "   ─── Beteiligte im Bestand ───", delayMs: 380, kind: "system" },
+          { text: "   MARSCHKE, B.  — 12 eigenmächtige Wartungsfahrten", delayMs: 320, kind: "warn" },
+          { text: "   ARLT, M. (4601) — 11 Beschwerden, alle geschlossen", delayMs: 320, kind: "warn" },
+          { text: "   WORAG, L. (2611) — 3 Zutritte, heute", delayMs: 420, kind: "warn" },
+          { text: ">> Kein Komplott im Bestand. Nur ein Haus, das weggeschrieben wird.", delayMs: 800, kind: "system" },
+          { text: ">> Bestand bleibt geöffnet. 'drucken' gibt ihn auf Papier aus.", delayMs: 500, kind: "system", beep: true },
         ],
         () => {
           api.setFlag("tappedNode5610");
-          api.setKnowledge("radioOrigin");
+          api.setFlag("readVorgangsliste5610");
+          api.setKnowledge("vorgangsspur5610");
         },
       );
       return;
     }
 
-    if (raw === "burn") {
+    if (raw === "drucken" || raw === "print") {
       if (flags.has("burnedNode5610")) {
         append([
           echo,
-          { text: "burn: bereits durchgeführt. Der Knoten ist tot.", kind: "warn" },
+          { text: "drucken: Kein Bestand. Der Speicher ist gelöscht.", kind: "warn" },
           { text: "", kind: "out" },
         ]);
         return;
       }
-      // Erste Eingabe = nur Warnung. Ausgeführt wird burn erst nach
-      // 'burn confirm'. So passiert es nicht aus Versehen.
+      if (!flags.has("readVorgangsliste5610") && !flags.has("tappedNode5610")) {
+        append([
+          echo,
+          { text: "drucken: Kein Bestand geöffnet. Erst 'vorgang'.", kind: "out" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
+      if (flags.has("printedVorgangsstreifen")) {
+        append([
+          echo,
+          { text: "drucken: Ausdruck liegt bereits vor. Einer genügt.", kind: "out" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
+      append([echo]);
+      runScripted(
+        [
+          { text: ">> Nadeldrucker DK-4 :: Endlospapier eingezogen …", delayMs: 0, kind: "system", beep: true },
+          { text: ">> Kopfzeile: HAUS E67 · BESTANDSAUSZUG · 5610", delayMs: 500 },
+          { text: ">> 41 Zeilen. Abschlussvermerke mit abgedruckt.", delayMs: 520 },
+          { text: ">> Streifen abgerissen.", delayMs: 600, kind: "system", beep: true },
+        ],
+        () => {
+          api.setFlag("printedVorgangsstreifen");
+          api.addItem({
+            id: "vorgangsstreifen5610",
+            name: "Vorgangsstreifen 5610",
+            description:
+              "Ein Endlospapier-Streifen aus dem Vorgangsknoten E67. 41 Zeilen, davon 34 mit demselben Abschlussvermerk: »nicht vorgesehen«. Darunter der Vorgang 5245 — Befund aufgenommen, vier Minuten später zurückgenommen, beide Zeilen mit derselben Paraphe. Ein Schriftstück, das man vorlegen kann.",
+          });
+          api.showText([
+            "Der Drucker rattert, hält an, rattert weiter. Layard reißt den Streifen ab.",
+            "[ Vorgangsstreifen 5610 eingesteckt. ]",
+          ]);
+        },
+      );
+      return;
+    }
+
+    if (raw === "loeschlauf" || raw === "löschlauf" || raw === "burn") {
+      if (flags.has("burnedNode5610")) {
+        append([
+          echo,
+          { text: "loeschlauf: bereits durchgeführt. Der Bestand ist weg.", kind: "warn" },
+          { text: "", kind: "out" },
+        ]);
+        return;
+      }
+      // Erste Eingabe = nur Warnung. Ausgeführt wird der Löschlauf erst
+      // nach Bestätigung. So passiert es nicht aus Versehen.
       append([
         echo,
-        { text: ">> WARNUNG: Hardware-Reset zerstört den Knoten irreversibel.", kind: "warn" },
-        { text: ">> 104,6 wird in E67 dauerhaft stumm.", kind: "warn" },
-        { text: ">> Die paar Bastler-Empfänger im Quartier verlieren das Schmerz-Radio.", kind: "warn" },
-        { text: ">> Tippe 'burn confirm' zum Ausführen.", kind: "out" },
+        { text: ">> WARNUNG: Der Löschlauf vernichtet den Bestand E67 irreversibel.", kind: "warn" },
+        { text: ">> Danach ist nichts mehr belegbar — auch nicht Vorgang 5245.", kind: "warn" },
+        { text: ">> Aber: MARSCHKE, ARLT und WORAG stehen dann in keiner Auswertung mehr.", kind: "warn" },
+        { text: ">> Tippe 'loeschlauf bestaetigen' zum Ausführen.", kind: "out" },
         { text: ">> Tippe 'exit' zum Abbrechen.", kind: "out" },
         { text: "", kind: "out" },
       ]);
       return;
     }
 
-    if (raw === "burn confirm") {
+    if (
+      raw === "loeschlauf bestaetigen" ||
+      raw === "löschlauf bestätigen" ||
+      raw === "loeschlauf bestätigen" ||
+      raw === "burn confirm"
+    ) {
       if (flags.has("burnedNode5610")) {
         append([
           echo,
-          { text: "burn: bereits durchgeführt. Der Knoten ist tot.", kind: "warn" },
+          { text: "loeschlauf: bereits durchgeführt. Der Bestand ist weg.", kind: "warn" },
           { text: "", kind: "out" },
         ]);
         return;
@@ -311,22 +382,23 @@ export function NodeTerminal() {
       append([echo]);
       runScripted(
         [
-          { text: ">> WARNUNG: Hardware-Reset gestartet.", delayMs: 0, kind: "warn", beep: true },
-          { text: ">> Überspannung an PSU-1 …", delayMs: 400, kind: "warn" },
+          { text: ">> Löschlauf gestartet. Bestand E67 wird überschrieben.", delayMs: 0, kind: "warn", beep: true },
+          { text: ">> Überspannung an PSU-1 — Gitter läuft heiß …", delayMs: 400, kind: "warn" },
           { text: ">> Rauchmelder Sektor 5/Tech: ALARM ausgelöst.", delayMs: 500, kind: "warn", beep: true },
-          { text: ">> Carrier-Daemon: SEGFAULT. Core dumped.", delayMs: 500, kind: "warn" },
-          { text: ">> 104,6 — KEIN TRÄGER.", delayMs: 600, kind: "system" },
+          { text: ">> Vorgang 5245 :: GELÖSCHT.", delayMs: 500, kind: "warn" },
+          { text: ">> 41 von 41 Zeilen :: GELÖSCHT.", delayMs: 500, kind: "warn" },
+          { text: ">> Namen im Bestand :: KEINE.", delayMs: 600, kind: "system" },
           { text: ">> Lobby-Pult E67: eingehender Anruf an 001.", delayMs: 600, kind: "warn" },
           { text: ">> Querkopplung E67↔E71: GETRENNT.", delayMs: 500, kind: "warn", beep: true },
         ],
         () => {
           // Edge-Case-Schutz: Sollte der Spieler hier landen, bevor das
-          // Klopf-Event mit Philippe getriggert wurde, würde
-          // burn die Eröffnung der Story unerreichbar machen (104,6 ist
-          // danach für immer stumm). Letzte Welle des sterbenden Knotens
-          // reicht in dem Fall noch bis zur Wohnungstür durch.
+          // Klopf-Event mit Philippe getriggert wurde, holen wir die
+          // Eröffnung der Story nach — der Alarm im Haus bringt die
+          // Nachbarn ohnehin an die Türen.
           const needsPhilippeRecovery = !flags.has("doorbellRang");
           api.setFlag("burnedNode5610");
+          api.setFlag("wipedNode5610");
           api.playBurnSequence();
           if (needsPhilippeRecovery) {
             api.setFlag("doorbellRang");
@@ -401,7 +473,7 @@ export function NodeTerminal() {
                 ? "… Ausgabe läuft …"
                 : listening
                   ? "… Mitschnitt läuft. Enter beendet."
-                  : "listen | tap | burn | exit"
+                  : "vorgang | mitschnitt | drucken | loeschlauf | exit"
             }
             spellCheck={false}
             autoComplete="off"
