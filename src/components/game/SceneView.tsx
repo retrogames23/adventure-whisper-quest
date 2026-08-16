@@ -311,6 +311,13 @@ export function SceneView() {
           }`}
         />
         {scene === "elevator" && <div className="fluorescent-flicker" aria-hidden="true" />}
+        {scene === "apartment" && (
+          <div className="apt-ambience" aria-hidden="true">
+            <div className="apt-lamp" />
+            <div className="apt-rain" />
+            <div className="apt-cursor" />
+          </div>
+        )}
       </div>
 
       <div
