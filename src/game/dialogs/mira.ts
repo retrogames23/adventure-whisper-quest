@@ -175,7 +175,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           },
           { text: "Was ist das für ein Stapel?", next: "miraOpen1" },
           {
-            text: "Pass auf, was du sagst. Hier hört jemand zu.",
+            text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
             action: (api) => api.setFlag("miraSystemic"),
           },
@@ -228,7 +228,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           },
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
           {
-            text: "Pass auf, was du sagst. Hier hört jemand zu.",
+            text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
             action: (api) => api.setFlag("miraSystemic"),
           },
@@ -250,7 +250,7 @@ export const miraDialogs: Record<string, DialogTree> = {
           },
           { text: "Was meinst du damit genau?", next: "miraOpen1" },
           {
-            text: "Pass auf, was du sagst. Hier hört jemand zu.",
+            text: "Ich bin Verwaltungsangestellter. So etwas höre ich lieber nicht.",
             next: "miraClosed1",
             action: (api) => api.setFlag("miraSystemic"),
           },
