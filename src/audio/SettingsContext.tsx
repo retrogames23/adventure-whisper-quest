@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { isDevMode } from "@/dev/devMode";
 
 // v2: Default für `ttsEnabled` von true auf false geändert. Key-Bump
 // erzwingt, dass auch bestehende Spieler die neue Voreinstellung
