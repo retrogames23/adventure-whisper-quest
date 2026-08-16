@@ -1,5 +1,4 @@
 import type { DialogTree } from "../types";
-import { maybeGiveWartungsnotiz5610 } from "./_helpers";
 
 export const philippeDialogs: Record<string, DialogTree> = {
   philippeAtDoor: {
@@ -530,7 +529,6 @@ export const philippeDialogs: Record<string, DialogTree> = {
     start: "pr1",
     onEnd: (api) => {
       api.setFlag("philippeProbeNote1");
-      maybeGiveWartungsnotiz5610(api);
     },
     lines: {
       pr1: {
@@ -579,7 +577,6 @@ export const philippeDialogs: Record<string, DialogTree> = {
     start: "ps1",
     onEnd: (api) => {
       api.setFlag("philippeProbeNote2");
-      maybeGiveWartungsnotiz5610(api);
     },
     lines: {
       ps1: {
@@ -622,7 +619,6 @@ export const philippeDialogs: Record<string, DialogTree> = {
     start: "pt1",
     onEnd: (api) => {
       api.setFlag("philippeProbeNote3");
-      maybeGiveWartungsnotiz5610(api);
     },
     lines: {
       pt1: {
@@ -665,7 +661,6 @@ export const philippeDialogs: Record<string, DialogTree> = {
     start: "pu1",
     onEnd: (api) => {
       api.setFlag("philippeProbeNote4");
-      maybeGiveWartungsnotiz5610(api);
     },
     lines: {
       pu1: {
@@ -708,7 +703,6 @@ export const philippeDialogs: Record<string, DialogTree> = {
     start: "pv1",
     onEnd: (api) => {
       api.setFlag("philippeProbeNote5");
-      maybeGiveWartungsnotiz5610(api);
     },
     lines: {
       pv1: {
