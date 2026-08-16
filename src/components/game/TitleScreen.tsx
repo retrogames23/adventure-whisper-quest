@@ -46,9 +46,8 @@ export function TitleScreen({ onStart }: Props) {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-
-
   useEffect(() => {
+
     // Im Dev-Modus (?dev=1) startet die Titelmusik nicht automatisch.
     if (isDevMode()) return;
     const a = new Audio(titleTrack);
