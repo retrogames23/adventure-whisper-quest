@@ -150,7 +150,6 @@ const BRUST_REACTIONS: ItemReactionMap = {
 /** NPC-Hotspot-IDs → Reaktionsmap. */
 const NPC_REACTIONS: Record<string, ItemReactionMap> = {
   philippeNpc: PHILIPPE_REACTIONS,
-  philippeAfterNpc: PHILIPPE_REACTIONS,
   door2610Helka: HELKA_REACTIONS,
   bodoNpc: BODO_REACTIONS,
   door2614Ennis: ENNIS_REACTIONS,
