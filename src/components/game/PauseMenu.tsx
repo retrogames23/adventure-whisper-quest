@@ -80,7 +80,7 @@ export function PauseMenu({ open, onClose }: Props) {
 
   return (
     <div className="absolute inset-0 z-[70] flex items-center justify-center bg-black/85 px-4">
-      <div className="fade-in relative w-full max-w-2xl rounded-sm border border-amber-glow/50 bg-background p-6 shadow-[0_0_60px_rgba(0,0,0,0.85)]">
+      <div className="fade-in relative max-h-[92%] w-full max-w-2xl overflow-y-auto rounded-sm border border-amber-glow/50 bg-background p-6 shadow-[0_0_60px_rgba(0,0,0,0.85)]">
         <CloseButton
           onClick={onClose}
           label="Fortsetzen"
