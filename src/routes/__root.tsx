@@ -100,7 +100,14 @@ function RootComponent() {
     const url = new URL(window.location.href);
     if (url.searchParams.get("dev") === "1") return;
     if (window.self === window.top) return;
-    if (!url.hostname.includes("lovable.app")) return;
+    const h = url.hostname;
+    if (
+      !h.includes("lovable.app") &&
+      !h.includes("lovableproject.com") &&
+      !h.includes("lovable.dev") &&
+      h !== "localhost"
+    )
+      return;
     url.searchParams.set("dev", "1");
     window.location.replace(url.toString());
   }, []);
