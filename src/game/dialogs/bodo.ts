@@ -838,7 +838,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       brt6: {
         id: "brt6",
         speaker: "BODO",
-        text: "Schon gut, Worag. Wer Kannen wiederbringt, dem schuldet man nichts — außer einem Nicken. Nehmen Sie meins.",
+        text: "Wer Kannen wiederbringt, dem schuldet man nichts — außer einem Nicken.",
         subtext: "Er nickt einmal. Knapp, aber er meint es.",
         end: true,
       },
