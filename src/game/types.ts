@@ -42,6 +42,8 @@ export type InventoryItemId =
   | "protocol"
   | "flyer"
   | "wartungsnotiz5610"
+  // Ausdruck aus dem Vorgangsknoten 5610 (Papierstreifen, Beleg für 5011)
+  | "vorgangsstreifen5610"
   | "residentId"
   | "e67Handbook"
   | "b3Authorization"
@@ -106,6 +108,8 @@ export type KnowledgeFlag =
   | "responsibilityE67"
   | "radioOrigin"
   | "wordControl"
+  /** Vorgangsspur aus dem Verwaltungsknoten 5610 (E67). */
+  | "vorgangsspur5610"
   // Wissens-Register zur Resonanzüberlastung (Akt II)
   | "collapse2615"
   | "protocolContent"
@@ -261,6 +265,11 @@ export type StoryFlag =
   // ohne Karte/Code (Pflicht-Pfad).
   | "tappedNode5610"
   | "burnedNode5610"
+  // Neue Bezeichner für den Vorgangsknoten 5610. Werden zusammen mit den
+  // alten Flags gesetzt, damit bestehende Spielstände weiterlaufen.
+  | "readVorgangsliste5610"
+  | "printedVorgangsstreifen"
+  | "wipedNode5610"
   // Folgen aus burn. Beendet das Spiel NICHT — wirkt nur narrativ.
   // Nach dem Burn-Anruf bei Insa: Layard hat die Tat als bewusste
   // Entscheidung benannt („… weil es uns kaputtgemacht hat.")
