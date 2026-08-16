@@ -49,7 +49,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       b7: {
         id: "b7",
         speaker: "BODO",
-        text: "Funkanlagen. Trägersignale. Verstärker. Wenn die Stadt knirschte, war meistens eine Spule kalt. — Ich rede nicht gern darüber. Es war ein anderer Beruf, in einer anderen Stadt.",
+        text: "Messgänge. Körperschall, Verstärker, Klemmen. Wenn die Stadt knirschte, war meistens eine Spule kalt — oder eine Wand, die weitergab, was sie nicht sollte. Resonanz-Hygiene hieß das schon damals. — Ich rede nicht gern darüber. Es war ein anderer Beruf, in einer anderen Stadt.",
         choices: [
           { text: "Da bewegt sich etwas auf dem Sessel.", next: "bodoLottiReveal" },
           { text: "[ Beenden ]" },
@@ -71,7 +71,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bodoLottiReveal3: {
         id: "bodoLottiReveal3",
         speaker: "BODO",
-        text: "Sie zuckt, wenn das Radio voll aufgedreht ist. Deshalb läuft es hier nur leise — und nur, wenn überhaupt.",
+        text: "Sie zuckt, wenn es im Mauerwerk brummt. Tieffrequent, nachts. Deshalb halte ich es hier leise — soweit ein Stahlbetonbau das zulässt.",
         choices: [
           {
             text: "[ Beenden ]",
@@ -102,7 +102,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bl3: {
         id: "bl3",
         speaker: "BODO",
-        text: "Sie zuckt, wenn das Radio voll aufgedreht ist. Deshalb dreh’ ich es hier nicht hoch. Sie ist die Einzige, die mir das übel nehmen würde.",
+        text: "Sie zuckt, wenn es im Mauerwerk brummt. Deshalb ist es hier leise. Sie ist die Einzige, die mir Lärm wirklich übel nehmen würde.",
         choices: [
           {
             text: "[ Beenden ]",
@@ -148,7 +148,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
             next: "bodoLottiReveal",
           },
           {
-            text: "Sie haben vorhin von Trägersignalen geredet — gibt es da Frequenzen außerhalb der Skala?",
+            text: "Sie haben vorhin Resonanz-Hygiene gesagt. Was hat das mit Ihren Messgängen zu tun?",
             next: "bodoHiddenFreq1",
           },
           {
@@ -184,17 +184,18 @@ export const bodoDialogs: Record<string, DialogTree> = {
           },
         ],
       },
-      // Hinweis 1/3 für die Hidden Frequency 102,7 — Bodo nennt das Band.
+      // Hinweis 1/3 für die Hidden Frequency 102,7 — Bodo nennt das Band,
+      // eingebettet in den Doppelbegriff Resonanz-Hygiene.
       bodoHiddenFreq1: {
         id: "bodoHiddenFreq1",
         speaker: "BODO",
-        text: "Außerhalb der Skala? Nein. Aber zwischen den Bändern, das ist eine andere Sache. Stadtwerke hatten Wartungs-Träger, die haben wir nie auf die Bewohner-Skala gedruckt. Die lagen dort, wo niemand hinhörte: zwischen Einsamkeit und Trauer.",
+        text: "Offiziell: Schwingungen im Bau. Messwerte, Grenzwerte, Ruhezeiten. Inoffiziell wissen Sie so gut wie ich, was der Mandatsrat damit meint — wer hinter welcher Wand weint, wer sich krankmeldet, wo es kippt. Beides heißt Resonanz. Das ist kein Versehen.",
         next: "bodoHiddenFreq2",
       },
       bodoHiddenFreq2: {
         id: "bodoHiddenFreq2",
         speaker: "BODO",
-        text: "Zum Feintunen brauchten wir damals einen Bernstein-Resonator. So einen wie den, den Sie da in der Tasche haben, Worag. — Schon gut. Ich sehe nichts.",
+        text: "Wir hatten für die Messgänge einen eigenen Wartungskanal, nie auf einer Bewohner-Skala gedruckt. Er lag zwischen den Bändern, dort, wo niemand hinhörte. Wenn Sie so ein altes Bastelgerät in der Tasche hätten — schon gut, ich sehe nichts —, dann müssten Sie dazwischen suchen. Nicht auf der Skala.",
         choices: [
           {
             text: "[ Verstanden. ]",
@@ -222,7 +223,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bodoLottiReveal3: {
         id: "bodoLottiReveal3",
         speaker: "BODO",
-        text: "Sie zuckt, wenn das Radio voll aufgedreht ist. Deshalb läuft es hier nur leise — und nur, wenn überhaupt.",
+        text: "Sie zuckt, wenn es im Mauerwerk brummt. Tieffrequent, nachts. Deshalb halte ich es hier leise — soweit ein Stahlbetonbau das zulässt.",
         choices: [
           {
             text: "[ Verstanden. ]",

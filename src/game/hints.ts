@@ -521,7 +521,7 @@ export const HINT_QUESTS: HintQuest[] = [
     hints: [
       "Das alte Wartungs-Funkgerät im Serverraum 5610 reagiert nicht auf eine Frequenz, die auf der Skala steht. Du brauchst Vorwissen aus mehreren Quellen.",
       "Bodo (2612) weiß, in welchem Bereich der Wartungs-Träger liegt. Helka (2610) kennt die genaue Stelle. Mikael (E71) bestätigt, wie sie klingt.",
-      "Sprich Bodo und Helka beim Smalltalk auf Trägersignale/Frequenzen an, geh zurück in den Serverraum 5610, öffne dort dein Schmerz-Radio und stelle die Frequenz exakt auf 102,7 MHz.",
+      "Sprich Bodo beim Smalltalk auf Resonanz-Hygiene und seine Messgänge an, Helka auf die genaue Stelle, geh zurück in den Serverraum 5610, öffne dort dein Schmerz-Radio und stelle die Frequenz exakt auf 102,7 MHz.",
     ],
   },
   {
