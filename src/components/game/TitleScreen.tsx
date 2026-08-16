@@ -8,6 +8,7 @@ import { CreditsOverlay } from "./CreditsOverlay";
 import { DonationModal } from "@/components/donation/DonationModal";
 import titleArtwork from "@/assets/title/schmerz-radio-v1.jpg";
 import { RainOverlay } from "./RainOverlay";
+import { isDevMode } from "@/dev/devMode";
 
 const titleTrack = titleTrackAsset.url;
 
@@ -26,7 +27,7 @@ interface Props {
 export function TitleScreen({ onStart }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const startedRef = useRef(false);
-  const [musicOn, setMusicOn] = useState(true);
+  const [musicOn, setMusicOn] = useState(false);
   const [impressumOpen, setImpressumOpen] = useState(false);
   const [ossOpen, setOssOpen] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
@@ -34,6 +35,8 @@ export function TitleScreen({ onStart }: Props) {
   const [donationOpen, setDonationOpen] = useState(false);
 
   useEffect(() => {
+    // Im Dev-Modus (?dev=1) startet die Titelmusik nicht automatisch.
+    if (isDevMode()) return;
     const a = new Audio(titleTrack);
     a.loop = true;
     a.volume = 0.45;
@@ -71,8 +74,14 @@ export function TitleScreen({ onStart }: Props) {
   // GB-große Modelldatei nie herunterladen.
 
   const toggleMusic = () => {
-    const a = audioRef.current;
-    if (!a) return;
+    let a = audioRef.current;
+    if (!a) {
+      // Dev-Modus: Audio wird erst beim manuellen Einschalten erzeugt.
+      a = new Audio(titleTrack);
+      a.loop = true;
+      a.volume = 0.45;
+      audioRef.current = a;
+    }
     if (musicOn) {
       a.pause();
       setMusicOn(false);
