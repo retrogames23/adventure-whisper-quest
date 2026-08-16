@@ -161,11 +161,11 @@ export function TitleScreen({ onStart }: Props) {
           Ein klassisches Cozypunk-Point-&amp;-Click-Adventure
         </p>
 
-        <div className="relative mt-8" style={{ height: 0 }}>
+        <div className="relative z-30 mt-8" style={{ height: 0 }}>
           <button
             type="button"
             onClick={handleStartRequest}
-            className="absolute left-1/2 -translate-x-1/2 translate-y-[180px] rounded-sm border border-amber-glow/70 bg-background/50 px-8 py-3 font-display text-base uppercase tracking-[0.4em] text-amber-glow backdrop-blur-sm transition hover:bg-amber-glow/15 amber-glow whitespace-nowrap"
+            className="absolute left-1/2 z-30 -translate-x-1/2 translate-y-[180px] rounded-sm border border-amber-glow/70 bg-background/80 px-8 py-3 font-display text-base uppercase tracking-[0.4em] text-amber-glow backdrop-blur-sm transition hover:bg-amber-glow/15 amber-glow whitespace-nowrap"
           >
             ▸ Spiel beginnen
           </button>

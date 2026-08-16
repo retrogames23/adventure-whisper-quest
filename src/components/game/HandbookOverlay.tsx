@@ -123,7 +123,7 @@ export function HandbookOverlay({ open, onClose }: Props) {
 
         {/* Rechte Spalte: Inhalt */}
         <div className="flex flex-1 flex-col">
-          <header className="border-b-2 border-[#caa861] bg-[#ead8a8] px-6 py-3 pr-12">
+          <header className="border-b-2 border-[#caa861] bg-[#ead8a8] px-6 py-3 pr-12 pt-14 sm:pt-3">
             <div className="font-mono-crt text-[10px] uppercase tracking-[0.3em] text-[#8a6a2a]">
               {HANDBOOK_TITLE}
             </div>

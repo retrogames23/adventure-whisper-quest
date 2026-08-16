@@ -96,6 +96,7 @@ export function MobileStage({
     >
       <div
         ref={wrapRef}
+        data-mobile-stage="true"
         style={
           passthrough
             ? {
@@ -103,6 +104,7 @@ export function MobileStage({
                 inset: 0,
                 width: "100%",
                 height: "100%",
+                ["--stage-scale" as string]: "1",
               }
             : {
                 position: "absolute",
@@ -112,6 +114,7 @@ export function MobileStage({
                 height: stageH,
                 transform: `translate(-50%, -50%) rotate(${rotate ? -90 : 0}deg) scale(${scale})`,
                 transformOrigin: "center center",
+                ["--stage-scale" as string]: String(scale),
               }
         }
       >

@@ -151,7 +151,9 @@ export function SceneView() {
     recomputeImgRect();
     const stage = stageRef.current;
     if (!stage) return;
-    const ro = new ResizeObserver(() => recomputeImgRect());
+    const ro = new ResizeObserver(() =>
+      window.requestAnimationFrame(() => recomputeImgRect()),
+    );
     ro.observe(stage);
     window.addEventListener("resize", recomputeImgRect);
     return () => {

@@ -517,6 +517,105 @@
      Coarse-Pointer-Geräten Mindestschrift- und Treffergröße erhöhen. */
 }
 
+/* ===== Mobile Lesbarkeit =====
+   Die Bühne wird auf Mobil per transform:scale() verkleinert (z. B. 0,55).
+   Dadurch schrumpft jede Schrift proportional mit. Hier gleichen wir das
+   aus: --tb ist der Kehrwert der Bühnenskalierung (gedeckelt), damit
+   kleine Utility-Größen wieder eine lesbare ECHTE Pixelgröße erreichen.
+   Gilt ausschließlich unter 768px — Desktop bleibt unverändert. */
+@media (max-width: 767px) {
+  [data-mobile-stage] {
+    --tb: clamp(1, calc(1 / var(--stage-scale, 1)), 2.2);
+    /* Gedämpfte Farben auf kleinen Displays deutlich aufhellen. */
+    --muted-foreground: oklch(0.78 0.02 130);
+    --phosphor-dim: oklch(0.74 0.2 145);
+    --sepia-dim: oklch(0.78 0.12 65);
+    --amber-deep: oklch(0.68 0.15 60);
+  }
+
+  [data-mobile-stage] .text-\[7px\],
+  [data-mobile-stage] .text-\[8px\],
+  [data-mobile-stage] .text-\[9px\],
+  [data-mobile-stage] .text-\[0\.55rem\] {
+    font-size: calc(11px * var(--tb)) !important;
+    line-height: 1.35 !important;
+  }
+
+  [data-mobile-stage] .text-\[10px\],
+  [data-mobile-stage] .text-\[11px\],
+  [data-mobile-stage] .text-\[0\.6rem\],
+  [data-mobile-stage] .text-\[0\.65rem\],
+  [data-mobile-stage] .text-xs {
+    font-size: calc(12.5px * var(--tb)) !important;
+    line-height: 1.4 !important;
+  }
+
+  [data-mobile-stage] .text-\[12px\],
+  [data-mobile-stage] .text-\[13px\],
+  [data-mobile-stage] .text-\[0\.8rem\],
+  [data-mobile-stage] .text-sm {
+    font-size: calc(14px * var(--tb)) !important;
+    line-height: 1.45 !important;
+  }
+
+  [data-mobile-stage] .text-\[15px\],
+  [data-mobile-stage] .text-\[0\.9rem\],
+  [data-mobile-stage] .text-base {
+    font-size: calc(16px * var(--tb)) !important;
+    line-height: 1.5 !important;
+  }
+
+  [data-mobile-stage] .text-lg {
+    font-size: calc(18px * var(--tb)) !important;
+  }
+
+  /* Sehr transparente Textfarben anheben — auf kleinen Displays sonst
+     kaum vom Hintergrund zu unterscheiden. */
+  [data-mobile-stage] [class*="text-amber-glow/3"],
+  [data-mobile-stage] [class*="text-amber-glow/4"],
+  [data-mobile-stage] [class*="text-amber-glow/5"],
+  [data-mobile-stage] [class*="text-amber-glow/6"] {
+    color: color-mix(in oklch, var(--amber-glow) 82%, transparent) !important;
+  }
+  [data-mobile-stage] [class*="text-muted-foreground/"],
+  [data-mobile-stage] [class*="text-phosphor-dim/"],
+  [data-mobile-stage] [class*="text-sepia-dim/"],
+  [data-mobile-stage] [class*="text-foreground/4"],
+  [data-mobile-stage] [class*="text-foreground/5"],
+  [data-mobile-stage] [class*="text-foreground/6"] {
+    opacity: 1 !important;
+  }
+  [data-mobile-stage] [class*="text-muted-foreground/"] {
+    color: color-mix(in oklch, var(--muted-foreground) 88%, transparent) !important;
+  }
+
+  /* Text über Szenenbildern klarer absetzen. */
+  [data-mobile-stage] .scene-text-shadow,
+  [data-mobile-stage] .chatter-bubble,
+  [data-mobile-stage] .hotspot-label {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Portale (Radix-Dialoge, Toasts) hängen an <body> und liegen damit
+     außerhalb der skalierten Bühne — dort reicht eine feste Anhebung. */
+  body > [data-radix-popper-content-wrapper],
+  body > div[role="dialog"],
+  body > [data-slot="dialog-overlay"] ~ *,
+  [data-sonner-toaster] {
+    --tb: 1;
+  }
+  body > [data-radix-popper-content-wrapper] .text-xs,
+  body > div[role="dialog"] .text-xs,
+  [data-sonner-toaster] .text-xs,
+  body > [data-radix-popper-content-wrapper] .text-\[10px\],
+  body > div[role="dialog"] .text-\[10px\],
+  body > [data-radix-popper-content-wrapper] .text-\[11px\],
+  body > div[role="dialog"] .text-\[11px\] {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+}
+
 /* Größere Trefferfläche für Hotspots auf Touch-Geräten ohne das
    Desktop-Verhalten zu ändern. Wir hängen unsichtbares Padding an,
    das den Klickbereich vergrößert, aber das visuelle Layout nicht
