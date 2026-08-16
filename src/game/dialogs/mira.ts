@@ -693,6 +693,7 @@ export const miraDialogs: Record<string, DialogTree> = {
   },
   miraSystemicGreeting: {
     id: "miraSystemicGreeting",
+    npcId: "mira",
     start: "msg1",
     lines: {
       msg1: {
@@ -700,6 +701,42 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Guten Tag, Bürger.",
         subtext: "Sie sieht ihn nicht einmal an.",
+        choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            requires: ["phoneBroken"],
+            hiddenWhen: ["phoneRepaired", "miraRepairDone"],
+          },
+          { text: "Ich wollte nichts. Nur fragen, ob hier alles in Ordnung ist.", next: "msg2" },
+          { text: "[ Später ]" },
+        ],
+      },
+      msg2: {
+        id: "msg2",
+        speaker: "MIRA",
+        text: "Ordnung ist immer. Steht so im Aushang. — Sonst noch was, Bürger?",
+        subtext: "Dienst nach Vorschrift. Kein Zentimeter mehr.",
+        choices: [
+          {
+            text: "Störung am Wohnungsapparat. Etagenwartung Korridor 46, Schicht A — das bist du.",
+            nextDialog: "miraFaultReport",
+            requires: ["phoneBroken"],
+            hiddenWhen: ["phoneRepaired", "miraRepairDone"],
+          },
+          {
+            text: "Ich habe dir unrecht getan. Erzähl mir noch mal, was dich an dem Wort stört.",
+            next: "msg3",
+            action: (api) => easeMiraDistance(api),
+          },
+          { text: "[ Beenden ]" },
+        ],
+      },
+      msg3: {
+        id: "msg3",
+        speaker: "MIRA",
+        text: "… hm. Nicht heute. Aber merk dir, dass du gefragt hast. Frag noch mal, wenn du wirklich Zeit hast.",
+        subtext: "Sie sieht ihn zum ersten Mal wieder an.",
         end: true,
       },
     },
