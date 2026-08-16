@@ -1,4 +1,25 @@
+import type { GameApi, StoryFlag } from "../types";
 import type { DialogTree } from "../types";
+
+/**
+ * Setzt die Notiz-Flag einer Philippe-Sonde und prüft, ob Layard nun
+ * mindestens drei der fünf Ausfrage-Gespräche hinter sich hat. Ab drei
+ * ist ihm klar, dass der Nachbar ihn systematisch abklopft — daraus
+ * wird ein Wissenseintrag, den er später in 5011 aussagen kann.
+ */
+const PROBE_NOTES: StoryFlag[] = [
+  "philippeProbeNote1",
+  "philippeProbeNote2",
+  "philippeProbeNote3",
+  "philippeProbeNote4",
+  "philippeProbeNote5",
+];
+
+function markProbe(api: GameApi, note: StoryFlag) {
+  api.setFlag(note);
+  const done = PROBE_NOTES.filter((f) => api.hasFlag(f)).length;
+  if (done >= 3) api.setFlag("philippeProbesDeep");
+}
 
 export const philippeDialogs: Record<string, DialogTree> = {
   philippeAtDoor: {
@@ -528,7 +549,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
     id: "philippeProbe1",
     start: "pr1",
     onEnd: (api) => {
-      api.setFlag("philippeProbeNote1");
+      markProbe(api, "philippeProbeNote1");
     },
     lines: {
       pr1: {
@@ -576,7 +597,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
     id: "philippeProbe2",
     start: "ps1",
     onEnd: (api) => {
-      api.setFlag("philippeProbeNote2");
+      markProbe(api, "philippeProbeNote2");
     },
     lines: {
       ps1: {
@@ -618,7 +639,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
     id: "philippeProbe3",
     start: "pt1",
     onEnd: (api) => {
-      api.setFlag("philippeProbeNote3");
+      markProbe(api, "philippeProbeNote3");
     },
     lines: {
       pt1: {
@@ -660,7 +681,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
     id: "philippeProbe4",
     start: "pu1",
     onEnd: (api) => {
-      api.setFlag("philippeProbeNote4");
+      markProbe(api, "philippeProbeNote4");
     },
     lines: {
       pu1: {
@@ -702,7 +723,7 @@ export const philippeDialogs: Record<string, DialogTree> = {
     id: "philippeProbe5",
     start: "pv1",
     onEnd: (api) => {
-      api.setFlag("philippeProbeNote5");
+      markProbe(api, "philippeProbeNote5");
     },
     lines: {
       pv1: {

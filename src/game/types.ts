@@ -114,7 +114,9 @@ export type KnowledgeFlag =
   | "e71Denial"
   | "miraNetwork"
   | "gfaContact"
-  | "zeroIsInfinity";
+  | "zeroIsInfinity"
+  /** Der Nachbar Philippe fragt Layard systematisch aus. */
+  | "philippeProbing";
 
 /** Hat Layard ein Wissensstück offengelegt oder verschwiegen? */
 export type DisclosureChoice = "shared" | "withheld";
@@ -218,6 +220,8 @@ export type StoryFlag =
   | "philippeProbeNote3"
   | "philippeProbeNote4"
   | "philippeProbeNote5"
+  /** Mindestens drei der fünf Philippe-Sonden abgeschlossen. */
+  | "philippeProbesDeep"
   // Helka Vint (2610) — Türgespräch
   | "metHelka"
   | "talkedHelka2"

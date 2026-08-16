@@ -177,6 +177,22 @@ export const KNOWLEDGE_ENTRIES: KnowledgeEntry[] = [
     from: "gfaManifestTaken",
   },
   {
+    id: "philippeProbing",
+    label: "Der Nachbar fragt aus",
+    source: "Philippe Rausch, Wohnung 2613, E67",
+    sensitivity: "heikel",
+    question:
+      "Ist Ihnen im Haus jemand aufgefallen, der sich für Ihre Angaben interessiert? Ich frage nicht aus Neugier.",
+    share:
+      "Mein Nachbar. Er fragt freundlich, aber der Reihe nach: Herkunft, Beruf, Gerät, Besuch, Wand. Ich habe erst beim dritten Mal gemerkt, dass es eine Reihenfolge ist.",
+    withhold:
+      "Im Haus interessiert sich niemand für meine Angaben. Da bin ich ganz beruhigt.",
+    noted:
+      "Angabe zu einer Befragung durch Dritte. Eine Befragung durch Dritte ist nicht vorgesehen. Ich führe es unter Nachbarschaft.",
+    askedAt5011: true,
+    from: "philippeProbesDeep",
+  },
+  {
     id: "zeroIsInfinity",
     label: "Zero is Infinity",
     source: "Gerüchte im Wohngürtel",
