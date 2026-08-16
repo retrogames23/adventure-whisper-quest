@@ -544,7 +544,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       ic2: {
         id: "ic2",
         speaker: "INSA",
-        text: "Worag. — Hier ist gerade ein Träger ausgefallen. Komplett. Wir haben das auf dem Pult als Alarm 4-7-7. Sagt Ihnen das was?",
+        text: "Worag. — In E67 ist gerade ein Vorgangsknoten ausgefallen. Der ganze Bestand des Hauses, weg. Wir haben das auf dem Pult als Alarm 4-7-7. Sagt Ihnen das was?",
         subtext: "Sie weiß die Antwort. Sie fragt trotzdem.",
         choices: [
           {
@@ -566,7 +566,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       ic4a: {
         id: "ic4a",
         speaker: "INSA",
-        text: "Gut. Dann sind wir wenigstens ehrlich. — Hören Sie. Was Sie kaputt gemacht haben, war nicht meines. Es war auch nicht das Ihrer Nachbarn. Wem es gehörte, finde ich noch heraus.",
+        text: "Gut. Dann sind wir wenigstens ehrlich. — Hören Sie. In diesem Bestand stand, wie oft Ihr Haus gemeldet hat und wie oft man es weggeschrieben hat. Jetzt steht es nirgends mehr. Ob das Schutz war oder Vernichtung, entscheiden nicht Sie und nicht ich.",
         next: "ic5",
       },
       ic4b: {
