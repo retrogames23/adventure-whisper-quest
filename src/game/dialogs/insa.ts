@@ -33,7 +33,7 @@ export const insaDialogs: Record<string, DialogTree> = {
       i5: {
         id: "i5",
         speaker: "LAYARD",
-        text: "Ich bin in 2613, bei meinem Nachbarn Philippe. Aus der Nebenwohnung — 2615 — hören wir seit Stunden ein Klopfen. Niemand öffnet. Auf Rufe keine Reaktion.",
+        text: "Ich bin in 2613, bei meinem Nachbarn Philippe. Aus der Nebenwohnung — 2615 — hören wir seit Tagen ein Klopfen. Niemand öffnet. Auf Rufe keine Reaktion.",
         next: "i6",
       },
       i6: {
