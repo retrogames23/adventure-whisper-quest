@@ -841,8 +841,44 @@ export const bodoDialogs: Record<string, DialogTree> = {
     },
   },
 
+  // ── Layard versucht, Bodo die Wartungskarte 5610 zurückzugeben.
+  //    Bodo weigert sich. Die Karte bleibt im Inventar — eine Einladung,
+  //    die Räume zu finden, zu denen sie führt.
+  bodoReturnWartungskarte: {
+    id: "bodoReturnWartungskarte",
+    start: "brwk1",
+    lines: {
+      brwk1: {
+        id: "brwk1",
+        speaker: "LAYARD",
+        text: "Bodo — Ihre Karte. Ich habe sie nicht gebraucht.",
+        next: "brwk2",
+      },
+      brwk2: {
+        id: "brwk2",
+        speaker: "BODO",
+        text: "Danke, die können Sie behalten. Ich habe genug Karten, die zu Räumen führen, die längst vergessen wurden.",
+        subtext: "Er wedelt ab, als hätte Layard ihm ein Taschentuch angeboten.",
+        next: "brwk3",
+      },
+      brwk3: {
+        id: "brwk3",
+        speaker: "LAYARD",
+        text: "Sind Sie sicher?",
+        next: "brwk4",
+      },
+      brwk4: {
+        id: "brwk4",
+        speaker: "BODO",
+        text: "Sicher. Wenn Sie sie nicht brauchen, findet sie irgendwann selbst den Weg. Die meisten Dinge tun das hier.",
+        end: true,
+      },
+    },
+  },
+
   // ── Kellerschlüssel: Bodo rückt den Vierkant heraus ───────────────
   //    Nur nach zurückgebrachter Thermoskanne (`gaveBodoThermos`).
+
   bodoKellerKey: {
     id: "bodoKellerKey",
     start: "bkk1",
