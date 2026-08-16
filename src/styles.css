@@ -595,6 +595,25 @@
   [data-mobile-stage] .hotspot-label {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.7);
   }
+
+  /* Portale (Radix-Dialoge, Toasts) hängen an <body> und liegen damit
+     außerhalb der skalierten Bühne — dort reicht eine feste Anhebung. */
+  body > [data-radix-popper-content-wrapper],
+  body > div[role="dialog"],
+  body > [data-slot="dialog-overlay"] ~ *,
+  [data-sonner-toaster] {
+    --tb: 1;
+  }
+  body > [data-radix-popper-content-wrapper] .text-xs,
+  body > div[role="dialog"] .text-xs,
+  [data-sonner-toaster] .text-xs,
+  body > [data-radix-popper-content-wrapper] .text-\[10px\],
+  body > div[role="dialog"] .text-\[10px\],
+  body > [data-radix-popper-content-wrapper] .text-\[11px\],
+  body > div[role="dialog"] .text-\[11px\] {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
 }
 
 /* Größere Trefferfläche für Hotspots auf Touch-Geräten ohne das
