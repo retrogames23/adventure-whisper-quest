@@ -470,15 +470,13 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           if (!api.hasFlag("wait2613Step1")) {
             api.setFlag("wait2613Step1");
             api.showText([
-              "Layard und Philippe warten. Das Klopfen aus 2615 hat sich",
-              "kein einziges Mal verändert. Kein Tempo-Wechsel, keine Pause.",
+              "Layard und Philippe warten. Das Klopfen aus 2615 hat sich kein einziges Mal verändert. Kein Tempo-Wechsel, keine Pause.",
               "Philippe schaut auf seine Uhr. Sagt nichts.",
             ]);
           } else if (!api.hasFlag("wait2613Step2")) {
             api.setFlag("wait2613Step2");
             api.showText([
-              "Noch ein paar Minuten. Philippe stellt zwei Tassen auf den Tisch,",
-              "trinkt aber nicht. Layard auch nicht.",
+              "Noch ein paar Minuten. Philippe stellt zwei Tassen auf den Tisch, trinkt aber nicht. Layard auch nicht.",
               "Im Korridor: Schritte. Gleichmäßig. Schwer.",
             ]);
           } else {
@@ -486,8 +484,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             // wird beim Verlassen der Wohnung als Cutscene gespielt.
             api.setFlag("paramedicsArrived");
             api.showText([
-              "Es klopft an Philippes Tür. Schwere, kontrollierte Schläge.",
-              "Eine Stimme: „Sanitätsdienst Block 26. Wir sind wegen 2615 da.“",
+              "Es klopft an Philippes Tür. Schwere, kontrollierte Schläge. Eine Stimme: „Sanitätsdienst Block 26. Wir sind wegen 2615 da.“",
               "Philippe nickt Layard zu. „Gehen Sie raus. Sie haben sie gerufen.“",
             ]);
           }
