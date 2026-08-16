@@ -33,6 +33,19 @@ export function TitleScreen({ onStart }: Props) {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [donationOpen, setDonationOpen] = useState(false);
+  const [rainEnabled, setRainEnabled] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.matchMedia("(min-width: 768px)").matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = (e: MediaQueryListEvent) => setRainEnabled(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
 
   useEffect(() => {
     // Im Dev-Modus (?dev=1) startet die Titelmusik nicht automatisch.
