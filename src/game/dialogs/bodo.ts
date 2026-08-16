@@ -448,7 +448,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       br3: {
         id: "br3",
         speaker: "BODO",
-        text: "Bildschirm steht noch wie ich ihn verlassen hab’. Brav, Worag. Brav.",
+        text: "Bildschirm steht noch wie ich ihn verlassen hab’. Danke, Herr Worag. Danke.",
         subtext: "Er glaubt es nur halb. Aber heute reicht ihm das.",
         next: "br4",
       },
@@ -712,7 +712,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bs5: {
         id: "bs5",
         speaker: "BODO",
-        text: "Kaputtmachen. Hm. — Da steht draußen ein Aufzug, der seit heute Mittag nichts mehr tut. Wartung 4711. Wegen Ihrer kleinen Resonanz-Geschichte unten.",
+        text: "Kaputtmachen. Hm. — Da steht draußen ein Aufzug, der seit heute Mittag nichts mehr tut. Wartung 4711.",
         next: "bs6",
       },
       bs6: {
