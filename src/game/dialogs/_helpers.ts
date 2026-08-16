@@ -15,7 +15,14 @@ export function maybeGiveWartungsnotiz5610(api: GameApi) {
     (api.hasFlag("philippeProbeNote3") ? 1 : 0) +
     (api.hasFlag("philippeProbeNote4") ? 1 : 0) +
     (api.hasFlag("philippeProbeNote5") ? 1 : 0);
-  if (probes >= 3 && !api.hasItem("wartungsnotiz5610")) {
+  if (
+    probes >= 3 &&
+    !api.hasItem("wartungsnotiz5610") &&
+    // Bodo hat seine Karte schon übergeben bzw. die Tür ist längst offen —
+    // dann keine zweite Karte aus der Werkbank.
+    !api.hasFlag("bodoGaveWartungskarte") &&
+    !api.hasFlag("serverRoom5610Open")
+  ) {
     api.addItem({
       id: "wartungsnotiz5610",
       name: "Wartungskarte (E67 · Korridor 56)",

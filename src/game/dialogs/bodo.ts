@@ -398,12 +398,16 @@ export const bodoDialogs: Record<string, DialogTree> = {
           {
             text: "[ Karte einstecken ]",
             action: (api) => {
-              api.addItem({
-                id: "wartungsnotiz5610",
-                name: "Wartungskarte (E67 · Korridor 56)",
-                description:
-                  "Eine abgegriffene blaue Plastikkarte. Auf der Rückseite mit Bleistift: »5610 · nur Bodo«. Bodo hat sie Layard ohne Aufhebens in die Hand gedrückt — als Gefälligkeit, mit Auftrag: Thermoskanne aus dem Tech-Knoten 5610 holen.",
-              });
+              // Nur einstecken, wenn Layard nicht schon eine Karte hat
+              // (Philippe-Spur vergibt dieselbe Karte aus der Werkbank).
+              if (!api.hasItem("wartungsnotiz5610")) {
+                api.addItem({
+                  id: "wartungsnotiz5610",
+                  name: "Wartungskarte (E67 · Korridor 56)",
+                  description:
+                    "Eine abgegriffene blaue Plastikkarte. Auf der Rückseite mit Bleistift: »5610 · nur Bodo«. Bodo hat sie Layard ohne Aufhebens in die Hand gedrückt — als Gefälligkeit, mit Auftrag: Thermoskanne aus dem Tech-Knoten 5610 holen.",
+                });
+              }
               api.setFlag("bodoGaveWartungskarte");
             },
             next: "bc11",
