@@ -264,24 +264,37 @@ export function BusRide() {
                 width: `${w.width}%`,
                 height: `${w.height}%`,
                 clipPath: w.clip,
+                backgroundColor: "#8d8f86",
+                transform: "translateZ(0)",
               }}
             >
               <div
                 className="bus-scroll flex h-full w-max"
-                style={{ animationDuration: i === 0 ? "26s" : "31s" }}
+                style={{
+                  animationDuration: i === 0 ? "26s" : "31s",
+                  willChange: "transform",
+                  backfaceVisibility: "hidden",
+                }}
               >
                 <img
                   src={windowLoop}
                   alt=""
+                  decoding="sync"
+                  loading="eager"
                   className="h-full w-auto max-w-none shrink-0 select-none"
                 />
                 <img
                   src={windowLoop}
                   alt=""
+                  decoding="sync"
+                  loading="eager"
                   className="h-full w-auto max-w-none shrink-0 select-none"
                 />
               </div>
-              <div className="pointer-events-none absolute inset-0 bg-[#c9cdd6]/25 mix-blend-screen" />
+              {/* Scheibenschimmer ohne Blend-Modus: mix-blend-screen zwang iOS
+                  zu ständigem Neu-Rastern der geclippten Ebene — die Fenster
+                  fielen dabei immer wieder auf eine graue Fläche zurück. */}
+              <div className="pointer-events-none absolute inset-0 bg-[#c9cdd6]/12" />
             </div>
           ))}
 
