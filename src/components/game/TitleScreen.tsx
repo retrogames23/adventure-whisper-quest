@@ -74,8 +74,14 @@ export function TitleScreen({ onStart }: Props) {
   // GB-große Modelldatei nie herunterladen.
 
   const toggleMusic = () => {
-    const a = audioRef.current;
-    if (!a) return;
+    let a = audioRef.current;
+    if (!a) {
+      // Dev-Modus: Audio wird erst beim manuellen Einschalten erzeugt.
+      a = new Audio(titleTrack);
+      a.loop = true;
+      a.volume = 0.45;
+      audioRef.current = a;
+    }
     if (musicOn) {
       a.pause();
       setMusicOn(false);
