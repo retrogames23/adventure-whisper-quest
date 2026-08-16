@@ -287,19 +287,23 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
       {
         id: "philippeNpc",
         // Philippe steht rechts mit verschränkten Armen.
-        x: 69.3,
-        y: 26.1,
-        w: 17.1,
-        h: 68.5,
+        // Ein Hotspot für vor und nach dem Sanitäter-Einsatz,
+        // mit interner Verzweigung.
+        x: 68.4,
+        y: 22.9,
+        w: 17.4,
+        h: 75.2,
 
         label: "Philippe",
         kind: "talk",
-        requires: ["knockingHeard"],
-        // Nach dem ersten "Warten"-Klick verschwindet der Dialog-Hotspot.
-        // Er kommt erst wieder, wenn Layard die Wohnung verlässt und neu
-        // betritt (dann werden die Warte-Flags zurückgesetzt).
-        hiddenWhen: ["paramedicsArrived", "wait2613Step1"],
+        visible: (api) =>
+          api.hasFlag("paramedicsArrived")
+            ? true
+            : // Vor den Sanitätern: erst nach dem Klopfen, und nach dem
+              // ersten "Warten"-Klick vorübergehend nicht ansprechbar.
+              api.hasFlag("knockingHeard") && !api.hasFlag("wait2613Step1"),
         onUse: (api) => {
+          if (!api.hasFlag("paramedicsArrived")) {
           if (
             api.hasFlag("calledLeitstelle") &&
             tryPhoneRefusal(
@@ -317,21 +321,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           } else {
             api.startDialog("philippeSmalltalk");
           }
-        },
-      },
-      // Nach den Sanitätern: Philippe bleibt in seiner Wohnung 2613.
-      // Verschiedene Dialoge je nach Stand der Geschichte.
-      {
-        id: "philippeAfterNpc",
-        x: 68.4,
-        y: 22.9,
-        w: 17.4,
-        h: 75.2,
-
-        label: "Philippe",
-        kind: "talk",
-        requires: ["paramedicsArrived"],
-        onUse: (api) => {
+            return;
+          }
+          // Nach den Sanitätern: Philippe bleibt in seiner Wohnung 2613.
+          // Verschiedene Dialoge je nach Stand der Geschichte.
           // Kaputtes Telefon: die Bitte um den Apparat geht allem voraus.
           if (
             tryPhoneRefusal(
