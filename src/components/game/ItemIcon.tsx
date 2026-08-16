@@ -96,6 +96,31 @@ function FlyerIcon() {
   );
 }
 
+/** Vorgangsstreifen 5610 — Endlospapier-Streifen mit Randlochung. */
+function VorgangsstreifenIcon() {
+  return (
+    <>
+      <rect x="4" y="2" width="16" height="20" fill={ICON_DK} />
+      <rect x="5" y="3" width="14" height="18" fill={ICON_FG} />
+      {/* Randlochung links/rechts */}
+      <rect x="5" y="5" width="1" height="1" fill={ICON_BG} />
+      <rect x="5" y="9" width="1" height="1" fill={ICON_BG} />
+      <rect x="5" y="13" width="1" height="1" fill={ICON_BG} />
+      <rect x="5" y="17" width="1" height="1" fill={ICON_BG} />
+      <rect x="18" y="5" width="1" height="1" fill={ICON_BG} />
+      <rect x="18" y="9" width="1" height="1" fill={ICON_BG} />
+      <rect x="18" y="13" width="1" height="1" fill={ICON_BG} />
+      <rect x="18" y="17" width="1" height="1" fill={ICON_BG} />
+      {/* Druckzeilen */}
+      <rect x="8" y="6" width="8" height="1" fill={ICON_BG} />
+      <rect x="8" y="9" width="6" height="1" fill={ICON_BG} />
+      <rect x="8" y="12" width="8" height="1" fill={ICON_BG} />
+      <rect x="8" y="15" width="5" height="1" fill={ICON_BG} />
+      <rect x="8" y="18" width="7" height="1" fill={ICON_HI} />
+    </>
+  );
+}
+
 /** Wartungsnotiz 5610 — kleines Karteikärtchen mit Zifferncode. */
 function WartungsnotizIcon() {
   return (
@@ -379,6 +404,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   flyer: FlyerIcon,
   gfaManifest: FlyerIcon,
   wartungsnotiz5610: WartungsnotizIcon,
+  vorgangsstreifen5610: VorgangsstreifenIcon,
   residentId: ResidentIdIcon,
   e67Handbook: E67HandbookIcon,
   b3Authorization: B3AuthorizationIcon,
