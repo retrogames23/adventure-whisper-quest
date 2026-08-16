@@ -89,6 +89,29 @@ export const elevatorE67Scenes: Record<string, Scene> = {
           ]),
       },
       {
+        // Rahmen-Aushang an der linken Wand, neben den Aufzugstüren.
+        id: "elevatorAufzNV",
+        x: 38.5,
+        y: 30.5,
+        w: 5.5,
+        h: 18,
+        label: "Aufzugsnutzungsverordnung",
+        kind: "look",
+        onUse: (api) =>
+          api.showText([
+            "Aufzugsnutzungsverordnung (AufzNV) — Muster-Anlage zur Hausordnung. Amt für Wohnraumfragen, gemäß Quadranten-Konvention Abschn. IV.",
+            "§1 Geltungsbereich: Diese Verordnung regelt die Nutzung der Aufzugsanlage im jeweiligen Gebäude. Sie gilt für alle gemeldeten Bewohner sowie für Besucher in deren Begleitung.",
+            "§2 Nutzungsberechtigung: Die Nutzung ist gestattet. Ein Anspruch auf ständige Verfügbarkeit der Anlage besteht nicht.",
+            "§3 Belegung: Die höchstzulässige Personenzahl ist am Bedienfeld ausgewiesen. Bei Überschreitung ergeht keine Beförderung.",
+            "§4 Ruhezeiten: Zwischen 22 und 6 Uhr ist die Nutzung auf dringende Fälle zu beschränken. Die Fälle, die als dringend gelten, sind bei der zuständigen Stelle im Amt für Bewohnerfragen einzusehen.",
+            "§5 Gespräche und Lautäußerungen: Gespräche in der Kabine sind gestattet, sofern sie sich in üblicher Zimmerlautstärke halten. Auffälligkeiten wie Weinen oder Schreie im Aufzug werden im Rahmen der allgemeinen Resonanzerfassung protokolliert und behördlich ausgewertet.",
+            "§6 Störungen: Bei Betriebsstörungen ist die Notrufeinrichtung zu betätigen. Ein Verbleib in der Kabine bis zum Eintreffen des zuständigen Bereitschaftsdienstes wird empfohlen, ist jedoch nicht vorgeschrieben.",
+            "§7 Mitführen von Gegenständen: Das Mitführen von Transportgut ist gestattet, soweit die Belegungsgrenze nicht überschritten wird. Für Schäden an mitgeführtem Gegenstand wird keine Haftung übernommen.",
+            "§8 Zuwiderhandlungen: Wiederholte Zuwiderhandlung gegen diese Verordnung wird vermerkt. Eine Sperrung der Nutzungsberechtigung ist in schweren Fällen möglich, aber nicht die Regel.",
+            "§9 Änderungen: Änderungen dieser Verordnung werden durch Aushang bekanntgegeben und treten mit dem im Aushang genannten Datum in Kraft, auch wenn der Aushang nicht zur Kenntnis genommen wurde.",
+          ]),
+      },
+      {
         // Unter Etage 1: kein Knopf, sondern ein Vierkant-Schlitz mit
         // eingraviertem „K“ — Betriebsfahrt Keller, nur für Wartung.
         id: "btnKeller",
