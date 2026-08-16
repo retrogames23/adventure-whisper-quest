@@ -690,8 +690,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
             api.startDialog("bodoLotti");
           } else {
             api.showText([
-              "Auf dem Sessel: eine grau-getigerte Katze, eingerollt auf einer Strickdecke.",
-              "Sie schaut Layard nicht an. Sie weiß genau, dass er da ist.",
+              "Auf dem Sessel: eine schwarze Katze, eingerollt auf einer Strickdecke. Sie schaut Layard nicht an. Sie weiß genau, dass er da ist.",
             ]);
           }
         },
@@ -707,8 +706,7 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
         kind: "look",
         onUse: (api) =>
           api.showText([
-            "Ein schwarzer Bakelit-Apparat. Hörer staubig.",
-            "Bodo, von hinten: „Den hab ich seit zwölf Jahren nicht abgenommen.“",
+            "Ein beiger Bakelit-Apparat. Hörer staubig. Bodo, von hinten: „Den hab ich seit zwölf Jahren nicht abgenommen.“",
             "„Wer was von mir will, klopft. Oder ist die Katze.“",
           ]),
       },
