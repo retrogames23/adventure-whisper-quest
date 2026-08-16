@@ -137,18 +137,6 @@ export const KNOWLEDGE_ENTRIES: KnowledgeEntry[] = [
   },
   {
     id: "wordControl",
-    source: "Gerät in Layards Wohnung",
-    sensitivity: "heikel",
-    question: "Verfügen Sie über ein Gerät, das die Belastung hörbar macht?",
-    share:
-      "Ich habe ein Gerät. Es hört nicht Sender, es hört das, was zwischen den Leuten ungesagt bleibt. Ausgegeben hat es niemand.",
-    withhold: "Ich habe ein Radio wie jeder. Zwei Wellenbereiche, einer davon tot.",
-    noted: "Gerät ohne Zuteilungsnachweis. Das wäre gesondert zu klären.",
-    askedAt5011: true,
-    from: "tookPainRadio",
-  },
-  {
-    id: "wordControl",
     label: "Sprache als Steuerung",
     source: "Mikael, Verwaltungszimmer E71",
     sensitivity: "brisant",
