@@ -33,8 +33,21 @@ export function TitleScreen({ onStart }: Props) {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [donationOpen, setDonationOpen] = useState(false);
+  // Regen-Animation: initial aktiv (für SSR-Konsistenz), dann anhand der
+  // Viewport-Breite auf Mobilgeräten deaktiviert.
+  const [rainEnabled, setRainEnabled] = useState(true);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = (e: MediaQueryListEvent) => setRainEnabled(e.matches);
+    setRainEnabled(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+
     // Im Dev-Modus (?dev=1) startet die Titelmusik nicht automatisch.
     if (isDevMode()) return;
     const a = new Audio(titleTrack);
@@ -122,8 +135,9 @@ export function TitleScreen({ onStart }: Props) {
         fetchPriority="high"
         decoding="async"
       />
-      {/* Animated rain on top of the painted artwork. */}
-      <RainOverlay />
+      {/* Animated rain on top of the painted artwork — desktop only. */}
+      {rainEnabled && <RainOverlay />}
+
       {/* Vignette + darken so foreground text stays readable on top of the art. */}
       <div
         className="pointer-events-none absolute inset-0"
