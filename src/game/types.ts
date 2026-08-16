@@ -485,9 +485,7 @@ export type StoryFlag =
   /** Sachbearbeiterin 5011 kennengelernt. */
   | "metSasse"
   /** Die Befragung in 5011 ist einmal vollständig durchlaufen. */
-  | "zvsIntakeDone"
-  /** Layard hat das Z.K.S.-Graffiti im Verbindungsgang gesehen. */
-  | "sawZksGraffiti";
+  | "zvsIntakeDone";
 
 export interface InventoryItem {
   id: InventoryItemId;
