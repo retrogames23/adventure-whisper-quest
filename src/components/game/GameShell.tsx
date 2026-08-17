@@ -183,6 +183,7 @@ function GameStage({
     idCardOpen,
     closeIdCard,
   } = useGame();
+  const freeChatNpcId = useGame().freeChatNpcId;
   const currentBook = currentBookId
     ? (getBook(currentBookId) ?? getLibraryReadableBook(currentBookId))
     : null;
@@ -233,7 +234,8 @@ function GameStage({
     dsaCreatorOpen ||
     dsaAdventureOpen ||
     handbookOpen ||
-    bookOpen;
+    bookOpen ||
+    !!freeChatNpcId;
   return (
     <>
     <MobileStage uprightOnPortrait={consoleOpen}>
