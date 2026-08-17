@@ -1,4 +1,5 @@
-import { Suspense, lazy, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { lazyWithRetry } from "@/lib/lazyWithRetry";
 import { GameProvider } from "@/game/GameContext";
 import { getBook } from "@/game/books";
 import { getLibraryReadableBook } from "@/game/books/libraryBooks";
@@ -48,30 +49,30 @@ import { useMusic } from "@/audio/MusicPlayer";
 import { useGame } from "@/game/GameContext";
 import { DonationGate } from "@/components/donation/DonationGate";
 
-const Terminal = lazy(() =>
+const Terminal = lazyWithRetry(() =>
   import("./Terminal").then((m) => ({ default: m.Terminal })),
 );
-const DsaCharacterCreator = lazy(() =>
+const DsaCharacterCreator = lazyWithRetry(() =>
   import("./DsaCharacterCreator").then((m) => ({
     default: m.DsaCharacterCreator,
   })),
 );
-const DsaAdventureScene = lazy(() =>
+const DsaAdventureScene = lazyWithRetry(() =>
   import("./DsaLlmAdventureScene").then((m) => ({ default: m.DsaLlmAdventureScene })),
 );
-const HandbookOverlay = lazy(() =>
+const HandbookOverlay = lazyWithRetry(() =>
   import("./HandbookOverlay").then((m) => ({ default: m.HandbookOverlay })),
 );
-const BookOverlay = lazy(() =>
+const BookOverlay = lazyWithRetry(() =>
   import("./BookOverlay").then((m) => ({ default: m.BookOverlay })),
 );
-const AlmanachOverlay = lazy(() =>
+const AlmanachOverlay = lazyWithRetry(() =>
   import("./AlmanachOverlay").then((m) => ({ default: m.AlmanachOverlay })),
 );
-const HelpOverlay = lazy(() =>
+const HelpOverlay = lazyWithRetry(() =>
   import("./HelpOverlay").then((m) => ({ default: m.HelpOverlay })),
 );
-const FreeChatOverlay = lazy(() =>
+const FreeChatOverlay = lazyWithRetry(() =>
   import("./FreeChatOverlay").then((m) => ({ default: m.FreeChatOverlay })),
 );
 
