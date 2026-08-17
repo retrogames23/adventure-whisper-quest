@@ -137,10 +137,9 @@ export function DialogOverlay() {
   // Baum eine Persona hinterlegt hat (DialogTree.npcId).
   const npcId = (tree as unknown as { npcId?: string }).npcId ?? null;
   const persona = getPersona(npcId) ?? getPersonaBySpeaker(line.speaker);
-  // Free-Chat ist auf Touch-/Mobile-Geräten deaktiviert (zu speicher-/leistungsintensiv).
-  // Sobald eine Persona hinterlegt ist, ist der Wechsel jederzeit möglich —
-  // diskreter Knopf in der Header-Zeile, nicht erst am Endsatz.
-  const showFreeMode = !!persona && !isCoarsePointer;
+  // Free-Chat läuft standardmäßig über die Cloud-Runtime und ist damit
+  // auch auf Touch-/Mobilgeräten nutzbar.
+  const showFreeMode = !!persona;
 
   const enterFreeChat = () => {
     if (!persona) return;
