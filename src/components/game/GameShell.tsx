@@ -182,8 +182,8 @@ function GameStage({
     closeBook,
     idCardOpen,
     closeIdCard,
+    freeChatNpcId,
   } = useGame();
-  const freeChatNpcId = useGame().freeChatNpcId;
   const currentBook = currentBookId
     ? (getBook(currentBookId) ?? getLibraryReadableBook(currentBookId))
     : null;
