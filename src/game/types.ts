@@ -403,6 +403,7 @@ export type StoryFlag =
   | "ralfKnowsLayardWriter"
   | "ralfKnowsLayardTired"
   | "ralfToldRollo"
+  | "ralfToldBoxbude"
   // Akt-I-Pflichträtsel „Quittung 4317"
   | "noticedTransferCode"
   | "tookPencilStub"
