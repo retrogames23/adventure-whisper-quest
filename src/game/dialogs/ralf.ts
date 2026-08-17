@@ -21,6 +21,8 @@ function lightTopics(api: GameApi): DialogChoice[] {
     out.push({ text: "Erzählen Sie mir was über die Leute hier.", next: "tBewohner", action: (a) => a.setFlag("ralfToldBewohner") });
   if (!api.hasFlag("ralfToldRollo"))
     out.push({ text: "Und Sie stehen wirklich den ganzen Tag hier?", next: "tRollo", action: (a) => a.setFlag("ralfToldRollo") });
+  if (!api.hasFlag("ralfToldBoxbude"))
+    out.push({ text: "Was haben Sie eigentlich vor dem Archiv gemacht?", next: "tBoxbude", action: (a) => a.setFlag("ralfToldBoxbude") });
   return out;
 }
 
