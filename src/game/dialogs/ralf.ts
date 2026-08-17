@@ -34,7 +34,13 @@ function deepTopics(api: GameApi): DialogChoice[] {
   if (!api.hasFlag("ralfToldZeitungen"))
     out.push({ text: "Es gab mal Zeitungsartikel über E67.", next: "tZeitungen", action: (a) => a.setFlag("ralfToldZeitungen") });
   if (!api.hasFlag("ralfToldSelbst"))
-    out.push({ text: "Was hast du eigentlich mal gemacht, Ralf?", next: "tSelbst", action: (a) => a.setFlag("ralfToldSelbst") });
+    out.push({
+      text: api.hasFlag("ralfToldBoxbude")
+        ? "Was hast du nach der Boxbuden-Zeit gemacht?"
+        : "Was hast du eigentlich mal gemacht, Ralf?",
+      next: "tSelbst",
+      action: (a) => a.setFlag("ralfToldSelbst"),
+    });
   if (api.hasFlag("metMira") && !api.hasFlag("ralfToldMira"))
     out.push({ text: "Was hältst du von Miras Theorien?", next: "tMira", action: (a) => a.setFlag("ralfToldMira") });
   return out;
