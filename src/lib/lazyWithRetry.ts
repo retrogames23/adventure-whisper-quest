@@ -9,7 +9,8 @@ const RELOAD_KEY = "schmerz-radio.chunk-reload";
  * einmal neu geladen, statt in die Fehler-Boundary zu laufen
  * ("Something went wrong").
  */
-export function lazyWithRetry<T extends ComponentType<never>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function lazyWithRetry<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
 ) {
   return lazy(async () => {
