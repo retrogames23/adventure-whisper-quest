@@ -42,7 +42,7 @@ function deepTopics(api: GameApi): DialogChoice[] {
 
 function stage2Choices(api: GameApi): DialogChoice[] {
   const topics = lightTopics(api);
-  if (topics.length === 0) topics.push({ text: "Erzählen Sie noch mal von früher.", next: "tLeer" });
+  if (topics.length === 0) topics.push({ text: "Erzählen Sie noch mal von früher.", next: "tFrueher" });
   topics.push({ text: "[ Weitergehen ]", next: "bye" });
   return topics;
 }
@@ -118,6 +118,13 @@ function lightTopicLines(hubIds: string[]): Record<string, DialogLine> {
       id: "tLeer",
       speaker: "RALF",
       text: "Dann stehen wir eben. Das kann ich gut. Der Rauch geht heute waagerecht, das heißt: kein Wind, kein Wetter, nichts, worüber man sich einigen müsste.",
+      next: back(1),
+    },
+    tFrueher: {
+      id: "tFrueher",
+      speaker: "RALF",
+      text: "Früher. Ja. Früher roch der Herbst nach Zeltplane und Bratfett, und wenn die Bude stand, war der Tag geregelt. Rampe, Rekommandeur, zwei Runden, Kasse. Heute ist der Tag ein Fensterschlitz. Erzählt ist es schnell — gelebt hat es länger gedauert.",
+      subtext: "Er sagt es ohne Wehmut. Eher wie jemand, der ein Datum abliest.",
       next: back(1),
     },
   };
