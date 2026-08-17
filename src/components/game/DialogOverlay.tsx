@@ -20,7 +20,6 @@ export function DialogOverlay() {
   const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat, scene } =
     useGame();
   const { ttsEnabled } = useSettings();
-  const isCoarsePointer = useCoarsePointer();
   const dev = useDevMode();
   const editActive = useEditActive();
   useDialogPatchTick();
