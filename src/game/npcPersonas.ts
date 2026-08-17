@@ -440,6 +440,7 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "ralfToldZeitungen",
       "ralfToldMira",
       "ralfToldSelbst",
+      "ralfToldBoxbude",
     ],
     patienceExhaustedLine:
       "Die Schachtel ist leer, und ich bin es auch. Gehen Sie ruhig weiter.",
