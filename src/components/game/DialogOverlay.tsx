@@ -5,7 +5,6 @@ import { useSettings } from "@/audio/SettingsContext";
 import { speak, stopSpeech } from "@/audio/speech";
 import { CloseButton } from "./CloseButton";
 import { getPersona, getPersonaBySpeaker } from "@/game/npcPersonas";
-import { useCoarsePointer } from "@/hooks/useCoarsePointer";
 import { useDevMode } from "@/dev/devMode";
 import {
   useEditActive,
