@@ -917,6 +917,10 @@ export function Terminal() {
       } else {
         playBeep(0.3 * sfxVolume);
         out.push({ text: ">> FEHLER: Passwort abgelehnt. Verbindung getrennt.", kind: "out" });
+        if (host?.authHint) {
+          out.push(...host.authHint.map((t) => ({ text: t, kind: "out" }) as Line));
+          if (host.host === "leitstelle.e67") api.setFlag("knowsMiraNetAccess");
+        }
         setTelnetAwaitPass(null);
       }
       setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
