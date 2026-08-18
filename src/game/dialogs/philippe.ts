@@ -490,7 +490,33 @@ export const philippeDialogs: Record<string, DialogTree> = {
         id: "pq4",
         speaker: "PHILIPPE",
         text: "Vielleicht sehen wir uns mal. Bei einem Kaffee. Echtem.",
-        end: true,
+        choices: [
+          {
+            text: "Hier oben läuft ein Kabel hinter der Wand entlang. Wissen Sie, wohin?",
+            requires: ["port2611Locked"],
+            hiddenWhen: ["readTagescodeViaMira"],
+            next: "pqKabel1",
+          },
+          { text: "[ Verabschieden ]" },
+        ],
+      },
+      pqKabel1: {
+        id: "pqKabel1",
+        speaker: "PHILIPPE",
+        text: "Zum Etagendrucker. Es kommt aus 4601 und geht dahinter weiter. Ich schreibe so etwas nicht auf — ich sehe es nur.",
+        subtext: "Er senkt die Stimme, obwohl niemand da ist.",
+        next: "pqKabel2",
+      },
+      pqKabel2: {
+        id: "pqKabel2",
+        speaker: "PHILIPPE",
+        text: "Der Drucker hängt am Wartungsnetz. Was dranhängt, hängt mit dran. Das Mädchen weiß das besser als ich.",
+        choices: [
+          {
+            text: "[ Verstanden. ]",
+            action: (api) => api.setFlag("knowsMiraNetAccess"),
+          },
+        ],
       },
     },
   },
