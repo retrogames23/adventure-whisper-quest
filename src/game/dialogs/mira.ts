@@ -579,7 +579,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrOpen5: {
         id: "mrOpen5",
         speaker: "MIRA",
-        text: "Lies es allein. Niemals im Terminal. Z.K.S. — Geh jetzt. Ich war nie hier.",
+        text: "Lies es allein. Z.K.S.",
         choices: [
           {
             text: "[ Beenden ]",
