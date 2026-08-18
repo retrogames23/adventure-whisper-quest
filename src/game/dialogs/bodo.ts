@@ -152,6 +152,12 @@ export const bodoDialogs: Record<string, DialogTree> = {
             next: "bodoHiddenFreq1",
           },
           {
+            text: "Meine Post läuft seit der Reparatur bei der Leitstelle auf. Kommt man da irgendwie ran?",
+            requires: ["port2611Locked"],
+            hiddenWhen: ["readTagescodeViaMira"],
+            next: "bodoLeitstelle1",
+          },
+          {
             text: "Kowalk sagt, Sie haben Brust mal im Phrasen-Duell kleingekriegt. Wie?",
             requires: ["kowalkHintedBodoHelka"],
             hiddenWhen: ["learnedAttackVorgesetzten"],
@@ -181,6 +187,33 @@ export const bodoDialogs: Record<string, DialogTree> = {
           {
             text: "[ »Holen Sie Ihren Vorgesetzten« ins Phrasenbuch übernehmen ]",
             action: (api) => api.setFlag("learnedAttackVorgesetzten"),
+          },
+        ],
+      },
+      // Diegetischer Hinweis: das Wartungsnetz ist die Ausnahme — und im
+      // 46er hängt eine Maschine daran, die keiner angemeldet hat.
+      bodoLeitstelle1: {
+        id: "bodoLeitstelle1",
+        speaker: "BODO",
+        text: "Dienstpasswort? Kriegen Sie nicht. Das hat die Disposition, und die gibt es nicht raus, auch nicht an Leute, die höflich fragen.",
+        subtext: "Er sagt es ohne Bedauern. Eine Feststellung, wie ein Grenzwert.",
+        next: "bodoLeitstelle2",
+      },
+      bodoLeitstelle2: {
+        id: "bodoLeitstelle2",
+        speaker: "BODO",
+        text: "Es gibt genau eine Ausnahme, und die ist technisch: Anschlüsse im Wartungsnetz. Die fragt der Knoten nicht nach einem Passwort, weil er sonst bei jedem Rohrbruch stehenbliebe.",
+        next: "bodoLeitstelle3",
+      },
+      bodoLeitstelle3: {
+        id: "bodoLeitstelle3",
+        speaker: "BODO",
+        text: "Und im 46er sitzt ein Kind, das sich an den Etagendrucker geklemmt hat. Das ist im Wartungsnetz. Ich billige das nicht. Ich stelle es nur fest.",
+        subtext: "Er schaut kurz zu Lotti, als hätte er zu viel gesagt.",
+        choices: [
+          {
+            text: "[ Verstanden. ]",
+            action: (api) => api.setFlag("knowsMiraNetAccess"),
           },
         ],
       },
