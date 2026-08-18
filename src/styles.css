@@ -1105,3 +1105,22 @@ a:focus-visible,
   .apt-cursor { animation: none; opacity: 0; }
   .apt-lamp { animation: none; opacity: 0.32; }
 }
+
+/*
+ * Versehentliches Markieren von Spieltext beim Klicken/Ziehen verhindern.
+ * Eingabefelder, Konsolen-Ausgaben und explizit als auswählbar markierte
+ * Bereiche bleiben selektierbar.
+ */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input,
+textarea,
+select,
+[contenteditable="true"],
+[data-selectable="true"],
+.select-text {
+  -webkit-user-select: text;
+  user-select: text;
+}
