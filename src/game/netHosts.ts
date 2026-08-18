@@ -20,6 +20,11 @@ export interface NetHost {
   /** Wenn true: Passwortvergleich ist case-insensitiv. */
   passwordCaseInsensitive?: boolean;
   motd?: string[];
+  /**
+   * Optional: Zeilen, die der Host nach einer FEHLGESCHLAGENEN Anmeldung
+   * ausgibt. Diegetischer Hinweis darauf, wie man sonst hineinkommt.
+   */
+  authHint?: string[];
   files?: Record<string, string[]>;
   /**
    * Optional: zusätzliche Dateien, die abhängig vom Story-Stand entstehen.
@@ -47,6 +52,11 @@ export const NET_HOSTS: NetHost[] = [
     // Dienstpasswort. Layard kennt es nicht und bekommt es auch nicht —
     // erreichbar ist der Host nur über Miras Root-Tunnel (mira.zks).
     password: "DISPO-001-E67",
+    authHint: [
+      "  Zugelassen sind: Dienstpasswort (Disposition 001)",
+      "  oder Anschluss im Wartungs-IP-Bereich 10.67.56.x.",
+      "  Ihr Anschluss: 10.67.26.11 — nicht freigegeben.",
+    ],
     motd: [
       "── leitstelle.e67 — CentralOS v2.1 (Disposition) ─",
       "Amtlicher Verteiler. Zugriff protokolliert.",
