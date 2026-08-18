@@ -383,6 +383,8 @@ export type StoryFlag =
   | "miraTerminalTrespass"
   /** Layard hat den Tagescode im Verteiler der Leitstelle gelesen. */
   | "readTagescodeViaMira"
+  /** Layard weiß, dass nur eine Maschine im Wartungsnetz an die Leitstelle kommt. */
+  | "knowsMiraNetAccess"
   /** Mira hat den unerlaubten Zugriff angesprochen. */
   | "miraConfrontedTrespass"
   /** Layard hat den unerlaubten Zugriff zugegeben. */
