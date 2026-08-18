@@ -1188,6 +1188,10 @@ export function Terminal() {
         { text: "  (Wartung Korridor 46).", kind: "out" },
         { text: "  Zustellung erfolgt an: leitstelle.e67", kind: "out" },
         { text: "  Lokaler Abruf: nicht moeglich.", kind: "out" },
+        {
+          text: "  Abruf nur ueber Anschluss im Wartungsnetz (10.67.56.x).",
+          kind: "out",
+        },
       );
     } else if (cmd === "inbox") {
       const showExitMail =
