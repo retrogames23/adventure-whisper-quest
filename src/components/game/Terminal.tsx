@@ -917,6 +917,10 @@ export function Terminal() {
       } else {
         playBeep(0.3 * sfxVolume);
         out.push({ text: ">> FEHLER: Passwort abgelehnt. Verbindung getrennt.", kind: "out" });
+        if (host?.authHint) {
+          out.push(...host.authHint.map((t) => ({ text: t, kind: "out" }) as Line));
+          if (host.host === "leitstelle.e67") api.setFlag("knowsMiraNetAccess");
+        }
         setTelnetAwaitPass(null);
       }
       setLines((prev) => [...prev, echo, ...out, { text: "", kind: "out" }]);
@@ -1184,6 +1188,10 @@ export function Terminal() {
         { text: "  (Wartung Korridor 46).", kind: "out" },
         { text: "  Zustellung erfolgt an: leitstelle.e67", kind: "out" },
         { text: "  Lokaler Abruf: nicht moeglich.", kind: "out" },
+        {
+          text: "  Abruf nur ueber Anschluss im Wartungsnetz (10.67.56.x).",
+          kind: "out",
+        },
       );
     } else if (cmd === "inbox") {
       const showExitMail =

@@ -73,7 +73,9 @@ export const sectorAct1Scenes: Record<string, Scene> = {
               "Reparatur hängen Apparat und Datenport von 2611 am Leitstellen-",
               "Knoten. Die Nachricht liegt deshalb im Verteiler der Leitstelle",
               "(leitstelle.e67) und nicht in Layards Postfach.",
-              "[ Layard braucht eine andere Maschine, um an diesen Verteiler zu kommen. ]",
+              api.hasFlag("knowsMiraNetAccess")
+                ? "[ Passwort gibt es keines. Nur das Wartungsnetz — und daran hängt die Maschine im 46er. ]"
+                : "[ Layard braucht eine andere Maschine, um an diesen Verteiler zu kommen. ]",
             ]);
             return;
           }

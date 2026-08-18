@@ -977,6 +977,7 @@ export const miraDialogs: Record<string, DialogTree> = {
               api.showText([
                 "„Geht wieder“, sagt Mira. „Meldebogen schreibe ich nicht. Dann bleibt es ein Draht.“",
                 "„Eins noch: Ich musste Apparat und Datenport auf den Leitstellen-Knoten ummelden — anders kriege ich die Leitung nicht stabil. Telefonieren geht wieder. Aber deine Post läuft ab jetzt bei der Leitstelle auf, leitstelle.e67, nicht mehr in deinem Terminal.“",
+                "„Mich stört das nicht weiter. Mein Kasten hängt am Wartungsstrang. Der fragt bei niemandem nach einem Passwort.“",
                 "Sie ist schon an der Tür, bevor Layard antworten kann.",
               ]);
             },
@@ -1000,7 +1001,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs8b: {
         id: "mrs8b",
         speaker: "MIRA",
-        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Eins musst du wissen: Ich habe Apparat und Datenport auf den Leitstellen-Knoten umgemeldet. Heißt, deine Post landet ab jetzt bei der Leitstelle — leitstelle.e67 — und nicht mehr in deinem Terminal.",
+        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Eins musst du wissen: Ich habe Apparat und Datenport auf den Leitstellen-Knoten umgemeldet. Heißt, deine Post landet ab jetzt bei der Leitstelle — leitstelle.e67 — und nicht mehr in deinem Terminal. Mich stört so was nicht: Mein Kasten hängt am Wartungsstrang, der fragt bei niemandem nach einem Passwort.",
         requires: ["miraTrustEarned"],
         choices: [
           {
