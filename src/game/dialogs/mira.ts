@@ -946,7 +946,7 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "MIRA",
         text: "Und? Sagst du jetzt, ich soll nicht so viel hineinlesen?",
         choices: [
-          { text: "Nein. Sag weiter.", next: "mrs5" },
+          { text: "Nein. Sprich weiter!", next: "mrs5" },
           { text: "Es ist trotzdem nur ein Draht.", next: "mrs5b" },
         ],
       },
