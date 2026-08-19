@@ -27,6 +27,10 @@ import imgSpracheJugend from "@/assets/books/sprache-jugend.jpg";
 import imgLobArchiv from "@/assets/books/lob-vorgang-archiv.jpg";
 import imgLobSchalter from "@/assets/books/lob-vorgang-schalter.jpg";
 import imgLobGedicht from "@/assets/books/lob-vorgang-gedicht.jpg";
+import imgSperrmuellTitel from "@/assets/books/sperrmuell-titel.jpg";
+import imgSperrmuellSektorbericht from "@/assets/books/sperrmuell-sektorbericht.jpg";
+import imgSperrmuellWetter from "@/assets/books/sperrmuell-wetter.jpg";
+import imgSperrmuellRueckseite from "@/assets/books/sperrmuell-rueckseite.jpg";
 import {
   registerBook,
   type BookUiText,
@@ -770,6 +774,166 @@ registerLibraryBook({
   blurb:
     "Eine historisch-philosophische Verteidigung der Bürokratie: von Max Webers idealtypischem Beamten bis zur Psychologie des Wartens — und einem Schlussgedicht, das sich in die Aktenordnung verliebt.",
   chapters: lobChapters,
+  uiText: LIBRARY_UI_TEXT,
+  locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
+  lendable: true,
+});
+
+/* ─── SPERRMÜLL — Satiremagazin ─────────────────────────── */
+
+const sperrmuellChapters: HandbookChapter[] = [
+  {
+    id: "sperrmuell-titel",
+    image: imgSperrmuellTitel,
+    imageCaption: "Nr. 7 · März 92 · DM 2,50 · ÖS 20,– · SFR 2,80",
+    shortTitle: "Titel",
+    title: "SPERRMÜLL — Das Heft, das nicht vorgesehen ist",
+    body: [
+      "Vergilbtes Papier, zwei Farben, davon eine schief gedruckt. Der Bogen ist geklammert, nicht gebunden. Auf der Innenseite steht in kleiner Schrift:",
+      "„Herausgegeben ohne Zuteilung. Vervielfältigung erwünscht. Rückgabe an die Bibliothek, wenn Sie fertig gelacht haben.“",
+      "Darunter, handschriftlich, mit Bleistift: „H. — bitte nicht im Katalog führen. Steht trotzdem drin.“",
+      "AUS DEM INHALT: Der Sektorbericht in vier Bildern · Leserbriefe, die niemand geschickt hat · Wetter & Resonanz für Fortgeschrittene · Sachbearbeiter gegen Sachbearbeiter · Kalle Nichtzuständig · Das ehrliche Formblatt.",
+    ],
+  },
+  {
+    id: "sperrmuell-impressum",
+    shortTitle: "Impressum",
+    title: "Impressum (unvollständig, absichtlich)",
+    body: [
+      "Redaktion: nicht vorgesehen.",
+      "Verantwortlich im Sinne der Ordnung: siehe Redaktion.",
+      "Anschrift: Ein Kasten hinter der Heizung, Etage 1, Gebäude Ihrer Wahl.",
+      "Erscheinungsweise: sobald jemand Papier hat.",
+      "Auflage: schwankt mit der Zahl der funktionierenden Kopiergeräte im Quadranten.",
+      "Der Mandatsrat weist darauf hin, dass diese Zeitschrift nicht zugelassen ist. Die Redaktion weist darauf hin, dass sie auch nicht verboten ist, weil dafür ein Formblatt fehlt. Es ist beantragt. Seit 1989.",
+    ],
+  },
+  {
+    id: "sperrmuell-sektorbericht",
+    image: imgSperrmuellSektorbericht,
+    imageCaption: "Comic: „Der Sektorbericht“ — vier Bilder, ein Sprecher, kein Ausweg",
+    shortTitle: "Sektorbericht",
+    title: "Comic: Der Sektorbericht",
+    body: [
+      "BILD 1 — Studio. Sprecher im grauen Anzug, hinter ihm ein gemaltes Verwaltungsgebäude.",
+      "SPRECHER: „Guten Abend. Die Versorgungslage im Sektor ist stabil.“",
+      "",
+      "BILD 2 — Derselbe Sprecher. Neben ihm ein kleiner Stapel Papier.",
+      "SPRECHER: „Die Versorgungslage im Sektor ist weiterhin stabil. Zu Abweichungen liegt keine Meldung vor, weil keine Meldung vorgesehen ist.“",
+      "",
+      "BILD 3 — Der Stapel reicht ihm bis zur Brust. Der Sprecher lächelt unverändert.",
+      "SPRECHER: „Die Instandsetzung in Gebäude E71 ist eingeleitet. Ein Zeitraum wird nachgereicht. Der Zeitraum für das Nachreichen wird ebenfalls nachgereicht.“",
+      "",
+      "BILD 4 — Nur noch der Kopf schaut aus dem Papier heraus.",
+      "SPRECHER: „Die Lage ist stabil.“",
+      "Kleingedruckt unter dem Comic: „Nachdruck genehmigt, sobald der Sprecher gefunden wird.“",
+    ],
+  },
+  {
+    id: "sperrmuell-leserbriefe",
+    shortTitle: "Leserbriefe",
+    title: "Bürgerfunk — Leserbriefe, die niemand geschickt hat",
+    body: [
+      "„Ich möchte mich bedanken. Wofür, weiß ich nicht. Aber es hat sich so ergeben.“ — B. aus E67",
+      "",
+      "„Mein Nachbar klopft seit Tagen an die Wand. Ich habe eine Störungsmeldung aufgegeben. Jetzt klopfen wir gemeinsam. Es ist erträglicher zu zweit.“ — Ungezeichnet, Etage 4",
+      "",
+      "„Ich habe in der Kantine nach dem zweiten Löffel gefragt. Man hat mir gesagt, der zweite Löffel sei nicht vorgesehen. Ich esse jetzt schneller. Das ist auch eine Lösung.“ — W. aus A66",
+      "",
+      "„Sehr geehrte Redaktion, ich schreibe Ihnen, weil ich sonst niemandem schreiben darf. Bitte antworten Sie nicht. Es könnte auffallen.“ — Name der Redaktion bekannt, dem Sektor nicht",
+      "",
+      "Die Redaktion antwortet: Wir haben alle Zuschriften geprüft und für zutreffend befunden. Da wir sie selbst geschrieben haben, war das nicht schwer.",
+    ],
+  },
+  {
+    id: "sperrmuell-wetter",
+    image: imgSperrmuellWetter,
+    imageCaption: "„Wetter & Resonanz“ — Vorhersage für Menschen, die zu Hause bleiben",
+    shortTitle: "Wetter",
+    title: "Wetter & Resonanz für Fortgeschrittene",
+    body: [
+      "VORHERSAGE FÜR DEN QUADRANTEN, gültig bis Widerruf:",
+      "Morgens verhaltene Zuversicht, nach Dienstschluss aufkommende Ernüchterung. Örtlich Rührung, in Treppenhäusern anhaltend.",
+      "Resonanzlage: erhöht. Wer heute etwas fühlt, fühlt es voraussichtlich auch durch die Wand. Betroffene Bewohner werden gebeten, gedämpft zu empfinden.",
+      "Empfohlene Hygienemaßnahmen: Lüften, Abstand, Zurückhaltung. Bei starker Freude bitte Fenster schließen.",
+      "Aussichten: Es bleibt bei allem.",
+      "Anmerkung der Redaktion: Wir haben diese Vorhersage aus dem letzten Jahr abgeschrieben. Sie hat wieder gestimmt.",
+    ],
+  },
+  {
+    id: "sperrmuell-duell",
+    shortTitle: "Duell",
+    title: "Sachbearbeiter gegen Sachbearbeiter (ohne Worte)",
+    body: [
+      "BILD 1 — Zwei Schreibtische, gegenüber. Zwei Herren, gleiche Ärmelschoner.",
+      "BILD 2 — Der linke schiebt eine Mappe nach rechts.",
+      "BILD 3 — Der rechte schiebt die Mappe zurück. Ein Stempel liegt bereit.",
+      "BILD 4 — Links: Stempel. Rechts: Gegenstempel.",
+      "BILD 5 — Die Mappe wandert. Hin. Her. Der Stapel daneben wächst.",
+      "BILD 6 — Abend. Beide Herren sind gegangen. Die Mappe liegt genau in der Mitte des Raums, auf dem Boden, allein.",
+      "BILD 7 — Morgen. Beide sind zurück. Beide sehen die Mappe. Keiner hebt sie auf.",
+      "Bildunterschrift: „Zuständigkeit ist der Zustand, in dem sich zwei Menschen einig sind.“",
+    ],
+  },
+  {
+    id: "sperrmuell-kalle",
+    shortTitle: "Kalle",
+    title: "Kalle Nichtzuständig — Der Held mit dem leeren Feld",
+    body: [
+      "Kalle Nichtzuständig hat große Ohren, einen zu weiten Anzug und einen Stempel, auf dem nichts steht. Er ist die einzige Figur im Mandatsgebiet, die nie in Schwierigkeiten gerät, weil sie für nichts zuständig ist.",
+      "FOLGE 7: Kalle wird verhört.",
+      "PRÜFER: „Wo waren Sie am Dienstag?“",
+      "KALLE: „Nicht vorgesehen.“",
+      "PRÜFER: „Das ist keine Antwort.“",
+      "KALLE: „Das ist Ihre Antwort. Ich habe sie mir nur geliehen.“",
+      "PRÜFER: „Ich lasse Sie eintragen.“",
+      "KALLE: „Bitte. Ich stehe schon dreimal drin. Einmal davon als Sachverhalt.“",
+      "Im letzten Bild geht Kalle pfeifend durch eine Tür, an der ein Schild hängt: KEIN DURCHGANG. Die Tür ist nicht abgeschlossen. Sie war es nie.",
+    ],
+  },
+  {
+    id: "sperrmuell-formblatt",
+    shortTitle: "Formblatt",
+    title: "Das ehrliche Formblatt (zum Heraustrennen)",
+    body: [
+      "ANTRAG AUF DAS, WAS SIE OHNEHIN NICHT BEKOMMEN — Formblatt 0/0",
+      "",
+      "1. Name: ______________________ (wird nicht gelesen)",
+      "2. Anliegen: __________________ (wird gelesen, aber nicht verstanden)",
+      "3. Dringlichkeit: ☐ dringend ☐ sehr dringend ☐ egal, es dauert gleich lang",
+      "4. Sind Sie schon einmal weggeschickt worden? ☐ ja ☐ noch nicht, aber gleich",
+      "5. Wer hat entschieden? ______________________",
+      "   (Dieses Feld ist absichtlich vorhanden und wird absichtlich nie ausgefüllt.)",
+      "6. Unterschrift des Antragstellers: __________",
+      "7. Unterschrift der entscheidenden Person: (siehe 5)",
+      "",
+      "Hinweis: Ihr Vorgang wird zugeteilt. Ein Zeitraum ist nicht vorgesehen. Bei Rückfragen wenden Sie sich bitte an sich selbst.",
+    ],
+  },
+  {
+    id: "sperrmuell-rueckseite",
+    image: imgSperrmuellRueckseite,
+    imageCaption: "Rückseite: Kalle wartet. Nummer 43. Aufgerufen wird 12.",
+    shortTitle: "Rückseite",
+    title: "Rückseite: Warten mit Kalle",
+    body: [
+      "Ein einziges großes Bild. Kalle sitzt in einem leeren Wartebereich, hält seine Nummer hoch und grinst.",
+      "Text darunter: „Der Sektor bleibt stabil, solange niemand aufsteht.“",
+      "Ganz unten, kleiner, fast schon verschämt: „Wenn Sie das hier lesen, haben Sie schon zu viel gelesen. Geben Sie das Heft weiter. Nicht ab.“",
+      "Auf dem letzten freien Fleck hat jemand mit Kugelschreiber ein Kürzel hinterlassen. Es sind drei Buchstaben mit Punkten dazwischen.",
+    ],
+  },
+];
+
+registerLibraryBook({
+  id: "sperrmuell-heft",
+  title: "SPERRMÜLL — Das Heft, das nicht vorgesehen ist",
+  subtitle: "Ohne Herausgeber · Nr. 7, März 1992 · Bewohnerbibliothek E71",
+  author: "Ohne Herausgeber",
+  year: "1992",
+  blurb:
+    "Ein geklammertes Satireheft von schlechtem Papier: Comics, erfundene Leserbriefe, ein ehrliches Formblatt und Kalle Nichtzuständig. Herbert stellt es zwischen die Fahrpläne, wo niemand sucht.",
+  chapters: sperrmuellChapters,
   uiText: LIBRARY_UI_TEXT,
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
   lendable: true,
