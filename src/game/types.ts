@@ -102,7 +102,8 @@ export type InventoryItemId =
   | "buchDrehendeDreieck"
   | "buchMandatsdeutsch"
   | "buchLobDesVorgangs"
-  | "buchNichtVorgesehen";
+  | "buchNichtVorgesehen"
+  | "heftSperrmuell";
 
 export type KnowledgeFlag =
   | "responsibilityE67"

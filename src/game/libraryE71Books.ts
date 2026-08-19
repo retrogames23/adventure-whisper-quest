@@ -111,6 +111,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "buchNichtVorgesehen",
     itemName: "Nicht vorgesehen (Leihbuch)",
   },
+  {
+    id: "sperrmuell-heft",
+    title: "SPERRMÜLL — Das Heft, das nicht vorgesehen ist",
+    author: "Ohne Herausgeber",
+    year: "1992",
+    blurb:
+      "Ein geklammertes Satireheft von schlechtem Papier: Comics, erfundene Leserbriefe, ein ehrliches Formblatt und Kalle Nichtzuständig. Herbert stellt es zwischen die Fahrpläne, wo niemand sucht.",
+    itemId: "heftSperrmuell",
+    itemName: "SPERRMÜLL Nr. 7 (Leihheft)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */
