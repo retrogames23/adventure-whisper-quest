@@ -45,6 +45,7 @@ export const CHANNELS: Channel[] = [
       "Die Preise für Grundnahrungsmittel bleiben in Sektor 28 im November stabil. Butter wird knapper: Das Kontingjent sinkt von 250 auf 200 Gramm je Person und Woche. Margarine ist nicht kontingentiert.",
       "Aus der Kantinenverwaltung. Die Essensmarken der Serie 3603 behalten ihre Gültigkeit bis Jahresende. Marken der Vorserie können in Gebäude E67, Raum 3603, getauscht werden, montags und donnerstags.",
       "Wetterbedingt kam es am Wochenende zu 41 Verkehrsunfällen in Sektor 28, davon vier mit Verletzten. Die Verkehrsstelle rät zu Winterreifen. Eine Pflicht besteht weiterhin nicht.",
+      "Die Tiroler Kulturtage enden am Sonntag mit einem Jodel-Workshop in A66, Raum 1046. Der Eintritt ist frei. Weitere Termine im Programmheft der Kulturleitung.",
       "Der Mandatsrat tagt am Donnerstag zur Haushaltslage des kommenden Jahres. Beraten werden unter anderem die Mittel für Fernwärme und für die Bewohnerbibliotheken. Die Sitzung ist nicht öffentlich.",
       "Zur Schulstatistik. In Sektor 28 wurden in diesem Jahr 1.240 Kinder eingeschult, 60 weniger als im Vorjahr. Die Schulverwaltung führt das auf die Altersstruktur der Wohnblocks zurück.",
       "Die Postzustellung in den Gebäuden E55 und E58 verzögert sich diese Woche um bis zu zwei Tage. Grund ist ein Ausfall in der Sortierstelle. Eilzustellungen sind davon ausgenommen.",
