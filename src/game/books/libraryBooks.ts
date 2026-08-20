@@ -785,7 +785,7 @@ const sperrmuellChapters: HandbookChapter[] = [
   {
     id: "sperrmuell-titel",
     image: imgSperrmuellTitel,
-    imageCaption: "Nr. 7 · März 92 · DM 2,50 · ÖS 20,– · SFR 2,80",
+    imageCaption: "Nr. 7 · März 92 · RM 2,50",
     shortTitle: "Titel",
     title: "SPERRMÜLL — Das Heft, das nicht vorgesehen ist",
     body: [
