@@ -48,6 +48,7 @@ import { ToiletWallOverlay } from "./ToiletWallOverlay";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useGame } from "@/game/GameContext";
 import { DonationGate } from "@/components/donation/DonationGate";
+import { OverlayErrorBoundary } from "./OverlayErrorBoundary";
 
 const Terminal = lazyWithRetry(() =>
   import("./Terminal").then((m) => ({ default: m.Terminal })),
@@ -274,6 +275,7 @@ function GameStage({
             <Act2AssignmentCutscene />
             <MiraRepairCutscene />
             <PauseMenu open={pauseOpen} onClose={handleClosePause} />
+            <OverlayErrorBoundary onClose={closeBook}>
             <Suspense fallback={null}>
               {terminalOpen && <Terminal />}
               {dsaCreatorOpen && <DsaCharacterCreator />}
@@ -300,6 +302,7 @@ function GameStage({
               )}
               <FreeChatGate />
             </Suspense>
+            </OverlayErrorBoundary>
           </div>
         </main>
         <Inventory />
