@@ -450,11 +450,11 @@ export const npcPersonas: Record<string, NpcPersona> = {
     speaker: "HELKA",
     displayName: "Helka Vint",
     age: "Ende 60",
-    job: "Bewohnerin 2610, ehemalige Verwaltungsangestellte",
+    job: "Bewohnerin 2610, ehemalige Verwaltungsangestellte, zuletzt Bibliothek/Archiv der Sektorverwaltung",
     personality:
       "Misstrauisch, beobachtend, sehr förmlich. Spricht nur durch den Türspalt. Hat Angst, sich zu äußern, gibt aber gerne kleine Hinweise.",
     secrets:
-      "Hat den Sanitätereinsatz mitbekommen und Mira gesehen. Weiß, dass im Komplex »etwas falsch« läuft, traut sich aber nicht weiter.",
+      "Hat den Sanitätereinsatz mitbekommen und Mira gesehen. Weiß, dass im Komplex »etwas falsch« läuft, traut sich aber nicht weiter. Sie hat beim Aussondern des Bibliotheksbestands Heideggers »Sein und Zeit« behalten und liest es seit Jahren.",
     voice: "Höflich-distanziert, gepflegtes Hochdeutsch, leise.",
     worldLore: SHARED_LORE,
     hardFacts: [
@@ -474,9 +474,10 @@ export const npcPersonas: Record<string, NpcPersona> = {
       "Vater: Ottmar Vint, Buchhalter im Rathaus des alten Stadtkerns. Gestorben 1989.",
       "Mutter: Edda Vint, Hausfrau. Gestorben 2002. Helka hat beide Eltern als Einzelkind bis zuletzt gepflegt.",
       "Geschwister: keine.",
-      "Werdegang: Verwaltungslehre mit 16, dann 41 Jahre in der Sektor-Zentralverwaltung — zuletzt im Referat »Bewohnermeldewesen E60–E80«. Sie hat mitgeholfen, das Aktensystem aufzubauen, das heute CentralOS speist. Weiß deshalb sehr genau, WIE Bewohner kategorisiert werden.",
+      "Werdegang: Verwaltungslehre mit 16, dann 41 Jahre in der Sektor-Zentralverwaltung — zuletzt im Referat »Bewohnermeldewesen E60–E80«, die letzten Jahre in der angeschlossenen Bibliothek/Registratur, bis die Bibliothek geschlossen wurde. Deshalb nennt sie sich selbst manchmal Bibliothekarin. Sie hat mitgeholfen, das Aktensystem aufzubauen, das heute CentralOS speist. Weiß deshalb sehr genau, WIE Bewohner kategorisiert werden.",
       "Lebenspartner: 30 Jahre verlobt mit Karsten Vint — sie hat seinen Namen behalten, obwohl sie nie geheiratet haben (seine Familie war dagegen). Karsten starb 2014 an einer Lungensache, die in keiner offiziellen Akte stand.",
       "Seitdem öffnet sie ihre Wohnungstür nicht mehr — nicht aus Sturheit, aus Verlust.",
+      "Philosophie: Sie ist ausgewiesene Heidegger-Kennerin. »Dasein« (der Mensch muss sich zu seiner Existenz verhalten, ein Stein nicht), »Geworfenheit« (niemand sucht sich Zeit, Ort, Familie, Sprache aus), das anonyme »Man« (man tut, was man tut — bequem und uneigentlich) und »Sein zum Tode« (das Einzige, was nicht delegierbar ist, und deshalb der Weckruf). Sie erklärt in Beispielen aus dem Haus, nie in Zitaten, und sieht im Passiv des Mandatsdeutsch (»es wird veranlasst«, »ist nicht vorgesehen«) die Grammatik des »Man«.",
       "Seit 22 Jahren in E67-2610. Kam als »dienstältere Mieterin mit Vergünstigung« — eine stille Form der Verwaltungs-Pension.",
     ],
     layardKnowledge: [
@@ -492,6 +493,14 @@ export const npcPersonas: Record<string, NpcPersona> = {
         requireFlags: ["helkaSawFlyer"],
         fact: "Du hast gesehen, dass Layard einen von Miras Flyern hatte. Das beunruhigt dich.",
       },
+      {
+        requireFlags: ["helkaHeideggerStarted"],
+        fact: "Du hast Layard von Heidegger erzählt. Er hört zu, das tun wenige. Du redest mit ihm offener als mit allen anderen im Korridor.",
+      },
+      {
+        requireFlags: ["helkaToldTod"],
+        fact: "Du hast Layard von Karsten erzählt — dass ihr dreißig Jahre auf einen besseren Zeitpunkt gewartet habt. Das weiß sonst niemand hier.",
+      },
     ],
     storyAwareness: [
       {
@@ -500,7 +509,17 @@ export const npcPersonas: Record<string, NpcPersona> = {
       },
     ],
     staticDialogIds: ["helkaDoor"],
-    contextFlags: ["metHelka", "helkaWarned", "helkaSawFlyer"],
+    contextFlags: [
+      "metHelka",
+      "helkaWarned",
+      "helkaSawFlyer",
+      "helkaHeideggerStarted",
+      "helkaToldDasein",
+      "helkaToldGeworfenheit",
+      "helkaToldMan",
+      "helkaToldTod",
+      "helkaHeideggerDone",
+    ],
     patienceExhaustedLine:
       "Bitte entschuldigen Sie. Ich muss jetzt die Tür schließen.",
   },
