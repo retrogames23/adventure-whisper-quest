@@ -931,11 +931,10 @@ export const apartmentAct1Scenes: Record<string, Scene> = {
           } else if (!api.hasFlag("talkedHelka3")) {
             api.setFlag("talkedHelka3");
             api.startDialog("helkaSmalltalk2");
+          } else if (!api.hasFlag("helkaHeideggerDone")) {
+            api.startDialog("helkaHeidegger");
           } else {
-            api.showText([
-              "Layard klopft. Aus der Wohnung 2610: kein Geräusch.",
-              "Helka hat heute genug geredet. Mehr als in den letzten zwei Jahren.",
-            ]);
+            api.startDialog("helkaHeideggerShort");
           }
         },
       },
