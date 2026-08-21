@@ -864,17 +864,12 @@ const sperrmuellChapters: HandbookChapter[] = [
     id: "sperrmuell-duell",
     shortTitle: "Duell",
     title: "Sachbearbeiter gegen Sachbearbeiter (ohne Worte)",
-    body: [
-      "BILD 1 — Zwei Schreibtische, gegenüber. Zwei Herren, gleiche Ärmelschoner.",
-      "BILD 2 — Der linke schiebt eine Mappe nach rechts.",
-      "BILD 3 — Der rechte schiebt die Mappe zurück. Ein Stempel liegt bereit.",
-      "BILD 4 — Links: Stempel. Rechts: Gegenstempel.",
-      "BILD 5 — Die Mappe wandert. Hin. Her. Der Stapel daneben wächst.",
-      "BILD 6 — Abend. Beide Herren sind gegangen. Die Mappe liegt genau in der Mitte des Raums, auf dem Boden, allein.",
-      "BILD 7 — Morgen. Beide sind zurück. Beide sehen die Mappe. Keiner hebt sie auf.",
-      "Bildunterschrift: „Zuständigkeit ist der Zustand, in dem sich zwei Menschen einig sind.“",
-    ],
+    image: imgSperrmuellDuell,
+    imageCaption:
+      "„Zuständigkeit ist der Zustand, in dem sich zwei Menschen einig sind.“",
+    body: [],
   },
+
   {
     id: "sperrmuell-kalle",
     shortTitle: "Kalle",
