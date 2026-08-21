@@ -235,6 +235,13 @@ export type StoryFlag =
   | "talkedHelka3"
   | "helkaWarned"
   | "helkaSawFlyer"
+  // Helka: Heidegger-Gespräche
+  | "helkaHeideggerStarted"
+  | "helkaToldDasein"
+  | "helkaToldGeworfenheit"
+  | "helkaToldMan"
+  | "helkaToldTod"
+  | "helkaHeideggerDone"
   // Bodo Marschke (2612) — begehbare Wohnung
   | "metBodo"
   | "talkedBodo2"

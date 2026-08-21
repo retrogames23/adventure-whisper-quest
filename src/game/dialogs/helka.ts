@@ -330,4 +330,340 @@ export const helkaDialogs: Record<string, DialogTree> = {
       },
     },
   },
+
+  // ── Heidegger: das lange Türspalt-Gespräch ────────────────────────
+  helkaHeidegger: {
+    id: "helkaHeidegger",
+    start: "hh1",
+    lines: {
+      hh1: {
+        id: "hh1",
+        speaker: "SYSTEM",
+        text: "[ Der Türspalt öffnet sich wie immer: handbreit. Auf dem Flurtischchen hinter ihr liegt ein Buch, dunkler Leinenrücken, kein Schutzumschlag. Der Titel ist zur Wand gedreht. ]",
+        hiddenWhen: ["helkaHeideggerStarted"],
+        next: "hh2",
+      },
+      hh2: {
+        id: "hh2",
+        speaker: "LAYARD",
+        text: "Was lesen Sie da, Frau Vint? Der Rücken ist zur Wand gedreht.",
+        hiddenWhen: ["helkaHeideggerStarted"],
+        next: "hh3",
+      },
+      hh3: {
+        id: "hh3",
+        speaker: "HELKA",
+        text: "Das ist Gewohnheit, kein Geheimnis. Ein Buch, das ich nicht ausgesondert habe, als ich alles andere aussondere. Heidegger. »Sein und Zeit«.",
+        hiddenWhen: ["helkaHeideggerStarted"],
+        next: "hh4",
+      },
+      hh4: {
+        id: "hh4",
+        speaker: "LAYARD",
+        text: "Und das darf man behalten?",
+        hiddenWhen: ["helkaHeideggerStarted"],
+        next: "hh5",
+      },
+      hh5: {
+        id: "hh5",
+        speaker: "HELKA",
+        text: "Man darf vieles. Man tut es nur nicht. — Sie stehen im Zug, Herr Worag. Fragen Sie, oder gehen Sie.",
+        subtext: "Sie sagt es scharf, aber sie schließt die Tür nicht.",
+        hiddenWhen: ["helkaHeideggerStarted"],
+        next: "hub",
+      },
+      hub: {
+        id: "hub",
+        speaker: "HELKA",
+        text: "Also. Woran hängen Sie?",
+        choices: [
+          {
+            text: "Warum sagt er nicht einfach »Mensch«? Was ist ein »Dasein«?",
+            hiddenWhen: ["helkaToldDasein"],
+            next: "da1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerStarted");
+              api.setFlag("helkaToldDasein");
+            },
+          },
+          {
+            text: "Sie haben vorhin »geworfen« gesagt. Wie meinen Sie das?",
+            hiddenWhen: ["helkaToldGeworfenheit"],
+            next: "gw1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerStarted");
+              api.setFlag("helkaToldGeworfenheit");
+            },
+          },
+          {
+            text: "Sie betonen dieses »man« immer so eigenartig.",
+            hiddenWhen: ["helkaToldMan"],
+            next: "ma1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerStarted");
+              api.setFlag("helkaToldMan");
+            },
+          },
+          {
+            text: "Und was reißt einen da wieder heraus?",
+            requires: ["helkaToldDasein", "helkaToldGeworfenheit", "helkaToldMan"],
+            hiddenWhen: ["helkaToldTod"],
+            next: "td1",
+            action: (api) => {
+              api.setFlag("helkaToldTod");
+            },
+          },
+          {
+            text: "Ehrlich gesagt: Das ist Gerede über Gerede.",
+            next: "sk1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerStarted");
+            },
+          },
+          {
+            text: "[ Beenden ]",
+          },
+        ],
+      },
+
+      // — Dasein —
+      da1: {
+        id: "da1",
+        speaker: "HELKA",
+        text: "Weil »Mensch« zu voll ist. Da hängt alles dran: Rasse, Beruf, Meldeklasse. Er will das Wort leer haben. Also nimmt er das nüchternste, das die Sprache hergibt: Dasein. Etwas, das da ist — und das weiß.",
+        next: "da2",
+      },
+      da2: {
+        id: "da2",
+        speaker: "HELKA",
+        text: "Ein Stein ist auch da. Ein Stuhl ist da. Aber der Stuhl muss sich nicht überlegen, ob er ein guter Stuhl ist. Er steht einfach. Das ist bequem.",
+        next: "da3",
+      },
+      da3: {
+        id: "da3",
+        speaker: "LAYARD",
+        text: "Und ich muss mich überlegen.",
+        next: "da4",
+      },
+      da4: {
+        id: "da4",
+        speaker: "HELKA",
+        text: "Sie müssen sich zu sich verhalten, während Sie laufen. Ohne Pause. Kein Stein hat diese Aufgabe je bekommen. Das ist keine Auszeichnung, Herr Worag, das ist Arbeit.",
+        next: "da5",
+      },
+      da5: {
+        id: "da5",
+        speaker: "HELKA",
+        text: "Sehen Sie in den Korridor. Zweiundzwanzig Türen. In den Listen der Leitstelle sind das zweiundzwanzig Nummern. Eine Nummer ist vorhanden wie ein Stuhl. Ein Dasein ist nicht vorhanden — es existiert. Das Formular kennt diesen Unterschied nicht.",
+        subtext: "Sie tippt einmal gegen den Türrahmen. Wie ein Punkt am Satzende.",
+        next: "hub",
+      },
+
+      // — Geworfenheit —
+      gw1: {
+        id: "gw1",
+        speaker: "HELKA",
+        text: "Geworfenheit. Sein Wort, nicht meins. Es heißt: Sie haben nichts davon ausgesucht. Nicht das Jahr, nicht die Stadt, nicht die Eltern, nicht die Sprache, in der Sie gerade denken.",
+        next: "gw2",
+      },
+      gw2: {
+        id: "gw2",
+        speaker: "HELKA",
+        text: "Sie kommen an, und die Welt ist fertig. Möbliert. Die Regeln stehen schon, die Wörter stehen schon, die Zuständigkeiten stehen schon. Gefragt hat Sie niemand, weil es Sie noch nicht gab.",
+        next: "gw3",
+      },
+      gw3: {
+        id: "gw3",
+        speaker: "LAYARD",
+        text: "Das klingt wie eine Entschuldigung. Für alles.",
+        next: "gw4",
+      },
+      gw4: {
+        id: "gw4",
+        speaker: "HELKA",
+        text: "Nein. Es ist der Ausgangspunkt, nicht das Urteil. Ich bin im Alten Stadtkern geworfen worden, in eine Buchhalterwohnung mit zwei Zimmern. Mit sechzehn hat mich jemand zur Verwaltungslehre angemeldet. Ich habe nicht widersprochen.",
+        next: "gw5",
+      },
+      gw5: {
+        id: "gw5",
+        speaker: "HELKA",
+        text: "Einundvierzig Jahre. Danach das Archiv. Ich habe das Aktensystem mit aufgebaut, das heute alle sortiert. Geworfen war ich nur am Anfang. Alles danach habe ich getan.",
+        subtext: "Das ist das erste Mal, dass sie etwas zugibt.",
+        next: "gw6",
+      },
+      gw6: {
+        id: "gw6",
+        speaker: "HELKA",
+        text: "Deshalb halte ich nichts davon, sich hinter dem Anfang zu verstecken. Man wird geworfen, ja. Aber irgendwann landet man, und dann geht man selbst.",
+        next: "hub",
+      },
+
+      // — Das Man —
+      ma1: {
+        id: "ma1",
+        speaker: "HELKA",
+        text: "Weil es kein gewöhnliches Wort ist, sondern eine Person. Heidegger schreibt es groß: das Man. Der Niemand, der alles entscheidet.",
+        next: "ma2",
+      },
+      ma2: {
+        id: "ma2",
+        speaker: "HELKA",
+        text: "Man nimmt die Stelle, die man nimmt. Man denkt, was man hier denkt. Man fragt nicht, was man nicht fragt. Fragen Sie einmal nach, wer dieses »man« ist. Es meldet sich keiner.",
+        next: "ma3",
+      },
+      ma3: {
+        id: "ma3",
+        speaker: "HELKA",
+        text: "Das ist der Handel: Das Man nimmt Ihnen die Entscheidung ab, und Sie zahlen mit Ihrem Leben. Sie leben es dann, aber Sie haben es nicht gewählt. Er nennt das uneigentlich. Ein häßliches Wort für etwas sehr Gemütliches.",
+        choices: [
+          {
+            text: "Sie beschreiben unsere Dienstsprache.",
+            next: "ma4",
+          },
+          {
+            text: "Manchmal ist es einfach vernünftig, mitzulaufen.",
+            next: "ma6",
+          },
+        ],
+      },
+      ma4: {
+        id: "ma4",
+        speaker: "HELKA",
+        text: "Ich beschreibe eine Grammatik. Sehen Sie sich eine Mitteilung der Leitstelle an. »Es wird veranlasst.« »Wird geprüft.« »Ist nicht vorgesehen.« Kein Satz hat einen Täter.",
+        next: "ma5",
+      },
+      ma5: {
+        id: "ma5",
+        speaker: "HELKA",
+        text: "Vierzig Jahre habe ich solche Sätze geschrieben. Nicht einer davon war gelogen. Und keiner war von mir. Das Man schreibt sauber, Herr Worag — es unterschreibt nur nicht.",
+        next: "hub",
+      },
+      ma6: {
+        id: "ma6",
+        speaker: "HELKA",
+        text: "Natürlich. Ich stehe im Türspalt und rede über Eigentlichkeit — halten Sie mich für die falsche Frau, das ist Ihr gutes Recht.",
+        next: "ma7",
+      },
+      ma7: {
+        id: "ma7",
+        speaker: "HELKA",
+        text: "Er verbietet das Mitlaufen auch nicht. Er sagt nur: merken Sie es. Wer mitläuft und es weiß, geht anders als wer mitläuft und glaubt, er wähle.",
+        next: "hub",
+      },
+
+      // — Sein zum Tode —
+      td1: {
+        id: "td1",
+        speaker: "HELKA",
+        text: "Ausgerechnet das Unangenehmste. Er nennt es Sein zum Tode. Nicht Sterben, nicht Trauer. Die nüchterne Kenntnisnahme, dass Sie aufhören.",
+        next: "td2",
+      },
+      td2: {
+        id: "td2",
+        speaker: "HELKA",
+        text: "Alles andere können Sie delegieren. Ihre Schicht, Ihre Meldung, Ihre Meinung. Dafür gibt es Zuständige. Für das hier gibt es keinen. Kein Mensch kann Ihnen Ihren Tod abnehmen.",
+        next: "td3",
+      },
+      td3: {
+        id: "td3",
+        speaker: "HELKA",
+        text: "Und in dem Moment, in dem Ihnen das ehrlich klar wird, geht das Man weg. Es hat dazu nichts zu sagen. Es ist zum ersten Mal still. Dann, sagt er, könnte ein eigenes Leben anfangen.",
+        choices: [
+          {
+            text: "Sie sagen das, als hätten Sie es geprüft.",
+            next: "td4",
+          },
+          {
+            text: "Ein bisschen spät, wenn man erst dann anfängt.",
+            next: "td4",
+          },
+        ],
+      },
+      td4: {
+        id: "td4",
+        speaker: "HELKA",
+        text: "Karsten ist 2014 gestorben. Eine Lungensache. Sie steht in keiner Akte, weil die Ursache nicht vorgesehen war.",
+        subtext: "Ihre Stimme wird nicht leiser. Nur langsamer.",
+        next: "td5",
+      },
+      td5: {
+        id: "td5",
+        speaker: "HELKA",
+        text: "Dreißig Jahre verlobt. Geheiratet haben wir nie, seine Familie war dagegen, und wir haben getan, was man tut. Wir haben gewartet. Auf einen besseren Zeitpunkt. Den gibt das Man nicht heraus.",
+        next: "td6",
+      },
+      td6: {
+        id: "td6",
+        speaker: "LAYARD",
+        text: "Es tut mir leid.",
+        next: "td7",
+      },
+      td7: {
+        id: "td7",
+        speaker: "HELKA",
+        text: "Danke. Es ist nicht nötig. — Seitdem öffne ich die Tür nicht mehr ganz. Das ist keine Angst, Herr Worag. Das ist die einzige Entscheidung, die ich selbst getroffen habe.",
+        next: "td8",
+      },
+      td8: {
+        id: "td8",
+        speaker: "HELKA",
+        text: "Sie schreiben doch. Oder Sie haben geschrieben. Überlegen Sie einmal, welcher Ihrer Sätze von Ihnen war — und welcher von dem, was man schreibt.",
+        choices: [
+          {
+            text: "[ Das sitzt. ]",
+            next: "end1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerDone");
+            },
+          },
+        ],
+      },
+      end1: {
+        id: "end1",
+        speaker: "HELKA",
+        text: "Genug für heute. Ich habe seit 1991 nicht so viel geredet, und damals ging es um Sie. — Kommen Sie wieder. Aber nicht oft.",
+        subtext: "Der Spalt wird schmaler. Das Buch bleibt liegen, Rücken zur Wand.",
+        end: true,
+      },
+
+      // — Skepsis —
+      sk1: {
+        id: "sk1",
+        speaker: "HELKA",
+        text: "Selbstverständlich ist es das. Philosophie ist Gerede über Gerede, so wie Verwaltung Papier über Papier ist. Der Unterschied: Ihr Papier weist Wohnungen zu.",
+        next: "sk2",
+      },
+      sk2: {
+        id: "sk2",
+        speaker: "HELKA",
+        text: "Ich verlange nicht, dass Sie es glauben. Ich habe es zweiundvierzig Jahre lang nicht geglaubt und trotzdem behalten. Fragen Sie weiter oder gehen Sie schlafen, beides ist in Ordnung.",
+        next: "hub",
+      },
+    },
+  },
+
+  helkaHeideggerShort: {
+    id: "helkaHeideggerShort",
+    start: "hhs1",
+    lines: {
+      hhs1: {
+        id: "hhs1",
+        speaker: "LAYARD",
+        text: "Frau Vint — hätten Sie noch einen Moment?",
+        next: "hhs2",
+      },
+      hhs2: {
+        id: "hhs2",
+        speaker: "HELKA",
+        text: "Wir haben das besprochen, Herr Worag. Dasein, geworfen, das Man, das Ende. Mehr steht auch bei ihm nicht, es steht nur länger da.",
+        next: "hhs3",
+      },
+      hhs3: {
+        id: "hhs3",
+        speaker: "HELKA",
+        text: "Denken Sie es zu Ende, wenn Sie allein sind. Dafür braucht man keine Nachbarin im Türspalt.",
+        end: true,
+      },
+    },
+  },
 };
