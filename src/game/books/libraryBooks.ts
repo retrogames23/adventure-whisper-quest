@@ -31,6 +31,7 @@ import imgSperrmuellTitel from "@/assets/books/sperrmuell-titel.jpg";
 import imgSperrmuellSektorbericht from "@/assets/books/sperrmuell-sektorbericht.jpg";
 import imgSperrmuellWetter from "@/assets/books/sperrmuell-wetter.jpg";
 import imgSperrmuellRueckseite from "@/assets/books/sperrmuell-rueckseite.jpg";
+import imgSperrmuellDuell from "@/assets/books/sperrmuell-duell.jpg";
 import {
   registerBook,
   type BookUiText,
