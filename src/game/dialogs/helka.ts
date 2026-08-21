@@ -415,7 +415,6 @@ export const helkaDialogs: Record<string, DialogTree> = {
           },
           {
             text: "Ehrlich gesagt: Das ist Gerede über Gerede.",
-            hiddenWhen: ["helkaSkeptic"],
             next: "sk1",
             action: (api) => {
               api.setFlag("helkaHeideggerStarted");
