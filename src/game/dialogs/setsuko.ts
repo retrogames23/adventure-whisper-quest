@@ -49,6 +49,17 @@ export const setsukoDialogs: Record<string, DialogTree> = {
             next: "koerper1",
             action: (api) => api.setFlag("setsukoBodyTalk"),
           },
+          ...(api.hasFlag("setsukoArtTalk") || api.hasFlag("setsukoBodyTalk")
+            ? [
+                {
+                  text: api.hasFlag("setsukoOshoStarted")
+                    ? "Noch mal zu diesem Satz mit dem gefährlichen Leben."
+                    : "Wovon haben Sie das eigentlich alles?",
+                  next: "osho1",
+                  action: (a: GameApi) => a.setFlag("setsukoOshoStarted"),
+                },
+              ]
+            : []),
           ...(api.hasFlag("setsukoArtTalk") && api.hasFlag("setsukoBodyTalk")
             ? [
                 {
@@ -120,13 +131,167 @@ export const setsukoDialogs: Record<string, DialogTree> = {
         next: "sHub",
       },
 
+      // ── Ebene: Osho ──────────────────────────────────────────
+      osho1: {
+        id: "osho1",
+        speaker: "SETSUKO",
+        text: "Von einem Mann aus Indien. Osho. Ich habe ein Heft von ihm, eine Übersetzung, dreimal abgezogen, ohne Impressum, ohne Nummer. Niemand hier interessiert sich dafür, das ist der Vorteil an Sachen, die nicht vorgesehen sind.",
+        subtext:
+          "Sie zieht ein weiches, eselsohriges Heft zwischen zwei Farbgläsern hervor und hält es hoch wie einen Fund.",
+        next: "osho2",
+      },
+      osho2: {
+        id: "osho2",
+        speaker: "SETSUKO",
+        text: "Ein Satz steht darin, der mir gehört, seit ich ihn gelesen habe: gefährlich leben, aber nicht rücksichtslos. Die meisten hören das und denken, das sei dasselbe. Es ist das Gegenteil.",
+        next: "oshoHub",
+      },
+      oshoHub: {
+        id: "oshoHub",
+        speaker: "SETSUKO",
+        text: "Fragen Sie. Ich erkläre das gern, ich erkläre das viel zu gern.",
+        choicesFn: (api) => [
+          ...(!api.hasFlag("setsukoToldGefahrUnterschied")
+            ? [
+                {
+                  text: "Wo ist da der Unterschied?",
+                  next: "oshoU1",
+                  action: (a: GameApi) =>
+                    a.setFlag("setsukoToldGefahrUnterschied"),
+                },
+              ]
+            : []),
+          ...(!api.hasFlag("setsukoToldRuestung")
+            ? [
+                {
+                  text: "Und was heißt dann gefährlich leben, konkret?",
+                  next: "oshoR1",
+                  action: (a: GameApi) => a.setFlag("setsukoToldRuestung"),
+                },
+              ]
+            : []),
+          ...(api.hasFlag("setsukoToldRuestung") &&
+          !api.hasFlag("setsukoToldKomfort")
+            ? [
+                {
+                  text: "Gibt es noch eine zweite Gefahr?",
+                  next: "oshoK1",
+                  action: (a: GameApi) => a.setFlag("setsukoToldKomfort"),
+                },
+              ]
+            : []),
+          ...(api.hasFlag("setsukoToldKomfort") &&
+          !api.hasFlag("setsukoToldAuthentisch")
+            ? [
+                {
+                  text: "Und die dritte?",
+                  next: "oshoA1",
+                  action: (a: GameApi) => {
+                    a.setFlag("setsukoToldAuthentisch");
+                    a.setFlag("setsukoOshoDone");
+                  },
+                },
+              ]
+            : []),
+          {
+            text: "Klingt wie eine hübsche Ausrede für Rücksichtslosigkeit.",
+            next: "oshoSkepsis",
+          },
+          { text: "Ich muss das erst mal sacken lassen.", next: "sHub" },
+        ],
+      },
+      oshoU1: {
+        id: "oshoU1",
+        speaker: "SETSUKO",
+        text: "Rücksichtslos ist der Körper, wenn niemand zu Hause ist. Zweihundert fahren, weil man nichts mehr spürt. Das ist keine Kühnheit, das ist Taubheit mit Blech drumherum. Da ist kein Kontakt — nicht zu den eigenen Folgen und erst recht nicht zu fremden.",
+        next: "oshoU2",
+      },
+      oshoU2: {
+        id: "oshoU2",
+        speaker: "SETSUKO",
+        text: "Gefährlich leben ist etwas anderes. Das findet nicht im Blech statt, sondern in Ihnen. Sie fordern Ihr eigenes Ego heraus. Sie riskieren nichts an fremden Knochen, Sie riskieren sich.",
+        next: "oshoU3",
+      },
+      oshoU3: {
+        id: "oshoU3",
+        speaker: "SETSUKO",
+        text: "Unten im Haus rutscht einer betrunken das Treppengeländer runter und alle sagen, der traut sich was. Der traut sich nichts. Der ist nur nicht da. Trauen würde er sich, wenn er nüchtern klingelt und sagt, dass er einsam ist.",
+        next: "oshoHub",
+      },
+      oshoR1: {
+        id: "oshoR1",
+        speaker: "SETSUKO",
+        text: "Die erste Gefahr: die Rüstung ablegen. Sagen, was Sie wirklich empfinden — laut, zu einem Menschen, der Nein sagen kann. Und er kann Nein sagen, das gehört dazu, sonst wäre es keine Gefahr.",
+        next: "oshoR2",
+      },
+      oshoR2: {
+        id: "oshoR2",
+        speaker: "SETSUKO",
+        text: "Das ist mein „nackt machen“. Nicht der Mantel — der ist das Leichteste. Das Zurückgewiesenwerden riskieren, jedes Mal wieder. Ich male Punkte, bis ich verschwinde, und dann zeige ich es Leuten. Manche gehen. So befreiend!",
+        subtext:
+          "Sie sagt „so befreiend“ diesmal leiser, fast wie eine Selbstermahnung.",
+        next: "oshoHub",
+      },
+      oshoK1: {
+        id: "oshoK1",
+        speaker: "SETSUKO",
+        text: "Die zweite: die eingefahrenen Wege verlassen. Routine ist warm, Routine ist bequem, und Routine legt den Geist schlafen, ganz langsam, ohne dass er es merkt.",
+        next: "oshoK2",
+      },
+      oshoK2: {
+        id: "oshoK2",
+        speaker: "SETSUKO",
+        text: "Sehen Sie sich den Sektor an. Eine einzige große Komfortzone mit Formblatt. Jeder Weg vorgezeichnet, jede Frage schon beantwortet, bevor sie jemand stellt. Wer sich dagegen ins Unbekannte stellt, bleibt wach. Wach ist unbequem. Wach ist alles.",
+        next: "oshoHub",
+      },
+      oshoA1: {
+        id: "oshoA1",
+        speaker: "SETSUKO",
+        text: "Die dritte ist die schwerste: echt bleiben. Die Rollenspiele beenden. Nicht anpassen, was Sie denken und fühlen, an das Zimmer, in dem Sie gerade stehen.",
+        next: "oshoA2",
+      },
+      oshoA2: {
+        id: "oshoA2",
+        speaker: "SETSUKO",
+        text: "Das kostet. Ablehnung, Alleinsein, ein Formblatt wegen Wandveränderung. Ich wohne allein, und ich sage Ihnen ehrlich: nicht nur, weil ich es so schön finde. Aber ich muss morgens niemanden spielen. Das ist der Handel.",
+        subtext: "Sie zuckt mit den Schultern, ohne dass es traurig aussieht.",
+        next: "oshoEnde",
+      },
+      oshoEnde: {
+        id: "oshoEnde",
+        speaker: "SETSUKO",
+        text: "Also, noch einmal ganz: gefährlich leben, aber nicht rücksichtslos. Kein Draufgängertum. Nur Ehrlichkeit gegen sich selbst, und die verlangt mehr Mut als jede Raserei auf einer Straße.",
+        next: "oshoHub",
+      },
+      oshoSkepsis: {
+        id: "oshoSkepsis",
+        speaker: "SETSUKO",
+        text: "Nein. Eine Ausrede wäre es, wenn ich Ihnen etwas wegnehmen würde und dabei „Freiheit“ riefe. Ich nehme mir etwas weg. Das ist der ganze Unterschied, und er ist nicht klein.",
+        next: "oshoSkepsis2",
+      },
+      oshoSkepsis2: {
+        id: "oshoSkepsis2",
+        speaker: "SETSUKO",
+        text: "Rücksichtslos sein kann jeder Betrunkene. Gefährlich leben kann nur jemand, der wach ist. Deshalb ist es so selten und deshalb reden alle lieber über Autos.",
+        next: "oshoHub",
+      },
+
       // ── Ebene: die anderen — Hinweis auf Zero is Infinity ────
       andere1: {
         id: "andere1",
         speaker: "SETSUKO",
         text: "Andere. Hm. Ja, es gibt andere. Die meisten malen nicht, die machen es draußen, mit Leuten, an Orten, wo es weh tut.",
         subtext: "Zum ersten Mal wird sie langsamer.",
-        choicesFn: () => [
+        choicesFn: (api) => [
+          ...(api.hasFlag("setsukoOshoDone")
+            ? [
+                {
+                  text: "Die leben also gefährlich, aber nicht rücksichtslos.",
+                  next: "andere3",
+                  action: (a: GameApi) => a.setFlag("heardZeroIsInfinity"),
+                },
+              ]
+            : []),
           { text: "Erzählen Sie mir davon.", next: "andere2" },
           { text: "Klingt nach Ärger. Lassen wir das.", next: "sHub" },
         ],
@@ -228,11 +393,58 @@ export const setsukoDialogs: Record<string, DialogTree> = {
                 },
               ]
             : []),
+          ...(!api.hasFlag("setsukoOshoDone")
+            ? [
+                {
+                  text: "Wovon haben Sie das eigentlich alles?",
+                  next: "shOsho1",
+                  action: (a: GameApi) => {
+                    a.setFlag("setsukoOshoStarted");
+                    a.setFlag("setsukoToldGefahrUnterschied");
+                    a.setFlag("setsukoToldRuestung");
+                    a.setFlag("setsukoToldKomfort");
+                    a.setFlag("setsukoToldAuthentisch");
+                    a.setFlag("setsukoOshoDone");
+                  },
+                },
+              ]
+            : [{ text: "Noch mal zu Osho.", next: "shOshoShort" }]),
           ...(api.hasFlag("heardZeroIsInfinity")
             ? [{ text: "Noch mal zu Zero is Infinity.", next: "shZero" }]
             : []),
           { text: "Ich wollte nur Hallo sagen.", next: "shBye" },
         ],
+      },
+      shOsho1: {
+        id: "shOsho1",
+        speaker: "SETSUKO",
+        text: "Von Osho. Ein Mann aus Indien, ich habe ein abgezogenes Heft von ihm. Sein Satz: gefährlich leben, aber nicht rücksichtslos. Klingt gleich, ist das Gegenteil.",
+        subtext: "Das Heft liegt aufgeschlagen zwischen zwei Farbgläsern.",
+        next: "shOsho2",
+      },
+      shOsho2: {
+        id: "shOsho2",
+        speaker: "SETSUKO",
+        text: "Rücksichtslos ist der Körper ohne Bewusstsein — zweihundert fahren, weil man nichts mehr spürt. Gefährlich leben ist die Seele: Sie fordern Ihr eigenes Ego heraus, nicht fremde Knochen.",
+        next: "shOsho3",
+      },
+      shOsho3: {
+        id: "shOsho3",
+        speaker: "SETSUKO",
+        text: "Drei Gefahren. Erstens: die Rüstung ablegen und sagen, was Sie fühlen, obwohl man Sie zurückweisen kann. Zweitens: aus der Routine heraus, weil Bequemlichkeit den Geist einschläfert. Drittens: echt bleiben, die Rollenspiele beenden — auch wenn man dann allein wohnt wie ich.",
+        next: "shOsho4",
+      },
+      shOsho4: {
+        id: "shOsho4",
+        speaker: "SETSUKO",
+        text: "Also kein Draufgängertum. Ehrlichkeit gegen sich selbst, und die verlangt mehr Mut als jede Raserei. So befreiend!",
+        next: "sh1",
+      },
+      shOshoShort: {
+        id: "shOshoShort",
+        speaker: "SETSUKO",
+        text: "Gefährlich leben, aber nicht rücksichtslos. Rüstung ab, Routine weg, Rolle beenden. Mehr steht nicht drin, und mehr braucht man auch nicht — man muss es nur machen, jeden Tag, und das ist die Schwierigkeit.",
+        next: "sh1",
       },
       shKunst: {
         id: "shKunst",
