@@ -261,7 +261,6 @@ export const setsukoDialogs: Record<string, DialogTree> = {
         id: "oshoEnde",
         speaker: "SETSUKO",
         text: "Also, noch einmal ganz: gefährlich leben, aber nicht rücksichtslos. Kein Draufgängertum. Nur Ehrlichkeit gegen sich selbst, und die verlangt mehr Mut als jede Raserei auf einer Straße.",
-        onEnd: (api) => api.setFlag("setsukoOshoDone"),
         next: "oshoHub",
       },
       oshoSkepsis: {
