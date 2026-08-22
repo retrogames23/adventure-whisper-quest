@@ -393,11 +393,58 @@ export const setsukoDialogs: Record<string, DialogTree> = {
                 },
               ]
             : []),
+          ...(!api.hasFlag("setsukoOshoDone")
+            ? [
+                {
+                  text: "Wovon haben Sie das eigentlich alles?",
+                  next: "shOsho1",
+                  action: (a: GameApi) => {
+                    a.setFlag("setsukoOshoStarted");
+                    a.setFlag("setsukoToldGefahrUnterschied");
+                    a.setFlag("setsukoToldRuestung");
+                    a.setFlag("setsukoToldKomfort");
+                    a.setFlag("setsukoToldAuthentisch");
+                    a.setFlag("setsukoOshoDone");
+                  },
+                },
+              ]
+            : [{ text: "Noch mal zu Osho.", next: "shOshoShort" }]),
           ...(api.hasFlag("heardZeroIsInfinity")
             ? [{ text: "Noch mal zu Zero is Infinity.", next: "shZero" }]
             : []),
           { text: "Ich wollte nur Hallo sagen.", next: "shBye" },
         ],
+      },
+      shOsho1: {
+        id: "shOsho1",
+        speaker: "SETSUKO",
+        text: "Von Osho. Ein Mann aus Indien, ich habe ein abgezogenes Heft von ihm. Sein Satz: gefährlich leben, aber nicht rücksichtslos. Klingt gleich, ist das Gegenteil.",
+        subtext: "Das Heft liegt aufgeschlagen zwischen zwei Farbgläsern.",
+        next: "shOsho2",
+      },
+      shOsho2: {
+        id: "shOsho2",
+        speaker: "SETSUKO",
+        text: "Rücksichtslos ist der Körper ohne Bewusstsein — zweihundert fahren, weil man nichts mehr spürt. Gefährlich leben ist die Seele: Sie fordern Ihr eigenes Ego heraus, nicht fremde Knochen.",
+        next: "shOsho3",
+      },
+      shOsho3: {
+        id: "shOsho3",
+        speaker: "SETSUKO",
+        text: "Drei Gefahren. Erstens: die Rüstung ablegen und sagen, was Sie fühlen, obwohl man Sie zurückweisen kann. Zweitens: aus der Routine heraus, weil Bequemlichkeit den Geist einschläfert. Drittens: echt bleiben, die Rollenspiele beenden — auch wenn man dann allein wohnt wie ich.",
+        next: "shOsho4",
+      },
+      shOsho4: {
+        id: "shOsho4",
+        speaker: "SETSUKO",
+        text: "Also kein Draufgängertum. Ehrlichkeit gegen sich selbst, und die verlangt mehr Mut als jede Raserei. So befreiend!",
+        next: "sh1",
+      },
+      shOshoShort: {
+        id: "shOshoShort",
+        speaker: "SETSUKO",
+        text: "Gefährlich leben, aber nicht rücksichtslos. Rüstung ab, Routine weg, Rolle beenden. Mehr steht nicht drin, und mehr braucht man auch nicht — man muss es nur machen, jeden Tag, und das ist die Schwierigkeit.",
+        next: "sh1",
       },
       shKunst: {
         id: "shKunst",
