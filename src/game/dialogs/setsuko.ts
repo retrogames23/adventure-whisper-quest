@@ -49,6 +49,17 @@ export const setsukoDialogs: Record<string, DialogTree> = {
             next: "koerper1",
             action: (api) => api.setFlag("setsukoBodyTalk"),
           },
+          ...(api.hasFlag("setsukoArtTalk") || api.hasFlag("setsukoBodyTalk")
+            ? [
+                {
+                  text: api.hasFlag("setsukoOshoStarted")
+                    ? "Noch mal zu diesem Satz mit dem gefährlichen Leben."
+                    : "Wovon haben Sie das eigentlich alles?",
+                  next: "osho1",
+                  action: (a: GameApi) => a.setFlag("setsukoOshoStarted"),
+                },
+              ]
+            : []),
           ...(api.hasFlag("setsukoArtTalk") && api.hasFlag("setsukoBodyTalk")
             ? [
                 {
