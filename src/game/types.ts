@@ -141,6 +141,14 @@ export type StoryFlag =
   | "metSetsuko"
   | "setsukoArtTalk"
   | "setsukoBodyTalk"
+  /** Setsuko hat begonnen, über Osho zu sprechen. */
+  | "setsukoOshoStarted"
+  | "setsukoToldGefahrUnterschied"
+  | "setsukoToldRuestung"
+  | "setsukoToldKomfort"
+  | "setsukoToldAuthentisch"
+  /** Alle vier Osho-Themen gehört. */
+  | "setsukoOshoDone"
   /** Erster Hinweis auf das Kollektiv „Zero is Infinity“. */
   | "heardZeroIsInfinity"
   /** Walter Grewe (Wohnung 1103, E71) kennengelernt. */
