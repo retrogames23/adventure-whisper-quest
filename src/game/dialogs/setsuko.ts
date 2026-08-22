@@ -186,7 +186,10 @@ export const setsukoDialogs: Record<string, DialogTree> = {
                 {
                   text: "Und die dritte?",
                   next: "oshoA1",
-                  action: (a: GameApi) => a.setFlag("setsukoToldAuthentisch"),
+                  action: (a: GameApi) => {
+                    a.setFlag("setsukoToldAuthentisch");
+                    a.setFlag("setsukoOshoDone");
+                  },
                 },
               ]
             : []),
