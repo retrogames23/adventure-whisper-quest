@@ -1021,6 +1021,9 @@ export const miraDialogs: Record<string, DialogTree> = {
     id: "miraEvidenceAsk",
     npcId: "mira",
     start: "me1",
+    // Der Auftrag gilt, sobald Mira ihn ausspricht — auch wenn der Spieler
+    // den Dialog vorzeitig verlässt oder in den Free-Talk wechselt.
+    onEnd: (api) => api.setFlag("miraAskedEvidence"),
     lines: {
       me1: {
         id: "me1",

@@ -26,37 +26,55 @@ function takeAushang(
 
 function tree(
   id: string,
+  readLines: string[],
   question: string,
   onTake: (api: GameApi) => void,
   leaveLines: string[],
 ): DialogTree {
+  const lines: DialogTree["lines"] = {};
+  readLines.forEach((text, i) => {
+    lines[`r${i}`] = {
+      id: `r${i}`,
+      speaker: "SYSTEM",
+      text,
+      next: i === readLines.length - 1 ? "q" : `r${i + 1}`,
+    };
+  });
+  lines.q = {
+    id: "q",
+    speaker: "SYSTEM",
+    text: question,
+    choices: [
+      {
+        text: "Aushang mitnehmen",
+        action: onTake,
+      },
+      {
+        text: "Aushang hängenlassen",
+        action: (api) => api.showText(leaveLines),
+      },
+    ],
+  };
   return {
     id,
-    start: "q",
-    lines: {
-      q: {
-        id: "q",
-        speaker: "SYSTEM",
-        text: question,
-        choices: [
-          {
-            text: "Aushang mitnehmen",
-            action: onTake,
-          },
-          {
-            text: "Aushang hängenlassen",
-            action: (api) => api.showText(leaveLines),
-          },
-        ],
-      },
-    },
+    start: readLines.length ? "r0" : "q",
+    onStart: (api) => api.setFlag("sawResonanzAushang"),
+    lines,
+
   };
 }
 
 export const aushangDialogs: Record<string, DialogTree> = {
   aushangLobbyTake: tree(
     "aushangLobbyTake",
+    [
+      "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Bewohner:",
+      "Belegungsdichte, Lüftung, Türsiegel-Praxis. Verstöße werden erfasst.“",
+      "Aushang: „Gebäude E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
+      "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
+    ],
     "Mira braucht drei Fundstellen. Das Blatt hängt nur an vier Reißnägeln.",
+
     (api) =>
       takeAushang(api, {
         flag: "belegAushangAufzug",
@@ -72,7 +90,14 @@ export const aushangDialogs: Record<string, DialogTree> = {
   ),
   aushangKorridor46Take: tree(
     "aushangKorridor46Take",
+    [
+      "„RUHE IST TEIL DER STATIK.“",
+      "Darunter, kleiner: „Belegungsdichte einhalten. Türen leise. Ruhezeiten 22–06.“",
+      "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
+      "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
+    ],
     "Mira braucht drei Fundstellen. Das Plakat hängt lose an vier Reißnägeln.",
+
     (api) =>
       takeAushang(api, {
         flag: "belegAushangKorridor46",
@@ -88,7 +113,14 @@ export const aushangDialogs: Record<string, DialogTree> = {
   ),
   aushangGemeinschaftTake: tree(
     "aushangGemeinschaftTake",
+    [
+      "Ein durchgestrichenes Piktogramm: jemand, der gegen eine Wand hämmert.",
+      "„Resonanz-Hygiene · Pausen sind Teil der Behandlung.“",
+      "Darunter, klein: „Belegungsdichte · Ruhezeiten · Nutzung nur mit Eintrag.“",
+      "Ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
+    ],
     "Mira braucht drei Fundstellen. Am Tisch würfeln sie weiter, niemand schaut her.",
+
     (api) =>
       takeAushang(api, {
         flag: "belegAushangGemeinschaftsraum",

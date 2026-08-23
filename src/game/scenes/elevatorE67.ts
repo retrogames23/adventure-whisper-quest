@@ -230,11 +230,11 @@ export const elevatorE67Scenes: Record<string, Scene> = {
             "Aushang: „Gebäude E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
             "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
           ];
-          if (!api.hasFlag("miraAskedEvidence")) {
-            api.showText(read);
+          if (api.hasFlag("miraAskedEvidence")) {
+            api.startDialog("aushangLobbyTake");
             return;
           }
-          api.showText(read, () => api.startDialog("aushangLobbyTake"));
+          api.showText(read);
         },
       },
       {
