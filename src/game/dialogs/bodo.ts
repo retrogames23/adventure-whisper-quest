@@ -210,6 +210,13 @@ export const bodoDialogs: Record<string, DialogTree> = {
         speaker: "BODO",
         text: "Und im 46er sitzt ein Kind, das sich an den Etagendrucker geklemmt hat. Das ist im Wartungsnetz. Ich billige das nicht. Ich stelle es nur fest.",
         subtext: "Er schaut kurz zu Lotti, als hätte er zu viel gesagt.",
+        next: "bodoLeitstelle4",
+      },
+      bodoLeitstelle4: {
+        id: "bodoLeitstelle4",
+        speaker: "BODO",
+        text: "Reinbitten wird sie Sie nicht. Aber Betriebstechnik sitzt nie in der eigenen Wohnung, wenn der Steigstrang hochläuft — dann stehen die im Korridor wie alle anderen. Die Stränge stehen unten im Keller. Tür neben dem Tresen, Vierkant.",
+        subtext: "Er sagt es so beiläufig, dass es kein Rat sein kann. Es ist trotzdem einer.",
         choices: [
           {
             text: "[ Verstanden. ]",
@@ -217,6 +224,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
           },
         ],
       },
+
       // Resonanz-Hygiene als Doppelbegriff — bau-akustisch und sozial.
       bodoResonanzHygiene1: {
         id: "bodoResonanzHygiene1",

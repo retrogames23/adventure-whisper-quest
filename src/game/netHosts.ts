@@ -60,6 +60,7 @@ export const NET_HOSTS: NetHost[] = [
     motd: [
       "── leitstelle.e67 — CentralOS v2.1 (Disposition) ─",
       "Amtlicher Verteiler. Zugriff protokolliert.",
+      "Umgemeldete Datenports werden hier zwischengelagert.",
       "Tippe 'ls', 'cat <datei>' oder 'exit'.",
     ],
     files: {
@@ -74,6 +75,29 @@ export const NET_HOSTS: NetHost[] = [
       ],
     },
     dynamicFiles: (hasFlag) => ({
+      "eingang_2611.txt": hasFlag("calledForCode")
+        ? [
+            "── Zwischenlager: Datenport 2611 ─────────────",
+            "Anschluss 2611 (Worag, L.) — umgemeldet auf diesen",
+            "Knoten (Wartung Korridor 46).",
+            "",
+            "  OFFENER VORGANG: 1",
+            "  → Tagescode Schleuse E67/E71",
+            "     abgelegt in: verteiler_tagescodes.txt",
+            "",
+            "Weiterleitung an den Anschluss: nicht vorgesehen.",
+          ]
+        : [
+            "── Zwischenlager: Datenport 2611 ─────────────",
+            "Anschluss 2611 (Worag, L.) — umgemeldet auf diesen",
+            "Knoten (Wartung Korridor 46).",
+            "",
+            "  OFFENER VORGANG: keiner",
+            "",
+            "Eingehende Zustellungen für 2611 verbleiben hier,",
+            "bis sie jemand abholt. Weiterleitung an den",
+            "Anschluss: nicht vorgesehen.",
+          ],
       "verteiler_tagescodes.txt": hasFlag("calledForCode")
         ? [
             "── Verteiler: Tagescodes Schleusen E67 ───────",
@@ -94,6 +118,7 @@ export const NET_HOSTS: NetHost[] = [
             "  (keine offenen Vorgänge)",
           ],
     }),
+
   },
   {
     ip: "10.67.26.11",

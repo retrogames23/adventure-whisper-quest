@@ -845,8 +845,16 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mdb1",
         speaker: "MIRA",
         text: "Finger weg, Layard.",
+        next: "mdb2",
+      },
+      mdb2: {
+        id: "mdb2",
+        speaker: "MIRA",
+        text: "Solange ich hier sitze, sitzt hier niemand sonst. Und ich sitze hier gern — außer im Sommer '95, als der Steigstrang durchgedreht ist. Da stand ich zwei Stunden im Korridor und habe die Wand gekühlt.",
+        subtext: "Sie sagt es beiläufig, ohne den Blick vom Schirm zu nehmen.",
         end: true,
       },
+
     },
   },
   // ── Ein Hub für alle Orte: gleiche Themen, gleicher Zustand ────────
@@ -977,7 +985,7 @@ export const miraDialogs: Record<string, DialogTree> = {
               api.showText([
                 "„Geht wieder“, sagt Mira. „Meldebogen schreibe ich nicht. Dann bleibt es ein Draht.“",
                 "„Eins noch: Ich musste Apparat und Datenport auf den Leitstellen-Knoten ummelden — anders kriege ich die Leitung nicht stabil. Telefonieren geht wieder. Aber deine Post läuft ab jetzt bei der Leitstelle auf, leitstelle.e67, nicht mehr in deinem Terminal.“",
-                "„Mich stört das nicht weiter. Mein Kasten hängt am Wartungsstrang. Der fragt bei niemandem nach einem Passwort.“",
+                "„Mich stört das nicht weiter. Mein Kasten hängt am Wartungsstrang, 10.67.56er-Bereich. Und genau den lässt die Leitstelle ohne Dienstpasswort rein. Deine Post liegt also da, wo nur ich hinkomme. Sag nicht, ich hätte es dir nicht erzählt.“",
                 "Sie ist schon an der Tür, bevor Layard antworten kann.",
               ]);
             },
@@ -1001,7 +1009,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs8b: {
         id: "mrs8b",
         speaker: "MIRA",
-        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Eins musst du wissen: Ich habe Apparat und Datenport auf den Leitstellen-Knoten umgemeldet. Heißt, deine Post landet ab jetzt bei der Leitstelle — leitstelle.e67 — und nicht mehr in deinem Terminal. Mich stört so was nicht: Mein Kasten hängt am Wartungsstrang, der fragt bei niemandem nach einem Passwort.",
+        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Eins musst du wissen: Ich habe Apparat und Datenport auf den Leitstellen-Knoten umgemeldet. Heißt, deine Post landet ab jetzt bei der Leitstelle — leitstelle.e67 — und nicht mehr in deinem Terminal. Mich stört so was nicht: Mein Kasten hängt am Wartungsstrang, 10.67.56er-Bereich, und genau den lässt die Leitstelle ohne Dienstpasswort rein.",
         requires: ["miraTrustEarned"],
         choices: [
           {
