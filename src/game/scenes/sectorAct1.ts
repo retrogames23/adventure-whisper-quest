@@ -467,13 +467,12 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         requires: ["metMikael"],
         onUse: (api) => {
           // Hidden-Frequency-Hinweis: Hat Layard schon mindestens einen
-          // anderen Hinweis (Bodo oder Helka), bietet Mikael den dritten
+          // Hinweis von Bodo, bietet Mikael die Bestätigung
           // — kryptisch, aber bestätigend. Ohne Vorwissen bleibt es bei
           // der bisherigen Schweigeszene.
           if (
             !api.hasFlag("mikaelHintHiddenFreqMood") &&
-            (api.hasFlag("bodoHintHiddenFreqBand") ||
-              api.hasFlag("helkaHintHiddenFreqStep"))
+            api.hasFlag("bodoHintHiddenFreqBand")
           ) {
             api.startDialog("mikaelHiddenFreq");
             return;
