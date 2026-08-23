@@ -7,12 +7,7 @@ import {
   startResonanceDrone,
 } from "@/audio/sfx";
 import { CloseButton } from "./CloseButton";
-import {
-  BURNED_NOISE_BAND,
-  HIDDEN_TARGET_FREQ,
-  RADIO_EXT_TEXT,
-  bandFor,
-} from "@/game/radio/bands";
+import { BURNED_NOISE_BAND, bandFor } from "@/game/radio/bands";
 import { Waveform } from "./radio/Waveform";
 import { ResonanceMeter } from "./radio/ResonanceMeter";
 
