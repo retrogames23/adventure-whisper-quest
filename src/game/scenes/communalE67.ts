@@ -43,11 +43,11 @@ export const communalE67Scenes: Record<string, Scene> = {
             "Darunter, klein: „Belegungsdichte · Ruhezeiten · Nutzung nur mit Eintrag.“",
             "Ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
           ];
-          if (!api.hasFlag("miraAskedEvidence")) {
-            api.showText(read);
+          if (api.hasFlag("miraAskedEvidence")) {
+            api.startDialog("aushangGemeinschaftTake");
             return;
           }
-          api.showText(read, () => api.startDialog("aushangGemeinschaftTake"));
+          api.showText(read);
         },
       },
       {

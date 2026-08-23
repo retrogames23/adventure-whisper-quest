@@ -186,11 +186,11 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
             "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
           ];
-          if (!api.hasFlag("miraAskedEvidence")) {
-            api.showText(read);
+          if (api.hasFlag("miraAskedEvidence")) {
+            api.startDialog("aushangKorridor46Take");
             return;
           }
-          api.showText(read, () => api.startDialog("aushangKorridor46Take"));
+          api.showText(read);
         },
       },
       {
