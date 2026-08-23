@@ -112,8 +112,13 @@ export const corridorsE67Scenes: Record<string, Scene> = {
     background: (api) =>
       api.hasFlag("belegAushangKorridor46") ? corridor46NoPosterBg : corridor46Bg,
     title: "Korridor 46 — Wohnetage",
-    intro:
-      "Wie zuhause, nur eine Etage höher. Ein Plakat „RESONANZ-HYGIENE“ blättert ab.",
+    intro: (api) =>
+      api.hasFlag("calledForCode") &&
+      api.hasFlag("port2611Locked") &&
+      !api.hasFlag("readTagescodeViaMira")
+        ? "Wie zuhause, nur eine Etage höher. Ein Plakat „RESONANZ-HYGIENE“ blättert ab. — Layards Post liegt seit heute Morgen bei der Leitstelle, und dort kommt nur rein, wer im Wartungsnetz hängt. Hinter einer dieser Türen steht so ein Anschluss."
+        : "Wie zuhause, nur eine Etage höher. Ein Plakat „RESONANZ-HYGIENE“ blättert ab.",
+
     npcs: [
       {
         id: "miraSprite46",
