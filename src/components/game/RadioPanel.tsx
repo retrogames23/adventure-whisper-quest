@@ -34,28 +34,6 @@ export function RadioPanel() {
   const lastFreqRef = useRef(freq);
   const [tick, setTick] = useState(0);
 
-  // ── Hidden Frequency 102,7 — Wartungs-Funkgerät 5610 ────────────
-  useEffect(() => {
-    if (!radioOpen) return;
-    if (scene !== "serverRoom5610") return;
-    if (flags.has("hiddenFrequencyFound")) return;
-    if (!flags.has("sawWartungsFunk5610")) return;
-    if (Math.abs(freq - HIDDEN_TARGET_FREQ) > 0.05) return;
-    const t = setTimeout(() => {
-      api.setFlag("hiddenFrequencyFound");
-      setRadioActive(false);
-      closeRadio();
-      api.addItem({
-        id: "wartungsDiktat",
-        name: "Wartungs-Diktat (Krummbein)",
-        description:
-          "Ein Notizfetzen, der aus dem Funk fiel: »102,7 ist kein Band. Es ist ein Rest. Wer hier zuhört, hört die Wartung von 1989.«",
-      });
-      api.showText(RADIO_EXT_TEXT.hiddenFreqIntro);
-    }, 900);
-    return () => clearTimeout(t);
-  }, [radioOpen, scene, freq, flags, api, setRadioActive, closeRadio]);
-
   // Silence-Test (Mira-Trust)
   useEffect(() => {
     if (!radioOpen) return;
