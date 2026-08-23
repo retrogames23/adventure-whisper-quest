@@ -1009,7 +1009,7 @@ export const miraDialogs: Record<string, DialogTree> = {
       mrs8b: {
         id: "mrs8b",
         speaker: "MIRA",
-        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Eins musst du wissen: Ich habe Apparat und Datenport auf den Leitstellen-Knoten umgemeldet. Heißt, deine Post landet ab jetzt bei der Leitstelle — leitstelle.e67 — und nicht mehr in deinem Terminal. Mich stört so was nicht: Mein Kasten hängt am Wartungsstrang, der fragt bei niemandem nach einem Passwort.",
+        text: "Roald hat's damals unterschrieben, weil man das unterschreibt. — Egal. Dein Telefon geht. Ruf an, wen du anrufen musst. Eins musst du wissen: Ich habe Apparat und Datenport auf den Leitstellen-Knoten umgemeldet. Heißt, deine Post landet ab jetzt bei der Leitstelle — leitstelle.e67 — und nicht mehr in deinem Terminal. Mich stört so was nicht: Mein Kasten hängt am Wartungsstrang, 10.67.56er-Bereich, und genau den lässt die Leitstelle ohne Dienstpasswort rein.",
         requires: ["miraTrustEarned"],
         choices: [
           {
