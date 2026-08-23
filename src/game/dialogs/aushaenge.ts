@@ -90,7 +90,14 @@ export const aushangDialogs: Record<string, DialogTree> = {
   ),
   aushangKorridor46Take: tree(
     "aushangKorridor46Take",
+    [
+      "„RUHE IST TEIL DER STATIK.“",
+      "Darunter, kleiner: „Belegungsdichte einhalten. Türen leise. Ruhezeiten 22–06.“",
+      "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
+      "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
+    ],
     "Mira braucht drei Fundstellen. Das Plakat hängt lose an vier Reißnägeln.",
+
     (api) =>
       takeAushang(api, {
         flag: "belegAushangKorridor46",
