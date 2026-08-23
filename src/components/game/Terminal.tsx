@@ -1172,6 +1172,13 @@ export function Terminal() {
         },
         { text: "  GATEWAY E67/E71   [ MANUELLER CODE ERFORDERLICH ]", kind: "out" },
       );
+      if (!bodoMode && !miraMode && !remoteMode && flags.has("port2611Locked")) {
+        newLines.push({
+          text: "  POSTFACH 2611     [ UMGEMELDET → leitstelle.e67 ]",
+          kind: "out",
+        });
+      }
+
     } else if (
       (cmd === "inbox" || head === "read") &&
       !bodoMode &&
