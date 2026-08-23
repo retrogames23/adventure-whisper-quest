@@ -322,9 +322,10 @@ export const HINT_QUESTS: HintQuest[] = [
     isResolved: (a) =>
       a.hasFlag("readTagescodeViaMira") || a.hasFlag("miraFlatOpen"),
     hints: [
-      "Mira lässt dich nicht an ihre Maschine. Aber sie sitzt auch nicht in der Wohnung, wenn es darin nicht auszuhalten ist.",
+      "Mira lässt dich nicht an ihre Maschine. Aber sie sitzt auch nicht in der Wohnung, wenn es darin nicht auszuhalten ist — sie hat selbst erzählt, wie sie '95 zwei Stunden im Korridor stand. Bodo (2612) sagt dasselbe über Betriebstechnik.",
       "Unter der Lobby E67 liegt die Heizungszentrale. Die Wartungstür neben dem Empfangstresen braucht einen Vierkantschlüssel — Bodo in 2612 hat einen, rückt ihn aber erst raus, wenn du ihm seine grüne Thermoskanne aus 5610 zurückgebracht hast.",
       "Thermoskanne zu Bodo bringen, Vierkantschlüssel holen, Wartungstür in der Lobby öffnen, im Keller Steigstrang 46 (vierter Regler) aufdrehen. Mira geht in den Korridor, die Tür 4601 bleibt offen — dann an ihr Terminal.",
+
     ],
   },
 
