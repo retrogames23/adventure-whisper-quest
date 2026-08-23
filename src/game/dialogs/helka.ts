@@ -145,7 +145,7 @@ export const helkaDialogs: Record<string, DialogTree> = {
       hs22: {
         id: "hs22",
         speaker: "HELKA",
-        text: "1989 habe ich einmal einen Bewohner gemeldet. Er hat die Frequenz manipuliert. Mit einem Lötkolben und einer Theorie. Es ist nichts passiert. Mit ihm nicht. Mit der Meldung nicht. Mit mir auch nicht — und das hat mir am meisten zu denken gegeben.",
+        text: "1989 habe ich einmal einen Bewohner gemeldet. Er hatte sich etwas zusammengelötet, ein Kabel lief bei ihm aus dem Fenster in den Lichtschacht. Ich habe bis heute nicht verstanden, wozu. Es ist nichts passiert. Mit ihm nicht. Mit der Meldung nicht. Mit mir auch nicht — und das hat mir am meisten zu denken gegeben.",
         next: "hs23",
       },
       hs23: {
