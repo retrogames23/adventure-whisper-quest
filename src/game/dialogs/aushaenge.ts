@@ -26,30 +26,41 @@ function takeAushang(
 
 function tree(
   id: string,
+  readLines: string[],
   question: string,
   onTake: (api: GameApi) => void,
   leaveLines: string[],
 ): DialogTree {
+  const lines: DialogTree["lines"] = {};
+  readLines.forEach((text, i) => {
+    lines[`r${i}`] = {
+      id: `r${i}`,
+      speaker: "SYSTEM",
+      text,
+      next: i === readLines.length - 1 ? "q" : `r${i + 1}`,
+    };
+  });
+  lines.q = {
+    id: "q",
+    speaker: "SYSTEM",
+    text: question,
+    choices: [
+      {
+        text: "Aushang mitnehmen",
+        action: onTake,
+      },
+      {
+        text: "Aushang hängenlassen",
+        action: (api) => api.showText(leaveLines),
+      },
+    ],
+  };
   return {
     id,
-    start: "q",
-    lines: {
-      q: {
-        id: "q",
-        speaker: "SYSTEM",
-        text: question,
-        choices: [
-          {
-            text: "Aushang mitnehmen",
-            action: onTake,
-          },
-          {
-            text: "Aushang hängenlassen",
-            action: (api) => api.showText(leaveLines),
-          },
-        ],
-      },
-    },
+    start: readLines.length ? "r0" : "q",
+    onStart: (api) => api.setFlag("sawResonanzAushang"),
+    lines,
+
   };
 }
 
