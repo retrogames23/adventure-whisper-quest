@@ -67,7 +67,14 @@ function tree(
 export const aushangDialogs: Record<string, DialogTree> = {
   aushangLobbyTake: tree(
     "aushangLobbyTake",
+    [
+      "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Bewohner:",
+      "Belegungsdichte, Lüftung, Türsiegel-Praxis. Verstöße werden erfasst.“",
+      "Aushang: „Gebäude E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
+      "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
+    ],
     "Mira braucht drei Fundstellen. Das Blatt hängt nur an vier Reißnägeln.",
+
     (api) =>
       takeAushang(api, {
         flag: "belegAushangAufzug",
