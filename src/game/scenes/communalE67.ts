@@ -37,21 +37,17 @@ export const communalE67Scenes: Record<string, Scene> = {
             return;
           }
           api.setFlag("sawResonanzAushang");
-          api.setFlag("belegAushangGemeinschaftsraum");
-          api.addItem({
-            id: "belegAushangGemeinschaftsraum",
-            name: "Aushang „Resonanz-Hygiene“ (Gemeinschaftsraum)",
-            description:
-              "Durchgestrichenes Piktogramm: jemand hämmert gegen eine Wand. „Pausen sind Teil der Behandlung.“ Unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
-          });
-          api.showText([
+          const read = [
             "Ein durchgestrichenes Piktogramm: jemand, der gegen eine Wand hämmert.",
             "„Resonanz-Hygiene · Pausen sind Teil der Behandlung.“",
             "Darunter, klein: „Belegungsdichte · Ruhezeiten · Nutzung nur mit Eintrag.“",
             "Ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
-            "Die drei am Tisch würfeln weiter. Layard löst die Nadeln und faltet das Blatt ein.",
-            "[ Aushang „Resonanz-Hygiene“ (Gemeinschaftsraum) eingesteckt. ]",
-          ]);
+          ];
+          if (!api.hasFlag("miraAskedEvidence")) {
+            api.showText(read);
+            return;
+          }
+          api.showText(read, () => api.startDialog("aushangGemeinschaftTake"));
         },
       },
       {
