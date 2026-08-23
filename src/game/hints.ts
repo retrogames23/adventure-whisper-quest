@@ -303,9 +303,10 @@ export const HINT_QUESTS: HintQuest[] = [
       !a.hasFlag("readTagescodeViaMira"),
     isResolved: (a) => a.hasFlag("readTagescodeViaMira"),
     hints: [
-      "Der Code ist raus — nur nicht bei dir. Seit Mira den Apparat repariert hat, hängen Telefon und Datenport von 2611 am Leitstellen-Knoten. Deine Post läuft dort auf.",
-      "Versuch es an deinem Terminal: 'telnet leitstelle.e67'. Der Knoten sagt dir selbst, wer sonst noch reindarf. Bodo (2612) erklärt es dir, wenn du ihn darauf ansprichst — Philippe hat das Kabel im 46er auch schon gesehen.",
-      "Verschaff dir Zugang zu Miras Rechner in 4601 — entweder über ihr Vertrauen (drei Aushang-Belege) oder über den Keller. Dort dann: 'telnet leitstelle.e67' und 'cat verteiler_tagescodes.txt'.",
+      "Der Code ist raus — nur nicht bei dir. Seit Mira den Apparat repariert hat, hängen Telefon und Datenport von 2611 am Leitstellen-Knoten. Deine Post läuft dort auf ('status' im eigenen Terminal zeigt es an).",
+      "Versuch es an deinem Terminal: 'telnet leitstelle.e67'. Der Knoten lässt nur das Dienstpasswort oder einen Anschluss im Wartungsnetz 10.67.56.x rein. Mira hat beim Reparieren gesagt, dass genau dort ihr Kasten hängt — Bodo (2612) erklärt es dir noch einmal.",
+      "Verschaff dir Zugang zu Miras Rechner in 4601 — entweder über ihr Vertrauen (drei Aushang-Belege) oder über den Keller. Dort dann: 'telnet leitstelle.e67', 'ls', 'cat eingang_2611.txt' und 'cat verteiler_tagescodes.txt'.",
+
     ],
   },
 
