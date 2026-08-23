@@ -1120,6 +1120,7 @@ textarea,
 select,
 [contenteditable="true"],
 [data-selectable="true"],
+.font-mono-crt,
 .select-text {
   -webkit-user-select: text;
   user-select: text;

@@ -23,7 +23,8 @@ export const TerminalScreen = memo(function TerminalScreen({
   return (
     <div
       ref={scrollRef}
-      className="min-h-0 flex-1 overflow-y-auto bg-black px-4 py-3 font-mono-crt text-[15px] leading-relaxed crt-flicker sm:h-[55vh] sm:flex-none sm:text-base"
+      data-selectable="true"
+      className="min-h-0 flex-1 overflow-y-auto bg-black px-4 py-3 font-mono-crt text-[15px] leading-relaxed crt-flicker select-text sm:h-[55vh] sm:flex-none sm:text-base"
     >
       {lines.map((l, i) => (
         <div
