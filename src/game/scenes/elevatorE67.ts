@@ -224,21 +224,17 @@ export const elevatorE67Scenes: Record<string, Scene> = {
             return;
           }
           api.setFlag("sawResonanzAushang");
-          api.setFlag("belegAushangAufzug");
-          api.addItem({
-            id: "belegAushangAufzug",
-            name: "Aushang „Resonanz-Hygiene“ (Lobby)",
-            description:
-              "Vom Schwarzen Brett der Lobby gelöst. Pflichtinformation zu Belegungsdichte, Lüftung und Türsiegel-Praxis. Unten: „Verstöße werden erfasst.“",
-          });
-          api.showText([
+          const read = [
             "Aushang: „Resonanz-Hygiene — Pflichtinformation für alle Bewohner:",
             "Belegungsdichte, Lüftung, Türsiegel-Praxis. Verstöße werden erfasst.“",
             "Aushang: „Gebäude E67 — Zuständigkeitsregelung Vertretung E71/1534.“",
             "Aushang, halb abgerissen: „… revolutionärer Umtriebe. Meldungen an 001.“",
-            "Kein Mensch am Tresen. Layard nimmt das erste Blatt vom Brett.",
-            "[ Aushang „Resonanz-Hygiene“ (Lobby) eingesteckt. ]",
-          ]);
+          ];
+          if (!api.hasFlag("miraAskedEvidence")) {
+            api.showText(read);
+            return;
+          }
+          api.showText(read, () => api.startDialog("aushangLobbyTake"));
         },
       },
       {
