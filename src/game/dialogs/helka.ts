@@ -558,7 +558,7 @@ export const helkaDialogs: Record<string, DialogTree> = {
       td4: {
         id: "td4",
         speaker: "HELKA",
-        text: "Karsten ist 2014 gestorben. Eine Lungensache. Sie steht in keiner Akte, weil die Ursache nicht vorgesehen war.",
+        text: "Karsten ist 1991 gestorben. Eine Lungensache. Sie steht in keiner Akte, weil die Ursache nicht vorgesehen war.",
         subtext: "Ihre Stimme wird nicht leiser. Nur langsamer.",
         next: "td5",
       },

@@ -446,7 +446,6 @@ export type StoryFlag =
   | "miraTerminalUnlocked"
   // Lose Wartungs-Hinweise von NPCs (für Hidden Frequency)
   | "bodoHintHiddenFreqBand"
-  | "helkaHintHiddenFreqStep"
   | "mikaelHintHiddenFreqMood"
   // ── Akt II ──────────────────────────────────────────────────────
   /** Akt II hat formell begonnen (nach „Weiterspielen" aus dem Ending). */

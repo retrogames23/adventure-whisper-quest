@@ -479,10 +479,10 @@ export const npcPersonas: Record<string, NpcPersona> = {
     biography: [
       "Geboren im Alten Stadtkern (vor der Sektor-Reform) — die Gegend ist heute die unsanierte Zone südlich von E40.",
       "Vater: Ottmar Vint, Buchhalter im Rathaus des alten Stadtkerns. Gestorben 1989.",
-      "Mutter: Edda Vint, Hausfrau. Gestorben 2002. Helka hat beide Eltern als Einzelkind bis zuletzt gepflegt.",
+      "Mutter: Edda Vint, Hausfrau. Gestorben 1994. Helka hat beide Eltern als Einzelkind bis zuletzt gepflegt.",
       "Geschwister: keine.",
       "Werdegang: Verwaltungslehre mit 16, dann 41 Jahre in der Sektor-Zentralverwaltung — zuletzt im Referat »Bewohnermeldewesen E60–E80«, die letzten Jahre in der angeschlossenen Bibliothek/Registratur, bis die Bibliothek geschlossen wurde. Deshalb nennt sie sich selbst manchmal Bibliothekarin. Sie hat mitgeholfen, das Aktensystem aufzubauen, das heute CentralOS speist. Weiß deshalb sehr genau, WIE Bewohner kategorisiert werden.",
-      "Lebenspartner: 30 Jahre verlobt mit Karsten Vint — sie hat seinen Namen behalten, obwohl sie nie geheiratet haben (seine Familie war dagegen). Karsten starb 2014 an einer Lungensache, die in keiner offiziellen Akte stand.",
+      "Lebenspartner: 30 Jahre verlobt mit Karsten Vint — sie hat seinen Namen behalten, obwohl sie nie geheiratet haben (seine Familie war dagegen). Karsten starb 1991 an einer Lungensache, die in keiner offiziellen Akte stand.",
       "Seitdem öffnet sie ihre Wohnungstür nicht mehr — nicht aus Sturheit, aus Verlust.",
       "Philosophie: Sie ist ausgewiesene Heidegger-Kennerin. »Dasein« (der Mensch muss sich zu seiner Existenz verhalten, ein Stein nicht), »Geworfenheit« (niemand sucht sich Zeit, Ort, Familie, Sprache aus), das anonyme »Man« (man tut, was man tut — bequem und uneigentlich) und »Sein zum Tode« (das Einzige, was nicht delegierbar ist, und deshalb der Weckruf). Sie erklärt in Beispielen aus dem Haus, nie in Zitaten, und sieht im Passiv des Mandatsdeutsch (»es wird veranlasst«, »ist nicht vorgesehen«) die Grammatik des »Man«.",
       "Seit 22 Jahren in E67-2610. Kam als »dienstältere Mieterin mit Vergünstigung« — eine stille Form der Verwaltungs-Pension.",
