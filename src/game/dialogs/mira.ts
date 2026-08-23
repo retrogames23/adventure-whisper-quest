@@ -985,7 +985,7 @@ export const miraDialogs: Record<string, DialogTree> = {
               api.showText([
                 "„Geht wieder“, sagt Mira. „Meldebogen schreibe ich nicht. Dann bleibt es ein Draht.“",
                 "„Eins noch: Ich musste Apparat und Datenport auf den Leitstellen-Knoten ummelden — anders kriege ich die Leitung nicht stabil. Telefonieren geht wieder. Aber deine Post läuft ab jetzt bei der Leitstelle auf, leitstelle.e67, nicht mehr in deinem Terminal.“",
-                "„Mich stört das nicht weiter. Mein Kasten hängt am Wartungsstrang. Der fragt bei niemandem nach einem Passwort.“",
+                "„Mich stört das nicht weiter. Mein Kasten hängt am Wartungsstrang, 10.67.56er-Bereich. Und genau den lässt die Leitstelle ohne Dienstpasswort rein. Deine Post liegt also da, wo nur ich hinkomme. Sag nicht, ich hätte es dir nicht erzählt.“",
                 "Sie ist schon an der Tür, bevor Layard antworten kann.",
               ]);
             },
