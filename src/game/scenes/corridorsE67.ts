@@ -165,9 +165,9 @@ export const corridorsE67Scenes: Record<string, Scene> = {
       },
       {
         id: "poster46",
-        x: 30.6,
-        y: 22.1,
-        w: 12,
+        x: 31.8,
+        y: 24.9,
+        w: 20.3,
         h: 40,
         label: "Plakat „Resonanz-Hygiene“",
         kind: "look",
