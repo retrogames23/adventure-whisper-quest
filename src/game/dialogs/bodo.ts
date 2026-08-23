@@ -149,7 +149,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
           },
           {
             text: "Sie haben vorhin Resonanz-Hygiene gesagt. Was hat das mit Ihren Messgängen zu tun?",
-            next: "bodoHiddenFreq1",
+            next: "bodoResonanzHygiene1",
           },
           {
             text: "Meine Post läuft seit der Reparatur bei der Leitstelle auf. Kommt man da irgendwie ran?",
@@ -218,14 +218,14 @@ export const bodoDialogs: Record<string, DialogTree> = {
         ],
       },
       // Resonanz-Hygiene als Doppelbegriff — bau-akustisch und sozial.
-      bodoHiddenFreq1: {
-        id: "bodoHiddenFreq1",
+      bodoResonanzHygiene1: {
+        id: "bodoResonanzHygiene1",
         speaker: "BODO",
         text: "Offiziell: Schwingungen im Bau. Messwerte, Grenzwerte, Ruhezeiten. Inoffiziell wissen Sie so gut wie ich, was der Mandatsrat damit meint — wer hinter welcher Wand weint, wer sich krankmeldet, wo es kippt. Beides heißt Resonanz. Das ist kein Versehen.",
-        next: "bodoHiddenFreq2",
+        next: "bodoResonanzHygiene2",
       },
-      bodoHiddenFreq2: {
-        id: "bodoHiddenFreq2",
+      bodoResonanzHygiene2: {
+        id: "bodoResonanzHygiene2",
         speaker: "BODO",
         text: "Ich gehe meine Messgänge, ich trage die Zahlen ein, und einmal im Quartal fragt jemand nach, ob im 46er alles ruhig ist. Nach den Zahlen fragt nie jemand.",
         subtext: "Er stellt die Kanne ab, sehr genau in den Ring auf dem Tisch.",
