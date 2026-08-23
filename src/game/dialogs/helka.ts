@@ -160,10 +160,6 @@ export const helkaDialogs: Record<string, DialogTree> = {
         text: "Er wohnt noch hier. Drei Türen weiter. Er weiß es nicht. Ich weiß es. Sie wissen es jetzt auch.",
         choices: [
           {
-            text: "Welche Frequenz hat er manipuliert? Nicht 104,6 — eine andere?",
-            next: "helkaHiddenFreq1",
-          },
-          {
             text: "Kowalk sagt, Sie haben Brust mal im Phrasen-Duell stehen lassen. Womit?",
             requires: ["kowalkHintedBodoHelka"],
             hiddenWhen: ["learnedAttackTuerschild"],
