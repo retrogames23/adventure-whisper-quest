@@ -533,11 +533,8 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             "Wärme von etwas, das ohne Pause arbeitet.",
           ]),
       },
-      // Wartungs-Funkgerät — alter Kassetten-Funk, an dem ein
-      // verschollener Vorgänger-Hausmeister einmal saß. Reagiert nur
-      // auf eine Frequenz, die nicht auf der Skala steht (102,7).
-      // Der Spieler muss die Zahl aus drei NPC-Aussagen herleiten,
-      // das Schmerz-Radio öffnen und feintunen.
+      // Wartungs-Funkgerät — reines Deko-Objekt. Alter Kassetten-Funk,
+      // an dem einmal ein Hausmeister saß. Rauscht, mehr nicht.
       {
         id: "wartungsFunk5610",
         x: 48.6,
@@ -545,26 +542,13 @@ export const corridorsE67Scenes: Record<string, Scene> = {
         w: 13,
         h: 22,
         label: "Wartungs-Funkgerät (alt)",
-        kind: "use",
-        onUse: (api) => {
-          if (!api.hasFlag("sawWartungsFunk5610")) {
-            api.setFlag("sawWartungsFunk5610");
-          }
-          if (api.hasFlag("hiddenFrequencyFound")) {
-            api.showText([
-              "Das alte Wartungs-Funkgerät rauscht leise vor sich hin.",
-              "Die Träger-Frequenz, die der Vorgänger-Hausmeister benutzt hat,",
-              "ist jetzt notiert. Mehr verrät das Gerät nicht.",
-            ]);
-            return;
-          }
+        kind: "look",
+        onUse: (api) =>
           api.showText([
-            "Ein alter Kassetten-Funk. Auf einer vergilbten Klebefläche steht:",
-            "»TRÄGER LIEGT NEBEN DER SKALA. NICHT AUF EINEM PRESET.«",
-            "Wenn Layard das Schmerz-Radio öffnet und exakt die richtige Frequenz",
-            "trifft, wird das Funkgerät vielleicht antworten.",
-          ]);
-        },
+            "Ein alter Kassetten-Funk mit Bakelit-Knöpfen. Jemand hat ihn nie abgeklemmt.",
+            "Layard dreht am Regler. Rauschen, gleichmäßig, ohne jede Absicht.",
+            "Auf einer vergilbten Klebefläche steht nur noch: »WARTUNG — E67«.",
+          ]),
       },
       {
         id: "exit5610",

@@ -511,19 +511,6 @@ export const HINT_QUESTS: HintQuest[] = [
     ],
   },
 
-  // ── Optional: Schmerz-Radio-Erweiterung ──────────────────────────
-  {
-    id: "act1.hiddenFrequency",
-    title: "Wartungs-Funkgerät 5610 — versteckte Frequenz (optional)",
-    priority: 70,
-    isActive: (a) => a.hasFlag("sawWartungsFunk5610"),
-    isResolved: (a) => a.hasFlag("hiddenFrequencyFound"),
-    hints: [
-      "Das alte Wartungs-Funkgerät im Serverraum 5610 reagiert nicht auf eine Frequenz, die auf der Skala steht. Du brauchst Vorwissen aus mehreren Quellen.",
-      "Bodo (2612) weiß, in welchem Bereich der Wartungs-Träger liegt. Mikael (E71) bestätigt, wie er klingt.",
-      "Sprich Bodo beim Smalltalk auf Resonanz-Hygiene und seine Messgänge an, geh zurück in den Serverraum 5610, öffne dort dein Schmerz-Radio und stelle die Frequenz exakt auf 102,7 MHz.",
-    ],
-  },
   {
     id: "act1.miraEvidence",
     title: "Miras Aushang-Belege (optional)",

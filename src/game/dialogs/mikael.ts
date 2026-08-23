@@ -129,8 +129,12 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       },
     },
   },
-  mikaelHiddenFreq: {
-    id: "mikaelHiddenFreq",
+  // Mikael sagt einmal etwas, das er nicht sagen dürfte: dass es zu E67
+  // eine Resonanz-Akte gibt, die nie in den Umlauf gegangen ist. Damit
+  // werden im Terminal-Dateisystem die zurückgehaltenen Dokumente
+  // (Redaktionsnotiz 1997, Bewohnerbrief 1986) sichtbar.
+  mikaelResonanzAkte: {
+    id: "mikaelResonanzAkte",
     start: "mh1",
     lines: {
       mh1: {
@@ -142,22 +146,18 @@ export const mikaelDialogs: Record<string, DialogTree> = {
       mh2: {
         id: "mh2",
         speaker: "LAYARD",
-        text: "Eine Frequenz. Zwischen den Bändern. Niemand will sie zugeben.",
+        text: "Ich weiß nicht genau. Etwas, das zu meinem Komplex gehört und trotzdem nirgends auftaucht.",
         next: "mh3",
       },
       mh3: {
         id: "mh3",
         speaker: "MIKAEL",
-        text: "Dann hören Sie sie. Sie klingt wie eine Stimme, die nicht weint, aber kurz davor ist. Wer sie einmal gehört hat, erkennt sie wieder. Mehr sage ich nicht.",
+        text: "Zu E67 gibt es eine Resonanz-Akte, die nie in den Umlauf gegangen ist. Nicht gesperrt. Nur nie verteilt. Wenn Sie wissen, wo Sie nachsehen, liegt sie noch da. Mehr sage ich nicht.",
         subtext: "Er deutet kurz auf den Aktenschrank: »E67 — Resonanz — 1996–«.",
         choices: [
           {
             text: "[ Verstanden. ]",
             action: (api) => {
-              api.setFlag("mikaelHintHiddenFreqMood");
-              // Damit werden die zurückgehaltenen Archiv-Dateien
-              // (Redaktionsnotiz 1997, Bewohnerbrief 1986) im
-              // Terminal-Dateisystem sichtbar.
               api.setFlag("heardMikaelTruth");
             },
           },

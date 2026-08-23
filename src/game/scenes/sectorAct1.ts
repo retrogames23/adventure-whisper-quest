@@ -466,15 +466,10 @@ export const sectorAct1Scenes: Record<string, Scene> = {
         kind: "talk",
         requires: ["metMikael"],
         onUse: (api) => {
-          // Hidden-Frequency-Hinweis: Hat Layard schon mindestens einen
-          // Hinweis von Bodo, bietet Mikael die Bestätigung
-          // — kryptisch, aber bestätigend. Ohne Vorwissen bleibt es bei
-          // der bisherigen Schweigeszene.
-          if (
-            !api.hasFlag("mikaelHintHiddenFreqMood") &&
-            api.hasFlag("bodoHintHiddenFreqBand")
-          ) {
-            api.startDialog("mikaelHiddenFreq");
+          // Einmalig: Mikael deutet die nie verteilte Resonanz-Akte zu E67
+          // an. Danach bleibt es bei der Schweigeszene.
+          if (!api.hasFlag("heardMikaelTruth")) {
+            api.startDialog("mikaelResonanzAkte");
             return;
           }
           api.showText([

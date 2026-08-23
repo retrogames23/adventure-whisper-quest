@@ -67,8 +67,6 @@ export type InventoryItemId =
   // Tür, kosmetische Folge im Endduell).
   | "formblatt17V"
   | "formblatt17VForged"
-  // Schmerz-Radio-Erweiterung (Akt I)
-  | "wartungsDiktat"
   // Bürokratie-Duell — gesammelte Verwaltungs-Paragraphen
   | "paragraphenNotizbuch"
   // Kantinenverordnung — statisches Sammelbuch (Akt I, Layards Bücherschrank)
@@ -439,14 +437,7 @@ export type StoryFlag =
   // Kowalk hat Layard erklärt, was 4317-K bedeutet — und nebenbei
   // den Aktenzusammenhang zu Philippe (Stamm 4317) offenbart.
   | "gotTillaTransferInfo"
-  // ── Schmerz-Radio-Erweiterung (Akt I) ──────────────────────────────
-  // Hidden Frequency 102,7 — Wartungs-Funkgerät im Serverraum 5610
-  | "sawWartungsFunk5610"
-  | "hiddenFrequencyFound"
   | "miraTerminalUnlocked"
-  // Lose Wartungs-Hinweise von NPCs (für Hidden Frequency)
-  | "bodoHintHiddenFreqBand"
-  | "mikaelHintHiddenFreqMood"
   // ── Akt II ──────────────────────────────────────────────────────
   /** Akt II hat formell begonnen (nach „Weiterspielen" aus dem Ending). */
   | "act2Started"
