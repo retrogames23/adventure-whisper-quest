@@ -845,8 +845,16 @@ export const miraDialogs: Record<string, DialogTree> = {
         id: "mdb1",
         speaker: "MIRA",
         text: "Finger weg, Layard.",
+        next: "mdb2",
+      },
+      mdb2: {
+        id: "mdb2",
+        speaker: "MIRA",
+        text: "Solange ich hier sitze, sitzt hier niemand sonst. Und ich sitze hier gern — außer im Sommer '95, als der Steigstrang durchgedreht ist. Da stand ich zwei Stunden im Korridor und habe die Wand gekühlt.",
+        subtext: "Sie sagt es beiläufig, ohne den Blick vom Schirm zu nehmen.",
         end: true,
       },
+
     },
   },
   // ── Ein Hub für alle Orte: gleiche Themen, gleicher Zustand ────────
