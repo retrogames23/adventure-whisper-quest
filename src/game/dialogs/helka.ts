@@ -145,7 +145,7 @@ export const helkaDialogs: Record<string, DialogTree> = {
       hs22: {
         id: "hs22",
         speaker: "HELKA",
-        text: "1989 habe ich einmal einen Bewohner gemeldet. Er hat die Frequenz manipuliert. Mit einem Lötkolben und einer Theorie. Es ist nichts passiert. Mit ihm nicht. Mit der Meldung nicht. Mit mir auch nicht — und das hat mir am meisten zu denken gegeben.",
+        text: "1989 habe ich einmal einen Bewohner gemeldet. Er hatte sich etwas zusammengelötet, ein Kabel lief bei ihm aus dem Fenster in den Lichtschacht. Ich habe bis heute nicht verstanden, wozu. Es ist nichts passiert. Mit ihm nicht. Mit der Meldung nicht. Mit mir auch nicht — und das hat mir am meisten zu denken gegeben.",
         next: "hs23",
       },
       hs23: {
@@ -159,10 +159,6 @@ export const helkaDialogs: Record<string, DialogTree> = {
         speaker: "HELKA",
         text: "Er wohnt noch hier. Drei Türen weiter. Er weiß es nicht. Ich weiß es. Sie wissen es jetzt auch.",
         choices: [
-          {
-            text: "Welche Frequenz hat er manipuliert? Nicht 104,6 — eine andere?",
-            next: "helkaHiddenFreq1",
-          },
           {
             text: "Kowalk sagt, Sie haben Brust mal im Phrasen-Duell stehen lassen. Womit?",
             requires: ["kowalkHintedBodoHelka"],
@@ -193,26 +189,6 @@ export const helkaDialogs: Record<string, DialogTree> = {
           {
             text: "[ »Ihr Türschild sagt anderes« ins Phrasenbuch übernehmen ]",
             action: (api) => api.setFlag("learnedAttackTuerschild"),
-          },
-        ],
-      },
-      // Hinweis 2/3 für die Hidden Frequency 102,7 — Helka nennt die Stelle.
-      helkaHiddenFreq1: {
-        id: "helkaHiddenFreq1",
-        speaker: "HELKA",
-        text: "Eine andere, ja. Sein Trick war einfach: er ist von der ersten Stelle des Trauer-Bandes — 103,4 — sieben Stufen nach unten gegangen, je ein Zehntel. Da, sagte er, sitzen die Wartungsleute. Da hört einen niemand zufällig.",
-        next: "helkaHiddenFreq2",
-      },
-      helkaHiddenFreq2: {
-        id: "helkaHiddenFreq2",
-        speaker: "HELKA",
-        text: "Ich habe nie geprüft, ob es stimmt. Ich habe es nur aufgeschrieben. Wenn Sie es heute prüfen wollen — von mir aus. Sagen Sie nicht, dass Sie es von mir wissen.",
-        choices: [
-          {
-            text: "[ Verstanden. ]",
-            action: (api) => {
-              api.setFlag("helkaHintHiddenFreqStep");
-            },
           },
         ],
       },
@@ -582,7 +558,7 @@ export const helkaDialogs: Record<string, DialogTree> = {
       td4: {
         id: "td4",
         speaker: "HELKA",
-        text: "Karsten ist 2014 gestorben. Eine Lungensache. Sie steht in keiner Akte, weil die Ursache nicht vorgesehen war.",
+        text: "Karsten ist 1991 gestorben. Eine Lungensache. Sie steht in keiner Akte, weil die Ursache nicht vorgesehen war.",
         subtext: "Ihre Stimme wird nicht leiser. Nur langsamer.",
         next: "td5",
       },
