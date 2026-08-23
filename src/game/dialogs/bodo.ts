@@ -217,8 +217,7 @@ export const bodoDialogs: Record<string, DialogTree> = {
           },
         ],
       },
-      // Hinweis 1/3 für die Hidden Frequency 102,7 — Bodo nennt das Band,
-      // eingebettet in den Doppelbegriff Resonanz-Hygiene.
+      // Resonanz-Hygiene als Doppelbegriff — bau-akustisch und sozial.
       bodoHiddenFreq1: {
         id: "bodoHiddenFreq1",
         speaker: "BODO",
@@ -228,15 +227,9 @@ export const bodoDialogs: Record<string, DialogTree> = {
       bodoHiddenFreq2: {
         id: "bodoHiddenFreq2",
         speaker: "BODO",
-        text: "Wir hatten für die Messgänge einen eigenen Wartungskanal, nie auf einer Bewohner-Skala gedruckt. Er lag zwischen den Bändern, dort, wo niemand hinhörte. Wenn Sie so ein altes Bastelgerät in der Tasche hätten — schon gut, ich sehe nichts —, dann müssten Sie dazwischen suchen. Nicht auf der Skala.",
-        choices: [
-          {
-            text: "[ Verstanden. ]",
-            action: (api) => {
-              api.setFlag("bodoHintHiddenFreqBand");
-            },
-          },
-        ],
+        text: "Ich gehe meine Messgänge, ich trage die Zahlen ein, und einmal im Quartal fragt jemand nach, ob im 46er alles ruhig ist. Nach den Zahlen fragt nie jemand.",
+        subtext: "Er stellt die Kanne ab, sehr genau in den Ring auf dem Tisch.",
+        end: true,
       },
       // Wiederverwendete Lotti-Reveal-Sequenz, falls der Spieler das Tier
       // im Smalltalk anspricht (statt im Intro).
