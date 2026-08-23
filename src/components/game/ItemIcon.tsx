@@ -422,8 +422,6 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   formblatt17V: QuittungBlankoIcon,
   formblatt17VForged: QuittungForgedIcon,
   miraDoorNote: FlyerIcon,
-  // Schmerz-Radio-Erweiterung — vorerst aus dem bestehenden Bestand.
-  wartungsDiktat: WartungsnotizIcon,
   // Bürokratie-Duell — Layards Sammlung gelernter Paragraphen.
   paragraphenNotizbuch: ParagraphenNotizbuchIcon,
   // Kantinenverordnung — dickes Buch im Bücherschrank (rein dekorativ).
