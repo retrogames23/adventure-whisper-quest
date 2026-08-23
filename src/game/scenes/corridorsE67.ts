@@ -180,21 +180,17 @@ export const corridorsE67Scenes: Record<string, Scene> = {
             return;
           }
           api.setFlag("sawResonanzAushang");
-          api.setFlag("belegAushangKorridor46");
-          api.addItem({
-            id: "belegAushangKorridor46",
-            name: "Plakat „Resonanz-Hygiene“ (Korridor 46)",
-            description:
-              "„RUHE IST TEIL DER STATIK.“ Belegungsdichte, Ruhezeiten 22–06. Am Fuß der Verweis auf die Sektorärztin. Handschriftlich dazu: „und ihr Käfig.“",
-          });
-          api.showText([
+          const read = [
             "„RUHE IST TEIL DER STATIK.“",
             "Darunter, kleiner: „Belegungsdichte einhalten. Türen leise. Ruhezeiten 22–06.“",
             "Am Fuß: „Bei anhaltender Resonanz-Überlastung — Sektorärztin, nicht Leitstelle.“",
             "Jemand hat mit Bleistift dazugeschrieben: „und ihr Käfig.“",
-            "Niemand im Korridor. Layard löst die Reißnägel und faltet das Blatt ein.",
-            "[ Plakat „Resonanz-Hygiene“ (Korridor 46) eingesteckt. ]",
-          ]);
+          ];
+          if (!api.hasFlag("miraAskedEvidence")) {
+            api.showText(read);
+            return;
+          }
+          api.showText(read, () => api.startDialog("aushangKorridor46Take"));
         },
       },
       {
