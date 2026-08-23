@@ -113,7 +113,14 @@ export const aushangDialogs: Record<string, DialogTree> = {
   ),
   aushangGemeinschaftTake: tree(
     "aushangGemeinschaftTake",
+    [
+      "Ein durchgestrichenes Piktogramm: jemand, der gegen eine Wand hämmert.",
+      "„Resonanz-Hygiene · Pausen sind Teil der Behandlung.“",
+      "Darunter, klein: „Belegungsdichte · Ruhezeiten · Nutzung nur mit Eintrag.“",
+      "Ganz unten: „Resonanzindex Stufe 3 — Sieben-Tage-Regel empfohlen.“",
+    ],
     "Mira braucht drei Fundstellen. Am Tisch würfeln sie weiter, niemand schaut her.",
+
     (api) =>
       takeAushang(api, {
         flag: "belegAushangGemeinschaftsraum",
