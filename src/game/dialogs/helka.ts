@@ -390,6 +390,13 @@ export const helkaDialogs: Record<string, DialogTree> = {
             },
           },
           {
+            text: "Tut mir leid, ich blicke immer noch nicht ganz durch. Können Sie Heidegger noch mal in einem Satz zusammenfassen?",
+            next: "sum1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerStarted");
+            },
+          },
+          {
             text: "Ehrlich gesagt: Das ist Gerede über Gerede.",
             next: "sk1",
             action: (api) => {
