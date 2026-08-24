@@ -390,6 +390,13 @@ export const helkaDialogs: Record<string, DialogTree> = {
             },
           },
           {
+            text: "Tut mir leid, ich blicke immer noch nicht ganz durch. Können Sie Heidegger noch mal in einem Satz zusammenfassen?",
+            next: "sum1",
+            action: (api) => {
+              api.setFlag("helkaHeideggerStarted");
+            },
+          },
+          {
             text: "Ehrlich gesagt: Das ist Gerede über Gerede.",
             next: "sk1",
             action: (api) => {
@@ -400,6 +407,20 @@ export const helkaDialogs: Record<string, DialogTree> = {
             text: "[ Beenden ]",
           },
         ],
+      },
+
+      // — Zusammenfassung —
+      sum1: {
+        id: "sum1",
+        speaker: "HELKA",
+        text: "Heideggers berüchtigt unlesbares Hauptwerk »Sein und Zeit« lässt sich eigentlich in einem einzigen Satz zusammenfassen: Erst wer akzeptiert, dass er sterben wird, fängt an, wirklich zu leben.",
+        next: "sum2",
+      },
+      sum2: {
+        id: "sum2",
+        speaker: "HELKA",
+        text: "Alles andere, was er sagt, ist nur die Begründung dafür. Dasein, Geworfenheit, das Man — alles Helfer, damit wir nicht vorher weglaufen.",
+        next: "hub",
       },
 
       // — Dasein —
