@@ -51,18 +51,58 @@ export const herbertDialogs: Record<string, DialogTree> = {
         id: "hh1",
         speaker: "HERBERT",
         text: "Worüber wollen wir reden?",
-        choicesFn: (api) => [
-          { text: "Über dieses Gebäude. E71.", next: "e71" },
-          { text: "Über Politik im Mandatsgebiet.", next: "politik" },
-          { text: "Über Kunst und Literatur.", next: "kunst" },
-          { text: "Über Geschichte.", next: "geschichte" },
-          { text: "Ich würde gern ein Buch ausleihen.", next: "leihe2" },
-          ...(LIBRARY_BOOKS.some((b) => api.hasItem(b.itemId))
-            ? [{ text: "Ich möchte ein Buch zurückbringen.", next: "rueck1" }]
-            : []),
-          { text: "Später. Danke, Herbert." },
-        ],
+        choicesFn: (api) => {
+          const offen = HERBERT_FAKTEN.filter((f) => !api.hasFlag(faktFlag(f.id)));
+          const neueRunde = offen.length === 0;
+          const pool = neueRunde ? HERBERT_FAKTEN : offen;
+          const naechster = pool[Math.floor(Math.random() * pool.length)];
+          return [
+            { text: "Über dieses Gebäude. E71.", next: "e71" },
+            { text: "Über Politik im Mandatsgebiet.", next: "politik" },
+            { text: "Über Kunst und Literatur.", next: "kunst" },
+            { text: "Über Geschichte.", next: "geschichte" },
+            ...(api.hasFlag("herbertFaktenBekannt")
+              ? [
+                  {
+                    text: "Erzählen Sie mir einen kuriosen Fakt.",
+                    next: `fakt_${naechster.id}`,
+                    action: () => {
+                      if (neueRunde) {
+                        HERBERT_FAKTEN.forEach((f) => api.clearFlag(faktFlag(f.id)));
+                      }
+                      api.setFlag(faktFlag(naechster.id));
+                    },
+                  },
+                ]
+              : [{ text: "Woher wissen Sie eigentlich so viel?", next: "wissen1" }]),
+            { text: "Ich würde gern ein Buch ausleihen.", next: "leihe2" },
+            ...(LIBRARY_BOOKS.some((b) => api.hasItem(b.itemId))
+              ? [{ text: "Ich möchte ein Buch zurückbringen.", next: "rueck1" }]
+              : []),
+            { text: "Später. Danke, Herbert." },
+          ];
+        },
       },
+      wissen1: {
+        id: "wissen1",
+        speaker: "HERBERT",
+        text: "Neunzehn Jahre Katalog. Man schlägt jedes Buch einmal auf, um es einzutragen, und liest dann versehentlich eine Seite. Über die Jahre kommt da einiges zusammen.",
+        subtext: "Er sagt es entschuldigend, als wäre Wissen eine kleine Unordnung.",
+        next: "wissen2",
+      },
+      wissen2: {
+        id: "wissen2",
+        speaker: "HERBERT",
+        text: "Das Ärgerliche ist: Hängen bleibt vor allem das Nutzlose. Perlen, Hyänen, tote Päpste. Nichts davon steht in einem Formular. Fragen Sie mich ruhig mal, wenn Ihnen der Tag zu lang wird.",
+        next: "wissen3",
+      },
+      wissen3: {
+        id: "wissen3",
+        speaker: "HERBERT",
+        text: "Ein wandelndes Lexikon, hat meine Schwester gesagt. Sie meinte es nicht als Kompliment.",
+        next: "hh1",
+      },
+
       e71: {
         id: "e71",
         speaker: "HERBERT",
