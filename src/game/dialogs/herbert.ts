@@ -32,6 +32,7 @@ export const herbertDialogs: Record<string, DialogTree> = {
     npcId: "herbert",
     onStart: (api) => api.setFlag("metHerbert"),
     lines: {
+      ...faktLines,
       hb1: {
         id: "hb1",
         speaker: "HERBERT",
