@@ -135,6 +135,10 @@ export type CutsceneId =
 export type StoryFlag =
   /** Layard hat Herbert in der Bewohnerbibliothek 1101 (E71) kennengelernt. */
   | "metHerbert"
+  /** Layard weiß, dass Herbert ein wandelndes Lexikon kurioser Fakten ist. */
+  | "herbertFaktenBekannt"
+  /** Fortschritt der kuriosen Fakten — ein Flag pro bereits erzähltem Fakt. */
+  | `hbFakt_${string}`
   /** Setsuko Arai (Wohnung 1102, E71) kennengelernt. */
   | "metSetsuko"
   | "setsukoArtTalk"
