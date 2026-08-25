@@ -1,6 +1,23 @@
-import type { DialogTree } from "../types";
+import type { DialogTree, DialogLine, StoryFlag } from "../types";
 import { getBook } from "../books";
 import { LIBRARY_BOOKS } from "../libraryE71Books";
+import { HERBERT_FAKTEN } from "../herbertFakten";
+
+const faktFlag = (id: string) => `hbFakt_${id}` as StoryFlag;
+
+/** Eine Dialogzeile pro kuriosem Fakt — führt zurück in den Hub. */
+const faktLines: Record<string, DialogLine> = Object.fromEntries(
+  HERBERT_FAKTEN.map((f) => [
+    `fakt_${f.id}`,
+    {
+      id: `fakt_${f.id}`,
+      speaker: "HERBERT" as const,
+      text: f.text,
+      ...(f.subtext ? { subtext: f.subtext } : {}),
+      next: "hh1",
+    },
+  ]),
+);
 
 /**
  * Herbert — Bibliothekar der Bewohnerbibliothek 1101 (E71, Etage 1).
