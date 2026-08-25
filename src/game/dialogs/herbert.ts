@@ -74,7 +74,13 @@ export const herbertDialogs: Record<string, DialogTree> = {
                     },
                   },
                 ]
-              : [{ text: "Woher wissen Sie eigentlich so viel?", next: "wissen1" }]),
+              : [
+                  {
+                    text: "Woher wissen Sie eigentlich so viel?",
+                    next: "wissen1",
+                    action: () => api.setFlag("herbertFaktenBekannt"),
+                  },
+                ]),
             { text: "Ich würde gern ein Buch ausleihen.", next: "leihe2" },
             ...(LIBRARY_BOOKS.some((b) => api.hasItem(b.itemId))
               ? [{ text: "Ich möchte ein Buch zurückbringen.", next: "rueck1" }]
