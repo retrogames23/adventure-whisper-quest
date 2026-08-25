@@ -1,5 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
+import { getFreshAccessToken } from "@/auth/freshToken";
 import { ensureAuthSession, getDisplayName, getShiftNumber } from "@/multiplayer/identity";
+
 
 export interface BlockfallScoreRow {
   id: string;
