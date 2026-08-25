@@ -50,29 +50,36 @@ export async function submitScore(entry: {
   level: number;
 }): Promise<boolean> {
   if (entry.score <= 0) return false;
-  // Nur im Spiel erreichbare Werte einreichen; die Datenbank prüft dieselben
-  // Grenzen serverseitig (CHECK-Constraint) und weist alles andere ab.
-  const lines = Math.max(0, Math.min(5000, Math.floor(entry.lines)));
-  const level = Math.min(99, Math.floor(lines / 10) + 1);
-  const maxScore = lines * 325 * level + 100;
-  const score = Math.max(0, Math.min(maxScore, Math.floor(entry.score)));
-  if (score <= 0) return false;
   const session = await ensureAuthSession();
   if (!session) return false;
   const display_name = getDisplayName({
     user: { id: session.userId, email: session.email, is_anonymous: session.isAnonymous },
     shiftNumber: getShiftNumber(),
   });
-  const { error } = await supabase.from("blockfall_scores").insert({
-    user_id: session.userId,
-    display_name,
-    score,
-    lines,
-    level,
-  });
-  if (error) {
-    console.error("blockfall score submit failed", error);
+  const token = await getFreshAccessToken();
+  if (!token) return false;
+  try {
+    // Die eigentliche Prüfung passiert serverseitig; der Client darf nicht
+    // mehr direkt in die Bestenliste schreiben.
+    const res = await fetch("/api/public/blockfall-score", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        score: Math.floor(entry.score),
+        lines: Math.floor(entry.lines),
+        display_name,
+      }),
+    });
+    if (!res.ok) {
+      console.error("blockfall score submit failed", res.status);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error("blockfall score submit failed", e);
     return false;
   }
-  return true;
 }

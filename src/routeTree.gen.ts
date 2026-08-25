@@ -29,6 +29,7 @@ import { Route as ApiPublicFastwebChatRouteImport } from './routes/api/public/fa
 import { Route as ApiPublicDsaMasterRouteImport } from './routes/api/public/dsa-master'
 import { Route as ApiPublicDsaGroupRouteImport } from './routes/api/public/dsa-group'
 import { Route as ApiPublicDonationCheckoutRouteImport } from './routes/api/public/donation-checkout'
+import { Route as ApiPublicBlockfallScoreRouteImport } from './routes/api/public/blockfall-score'
 import { Route as ApiPublicAuskunftRouteImport } from './routes/api/public/auskunft'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -138,6 +139,11 @@ const ApiPublicDonationCheckoutRoute =
     path: '/api/public/donation-checkout',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicBlockfallScoreRoute = ApiPublicBlockfallScoreRouteImport.update({
+  id: '/api/public/blockfall-score',
+  path: '/api/public/blockfall-score',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAuskunftRoute = ApiPublicAuskunftRouteImport.update({
   id: '/api/public/auskunft',
   path: '/api/public/auskunft',
@@ -185,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/dsa/': typeof DsaIndexRoute
   '/api/public/auskunft': typeof ApiPublicAuskunftRoute
+  '/api/public/blockfall-score': typeof ApiPublicBlockfallScoreRoute
   '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/dsa-group': typeof ApiPublicDsaGroupRoute
   '/api/public/dsa-master': typeof ApiPublicDsaMasterRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/dsa': typeof DsaIndexRoute
   '/api/public/auskunft': typeof ApiPublicAuskunftRoute
+  '/api/public/blockfall-score': typeof ApiPublicBlockfallScoreRoute
   '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/dsa-group': typeof ApiPublicDsaGroupRoute
   '/api/public/dsa-master': typeof ApiPublicDsaMasterRoute
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/dsa/': typeof DsaIndexRoute
   '/api/public/auskunft': typeof ApiPublicAuskunftRoute
+  '/api/public/blockfall-score': typeof ApiPublicBlockfallScoreRoute
   '/api/public/donation-checkout': typeof ApiPublicDonationCheckoutRoute
   '/api/public/dsa-group': typeof ApiPublicDsaGroupRoute
   '/api/public/dsa-master': typeof ApiPublicDsaMasterRoute
@@ -271,6 +280,7 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/dsa/'
     | '/api/public/auskunft'
+    | '/api/public/blockfall-score'
     | '/api/public/donation-checkout'
     | '/api/public/dsa-group'
     | '/api/public/dsa-master'
@@ -298,6 +308,7 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/dsa'
     | '/api/public/auskunft'
+    | '/api/public/blockfall-score'
     | '/api/public/donation-checkout'
     | '/api/public/dsa-group'
     | '/api/public/dsa-master'
@@ -326,6 +337,7 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/dsa/'
     | '/api/public/auskunft'
+    | '/api/public/blockfall-score'
     | '/api/public/donation-checkout'
     | '/api/public/dsa-group'
     | '/api/public/dsa-master'
@@ -351,6 +363,7 @@ export interface RootRouteChildren {
   ApiTtsRoute: typeof ApiTtsRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   ApiPublicAuskunftRoute: typeof ApiPublicAuskunftRoute
+  ApiPublicBlockfallScoreRoute: typeof ApiPublicBlockfallScoreRoute
   ApiPublicDonationCheckoutRoute: typeof ApiPublicDonationCheckoutRoute
   ApiPublicDsaGroupRoute: typeof ApiPublicDsaGroupRoute
   ApiPublicDsaMasterRoute: typeof ApiPublicDsaMasterRoute
@@ -508,6 +521,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDonationCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/blockfall-score': {
+      id: '/api/public/blockfall-score'
+      path: '/api/public/blockfall-score'
+      fullPath: '/api/public/blockfall-score'
+      preLoaderRoute: typeof ApiPublicBlockfallScoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/auskunft': {
       id: '/api/public/auskunft'
       path: '/api/public/auskunft'
@@ -601,6 +621,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiTtsRoute: ApiTtsRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   ApiPublicAuskunftRoute: ApiPublicAuskunftRoute,
+  ApiPublicBlockfallScoreRoute: ApiPublicBlockfallScoreRoute,
   ApiPublicDonationCheckoutRoute: ApiPublicDonationCheckoutRoute,
   ApiPublicDsaGroupRoute: ApiPublicDsaGroupRoute,
   ApiPublicDsaMasterRoute: ApiPublicDsaMasterRoute,
