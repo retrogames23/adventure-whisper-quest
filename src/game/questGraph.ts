@@ -262,6 +262,13 @@ export const externalSteps: ExternalStep[] = [
     gibt: { flags: ["radioMutedAtLeast60s"] },
   },
   {
+    id: "ext.miraEvidenceAsk",
+    quelle:
+      "src/game/dialogs/mira.ts (miraEvidenceAsk — Mira bittet um die drei Aushänge)",
+    braucht: {},
+    gibt: { flags: ["miraAskedEvidence"] },
+  },
+  {
     id: "ext.paramedicsCutscene",
     quelle: "src/components/game/ParamedicsCutscene.tsx",
     braucht: { flags: ["paramedicsArrived"] },
