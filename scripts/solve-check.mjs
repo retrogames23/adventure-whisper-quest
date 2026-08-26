@@ -495,6 +495,10 @@ for (const r of runs) {
 }
 out.push("");
 if (process.env.DEBUG_DIALOGS) {
+  for (const r of runs) {
+    const insa = [...r.enteredDialogs].filter((d) => d.startsWith("insa")).join(",");
+    console.log(r.name, "| phoneRepaired:", r.flags.has("phoneRepaired"), "| calledInsa2:", r.flags.has("calledInsa2"), "| insaDialoge:", insa);
+  }
   console.log("entered:", [...base.enteredDialogs].filter((d) => d.startsWith("mira")).join(", "));
   console.log("scenes:", [...base.visitedScenes].join(", "));
 }
