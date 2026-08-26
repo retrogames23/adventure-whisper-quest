@@ -181,6 +181,24 @@ export const criticalPath: QuestStep[] = [
     braucht: { flags: ["sectorDoorOpen"] },
     gibt: { flags: ["act2Started"] },
   },
+  {
+    id: "act1.miraTrustPath",
+    title:
+      "Vertrauenspfad: drei Resonanz-Hygiene-Aushänge einsammeln und bei Mira abliefern (Alternative zum Heizungspfad für miraTerminalUnlocked)",
+    ort: "elevatorE67 / corridor46 / communalE67 → apt4601",
+    wer: "mira",
+    braucht: { flags: ["miraAskedEvidence"] },
+    gibt: {
+      flags: [
+        "belegAushangAufzug",
+        "belegAushangKorridor46",
+        "belegAushangGemeinschaftsraum",
+        "miraEvidenceDelivered",
+        "miraTrustEarned",
+      ],
+    },
+    optional: true,
+  },
 ];
 
 export const externalSteps: ExternalStep[] = [
