@@ -290,6 +290,7 @@ export const externalSteps: ExternalStep[] = [
 export const atmosphereWhitelist: string[] = [
   "dsa",
   "herbert",
+  "hbFakt",
   "setsuko",
   "walter",
   "ralf",
