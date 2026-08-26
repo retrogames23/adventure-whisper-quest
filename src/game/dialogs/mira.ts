@@ -136,9 +136,15 @@ export function startMiraEncounter(
     api.startDialog("miraTrespassConfront");
     return;
   }
+  // Pflichtstrang geht vor: Solange der Apparat kaputt ist, muss die
+  // Störungsmeldung immer möglich bleiben — sonst kann der Heizungspfad
+  // die Reparatur dauerhaft verschlucken.
+  const phoneStillBroken =
+    api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired");
   if (
     api.hasFlag("miraFlatOpen") &&
-    !api.hasFlag("miraTerminalTrespass")
+    !api.hasFlag("miraTerminalTrespass") &&
+    !phoneStillBroken
   ) {
     api.startDialog("miraOutInHeat");
     return;
