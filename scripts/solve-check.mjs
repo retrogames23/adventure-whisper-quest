@@ -327,7 +327,14 @@ for (const variant of ["win", "lose"]) {
     variant: "win",
     monotone: true,
     radioActive: true,
-    blockedFlags: ["miraFlatOpen", "miraTerminalTrespass"],
+    blockedFlags: [
+      "miraFlatOpen",
+      "miraTerminalTrespass",
+      // Akt-II-Rückkehr aus E71 — darf den Akt-I-Telefonstrang nicht
+      // vorzeitig überschreiben.
+      "mikaelRejectedProtocol",
+      "calledInsaAfterE71",
+    ],
   }).run();
   runs.push({ name: "pflichtstrang-ohne-heizungspfad", ...r });
 }
