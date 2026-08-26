@@ -92,7 +92,8 @@ function checkPathConsistency() {
 // ══════════════════════════════════════════════════════════════════
 // Ebene 2 — Headless-Simulator
 // ══════════════════════════════════════════════════════════════════
-function makeSim({ variant, monotone, radioActive, rng }) {
+function makeSim({ variant, monotone, radioActive, rng, blockedFlags = [] }) {
+  const blocked = new Set(blockedFlags);
   const flags = new Set();
   const knowledge = new Set();
   const items = new Map(startItems.map((i) => [i, 1]));
@@ -107,7 +108,11 @@ function makeSim({ variant, monotone, radioActive, rng }) {
 
   const api = {
     goTo: (s) => visitedScenes.add(s),
-    setFlag: (f) => flags.add(f),
+    setFlag: (f) => {
+      // Alternativpfade lassen sich pro Lauf abklemmen, damit der
+      // Pflichtstrang isoliert geprüft werden kann.
+      if (!blocked.has(f)) flags.add(f);
+    },
     clearFlag: (f) => {
       if (!monotone) flags.delete(f);
     },
@@ -314,6 +319,17 @@ for (const variant of ["win", "lose"]) {
     const r = makeSim({ variant, monotone: true, radioActive }).run();
     runs.push({ name: `fixpunkt-${variant}-radio${radioActive ? "an" : "aus"}`, ...r });
   }
+}
+// Pflichtstrang isoliert: Der Heizungs-/Einbruchspfad zu Miras Wohnung
+// ist abgeklemmt, damit Telefon → Mira-Reparatur → Insa wirklich trägt.
+{
+  const r = makeSim({
+    variant: "win",
+    monotone: true,
+    radioActive: true,
+    blockedFlags: ["miraFlatOpen", "miraTerminalTrespass"],
+  }).run();
+  runs.push({ name: "pflichtstrang-ohne-heizungspfad", ...r });
 }
 for (const seed of [1, 7, 42, 1337, 2611]) {
   const r = makeSim({
