@@ -316,7 +316,13 @@ checkPathConsistency();
 const runs = [];
 for (const variant of ["win", "lose"]) {
   for (const radioActive of [true, false]) {
-    const r = makeSim({ variant, monotone: true, radioActive }).run();
+    const r = makeSim({
+      variant,
+      monotone: true,
+      radioActive,
+      // Akt-II-Rückkehr aus E71 gehört nicht in einen Akt-I-Lauf.
+      blockedFlags: ["mikaelRejectedProtocol", "calledInsaAfterE71"],
+    }).run();
     runs.push({ name: `fixpunkt-${variant}-radio${radioActive ? "an" : "aus"}`, ...r });
   }
 }
