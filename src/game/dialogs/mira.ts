@@ -975,6 +975,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "SYSTEM",
         text: "[ Sie prüft die Leitung ein zweites Mal, dann steckt sie den Prüfstecker zurück in den Gürtel. ]",
         hiddenWhen: ["miraTrustEarned"],
+        // Wenn Layard Miras Vertrauen schon hat, wird diese Zeile
+        // übersprungen — dann muss der persönlichere Zweig folgen,
+        // sonst bricht die Reparatur ohne Ergebnis ab.
+        next: "mrs6b",
         choices: [
           {
             text: "[ Danke sagen ]",
