@@ -12,6 +12,8 @@
     "format": "prettier --write .",
     "lore:check": "bun scripts/lore-check.mjs",
     "lore:check:llm": "bun scripts/lore-check.mjs --llm",
+    "quest:solve": "bun --preload ./scripts/bun-asset-loader.mjs scripts/solve-check.mjs",
+    "quest:solve:llm": "bun --preload ./scripts/bun-asset-loader.mjs scripts/solve-check.mjs --llm",
     "quest:check": "bun scripts/quest-check.mjs",
     "quest:check:llm": "bun scripts/quest-check.mjs --llm"
   },
