@@ -157,7 +157,12 @@ function makeSim({ variant, monotone, radioActive, rng }) {
     setEnding: () => {},
     clearEnding: () => {},
     playBurnSequence: () => {},
-    startCutscene: (id) => transcript.push({ kind: "cutscene", id }),
+    startCutscene: (id) => {
+      transcript.push({ kind: "cutscene", id });
+      // Cutscenes, die am Ende selbst einen Dialog starten.
+      const follow = { miraRepair: "miraRepairScene" }[id];
+      if (follow) runDialog(follow);
+    },
     getMiraFloors: () => [3, 4, 5],
     getPhilippeFloor: () => 3,
     openDsaCreator: () => {},
