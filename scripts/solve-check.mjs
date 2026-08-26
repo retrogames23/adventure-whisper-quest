@@ -555,7 +555,12 @@ writeFileSync(REPORT_PATH, out.join("\n"));
 console.log(
   `HARD ${findings.HARD.length} · SOFT ${findings.SOFT.length} · INFO ${findings.INFO.length}`,
 );
-for (const r of runs) console.log(`${r.flags.has(GOAL_FLAG) ? "OK  " : "FAIL"} ${r.name}`);
+for (const r of runs) {
+  const reached = r.flags.has(GOAL_FLAG);
+  // Verlust-Läufe erreichen das Ziel absichtlich nicht.
+  const label = reached ? "OK  " : r.name.includes("-lose-") ? "ERW " : "FAIL";
+  console.log(`${label} ${r.name}`);
+}
 for (const f of findings.HARD) console.log(`HARD  ${f.cat}: ${f.msg}`);
 console.log(`Report: ${REPORT_PATH}`);
 process.exit(findings.HARD.length > 0 ? 1 : 0);
