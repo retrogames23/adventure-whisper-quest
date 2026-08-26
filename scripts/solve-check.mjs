@@ -465,6 +465,10 @@ for (const r of runs) {
   );
 }
 out.push("");
+if (process.env.DEBUG_DIALOGS) {
+  console.log("entered:", [...base.enteredDialogs].filter((d) => d.startsWith("mira")).join(", "));
+  console.log("scenes:", [...base.visitedScenes].join(", "));
+}
 out.push("## Kritischer Pfad");
 for (const s of criticalPath) {
   const missing = (s.gibt.flags ?? []).filter((f) => !allReached.has(f));
