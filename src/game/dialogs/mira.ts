@@ -136,9 +136,15 @@ export function startMiraEncounter(
     api.startDialog("miraTrespassConfront");
     return;
   }
+  // Pflichtstrang geht vor: Solange der Apparat kaputt ist, muss die
+  // Störungsmeldung immer möglich bleiben — sonst kann der Heizungspfad
+  // die Reparatur dauerhaft verschlucken.
+  const phoneStillBroken =
+    api.hasFlag("phoneBroken") && !api.hasFlag("phoneRepaired");
   if (
     api.hasFlag("miraFlatOpen") &&
-    !api.hasFlag("miraTerminalTrespass")
+    !api.hasFlag("miraTerminalTrespass") &&
+    !phoneStillBroken
   ) {
     api.startDialog("miraOutInHeat");
     return;
@@ -975,6 +981,10 @@ export const miraDialogs: Record<string, DialogTree> = {
         speaker: "SYSTEM",
         text: "[ Sie prüft die Leitung ein zweites Mal, dann steckt sie den Prüfstecker zurück in den Gürtel. ]",
         hiddenWhen: ["miraTrustEarned"],
+        // Wenn Layard Miras Vertrauen schon hat, wird diese Zeile
+        // übersprungen — dann muss der persönlichere Zweig folgen,
+        // sonst bricht die Reparatur ohne Ergebnis ab.
+        next: "mrs6b",
         choices: [
           {
             text: "[ Danke sagen ]",

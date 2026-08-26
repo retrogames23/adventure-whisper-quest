@@ -78,6 +78,7 @@ function resolveEndgame(api: GameApi): void {
   api.resetDuelHits();
   if (hits >= 2) {
     api.setFlag("duelEndgameWon");
+    api.clearFlag("duelEndgameLost");
     // Vossbeck legt den Sektor-Code direkt ins Terminal — kein zweiter Insa-
     // Anruf nötig. `calledForCode` ist die Wahrheitsquelle für Terminal/Keypad.
     if (!api.hasFlag("vossbeckGaveCode")) {
@@ -90,7 +91,12 @@ function resolveEndgame(api: GameApi): void {
   } else {
     // Drei Versuche bei Vossbeck zugelassen — siehe vossbeckAttempt*Lost.
     if (api.hasFlag("vossbeckAttempt2Lost")) {
+      // Kein Dead End: Nach drei Fehlversuchen ist der Vorgang für heute
+      // beschieden — die Versuchszähler werden aber zurückgesetzt, damit
+      // Layard nach weiterem Training erneut vorsprechen kann.
       api.setFlag("duelEndgameLost");
+      api.clearFlag("vossbeckAttempt1Lost");
+      api.clearFlag("vossbeckAttempt2Lost");
     } else if (api.hasFlag("vossbeckAttempt1Lost")) {
       api.setFlag("vossbeckAttempt2Lost");
     } else {
@@ -752,8 +758,8 @@ const duelEndgameResult: DialogTree = {
     checkLost: {
       id: "checkLost",
       speaker: "VOSSBECK",
-      text: "Abschlägig beschieden. Antrag auf Tagescode bleibt — bis auf weiteres — unbearbeitet. Drei Versuche sind aufgebraucht.",
-      subtext: "Drei Versuche sind aufgebraucht. Was jetzt noch geht, geht nicht über Vossbeck.",
+      text: "Abschlägig beschieden. Antrag auf Tagescode bleibt — für heute — unbearbeitet. Drei Versuche verbraucht.",
+      subtext: "„Der Vorgang ist damit nicht erledigt, Bewohner Worag. Üben Sie bei Herrn Brust. Danach nehme ich Ihre Vorsprache erneut entgegen.“",
       requires: ["duelEndgameLost"],
       next: "tryAgain",
       end: true,
