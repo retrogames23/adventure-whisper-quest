@@ -194,7 +194,6 @@ export const criticalPath: QuestStep[] = [
         "belegAushangKorridor46",
         "belegAushangGemeinschaftsraum",
         "miraEvidenceDelivered",
-        "miraTrustEarned",
       ],
     },
     optional: true,
