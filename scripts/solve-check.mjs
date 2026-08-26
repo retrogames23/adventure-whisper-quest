@@ -363,6 +363,22 @@ for (const r of runs) {
   for (const i of r.items.keys()) allItems.add(i);
 }
 for (const r of runs) {
+  // Läufe, in denen Layard das Bürokratie-Duell konsequent verliert,
+  // dürfen das Ziel nicht erreichen — sie müssen aber wiederholbar
+  // bleiben (keine verbrauchten Versuche, kein permanenter Riegel).
+  if (r.name.includes("-lose-")) {
+    const locked =
+      r.flags.has("duelEndgameLost") &&
+      (r.flags.has("vossbeckAttempt2Lost") || r.flags.has("vossbeckAttempt1Lost"));
+    if (locked) {
+      add(
+        "HARD",
+        "Dead End",
+        `Lauf "${r.name}": Nach der dritten Niederlage bleibt der Vossbeck-Vorgang gesperrt — kein Weg zum Tagescode.`,
+      );
+    }
+    continue;
+  }
   if (!r.flags.has(GOAL_FLAG)) {
     const missing = criticalPath.find(
       (s) =>
