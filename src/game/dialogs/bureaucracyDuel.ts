@@ -98,8 +98,13 @@ function resolveEndgame(api: GameApi): void {
       api.clearFlag("vossbeckAttempt1Lost");
       api.clearFlag("vossbeckAttempt2Lost");
     } else if (api.hasFlag("vossbeckAttempt1Lost")) {
+      // Versuch 2 von 3 — Layard hat noch einen Versuch offen.
+      api.clearFlag("duelEndgameLost");
       api.setFlag("vossbeckAttempt2Lost");
     } else {
+      // Versuch 1 von 3 — eine frühere „Drei Versuche verbraucht“-Meldung
+      // darf hier nicht mehr nachhallen.
+      api.clearFlag("duelEndgameLost");
       api.setFlag("vossbeckAttempt1Lost");
     }
   }
