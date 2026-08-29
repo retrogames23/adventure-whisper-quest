@@ -3,6 +3,7 @@ import { useGame } from "@/game/GameContext";
 import { useMusic } from "@/audio/MusicPlayer";
 import { useSettings } from "@/audio/SettingsContext";
 import { useBusRide } from "@/game/busRideState";
+import { scenes } from "@/game/scenes";
 import { Radio, Menu, ChevronLeft, ChevronRight, Music2, ScrollText, HelpCircle, Lightbulb, Maximize2, Minimize2, Map as MapIcon } from "lucide-react";
 
 interface Props {
@@ -50,7 +51,7 @@ function TopBarImpl({ onOpenPause, onOpenHelp }: Props) {
     <header className="shrink-0 border-b border-border bg-background/95 px-4 py-2 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 md:max-w-none">
         <div className="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          <span className="text-foreground/80">{scene}</span>
+          <span className="text-foreground/80">{scenes[scene]?.title ?? scene}</span>
         </div>
 
         <div className="flex items-center gap-2">
