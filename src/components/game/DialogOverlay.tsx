@@ -16,7 +16,7 @@ import {
 import { useDevStep } from "@/dev/devPlaybackState";
 
 export function DialogOverlay() {
-  const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat, scene } =
+  const { dialogId, dialogLineId, advanceDialog, closeDialog, radioActive, api, openFreeChat } =
     useGame();
   const { ttsEnabled } = useSettings();
   const dev = useDevMode();
