@@ -303,13 +303,8 @@ export function DialogOverlay() {
 
   return (
     <div
-      className={`absolute inset-0 z-40 flex items-end ${justifyClass} overflow-y-auto px-4 pb-6 pt-14 ${
-        // Fensternische: Bild bleibt sichtbar, nur der untere Bereich wird
-        // für die Lesbarkeit der Bubble abgedunkelt.
-        scene === "windowNiche"
-          ? "bg-gradient-to-t from-black/85 via-black/40 to-transparent"
-          : "bg-black/80"
-      } ${
+      className={`absolute inset-0 z-40 flex items-end ${justifyClass} overflow-y-auto bg-gradient-to-t from-black/85 via-black/35 to-transparent px-4 pb-6 pt-14 ${
+
         canAdvance ? "cursor-pointer" : ""
       }`}
       onClick={handleAdvance}
