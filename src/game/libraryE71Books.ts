@@ -112,6 +112,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemName: "Nicht vorgesehen (Leihbuch)",
   },
   {
+    id: "geschichte-resonanzbegriff",
+    title: "Die Geschichte des Resonanzbegriffs",
+    author: "Dr. phil. habil. I. Marnau",
+    year: "1994",
+    blurb:
+      "Wie aus einem Wort der Akustik ein Verwaltungsbegriff wurde: von mitschwingenden Saiten über die Massenpsychologie des 19. Jahrhunderts und die leibliche Resonanz der Phänomenologen bis zum Resonanzindex im Wetterbericht. Herbert sagt dazu nur: „Lesen Sie das Schlusskapitel zuerst, wenn Sie es eilig haben.“",
+    itemId: "buchResonanzbegriff",
+    itemName: "Geschichte des Resonanzbegriffs (Leihbuch)",
+  },
+  {
     id: "sperrmuell-heft",
     title: "SPERRMÜLL — Das Heft, das nicht vorgesehen ist",
     author: "Ohne Herausgeber",
