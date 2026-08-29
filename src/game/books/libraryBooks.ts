@@ -934,3 +934,113 @@ registerLibraryBook({
   locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
   lendable: true,
 });
+
+/* ─── Die Geschichte des Resonanzbegriffs ───────────────── */
+
+const resbegriffChapters: HandbookChapter[] = [
+  {
+    id: "resb-vorwort",
+    shortTitle: "Vorwort",
+    title: "Vorwort: Ein Wort wechselt das Fach",
+    body: [
+      "Es gibt Wörter, die bleiben, wo sie herkommen. „Drehmoment“ ist in der Mechanik geblieben, „Sublimation“ hat es immerhin bis in die Seelenkunde geschafft. Und dann gibt es Wörter wie Resonanz: geboren in der Akustik, weitergereicht an die Physik, ausgeliehen von der Psychologie, verfeinert von der Philosophie — und heute nachzulesen im Wetterbericht, gleich hinter dem Luftdruck.",
+      "Dieses Buch verfolgt diesen Weg. Es ist keine Streitschrift. Ich behaupte nicht, dass der Begriff missbraucht wird; ich behaupte nur, dass niemand mehr genau sagen kann, was er bedeutet, und dass genau darin sein Nutzen liegt.",
+      "Wer wissen will, warum in seinem Treppenhaus ein Aushang zur Resonanz-Hygiene klebt, muss bei einer Saite anfangen, die von selbst zu klingen beginnt.",
+    ],
+  },
+  {
+    id: "resb-akustik",
+    image: imgResPhysik,
+    shortTitle: "Die Saite",
+    title: "I. Die mitschwingende Saite",
+    body: [
+      "Resonare heißt widerhallen. Der Begriff gehört zunächst den Instrumentenbauern: Ein Körper schwingt mit, wenn man ihn mit seiner eigenen Frequenz anregt. Man muss ihn nicht anfassen. Man muss nur den richtigen Ton treffen.",
+      "Das 19. Jahrhundert macht daraus Physik. Hermann von Helmholtz baut in den 1860er Jahren seine Resonatoren — Hohlkugeln aus Messing, die aus einem Klanggemisch genau einen Ton herausfischen und ihn dem Ohr zutragen. Zum ersten Mal ist Resonanz nicht nur ein Phänomen, sondern ein Messgerät.",
+      "Der Ingenieur lernt sie von ihrer unangenehmen Seite kennen. Brücken geraten unter gleichmäßigem Marschtritt in Schwingung; Maschinenfundamente schaukeln sich bei bestimmten Drehzahlen auf. Seitdem hat jede Bauordnung ein Kapitel über Resonanz, und in jedem dieser Kapitel steht dasselbe: Die Kraft ist klein, die Wirkung ist groß, entscheidend ist allein der Gleichtakt.",
+      "Man merke sich diesen Satz. Er wird in diesem Buch noch mehrmals auftauchen, jedes Mal in einem anderen Fach.",
+    ],
+  },
+  {
+    id: "resb-massen",
+    shortTitle: "Die Menge",
+    title: "II. Nachahmung und Ansteckung (1890–1895)",
+    body: [
+      "Als die europäischen Städte wachsen, wächst eine neue Frage mit: Warum verhalten sich Menschen in Mengen anders als einzeln? Die frühe Soziologie greift zur Sprache der Physik, weil sie noch keine eigene hat.",
+      "Gabriel Tarde veröffentlicht 1890 „Die Gesetze der Nachahmung“. Für ihn besteht Gesellschaft aus Wiederholung: Eine Neuerung entsteht an einer Stelle und pflanzt sich fort wie eine Welle im Wasser — von oben nach unten, von der Stadt aufs Land, ohne dass jemand befiehlt.",
+      "Gustave Le Bon setzt 1895 mit der „Psychologie der Massen“ nach und spricht offen von Ansteckung. Ein Gefühl springt über, sagt er, wie ein Funke; die Menge sei ein einziger Körper, der in Schwingung gerate.",
+      "Beides ist eher Bild als Beweis, und beide Autoren wissen das. Aber die Metapher hält sich, weil sie etwas trifft, das jeder kennt: Stimmungen brauchen keine Argumente, um sich zu verbreiten. Sie brauchen nur Nähe und Gleichtakt.",
+      "Von hier an ist Resonanz doppelt besetzt — als Messgröße und als Bild für das, was zwischen Menschen passiert.",
+    ],
+  },
+  {
+    id: "resb-leib",
+    shortTitle: "Der Leib",
+    title: "III. Leibliche Resonanz und Atmosphären (ab 1960)",
+    body: [
+      "Der Philosoph Hermann Schmitz nimmt das Bild ernst. In seiner Neuen Phänomenologie beschreibt er ab den sechziger Jahren, wie Gefühle nicht im Kopf sitzen, sondern im Raum: als Atmosphären, die man beim Eintreten spürt, bevor jemand ein Wort gesagt hat.",
+      "Sein Begriff dafür ist die leibliche Resonanz: Enge und Weite, Anspannung und Lösung übertragen sich unmittelbar von Leib zu Leib. Wer einen Raum betritt, in dem eben gestritten wurde, weiß es, ohne informiert worden zu sein.",
+      "Für die Wissenschaft ist das schwer zu handhaben, weil es sich nicht wiegen lässt. Für die Verwaltung ist es später ausgesprochen praktisch: Es liefert eine ehrbare Begründung dafür, dass ein Zustand im Haus als Zustand des Hauses behandelt wird und nicht als Angelegenheit einzelner Bewohner.",
+      "Schmitz selbst hätte gegen diese Verwendung vermutlich einiges einzuwenden. Er wird in den Verordnungen auch nirgends zitiert. Er steht nur in den Fußnoten der Gutachten, die zu ihnen führen.",
+    ],
+  },
+  {
+    id: "resb-bau",
+    image: imgResDaemmung,
+    shortTitle: "Der Bau",
+    title: "IV. Der Messwert im Stahlbeton (1946–1958)",
+    body: [
+      "Nach 1946 wird schnell und dicht gebaut. Die Großkomplexe des Wiederaufbaus sind aus durchgehendem Stahlbeton, und Stahlbeton leitet Körperschall vorzüglich. Ein Stuhl, der im vierzehnten Geschoss verrückt wird, ist im zwölften zu hören; ein tieffrequentes Brummen der Heizanlage wandert durch dreißig Etagen und findet in einzelnen Wohneinheiten seinen Gleichtakt.",
+      "Die Bauabteilungen des Mandatsrats reagieren mit Messreihen. Was sie erheben, nennen sie schlicht die Resonanz eines Komplexes: Schwingungswerte an Decken, Schächten und Trennwänden. Der Begriff ist zu diesem Zeitpunkt völlig unauffällig. Er steht neben Feuchtigkeit und Wärmedurchgang.",
+      "Aus derselben Zeit stammt der erste Ratgeber, der das Wort in einen Wohnungsflur trägt: Brennwalds „Resonanzhygiene“ von 1956. Er behandelt sie wie Staub oder Zugluft — als Gefährdung des Einzelnen, gegen die Dämmung, Lüftung und Ruhepausen helfen. Von Nachbarn ist bei ihm noch kaum die Rede.",
+      "Das ändert sich innerhalb weniger Jahre, und zwar nicht durch eine Entdeckung, sondern durch eine Formulierung.",
+    ],
+  },
+  {
+    id: "resb-verwaltung",
+    image: imgResLueften,
+    shortTitle: "Der Index",
+    title: "V. Wie zwei Bedeutungen zusammenrutschen",
+    body: [
+      "In den späten fünfziger Jahren tauchen in den Sektorberichten erstmals Tabellen auf, die neben Schwingungswerten auch Beschwerden, Krankmeldungen und Aufzugsvorfälle führen. Die Begründung ist harmlos und einleuchtend: Man will wissen, ob die gemessene Bauresonanz mit dem Befinden der Bewohner zusammenhängt.",
+      "Die Spalten stehen nebeneinander. Ein paar Jahre später stehen sie in einer Summe. Aus der Summe wird der Resonanzindex, den heute jeder aus dem Resonanzbericht nach dem Wetter kennt. Wie er berechnet wird, ist nicht veröffentlicht.",
+      "Damit ist der entscheidende Schritt getan, und er ist an keiner Stelle beschlossen worden. Wer von Resonanz spricht, spricht ab jetzt von zweierlei zugleich: von Körperschall in einer Wand und vom Klima zwischen Menschen. Der Vorteil liegt auf der Hand. Über Bauakustik lässt sich sachlich reden, und wer über Bauakustik redet, regelt nebenbei Ruhezeiten, Belegungsdichte, Türsiegel und Krankmeldungen, ohne je sagen zu müssen, dass er Menschen regelt.",
+      "Der ganze Regelkatalog heißt seither Resonanz-Hygiene. Er ist medizinisch begründet, nicht sicherheitsbehördlich — ein Unterschied, auf den in den Verordnungen großer Wert gelegt wird und der in der Praxis geringe Folgen hat.",
+    ],
+  },
+  {
+    id: "resb-luhmann",
+    shortTitle: "Das System",
+    title: "VI. Luhmann, oder: Der Widerhall nach eigenen Regeln (1986)",
+    body: [
+      "1986 erscheint Niklas Luhmanns „Ökologische Kommunikation“, und der Begriff wird zum ersten Mal wieder scharf. Luhmann fragt, wie eine Gesellschaft Warnungen aus ihrer Umwelt aufnimmt, und antwortet: nur als Resonanz.",
+      "Seine Systeme — Wirtschaft, Recht, Politik, Verwaltung — sind geschlossen. Die Umwelt kann sie nicht steuern, sie kann sie nur stören. Ob eine Störung überhaupt bemerkt wird, entscheidet allein die innere Struktur des Systems: Die Wirtschaft hört einen Preis, das Recht hört einen Verstoß, die Verwaltung hört einen Vorgang. Alles andere geht durch das Haus, ohne etwas zum Schwingen zu bringen.",
+      "Das ist keine Anklage, sondern eine Beschreibung, und sie erklärt ohne jede Bosheit, warum eine Eingabe unbeantwortet bleibt, bis sie in die richtige Form gebracht ist. Nicht Gleichgültigkeit, sondern fehlender Gleichtakt.",
+      "Man kann diesen Gedanken auf zweierlei Weise lesen. Als Trost: Das Haus meint es nicht persönlich. Oder als Anleitung: Wer gehört werden will, muss die Frequenz treffen, auf die das System anspricht. Die zweite Lesart hat sich in den Wartebereichen des Mandatsgebiets deutlich besser durchgesetzt.",
+    ],
+  },
+  {
+    id: "resb-schluss",
+    shortTitle: "Schluss",
+    title: "VII. Schluss: Die Randnische",
+    body: [
+      "Bleibt der Rest, den ein Buch wie dieses gewöhnlich verschweigt. Seit den sechziger Jahren gibt es Bastler, die den Doppelsinn des Wortes wörtlich nehmen und behaupten, das soziale Klima eines Komplexes lasse sich mit einem Empfänger tatsächlich abhören. Man findet sie in Kellern, in Kleinanzeigen und gelegentlich in Beschwerdeakten.",
+      "Ich halte das für eine Verwechslung, aber für eine aufschlussreiche: Sie entsteht nur, weil der Begriff selbst zwei Dinge meint. Wo ein Wort zugleich einen Messwert und ein Gefühl bezeichnet, wird früher oder später jemand ein Gerät bauen, das beides verwechselt.",
+      "Die Verwaltung nennt so etwas eine Fehldeutung. Sie hat recht. Sie sollte nur dazusagen, dass die Fehldeutung im Wort angelegt ist und dass sie das Wort in dieser Form seit fast vierzig Jahren selbst benutzt.",
+      "Der Rest ist Praxis. Nachts leiser sein, dem Nachbarn nicht ins Treppenhaus schreien, den Aufzug nicht als Bühne benutzen. Dagegen ist nichts zu sagen. Nur sagen sollte man, was man tut.",
+    ],
+  },
+];
+
+registerLibraryBook({
+  id: "geschichte-resonanzbegriff",
+  title: "Die Geschichte des Resonanzbegriffs",
+  subtitle: "Dr. phil. habil. I. Marnau · 1994 · Bewohnerbibliothek E71",
+  author: "Dr. phil. habil. I. Marnau",
+  year: "1994",
+  blurb:
+    "Von der mitschwingenden Saite über Nachahmung, Ansteckung und leibliche Atmosphären bis zum Resonanzindex im Wetterbericht — die Laufbahn eines Wortes, das den Beruf gewechselt hat.",
+  chapters: resbegriffChapters,
+  uiText: LIBRARY_UI_TEXT,
+  locationHint: "Bewohnerbibliothek 1101, Gebäude E71",
+  lendable: true,
+});
