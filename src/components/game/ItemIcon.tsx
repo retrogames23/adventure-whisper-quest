@@ -453,6 +453,7 @@ const ICON_MAP: Record<InventoryItemId, () => React.ReactElement> = {
   buchLobDesVorgangs: E67HandbookIcon,
   buchNichtVorgesehen: E67HandbookIcon,
   buchResonanzbegriff: E67HandbookIcon,
+  buchAbsurd: E67HandbookIcon,
   heftSperrmuell: E67HandbookIcon,
 };
 
