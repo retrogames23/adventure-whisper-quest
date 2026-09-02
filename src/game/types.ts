@@ -102,6 +102,7 @@ export type InventoryItemId =
   | "buchLobDesVorgangs"
   | "buchNichtVorgesehen"
   | "buchResonanzbegriff"
+  | "buchAbsurd"
   | "heftSperrmuell";
 
 export type KnowledgeFlag =

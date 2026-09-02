@@ -131,6 +131,16 @@ export const LIBRARY_BOOKS: LibraryBook[] = [
     itemId: "heftSperrmuell",
     itemName: "SPERRMÜLL Nr. 7 (Leihheft)",
   },
+  {
+    id: "absurd-gedichte",
+    title: "Absurd. Ein Assoziationsblaster für den verwalteten Menschen",
+    author: "R. K. Zunder",
+    year: "1989",
+    blurb:
+      "Gedichte zwischen Wartebereich und Weltuntergang. Manche erheiternd, manche düster, alle irgendwie mit einem Fuß im Schalter. Herbert blättert darin, wenn niemand hinschaut.",
+    itemId: "buchAbsurd",
+    itemName: "Absurd (Gedichtband)",
+  },
 ];
 
 /** Alle Titel sind ausleihbar — kein Präsenzbestand. */
