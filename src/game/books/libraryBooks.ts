@@ -1189,11 +1189,11 @@ const absurdChapters: HandbookChapter[] = [
     body: [
       "Auf der Rückseite des Einbands hat Herbert mit Bleistift eine Zeile hinterlassen:",
       "",
-      "„Wer Gedichte ausleiht, leiht Löcher. Man gibt sie zurück, aber sie sind nicht mehr dieselben."",
+      "„Wer Gedichte ausleiht, leiht Löcher. Man gibt sie zurück, aber sie sind nicht mehr dieselben.“",
       "",
       "Darunter, noch kleiner:",
       "",
-      "„Frist: unbegrenzt. Verlängerung: nicht vorgesehen."",
+      "„Frist: unbegrenzt. Verlängerung: nicht vorgesehen.“",
     ],
   },
 ];
