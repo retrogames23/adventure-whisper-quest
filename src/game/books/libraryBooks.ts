@@ -1055,7 +1055,7 @@ const absurdChapters: HandbookChapter[] = [
     body: [
       "Dieses Buch enthält Gedichte. Sie sind nicht nützlich. Sie lösen keinen Vorgang, beantragen keine Quittung und passieren keine Sachbearbeitung.",
       "Das ist ihre einzige Erlaubnis. In einer verwalteten Welt ist das Unnütze manchmal der letzte Ort, an dem noch etwas wahrgenommen werden kann, ohne gleich gemessen zu werden.",
-      "Manche der folgenden Stücke sind lustig, manche traurig, manche absichtlich unbehaust. Lesen Sie sie, wie Sie wollen. Herbert liest sie in alphabetischer Reihenfolge, weil das der einzige Weg ist, den er für gerecht hält.",
+      "Manche der folgenden Stücke sind lustig, manche traurig, manche absichtlich unbehaust. Lesen Sie sie, wie Sie wollen — der Reihe nach, rückwärts oder nur das eine, das gerade passt.",
     ],
   },
   {
