@@ -1077,7 +1077,7 @@ const absurdChapters: HandbookChapter[] = [
       "Der Mensch hat von der Schlange gekostet",
       "Verbotenerweise stürzt er sich ins Unglück",
       "Die Nacht wird heller sein als der Tag, schwärzer als das Paradies, deutlicher abgefuckter noch als die Hölle",
-      "Im Lichte der Vernunft wird der Mensch sein Ich erkennen",
+      "In Lichte der Vernunft wird der Mensch sein Ich erkennen",
       "Er will sich entledigen von seiner Selbst",
       "Das Göttliche wird aus der Welt vertrieben",
       "Die Hoffnung stirbt. Zuletzt.",
