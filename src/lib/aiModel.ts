@@ -64,10 +64,17 @@ export interface DsaMasterModelOption {
 
 export const DSA_MASTER_MODELS: DsaMasterModelOption[] = [
   {
-    id: AI_MODEL_DSA_MASTER, // anthropic/claude-haiku-4.5
-    label: "Claude Haiku 4.5 (Standard)",
+    id: AI_MODEL_DSA_MASTER, // openai/gpt-5.6-luna
+    label: "GPT-5.6 Luna (Standard)",
+    short: "Luna",
+    hint: "Schnell, gutes Deutsch, solide Tool-Calls — die günstige Voreinstellung.",
+    donorOnly: false,
+  },
+  {
+    id: "anthropic/claude-haiku-4.5",
+    label: "Claude Haiku 4.5",
     short: "Haiku",
-    hint: "Schnell, gutes Deutsch, solide Tool-Calls — die Voreinstellung.",
+    hint: "Sehr atmosphärische Erzählung, etwas teurer als der Standard.",
     donorOnly: false,
   },
   {
