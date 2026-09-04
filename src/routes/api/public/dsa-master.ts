@@ -215,6 +215,9 @@ ${transcript.slice(-6000)}`;
           { role: "user", content: user },
         ],
         temperature: 0.3,
+        ...(getModelLimits(AI_MODEL_DSA_MASTER).reasoningEffort
+          ? { reasoning_effort: getModelLimits(AI_MODEL_DSA_MASTER).reasoningEffort }
+          : {}),
         max_tokens: 600,
         stream: false,
       }),
@@ -450,6 +453,9 @@ async function maybeSummarize(
           },
         ],
         temperature: 0.3,
+        ...(getModelLimits(AI_MODEL_DSA_MASTER).reasoningEffort
+          ? { reasoning_effort: getModelLimits(AI_MODEL_DSA_MASTER).reasoningEffort }
+          : {}),
         max_tokens: 350,
         stream: false,
       }),
