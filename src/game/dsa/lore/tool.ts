@@ -10,6 +10,7 @@ import { searchDsaRulebook } from "./rulebook.server";
 import {
   AI_MODEL_DSA_MASTER,
   OPENROUTER_CHAT_URL,
+  getModelLimits,
   openRouterHeaders,
 } from "@/lib/aiModel";
 import { recordModelTelemetry } from "./telemetry.server";
@@ -115,6 +116,10 @@ export async function callChatWithLoreTool(
   const model = options.model || AI_MODEL_DSA_MASTER;
   const maxRounds = Math.max(1, options.maxToolRounds ?? DEFAULT_MAX_TOOL_ROUNDS);
   const useTools = options.useTools !== false;
+  // GPT-5.6-Modelle lehnen Tool-Requests ab, wenn reasoning_effort nicht
+  // explizit "none" ist.
+  const reasoningEffort = getModelLimits(model).reasoningEffort;
+  const reasoningField = reasoningEffort ? { reasoning_effort: reasoningEffort } : {};
   const label = options.callLabel ?? "dsa-master";
 
   for (let round = 0; round < maxRounds; round++) {
@@ -134,6 +139,7 @@ export async function callChatWithLoreTool(
             : {}),
           temperature: options.temperature,
           max_tokens: options.max_tokens,
+          ...reasoningField,
           stream: false,
         }),
       });
@@ -277,6 +283,7 @@ export async function callChatWithLoreTool(
         messages: working,
         temperature: options.temperature,
         max_tokens: options.max_tokens,
+        ...reasoningField,
         stream: false,
       }),
     });
