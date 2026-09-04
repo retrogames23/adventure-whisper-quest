@@ -27,12 +27,14 @@ export const AI_MODEL_MAIN = "anthropic/claude-haiku-4.5";
 export const AI_MODEL_LIGHT = "google/gemini-3.1-flash-lite";
 
 /**
- * DSA-Meister läuft über OpenRouter mit Anthropic Claude Haiku 4.5.
+ * DSA-Meister läuft über OpenRouter mit OpenAI GPT-5.6 Luna
+ * (schnell und ~5x günstiger als Claude Haiku 4.5 bei vergleichbarem
+ * Erzähl-/Tool-Verhalten).
  * API-Key liegt in der Umgebungsvariable OPENROUTER_API_KEY.
  */
 export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 export const OPENROUTER_CHAT_URL = `${OPENROUTER_BASE_URL}/chat/completions`;
-export const AI_MODEL_DSA_MASTER = "anthropic/claude-haiku-4.5";
+export const AI_MODEL_DSA_MASTER = "openai/gpt-5.6-luna";
 
 /** App-Identifikation für OpenRouter-Ranking-Header (optional aber empfohlen). */
 const OPENROUTER_APP_URL = "https://schmerz-radio.com";
@@ -141,11 +143,14 @@ export interface ModelLimits {
   historyWindow: number;
   maxToolRounds: number;
   useTools: boolean;
+  /** Nur GPT-5.6-Modelle: müssen mit reasoning_effort "none" laufen,
+   *  sonst werden Requests mit Function-Tools mit 400 abgelehnt. */
+  reasoningEffort?: "none";
 }
 
 const DEFAULT_LIMITS: ModelLimits = {
   maxTokens: 950,
-  historyWindow: 10,
+  historyWindow: 6,
   maxToolRounds: 4,
   useTools: true,
 };
@@ -158,11 +163,19 @@ const MODEL_LIMITS_MAP: Record<string, Partial<ModelLimits>> = {
     maxToolRounds: 3,
     useTools: true,
   },
-  // Default-Modell — 200K Kontext, 64K Output, schnell und günstig.
-  // Großzügiges Limit für atmosphärische Meister-Antworten.
+  // Default-Modell — günstigste schnelle Option, reasoning_effort "none"
+  // ist bei GPT-5.6 mit Tools Pflicht.
+  "openai/gpt-5.6-luna": {
+    maxTokens: 800,
+    historyWindow: 6,
+    maxToolRounds: 4,
+    useTools: true,
+    reasoningEffort: "none",
+  },
+  // Wählbare Alternative — teurer, dafür sehr atmosphärisch.
   "anthropic/claude-haiku-4.5": {
     maxTokens: 950,
-    historyWindow: 10,
+    historyWindow: 6,
     maxToolRounds: 4,
     useTools: true,
   },
