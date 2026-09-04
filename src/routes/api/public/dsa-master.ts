@@ -40,6 +40,8 @@ import { selectActiveWorldInfo } from "@/game/dsa/lore/worldInfo";
  */
 
 const HARD_LIMIT = 50;
+/** Meisterwenden pro anonymem Schnupper-Abenteuer. */
+const ANON_MAX_TURNS = 30;
 const MAX_USER_INPUT = 500;
 const MAX_MESSAGES = 90;
 const SUMMARY_TRIGGER = 72; // ab dieser Länge älteste Hälfte zusammenfassen
@@ -961,6 +963,22 @@ export const Route = createFileRoute("/api/public/dsa-master")({
           if (loadErr || !row) return json(404, { error: "Kein laufendes Abenteuer." });
           if (row.status !== "active") {
             return json(409, { error: "Abenteuer ist bereits beendet." });
+          }
+
+          // Anonyme Schnupper-Abenteuer sind auf ANON_MAX_TURNS Meisterwenden
+          // begrenzt — sonst laufen einzelne Sessions unbegrenzt weiter und
+          // verursachen den Löwenanteil der AI-Kosten.
+          if (!uid) {
+            const priorTurns = Array.isArray(row.messages)
+              ? (row.messages as StoredTurn[]).filter((m) => m?.role === "assistant").length
+              : 0;
+            if (priorTurns >= ANON_MAX_TURNS) {
+              return json(402, {
+                error:
+                  "Dein Schnupper-Abenteuer hat sein Rundenlimit erreicht. Melde dich an und unterstütze das Projekt, um weiterzuspielen.",
+                code: "donation_required",
+              });
+            }
           }
 
           let newTurn: StoredTurn;
